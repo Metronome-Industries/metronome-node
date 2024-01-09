@@ -16,6 +16,11 @@ export interface ClientOptions {
   bearerToken?: string;
 
   /**
+   * Defaults to process.env['METRONOME_WEBHOOK_SECRET'].
+   */
+  webhookSecret?: string | null;
+
+  /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
    * Defaults to process.env['METRONOME_BASE_URL'].
@@ -75,6 +80,7 @@ export interface ClientOptions {
 /** API Client for interfacing with the Metronome API. */
 export class Metronome extends Core.APIClient {
   bearerToken: string;
+  webhookSecret: string | null;
 
   private _options: ClientOptions;
 
@@ -82,6 +88,7 @@ export class Metronome extends Core.APIClient {
    * API Client for interfacing with the Metronome API.
    *
    * @param {string} [opts.bearerToken=process.env['METRONOME_BEARER_TOKEN'] ?? undefined]
+   * @param {string | null} [opts.webhookSecret=process.env['METRONOME_WEBHOOK_SECRET'] ?? null]
    * @param {string} [opts.baseURL=process.env['METRONOME_BASE_URL'] ?? https://api.metronome.com/v1] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -93,6 +100,7 @@ export class Metronome extends Core.APIClient {
   constructor({
     baseURL = Core.readEnv('METRONOME_BASE_URL'),
     bearerToken = Core.readEnv('METRONOME_BEARER_TOKEN'),
+    webhookSecret = Core.readEnv('METRONOME_WEBHOOK_SECRET') ?? null,
     ...opts
   }: ClientOptions = {}) {
     if (bearerToken === undefined) {
@@ -103,6 +111,7 @@ export class Metronome extends Core.APIClient {
 
     const options: ClientOptions = {
       bearerToken,
+      webhookSecret,
       ...opts,
       baseURL: baseURL ?? `https://api.metronome.com/v1`,
     };
@@ -117,6 +126,7 @@ export class Metronome extends Core.APIClient {
     this._options = options;
 
     this.bearerToken = bearerToken;
+    this.webhookSecret = webhookSecret;
   }
 
   alerts: API.Alerts = new API.Alerts(this);
