@@ -2,7 +2,7 @@
 
 import { APIResource } from 'metronome/resource';
 import { createHmac } from 'crypto';
-import { getRequiredHeader, HeadersLike } from '@metronome/metronome-api/core';
+import { getRequiredHeader, HeadersLike } from 'metronome/core';
 
 export class Webhooks extends APIResource {
   /**
@@ -17,7 +17,7 @@ export class Webhooks extends APIResource {
     return JSON.parse(payload);
   }
 
-  private validateSecret(secret: string | null | undefined): string {
+  private validateSecret(secret: string | null | undefined): asserts secret is string {
     if (!secret) {
       throw new Error(
         "The webhook secret must either be set using the env var, METRONOME_WEBHOOK_SECRET, on the client class, Metronome({ webhook_secret: '123' }), or passed to this function",
@@ -29,7 +29,7 @@ export class Webhooks extends APIResource {
       throw new Error(`Given secret is not valid`);
     }
 
-    return secret;
+    return;
   }
 
   private signPayload(payload: string, { date, secret }: { date: string; secret: string }) {
