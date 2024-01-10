@@ -95,9 +95,9 @@ export class APIPromise<T> extends Promise<T> {
    *
    * 👋 Getting the wrong TypeScript type for `Response`?
    * Try setting `"moduleResolution": "NodeNext"` if you can,
-   * or add one of these imports before your first `import … from 'metronome'`:
-   * - `import 'metronome/shims/node'` (if you're running on Node)
-   * - `import 'metronome/shims/web'` (otherwise)
+   * or add one of these imports before your first `import … from '@metronome-industries/metronome'`:
+   * - `import '@metronome-industries/metronome/shims/node'` (if you're running on Node)
+   * - `import '@metronome-industries/metronome/shims/web'` (otherwise)
    */
   asResponse(): Promise<Response> {
     return this.responsePromise.then((p) => p.response);
@@ -111,9 +111,9 @@ export class APIPromise<T> extends Promise<T> {
    *
    * 👋 Getting the wrong TypeScript type for `Response`?
    * Try setting `"moduleResolution": "NodeNext"` if you can,
-   * or add one of these imports before your first `import … from 'metronome'`:
-   * - `import 'metronome/shims/node'` (if you're running on Node)
-   * - `import 'metronome/shims/web'` (otherwise)
+   * or add one of these imports before your first `import … from '@metronome-industries/metronome'`:
+   * - `import '@metronome-industries/metronome/shims/node'` (if you're running on Node)
+   * - `import '@metronome-industries/metronome/shims/web'` (otherwise)
    */
   async withResponse(): Promise<{ data: T; response: Response }> {
     const [data, response] = await Promise.all([this.parse(), this.asResponse()]);
@@ -952,14 +952,16 @@ export const ensurePresent = <T>(value: T | null | undefined): T => {
 /**
  * Read an environment variable.
  *
+ * Trims beginning and trailing whitespace.
+ *
  * Will return undefined if the environment variable doesn't exist or cannot be accessed.
  */
 export const readEnv = (env: string): string | undefined => {
   if (typeof process !== 'undefined') {
-    return process.env?.[env] ?? undefined;
+    return process.env?.[env]?.trim() ?? undefined;
   }
   if (typeof Deno !== 'undefined') {
-    return Deno.env?.get?.(env);
+    return Deno.env?.get?.(env)?.trim();
   }
   return undefined;
 };

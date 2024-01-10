@@ -42,12 +42,12 @@ export let isFsReadStream: Shims['isFsReadStream'] | undefined = undefined;
 export function setShims(shims: Shims, options: { auto: boolean } = { auto: false }) {
   if (auto) {
     throw new Error(
-      `you must \`import 'metronome/shims/${shims.kind}'\` before importing anything else from metronome`,
+      `you must \`import '@metronome-industries/metronome/shims/${shims.kind}'\` before importing anything else from @metronome-industries/metronome`,
     );
   }
   if (kind) {
     throw new Error(
-      `can't \`import 'metronome/shims/${shims.kind}'\` after \`import 'metronome/shims/${kind}'\``,
+      `can't \`import '@metronome-industries/metronome/shims/${shims.kind}'\` after \`import '@metronome-industries/metronome/shims/${kind}'\``,
     );
   }
   auto = options.auto;

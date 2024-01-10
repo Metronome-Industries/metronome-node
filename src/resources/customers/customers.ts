@@ -1,14 +1,14 @@
 // File generated from our OpenAPI spec by Stainless.
 
-import * as Core from 'metronome/core';
-import { APIResource } from 'metronome/resource';
-import { isRequestOptions } from 'metronome/core';
-import * as CustomersAPI from 'metronome/resources/customers/customers';
-import * as Shared from 'metronome/resources/shared';
-import * as BillingConfigAPI from 'metronome/resources/customers/billing-config';
-import * as InvoicesAPI from 'metronome/resources/customers/invoices';
-import * as PlansAPI from 'metronome/resources/customers/plans';
-import { Page, type PageParams } from 'metronome/pagination';
+import * as Core from '@metronome-industries/metronome/core';
+import { APIResource } from '@metronome-industries/metronome/resource';
+import { isRequestOptions } from '@metronome-industries/metronome/core';
+import * as CustomersAPI from '@metronome-industries/metronome/resources/customers/customers';
+import * as Shared from '@metronome-industries/metronome/resources/shared';
+import * as BillingConfigAPI from '@metronome-industries/metronome/resources/customers/billing-config';
+import * as InvoicesAPI from '@metronome-industries/metronome/resources/customers/invoices';
+import * as PlansAPI from '@metronome-industries/metronome/resources/customers/plans';
+import { Page, type PageParams } from '@metronome-industries/metronome/pagination';
 
 export class Customers extends APIResource {
   plans: PlansAPI.Plans = new PlansAPI.Plans(this._client);

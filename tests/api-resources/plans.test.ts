@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless.
 
-import Metronome from 'metronome';
+import Metronome from '@metronome-industries/metronome';
 import { Response } from 'node-fetch';
 
 const metronome = new Metronome({

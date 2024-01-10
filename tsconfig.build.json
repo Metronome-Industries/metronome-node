@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "metronome/*": ["dist/src/*"],
-      "metronome": ["dist/src/index.ts"],
+      "@metronome-industries/metronome/*": ["dist/src/*"],
+      "@metronome-industries/metronome": ["dist/src/index.ts"],
       "digest-fetch": ["./typings/digest-fetch"]
     },
     "noEmit": false,

@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless.
 
-import * as Core from 'metronome/core';
-import { APIResource } from 'metronome/resource';
-import { isRequestOptions } from 'metronome/core';
-import * as CreditTypesAPI from 'metronome/resources/credit-types';
-import { Page, type PageParams } from 'metronome/pagination';
+import * as Core from '@metronome-industries/metronome/core';
+import { APIResource } from '@metronome-industries/metronome/resource';
+import { isRequestOptions } from '@metronome-industries/metronome/core';
+import * as CreditTypesAPI from '@metronome-industries/metronome/resources/credit-types';
+import { Page, type PageParams } from '@metronome-industries/metronome/pagination';
 
 export class CreditTypes extends APIResource {
   /**

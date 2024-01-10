@@ -9,9 +9,9 @@
     "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
-      "metronome/_shims/auto/*": ["src/_shims/auto/*-node"],
-      "metronome/*": ["src/*"],
-      "metronome": ["src/index.ts"],
+      "@metronome-industries/metronome/_shims/auto/*": ["src/_shims/auto/*-node"],
+      "@metronome-industries/metronome/*": ["src/*"],
+      "@metronome-industries/metronome": ["src/index.ts"],
       "digest-fetch": ["./typings/digest-fetch"]
     },
     "noEmit": true,

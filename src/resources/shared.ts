@@ -45,6 +45,7 @@ export interface Commit {
     | Commit.PostpaidCommitInitialBalanceLedgerEntry
     | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry
     | Commit.PostpaidCommitTrueupLedgerEntry
+    | Commit.PrepaidCommitManualLedgerEntry
   >;
 
   name?: string;
@@ -180,6 +181,16 @@ export namespace Commit {
     timestamp: string;
 
     type: 'POSTPAID_COMMIT_TRUEUP';
+  }
+
+  export interface PrepaidCommitManualLedgerEntry {
+    amount: number;
+
+    reason: string;
+
+    timestamp: string;
+
+    type: 'PREPAID_COMMIT_MANUAL';
   }
 
   export interface RolledOverFrom {

@@ -6,8 +6,8 @@ import * as Errors from './error';
 import { type Agent } from './_shims/index';
 import * as Uploads from './uploads';
 import * as qs from 'qs';
-import * as API from 'metronome/resources/index';
-import * as TopLevelAPI from 'metronome/resources/top-level';
+import * as API from '@metronome-industries/metronome/resources/index';
+import * as TopLevelAPI from '@metronome-industries/metronome/resources/top-level';
 
 export interface ClientOptions {
   /**
@@ -113,7 +113,7 @@ export class Metronome extends Core.APIClient {
       bearerToken,
       webhookSecret,
       ...opts,
-      baseURL: baseURL ?? `https://api.metronome.com/v1`,
+      baseURL: baseURL || `https://api.metronome.com/v1`,
     };
 
     super({

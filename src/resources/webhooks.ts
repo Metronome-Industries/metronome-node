@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless.
 
-import { APIResource } from 'metronome/resource';
+import { APIResource } from '@metronome-industries/metronome/resource';
 import { createHmac } from 'crypto';
 import { getRequiredHeader, HeadersLike } from 'metronome/core';
 
