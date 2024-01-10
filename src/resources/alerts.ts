@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless.
 
-import * as Core from 'metronome/core';
-import { APIResource } from 'metronome/resource';
-import * as AlertsAPI from 'metronome/resources/alerts';
-import * as Shared from 'metronome/resources/shared';
+import * as Core from '@metronome-industries/metronome/core';
+import { APIResource } from '@metronome-industries/metronome/resource';
+import * as AlertsAPI from '@metronome-industries/metronome/resources/alerts';
+import * as Shared from '@metronome-industries/metronome/resources/shared';
 
 export class Alerts extends APIResource {
   /**

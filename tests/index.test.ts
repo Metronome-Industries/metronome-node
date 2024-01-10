@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless.
 
-import Metronome from 'metronome';
-import { APIUserAbortError } from 'metronome';
-import { Headers } from 'metronome/core';
+import Metronome from '@metronome-industries/metronome';
+import { APIUserAbortError } from '@metronome-industries/metronome';
+import { Headers } from '@metronome-industries/metronome/core';
 import defaultFetch, { Response, type RequestInit, type RequestInfo } from 'node-fetch';
 
 describe('instantiate client', () => {
@@ -140,7 +140,7 @@ describe('instantiate client', () => {
     });
 
     afterEach(() => {
-      process.env['SINK_BASE_URL'] = undefined;
+      process.env['METRONOME_BASE_URL'] = undefined;
     });
 
     test('explicit option', () => {
@@ -152,6 +152,18 @@ describe('instantiate client', () => {
       process.env['METRONOME_BASE_URL'] = 'https://example.com/from_env';
       const client = new Metronome({ bearerToken: 'My Bearer Token' });
       expect(client.baseURL).toEqual('https://example.com/from_env');
+    });
+
+    test('empty env variable', () => {
+      process.env['METRONOME_BASE_URL'] = ''; // empty
+      const client = new Metronome({ bearerToken: 'My Bearer Token' });
+      expect(client.baseURL).toEqual('https://api.metronome.com/v1');
+    });
+
+    test('blank env variable', () => {
+      process.env['METRONOME_BASE_URL'] = '  '; // blank
+      const client = new Metronome({ bearerToken: 'My Bearer Token' });
+      expect(client.baseURL).toEqual('https://api.metronome.com/v1');
     });
   });
 

@@ -1,6 +1,6 @@
 # Metronome Node API Library
 
-[![NPM version](https://img.shields.io/npm/v/metronome.svg)](https://npmjs.org/package/metronome)
+[![NPM version](https://img.shields.io/npm/v/@metronome-industries/metronome.svg)](https://npmjs.org/package/@metronome-industries/metronome)
 
 This library provides convenient access to the Metronome REST API from server-side TypeScript or JavaScript.
 
@@ -9,9 +9,9 @@ The API documentation can be found [here](https://docs.metronome.com).
 ## Installation
 
 ```sh
-npm install --save metronome
+npm install --save @metronome-industries/metronome
 # or
-yarn add metronome
+yarn add @metronome-industries/metronome
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ The full API of this library can be found in [api.md](https://www.github.com/Met
 
 <!-- prettier-ignore -->
 ```js
-import Metronome from 'metronome';
+import Metronome from '@metronome-industries/metronome';
 
 const metronome = new Metronome({
   bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted
@@ -48,7 +48,7 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import Metronome from 'metronome';
+import Metronome from '@metronome-industries/metronome';
 
 const metronome = new Metronome({
   bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted
@@ -196,11 +196,11 @@ add the following import before your first import `from "Metronome"`:
 ```ts
 // Tell TypeScript and the package to use the global web fetch instead of node-fetch.
 // Note, despite the name, this does not add any polyfills, but expects them to be provided if needed.
-import 'metronome/shims/web';
-import Metronome from 'metronome';
+import '@metronome-industries/metronome/shims/web';
+import Metronome from '@metronome-industries/metronome';
 ```
 
-To do the inverse, add `import "metronome/shims/node"` (which does import polyfills).
+To do the inverse, add `import "@metronome-industries/metronome/shims/node"` (which does import polyfills).
 This can also be useful if you are getting the wrong TypeScript types for `Response` - more details [here](https://github.com/Metronome-Industries/metronome-node/tree/main/src/_shims#readme).
 
 You may also provide a custom `fetch` function when instantiating the client,
@@ -208,7 +208,7 @@ which can be used to inspect or alter the `Request` or `Response` before/after e
 
 ```ts
 import { fetch } from 'undici'; // as one example
-import Metronome from 'metronome';
+import Metronome from '@metronome-industries/metronome';
 
 const client = new Metronome({
   fetch: (url: RequestInfo, init?: RequestInfo): Response => {
@@ -265,7 +265,7 @@ TypeScript >= 4.5 is supported.
 The following runtimes are supported:
 
 - Node.js 18 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
-- Deno v1.28.0 or higher, using `import Metronome from "npm:metronome"`.
+- Deno v1.28.0 or higher, using `import Metronome from "npm:@metronome-industries/metronome"`.
 - Bun 1.0 or later.
 - Cloudflare Workers.
 - Vercel Edge Runtime.

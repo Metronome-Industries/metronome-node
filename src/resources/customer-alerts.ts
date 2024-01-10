@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless.
 
-import * as Core from 'metronome/core';
-import { APIResource } from 'metronome/resource';
-import * as CustomerAlertsAPI from 'metronome/resources/customer-alerts';
-import { Page, type PageParams } from 'metronome/pagination';
+import * as Core from '@metronome-industries/metronome/core';
+import { APIResource } from '@metronome-industries/metronome/resource';
+import * as CustomerAlertsAPI from '@metronome-industries/metronome/resources/customer-alerts';
+import { Page, type PageParams } from '@metronome-industries/metronome/pagination';
 
 export class CustomerAlerts extends APIResource {
   /**

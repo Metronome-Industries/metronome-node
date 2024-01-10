@@ -1,4 +1,4 @@
-import { APIClient } from 'metronome/core';
+import { APIClient } from '@metronome-industries/metronome/core';
 
 const { stringifyQuery } = APIClient.prototype as any;
 

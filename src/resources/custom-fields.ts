@@ -1,14 +1,15 @@
 // File generated from our OpenAPI spec by Stainless.
 
-import * as Core from 'metronome/core';
-import { APIResource } from 'metronome/resource';
-import { isRequestOptions } from 'metronome/core';
-import * as CustomFieldsAPI from 'metronome/resources/custom-fields';
-import { Page, type PageParams } from 'metronome/pagination';
+import * as Core from '@metronome-industries/metronome/core';
+import { APIResource } from '@metronome-industries/metronome/resource';
+import { isRequestOptions } from '@metronome-industries/metronome/core';
+import * as CustomFieldsAPI from '@metronome-industries/metronome/resources/custom-fields';
+import { Page, type PageParams } from '@metronome-industries/metronome/pagination';
 
 export class CustomFields extends APIResource {
   /**
-   * Add a key to the allow list for a given entity.
+   * Add a key to the allow list for a given entity. There is a 100 character limit
+   * on custom field keys.
    */
   addKey(body: CustomFieldAddKeyParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/customFields/addKey', {
@@ -72,7 +73,8 @@ export class CustomFields extends APIResource {
    * value will be overwritten. Any key/value pairs that exist on the entity that do
    * not match those passed in this request will remain untouched. This endpoint is
    * transactional and will update all key/value pairs or no key/value pairs. Partial
-   * updates are not supported.
+   * updates are not supported. There is a 200 character limit on custom field
+   * values.
    */
   setValues(body: CustomFieldSetValuesParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/customFields/setValues', {
