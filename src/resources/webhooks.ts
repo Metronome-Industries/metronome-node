@@ -2,7 +2,7 @@
 
 import { APIResource } from '@metronome-industries/metronome/resource';
 import { createHmac } from 'crypto';
-import { getRequiredHeader, HeadersLike } from 'metronome/core';
+import { getRequiredHeader, HeadersLike } from '@metronome-industries/metronome/core';
 
 export class Webhooks extends APIResource {
   /**
