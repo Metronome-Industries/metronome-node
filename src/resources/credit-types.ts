@@ -4,38 +4,36 @@ import * as Core from '@metronome-industries/metronome/core';
 import { APIResource } from '@metronome-industries/metronome/resource';
 import { isRequestOptions } from '@metronome-industries/metronome/core';
 import * as CreditTypesAPI from '@metronome-industries/metronome/resources/credit-types';
+import { Page } from '@metronome-industries/metronome/pagination';
 
 export class CreditTypes extends APIResource {
   /**
    * List all pricing units (known in the API by the legacy term "credit types").
    */
-  list(query?: CreditTypeListParams, options?: Core.RequestOptions): Core.APIPromise<CreditTypeListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<CreditTypeListResponse>;
+  list(
+    query?: CreditTypeListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CreditTypeListResponsesPage, CreditTypeListResponse>;
+  list(options?: Core.RequestOptions): Core.PagePromise<CreditTypeListResponsesPage, CreditTypeListResponse>;
   list(
     query: CreditTypeListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditTypeListResponse> {
+  ): Core.PagePromise<CreditTypeListResponsesPage, CreditTypeListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/credit-types/list', { query, ...options });
+    return this._client.getAPIList('/credit-types/list', CreditTypeListResponsesPage, { query, ...options });
   }
 }
+
+export class CreditTypeListResponsesPage extends Page<CreditTypeListResponse> {}
 
 export interface CreditTypeListResponse {
-  data: Array<CreditTypeListResponse.Data>;
+  id?: string;
 
-  next_page: string | null;
-}
+  is_currency?: boolean;
 
-export namespace CreditTypeListResponse {
-  export interface Data {
-    id?: string;
-
-    is_currency?: boolean;
-
-    name?: string;
-  }
+  name?: string;
 }
 
 export interface CreditTypeListParams {
@@ -52,5 +50,6 @@ export interface CreditTypeListParams {
 
 export namespace CreditTypes {
   export import CreditTypeListResponse = CreditTypesAPI.CreditTypeListResponse;
+  export import CreditTypeListResponsesPage = CreditTypesAPI.CreditTypeListResponsesPage;
   export import CreditTypeListParams = CreditTypesAPI.CreditTypeListParams;
 }

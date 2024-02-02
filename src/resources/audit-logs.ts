@@ -4,6 +4,7 @@ import * as Core from '@metronome-industries/metronome/core';
 import { APIResource } from '@metronome-industries/metronome/resource';
 import { isRequestOptions } from '@metronome-industries/metronome/core';
 import * as AuditLogsAPI from '@metronome-industries/metronome/resources/audit-logs';
+import { Page } from '@metronome-industries/metronome/pagination';
 
 export class AuditLogs extends APIResource {
   /**
@@ -12,50 +13,47 @@ export class AuditLogs extends APIResource {
    * subsequent requests using the same next_page value will be in the returned data
    * array, ensuring a continuous and uninterrupted reading of audit logs.
    */
-  list(query?: AuditLogListParams, options?: Core.RequestOptions): Core.APIPromise<AuditLogListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<AuditLogListResponse>;
+  list(
+    query?: AuditLogListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<AuditLogListResponsesPage, AuditLogListResponse>;
+  list(options?: Core.RequestOptions): Core.PagePromise<AuditLogListResponsesPage, AuditLogListResponse>;
   list(
     query: AuditLogListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<AuditLogListResponse> {
+  ): Core.PagePromise<AuditLogListResponsesPage, AuditLogListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/auditLogs', { query, ...options });
+    return this._client.getAPIList('/auditLogs', AuditLogListResponsesPage, { query, ...options });
   }
 }
 
-export interface AuditLogListResponse {
-  data: Array<AuditLogListResponse.Data>;
+export class AuditLogListResponsesPage extends Page<AuditLogListResponse> {}
 
-  next_page: string | null;
+export interface AuditLogListResponse {
+  id: string;
+
+  timestamp: string;
+
+  action?: string;
+
+  actor?: AuditLogListResponse.Actor;
+
+  resource_id?: string;
+
+  resource_type?: string;
+
+  status?: 'success' | 'failure' | 'pending';
 }
 
 export namespace AuditLogListResponse {
-  export interface Data {
+  export interface Actor {
     id: string;
 
-    timestamp: string;
+    name: string;
 
-    action?: string;
-
-    actor?: Data.Actor;
-
-    resource_id?: string;
-
-    resource_type?: string;
-
-    status?: 'success' | 'failure' | 'pending';
-  }
-
-  export namespace Data {
-    export interface Actor {
-      id: string;
-
-      name: string;
-
-      email?: string;
-    }
+    email?: string;
   }
 }
 
@@ -79,5 +77,6 @@ export interface AuditLogListParams {
 
 export namespace AuditLogs {
   export import AuditLogListResponse = AuditLogsAPI.AuditLogListResponse;
+  export import AuditLogListResponsesPage = AuditLogsAPI.AuditLogListResponsesPage;
   export import AuditLogListParams = AuditLogsAPI.AuditLogListParams;
 }

@@ -3,6 +3,7 @@
 import * as Core from '@metronome-industries/metronome/core';
 import { APIResource } from '@metronome-industries/metronome/resource';
 import * as CustomerAlertsAPI from '@metronome-industries/metronome/resources/customer-alerts';
+import { Page } from '@metronome-industries/metronome/pagination';
 
 export class CustomerAlerts extends APIResource {
   /**
@@ -22,11 +23,18 @@ export class CustomerAlerts extends APIResource {
   list(
     params: CustomerAlertListParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomerAlertListResponse> {
+  ): Core.PagePromise<CustomerAlertListResponsesPage, CustomerAlertListResponse> {
     const { next_page, ...body } = params;
-    return this._client.post('/customer-alerts/list', { query: { next_page }, body, ...options });
+    return this._client.getAPIList('/customer-alerts/list', CustomerAlertListResponsesPage, {
+      query: { next_page },
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 }
+
+export class CustomerAlertListResponsesPage extends Page<CustomerAlertListResponse> {}
 
 export interface CustomerAlert {
   alert: CustomerAlert.Alert;
@@ -155,69 +163,61 @@ export namespace CustomerAlertRetrieveResponse {
 }
 
 export interface CustomerAlertListResponse {
-  data: Array<CustomerAlertListResponse.Data>;
+  alert: CustomerAlertListResponse.Alert;
 
-  next_page: string | null;
+  /**
+   * The status of the customer alert. If the alert is archived, null will be
+   * returned.
+   */
+  customer_status: 'ok' | 'in_alarm' | 'evaluating' | null;
 }
 
 export namespace CustomerAlertListResponse {
-  export interface Data {
-    alert: Data.Alert;
+  export interface Alert {
+    /**
+     * the Metronome ID of the alert
+     */
+    id: string;
+
+    credit_type: Alert.CreditType | null;
 
     /**
-     * The status of the customer alert. If the alert is archived, null will be
-     * returned.
+     * Name of the alert
      */
-    customer_status: 'ok' | 'in_alarm' | 'evaluating' | null;
+    name: string;
+
+    /**
+     * Status of the alert
+     */
+    status: 'enabled' | 'archived' | 'disabled';
+
+    /**
+     * Threshold value of the alert policy
+     */
+    threshold: number;
+
+    /**
+     * Type of the alert
+     */
+    type:
+      | 'low_credit_balance_reached'
+      | 'spend_threshold_reached'
+      | 'monthly_invoice_total_spend_threshold_reached'
+      | 'low_remaining_days_in_plan_reached'
+      | 'low_remaining_credit_percentage_reached'
+      | 'usage_threshold_reached';
+
+    /**
+     * Timestamp for when the alert was last updated
+     */
+    updated_at: string;
   }
 
-  export namespace Data {
-    export interface Alert {
-      /**
-       * the Metronome ID of the alert
-       */
+  export namespace Alert {
+    export interface CreditType {
       id: string;
 
-      credit_type: Alert.CreditType | null;
-
-      /**
-       * Name of the alert
-       */
       name: string;
-
-      /**
-       * Status of the alert
-       */
-      status: 'enabled' | 'archived' | 'disabled';
-
-      /**
-       * Threshold value of the alert policy
-       */
-      threshold: number;
-
-      /**
-       * Type of the alert
-       */
-      type:
-        | 'low_credit_balance_reached'
-        | 'spend_threshold_reached'
-        | 'monthly_invoice_total_spend_threshold_reached'
-        | 'low_remaining_days_in_plan_reached'
-        | 'low_remaining_credit_percentage_reached'
-        | 'usage_threshold_reached';
-
-      /**
-       * Timestamp for when the alert was last updated
-       */
-      updated_at: string;
-    }
-
-    export namespace Alert {
-      export interface CreditType {
-        id: string;
-
-        name: string;
-      }
     }
   }
 }
@@ -266,6 +266,7 @@ export namespace CustomerAlerts {
   export import CustomerAlert = CustomerAlertsAPI.CustomerAlert;
   export import CustomerAlertRetrieveResponse = CustomerAlertsAPI.CustomerAlertRetrieveResponse;
   export import CustomerAlertListResponse = CustomerAlertsAPI.CustomerAlertListResponse;
+  export import CustomerAlertListResponsesPage = CustomerAlertsAPI.CustomerAlertListResponsesPage;
   export import CustomerAlertRetrieveParams = CustomerAlertsAPI.CustomerAlertRetrieveParams;
   export import CustomerAlertListParams = CustomerAlertsAPI.CustomerAlertListParams;
 }

@@ -4,6 +4,7 @@ import * as Core from '@metronome-industries/metronome/core';
 import { APIResource } from '@metronome-industries/metronome/resource';
 import { isRequestOptions } from '@metronome-industries/metronome/core';
 import * as CreditsAPI from '@metronome-industries/metronome/resources/credits';
+import { Page } from '@metronome-industries/metronome/pagination';
 
 export class Credits extends APIResource {
   /**
@@ -34,17 +35,24 @@ export class Credits extends APIResource {
   listEntries(
     params?: CreditListEntriesParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditListEntriesResponse>;
-  listEntries(options?: Core.RequestOptions): Core.APIPromise<CreditListEntriesResponse>;
+  ): Core.PagePromise<CreditListEntriesResponsesPage, CreditListEntriesResponse>;
+  listEntries(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CreditListEntriesResponsesPage, CreditListEntriesResponse>;
   listEntries(
     params: CreditListEntriesParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditListEntriesResponse> {
+  ): Core.PagePromise<CreditListEntriesResponsesPage, CreditListEntriesResponse> {
     if (isRequestOptions(params)) {
       return this.listEntries({}, params);
     }
     const { next_page, ...body } = params;
-    return this._client.post('/credits/listEntries', { query: { next_page }, body, ...options });
+    return this._client.getAPIList('/credits/listEntries', CreditListEntriesResponsesPage, {
+      query: { next_page },
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -53,17 +61,24 @@ export class Credits extends APIResource {
   listGrants(
     params?: CreditListGrantsParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditListGrantsResponse>;
-  listGrants(options?: Core.RequestOptions): Core.APIPromise<CreditListGrantsResponse>;
+  ): Core.PagePromise<CreditListGrantsResponsesPage, CreditListGrantsResponse>;
+  listGrants(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CreditListGrantsResponsesPage, CreditListGrantsResponse>;
   listGrants(
     params: CreditListGrantsParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditListGrantsResponse> {
+  ): Core.PagePromise<CreditListGrantsResponsesPage, CreditListGrantsResponse> {
     if (isRequestOptions(params)) {
       return this.listGrants({}, params);
     }
     const { next_page, ...body } = params;
-    return this._client.post('/credits/listGrants', { query: { next_page }, body, ...options });
+    return this._client.getAPIList('/credits/listGrants', CreditListGrantsResponsesPage, {
+      query: { next_page },
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -76,6 +91,10 @@ export class Credits extends APIResource {
     return this._client.post('/credits/voidGrant', { body, ...options });
   }
 }
+
+export class CreditListEntriesResponsesPage extends Page<CreditListEntriesResponse> {}
+
+export class CreditListGrantsResponsesPage extends Page<CreditListGrantsResponse> {}
 
 export interface CreditCreateGrantResponse {
   data: CreditCreateGrantResponse.Data;
@@ -98,355 +117,339 @@ export namespace CreditEditGrantResponse {
 }
 
 export interface CreditListEntriesResponse {
-  data: Array<CreditListEntriesResponse.Data>;
+  customer_id: string;
 
-  next_page: string | null;
+  ledgers: Array<CreditListEntriesResponse.Ledger>;
 }
 
 export namespace CreditListEntriesResponse {
-  export interface Data {
-    customer_id: string;
+  export interface Ledger {
+    credit_type: Ledger.CreditType;
 
-    ledgers: Array<Data.Ledger>;
+    /**
+     * the effective balances at the end of the specified time window
+     */
+    ending_balance: Ledger.EndingBalance;
+
+    entries: Array<Ledger.Entry>;
+
+    pending_entries: Array<Ledger.PendingEntry>;
+
+    starting_balance: Ledger.StartingBalance;
   }
 
-  export namespace Data {
-    export interface Ledger {
-      credit_type: Ledger.CreditType;
+  export namespace Ledger {
+    export interface CreditType {
+      id: string;
 
-      /**
-       * the effective balances at the end of the specified time window
-       */
-      ending_balance: Ledger.EndingBalance;
-
-      entries: Array<Ledger.Entry>;
-
-      pending_entries: Array<Ledger.PendingEntry>;
-
-      starting_balance: Ledger.StartingBalance;
+      name: string;
     }
 
-    export namespace Ledger {
-      export interface CreditType {
-        id: string;
-
-        name: string;
-      }
+    /**
+     * the effective balances at the end of the specified time window
+     */
+    export interface EndingBalance {
+      /**
+       * the ending_before request parameter (if supplied) or the current billing
+       * period's end date
+       */
+      effective_at: string;
 
       /**
-       * the effective balances at the end of the specified time window
+       * the ending balance, including the balance of all grants that have not expired
+       * before the effective_at date and deductions that happened before the
+       * effective_at date
        */
-      export interface EndingBalance {
-        /**
-         * the ending_before request parameter (if supplied) or the current billing
-         * period's end date
-         */
-        effective_at: string;
+      excluding_pending: number;
 
-        /**
-         * the ending balance, including the balance of all grants that have not expired
-         * before the effective_at date and deductions that happened before the
-         * effective_at date
-         */
-        excluding_pending: number;
+      /**
+       * the excluding_pending balance plus any pending invoice deductions and
+       * expirations that will happen by the effective_at date
+       */
+      including_pending: number;
+    }
 
-        /**
-         * the excluding_pending balance plus any pending invoice deductions and
-         * expirations that will happen by the effective_at date
-         */
-        including_pending: number;
-      }
+    export interface Entry {
+      /**
+       * an amount representing the change to the customer's credit balance
+       */
+      amount: number;
 
-      export interface Entry {
-        /**
-         * an amount representing the change to the customer's credit balance
-         */
-        amount: number;
+      created_by: string;
 
-        created_by: string;
+      /**
+       * the credit grant this entry is related to
+       */
+      credit_grant_id: string;
 
-        /**
-         * the credit grant this entry is related to
-         */
-        credit_grant_id: string;
+      effective_at: string;
 
-        effective_at: string;
+      reason: string;
 
-        reason: string;
+      /**
+       * the running balance for this credit type at the time of the ledger entry,
+       * including all preceding charges
+       */
+      running_balance: number;
 
-        /**
-         * the running balance for this credit type at the time of the ledger entry,
-         * including all preceding charges
-         */
-        running_balance: number;
+      /**
+       * if this entry is a deduction, the Metronome ID of the invoice where the credit
+       * deduction was consumed; if this entry is a grant, the Metronome ID of the
+       * invoice where the grant's paid_amount was charged
+       */
+      invoice_id?: string | null;
+    }
 
-        /**
-         * if this entry is a deduction, the Metronome ID of the invoice where the credit
-         * deduction was consumed; if this entry is a grant, the Metronome ID of the
-         * invoice where the grant's paid_amount was charged
-         */
-        invoice_id?: string | null;
-      }
+    export interface PendingEntry {
+      /**
+       * an amount representing the change to the customer's credit balance
+       */
+      amount: number;
 
-      export interface PendingEntry {
-        /**
-         * an amount representing the change to the customer's credit balance
-         */
-        amount: number;
+      created_by: string;
 
-        created_by: string;
+      /**
+       * the credit grant this entry is related to
+       */
+      credit_grant_id: string;
 
-        /**
-         * the credit grant this entry is related to
-         */
-        credit_grant_id: string;
+      effective_at: string;
 
-        effective_at: string;
+      reason: string;
 
-        reason: string;
+      /**
+       * the running balance for this credit type at the time of the ledger entry,
+       * including all preceding charges
+       */
+      running_balance: number;
 
-        /**
-         * the running balance for this credit type at the time of the ledger entry,
-         * including all preceding charges
-         */
-        running_balance: number;
+      /**
+       * if this entry is a deduction, the Metronome ID of the invoice where the credit
+       * deduction was consumed; if this entry is a grant, the Metronome ID of the
+       * invoice where the grant's paid_amount was charged
+       */
+      invoice_id?: string | null;
+    }
 
-        /**
-         * if this entry is a deduction, the Metronome ID of the invoice where the credit
-         * deduction was consumed; if this entry is a grant, the Metronome ID of the
-         * invoice where the grant's paid_amount was charged
-         */
-        invoice_id?: string | null;
-      }
+    export interface StartingBalance {
+      /**
+       * the starting_on request parameter (if supplied) or the first credit grant's
+       * effective_at date
+       */
+      effective_at: string;
 
-      export interface StartingBalance {
-        /**
-         * the starting_on request parameter (if supplied) or the first credit grant's
-         * effective_at date
-         */
-        effective_at: string;
+      /**
+       * the starting balance, including all posted grants, deductions, and expirations
+       * that happened at or before the effective_at timestamp
+       */
+      excluding_pending: number;
 
-        /**
-         * the starting balance, including all posted grants, deductions, and expirations
-         * that happened at or before the effective_at timestamp
-         */
-        excluding_pending: number;
-
-        /**
-         * the excluding_pending balance plus any pending activity that has not been posted
-         * at the time of the query
-         */
-        including_pending: number;
-      }
+      /**
+       * the excluding_pending balance plus any pending activity that has not been posted
+       * at the time of the query
+       */
+      including_pending: number;
     }
   }
 }
 
 export interface CreditListGrantsResponse {
-  data: Array<CreditListGrantsResponse.Data>;
+  /**
+   * the Metronome ID of the credit grant
+   */
+  id: string;
 
-  next_page: string | null;
+  /**
+   * The effective balance of the grant as of the end of the customer's current
+   * billing period. Expiration deductions will be included only if the grant expires
+   * before the end of the current billing period.
+   */
+  balance: CreditListGrantsResponse.Balance;
+
+  custom_fields: Record<string, string>;
+
+  /**
+   * the Metronome ID of the customer
+   */
+  customer_id: string;
+
+  deductions: Array<CreditListGrantsResponse.Deduction>;
+
+  effective_at: string;
+
+  expires_at: string;
+
+  /**
+   * the amount of credits initially granted
+   */
+  grant_amount: CreditListGrantsResponse.GrantAmount;
+
+  name: string;
+
+  /**
+   * the amount paid for this credit grant
+   */
+  paid_amount: CreditListGrantsResponse.PaidAmount;
+
+  pending_deductions: Array<CreditListGrantsResponse.PendingDeduction>;
+
+  priority: number;
+
+  credit_grant_type?: string | null;
+
+  /**
+   * the Metronome ID of the invoice with the purchase charge for this credit grant,
+   * if applicable
+   */
+  invoice_id?: string | null;
+
+  /**
+   * The products which these credits will be applied to. (If unspecified, the
+   * credits will be applied to charges for all products.)
+   */
+  products?: Array<CreditListGrantsResponse.Product>;
+
+  reason?: string | null;
 }
 
 export namespace CreditListGrantsResponse {
-  export interface Data {
+  /**
+   * The effective balance of the grant as of the end of the customer's current
+   * billing period. Expiration deductions will be included only if the grant expires
+   * before the end of the current billing period.
+   */
+  export interface Balance {
     /**
-     * the Metronome ID of the credit grant
+     * The end_date of the customer's current billing period.
      */
-    id: string;
-
-    /**
-     * The effective balance of the grant as of the end of the customer's current
-     * billing period. Expiration deductions will be included only if the grant expires
-     * before the end of the current billing period.
-     */
-    balance: Data.Balance;
-
-    custom_fields: Record<string, string>;
+    effective_at: string;
 
     /**
-     * the Metronome ID of the customer
+     * The grant's current balance including all posted deductions. If the grant has
+     * expired, this amount will be 0.
      */
-    customer_id: string;
+    excluding_pending: number;
 
-    deductions: Array<Data.Deduction>;
+    /**
+     * The grant's current balance including all posted and pending deductions. If the
+     * grant expires before the end of the customer's current billing period, this
+     * amount will be 0.
+     */
+    including_pending: number;
+  }
+
+  export interface Deduction {
+    /**
+     * an amount representing the change to the customer's credit balance
+     */
+    amount: number;
+
+    created_by: string;
+
+    /**
+     * the credit grant this entry is related to
+     */
+    credit_grant_id: string;
 
     effective_at: string;
 
-    expires_at: string;
+    reason: string;
 
     /**
-     * the amount of credits initially granted
+     * the running balance for this credit type at the time of the ledger entry,
+     * including all preceding charges
      */
-    grant_amount: Data.GrantAmount;
-
-    name: string;
+    running_balance: number;
 
     /**
-     * the amount paid for this credit grant
-     */
-    paid_amount: Data.PaidAmount;
-
-    pending_deductions: Array<Data.PendingDeduction>;
-
-    priority: number;
-
-    credit_grant_type?: string | null;
-
-    /**
-     * the Metronome ID of the invoice with the purchase charge for this credit grant,
-     * if applicable
+     * if this entry is a deduction, the Metronome ID of the invoice where the credit
+     * deduction was consumed; if this entry is a grant, the Metronome ID of the
+     * invoice where the grant's paid_amount was charged
      */
     invoice_id?: string | null;
-
-    /**
-     * The products which these credits will be applied to. (If unspecified, the
-     * credits will be applied to charges for all products.)
-     */
-    products?: Array<Data.Product>;
-
-    reason?: string | null;
   }
 
-  export namespace Data {
-    /**
-     * The effective balance of the grant as of the end of the customer's current
-     * billing period. Expiration deductions will be included only if the grant expires
-     * before the end of the current billing period.
-     */
-    export interface Balance {
-      /**
-       * The end_date of the customer's current billing period.
-       */
-      effective_at: string;
-
-      /**
-       * The grant's current balance including all posted deductions. If the grant has
-       * expired, this amount will be 0.
-       */
-      excluding_pending: number;
-
-      /**
-       * The grant's current balance including all posted and pending deductions. If the
-       * grant expires before the end of the customer's current billing period, this
-       * amount will be 0.
-       */
-      including_pending: number;
-    }
-
-    export interface Deduction {
-      /**
-       * an amount representing the change to the customer's credit balance
-       */
-      amount: number;
-
-      created_by: string;
-
-      /**
-       * the credit grant this entry is related to
-       */
-      credit_grant_id: string;
-
-      effective_at: string;
-
-      reason: string;
-
-      /**
-       * the running balance for this credit type at the time of the ledger entry,
-       * including all preceding charges
-       */
-      running_balance: number;
-
-      /**
-       * if this entry is a deduction, the Metronome ID of the invoice where the credit
-       * deduction was consumed; if this entry is a grant, the Metronome ID of the
-       * invoice where the grant's paid_amount was charged
-       */
-      invoice_id?: string | null;
-    }
+  /**
+   * the amount of credits initially granted
+   */
+  export interface GrantAmount {
+    amount: number;
 
     /**
-     * the amount of credits initially granted
+     * the credit type for the amount granted
      */
-    export interface GrantAmount {
-      amount: number;
+    credit_type: GrantAmount.CreditType;
+  }
 
-      /**
-       * the credit type for the amount granted
-       */
-      credit_type: GrantAmount.CreditType;
-    }
-
-    export namespace GrantAmount {
-      /**
-       * the credit type for the amount granted
-       */
-      export interface CreditType {
-        id: string;
-
-        name: string;
-      }
-    }
-
+  export namespace GrantAmount {
     /**
-     * the amount paid for this credit grant
+     * the credit type for the amount granted
      */
-    export interface PaidAmount {
-      amount: number;
-
-      /**
-       * the credit type for the amount paid
-       */
-      credit_type: PaidAmount.CreditType;
-    }
-
-    export namespace PaidAmount {
-      /**
-       * the credit type for the amount paid
-       */
-      export interface CreditType {
-        id: string;
-
-        name: string;
-      }
-    }
-
-    export interface PendingDeduction {
-      /**
-       * an amount representing the change to the customer's credit balance
-       */
-      amount: number;
-
-      created_by: string;
-
-      /**
-       * the credit grant this entry is related to
-       */
-      credit_grant_id: string;
-
-      effective_at: string;
-
-      reason: string;
-
-      /**
-       * the running balance for this credit type at the time of the ledger entry,
-       * including all preceding charges
-       */
-      running_balance: number;
-
-      /**
-       * if this entry is a deduction, the Metronome ID of the invoice where the credit
-       * deduction was consumed; if this entry is a grant, the Metronome ID of the
-       * invoice where the grant's paid_amount was charged
-       */
-      invoice_id?: string | null;
-    }
-
-    export interface Product {
+    export interface CreditType {
       id: string;
 
       name: string;
     }
+  }
+
+  /**
+   * the amount paid for this credit grant
+   */
+  export interface PaidAmount {
+    amount: number;
+
+    /**
+     * the credit type for the amount paid
+     */
+    credit_type: PaidAmount.CreditType;
+  }
+
+  export namespace PaidAmount {
+    /**
+     * the credit type for the amount paid
+     */
+    export interface CreditType {
+      id: string;
+
+      name: string;
+    }
+  }
+
+  export interface PendingDeduction {
+    /**
+     * an amount representing the change to the customer's credit balance
+     */
+    amount: number;
+
+    created_by: string;
+
+    /**
+     * the credit grant this entry is related to
+     */
+    credit_grant_id: string;
+
+    effective_at: string;
+
+    reason: string;
+
+    /**
+     * the running balance for this credit type at the time of the ledger entry,
+     * including all preceding charges
+     */
+    running_balance: number;
+
+    /**
+     * if this entry is a deduction, the Metronome ID of the invoice where the credit
+     * deduction was consumed; if this entry is a grant, the Metronome ID of the
+     * invoice where the grant's paid_amount was charged
+     */
+    invoice_id?: string | null;
+  }
+
+  export interface Product {
+    id: string;
+
+    name: string;
   }
 }
 
@@ -629,6 +632,8 @@ export namespace Credits {
   export import CreditListEntriesResponse = CreditsAPI.CreditListEntriesResponse;
   export import CreditListGrantsResponse = CreditsAPI.CreditListGrantsResponse;
   export import CreditVoidGrantResponse = CreditsAPI.CreditVoidGrantResponse;
+  export import CreditListEntriesResponsesPage = CreditsAPI.CreditListEntriesResponsesPage;
+  export import CreditListGrantsResponsesPage = CreditsAPI.CreditListGrantsResponsesPage;
   export import CreditCreateGrantParams = CreditsAPI.CreditCreateGrantParams;
   export import CreditEditGrantParams = CreditsAPI.CreditEditGrantParams;
   export import CreditListEntriesParams = CreditsAPI.CreditListEntriesParams;

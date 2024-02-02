@@ -3,15 +3,24 @@
 import * as Core from '@metronome-industries/metronome/core';
 import { APIResource } from '@metronome-industries/metronome/resource';
 import * as UsageAPI from '@metronome-industries/metronome/resources/usage';
+import { Page } from '@metronome-industries/metronome/pagination';
 
 export class Usage extends APIResource {
   /**
    * Fetch aggregated usage data for multiple customers and billable-metrics, broken
    * into intervals of the specified length.
    */
-  list(params: UsageListParams, options?: Core.RequestOptions): Core.APIPromise<UsageListResponse> {
+  list(
+    params: UsageListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<UsageListResponsesPage, UsageListResponse> {
     const { next_page, ...body } = params;
-    return this._client.post('/usage', { query: { next_page }, body, ...options });
+    return this._client.getAPIList('/usage', UsageListResponsesPage, {
+      query: { next_page },
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -21,58 +30,51 @@ export class Usage extends APIResource {
   listWithGroups(
     params: UsageListWithGroupsParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<UsageListWithGroupsResponse> {
+  ): Core.PagePromise<UsageListWithGroupsResponsesPage, UsageListWithGroupsResponse> {
     const { limit, next_page, ...body } = params;
-    return this._client.post('/usage/groups', { query: { limit, next_page }, body, ...options });
+    return this._client.getAPIList('/usage/groups', UsageListWithGroupsResponsesPage, {
+      query: { limit, next_page },
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 }
+
+export class UsageListResponsesPage extends Page<UsageListResponse> {}
+
+export class UsageListWithGroupsResponsesPage extends Page<UsageListWithGroupsResponse> {}
 
 export interface UsageListResponse {
-  data: Array<UsageListResponse.Data>;
+  billable_metric_id: string;
 
-  next_page: string | null;
-}
+  billable_metric_name: string;
 
-export namespace UsageListResponse {
-  export interface Data {
-    billable_metric_id: string;
+  customer_id: string;
 
-    billable_metric_name: string;
+  end_timestamp: string;
 
-    customer_id: string;
+  start_timestamp: string;
 
-    end_timestamp: string;
+  value: number | null;
 
-    start_timestamp: string;
-
-    value: number | null;
-
-    /**
-     * Values will be either a number or null. Null indicates that there were no
-     * matches for the group_by value.
-     */
-    groups?: Record<string, number | null>;
-  }
+  /**
+   * Values will be either a number or null. Null indicates that there were no
+   * matches for the group_by value.
+   */
+  groups?: Record<string, number | null>;
 }
 
 export interface UsageListWithGroupsResponse {
-  data: Array<UsageListWithGroupsResponse.Data>;
+  ending_before: string;
 
-  next_page: string | null;
-}
+  group_key: string | null;
 
-export namespace UsageListWithGroupsResponse {
-  export interface Data {
-    ending_before: string;
+  group_value: string | null;
 
-    group_key: string | null;
+  starting_on: string;
 
-    group_value: string | null;
-
-    starting_on: string;
-
-    value: number | null;
-  }
+  value: number | null;
 }
 
 export interface UsageListParams {
@@ -205,6 +207,8 @@ export namespace UsageListWithGroupsParams {
 export namespace Usage {
   export import UsageListResponse = UsageAPI.UsageListResponse;
   export import UsageListWithGroupsResponse = UsageAPI.UsageListWithGroupsResponse;
+  export import UsageListResponsesPage = UsageAPI.UsageListResponsesPage;
+  export import UsageListWithGroupsResponsesPage = UsageAPI.UsageListWithGroupsResponsesPage;
   export import UsageListParams = UsageAPI.UsageListParams;
   export import UsageListWithGroupsParams = UsageAPI.UsageListWithGroupsParams;
 }

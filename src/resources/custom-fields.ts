@@ -4,6 +4,7 @@ import * as Core from '@metronome-industries/metronome/core';
 import { APIResource } from '@metronome-industries/metronome/resource';
 import { isRequestOptions } from '@metronome-industries/metronome/core';
 import * as CustomFieldsAPI from '@metronome-industries/metronome/resources/custom-fields';
+import { Page } from '@metronome-industries/metronome/pagination';
 
 export class CustomFields extends APIResource {
   /**
@@ -35,17 +36,24 @@ export class CustomFields extends APIResource {
   listKeys(
     params?: CustomFieldListKeysParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomFieldListKeysResponse>;
-  listKeys(options?: Core.RequestOptions): Core.APIPromise<CustomFieldListKeysResponse>;
+  ): Core.PagePromise<CustomFieldListKeysResponsesPage, CustomFieldListKeysResponse>;
+  listKeys(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CustomFieldListKeysResponsesPage, CustomFieldListKeysResponse>;
   listKeys(
     params: CustomFieldListKeysParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomFieldListKeysResponse> {
+  ): Core.PagePromise<CustomFieldListKeysResponsesPage, CustomFieldListKeysResponse> {
     if (isRequestOptions(params)) {
       return this.listKeys({}, params);
     }
     const { next_page, ...body } = params;
-    return this._client.post('/customFields/listKeys', { query: { next_page }, body, ...options });
+    return this._client.getAPIList('/customFields/listKeys', CustomFieldListKeysResponsesPage, {
+      query: { next_page },
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -77,28 +85,22 @@ export class CustomFields extends APIResource {
   }
 }
 
+export class CustomFieldListKeysResponsesPage extends Page<CustomFieldListKeysResponse> {}
+
 export interface CustomFieldListKeysResponse {
-  data: Array<CustomFieldListKeysResponse.Data>;
+  enforce_uniqueness: boolean;
 
-  next_page: string | null;
-}
+  entity:
+    | 'charge'
+    | 'credit_grant'
+    | 'customer'
+    | 'customer_plan'
+    | 'plan'
+    | 'product'
+    | 'billable_metric'
+    | 'commit';
 
-export namespace CustomFieldListKeysResponse {
-  export interface Data {
-    enforce_uniqueness: boolean;
-
-    entity:
-      | 'charge'
-      | 'credit_grant'
-      | 'customer'
-      | 'customer_plan'
-      | 'plan'
-      | 'product'
-      | 'billable_metric'
-      | 'commit';
-
-    key: string;
-  }
+  key: string;
 }
 
 export interface CustomFieldAddKeyParams {
@@ -186,6 +188,7 @@ export interface CustomFieldSetValuesParams {
 
 export namespace CustomFields {
   export import CustomFieldListKeysResponse = CustomFieldsAPI.CustomFieldListKeysResponse;
+  export import CustomFieldListKeysResponsesPage = CustomFieldsAPI.CustomFieldListKeysResponsesPage;
   export import CustomFieldAddKeyParams = CustomFieldsAPI.CustomFieldAddKeyParams;
   export import CustomFieldDeleteValuesParams = CustomFieldsAPI.CustomFieldDeleteValuesParams;
   export import CustomFieldListKeysParams = CustomFieldsAPI.CustomFieldListKeysParams;

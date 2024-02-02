@@ -19,6 +19,9 @@ export {
   CustomerSetIngestAliasesParams,
   CustomerSetNameParams,
   CustomerUpdateConfigParams,
+  CustomerListResponsesPage,
+  CustomerListBillableMetricsResponsesPage,
+  CustomerListCostsResponsesPage,
   Customers,
 } from './customers';
 export {
@@ -26,6 +29,7 @@ export {
   InvoiceRetrieveResponse,
   InvoiceListResponse,
   InvoiceListParams,
+  InvoiceListResponsesPage,
   Invoices,
 } from './invoices';
 export {
@@ -37,5 +41,7 @@ export {
   PlanAddParams,
   PlanEndParams,
   PlanListPriceAdjustmentsParams,
+  PlanListResponsesPage,
+  PlanListPriceAdjustmentsResponsesPage,
   Plans,
 } from './plans';
