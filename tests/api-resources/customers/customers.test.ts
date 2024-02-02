@@ -223,7 +223,7 @@ describe('resource customers', () => {
     await expect(
       metronome.customers.updateConfig(
         'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        { salesforce_account_id: '0015500001WO1ZiABL' },
+        { leave_stripe_invoices_in_draft: true, salesforce_account_id: '0015500001WO1ZiABL' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);

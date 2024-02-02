@@ -4,7 +4,7 @@
 
 This library provides convenient access to the Metronome REST API from server-side TypeScript or JavaScript.
 
-The API documentation can be found [here](https://docs.metronome.com).
+The REST API documentation can be found [on docs.metronome.com](https://docs.metronome.com). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -16,7 +16,7 @@ yarn add @metronome-industries/metronome
 
 ## Usage
 
-The full API of this library can be found in [api.md](https://www.github.com/Metronome-Industries/metronome-node/blob/main/api.md).
+The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
@@ -211,8 +211,8 @@ import { fetch } from 'undici'; // as one example
 import Metronome from '@metronome-industries/metronome';
 
 const client = new Metronome({
-  fetch: (url: RequestInfo, init?: RequestInfo): Response => {
-    console.log('About to make request', url, init);
+  fetch: async (url: RequestInfo, init?: RequestInfo): Promise<Response> => {
+    console.log('About to make a request', url, init);
     const response = await fetch(url, init);
     console.log('Got response', response);
     return response;

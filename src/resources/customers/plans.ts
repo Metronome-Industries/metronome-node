@@ -4,8 +4,6 @@ import * as Core from '@metronome-industries/metronome/core';
 import { APIResource } from '@metronome-industries/metronome/resource';
 import { isRequestOptions } from '@metronome-industries/metronome/core';
 import * as PlansAPI from '@metronome-industries/metronome/resources/customers/plans';
-import * as Shared from '@metronome-industries/metronome/resources/shared';
-import { Page, type PageParams } from '@metronome-industries/metronome/pagination';
 
 export class Plans extends APIResource {
   /**
@@ -15,23 +13,17 @@ export class Plans extends APIResource {
     customerId: string,
     query?: PlanListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListResponsesPage, PlanListResponse>;
-  list(
-    customerId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListResponsesPage, PlanListResponse>;
+  ): Core.APIPromise<PlanListResponse>;
+  list(customerId: string, options?: Core.RequestOptions): Core.APIPromise<PlanListResponse>;
   list(
     customerId: string,
     query: PlanListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListResponsesPage, PlanListResponse> {
+  ): Core.APIPromise<PlanListResponse> {
     if (isRequestOptions(query)) {
       return this.list(customerId, {}, query);
     }
-    return this._client.getAPIList(`/customers/${customerId}/plans`, PlanListResponsesPage, {
-      query,
-      ...options,
-    });
+    return this._client.get(`/customers/${customerId}/plans`, { query, ...options });
   }
 
   /**
@@ -83,124 +75,146 @@ export class Plans extends APIResource {
     customerPlanId: string,
     query?: PlanListPriceAdjustmentsParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListPriceAdjustmentsResponsesPage, PlanListPriceAdjustmentsResponse>;
+  ): Core.APIPromise<PlanListPriceAdjustmentsResponse>;
   listPriceAdjustments(
     customerId: string,
     customerPlanId: string,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListPriceAdjustmentsResponsesPage, PlanListPriceAdjustmentsResponse>;
+  ): Core.APIPromise<PlanListPriceAdjustmentsResponse>;
   listPriceAdjustments(
     customerId: string,
     customerPlanId: string,
     query: PlanListPriceAdjustmentsParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListPriceAdjustmentsResponsesPage, PlanListPriceAdjustmentsResponse> {
+  ): Core.APIPromise<PlanListPriceAdjustmentsResponse> {
     if (isRequestOptions(query)) {
       return this.listPriceAdjustments(customerId, customerPlanId, {}, query);
     }
-    return this._client.getAPIList(
-      `/customers/${customerId}/plans/${customerPlanId}/priceAdjustments`,
-      PlanListPriceAdjustmentsResponsesPage,
-      { query, ...options },
-    );
+    return this._client.get(`/customers/${customerId}/plans/${customerPlanId}/priceAdjustments`, {
+      query,
+      ...options,
+    });
   }
 }
 
-export class PlanListResponsesPage extends Page<PlanListResponse> {}
-
-export class PlanListPriceAdjustmentsResponsesPage extends Page<PlanListPriceAdjustmentsResponse> {}
-
 export interface PlanListResponse {
-  /**
-   * the ID of the customer plan
-   */
-  id: string;
+  data: Array<PlanListResponse.Data>;
 
-  custom_fields: Record<string, string>;
-
-  plan_description: string;
-
-  /**
-   * the ID of the plan
-   */
-  plan_id: string;
-
-  plan_name: string;
-
-  starting_on: string;
-
-  ending_before?: string;
-
-  net_payment_terms_days?: number;
-
-  trial_info?: PlanListResponse.TrialInfo;
+  next_page: string | null;
 }
 
 export namespace PlanListResponse {
-  export interface TrialInfo {
-    ending_before: string;
+  export interface Data {
+    /**
+     * the ID of the customer plan
+     */
+    id: string;
 
-    spending_caps: Array<TrialInfo.SpendingCap>;
+    custom_fields: Record<string, string>;
+
+    plan_description: string;
+
+    /**
+     * the ID of the plan
+     */
+    plan_id: string;
+
+    plan_name: string;
+
+    starting_on: string;
+
+    ending_before?: string;
+
+    net_payment_terms_days?: number;
+
+    trial_info?: Data.TrialInfo;
   }
 
-  export namespace TrialInfo {
-    export interface SpendingCap {
-      amount: number;
+  export namespace Data {
+    export interface TrialInfo {
+      ending_before: string;
 
-      amount_remaining: number;
-
-      credit_type: SpendingCap.CreditType;
+      spending_caps: Array<TrialInfo.SpendingCap>;
     }
 
-    export namespace SpendingCap {
-      export interface CreditType {
-        id: string;
+    export namespace TrialInfo {
+      export interface SpendingCap {
+        amount: number;
 
-        name: string;
+        amount_remaining: number;
+
+        credit_type: SpendingCap.CreditType;
+      }
+
+      export namespace SpendingCap {
+        export interface CreditType {
+          id: string;
+
+          name: string;
+        }
       }
     }
   }
 }
 
 export interface PlanAddResponse {
-  data: Shared.ID;
+  data: PlanAddResponse.Data;
+}
+
+export namespace PlanAddResponse {
+  export interface Data {
+    id: string;
+  }
 }
 
 export interface PlanEndResponse {}
 
 export interface PlanListPriceAdjustmentsResponse {
-  charge_id: string;
+  data: Array<PlanListPriceAdjustmentsResponse.Data>;
 
-  charge_type: 'usage' | 'fixed' | 'composite' | 'minimum' | 'seat';
-
-  prices: Array<PlanListPriceAdjustmentsResponse.Price>;
-
-  start_period: number;
-
-  quantity?: number;
+  next_page: string | null;
 }
 
 export namespace PlanListPriceAdjustmentsResponse {
-  export interface Price {
-    /**
-     * Determines how the value will be applied.
-     */
-    adjustment_type: 'fixed' | 'quantity' | 'percentage' | 'override';
+  export interface Data {
+    charge_id: string;
 
-    /**
-     * Used in pricing tiers. Indicates at what metric value the price applies.
-     */
-    tier?: number;
+    charge_type: 'usage' | 'fixed' | 'composite' | 'minimum' | 'seat';
 
-    value?: number;
+    prices: Array<Data.Price>;
+
+    start_period: number;
+
+    quantity?: number;
+  }
+
+  export namespace Data {
+    export interface Price {
+      /**
+       * Determines how the value will be applied.
+       */
+      adjustment_type: 'fixed' | 'quantity' | 'percentage' | 'override';
+
+      /**
+       * Used in pricing tiers. Indicates at what metric value the price applies.
+       */
+      tier?: number;
+
+      value?: number;
+    }
   }
 }
 
-export interface PlanListParams extends PageParams {
+export interface PlanListParams {
   /**
    * Max number of results that should be returned
    */
   limit?: number;
+
+  /**
+   * Cursor that indicates where the next page of results should start.
+   */
+  next_page?: string;
 }
 
 export interface PlanAddParams {
@@ -285,11 +299,16 @@ export interface PlanEndParams {
   void_stripe_invoices?: boolean;
 }
 
-export interface PlanListPriceAdjustmentsParams extends PageParams {
+export interface PlanListPriceAdjustmentsParams {
   /**
    * Max number of results that should be returned
    */
   limit?: number;
+
+  /**
+   * Cursor that indicates where the next page of results should start.
+   */
+  next_page?: string;
 }
 
 export namespace Plans {
@@ -297,8 +316,6 @@ export namespace Plans {
   export import PlanAddResponse = PlansAPI.PlanAddResponse;
   export import PlanEndResponse = PlansAPI.PlanEndResponse;
   export import PlanListPriceAdjustmentsResponse = PlansAPI.PlanListPriceAdjustmentsResponse;
-  export import PlanListResponsesPage = PlansAPI.PlanListResponsesPage;
-  export import PlanListPriceAdjustmentsResponsesPage = PlansAPI.PlanListPriceAdjustmentsResponsesPage;
   export import PlanListParams = PlansAPI.PlanListParams;
   export import PlanAddParams = PlansAPI.PlanAddParams;
   export import PlanEndParams = PlansAPI.PlanEndParams;

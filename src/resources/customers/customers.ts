@@ -4,11 +4,9 @@ import * as Core from '@metronome-industries/metronome/core';
 import { APIResource } from '@metronome-industries/metronome/resource';
 import { isRequestOptions } from '@metronome-industries/metronome/core';
 import * as CustomersAPI from '@metronome-industries/metronome/resources/customers/customers';
-import * as Shared from '@metronome-industries/metronome/resources/shared';
 import * as BillingConfigAPI from '@metronome-industries/metronome/resources/customers/billing-config';
 import * as InvoicesAPI from '@metronome-industries/metronome/resources/customers/invoices';
 import * as PlansAPI from '@metronome-industries/metronome/resources/customers/plans';
-import { Page, type PageParams } from '@metronome-industries/metronome/pagination';
 
 export class Customers extends APIResource {
   plans: PlansAPI.Plans = new PlansAPI.Plans(this._client);
@@ -32,19 +30,16 @@ export class Customers extends APIResource {
   /**
    * List all customers.
    */
-  list(
-    query?: CustomerListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerDetailsPage, CustomerDetail>;
-  list(options?: Core.RequestOptions): Core.PagePromise<CustomerDetailsPage, CustomerDetail>;
+  list(query?: CustomerListParams, options?: Core.RequestOptions): Core.APIPromise<CustomerListResponse>;
+  list(options?: Core.RequestOptions): Core.APIPromise<CustomerListResponse>;
   list(
     query: CustomerListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerDetailsPage, CustomerDetail> {
+  ): Core.APIPromise<CustomerListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/customers', CustomerDetailsPage, { query, ...options });
+    return this._client.get('/customers', { query, ...options });
   }
 
   /**
@@ -64,24 +59,20 @@ export class Customers extends APIResource {
     customerId: string,
     query?: CustomerListBillableMetricsParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListBillableMetricsResponsesPage, CustomerListBillableMetricsResponse>;
+  ): Core.APIPromise<CustomerListBillableMetricsResponse>;
   listBillableMetrics(
     customerId: string,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListBillableMetricsResponsesPage, CustomerListBillableMetricsResponse>;
+  ): Core.APIPromise<CustomerListBillableMetricsResponse>;
   listBillableMetrics(
     customerId: string,
     query: CustomerListBillableMetricsParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListBillableMetricsResponsesPage, CustomerListBillableMetricsResponse> {
+  ): Core.APIPromise<CustomerListBillableMetricsResponse> {
     if (isRequestOptions(query)) {
       return this.listBillableMetrics(customerId, {}, query);
     }
-    return this._client.getAPIList(
-      `/customers/${customerId}/billable-metrics`,
-      CustomerListBillableMetricsResponsesPage,
-      { query, ...options },
-    );
+    return this._client.get(`/customers/${customerId}/billable-metrics`, { query, ...options });
   }
 
   /**
@@ -93,11 +84,8 @@ export class Customers extends APIResource {
     customerId: string,
     query: CustomerListCostsParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListCostsResponsesPage, CustomerListCostsResponse> {
-    return this._client.getAPIList(`/customers/${customerId}/costs`, CustomerListCostsResponsesPage, {
-      query,
-      ...options,
-    });
+  ): Core.APIPromise<CustomerListCostsResponse> {
+    return this._client.get(`/customers/${customerId}/costs`, { query, ...options });
   }
 
   /**
@@ -113,7 +101,7 @@ export class Customers extends APIResource {
     return this._client.post(`/customers/${customerId}/setIngestAliases`, {
       body,
       ...options,
-      headers: { Accept: '', ...options?.headers },
+      headers: { Accept: '*/*', ...options?.headers },
     });
   }
 
@@ -148,16 +136,10 @@ export class Customers extends APIResource {
     return this._client.post(`/customers/${customerId}/updateConfig`, {
       body,
       ...options,
-      headers: { Accept: '', ...options?.headers },
+      headers: { Accept: '*/*', ...options?.headers },
     });
   }
 }
-
-export class CustomerDetailsPage extends Page<CustomerDetail> {}
-
-export class CustomerListBillableMetricsResponsesPage extends Page<CustomerListBillableMetricsResponse> {}
-
-export class CustomerListCostsResponsesPage extends Page<CustomerListCostsResponse> {}
 
 export interface Customer {
   /**
@@ -188,6 +170,8 @@ export interface CustomerDetail {
    */
   id: string;
 
+  current_billable_status: CustomerDetail.CurrentBillableStatus;
+
   custom_fields: Record<string, string>;
 
   customer_config: CustomerDetail.CustomerConfig;
@@ -208,6 +192,12 @@ export interface CustomerDetail {
 }
 
 export namespace CustomerDetail {
+  export interface CurrentBillableStatus {
+    value: 'billable' | 'unbillable';
+
+    effective_at?: string | null;
+  }
+
   export interface CustomerConfig {
     /**
      * The Salesforce account ID for the customer
@@ -217,57 +207,223 @@ export namespace CustomerDetail {
 }
 
 export interface CustomerCreateResponse {
-  data: Customer;
+  data: CustomerCreateResponse.Data;
+}
+
+export namespace CustomerCreateResponse {
+  export interface Data {
+    /**
+     * the Metronome ID of the customer
+     */
+    id: string;
+
+    /**
+     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
+     * alias) that can be used in usage events
+     */
+    external_id: string;
+
+    /**
+     * aliases for this customer that can be used instead of the Metronome customer ID
+     * in usage events
+     */
+    ingest_aliases: Array<string>;
+
+    name: string;
+
+    custom_fields?: Record<string, string>;
+  }
 }
 
 export interface CustomerRetrieveResponse {
-  data: CustomerDetail;
+  data: CustomerRetrieveResponse.Data;
+}
+
+export namespace CustomerRetrieveResponse {
+  export interface Data {
+    /**
+     * the Metronome ID of the customer
+     */
+    id: string;
+
+    current_billable_status: Data.CurrentBillableStatus;
+
+    custom_fields: Record<string, string>;
+
+    customer_config: Data.CustomerConfig;
+
+    /**
+     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
+     * alias) that can be used in usage events
+     */
+    external_id: string;
+
+    /**
+     * aliases for this customer that can be used instead of the Metronome customer ID
+     * in usage events
+     */
+    ingest_aliases: Array<string>;
+
+    name: string;
+  }
+
+  export namespace Data {
+    export interface CurrentBillableStatus {
+      value: 'billable' | 'unbillable';
+
+      effective_at?: string | null;
+    }
+
+    export interface CustomerConfig {
+      /**
+       * The Salesforce account ID for the customer
+       */
+      salesforce_account_id: string | null;
+    }
+  }
+}
+
+export interface CustomerListResponse {
+  data: Array<CustomerListResponse.Data>;
+
+  next_page: string | null;
+}
+
+export namespace CustomerListResponse {
+  export interface Data {
+    /**
+     * the Metronome ID of the customer
+     */
+    id: string;
+
+    current_billable_status: Data.CurrentBillableStatus;
+
+    custom_fields: Record<string, string>;
+
+    customer_config: Data.CustomerConfig;
+
+    /**
+     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
+     * alias) that can be used in usage events
+     */
+    external_id: string;
+
+    /**
+     * aliases for this customer that can be used instead of the Metronome customer ID
+     * in usage events
+     */
+    ingest_aliases: Array<string>;
+
+    name: string;
+  }
+
+  export namespace Data {
+    export interface CurrentBillableStatus {
+      value: 'billable' | 'unbillable';
+
+      effective_at?: string | null;
+    }
+
+    export interface CustomerConfig {
+      /**
+       * The Salesforce account ID for the customer
+       */
+      salesforce_account_id: string | null;
+    }
+  }
 }
 
 export interface CustomerArchiveResponse {
-  data: Shared.ID;
+  data: CustomerArchiveResponse.Data;
+}
+
+export namespace CustomerArchiveResponse {
+  export interface Data {
+    id: string;
+  }
 }
 
 export interface CustomerListBillableMetricsResponse {
-  id: string;
+  data: Array<CustomerListBillableMetricsResponse.Data>;
 
-  name: string;
+  next_page: string | null;
+}
 
-  group_by?: Array<string>;
+export namespace CustomerListBillableMetricsResponse {
+  export interface Data {
+    id: string;
+
+    name: string;
+
+    group_by?: Array<string>;
+  }
 }
 
 export interface CustomerListCostsResponse {
-  credit_types: Record<string, CustomerListCostsResponse.CreditTypes>;
+  data: Array<CustomerListCostsResponse.Data>;
 
-  end_timestamp: string;
-
-  start_timestamp: string;
+  next_page: string | null;
 }
 
 export namespace CustomerListCostsResponse {
-  export interface CreditTypes {
-    cost?: number;
+  export interface Data {
+    credit_types: Record<string, Data.CreditTypes>;
 
-    line_item_breakdown?: Array<CreditTypes.LineItemBreakdown>;
+    end_timestamp: string;
 
-    name?: string;
+    start_timestamp: string;
   }
 
-  export namespace CreditTypes {
-    export interface LineItemBreakdown {
-      cost: number;
+  export namespace Data {
+    export interface CreditTypes {
+      cost?: number;
 
-      name: string;
+      line_item_breakdown?: Array<CreditTypes.LineItemBreakdown>;
 
-      group_key?: string;
+      name?: string;
+    }
 
-      group_value?: string | null;
+    export namespace CreditTypes {
+      export interface LineItemBreakdown {
+        cost: number;
+
+        name: string;
+
+        group_key?: string;
+
+        group_value?: string | null;
+      }
     }
   }
 }
 
 export interface CustomerSetNameResponse {
-  data: Customer;
+  data: CustomerSetNameResponse.Data;
+}
+
+export namespace CustomerSetNameResponse {
+  export interface Data {
+    /**
+     * the Metronome ID of the customer
+     */
+    id: string;
+
+    /**
+     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
+     * alias) that can be used in usage events
+     */
+    external_id: string;
+
+    /**
+     * aliases for this customer that can be used instead of the Metronome customer ID
+     * in usage events
+     */
+    ingest_aliases: Array<string>;
+
+    name: string;
+
+    custom_fields?: Record<string, string>;
+  }
 }
 
 export interface CustomerCreateParams {
@@ -334,7 +490,7 @@ export namespace CustomerCreateParams {
   }
 }
 
-export interface CustomerListParams extends PageParams {
+export interface CustomerListParams {
   /**
    * Filter the customer list by customer_id. Up to 100 ids can be provided.
    */
@@ -349,6 +505,11 @@ export interface CustomerListParams extends PageParams {
    * Max number of results that should be returned
    */
   limit?: number;
+
+  /**
+   * Cursor that indicates where the next page of results should start.
+   */
+  next_page?: string;
 
   /**
    * Filter the customer list by only archived customers.
@@ -366,11 +527,16 @@ export interface CustomerArchiveParams {
   id: string;
 }
 
-export interface CustomerListBillableMetricsParams extends PageParams {
+export interface CustomerListBillableMetricsParams {
   /**
    * Max number of results that should be returned
    */
   limit?: number;
+
+  /**
+   * Cursor that indicates where the next page of results should start.
+   */
+  next_page?: string;
 
   /**
    * If true, the list of metrics will be filtered to just ones that are on the
@@ -379,7 +545,7 @@ export interface CustomerListBillableMetricsParams extends PageParams {
   on_current_plan?: boolean;
 }
 
-export interface CustomerListCostsParams extends PageParams {
+export interface CustomerListCostsParams {
   /**
    * RFC 3339 timestamp (exclusive)
    */
@@ -394,6 +560,11 @@ export interface CustomerListCostsParams extends PageParams {
    * Max number of results that should be returned
    */
   limit?: number;
+
+  /**
+   * Cursor that indicates where the next page of results should start.
+   */
+  next_page?: string;
 }
 
 export interface CustomerSetIngestAliasesParams {
@@ -409,6 +580,12 @@ export interface CustomerSetNameParams {
 
 export interface CustomerUpdateConfigParams {
   /**
+   * Leave in draft or set to auto-advance on invoices sent to Stripe. Falls back to
+   * the client-level config if unset, which defaults to true if unset.
+   */
+  leave_stripe_invoices_in_draft?: boolean | null;
+
+  /**
    * The Salesforce account ID for the customer
    */
   salesforce_account_id?: string | null;
@@ -419,13 +596,11 @@ export namespace Customers {
   export import CustomerDetail = CustomersAPI.CustomerDetail;
   export import CustomerCreateResponse = CustomersAPI.CustomerCreateResponse;
   export import CustomerRetrieveResponse = CustomersAPI.CustomerRetrieveResponse;
+  export import CustomerListResponse = CustomersAPI.CustomerListResponse;
   export import CustomerArchiveResponse = CustomersAPI.CustomerArchiveResponse;
   export import CustomerListBillableMetricsResponse = CustomersAPI.CustomerListBillableMetricsResponse;
   export import CustomerListCostsResponse = CustomersAPI.CustomerListCostsResponse;
   export import CustomerSetNameResponse = CustomersAPI.CustomerSetNameResponse;
-  export import CustomerDetailsPage = CustomersAPI.CustomerDetailsPage;
-  export import CustomerListBillableMetricsResponsesPage = CustomersAPI.CustomerListBillableMetricsResponsesPage;
-  export import CustomerListCostsResponsesPage = CustomersAPI.CustomerListCostsResponsesPage;
   export import CustomerCreateParams = CustomersAPI.CustomerCreateParams;
   export import CustomerListParams = CustomersAPI.CustomerListParams;
   export import CustomerArchiveParams = CustomersAPI.CustomerArchiveParams;
@@ -439,8 +614,6 @@ export namespace Customers {
   export import PlanAddResponse = PlansAPI.PlanAddResponse;
   export import PlanEndResponse = PlansAPI.PlanEndResponse;
   export import PlanListPriceAdjustmentsResponse = PlansAPI.PlanListPriceAdjustmentsResponse;
-  export import PlanListResponsesPage = PlansAPI.PlanListResponsesPage;
-  export import PlanListPriceAdjustmentsResponsesPage = PlansAPI.PlanListPriceAdjustmentsResponsesPage;
   export import PlanListParams = PlansAPI.PlanListParams;
   export import PlanAddParams = PlansAPI.PlanAddParams;
   export import PlanEndParams = PlansAPI.PlanEndParams;
@@ -448,7 +621,7 @@ export namespace Customers {
   export import Invoices = InvoicesAPI.Invoices;
   export import Invoice = InvoicesAPI.Invoice;
   export import InvoiceRetrieveResponse = InvoicesAPI.InvoiceRetrieveResponse;
-  export import InvoicesPage = InvoicesAPI.InvoicesPage;
+  export import InvoiceListResponse = InvoicesAPI.InvoiceListResponse;
   export import InvoiceListParams = InvoicesAPI.InvoiceListParams;
   export import BillingConfig = BillingConfigAPI.BillingConfig;
   export import BillingConfigRetrieveResponse = BillingConfigAPI.BillingConfigRetrieveResponse;

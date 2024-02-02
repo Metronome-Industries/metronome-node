@@ -4,7 +4,6 @@ import * as Core from '@metronome-industries/metronome/core';
 import { APIResource } from '@metronome-industries/metronome/resource';
 import { isRequestOptions } from '@metronome-industries/metronome/core';
 import * as CustomFieldsAPI from '@metronome-industries/metronome/resources/custom-fields';
-import { Page, type PageParams } from '@metronome-industries/metronome/pagination';
 
 export class CustomFields extends APIResource {
   /**
@@ -15,7 +14,7 @@ export class CustomFields extends APIResource {
     return this._client.post('/customFields/addKey', {
       body,
       ...options,
-      headers: { Accept: '', ...options?.headers },
+      headers: { Accept: '*/*', ...options?.headers },
     });
   }
 
@@ -26,7 +25,7 @@ export class CustomFields extends APIResource {
     return this._client.post('/customFields/deleteValues', {
       body,
       ...options,
-      headers: { Accept: '', ...options?.headers },
+      headers: { Accept: '*/*', ...options?.headers },
     });
   }
 
@@ -36,24 +35,17 @@ export class CustomFields extends APIResource {
   listKeys(
     params?: CustomFieldListKeysParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomFieldListKeysResponsesPage, CustomFieldListKeysResponse>;
-  listKeys(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomFieldListKeysResponsesPage, CustomFieldListKeysResponse>;
+  ): Core.APIPromise<CustomFieldListKeysResponse>;
+  listKeys(options?: Core.RequestOptions): Core.APIPromise<CustomFieldListKeysResponse>;
   listKeys(
     params: CustomFieldListKeysParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomFieldListKeysResponsesPage, CustomFieldListKeysResponse> {
+  ): Core.APIPromise<CustomFieldListKeysResponse> {
     if (isRequestOptions(params)) {
       return this.listKeys({}, params);
     }
     const { next_page, ...body } = params;
-    return this._client.getAPIList('/customFields/listKeys', CustomFieldListKeysResponsesPage, {
-      query: { next_page },
-      body,
-      method: 'post',
-      ...options,
-    });
+    return this._client.post('/customFields/listKeys', { query: { next_page }, body, ...options });
   }
 
   /**
@@ -63,7 +55,7 @@ export class CustomFields extends APIResource {
     return this._client.post('/customFields/removeKey', {
       body,
       ...options,
-      headers: { Accept: '', ...options?.headers },
+      headers: { Accept: '*/*', ...options?.headers },
     });
   }
 
@@ -80,48 +72,98 @@ export class CustomFields extends APIResource {
     return this._client.post('/customFields/setValues', {
       body,
       ...options,
-      headers: { Accept: '', ...options?.headers },
+      headers: { Accept: '*/*', ...options?.headers },
     });
   }
 }
 
-export class CustomFieldListKeysResponsesPage extends Page<CustomFieldListKeysResponse> {}
-
 export interface CustomFieldListKeysResponse {
-  enforce_uniqueness: boolean;
+  data: Array<CustomFieldListKeysResponse.Data>;
 
-  entity: 'charge' | 'credit_grant' | 'customer' | 'customer_plan' | 'plan' | 'product' | 'billable_metric';
+  next_page: string | null;
+}
 
-  key: string;
+export namespace CustomFieldListKeysResponse {
+  export interface Data {
+    enforce_uniqueness: boolean;
+
+    entity:
+      | 'charge'
+      | 'credit_grant'
+      | 'customer'
+      | 'customer_plan'
+      | 'plan'
+      | 'product'
+      | 'billable_metric'
+      | 'commit';
+
+    key: string;
+  }
 }
 
 export interface CustomFieldAddKeyParams {
   enforce_uniqueness: boolean;
 
-  entity: 'charge' | 'credit_grant' | 'customer' | 'customer_plan' | 'plan' | 'product' | 'billable_metric';
+  entity:
+    | 'charge'
+    | 'credit_grant'
+    | 'customer'
+    | 'customer_plan'
+    | 'plan'
+    | 'product'
+    | 'billable_metric'
+    | 'commit';
 
   key: string;
 }
 
 export interface CustomFieldDeleteValuesParams {
-  entity: 'charge' | 'credit_grant' | 'customer' | 'customer_plan' | 'plan' | 'product' | 'billable_metric';
+  entity:
+    | 'charge'
+    | 'credit_grant'
+    | 'customer'
+    | 'customer_plan'
+    | 'plan'
+    | 'product'
+    | 'billable_metric'
+    | 'commit';
 
   entity_id: string;
 
   keys: Array<string>;
 }
 
-export interface CustomFieldListKeysParams extends PageParams {
+export interface CustomFieldListKeysParams {
+  /**
+   * Query param: Cursor that indicates where the next page of results should start.
+   */
+  next_page?: string;
+
   /**
    * Body param: Optional list of entity types to return keys for
    */
   entities?: Array<
-    'charge' | 'credit_grant' | 'customer' | 'customer_plan' | 'plan' | 'product' | 'billable_metric'
+    | 'charge'
+    | 'credit_grant'
+    | 'customer'
+    | 'customer_plan'
+    | 'plan'
+    | 'product'
+    | 'billable_metric'
+    | 'commit'
   >;
 }
 
 export interface CustomFieldRemoveKeyParams {
-  entity: 'charge' | 'credit_grant' | 'customer' | 'customer_plan' | 'plan' | 'product' | 'billable_metric';
+  entity:
+    | 'charge'
+    | 'credit_grant'
+    | 'customer'
+    | 'customer_plan'
+    | 'plan'
+    | 'product'
+    | 'billable_metric'
+    | 'commit';
 
   key: string;
 }
@@ -129,14 +171,21 @@ export interface CustomFieldRemoveKeyParams {
 export interface CustomFieldSetValuesParams {
   custom_fields: Record<string, string>;
 
-  entity: 'charge' | 'credit_grant' | 'customer' | 'customer_plan' | 'plan' | 'product' | 'billable_metric';
+  entity:
+    | 'charge'
+    | 'credit_grant'
+    | 'customer'
+    | 'customer_plan'
+    | 'plan'
+    | 'product'
+    | 'billable_metric'
+    | 'commit';
 
   entity_id: string;
 }
 
 export namespace CustomFields {
   export import CustomFieldListKeysResponse = CustomFieldsAPI.CustomFieldListKeysResponse;
-  export import CustomFieldListKeysResponsesPage = CustomFieldsAPI.CustomFieldListKeysResponsesPage;
   export import CustomFieldAddKeyParams = CustomFieldsAPI.CustomFieldAddKeyParams;
   export import CustomFieldDeleteValuesParams = CustomFieldsAPI.CustomFieldDeleteValuesParams;
   export import CustomFieldListKeysParams = CustomFieldsAPI.CustomFieldListKeysParams;
