@@ -23,7 +23,7 @@ export class BillingConfig extends APIResource {
     return this._client.post(`/customers/${customerId}/billing-config/${billingProviderType}`, {
       body,
       ...options,
-      headers: { Accept: '', ...options?.headers },
+      headers: { Accept: '*/*', ...options?.headers },
     });
   }
 
@@ -61,7 +61,7 @@ export class BillingConfig extends APIResource {
   ): Core.APIPromise<void> {
     return this._client.delete(`/customers/${customerId}/billing-config/${billingProviderType}`, {
       ...options,
-      headers: { Accept: '', ...options?.headers },
+      headers: { Accept: '*/*', ...options?.headers },
     });
   }
 }

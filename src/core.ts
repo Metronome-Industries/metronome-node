@@ -334,6 +334,11 @@ export abstract class APIClient {
   }
 
   /**
+   * Used as a callback for mutating the given `FinalRequestOptions` object.
+   */
+  protected async prepareOptions(options: FinalRequestOptions): Promise<void> {}
+
+  /**
    * Used as a callback for mutating the given `RequestInit` object.
    *
    * This is useful for cases where you want to add certain headers based off of
@@ -378,6 +383,8 @@ export abstract class APIClient {
       retriesRemaining = options.maxRetries ?? this.maxRetries;
     }
 
+    await this.prepareOptions(options);
+
     const { req, url, timeout } = this.buildRequest(options);
 
     await this.prepareRequest(req, { url, options });
@@ -408,14 +415,17 @@ export abstract class APIClient {
 
     if (!response.ok) {
       if (retriesRemaining && this.shouldRetry(response)) {
+        const retryMessage = `retrying, ${retriesRemaining} attempts remaining`;
+        debug(`response (error; ${retryMessage})`, response.status, url, responseHeaders);
         return this.retryRequest(options, retriesRemaining, responseHeaders);
       }
 
       const errText = await response.text().catch((e) => castToError(e).message);
       const errJSON = safeJSON(errText);
       const errMessage = errJSON ? undefined : errText;
+      const retryMessage = retriesRemaining ? `(error; no more retries left)` : `(error; not retryable)`;
 
-      debug('response', response.status, url, responseHeaders, errMessage);
+      debug(`response (error; ${retryMessage})`, response.status, url, responseHeaders, errMessage);
 
       const err = this.makeStatusError(response.status, errJSON, errMessage, responseHeaders);
       throw err;
@@ -443,8 +453,8 @@ export abstract class APIClient {
       query = { ...defaultQuery, ...query } as Req;
     }
 
-    if (query) {
-      url.search = this.stringifyQuery(query);
+    if (typeof query === 'object' && query && !Array.isArray(query)) {
+      url.search = this.stringifyQuery(query as Record<string, unknown>);
     }
 
     return url.toString();
@@ -520,11 +530,21 @@ export abstract class APIClient {
     retriesRemaining: number,
     responseHeaders?: Headers | undefined,
   ): Promise<APIResponseProps> {
-    // About the Retry-After header: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
     let timeoutMillis: number | undefined;
+
+    // Note the `retry-after-ms` header may not be standard, but is a good idea and we'd like proactive support for it.
+    const retryAfterMillisHeader = responseHeaders?.['retry-after-ms'];
+    if (retryAfterMillisHeader) {
+      const timeoutMs = parseFloat(retryAfterMillisHeader);
+      if (!Number.isNaN(timeoutMs)) {
+        timeoutMillis = timeoutMs;
+      }
+    }
+
+    // About the Retry-After header: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
     const retryAfterHeader = responseHeaders?.['retry-after'];
-    if (retryAfterHeader) {
-      const timeoutSeconds = parseInt(retryAfterHeader);
+    if (retryAfterHeader && !timeoutMillis) {
+      const timeoutSeconds = parseFloat(retryAfterHeader);
       if (!Number.isNaN(timeoutSeconds)) {
         timeoutMillis = timeoutSeconds * 1000;
       } else {
@@ -534,12 +554,7 @@ export abstract class APIClient {
 
     // If the API asks us to wait a certain amount of time (and it's a reasonable amount),
     // just do what it says, but otherwise calculate a default
-    if (
-      !timeoutMillis ||
-      !Number.isInteger(timeoutMillis) ||
-      timeoutMillis <= 0 ||
-      timeoutMillis > 60 * 1000
-    ) {
+    if (!(timeoutMillis && 0 <= timeoutMillis && timeoutMillis < 60 * 1000)) {
       const maxRetries = options.maxRetries ?? this.maxRetries;
       timeoutMillis = this.calculateDefaultRetryTimeoutMillis(retriesRemaining, maxRetries);
     }
@@ -708,7 +723,7 @@ export type RequestOptions<Req = unknown | Record<string, unknown> | Readable> =
   method?: HTTPMethod;
   path?: string;
   query?: Req | undefined;
-  body?: Req | undefined;
+  body?: Req | null | undefined;
   headers?: Headers | undefined;
 
   maxRetries?: number;
@@ -1122,3 +1137,7 @@ export const toBase64 = (str: string | null | undefined): string => {
 
   throw new MetronomeError('Cannot generate b64 string; Expected `Buffer` or `btoa` to be defined');
 };
+
+export function isObj(obj: unknown): obj is Record<string, unknown> {
+  return obj != null && typeof obj === 'object' && !Array.isArray(obj);
+}

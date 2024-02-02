@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless.
 
 import * as Core from './core';
-import * as Pagination from './pagination';
 import * as Errors from './error';
 import { type Agent } from './_shims/index';
 import * as Uploads from './uploads';
@@ -13,12 +12,12 @@ export interface ClientOptions {
   /**
    * Defaults to process.env['METRONOME_BEARER_TOKEN'].
    */
-  bearerToken?: string;
+  bearerToken?: string | undefined;
 
   /**
    * Defaults to process.env['METRONOME_WEBHOOK_SECRET'].
    */
-  webhookSecret?: string | null;
+  webhookSecret?: string | null | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -87,8 +86,8 @@ export class Metronome extends Core.APIClient {
   /**
    * API Client for interfacing with the Metronome API.
    *
-   * @param {string} [opts.bearerToken=process.env['METRONOME_BEARER_TOKEN'] ?? undefined]
-   * @param {string | null} [opts.webhookSecret=process.env['METRONOME_WEBHOOK_SECRET'] ?? null]
+   * @param {string | undefined} [opts.bearerToken=process.env['METRONOME_BEARER_TOKEN'] ?? undefined]
+   * @param {string | null | undefined} [opts.webhookSecret=process.env['METRONOME_WEBHOOK_SECRET'] ?? null]
    * @param {string} [opts.baseURL=process.env['METRONOME_BASE_URL'] ?? https://api.metronome.com/v1] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -149,7 +148,7 @@ export class Metronome extends Core.APIClient {
    * to learn more about usage events.
    */
   ingest(body: TopLevelAPI.IngestParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this.post('/ingest', { body, ...options, headers: { Accept: '', ...options?.headers } });
+    return this.post('/ingest', { body, ...options, headers: { Accept: '*/*', ...options?.headers } });
   }
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
@@ -214,10 +213,6 @@ export namespace Metronome {
 
   export import RequestOptions = Core.RequestOptions;
 
-  export import Page = Pagination.Page;
-  export import PageParams = Pagination.PageParams;
-  export import PageResponse = Pagination.PageResponse;
-
   export import IngestParams = API.IngestParams;
 
   export import Alerts = API.Alerts;
@@ -229,7 +224,7 @@ export namespace Metronome {
   export import CustomerAlerts = API.CustomerAlerts;
   export import CustomerAlert = API.CustomerAlert;
   export import CustomerAlertRetrieveResponse = API.CustomerAlertRetrieveResponse;
-  export import CustomerAlertsPage = API.CustomerAlertsPage;
+  export import CustomerAlertListResponse = API.CustomerAlertListResponse;
   export import CustomerAlertRetrieveParams = API.CustomerAlertRetrieveParams;
   export import CustomerAlertListParams = API.CustomerAlertListParams;
 
@@ -239,9 +234,6 @@ export namespace Metronome {
   export import PlanGetDetailsResponse = API.PlanGetDetailsResponse;
   export import PlanListChargesResponse = API.PlanListChargesResponse;
   export import PlanListCustomersResponse = API.PlanListCustomersResponse;
-  export import PlanListResponsesPage = API.PlanListResponsesPage;
-  export import PlanListChargesResponsesPage = API.PlanListChargesResponsesPage;
-  export import PlanListCustomersResponsesPage = API.PlanListCustomersResponsesPage;
   export import PlanListParams = API.PlanListParams;
   export import PlanListChargesParams = API.PlanListChargesParams;
   export import PlanListCustomersParams = API.PlanListCustomersParams;
@@ -252,8 +244,6 @@ export namespace Metronome {
   export import CreditListEntriesResponse = API.CreditListEntriesResponse;
   export import CreditListGrantsResponse = API.CreditListGrantsResponse;
   export import CreditVoidGrantResponse = API.CreditVoidGrantResponse;
-  export import CreditListEntriesResponsesPage = API.CreditListEntriesResponsesPage;
-  export import CreditListGrantsResponsesPage = API.CreditListGrantsResponsesPage;
   export import CreditCreateGrantParams = API.CreditCreateGrantParams;
   export import CreditEditGrantParams = API.CreditEditGrantParams;
   export import CreditListEntriesParams = API.CreditListEntriesParams;
@@ -262,7 +252,6 @@ export namespace Metronome {
 
   export import CreditTypes = API.CreditTypes;
   export import CreditTypeListResponse = API.CreditTypeListResponse;
-  export import CreditTypeListResponsesPage = API.CreditTypeListResponsesPage;
   export import CreditTypeListParams = API.CreditTypeListParams;
 
   export import Customers = API.Customers;
@@ -270,13 +259,11 @@ export namespace Metronome {
   export import CustomerDetail = API.CustomerDetail;
   export import CustomerCreateResponse = API.CustomerCreateResponse;
   export import CustomerRetrieveResponse = API.CustomerRetrieveResponse;
+  export import CustomerListResponse = API.CustomerListResponse;
   export import CustomerArchiveResponse = API.CustomerArchiveResponse;
   export import CustomerListBillableMetricsResponse = API.CustomerListBillableMetricsResponse;
   export import CustomerListCostsResponse = API.CustomerListCostsResponse;
   export import CustomerSetNameResponse = API.CustomerSetNameResponse;
-  export import CustomerDetailsPage = API.CustomerDetailsPage;
-  export import CustomerListBillableMetricsResponsesPage = API.CustomerListBillableMetricsResponsesPage;
-  export import CustomerListCostsResponsesPage = API.CustomerListCostsResponsesPage;
   export import CustomerCreateParams = API.CustomerCreateParams;
   export import CustomerListParams = API.CustomerListParams;
   export import CustomerArchiveParams = API.CustomerArchiveParams;
@@ -295,19 +282,15 @@ export namespace Metronome {
   export import Usage = API.Usage;
   export import UsageListResponse = API.UsageListResponse;
   export import UsageListWithGroupsResponse = API.UsageListWithGroupsResponse;
-  export import UsageListResponsesPage = API.UsageListResponsesPage;
-  export import UsageListWithGroupsResponsesPage = API.UsageListWithGroupsResponsesPage;
   export import UsageListParams = API.UsageListParams;
   export import UsageListWithGroupsParams = API.UsageListWithGroupsParams;
 
   export import AuditLogs = API.AuditLogs;
   export import AuditLogListResponse = API.AuditLogListResponse;
-  export import AuditLogListResponsesPage = API.AuditLogListResponsesPage;
   export import AuditLogListParams = API.AuditLogListParams;
 
   export import CustomFields = API.CustomFields;
   export import CustomFieldListKeysResponse = API.CustomFieldListKeysResponse;
-  export import CustomFieldListKeysResponsesPage = API.CustomFieldListKeysResponsesPage;
   export import CustomFieldAddKeyParams = API.CustomFieldAddKeyParams;
   export import CustomFieldDeleteValuesParams = API.CustomFieldDeleteValuesParams;
   export import CustomFieldListKeysParams = API.CustomFieldListKeysParams;

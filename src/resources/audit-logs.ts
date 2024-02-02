@@ -4,7 +4,6 @@ import * as Core from '@metronome-industries/metronome/core';
 import { APIResource } from '@metronome-industries/metronome/resource';
 import { isRequestOptions } from '@metronome-industries/metronome/core';
 import * as AuditLogsAPI from '@metronome-industries/metronome/resources/audit-logs';
-import { Page, type PageParams } from '@metronome-industries/metronome/pagination';
 
 export class AuditLogs extends APIResource {
   /**
@@ -13,55 +12,63 @@ export class AuditLogs extends APIResource {
    * subsequent requests using the same next_page value will be in the returned data
    * array, ensuring a continuous and uninterrupted reading of audit logs.
    */
-  list(
-    query?: AuditLogListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AuditLogListResponsesPage, AuditLogListResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<AuditLogListResponsesPage, AuditLogListResponse>;
+  list(query?: AuditLogListParams, options?: Core.RequestOptions): Core.APIPromise<AuditLogListResponse>;
+  list(options?: Core.RequestOptions): Core.APIPromise<AuditLogListResponse>;
   list(
     query: AuditLogListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<AuditLogListResponsesPage, AuditLogListResponse> {
+  ): Core.APIPromise<AuditLogListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/auditLogs', AuditLogListResponsesPage, { query, ...options });
+    return this._client.get('/auditLogs', { query, ...options });
   }
 }
 
-export class AuditLogListResponsesPage extends Page<AuditLogListResponse> {}
-
 export interface AuditLogListResponse {
-  id: string;
+  data: Array<AuditLogListResponse.Data>;
 
-  timestamp: string;
-
-  action?: string;
-
-  actor?: AuditLogListResponse.Actor;
-
-  resource_id?: string;
-
-  resource_type?: string;
-
-  status?: 'success' | 'failure' | 'pending';
+  next_page: string | null;
 }
 
 export namespace AuditLogListResponse {
-  export interface Actor {
+  export interface Data {
     id: string;
 
-    name: string;
+    timestamp: string;
 
-    email?: string;
+    action?: string;
+
+    actor?: Data.Actor;
+
+    resource_id?: string;
+
+    resource_type?: string;
+
+    status?: 'success' | 'failure' | 'pending';
+  }
+
+  export namespace Data {
+    export interface Actor {
+      id: string;
+
+      name: string;
+
+      email?: string;
+    }
   }
 }
 
-export interface AuditLogListParams extends PageParams {
+export interface AuditLogListParams {
   /**
    * Max number of results that should be returned
    */
   limit?: number;
+
+  /**
+   * Cursor that indicates where the next page of results should start.
+   */
+  next_page?: string;
 
   /**
    * RFC 3339 timestamp of the earliest audit log to return. Cannot be used with
@@ -72,6 +79,5 @@ export interface AuditLogListParams extends PageParams {
 
 export namespace AuditLogs {
   export import AuditLogListResponse = AuditLogsAPI.AuditLogListResponse;
-  export import AuditLogListResponsesPage = AuditLogsAPI.AuditLogListResponsesPage;
   export import AuditLogListParams = AuditLogsAPI.AuditLogListParams;
 }

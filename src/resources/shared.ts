@@ -8,44 +8,58 @@ export interface Commit {
   type: 'PREPAID' | 'POSTPAID';
 
   /**
-   * Only valid for "PREPAID" commits: The schedule that the customer will gain
-   * access to the credits purposed with this commit.
+   * The schedule that the customer will gain access to the credits purposed with
+   * this commit.
    */
   access_schedule?: Commit.AccessSchedule;
 
   /**
-   * Only valid for "POSTPAID" commits: The total that the customer commits to
-   * consume. Must be >= 0.
+   * (deprecated) Only valid for "POSTPAID" commits: The total that the customer
+   * commits to consume. Must be > 0.
    */
   amount?: number;
+
+  applicable_contract_ids?: Array<string>;
 
   applicable_product_ids?: Array<string>;
 
   applicable_product_tags?: Array<string>;
 
+  contract?: Commit.Contract;
+
+  custom_fields?: Record<string, string>;
+
   description?: string;
 
   /**
-   * Only valid for "PREPAID" commits: The schedule that the customer will be
-   * invoiced for this commit.
+   * The contract that this commit will be billed on.
    */
-  invoice_schedule?: SchedulePointInTime;
+  invoice_contract?: Commit.InvoiceContract;
+
+  /**
+   * The schedule that the customer will be invoiced for this commit.
+   */
+  invoice_schedule?: Commit.InvoiceSchedule;
 
   /**
    * A list of ordered events that impact the balance of a commit. For example, an
    * invoice deduction or a rollover.
    */
   ledger?: Array<
-    | Commit.PrepaidCommitSegmentStartLedgerEntry
-    | Commit.PrepaidCommitAutomatedInvoiceDeductionLedgerEntry
-    | Commit.PrepaidCommitRolloverLedgerEntry
-    | Commit.PrepaidCommitExpirationLedgerEntry
-    | Commit.PrepaidCommitCanceledLedgerEntry
-    | Commit.PrepaidCommitCreditedLedgerEntry
-    | Commit.PostpaidCommitInitialBalanceLedgerEntry
-    | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry
-    | Commit.PostpaidCommitTrueupLedgerEntry
-    | Commit.PrepaidCommitManualLedgerEntry
+    | Commit.UnionMember0
+    | Commit.UnionMember1
+    | Commit.UnionMember2
+    | Commit.UnionMember3
+    | Commit.UnionMember4
+    | Commit.UnionMember5
+    | Commit.UnionMember6
+    | Commit.UnionMember7
+    | Commit.UnionMember8
+    | Commit.UnionMember9
+    | Commit.UnionMember10
+    | Commit.UnionMember11
+    | Commit.UnionMember12
+    | Commit.UnionMember13
   >;
 
   name?: string;
@@ -55,9 +69,20 @@ export interface Commit {
    */
   netsuite_sales_order_id?: string;
 
+  /**
+   * If multiple commits are applicable, the one with the lower priority will apply
+   * first.
+   */
+  priority?: number;
+
   rolled_over_from?: Commit.RolledOverFrom;
 
   rollover_fraction?: number;
+
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
+  salesforce_opportunity_id?: string;
 }
 
 export namespace Commit {
@@ -68,8 +93,8 @@ export namespace Commit {
   }
 
   /**
-   * Only valid for "PREPAID" commits: The schedule that the customer will gain
-   * access to the credits purposed with this commit.
+   * The schedule that the customer will gain access to the credits purposed with
+   * this commit.
    */
   export interface AccessSchedule {
     schedule_items: Array<AccessSchedule.ScheduleItem>;
@@ -87,7 +112,41 @@ export namespace Commit {
     }
   }
 
-  export interface PrepaidCommitSegmentStartLedgerEntry {
+  export interface Contract {
+    id: string;
+  }
+
+  /**
+   * The contract that this commit will be billed on.
+   */
+  export interface InvoiceContract {
+    id: string;
+  }
+
+  /**
+   * The schedule that the customer will be invoiced for this commit.
+   */
+  export interface InvoiceSchedule {
+    schedule_items?: Array<InvoiceSchedule.ScheduleItem>;
+  }
+
+  export namespace InvoiceSchedule {
+    export interface ScheduleItem {
+      id: string;
+
+      amount: number;
+
+      invoice_id: string;
+
+      quantity: number;
+
+      timestamp: string;
+
+      unit_price: number;
+    }
+  }
+
+  export interface UnionMember0 {
     amount: number;
 
     segment_id: string;
@@ -97,7 +156,7 @@ export namespace Commit {
     type: 'PREPAID_COMMIT_SEGMENT_START';
   }
 
-  export interface PrepaidCommitAutomatedInvoiceDeductionLedgerEntry {
+  export interface UnionMember1 {
     amount: number;
 
     invoice_id: string;
@@ -109,7 +168,7 @@ export namespace Commit {
     type: 'PREPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION';
   }
 
-  export interface PrepaidCommitRolloverLedgerEntry {
+  export interface UnionMember2 {
     amount: number;
 
     new_contract_id: string;
@@ -121,7 +180,7 @@ export namespace Commit {
     type: 'PREPAID_COMMIT_ROLLOVER';
   }
 
-  export interface PrepaidCommitExpirationLedgerEntry {
+  export interface UnionMember3 {
     amount: number;
 
     segment_id: string;
@@ -131,7 +190,7 @@ export namespace Commit {
     type: 'PREPAID_COMMIT_EXPIRATION';
   }
 
-  export interface PrepaidCommitCanceledLedgerEntry {
+  export interface UnionMember4 {
     amount: number;
 
     invoice_id: string;
@@ -143,7 +202,7 @@ export namespace Commit {
     type: 'PREPAID_COMMIT_CANCELED';
   }
 
-  export interface PrepaidCommitCreditedLedgerEntry {
+  export interface UnionMember5 {
     amount: number;
 
     invoice_id: string;
@@ -155,7 +214,7 @@ export namespace Commit {
     type: 'PREPAID_COMMIT_CREDITED';
   }
 
-  export interface PostpaidCommitInitialBalanceLedgerEntry {
+  export interface UnionMember6 {
     amount: number;
 
     timestamp: string;
@@ -163,17 +222,55 @@ export namespace Commit {
     type: 'POSTPAID_COMMIT_INITIAL_BALANCE';
   }
 
-  export interface PostpaidCommitAutomatedInvoiceDeductionLedgerEntry {
+  export interface UnionMember7 {
     amount: number;
 
     invoice_id: string;
+
+    segment_id: string;
 
     timestamp: string;
 
     type: 'POSTPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION';
   }
 
-  export interface PostpaidCommitTrueupLedgerEntry {
+  export interface UnionMember8 {
+    amount: number;
+
+    new_contract_id: string;
+
+    segment_id: string;
+
+    timestamp: string;
+
+    type: 'POSTPAID_COMMIT_ROLLOVER';
+  }
+
+  export interface UnionMember9 {
+    amount: number;
+
+    invoice_id: string;
+
+    segment_id: string;
+
+    timestamp: string;
+
+    type: 'POSTPAID_COMMIT_CANCELED';
+  }
+
+  export interface UnionMember10 {
+    amount: number;
+
+    invoice_id: string;
+
+    segment_id: string;
+
+    timestamp: string;
+
+    type: 'POSTPAID_COMMIT_CREDITED';
+  }
+
+  export interface UnionMember11 {
     amount: number;
 
     invoice_id: string;
@@ -183,7 +280,7 @@ export namespace Commit {
     type: 'POSTPAID_COMMIT_TRUEUP';
   }
 
-  export interface PrepaidCommitManualLedgerEntry {
+  export interface UnionMember12 {
     amount: number;
 
     reason: string;
@@ -191,6 +288,16 @@ export namespace Commit {
     timestamp: string;
 
     type: 'PREPAID_COMMIT_MANUAL';
+  }
+
+  export interface UnionMember13 {
+    amount: number;
+
+    reason: string;
+
+    timestamp: string;
+
+    type: 'POSTPAID_COMMIT_MANUAL';
   }
 
   export interface RolledOverFrom {
@@ -201,15 +308,15 @@ export namespace Commit {
 }
 
 export interface ContractWithoutAmendments {
-  commits: Array<Commit>;
+  commits: Array<ContractWithoutAmendments.Commit>;
 
   created_at: string;
 
   created_by: string;
 
-  overrides: Array<Override>;
+  overrides: Array<ContractWithoutAmendments.Override>;
 
-  scheduled_charges: Array<ScheduledCharge>;
+  scheduled_charges: Array<ContractWithoutAmendments.ScheduledCharge>;
 
   starting_at: string;
 
@@ -220,7 +327,7 @@ export interface ContractWithoutAmendments {
   /**
    * This field's availability is dependent on your client's configuration.
    */
-  discounts?: Array<Discount>;
+  discounts?: Array<ContractWithoutAmendments.Discount>;
 
   ending_before?: string;
 
@@ -251,6 +358,407 @@ export interface ContractWithoutAmendments {
 }
 
 export namespace ContractWithoutAmendments {
+  export interface Commit {
+    id: string;
+
+    product: Commit.Product;
+
+    type: 'PREPAID' | 'POSTPAID';
+
+    /**
+     * The schedule that the customer will gain access to the credits purposed with
+     * this commit.
+     */
+    access_schedule?: Commit.AccessSchedule;
+
+    /**
+     * (deprecated) Only valid for "POSTPAID" commits: The total that the customer
+     * commits to consume. Must be > 0.
+     */
+    amount?: number;
+
+    applicable_contract_ids?: Array<string>;
+
+    applicable_product_ids?: Array<string>;
+
+    applicable_product_tags?: Array<string>;
+
+    contract?: Commit.Contract;
+
+    custom_fields?: Record<string, string>;
+
+    description?: string;
+
+    /**
+     * The contract that this commit will be billed on.
+     */
+    invoice_contract?: Commit.InvoiceContract;
+
+    /**
+     * The schedule that the customer will be invoiced for this commit.
+     */
+    invoice_schedule?: Commit.InvoiceSchedule;
+
+    /**
+     * A list of ordered events that impact the balance of a commit. For example, an
+     * invoice deduction or a rollover.
+     */
+    ledger?: Array<
+      | Commit.UnionMember0
+      | Commit.UnionMember1
+      | Commit.UnionMember2
+      | Commit.UnionMember3
+      | Commit.UnionMember4
+      | Commit.UnionMember5
+      | Commit.UnionMember6
+      | Commit.UnionMember7
+      | Commit.UnionMember8
+      | Commit.UnionMember9
+      | Commit.UnionMember10
+      | Commit.UnionMember11
+      | Commit.UnionMember12
+      | Commit.UnionMember13
+    >;
+
+    name?: string;
+
+    /**
+     * This field's availability is dependent on your client's configuration.
+     */
+    netsuite_sales_order_id?: string;
+
+    /**
+     * If multiple commits are applicable, the one with the lower priority will apply
+     * first.
+     */
+    priority?: number;
+
+    rolled_over_from?: Commit.RolledOverFrom;
+
+    rollover_fraction?: number;
+
+    /**
+     * This field's availability is dependent on your client's configuration.
+     */
+    salesforce_opportunity_id?: string;
+  }
+
+  export namespace Commit {
+    export interface Product {
+      id: string;
+
+      name: string;
+    }
+
+    /**
+     * The schedule that the customer will gain access to the credits purposed with
+     * this commit.
+     */
+    export interface AccessSchedule {
+      schedule_items: Array<AccessSchedule.ScheduleItem>;
+    }
+
+    export namespace AccessSchedule {
+      export interface ScheduleItem {
+        id: string;
+
+        amount: number;
+
+        ending_before: string;
+
+        starting_at: string;
+      }
+    }
+
+    export interface Contract {
+      id: string;
+    }
+
+    /**
+     * The contract that this commit will be billed on.
+     */
+    export interface InvoiceContract {
+      id: string;
+    }
+
+    /**
+     * The schedule that the customer will be invoiced for this commit.
+     */
+    export interface InvoiceSchedule {
+      schedule_items?: Array<InvoiceSchedule.ScheduleItem>;
+    }
+
+    export namespace InvoiceSchedule {
+      export interface ScheduleItem {
+        id: string;
+
+        amount: number;
+
+        invoice_id: string;
+
+        quantity: number;
+
+        timestamp: string;
+
+        unit_price: number;
+      }
+    }
+
+    export interface UnionMember0 {
+      amount: number;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'PREPAID_COMMIT_SEGMENT_START';
+    }
+
+    export interface UnionMember1 {
+      amount: number;
+
+      invoice_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'PREPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION';
+    }
+
+    export interface UnionMember2 {
+      amount: number;
+
+      new_contract_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'PREPAID_COMMIT_ROLLOVER';
+    }
+
+    export interface UnionMember3 {
+      amount: number;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'PREPAID_COMMIT_EXPIRATION';
+    }
+
+    export interface UnionMember4 {
+      amount: number;
+
+      invoice_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'PREPAID_COMMIT_CANCELED';
+    }
+
+    export interface UnionMember5 {
+      amount: number;
+
+      invoice_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'PREPAID_COMMIT_CREDITED';
+    }
+
+    export interface UnionMember6 {
+      amount: number;
+
+      timestamp: string;
+
+      type: 'POSTPAID_COMMIT_INITIAL_BALANCE';
+    }
+
+    export interface UnionMember7 {
+      amount: number;
+
+      invoice_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'POSTPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION';
+    }
+
+    export interface UnionMember8 {
+      amount: number;
+
+      new_contract_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'POSTPAID_COMMIT_ROLLOVER';
+    }
+
+    export interface UnionMember9 {
+      amount: number;
+
+      invoice_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'POSTPAID_COMMIT_CANCELED';
+    }
+
+    export interface UnionMember10 {
+      amount: number;
+
+      invoice_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'POSTPAID_COMMIT_CREDITED';
+    }
+
+    export interface UnionMember11 {
+      amount: number;
+
+      invoice_id: string;
+
+      timestamp: string;
+
+      type: 'POSTPAID_COMMIT_TRUEUP';
+    }
+
+    export interface UnionMember12 {
+      amount: number;
+
+      reason: string;
+
+      timestamp: string;
+
+      type: 'PREPAID_COMMIT_MANUAL';
+    }
+
+    export interface UnionMember13 {
+      amount: number;
+
+      reason: string;
+
+      timestamp: string;
+
+      type: 'POSTPAID_COMMIT_MANUAL';
+    }
+
+    export interface RolledOverFrom {
+      commit_id: string;
+
+      contract_id: string;
+    }
+  }
+
+  export interface Override {
+    id: string;
+
+    starting_at: string;
+
+    applicable_product_tags?: Array<string>;
+
+    ending_before?: string;
+
+    entitled?: boolean;
+
+    multiplier?: number;
+
+    overwrite_rate?: Override.OverwriteRate;
+
+    product?: Override.Product;
+
+    type?: 'OVERWRITE' | 'MULTIPLIER';
+  }
+
+  export namespace Override {
+    export interface OverwriteRate {
+      /**
+       * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
+       * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
+       */
+      price: number;
+
+      rate_type: 'FLAT' | 'flat' | 'PERCENTAGE' | 'percentage' | 'SUBSCRIPTION' | 'subscription';
+
+      /**
+       * Default proration configuration. Only vali for SUBSCRIPTION rate_type.
+       */
+      is_prorated?: boolean;
+
+      /**
+       * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
+       */
+      quantity?: number;
+    }
+
+    export interface Product {
+      id: string;
+
+      name: string;
+    }
+  }
+
+  export interface ScheduledCharge {
+    id: string;
+
+    product: ScheduledCharge.Product;
+
+    schedule: ScheduledCharge.Schedule;
+
+    /**
+     * displayed on invoices
+     */
+    name?: string;
+
+    /**
+     * This field's availability is dependent on your client's configuration.
+     */
+    netsuite_sales_order_id?: string;
+  }
+
+  export namespace ScheduledCharge {
+    export interface Product {
+      id: string;
+
+      name: string;
+    }
+
+    export interface Schedule {
+      schedule_items?: Array<Schedule.ScheduleItem>;
+    }
+
+    export namespace Schedule {
+      export interface ScheduleItem {
+        id: string;
+
+        amount: number;
+
+        invoice_id: string;
+
+        quantity: number;
+
+        timestamp: string;
+
+        unit_price: number;
+      }
+    }
+  }
+
   export interface Transition {
     from_contract_id: string;
 
@@ -263,6 +771,49 @@ export namespace ContractWithoutAmendments {
     frequency: 'MONTHLY' | 'monthly' | 'QUARTERLY' | 'quarterly';
   }
 
+  export interface Discount {
+    id: string;
+
+    product: Discount.Product;
+
+    schedule: Discount.Schedule;
+
+    name?: string;
+
+    /**
+     * This field's availability is dependent on your client's configuration.
+     */
+    netsuite_sales_order_id?: string;
+  }
+
+  export namespace Discount {
+    export interface Product {
+      id: string;
+
+      name: string;
+    }
+
+    export interface Schedule {
+      schedule_items?: Array<Schedule.ScheduleItem>;
+    }
+
+    export namespace Schedule {
+      export interface ScheduleItem {
+        id: string;
+
+        amount: number;
+
+        invoice_id: string;
+
+        quantity: number;
+
+        timestamp: string;
+
+        unit_price: number;
+      }
+    }
+  }
+
   export interface ResellerRoyalty {
     fraction: number;
 
@@ -271,6 +822,10 @@ export namespace ContractWithoutAmendments {
     reseller_type: 'AWS' | 'GCP';
 
     starting_at: string;
+
+    applicable_product_ids?: Array<string>;
+
+    applicable_product_tags?: Array<string>;
 
     aws_account_number?: string;
 
@@ -327,7 +882,7 @@ export interface Discount {
 
   product: Discount.Product;
 
-  schedule: SchedulePointInTime;
+  schedule: Discount.Schedule;
 
   name?: string;
 
@@ -342,6 +897,26 @@ export namespace Discount {
     id: string;
 
     name: string;
+  }
+
+  export interface Schedule {
+    schedule_items?: Array<Schedule.ScheduleItem>;
+  }
+
+  export namespace Schedule {
+    export interface ScheduleItem {
+      id: string;
+
+      amount: number;
+
+      invoice_id: string;
+
+      quantity: number;
+
+      timestamp: string;
+
+      unit_price: number;
+    }
   }
 }
 
@@ -449,7 +1024,7 @@ export interface ScheduledCharge {
 
   product: ScheduledCharge.Product;
 
-  schedule: SchedulePointInTime;
+  schedule: ScheduledCharge.Schedule;
 
   /**
    * displayed on invoices
@@ -467,5 +1042,25 @@ export namespace ScheduledCharge {
     id: string;
 
     name: string;
+  }
+
+  export interface Schedule {
+    schedule_items?: Array<Schedule.ScheduleItem>;
+  }
+
+  export namespace Schedule {
+    export interface ScheduleItem {
+      id: string;
+
+      amount: number;
+
+      invoice_id: string;
+
+      quantity: number;
+
+      timestamp: string;
+
+      unit_price: number;
+    }
   }
 }

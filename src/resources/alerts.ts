@@ -3,7 +3,6 @@
 import * as Core from '@metronome-industries/metronome/core';
 import { APIResource } from '@metronome-industries/metronome/resource';
 import * as AlertsAPI from '@metronome-industries/metronome/resources/alerts';
-import * as Shared from '@metronome-industries/metronome/resources/shared';
 
 export class Alerts extends APIResource {
   /**
@@ -22,11 +21,23 @@ export class Alerts extends APIResource {
 }
 
 export interface AlertCreateResponse {
-  data: Shared.ID;
+  data: AlertCreateResponse.Data;
+}
+
+export namespace AlertCreateResponse {
+  export interface Data {
+    id: string;
+  }
 }
 
 export interface AlertArchiveResponse {
-  data: Shared.ID;
+  data: AlertArchiveResponse.Data;
+}
+
+export namespace AlertArchiveResponse {
+  export interface Data {
+    id: string;
+  }
 }
 
 export interface AlertCreateParams {
