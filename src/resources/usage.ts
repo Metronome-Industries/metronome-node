@@ -1,26 +1,17 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome-industries/metronome/core';
-import { APIResource } from '@metronome-industries/metronome/resource';
-import * as UsageAPI from '@metronome-industries/metronome/resources/usage';
-import { Page } from '@metronome-industries/metronome/pagination';
+import * as Core from '../core';
+import { APIResource } from '../resource';
+import * as UsageAPI from './usage';
 
 export class Usage extends APIResource {
   /**
    * Fetch aggregated usage data for multiple customers and billable-metrics, broken
    * into intervals of the specified length.
    */
-  list(
-    params: UsageListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<UsageListResponsesPage, UsageListResponse> {
+  list(params: UsageListParams, options?: Core.RequestOptions): Core.APIPromise<UsageListResponse> {
     const { next_page, ...body } = params;
-    return this._client.getAPIList('/usage', UsageListResponsesPage, {
-      query: { next_page },
-      body,
-      method: 'post',
-      ...options,
-    });
+    return this._client.post('/usage', { query: { next_page }, body, ...options });
   }
 
   /**
@@ -30,51 +21,58 @@ export class Usage extends APIResource {
   listWithGroups(
     params: UsageListWithGroupsParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<UsageListWithGroupsResponsesPage, UsageListWithGroupsResponse> {
+  ): Core.APIPromise<UsageListWithGroupsResponse> {
     const { limit, next_page, ...body } = params;
-    return this._client.getAPIList('/usage/groups', UsageListWithGroupsResponsesPage, {
-      query: { limit, next_page },
-      body,
-      method: 'post',
-      ...options,
-    });
+    return this._client.post('/usage/groups', { query: { limit, next_page }, body, ...options });
   }
 }
 
-export class UsageListResponsesPage extends Page<UsageListResponse> {}
-
-export class UsageListWithGroupsResponsesPage extends Page<UsageListWithGroupsResponse> {}
-
 export interface UsageListResponse {
-  billable_metric_id: string;
+  data: Array<UsageListResponse.Data>;
 
-  billable_metric_name: string;
+  next_page: string | null;
+}
 
-  customer_id: string;
+export namespace UsageListResponse {
+  export interface Data {
+    billable_metric_id: string;
 
-  end_timestamp: string;
+    billable_metric_name: string;
 
-  start_timestamp: string;
+    customer_id: string;
 
-  value: number | null;
+    end_timestamp: string;
 
-  /**
-   * Values will be either a number or null. Null indicates that there were no
-   * matches for the group_by value.
-   */
-  groups?: Record<string, number | null>;
+    start_timestamp: string;
+
+    value: number | null;
+
+    /**
+     * Values will be either a number or null. Null indicates that there were no
+     * matches for the group_by value.
+     */
+    groups?: Record<string, number | null>;
+  }
 }
 
 export interface UsageListWithGroupsResponse {
-  ending_before: string;
+  data: Array<UsageListWithGroupsResponse.Data>;
 
-  group_key: string | null;
+  next_page: string | null;
+}
 
-  group_value: string | null;
+export namespace UsageListWithGroupsResponse {
+  export interface Data {
+    ending_before: string;
 
-  starting_on: string;
+    group_key: string | null;
 
-  value: number | null;
+    group_value: string | null;
+
+    starting_on: string;
+
+    value: number | null;
+  }
 }
 
 export interface UsageListParams {
@@ -207,8 +205,6 @@ export namespace UsageListWithGroupsParams {
 export namespace Usage {
   export import UsageListResponse = UsageAPI.UsageListResponse;
   export import UsageListWithGroupsResponse = UsageAPI.UsageListWithGroupsResponse;
-  export import UsageListResponsesPage = UsageAPI.UsageListResponsesPage;
-  export import UsageListWithGroupsResponsesPage = UsageAPI.UsageListWithGroupsResponsesPage;
   export import UsageListParams = UsageAPI.UsageListParams;
   export import UsageListWithGroupsParams = UsageAPI.UsageListWithGroupsParams;
 }

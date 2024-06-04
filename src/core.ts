@@ -48,7 +48,9 @@ async function defaultParseResponse<T>(props: APIResponseProps): Promise<T> {
   }
 
   const contentType = response.headers.get('content-type');
-  if (contentType?.includes('application/json')) {
+  const isJSON =
+    contentType?.includes('application/json') || contentType?.includes('application/vnd.api+json');
+  if (isJSON) {
     const json = await response.json();
 
     debug('response', response.status, response.url, response.headers, json);
@@ -95,9 +97,9 @@ export class APIPromise<T> extends Promise<T> {
    *
    * 👋 Getting the wrong TypeScript type for `Response`?
    * Try setting `"moduleResolution": "NodeNext"` if you can,
-   * or add one of these imports before your first `import … from '@metronome-industries/metronome'`:
-   * - `import '@metronome-industries/metronome/shims/node'` (if you're running on Node)
-   * - `import '@metronome-industries/metronome/shims/web'` (otherwise)
+   * or add one of these imports before your first `import … from 'metronome'`:
+   * - `import 'metronome/shims/node'` (if you're running on Node)
+   * - `import 'metronome/shims/web'` (otherwise)
    */
   asResponse(): Promise<Response> {
     return this.responsePromise.then((p) => p.response);
@@ -111,9 +113,9 @@ export class APIPromise<T> extends Promise<T> {
    *
    * 👋 Getting the wrong TypeScript type for `Response`?
    * Try setting `"moduleResolution": "NodeNext"` if you can,
-   * or add one of these imports before your first `import … from '@metronome-industries/metronome'`:
-   * - `import '@metronome-industries/metronome/shims/node'` (if you're running on Node)
-   * - `import '@metronome-industries/metronome/shims/web'` (otherwise)
+   * or add one of these imports before your first `import … from 'metronome'`:
+   * - `import 'metronome/shims/node'` (if you're running on Node)
+   * - `import 'metronome/shims/web'` (otherwise)
    */
   async withResponse(): Promise<{ data: T; response: Response }> {
     const [data, response] = await Promise.all([this.parse(), this.asResponse()]);
@@ -800,7 +802,8 @@ const getPlatformProperties = (): PlatformProperties => {
       'X-Stainless-OS': normalizePlatform(Deno.build.os),
       'X-Stainless-Arch': normalizeArch(Deno.build.arch),
       'X-Stainless-Runtime': 'deno',
-      'X-Stainless-Runtime-Version': Deno.version,
+      'X-Stainless-Runtime-Version':
+        typeof Deno.version === 'string' ? Deno.version : Deno.version?.deno ?? 'unknown',
     };
   }
   if (typeof EdgeRuntime !== 'undefined') {
@@ -1057,7 +1060,7 @@ function applyHeadersMut(targetHeaders: Headers, newHeaders: Headers): void {
 }
 
 export function debug(action: string, ...args: any[]) {
-  if (typeof process !== 'undefined' && process.env['DEBUG'] === 'true') {
+  if (typeof process !== 'undefined' && process?.env?.['DEBUG'] === 'true') {
     console.log(`Metronome:DEBUG:${action}`, ...args);
   }
 }

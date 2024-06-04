@@ -6,10 +6,9 @@
     "rootDir": "./deno",
     "lib": ["es2020", "DOM"],
     "paths": {
-      "@metronome-industries/metronome/_shims/auto/*": ["deno/_shims/auto/*-deno"],
-      "@metronome-industries/metronome/*": ["deno/*"],
-      "@metronome-industries/metronome": ["deno/index.ts"],
-      "digest-fetch": ["./typings/digest-fetch"]
+      "metronome/_shims/auto/*": ["deno/_shims/auto/*-deno"],
+      "metronome/*": ["deno/*"],
+      "metronome": ["deno/index.ts"],
     },
     "noEmit": true,
     "declaration": true,

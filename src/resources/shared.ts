@@ -1,4 +1,4 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export interface Commit {
   id: string;
@@ -14,8 +14,7 @@ export interface Commit {
   access_schedule?: Commit.AccessSchedule;
 
   /**
-   * (deprecated) Only valid for "POSTPAID" commits: The total that the customer
-   * commits to consume. Must be > 0.
+   * (DEPRECATED) Use access_schedule + invoice_schedule instead.
    */
   amount?: number;
 
@@ -60,6 +59,7 @@ export interface Commit {
     | Commit.UnionMember11
     | Commit.UnionMember12
     | Commit.UnionMember13
+    | Commit.UnionMember14
   >;
 
   name?: string;
@@ -70,8 +70,8 @@ export interface Commit {
   netsuite_sales_order_id?: string;
 
   /**
-   * If multiple commits are applicable, the one with the lower priority will apply
-   * first.
+   * If multiple credits or commits are applicable, the one with the lower priority
+   * will apply first.
    */
   priority?: number;
 
@@ -98,6 +98,8 @@ export namespace Commit {
    */
   export interface AccessSchedule {
     schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+    credit_type?: AccessSchedule.CreditType;
   }
 
   export namespace AccessSchedule {
@@ -109,6 +111,12 @@ export namespace Commit {
       ending_before: string;
 
       starting_at: string;
+    }
+
+    export interface CreditType {
+      id: string;
+
+      name: string;
     }
   }
 
@@ -300,6 +308,14 @@ export namespace Commit {
     type: 'POSTPAID_COMMIT_MANUAL';
   }
 
+  export interface UnionMember14 {
+    amount: number;
+
+    timestamp: string;
+
+    type: 'POSTPAID_COMMIT_EXPIRATION';
+  }
+
   export interface RolledOverFrom {
     commit_id: string;
 
@@ -324,6 +340,8 @@ export interface ContractWithoutAmendments {
 
   usage_statement_schedule: ContractWithoutAmendments.UsageStatementSchedule;
 
+  credits?: Array<ContractWithoutAmendments.Credit>;
+
   /**
    * This field's availability is dependent on your client's configuration.
    */
@@ -339,6 +357,11 @@ export interface ContractWithoutAmendments {
    * This field's availability is dependent on your client's configuration.
    */
   netsuite_sales_order_id?: string;
+
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
+  professional_services?: Array<ContractWithoutAmendments.ProfessionalService>;
 
   rate_card_id?: string;
 
@@ -372,8 +395,7 @@ export namespace ContractWithoutAmendments {
     access_schedule?: Commit.AccessSchedule;
 
     /**
-     * (deprecated) Only valid for "POSTPAID" commits: The total that the customer
-     * commits to consume. Must be > 0.
+     * (DEPRECATED) Use access_schedule + invoice_schedule instead.
      */
     amount?: number;
 
@@ -418,6 +440,7 @@ export namespace ContractWithoutAmendments {
       | Commit.UnionMember11
       | Commit.UnionMember12
       | Commit.UnionMember13
+      | Commit.UnionMember14
     >;
 
     name?: string;
@@ -428,8 +451,8 @@ export namespace ContractWithoutAmendments {
     netsuite_sales_order_id?: string;
 
     /**
-     * If multiple commits are applicable, the one with the lower priority will apply
-     * first.
+     * If multiple credits or commits are applicable, the one with the lower priority
+     * will apply first.
      */
     priority?: number;
 
@@ -456,6 +479,8 @@ export namespace ContractWithoutAmendments {
      */
     export interface AccessSchedule {
       schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+      credit_type?: AccessSchedule.CreditType;
     }
 
     export namespace AccessSchedule {
@@ -467,6 +492,12 @@ export namespace ContractWithoutAmendments {
         ending_before: string;
 
         starting_at: string;
+      }
+
+      export interface CreditType {
+        id: string;
+
+        name: string;
       }
     }
 
@@ -658,6 +689,14 @@ export namespace ContractWithoutAmendments {
       type: 'POSTPAID_COMMIT_MANUAL';
     }
 
+    export interface UnionMember14 {
+      amount: number;
+
+      timestamp: string;
+
+      type: 'POSTPAID_COMMIT_EXPIRATION';
+    }
+
     export interface RolledOverFrom {
       commit_id: string;
 
@@ -678,6 +717,8 @@ export namespace ContractWithoutAmendments {
 
     multiplier?: number;
 
+    override_specifiers?: Array<Override.OverrideSpecifier>;
+
     overwrite_rate?: Override.OverwriteRate;
 
     product?: Override.Product;
@@ -686,24 +727,63 @@ export namespace ContractWithoutAmendments {
   }
 
   export namespace Override {
+    export interface OverrideSpecifier {
+      presentation_group_values?: Record<string, string | null>;
+
+      pricing_group_values?: Record<string, string>;
+
+      product_id?: string;
+
+      product_tags?: Array<string>;
+    }
+
     export interface OverwriteRate {
+      rate_type:
+        | 'FLAT'
+        | 'flat'
+        | 'PERCENTAGE'
+        | 'percentage'
+        | 'SUBSCRIPTION'
+        | 'subscription'
+        | 'TIERED'
+        | 'tiered'
+        | 'CUSTOM'
+        | 'custom';
+
+      /**
+       * Only set for CUSTOM rate_type. This field is interpreted by custom rate
+       * processors.
+       */
+      custom_rate?: Record<string, unknown>;
+
+      /**
+       * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+       */
+      is_prorated?: boolean;
+
       /**
        * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
        * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
        */
-      price: number;
-
-      rate_type: 'FLAT' | 'flat' | 'PERCENTAGE' | 'percentage' | 'SUBSCRIPTION' | 'subscription';
-
-      /**
-       * Default proration configuration. Only vali for SUBSCRIPTION rate_type.
-       */
-      is_prorated?: boolean;
+      price?: number;
 
       /**
        * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
        */
       quantity?: number;
+
+      /**
+       * Only set for TIERED rate_type.
+       */
+      tiers?: Array<OverwriteRate.Tier>;
+    }
+
+    export namespace OverwriteRate {
+      export interface Tier {
+        price: number;
+
+        size?: number;
+      }
     }
 
     export interface Product {
@@ -719,6 +799,8 @@ export namespace ContractWithoutAmendments {
     product: ScheduledCharge.Product;
 
     schedule: ScheduledCharge.Schedule;
+
+    custom_fields?: Record<string, string>;
 
     /**
      * displayed on invoices
@@ -771,6 +853,167 @@ export namespace ContractWithoutAmendments {
     frequency: 'MONTHLY' | 'monthly' | 'QUARTERLY' | 'quarterly';
   }
 
+  export interface Credit {
+    id: string;
+
+    product: Credit.Product;
+
+    type: 'CREDIT';
+
+    /**
+     * The schedule that the customer will gain access to the credits.
+     */
+    access_schedule?: Credit.AccessSchedule;
+
+    applicable_contract_ids?: Array<string>;
+
+    applicable_product_ids?: Array<string>;
+
+    applicable_product_tags?: Array<string>;
+
+    contract?: Credit.Contract;
+
+    custom_fields?: Record<string, string>;
+
+    description?: string;
+
+    /**
+     * A list of ordered events that impact the balance of a credit. For example, an
+     * invoice deduction or an expiration.
+     */
+    ledger?: Array<
+      | Credit.UnionMember0
+      | Credit.UnionMember1
+      | Credit.UnionMember2
+      | Credit.UnionMember3
+      | Credit.UnionMember4
+      | Credit.UnionMember5
+    >;
+
+    name?: string;
+
+    /**
+     * This field's availability is dependent on your client's configuration.
+     */
+    netsuite_sales_order_id?: string;
+
+    /**
+     * If multiple credits or commits are applicable, the one with the lower priority
+     * will apply first.
+     */
+    priority?: number;
+
+    /**
+     * This field's availability is dependent on your client's configuration.
+     */
+    salesforce_opportunity_id?: string;
+  }
+
+  export namespace Credit {
+    export interface Product {
+      id: string;
+
+      name: string;
+    }
+
+    /**
+     * The schedule that the customer will gain access to the credits.
+     */
+    export interface AccessSchedule {
+      schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+      credit_type?: AccessSchedule.CreditType;
+    }
+
+    export namespace AccessSchedule {
+      export interface ScheduleItem {
+        id: string;
+
+        amount: number;
+
+        ending_before: string;
+
+        starting_at: string;
+      }
+
+      export interface CreditType {
+        id: string;
+
+        name: string;
+      }
+    }
+
+    export interface Contract {
+      id: string;
+    }
+
+    export interface UnionMember0 {
+      amount: number;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'CREDIT_SEGMENT_START';
+    }
+
+    export interface UnionMember1 {
+      amount: number;
+
+      invoice_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'CREDIT_AUTOMATED_INVOICE_DEDUCTION';
+    }
+
+    export interface UnionMember2 {
+      amount: number;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'CREDIT_EXPIRATION';
+    }
+
+    export interface UnionMember3 {
+      amount: number;
+
+      invoice_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'CREDIT_CANCELED';
+    }
+
+    export interface UnionMember4 {
+      amount: number;
+
+      invoice_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'CREDIT_CREDITED';
+    }
+
+    export interface UnionMember5 {
+      amount: number;
+
+      reason: string;
+
+      timestamp: string;
+
+      type: 'CREDIT_MANUAL';
+    }
+  }
+
   export interface Discount {
     id: string;
 
@@ -814,12 +1057,44 @@ export namespace ContractWithoutAmendments {
     }
   }
 
+  export interface ProfessionalService {
+    id: string;
+
+    /**
+     * Maximum amount for the term.
+     */
+    max_amount: number;
+
+    product_id: string;
+
+    /**
+     * Quantity for the charge. Will be multiplied by unit_price to determine the
+     * amount.
+     */
+    quantity: number;
+
+    /**
+     * Unit price for the charge. Will be multiplied by quantity to determine the
+     * amount and must be specified.
+     */
+    unit_price: number;
+
+    custom_fields?: Record<string, string>;
+
+    description?: string;
+
+    /**
+     * This field's availability is dependent on your client's configuration.
+     */
+    netsuite_sales_order_id?: string;
+  }
+
   export interface ResellerRoyalty {
     fraction: number;
 
     netsuite_reseller_id: string;
 
-    reseller_type: 'AWS' | 'GCP';
+    reseller_type: 'AWS' | 'AWS_PRO_SERVICE' | 'GCP' | 'GCP_PRO_SERVICE';
 
     starting_at: string;
 
@@ -843,7 +1118,7 @@ export namespace ContractWithoutAmendments {
   }
 
   export interface UsageFilter {
-    current: UsageFilter.Current;
+    current: UsageFilter.Current | null;
 
     initial: UsageFilter.Initial;
 
@@ -937,6 +1212,8 @@ export interface Override {
 
   multiplier?: number;
 
+  override_specifiers?: Array<Override.OverrideSpecifier>;
+
   overwrite_rate?: Override.OverwriteRate;
 
   product?: Override.Product;
@@ -945,24 +1222,63 @@ export interface Override {
 }
 
 export namespace Override {
+  export interface OverrideSpecifier {
+    presentation_group_values?: Record<string, string | null>;
+
+    pricing_group_values?: Record<string, string>;
+
+    product_id?: string;
+
+    product_tags?: Array<string>;
+  }
+
   export interface OverwriteRate {
+    rate_type:
+      | 'FLAT'
+      | 'flat'
+      | 'PERCENTAGE'
+      | 'percentage'
+      | 'SUBSCRIPTION'
+      | 'subscription'
+      | 'TIERED'
+      | 'tiered'
+      | 'CUSTOM'
+      | 'custom';
+
+    /**
+     * Only set for CUSTOM rate_type. This field is interpreted by custom rate
+     * processors.
+     */
+    custom_rate?: Record<string, unknown>;
+
+    /**
+     * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+     */
+    is_prorated?: boolean;
+
     /**
      * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
      * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
      */
-    price: number;
-
-    rate_type: 'FLAT' | 'flat' | 'PERCENTAGE' | 'percentage' | 'SUBSCRIPTION' | 'subscription';
-
-    /**
-     * Default proration configuration. Only vali for SUBSCRIPTION rate_type.
-     */
-    is_prorated?: boolean;
+    price?: number;
 
     /**
      * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
      */
     quantity?: number;
+
+    /**
+     * Only set for TIERED rate_type.
+     */
+    tiers?: Array<OverwriteRate.Tier>;
+  }
+
+  export namespace OverwriteRate {
+    export interface Tier {
+      price: number;
+
+      size?: number;
+    }
   }
 
   export interface Product {
@@ -973,18 +1289,40 @@ export namespace Override {
 }
 
 export interface Rate {
+  rate_type:
+    | 'FLAT'
+    | 'flat'
+    | 'PERCENTAGE'
+    | 'percentage'
+    | 'SUBSCRIPTION'
+    | 'subscription'
+    | 'CUSTOM'
+    | 'custom'
+    | 'TIERED'
+    | 'tiered';
+
+  /**
+   * Only set for CUSTOM rate_type. This field is interpreted by custom rate
+   * processors.
+   */
+  custom_rate?: Record<string, unknown>;
+
+  /**
+   * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+   */
+  is_prorated?: boolean;
+
   /**
    * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
    * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
    */
-  price: number;
-
-  rate_type: 'FLAT' | 'flat' | 'PERCENTAGE' | 'percentage' | 'SUBSCRIPTION' | 'subscription';
+  price?: number;
 
   /**
-   * Default proration configuration. Only vali for SUBSCRIPTION rate_type.
+   * if pricing groups are used, this will contain the values used to calculate the
+   * price
    */
-  is_prorated?: boolean;
+  pricing_group_values?: Record<string, string>;
 
   /**
    * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
@@ -992,11 +1330,24 @@ export interface Rate {
   quantity?: number;
 
   /**
+   * Only set for TIERED rate_type.
+   */
+  tiers?: Array<Rate.Tier>;
+
+  /**
    * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
    * using list prices rather than the standard rates for this product on the
    * contract.
    */
   use_list_prices?: boolean;
+}
+
+export namespace Rate {
+  export interface Tier {
+    price: number;
+
+    size?: number;
+  }
 }
 
 export interface SchedulePointInTime {
@@ -1025,6 +1376,8 @@ export interface ScheduledCharge {
   product: ScheduledCharge.Product;
 
   schedule: ScheduledCharge.Schedule;
+
+  custom_fields?: Record<string, string>;
 
   /**
    * displayed on invoices

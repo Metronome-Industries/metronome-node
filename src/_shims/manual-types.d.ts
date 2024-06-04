@@ -4,8 +4,8 @@
 /**
  * Types will get added to this namespace when you import one of the following:
  *
- *   import '@metronome-industries/metronome/shims/node'
- *   import '@metronome-industries/metronome/shims/web'
+ *   import 'metronome/shims/node'
+ *   import 'metronome/shims/web'
  *
  * Importing more than one will cause type and runtime errors.
  */

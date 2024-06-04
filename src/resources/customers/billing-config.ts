@@ -1,8 +1,8 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome-industries/metronome/core';
-import { APIResource } from '@metronome-industries/metronome/resource';
-import * as BillingConfigAPI from '@metronome-industries/metronome/resources/customers/billing-config';
+import * as Core from '../../core';
+import { APIResource } from '../../resource';
+import * as BillingConfigAPI from './billing-config';
 
 export class BillingConfig extends APIResource {
   /**
@@ -16,7 +16,9 @@ export class BillingConfig extends APIResource {
       | 'netsuite'
       | 'custom'
       | 'azure_marketplace'
-      | 'quickbooks_online',
+      | 'quickbooks_online'
+      | 'workday'
+      | 'gcp_marketplace',
     body: BillingConfigCreateParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<void> {
@@ -38,7 +40,9 @@ export class BillingConfig extends APIResource {
       | 'netsuite'
       | 'custom'
       | 'azure_marketplace'
-      | 'quickbooks_online',
+      | 'quickbooks_online'
+      | 'workday'
+      | 'gcp_marketplace',
     options?: Core.RequestOptions,
   ): Core.APIPromise<BillingConfigRetrieveResponse> {
     return this._client.get(`/customers/${customerId}/billing-config/${billingProviderType}`, options);
@@ -56,7 +60,9 @@ export class BillingConfig extends APIResource {
       | 'netsuite'
       | 'custom'
       | 'azure_marketplace'
-      | 'quickbooks_online',
+      | 'quickbooks_online'
+      | 'workday'
+      | 'gcp_marketplace',
     options?: Core.RequestOptions,
   ): Core.APIPromise<void> {
     return this._client.delete(`/customers/${customerId}/billing-config/${billingProviderType}`, {
