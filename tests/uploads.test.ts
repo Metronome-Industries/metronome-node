@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { toFile, type ResponseLike } from '@metronome-industries/metronome/uploads';
-import { File } from '@metronome-industries/metronome/_shims/index';
+import { toFile, type ResponseLike } from 'metronome/uploads';
+import { File } from 'metronome/_shims/index';
 
 class MyClass {
   name: string = 'foo';

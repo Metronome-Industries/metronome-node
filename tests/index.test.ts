@@ -1,8 +1,8 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from '@metronome-industries/metronome';
-import { APIUserAbortError } from '@metronome-industries/metronome';
-import { Headers } from '@metronome-industries/metronome/core';
+import Metronome from 'metronome';
+import { APIUserAbortError } from 'metronome';
+import { Headers } from 'metronome/core';
 import defaultFetch, { Response, type RequestInit, type RequestInfo } from 'node-fetch';
 
 describe('instantiate client', () => {
@@ -227,8 +227,8 @@ describe('retries', () => {
     let count = 0;
     const testFetch = async (url: RequestInfo, { signal }: RequestInit = {}): Promise<Response> => {
       if (count++ === 0) {
-        return new Promise((resolve, reject) =>
-          signal?.addEventListener('abort', () => reject(new Error('timed out'))),
+        return new Promise(
+          (resolve, reject) => signal?.addEventListener('abort', () => reject(new Error('timed out'))),
         );
       }
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });

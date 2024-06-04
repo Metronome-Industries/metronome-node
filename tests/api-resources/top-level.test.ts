@@ -1,6 +1,6 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from '@metronome-industries/metronome';
+import Metronome from 'metronome';
 import { Response } from 'node-fetch';
 
 const metronome = new Metronome({
@@ -12,10 +12,10 @@ describe('top level methods', () => {
   test('ingest: only required params', async () => {
     const responsePromise = metronome.ingest([
       {
-        transaction_id: '2021-01-01T00:00:00+00:00_cluster42',
+        transaction_id: '2021-01-01T00:00:00Z_cluster42',
         customer_id: 'team@example.com',
         event_type: 'heartbeat',
-        timestamp: '2021-01-01T00:00:00+00:00',
+        timestamp: '2021-01-01T00:00:00Z',
       },
     ]);
     const rawResponse = await responsePromise.asResponse();
@@ -30,10 +30,10 @@ describe('top level methods', () => {
   test('ingest: required and optional params', async () => {
     const response = await metronome.ingest([
       {
-        transaction_id: '2021-01-01T00:00:00+00:00_cluster42',
+        transaction_id: '2021-01-01T00:00:00Z_cluster42',
         customer_id: 'team@example.com',
         event_type: 'heartbeat',
-        timestamp: '2021-01-01T00:00:00+00:00',
+        timestamp: '2021-01-01T00:00:00Z',
         properties: { cluster_id: 'bar', cpu_seconds: 'bar', region: 'bar' },
       },
     ]);

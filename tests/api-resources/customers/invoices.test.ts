@@ -1,6 +1,6 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from '@metronome-industries/metronome';
+import Metronome from 'metronome';
 import { Response } from 'node-fetch';
 
 const metronome = new Metronome({
@@ -29,6 +29,18 @@ describe('resource invoices', () => {
       metronome.customers.invoices.retrieve(
         'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
         '6a37bb88-8538-48c5-b37b-a41c836328bd',
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Metronome.NotFoundError);
+  });
+
+  test('retrieve: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      metronome.customers.invoices.retrieve(
+        'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+        '6a37bb88-8538-48c5-b37b-a41c836328bd',
+        { skip_zero_qty_line_items: true },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
@@ -64,6 +76,7 @@ describe('resource invoices', () => {
           ending_before: '2019-12-27T18:11:19.117Z',
           limit: 1,
           next_page: 'string',
+          skip_zero_qty_line_items: true,
           sort: 'date_asc',
           starting_on: '2019-12-27T18:11:19.117Z',
           status: 'string',

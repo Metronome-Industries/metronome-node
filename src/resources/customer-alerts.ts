@@ -1,9 +1,8 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome-industries/metronome/core';
-import { APIResource } from '@metronome-industries/metronome/resource';
-import * as CustomerAlertsAPI from '@metronome-industries/metronome/resources/customer-alerts';
-import { Page } from '@metronome-industries/metronome/pagination';
+import * as Core from '../core';
+import { APIResource } from '../resource';
+import * as CustomerAlertsAPI from './customer-alerts';
 
 export class CustomerAlerts extends APIResource {
   /**
@@ -23,18 +22,22 @@ export class CustomerAlerts extends APIResource {
   list(
     params: CustomerAlertListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerAlertListResponsesPage, CustomerAlertListResponse> {
+  ): Core.APIPromise<CustomerAlertListResponse> {
     const { next_page, ...body } = params;
-    return this._client.getAPIList('/customer-alerts/list', CustomerAlertListResponsesPage, {
-      query: { next_page },
+    return this._client.post('/customer-alerts/list', { query: { next_page }, body, ...options });
+  }
+
+  /**
+   * Reset state for an alert by customer id and force re-evaluation
+   */
+  reset(body: CustomerAlertResetParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+    return this._client.post('/customer-alerts/reset', {
       body,
-      method: 'post',
       ...options,
+      headers: { Accept: '*/*', ...options?.headers },
     });
   }
 }
-
-export class CustomerAlertListResponsesPage extends Page<CustomerAlertListResponse> {}
 
 export interface CustomerAlert {
   alert: CustomerAlert.Alert;
@@ -44,6 +47,11 @@ export interface CustomerAlert {
    * returned.
    */
   customer_status: 'ok' | 'in_alarm' | 'evaluating' | null;
+
+  /**
+   * If present, indicates the reason the alert was triggered.
+   */
+  triggered_by?: string | null;
 }
 
 export namespace CustomerAlert {
@@ -52,8 +60,6 @@ export namespace CustomerAlert {
      * the Metronome ID of the alert
      */
     id: string;
-
-    credit_type: Alert.CreditType | null;
 
     /**
      * Name of the alert
@@ -79,12 +85,38 @@ export namespace CustomerAlert {
       | 'monthly_invoice_total_spend_threshold_reached'
       | 'low_remaining_days_in_plan_reached'
       | 'low_remaining_credit_percentage_reached'
-      | 'usage_threshold_reached';
+      | 'usage_threshold_reached'
+      | 'low_remaining_days_for_commit_segment_reached'
+      | 'low_remaining_commit_balance_reached'
+      | 'low_remaining_commit_percentage_reached'
+      | 'low_remaining_days_for_contract_credit_segment_reached'
+      | 'low_remaining_contract_credit_balance_reached'
+      | 'low_remaining_contract_credit_percentage_reached';
 
     /**
      * Timestamp for when the alert was last updated
      */
     updated_at: string;
+
+    credit_type?: Alert.CreditType | null;
+
+    /**
+     * A list of custom field filters for alert types that support advanced filtering
+     */
+    custom_field_filters?: Array<Alert.CustomFieldFilter>;
+
+    /**
+     * Scopes alert evaluation to a specific presentation group key on individual line
+     * items. Only present for spend alerts.
+     */
+    group_key_filter?: Alert.GroupKeyFilter;
+
+    /**
+     * Prevents the creation of duplicates. If a request to create a record is made
+     * with a previously used uniqueness key, a new record will not be created and the
+     * request will fail with a 409 error.
+     */
+    uniqueness_key?: string;
   }
 
   export namespace Alert {
@@ -92,6 +124,24 @@ export namespace CustomerAlert {
       id: string;
 
       name: string;
+    }
+
+    export interface CustomFieldFilter {
+      entity: 'Contract' | 'Commit' | 'ContractCredit';
+
+      key: string;
+
+      value: string;
+    }
+
+    /**
+     * Scopes alert evaluation to a specific presentation group key on individual line
+     * items. Only present for spend alerts.
+     */
+    export interface GroupKeyFilter {
+      key: string;
+
+      value: string;
     }
   }
 }
@@ -109,6 +159,11 @@ export namespace CustomerAlertRetrieveResponse {
      * returned.
      */
     customer_status: 'ok' | 'in_alarm' | 'evaluating' | null;
+
+    /**
+     * If present, indicates the reason the alert was triggered.
+     */
+    triggered_by?: string | null;
   }
 
   export namespace Data {
@@ -117,8 +172,6 @@ export namespace CustomerAlertRetrieveResponse {
        * the Metronome ID of the alert
        */
       id: string;
-
-      credit_type: Alert.CreditType | null;
 
       /**
        * Name of the alert
@@ -144,12 +197,38 @@ export namespace CustomerAlertRetrieveResponse {
         | 'monthly_invoice_total_spend_threshold_reached'
         | 'low_remaining_days_in_plan_reached'
         | 'low_remaining_credit_percentage_reached'
-        | 'usage_threshold_reached';
+        | 'usage_threshold_reached'
+        | 'low_remaining_days_for_commit_segment_reached'
+        | 'low_remaining_commit_balance_reached'
+        | 'low_remaining_commit_percentage_reached'
+        | 'low_remaining_days_for_contract_credit_segment_reached'
+        | 'low_remaining_contract_credit_balance_reached'
+        | 'low_remaining_contract_credit_percentage_reached';
 
       /**
        * Timestamp for when the alert was last updated
        */
       updated_at: string;
+
+      credit_type?: Alert.CreditType | null;
+
+      /**
+       * A list of custom field filters for alert types that support advanced filtering
+       */
+      custom_field_filters?: Array<Alert.CustomFieldFilter>;
+
+      /**
+       * Scopes alert evaluation to a specific presentation group key on individual line
+       * items. Only present for spend alerts.
+       */
+      group_key_filter?: Alert.GroupKeyFilter;
+
+      /**
+       * Prevents the creation of duplicates. If a request to create a record is made
+       * with a previously used uniqueness key, a new record will not be created and the
+       * request will fail with a 409 error.
+       */
+      uniqueness_key?: string;
     }
 
     export namespace Alert {
@@ -158,66 +237,139 @@ export namespace CustomerAlertRetrieveResponse {
 
         name: string;
       }
+
+      export interface CustomFieldFilter {
+        entity: 'Contract' | 'Commit' | 'ContractCredit';
+
+        key: string;
+
+        value: string;
+      }
+
+      /**
+       * Scopes alert evaluation to a specific presentation group key on individual line
+       * items. Only present for spend alerts.
+       */
+      export interface GroupKeyFilter {
+        key: string;
+
+        value: string;
+      }
     }
   }
 }
 
 export interface CustomerAlertListResponse {
-  alert: CustomerAlertListResponse.Alert;
+  data: Array<CustomerAlertListResponse.Data>;
 
-  /**
-   * The status of the customer alert. If the alert is archived, null will be
-   * returned.
-   */
-  customer_status: 'ok' | 'in_alarm' | 'evaluating' | null;
+  next_page: string | null;
 }
 
 export namespace CustomerAlertListResponse {
-  export interface Alert {
-    /**
-     * the Metronome ID of the alert
-     */
-    id: string;
-
-    credit_type: Alert.CreditType | null;
+  export interface Data {
+    alert: Data.Alert;
 
     /**
-     * Name of the alert
+     * The status of the customer alert. If the alert is archived, null will be
+     * returned.
      */
-    name: string;
+    customer_status: 'ok' | 'in_alarm' | 'evaluating' | null;
 
     /**
-     * Status of the alert
+     * If present, indicates the reason the alert was triggered.
      */
-    status: 'enabled' | 'archived' | 'disabled';
-
-    /**
-     * Threshold value of the alert policy
-     */
-    threshold: number;
-
-    /**
-     * Type of the alert
-     */
-    type:
-      | 'low_credit_balance_reached'
-      | 'spend_threshold_reached'
-      | 'monthly_invoice_total_spend_threshold_reached'
-      | 'low_remaining_days_in_plan_reached'
-      | 'low_remaining_credit_percentage_reached'
-      | 'usage_threshold_reached';
-
-    /**
-     * Timestamp for when the alert was last updated
-     */
-    updated_at: string;
+    triggered_by?: string | null;
   }
 
-  export namespace Alert {
-    export interface CreditType {
+  export namespace Data {
+    export interface Alert {
+      /**
+       * the Metronome ID of the alert
+       */
       id: string;
 
+      /**
+       * Name of the alert
+       */
       name: string;
+
+      /**
+       * Status of the alert
+       */
+      status: 'enabled' | 'archived' | 'disabled';
+
+      /**
+       * Threshold value of the alert policy
+       */
+      threshold: number;
+
+      /**
+       * Type of the alert
+       */
+      type:
+        | 'low_credit_balance_reached'
+        | 'spend_threshold_reached'
+        | 'monthly_invoice_total_spend_threshold_reached'
+        | 'low_remaining_days_in_plan_reached'
+        | 'low_remaining_credit_percentage_reached'
+        | 'usage_threshold_reached'
+        | 'low_remaining_days_for_commit_segment_reached'
+        | 'low_remaining_commit_balance_reached'
+        | 'low_remaining_commit_percentage_reached'
+        | 'low_remaining_days_for_contract_credit_segment_reached'
+        | 'low_remaining_contract_credit_balance_reached'
+        | 'low_remaining_contract_credit_percentage_reached';
+
+      /**
+       * Timestamp for when the alert was last updated
+       */
+      updated_at: string;
+
+      credit_type?: Alert.CreditType | null;
+
+      /**
+       * A list of custom field filters for alert types that support advanced filtering
+       */
+      custom_field_filters?: Array<Alert.CustomFieldFilter>;
+
+      /**
+       * Scopes alert evaluation to a specific presentation group key on individual line
+       * items. Only present for spend alerts.
+       */
+      group_key_filter?: Alert.GroupKeyFilter;
+
+      /**
+       * Prevents the creation of duplicates. If a request to create a record is made
+       * with a previously used uniqueness key, a new record will not be created and the
+       * request will fail with a 409 error.
+       */
+      uniqueness_key?: string;
+    }
+
+    export namespace Alert {
+      export interface CreditType {
+        id: string;
+
+        name: string;
+      }
+
+      export interface CustomFieldFilter {
+        entity: 'Contract' | 'Commit' | 'ContractCredit';
+
+        key: string;
+
+        value: string;
+      }
+
+      /**
+       * Scopes alert evaluation to a specific presentation group key on individual line
+       * items. Only present for spend alerts.
+       */
+      export interface GroupKeyFilter {
+        key: string;
+
+        value: string;
+      }
     }
   }
 }
@@ -262,11 +414,23 @@ export interface CustomerAlertListParams {
   >;
 }
 
+export interface CustomerAlertResetParams {
+  /**
+   * The Metronome ID of the alert
+   */
+  alert_id: string;
+
+  /**
+   * The Metronome ID of the customer
+   */
+  customer_id: string;
+}
+
 export namespace CustomerAlerts {
   export import CustomerAlert = CustomerAlertsAPI.CustomerAlert;
   export import CustomerAlertRetrieveResponse = CustomerAlertsAPI.CustomerAlertRetrieveResponse;
   export import CustomerAlertListResponse = CustomerAlertsAPI.CustomerAlertListResponse;
-  export import CustomerAlertListResponsesPage = CustomerAlertsAPI.CustomerAlertListResponsesPage;
   export import CustomerAlertRetrieveParams = CustomerAlertsAPI.CustomerAlertRetrieveParams;
   export import CustomerAlertListParams = CustomerAlertsAPI.CustomerAlertListParams;
+  export import CustomerAlertResetParams = CustomerAlertsAPI.CustomerAlertResetParams;
 }
