@@ -102,10 +102,13 @@ export type ToFileInput = Uploadable | Exclude<BlobLikePart, string> | AsyncIter
 export async function toFile(
   value: ToFileInput | PromiseLike<ToFileInput>,
   name?: string | null | undefined,
-  options: FilePropertyBag | undefined = {},
+  options?: FilePropertyBag | undefined,
 ): Promise<FileLike> {
   // If it's a promise, resolve it.
   value = await value;
+
+  // Use the file's options if there isn't one provided
+  options ??= isFileLike(value) ? { lastModified: value.lastModified, type: value.type } : {};
 
   if (isResponseLike(value)) {
     const blob = await value.blob();
@@ -146,9 +149,8 @@ async function getBytes(value: ToFileInput): Promise<Array<BlobPart>> {
     }
   } else {
     throw new Error(
-      `Unexpected data type: ${typeof value}; constructor: ${
-        value?.constructor?.name
-      }; props: ${propsForError(value)}`,
+      `Unexpected data type: ${typeof value}; constructor: ${value?.constructor
+        ?.name}; props: ${propsForError(value)}`,
     );
   }
 

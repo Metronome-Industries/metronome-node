@@ -1,28 +1,24 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome-industries/metronome/core';
-import { APIResource } from '@metronome-industries/metronome/resource';
-import { isRequestOptions } from '@metronome-industries/metronome/core';
-import * as PlansAPI from '@metronome-industries/metronome/resources/plans';
-import { Page } from '@metronome-industries/metronome/pagination';
+import * as Core from '../core';
+import { APIResource } from '../resource';
+import { isRequestOptions } from '../core';
+import * as PlansAPI from './plans';
 
 export class Plans extends APIResource {
   /**
    * List all available plans.
    */
-  list(
-    query?: PlanListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListResponsesPage, PlanListResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<PlanListResponsesPage, PlanListResponse>;
+  list(query?: PlanListParams, options?: Core.RequestOptions): Core.APIPromise<PlanListResponse>;
+  list(options?: Core.RequestOptions): Core.APIPromise<PlanListResponse>;
   list(
     query: PlanListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListResponsesPage, PlanListResponse> {
+  ): Core.APIPromise<PlanListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/plans', PlanListResponsesPage, { query, ...options });
+    return this._client.get('/plans', { query, ...options });
   }
 
   /**
@@ -39,23 +35,17 @@ export class Plans extends APIResource {
     planId: string,
     query?: PlanListChargesParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListChargesResponsesPage, PlanListChargesResponse>;
-  listCharges(
-    planId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListChargesResponsesPage, PlanListChargesResponse>;
+  ): Core.APIPromise<PlanListChargesResponse>;
+  listCharges(planId: string, options?: Core.RequestOptions): Core.APIPromise<PlanListChargesResponse>;
   listCharges(
     planId: string,
     query: PlanListChargesParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListChargesResponsesPage, PlanListChargesResponse> {
+  ): Core.APIPromise<PlanListChargesResponse> {
     if (isRequestOptions(query)) {
       return this.listCharges(planId, {}, query);
     }
-    return this._client.getAPIList(`/planDetails/${planId}/charges`, PlanListChargesResponsesPage, {
-      query,
-      ...options,
-    });
+    return this._client.get(`/planDetails/${planId}/charges`, { query, ...options });
   }
 
   /**
@@ -66,31 +56,19 @@ export class Plans extends APIResource {
     planId: string,
     query?: PlanListCustomersParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListCustomersResponsesPage, PlanListCustomersResponse>;
-  listCustomers(
-    planId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListCustomersResponsesPage, PlanListCustomersResponse>;
+  ): Core.APIPromise<PlanListCustomersResponse>;
+  listCustomers(planId: string, options?: Core.RequestOptions): Core.APIPromise<PlanListCustomersResponse>;
   listCustomers(
     planId: string,
     query: PlanListCustomersParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListCustomersResponsesPage, PlanListCustomersResponse> {
+  ): Core.APIPromise<PlanListCustomersResponse> {
     if (isRequestOptions(query)) {
       return this.listCustomers(planId, {}, query);
     }
-    return this._client.getAPIList(`/planDetails/${planId}/customers`, PlanListCustomersResponsesPage, {
-      query,
-      ...options,
-    });
+    return this._client.get(`/planDetails/${planId}/customers`, { query, ...options });
   }
 }
-
-export class PlanListResponsesPage extends Page<PlanListResponse> {}
-
-export class PlanListChargesResponsesPage extends Page<PlanListChargesResponse> {}
-
-export class PlanListCustomersResponsesPage extends Page<PlanListCustomersResponse> {}
 
 export interface PlanDetail {
   id: string;
@@ -199,11 +177,21 @@ export namespace PlanDetail {
 }
 
 export interface PlanListResponse {
-  id: string;
+  data: Array<PlanListResponse.Data>;
 
-  description: string;
+  next_page: string | null;
+}
 
-  name: string;
+export namespace PlanListResponse {
+  export interface Data {
+    id: string;
+
+    description: string;
+
+    name: string;
+
+    custom_fields?: Record<string, string>;
+  }
 }
 
 export interface PlanGetDetailsResponse {
@@ -319,142 +307,158 @@ export namespace PlanGetDetailsResponse {
 }
 
 export interface PlanListChargesResponse {
-  id: string;
+  data: Array<PlanListChargesResponse.Data>;
 
-  charge_type: 'usage' | 'fixed' | 'composite' | 'minimum' | 'seat';
-
-  credit_type: PlanListChargesResponse.CreditType;
-
-  custom_fields: Record<string, string>;
-
-  name: string;
-
-  prices: Array<PlanListChargesResponse.Price>;
-
-  product_id: string;
-
-  product_name: string;
-
-  quantity?: number;
-
-  /**
-   * Used in price ramps. Indicates how many billing periods pass before the charge
-   * applies.
-   */
-  start_period?: number;
-
-  /**
-   * Specifies how quantities for usage based charges will be converted.
-   */
-  unit_conversion?: PlanListChargesResponse.UnitConversion;
+  next_page: string | null;
 }
 
 export namespace PlanListChargesResponse {
-  export interface CreditType {
+  export interface Data {
     id: string;
 
+    charge_type: 'usage' | 'fixed' | 'composite' | 'minimum' | 'seat';
+
+    credit_type: Data.CreditType;
+
+    custom_fields: Record<string, string>;
+
     name: string;
-  }
 
-  export interface Price {
-    /**
-     * Used in pricing tiers. Indicates at what metric value the price applies.
-     */
-    tier: number;
+    prices: Array<Data.Price>;
 
-    value: number;
+    product_id: string;
 
-    collection_interval?: number;
-
-    collection_schedule?: string;
+    product_name: string;
 
     quantity?: number;
+
+    /**
+     * Used in price ramps. Indicates how many billing periods pass before the charge
+     * applies.
+     */
+    start_period?: number;
+
+    /**
+     * Specifies how quantities for usage based charges will be converted.
+     */
+    unit_conversion?: Data.UnitConversion;
   }
 
-  /**
-   * Specifies how quantities for usage based charges will be converted.
-   */
-  export interface UnitConversion {
-    /**
-     * The conversion factor
-     */
-    division_factor: number;
+  export namespace Data {
+    export interface CreditType {
+      id: string;
+
+      name: string;
+    }
+
+    export interface Price {
+      /**
+       * Used in pricing tiers. Indicates at what metric value the price applies.
+       */
+      tier: number;
+
+      value: number;
+
+      collection_interval?: number;
+
+      collection_schedule?: string;
+
+      quantity?: number;
+    }
 
     /**
-     * Whether usage should be rounded down or up to the nearest whole number. If null,
-     * quantity will be rounded to 20 decimal places.
+     * Specifies how quantities for usage based charges will be converted.
      */
-    rounding_behavior?: 'floor' | 'ceiling';
+    export interface UnitConversion {
+      /**
+       * The conversion factor
+       */
+      division_factor: number;
+
+      /**
+       * Whether usage should be rounded down or up to the nearest whole number. If null,
+       * quantity will be rounded to 20 decimal places.
+       */
+      rounding_behavior?: 'floor' | 'ceiling';
+    }
   }
 }
 
 export interface PlanListCustomersResponse {
-  customer_details: PlanListCustomersResponse.CustomerDetails;
+  data: Array<PlanListCustomersResponse.Data>;
 
-  plan_details: PlanListCustomersResponse.PlanDetails;
+  next_page: string | null;
 }
 
 export namespace PlanListCustomersResponse {
-  export interface CustomerDetails {
-    /**
-     * the Metronome ID of the customer
-     */
-    id: string;
+  export interface Data {
+    customer_details: Data.CustomerDetails;
 
-    current_billable_status: CustomerDetails.CurrentBillableStatus;
-
-    custom_fields: Record<string, string>;
-
-    customer_config: CustomerDetails.CustomerConfig;
-
-    /**
-     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
-     * alias) that can be used in usage events
-     */
-    external_id: string;
-
-    /**
-     * aliases for this customer that can be used instead of the Metronome customer ID
-     * in usage events
-     */
-    ingest_aliases: Array<string>;
-
-    name: string;
+    plan_details: Data.PlanDetails;
   }
 
-  export namespace CustomerDetails {
-    export interface CurrentBillableStatus {
-      value: 'billable' | 'unbillable';
-
-      effective_at?: string | null;
-    }
-
-    export interface CustomerConfig {
+  export namespace Data {
+    export interface CustomerDetails {
       /**
-       * The Salesforce account ID for the customer
+       * the Metronome ID of the customer
        */
-      salesforce_account_id: string | null;
+      id: string;
+
+      current_billable_status: CustomerDetails.CurrentBillableStatus;
+
+      custom_fields: Record<string, string>;
+
+      customer_config: CustomerDetails.CustomerConfig;
+
+      /**
+       * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
+       * alias) that can be used in usage events
+       */
+      external_id: string;
+
+      /**
+       * aliases for this customer that can be used instead of the Metronome customer ID
+       * in usage events
+       */
+      ingest_aliases: Array<string>;
+
+      name: string;
     }
-  }
 
-  export interface PlanDetails {
-    id: string;
+    export namespace CustomerDetails {
+      export interface CurrentBillableStatus {
+        value: 'billable' | 'unbillable';
 
-    custom_fields: Record<string, string>;
+        effective_at?: string | null;
+      }
 
-    customer_plan_id: string;
+      export interface CustomerConfig {
+        /**
+         * The Salesforce account ID for the customer
+         */
+        salesforce_account_id: string | null;
+      }
+    }
 
-    name: string;
+    export interface PlanDetails {
+      id: string;
 
-    /**
-     * The start date of the plan
-     */
-    starting_on: string;
+      custom_fields: Record<string, string>;
 
-    /**
-     * The end date of the plan
-     */
-    ending_before?: string | null;
+      customer_plan_id: string;
+
+      name: string;
+
+      /**
+       * The start date of the plan
+       */
+      starting_on: string;
+
+      /**
+       * The end date of the plan
+       */
+      ending_before?: string | null;
+    }
   }
 }
 
@@ -513,9 +517,6 @@ export namespace Plans {
   export import PlanGetDetailsResponse = PlansAPI.PlanGetDetailsResponse;
   export import PlanListChargesResponse = PlansAPI.PlanListChargesResponse;
   export import PlanListCustomersResponse = PlansAPI.PlanListCustomersResponse;
-  export import PlanListResponsesPage = PlansAPI.PlanListResponsesPage;
-  export import PlanListChargesResponsesPage = PlansAPI.PlanListChargesResponsesPage;
-  export import PlanListCustomersResponsesPage = PlansAPI.PlanListCustomersResponsesPage;
   export import PlanListParams = PlansAPI.PlanListParams;
   export import PlanListChargesParams = PlansAPI.PlanListChargesParams;
   export import PlanListCustomersParams = PlansAPI.PlanListCustomersParams;

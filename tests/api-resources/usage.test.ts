@@ -1,6 +1,6 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from '@metronome-industries/metronome';
+import Metronome from 'metronome';
 import { Response } from 'node-fetch';
 
 const metronome = new Metronome({
@@ -11,8 +11,8 @@ const metronome = new Metronome({
 describe('resource usage', () => {
   test('list: only required params', async () => {
     const responsePromise = metronome.usage.list({
-      ending_before: '2021-01-03T00:00:00+00:00',
-      starting_on: '2021-01-01T00:00:00+00:00',
+      ending_before: '2021-01-03T00:00:00Z',
+      starting_on: '2021-01-01T00:00:00Z',
       window_size: 'day',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -26,8 +26,8 @@ describe('resource usage', () => {
 
   test('list: required and optional params', async () => {
     const response = await metronome.usage.list({
-      ending_before: '2021-01-03T00:00:00+00:00',
-      starting_on: '2021-01-01T00:00:00+00:00',
+      ending_before: '2021-01-03T00:00:00Z',
+      starting_on: '2021-01-01T00:00:00Z',
       window_size: 'day',
       next_page: 'string',
       billable_metrics: [
@@ -66,9 +66,9 @@ describe('resource usage', () => {
       limit: 1,
       next_page: 'string',
       current_period: true,
-      ending_before: '2021-01-03T00:00:00+00:00',
+      ending_before: '2021-01-03T00:00:00Z',
       group_by: { key: 'region', values: ['US-East', 'US-West', 'EU-Central'] },
-      starting_on: '2021-01-01T00:00:00+00:00',
+      starting_on: '2021-01-01T00:00:00Z',
     });
   });
 });

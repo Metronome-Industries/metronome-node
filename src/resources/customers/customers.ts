@@ -1,13 +1,12 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome-industries/metronome/core';
-import { APIResource } from '@metronome-industries/metronome/resource';
-import { isRequestOptions } from '@metronome-industries/metronome/core';
-import * as CustomersAPI from '@metronome-industries/metronome/resources/customers/customers';
-import * as BillingConfigAPI from '@metronome-industries/metronome/resources/customers/billing-config';
-import * as InvoicesAPI from '@metronome-industries/metronome/resources/customers/invoices';
-import * as PlansAPI from '@metronome-industries/metronome/resources/customers/plans';
-import { Page } from '@metronome-industries/metronome/pagination';
+import * as Core from '../../core';
+import { APIResource } from '../../resource';
+import { isRequestOptions } from '../../core';
+import * as CustomersAPI from './customers';
+import * as BillingConfigAPI from './billing-config';
+import * as InvoicesAPI from './invoices';
+import * as PlansAPI from './plans';
 
 export class Customers extends APIResource {
   plans: PlansAPI.Plans = new PlansAPI.Plans(this._client);
@@ -31,19 +30,16 @@ export class Customers extends APIResource {
   /**
    * List all customers.
    */
-  list(
-    query?: CustomerListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListResponsesPage, CustomerListResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<CustomerListResponsesPage, CustomerListResponse>;
+  list(query?: CustomerListParams, options?: Core.RequestOptions): Core.APIPromise<CustomerListResponse>;
+  list(options?: Core.RequestOptions): Core.APIPromise<CustomerListResponse>;
   list(
     query: CustomerListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListResponsesPage, CustomerListResponse> {
+  ): Core.APIPromise<CustomerListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/customers', CustomerListResponsesPage, { query, ...options });
+    return this._client.get('/customers', { query, ...options });
   }
 
   /**
@@ -63,24 +59,20 @@ export class Customers extends APIResource {
     customerId: string,
     query?: CustomerListBillableMetricsParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListBillableMetricsResponsesPage, CustomerListBillableMetricsResponse>;
+  ): Core.APIPromise<CustomerListBillableMetricsResponse>;
   listBillableMetrics(
     customerId: string,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListBillableMetricsResponsesPage, CustomerListBillableMetricsResponse>;
+  ): Core.APIPromise<CustomerListBillableMetricsResponse>;
   listBillableMetrics(
     customerId: string,
     query: CustomerListBillableMetricsParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListBillableMetricsResponsesPage, CustomerListBillableMetricsResponse> {
+  ): Core.APIPromise<CustomerListBillableMetricsResponse> {
     if (isRequestOptions(query)) {
       return this.listBillableMetrics(customerId, {}, query);
     }
-    return this._client.getAPIList(
-      `/customers/${customerId}/billable-metrics`,
-      CustomerListBillableMetricsResponsesPage,
-      { query, ...options },
-    );
+    return this._client.get(`/customers/${customerId}/billable-metrics`, { query, ...options });
   }
 
   /**
@@ -92,11 +84,8 @@ export class Customers extends APIResource {
     customerId: string,
     query: CustomerListCostsParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListCostsResponsesPage, CustomerListCostsResponse> {
-    return this._client.getAPIList(`/customers/${customerId}/costs`, CustomerListCostsResponsesPage, {
-      query,
-      ...options,
-    });
+  ): Core.APIPromise<CustomerListCostsResponse> {
+    return this._client.get(`/customers/${customerId}/costs`, { query, ...options });
   }
 
   /**
@@ -151,12 +140,6 @@ export class Customers extends APIResource {
     });
   }
 }
-
-export class CustomerListResponsesPage extends Page<CustomerListResponse> {}
-
-export class CustomerListBillableMetricsResponsesPage extends Page<CustomerListBillableMetricsResponse> {}
-
-export class CustomerListCostsResponsesPage extends Page<CustomerListCostsResponse> {}
 
 export interface Customer {
   /**
@@ -301,44 +284,52 @@ export namespace CustomerRetrieveResponse {
 }
 
 export interface CustomerListResponse {
-  /**
-   * the Metronome ID of the customer
-   */
-  id: string;
+  data: Array<CustomerListResponse.Data>;
 
-  current_billable_status: CustomerListResponse.CurrentBillableStatus;
-
-  custom_fields: Record<string, string>;
-
-  customer_config: CustomerListResponse.CustomerConfig;
-
-  /**
-   * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
-   * alias) that can be used in usage events
-   */
-  external_id: string;
-
-  /**
-   * aliases for this customer that can be used instead of the Metronome customer ID
-   * in usage events
-   */
-  ingest_aliases: Array<string>;
-
-  name: string;
+  next_page: string | null;
 }
 
 export namespace CustomerListResponse {
-  export interface CurrentBillableStatus {
-    value: 'billable' | 'unbillable';
+  export interface Data {
+    /**
+     * the Metronome ID of the customer
+     */
+    id: string;
 
-    effective_at?: string | null;
+    current_billable_status: Data.CurrentBillableStatus;
+
+    custom_fields: Record<string, string>;
+
+    customer_config: Data.CustomerConfig;
+
+    /**
+     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
+     * alias) that can be used in usage events
+     */
+    external_id: string;
+
+    /**
+     * aliases for this customer that can be used instead of the Metronome customer ID
+     * in usage events
+     */
+    ingest_aliases: Array<string>;
+
+    name: string;
   }
 
-  export interface CustomerConfig {
-    /**
-     * The Salesforce account ID for the customer
-     */
-    salesforce_account_id: string | null;
+  export namespace Data {
+    export interface CurrentBillableStatus {
+      value: 'billable' | 'unbillable';
+
+      effective_at?: string | null;
+    }
+
+    export interface CustomerConfig {
+      /**
+       * The Salesforce account ID for the customer
+       */
+      salesforce_account_id: string | null;
+    }
   }
 }
 
@@ -353,39 +344,55 @@ export namespace CustomerArchiveResponse {
 }
 
 export interface CustomerListBillableMetricsResponse {
-  id: string;
+  data: Array<CustomerListBillableMetricsResponse.Data>;
 
-  name: string;
+  next_page: string | null;
+}
 
-  group_by?: Array<string>;
+export namespace CustomerListBillableMetricsResponse {
+  export interface Data {
+    id: string;
+
+    name: string;
+
+    group_by?: Array<string>;
+  }
 }
 
 export interface CustomerListCostsResponse {
-  credit_types: Record<string, CustomerListCostsResponse.CreditTypes>;
+  data: Array<CustomerListCostsResponse.Data>;
 
-  end_timestamp: string;
-
-  start_timestamp: string;
+  next_page: string | null;
 }
 
 export namespace CustomerListCostsResponse {
-  export interface CreditTypes {
-    cost?: number;
+  export interface Data {
+    credit_types: Record<string, Data.CreditTypes>;
 
-    line_item_breakdown?: Array<CreditTypes.LineItemBreakdown>;
+    end_timestamp: string;
 
-    name?: string;
+    start_timestamp: string;
   }
 
-  export namespace CreditTypes {
-    export interface LineItemBreakdown {
-      cost: number;
+  export namespace Data {
+    export interface CreditTypes {
+      cost?: number;
 
-      name: string;
+      line_item_breakdown?: Array<CreditTypes.LineItemBreakdown>;
 
-      group_key?: string;
+      name?: string;
+    }
 
-      group_value?: string | null;
+    export namespace CreditTypes {
+      export interface LineItemBreakdown {
+        cost: number;
+
+        name: string;
+
+        group_key?: string;
+
+        group_value?: string | null;
+      }
     }
   }
 }
@@ -448,7 +455,9 @@ export namespace CustomerCreateParams {
       | 'netsuite'
       | 'custom'
       | 'azure_marketplace'
-      | 'quickbooks_online';
+      | 'quickbooks_online'
+      | 'workday'
+      | 'gcp_marketplace';
 
     aws_product_code?: string;
 
@@ -594,9 +603,6 @@ export namespace Customers {
   export import CustomerListBillableMetricsResponse = CustomersAPI.CustomerListBillableMetricsResponse;
   export import CustomerListCostsResponse = CustomersAPI.CustomerListCostsResponse;
   export import CustomerSetNameResponse = CustomersAPI.CustomerSetNameResponse;
-  export import CustomerListResponsesPage = CustomersAPI.CustomerListResponsesPage;
-  export import CustomerListBillableMetricsResponsesPage = CustomersAPI.CustomerListBillableMetricsResponsesPage;
-  export import CustomerListCostsResponsesPage = CustomersAPI.CustomerListCostsResponsesPage;
   export import CustomerCreateParams = CustomersAPI.CustomerCreateParams;
   export import CustomerListParams = CustomersAPI.CustomerListParams;
   export import CustomerArchiveParams = CustomersAPI.CustomerArchiveParams;
@@ -610,8 +616,6 @@ export namespace Customers {
   export import PlanAddResponse = PlansAPI.PlanAddResponse;
   export import PlanEndResponse = PlansAPI.PlanEndResponse;
   export import PlanListPriceAdjustmentsResponse = PlansAPI.PlanListPriceAdjustmentsResponse;
-  export import PlanListResponsesPage = PlansAPI.PlanListResponsesPage;
-  export import PlanListPriceAdjustmentsResponsesPage = PlansAPI.PlanListPriceAdjustmentsResponsesPage;
   export import PlanListParams = PlansAPI.PlanListParams;
   export import PlanAddParams = PlansAPI.PlanAddParams;
   export import PlanEndParams = PlansAPI.PlanEndParams;
@@ -620,7 +624,7 @@ export namespace Customers {
   export import Invoice = InvoicesAPI.Invoice;
   export import InvoiceRetrieveResponse = InvoicesAPI.InvoiceRetrieveResponse;
   export import InvoiceListResponse = InvoicesAPI.InvoiceListResponse;
-  export import InvoiceListResponsesPage = InvoicesAPI.InvoiceListResponsesPage;
+  export import InvoiceRetrieveParams = InvoicesAPI.InvoiceRetrieveParams;
   export import InvoiceListParams = InvoicesAPI.InvoiceListParams;
   export import BillingConfig = BillingConfigAPI.BillingConfig;
   export import BillingConfigRetrieveResponse = BillingConfigAPI.BillingConfigRetrieveResponse;

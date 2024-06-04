@@ -1,6 +1,6 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as TopLevelAPI from '@metronome-industries/metronome/resources/top-level';
+import * as TopLevelAPI from './top-level';
 
 export type IngestParams = Array<IngestParams.Body>;
 

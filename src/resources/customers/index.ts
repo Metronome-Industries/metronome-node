@@ -1,4 +1,4 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export { BillingConfigRetrieveResponse, BillingConfigCreateParams, BillingConfig } from './billing-config';
 export {
@@ -19,17 +19,14 @@ export {
   CustomerSetIngestAliasesParams,
   CustomerSetNameParams,
   CustomerUpdateConfigParams,
-  CustomerListResponsesPage,
-  CustomerListBillableMetricsResponsesPage,
-  CustomerListCostsResponsesPage,
   Customers,
 } from './customers';
 export {
   Invoice,
   InvoiceRetrieveResponse,
   InvoiceListResponse,
+  InvoiceRetrieveParams,
   InvoiceListParams,
-  InvoiceListResponsesPage,
   Invoices,
 } from './invoices';
 export {
@@ -41,7 +38,5 @@ export {
   PlanAddParams,
   PlanEndParams,
   PlanListPriceAdjustmentsParams,
-  PlanListResponsesPage,
-  PlanListPriceAdjustmentsResponsesPage,
   Plans,
 } from './plans';

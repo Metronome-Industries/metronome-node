@@ -1,6 +1,6 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from '@metronome-industries/metronome';
+import Metronome from 'metronome';
 import { Response } from 'node-fetch';
 
 const metronome = new Metronome({
@@ -48,6 +48,27 @@ describe('resource customerAlerts', () => {
       customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
       next_page: 'string',
       alert_statuses: ['enabled'],
+    });
+  });
+
+  test('reset: only required params', async () => {
+    const responsePromise = metronome.customerAlerts.reset({
+      alert_id: '5e8691bf-b22a-4672-922d-f80eee940f01',
+      customer_id: '4c83caf3-8af4-44e2-9aeb-e290531726d9',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('reset: required and optional params', async () => {
+    const response = await metronome.customerAlerts.reset({
+      alert_id: '5e8691bf-b22a-4672-922d-f80eee940f01',
+      customer_id: '4c83caf3-8af4-44e2-9aeb-e290531726d9',
     });
   });
 });

@@ -1,10 +1,9 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome-industries/metronome/core';
-import { APIResource } from '@metronome-industries/metronome/resource';
-import { isRequestOptions } from '@metronome-industries/metronome/core';
-import * as CustomFieldsAPI from '@metronome-industries/metronome/resources/custom-fields';
-import { Page } from '@metronome-industries/metronome/pagination';
+import * as Core from '../core';
+import { APIResource } from '../resource';
+import { isRequestOptions } from '../core';
+import * as CustomFieldsAPI from './custom-fields';
 
 export class CustomFields extends APIResource {
   /**
@@ -36,24 +35,17 @@ export class CustomFields extends APIResource {
   listKeys(
     params?: CustomFieldListKeysParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomFieldListKeysResponsesPage, CustomFieldListKeysResponse>;
-  listKeys(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomFieldListKeysResponsesPage, CustomFieldListKeysResponse>;
+  ): Core.APIPromise<CustomFieldListKeysResponse>;
+  listKeys(options?: Core.RequestOptions): Core.APIPromise<CustomFieldListKeysResponse>;
   listKeys(
     params: CustomFieldListKeysParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomFieldListKeysResponsesPage, CustomFieldListKeysResponse> {
+  ): Core.APIPromise<CustomFieldListKeysResponse> {
     if (isRequestOptions(params)) {
       return this.listKeys({}, params);
     }
     const { next_page, ...body } = params;
-    return this._client.getAPIList('/customFields/listKeys', CustomFieldListKeysResponsesPage, {
-      query: { next_page },
-      body,
-      method: 'post',
-      ...options,
-    });
+    return this._client.post('/customFields/listKeys', { query: { next_page }, body, ...options });
   }
 
   /**
@@ -85,50 +77,80 @@ export class CustomFields extends APIResource {
   }
 }
 
-export class CustomFieldListKeysResponsesPage extends Page<CustomFieldListKeysResponse> {}
-
 export interface CustomFieldListKeysResponse {
-  enforce_uniqueness: boolean;
+  data: Array<CustomFieldListKeysResponse.Data>;
 
-  entity:
-    | 'charge'
-    | 'credit_grant'
-    | 'customer'
-    | 'customer_plan'
-    | 'plan'
-    | 'product'
-    | 'billable_metric'
-    | 'commit';
+  next_page: string | null;
+}
 
-  key: string;
+export namespace CustomFieldListKeysResponse {
+  export interface Data {
+    enforce_uniqueness: boolean;
+
+    entity:
+      | 'alert'
+      | 'billable_metric'
+      | 'charge'
+      | 'commit'
+      | 'contract_credit'
+      | 'contract_product'
+      | 'contract'
+      | 'credit_grant'
+      | 'customer_plan'
+      | 'customer'
+      | 'invoice'
+      | 'plan'
+      | 'professional_service'
+      | 'product'
+      | 'rate_card'
+      | 'scheduled_charge';
+
+    key: string;
+  }
 }
 
 export interface CustomFieldAddKeyParams {
   enforce_uniqueness: boolean;
 
   entity:
-    | 'charge'
-    | 'credit_grant'
-    | 'customer'
-    | 'customer_plan'
-    | 'plan'
-    | 'product'
+    | 'alert'
     | 'billable_metric'
-    | 'commit';
+    | 'charge'
+    | 'commit'
+    | 'contract_credit'
+    | 'contract_product'
+    | 'contract'
+    | 'credit_grant'
+    | 'customer_plan'
+    | 'customer'
+    | 'invoice'
+    | 'plan'
+    | 'professional_service'
+    | 'product'
+    | 'rate_card'
+    | 'scheduled_charge';
 
   key: string;
 }
 
 export interface CustomFieldDeleteValuesParams {
   entity:
-    | 'charge'
-    | 'credit_grant'
-    | 'customer'
-    | 'customer_plan'
-    | 'plan'
-    | 'product'
+    | 'alert'
     | 'billable_metric'
-    | 'commit';
+    | 'charge'
+    | 'commit'
+    | 'contract_credit'
+    | 'contract_product'
+    | 'contract'
+    | 'credit_grant'
+    | 'customer_plan'
+    | 'customer'
+    | 'invoice'
+    | 'plan'
+    | 'professional_service'
+    | 'product'
+    | 'rate_card'
+    | 'scheduled_charge';
 
   entity_id: string;
 
@@ -145,27 +167,43 @@ export interface CustomFieldListKeysParams {
    * Body param: Optional list of entity types to return keys for
    */
   entities?: Array<
-    | 'charge'
-    | 'credit_grant'
-    | 'customer'
-    | 'customer_plan'
-    | 'plan'
-    | 'product'
+    | 'alert'
     | 'billable_metric'
+    | 'charge'
     | 'commit'
+    | 'contract_credit'
+    | 'contract_product'
+    | 'contract'
+    | 'credit_grant'
+    | 'customer_plan'
+    | 'customer'
+    | 'invoice'
+    | 'plan'
+    | 'professional_service'
+    | 'product'
+    | 'rate_card'
+    | 'scheduled_charge'
   >;
 }
 
 export interface CustomFieldRemoveKeyParams {
   entity:
-    | 'charge'
-    | 'credit_grant'
-    | 'customer'
-    | 'customer_plan'
-    | 'plan'
-    | 'product'
+    | 'alert'
     | 'billable_metric'
-    | 'commit';
+    | 'charge'
+    | 'commit'
+    | 'contract_credit'
+    | 'contract_product'
+    | 'contract'
+    | 'credit_grant'
+    | 'customer_plan'
+    | 'customer'
+    | 'invoice'
+    | 'plan'
+    | 'professional_service'
+    | 'product'
+    | 'rate_card'
+    | 'scheduled_charge';
 
   key: string;
 }
@@ -174,21 +212,28 @@ export interface CustomFieldSetValuesParams {
   custom_fields: Record<string, string>;
 
   entity:
-    | 'charge'
-    | 'credit_grant'
-    | 'customer'
-    | 'customer_plan'
-    | 'plan'
-    | 'product'
+    | 'alert'
     | 'billable_metric'
-    | 'commit';
+    | 'charge'
+    | 'commit'
+    | 'contract_credit'
+    | 'contract_product'
+    | 'contract'
+    | 'credit_grant'
+    | 'customer_plan'
+    | 'customer'
+    | 'invoice'
+    | 'plan'
+    | 'professional_service'
+    | 'product'
+    | 'rate_card'
+    | 'scheduled_charge';
 
   entity_id: string;
 }
 
 export namespace CustomFields {
   export import CustomFieldListKeysResponse = CustomFieldsAPI.CustomFieldListKeysResponse;
-  export import CustomFieldListKeysResponsesPage = CustomFieldsAPI.CustomFieldListKeysResponsesPage;
   export import CustomFieldAddKeyParams = CustomFieldsAPI.CustomFieldAddKeyParams;
   export import CustomFieldDeleteValuesParams = CustomFieldsAPI.CustomFieldDeleteValuesParams;
   export import CustomFieldListKeysParams = CustomFieldsAPI.CustomFieldListKeysParams;
