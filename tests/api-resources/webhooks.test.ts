@@ -8,18 +8,26 @@ const metronome = new Metronome({
 });
 
 describe('resource webhooks', () => {
-  const payload = `{"company_id":"720be419-0293-4d32-a707-32179b0827ab"}`;
-  const signature = 'm7y0TV2C+hlHxU42wCieApTSTaA8/047OAplBqxIV/s=';
+  const requestBody = `{
+    "id": "b2c9e307-624e-4e7d-a5a4-1b74107d78c4",
+    "type": "widget_created",
+    "properties": {
+      "customer_id": "5f794d50-085a-4db6-8d15-286e518b7225",
+      "widget_id": "0891458d-b6f0-4fdd-a41e-380aae1a1e38"
+    }
+  }`;
+  const payload = Buffer.from(requestBody).toString('utf8');
+  const signature = 'b82652fa2246cf1d8a27e591f155c865f68b46c19b9213fd9c052f2419b4742b';
   const date = 'Mon, 02 Jan 2006 22:04:05 GMT';
   const headers = {
     Date: date,
     'Metronome-Webhook-Signature': signature,
   };
-  const secret = '5WbX5kEWLlfzsGNjH64I8lOOqUB6e8FH';
+  const secret = 'correct-horse-battery-staple';
   const fakeNow = new Date(date).valueOf();
 
   beforeEach(() => {
-    jest.spyOn(global.Date, 'valueOf').mockImplementation(() => fakeNow);
+    jest.spyOn(global.Date, 'now').mockImplementation(() => fakeNow);
   });
 
   afterEach(() => {
@@ -33,111 +41,56 @@ describe('resource webhooks', () => {
     });
   });
 
-  describe('verifySignature', () => {
-    it('should pass for valid signature', () => {
-      metronome.webhooks.verifySignature(payload, headers, secret);
-    });
+  it('should pass for valid signature', () => {
+    metronome.webhooks.verifySignature(payload, headers, secret);
+  });
 
-    it('should throw for timestamp outside threshold', () => {
-      jest.spyOn(global.Date, 'now').mockImplementation(() => fakeNow + 360000); // 6 minutes
-      expect(() =>
-        metronome.webhooks.verifySignature(payload, headers, secret),
-      ).toThrowErrorMatchingInlineSnapshot(`"Webhook timestamp is too old"`);
+  it('should throw for timestamp outside threshold', () => {
+    jest.spyOn(global.Date, 'now').mockImplementation(() => fakeNow + 360000); // 6 minutes
+    expect(() =>
+      metronome.webhooks.verifySignature(payload, headers, secret),
+    ).toThrowErrorMatchingInlineSnapshot(`"Webhook timestamp is too old"`);
 
-      jest.spyOn(global.Date, 'now').mockImplementation(() => fakeNow - 360000); // 6 minutes
-      expect(() =>
-        metronome.webhooks.verifySignature(payload, headers, secret),
-      ).toThrowErrorMatchingInlineSnapshot(`"Webhook timestamp is too new"`);
-    });
+    jest.spyOn(global.Date, 'now').mockImplementation(() => fakeNow - 360000); // 6 minutes
+    expect(() =>
+      metronome.webhooks.verifySignature(payload, headers, secret),
+    ).toThrowErrorMatchingInlineSnapshot(`"Webhook timestamp is too new"`);
+  });
 
-    it('should throw an error for invalid secret format', () => {
-      expect(() => {
-        metronome.webhooks.verifySignature(payload, headers, 'invalid secret');
-      }).toThrowErrorMatchingInlineSnapshot(`"Given secret is not valid"`);
-    });
+  it('should throw an error for invalid secret format', () => {
+    expect(() => {
+      metronome.webhooks.verifySignature(payload, headers, 'invalid secret');
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"The given webhook signature does not match the expected signature"`,
+    );
+  });
 
-    it('should throw for invalid signature', () => {
-      expect(() =>
-        metronome.webhooks.verifySignature(payload, headers, Buffer.from('foo').toString('base64')),
-      ).toThrowErrorMatchingInlineSnapshot(
-        `"None of the given webhook signatures match the expected signature"`,
-      );
-    });
+  it('should throw for invalid signature', () => {
+    expect(() =>
+      metronome.webhooks.verifySignature(payload, headers, Buffer.from('foo').toString('base64')),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"The given webhook signature does not match the expected signature"`,
+    );
+  });
 
-    it('should pass for multiple signatures', () => {
-      const invalidSignature = Buffer.from('my_sig').toString('base64');
+  it('should throw for invalid timestamp', () => {
+    expect(() =>
       metronome.webhooks.verifySignature(
         payload,
         {
           ...headers,
-          'Metronome-Webhook-Signature': `${invalidSignature} ${signature}`,
+          Date: 'nan',
         },
         secret,
-      );
-    });
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(`"Invalid timestamp header: nan"`);
+  });
 
-    it('should throw for invalid timestamp', () => {
-      expect(() =>
-        metronome.webhooks.verifySignature(
-          payload,
-          {
-            ...headers,
-            Date: 'nan',
-          },
-          secret,
-        ),
-      ).toThrowErrorMatchingInlineSnapshot(`"Invalid timestamp header: nan"`);
-    });
-
-    it('should throw for different signature version', () => {
-      expect(() =>
-        metronome.webhooks.verifySignature(
-          payload,
-          {
-            ...headers,
-            'Metronome-Webhook-Signature': signature,
-          },
-
-          secret,
-        ),
-      ).toThrowErrorMatchingInlineSnapshot(
-        `"None of the given webhook signatures match the expected signature"`,
-      );
-    });
-
-    it('should pass for multiple signatures with different version', () => {
-      metronome.webhooks.verifySignature(
-        payload,
-        {
-          ...headers,
-          'Metronome-Webhook-Signature': `${signature} ${signature}`,
-        },
-        secret,
-      );
-    });
-
-    it('should throw if signature version is missing', () => {
-      expect(() =>
-        metronome.webhooks.verifySignature(
-          payload,
-          {
-            ...headers,
-            'Metronome-Webhook-Signature': signature,
-          },
-
-          secret,
-        ),
-      ).toThrowErrorMatchingInlineSnapshot(
-        `"None of the given webhook signatures match the expected signature"`,
-      );
-    });
-
-    it('should throw if payload is not a string', () => {
-      expect(() =>
-        metronome.webhooks.verifySignature({ payload: 'not a string' } as any, headers, secret),
-      ).toThrowErrorMatchingInlineSnapshot(
-        `"Webhook body must be passed as the raw JSON string sent from the server (do not parse it first)."`,
-      );
-    });
+  it('should throw if payload is not a string', () => {
+    expect(() =>
+      metronome.webhooks.verifySignature({ payload: 'not a string' } as any, headers, secret),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Webhook body must be passed as the raw JSON string sent from the server (do not parse it first)."`,
+    );
   });
 });

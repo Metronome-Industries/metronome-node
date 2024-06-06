@@ -18,15 +18,10 @@ export class Webhooks extends APIResource {
   }
 
   private validateSecret(secret: string | null | undefined): asserts secret is string {
-    if (!secret) {
+    if (typeof secret !== 'string') {
       throw new Error(
         "The webhook secret must either be set using the env var, METRONOME_WEBHOOK_SECRET, on the client class, Metronome({ webhook_secret: '123' }), or passed to this function",
       );
-    }
-
-    const buf = Buffer.from(secret, 'hex');
-    if (buf.toString('hex') !== secret) {
-      throw new Error(`Given secret is not valid`);
     }
 
     return;
@@ -90,8 +85,8 @@ export class Webhooks extends APIResource {
     const msgDate = getRequiredHeader(headers, 'Date');
     const msgSignature = getRequiredHeader(headers, 'Metronome-Webhook-Signature');
 
-    const now = Math.floor(new Date(msgDate).valueOf() / 1000);
-    const timestampSeconds = parseInt(msgDate, 10);
+    const now = Date.now();
+    const timestampSeconds = Math.floor(new Date(msgDate).valueOf());
 
     if (isNaN(timestampSeconds)) {
       throw new Error(`Invalid timestamp header: ${msgDate}`);
@@ -120,6 +115,6 @@ export class Webhooks extends APIResource {
       return;
     }
 
-    throw new Error('None of the given webhook signatures match the expected signature');
+    throw new Error('The given webhook signature does not match the expected signature');
   }
 }
