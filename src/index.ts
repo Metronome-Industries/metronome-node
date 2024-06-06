@@ -135,7 +135,6 @@ export class Metronome extends Core.APIClient {
   creditTypes: API.CreditTypes = new API.CreditTypes(this);
   customers: API.Customers = new API.Customers(this);
   dashboards: API.Dashboards = new API.Dashboards(this);
-  webhooks: API.Webhooks = new API.Webhooks(this);
   usage: API.Usage = new API.Usage(this);
   auditLogs: API.AuditLogs = new API.AuditLogs(this);
   customFields: API.CustomFields = new API.CustomFields(this);
@@ -276,8 +275,6 @@ export namespace Metronome {
   export import Dashboards = API.Dashboards;
   export import DashboardGetEmbeddableURLResponse = API.DashboardGetEmbeddableURLResponse;
   export import DashboardGetEmbeddableURLParams = API.DashboardGetEmbeddableURLParams;
-
-  export import Webhooks = API.Webhooks;
 
   export import Usage = API.Usage;
   export import UsageListResponse = API.UsageListResponse;
