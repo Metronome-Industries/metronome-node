@@ -165,6 +165,13 @@ Methods:
 
 - <code title="post /dashboards/getEmbeddableUrl">client.dashboards.<a href="./src/resources/dashboards.ts">getEmbeddableURL</a>({ ...params }) -> DashboardGetEmbeddableURLResponse</code>
 
+# Webhooks
+
+Methods:
+
+- <code>client.webhooks.<a href="./src/resources/webhooks.ts">unwrap</a>(payload, headers, secret) -> Object</code>
+- <code>client.webhooks.<a href="./src/resources/webhooks.ts">verifySignature</a>(body, headers, secret) -> void</code>
+
 # Usage
 
 Types:
