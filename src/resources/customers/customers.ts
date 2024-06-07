@@ -4,6 +4,7 @@ import * as Core from '../../core';
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as CustomersAPI from './customers';
+import * as Shared from '../shared';
 import * as BillingConfigAPI from './billing-config';
 import * as InvoicesAPI from './invoices';
 import * as PlansAPI from './plans';
@@ -207,140 +208,21 @@ export namespace CustomerDetail {
 }
 
 export interface CustomerCreateResponse {
-  data: CustomerCreateResponse.Data;
-}
-
-export namespace CustomerCreateResponse {
-  export interface Data {
-    /**
-     * the Metronome ID of the customer
-     */
-    id: string;
-
-    /**
-     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
-     * alias) that can be used in usage events
-     */
-    external_id: string;
-
-    /**
-     * aliases for this customer that can be used instead of the Metronome customer ID
-     * in usage events
-     */
-    ingest_aliases: Array<string>;
-
-    name: string;
-
-    custom_fields?: Record<string, string>;
-  }
+  data: Customer;
 }
 
 export interface CustomerRetrieveResponse {
-  data: CustomerRetrieveResponse.Data;
-}
-
-export namespace CustomerRetrieveResponse {
-  export interface Data {
-    /**
-     * the Metronome ID of the customer
-     */
-    id: string;
-
-    current_billable_status: Data.CurrentBillableStatus;
-
-    custom_fields: Record<string, string>;
-
-    customer_config: Data.CustomerConfig;
-
-    /**
-     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
-     * alias) that can be used in usage events
-     */
-    external_id: string;
-
-    /**
-     * aliases for this customer that can be used instead of the Metronome customer ID
-     * in usage events
-     */
-    ingest_aliases: Array<string>;
-
-    name: string;
-  }
-
-  export namespace Data {
-    export interface CurrentBillableStatus {
-      value: 'billable' | 'unbillable';
-
-      effective_at?: string | null;
-    }
-
-    export interface CustomerConfig {
-      /**
-       * The Salesforce account ID for the customer
-       */
-      salesforce_account_id: string | null;
-    }
-  }
+  data: CustomerDetail;
 }
 
 export interface CustomerListResponse {
-  data: Array<CustomerListResponse.Data>;
+  data: Array<CustomerDetail>;
 
   next_page: string | null;
 }
 
-export namespace CustomerListResponse {
-  export interface Data {
-    /**
-     * the Metronome ID of the customer
-     */
-    id: string;
-
-    current_billable_status: Data.CurrentBillableStatus;
-
-    custom_fields: Record<string, string>;
-
-    customer_config: Data.CustomerConfig;
-
-    /**
-     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
-     * alias) that can be used in usage events
-     */
-    external_id: string;
-
-    /**
-     * aliases for this customer that can be used instead of the Metronome customer ID
-     * in usage events
-     */
-    ingest_aliases: Array<string>;
-
-    name: string;
-  }
-
-  export namespace Data {
-    export interface CurrentBillableStatus {
-      value: 'billable' | 'unbillable';
-
-      effective_at?: string | null;
-    }
-
-    export interface CustomerConfig {
-      /**
-       * The Salesforce account ID for the customer
-       */
-      salesforce_account_id: string | null;
-    }
-  }
-}
-
 export interface CustomerArchiveResponse {
-  data: CustomerArchiveResponse.Data;
-}
-
-export namespace CustomerArchiveResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface CustomerListBillableMetricsResponse {
@@ -398,32 +280,7 @@ export namespace CustomerListCostsResponse {
 }
 
 export interface CustomerSetNameResponse {
-  data: CustomerSetNameResponse.Data;
-}
-
-export namespace CustomerSetNameResponse {
-  export interface Data {
-    /**
-     * the Metronome ID of the customer
-     */
-    id: string;
-
-    /**
-     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
-     * alias) that can be used in usage events
-     */
-    external_id: string;
-
-    /**
-     * aliases for this customer that can be used instead of the Metronome customer ID
-     * in usage events
-     */
-    ingest_aliases: Array<string>;
-
-    name: string;
-
-    custom_fields?: Record<string, string>;
-  }
+  data: Customer;
 }
 
 export interface CustomerCreateParams {
