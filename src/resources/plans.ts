@@ -4,6 +4,7 @@ import * as Core from '../core';
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as PlansAPI from './plans';
+import * as CustomersAPI from './customers/customers';
 
 export class Plans extends APIResource {
   /**
@@ -195,115 +196,7 @@ export namespace PlanListResponse {
 }
 
 export interface PlanGetDetailsResponse {
-  data: PlanGetDetailsResponse.Data;
-}
-
-export namespace PlanGetDetailsResponse {
-  export interface Data {
-    id: string;
-
-    custom_fields: Record<string, string>;
-
-    name: string;
-
-    credit_grants?: Array<Data.CreditGrant>;
-
-    description?: string;
-
-    minimums?: Array<Data.Minimum>;
-
-    overage_rates?: Array<Data.OverageRate>;
-  }
-
-  export namespace Data {
-    export interface CreditGrant {
-      amount_granted: number;
-
-      amount_granted_credit_type: CreditGrant.AmountGrantedCreditType;
-
-      amount_paid: number;
-
-      amount_paid_credit_type: CreditGrant.AmountPaidCreditType;
-
-      effective_duration: number;
-
-      name: string;
-
-      priority: string;
-
-      send_invoice: boolean;
-
-      reason?: string;
-
-      recurrence_duration?: number;
-
-      recurrence_interval?: number;
-    }
-
-    export namespace CreditGrant {
-      export interface AmountGrantedCreditType {
-        id: string;
-
-        name: string;
-      }
-
-      export interface AmountPaidCreditType {
-        id: string;
-
-        name: string;
-      }
-    }
-
-    export interface Minimum {
-      credit_type: Minimum.CreditType;
-
-      name: string;
-
-      /**
-       * Used in price ramps. Indicates how many billing periods pass before the charge
-       * applies.
-       */
-      start_period: number;
-
-      value: number;
-    }
-
-    export namespace Minimum {
-      export interface CreditType {
-        id: string;
-
-        name: string;
-      }
-    }
-
-    export interface OverageRate {
-      credit_type: OverageRate.CreditType;
-
-      fiat_credit_type: OverageRate.FiatCreditType;
-
-      /**
-       * Used in price ramps. Indicates how many billing periods pass before the charge
-       * applies.
-       */
-      start_period: number;
-
-      to_fiat_conversion_factor: number;
-    }
-
-    export namespace OverageRate {
-      export interface CreditType {
-        id: string;
-
-        name: string;
-      }
-
-      export interface FiatCreditType {
-        id: string;
-
-        name: string;
-      }
-    }
-  }
+  data: PlanDetail;
 }
 
 export interface PlanListChargesResponse {
@@ -392,54 +285,12 @@ export interface PlanListCustomersResponse {
 
 export namespace PlanListCustomersResponse {
   export interface Data {
-    customer_details: Data.CustomerDetails;
+    customer_details: CustomersAPI.CustomerDetail;
 
     plan_details: Data.PlanDetails;
   }
 
   export namespace Data {
-    export interface CustomerDetails {
-      /**
-       * the Metronome ID of the customer
-       */
-      id: string;
-
-      current_billable_status: CustomerDetails.CurrentBillableStatus;
-
-      custom_fields: Record<string, string>;
-
-      customer_config: CustomerDetails.CustomerConfig;
-
-      /**
-       * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
-       * alias) that can be used in usage events
-       */
-      external_id: string;
-
-      /**
-       * aliases for this customer that can be used instead of the Metronome customer ID
-       * in usage events
-       */
-      ingest_aliases: Array<string>;
-
-      name: string;
-    }
-
-    export namespace CustomerDetails {
-      export interface CurrentBillableStatus {
-        value: 'billable' | 'unbillable';
-
-        effective_at?: string | null;
-      }
-
-      export interface CustomerConfig {
-        /**
-         * The Salesforce account ID for the customer
-         */
-        salesforce_account_id: string | null;
-      }
-    }
-
     export interface PlanDetails {
       id: string;
 

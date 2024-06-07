@@ -4,6 +4,7 @@ import * as Core from '../../core';
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as PlansAPI from './plans';
+import * as Shared from '../shared';
 
 export class Plans extends APIResource {
   /**
@@ -158,13 +159,7 @@ export namespace PlanListResponse {
 }
 
 export interface PlanAddResponse {
-  data: PlanAddResponse.Data;
-}
-
-export namespace PlanAddResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface PlanEndResponse {}

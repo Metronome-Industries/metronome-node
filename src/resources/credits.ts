@@ -4,6 +4,7 @@ import * as Core from '../core';
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as CreditsAPI from './credits';
+import * as Shared from './shared';
 
 export class Credits extends APIResource {
   /**
@@ -78,23 +79,11 @@ export class Credits extends APIResource {
 }
 
 export interface CreditCreateGrantResponse {
-  data: CreditCreateGrantResponse.Data;
-}
-
-export namespace CreditCreateGrantResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface CreditEditGrantResponse {
-  data: CreditEditGrantResponse.Data;
-}
-
-export namespace CreditEditGrantResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface CreditListEntriesResponse {
@@ -458,13 +447,7 @@ export namespace CreditListGrantsResponse {
 }
 
 export interface CreditVoidGrantResponse {
-  data: CreditVoidGrantResponse.Data;
-}
-
-export namespace CreditVoidGrantResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface CreditCreateGrantParams {
@@ -578,11 +561,11 @@ export namespace CreditCreateGrantParams {
     /**
      * Specify how much to rollover to the rollover credit grant
      */
-    rollover_amount: RolloverSettings.UnionMember0 | RolloverSettings.UnionMember1;
+    rollover_amount: RolloverSettings.RolloverAmountMaxPercentage | RolloverSettings.RolloverAmountMaxAmount;
   }
 
   export namespace RolloverSettings {
-    export interface UnionMember0 {
+    export interface RolloverAmountMaxPercentage {
       /**
        * Rollover up to a percentage of the original credit grant amount.
        */
@@ -594,7 +577,7 @@ export namespace CreditCreateGrantParams {
       value: number;
     }
 
-    export interface UnionMember1 {
+    export interface RolloverAmountMaxAmount {
       /**
        * Rollover up to a fixed amount of the original credit grant amount.
        */
