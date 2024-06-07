@@ -130,6 +130,7 @@ describe('resource credits', () => {
     await expect(
       metronome.credits.listGrants(
         {
+          limit: 1,
           next_page: 'string',
           credit_grant_ids: [
             '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',

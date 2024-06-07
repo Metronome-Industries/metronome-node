@@ -62,8 +62,8 @@ export class Credits extends APIResource {
     if (isRequestOptions(params)) {
       return this.listGrants({}, params);
     }
-    const { next_page, ...body } = params;
-    return this._client.post('/credits/listGrants', { query: { next_page }, body, ...options });
+    const { limit, next_page, ...body } = params;
+    return this._client.post('/credits/listGrants', { query: { limit, next_page }, body, ...options });
   }
 
   /**
@@ -659,6 +659,11 @@ export interface CreditListEntriesParams {
 }
 
 export interface CreditListGrantsParams {
+  /**
+   * Query param: Max number of results that should be returned
+   */
+  limit?: number;
+
   /**
    * Query param: Cursor that indicates where the next page of results should start.
    */
