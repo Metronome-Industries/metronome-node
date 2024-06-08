@@ -1,9 +1,3 @@
-# Metronome
-
-Methods:
-
-- <code title="post /ingest">client.<a href="./src/index.ts">ingest</a>([ ...body ]) -> void</code>
-
 # Shared
 
 Types:

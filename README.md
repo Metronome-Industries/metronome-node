@@ -27,16 +27,13 @@ const metronome = new Metronome({
 });
 
 async function main() {
-  const response = await metronome.ingest({
-    body: [
-      {
-        transaction_id: '2021-01-01T00:00:00Z_cluster42',
-        customer_id: 'team@example.com',
-        event_type: 'heartbeat',
-        timestamp: '2021-01-01T00:00:00Z',
-      },
-    ],
+  const alertCreateResponse = await metronome.alerts.create({
+    alert_type: 'spend_threshold_reached',
+    name: '$100 spend threshold reached',
+    threshold: 10000,
   });
+
+  console.log(alertCreateResponse.data);
 }
 
 main();
