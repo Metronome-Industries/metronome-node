@@ -1,8 +1,8 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'metronome/core';
-import { APIResource } from 'metronome/resource';
-import * as DashboardsAPI from 'metronome/resources/dashboards';
+import * as Core from '@metronome/sdk/core';
+import { APIResource } from '@metronome/sdk/resource';
+import * as DashboardsAPI from '@metronome/sdk/resources/dashboards';
 
 export class Dashboards extends APIResource {
   /**

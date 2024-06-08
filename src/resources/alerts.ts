@@ -1,9 +1,9 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'metronome/core';
-import { APIResource } from 'metronome/resource';
-import * as AlertsAPI from 'metronome/resources/alerts';
-import * as Shared from 'metronome/resources/shared';
+import * as Core from '@metronome/sdk/core';
+import { APIResource } from '@metronome/sdk/resource';
+import * as AlertsAPI from '@metronome/sdk/resources/alerts';
+import * as Shared from '@metronome/sdk/resources/shared';
 
 export class Alerts extends APIResource {
   /**
@@ -39,7 +39,14 @@ export interface AlertCreateParams {
     | 'monthly_invoice_total_spend_threshold_reached'
     | 'low_remaining_days_in_plan_reached'
     | 'low_remaining_credit_percentage_reached'
-    | 'usage_threshold_reached';
+    | 'usage_threshold_reached'
+    | 'low_remaining_days_for_commit_segment_reached'
+    | 'low_remaining_commit_balance_reached'
+    | 'low_remaining_commit_percentage_reached'
+    | 'low_remaining_days_for_contract_credit_segment_reached'
+    | 'low_remaining_contract_credit_balance_reached'
+    | 'low_remaining_contract_credit_percentage_reached'
+    | 'invoice_total_reached';
 
   /**
    * Name of the alert
@@ -60,16 +67,69 @@ export interface AlertCreateParams {
   credit_type_id?: string;
 
   /**
+   * Only present for beta contract invoices. This field's availability is dependent
+   * on your client's configuration. A list of custom field filters for alert types
+   * that support advanced filtering
+   */
+  custom_field_filters?: Array<AlertCreateParams.CustomFieldFilter>;
+
+  /**
    * If provided, will create this alert for this specific customer. To create an
    * alert for all customers, do not specify `customer_id` or `plan_id`.
    */
   customer_id?: string;
 
   /**
+   * If true, the alert will evaluate immediately on customers that already meet the
+   * alert threshold. If false, it will only evaluate on future customers that
+   * trigger the alert threshold. Defaults to true.
+   */
+  evaluate_on_create?: boolean;
+
+  /**
+   * Scopes alert evaluation to a specific presentation group key on individual line
+   * items. Only present for spend alerts.
+   */
+  group_key_filter?: AlertCreateParams.GroupKeyFilter;
+
+  /**
+   * Only supported for invoice_total_reached alerts. A list of invoice types to
+   * evaluate.
+   */
+  invoice_types_filter?: Array<string>;
+
+  /**
    * If provided, will create this alert for this specific plan. To create an alert
    * for all customers, do not specify `customer_id` or `plan_id`.
    */
   plan_id?: string;
+
+  /**
+   * Prevents the creation of duplicates. If a request to create a record is made
+   * with a previously used uniqueness key, a new record will not be created and the
+   * request will fail with a 409 error.
+   */
+  uniqueness_key?: string;
+}
+
+export namespace AlertCreateParams {
+  export interface CustomFieldFilter {
+    entity: 'Contract' | 'Commit' | 'ContractCredit';
+
+    key: string;
+
+    value: string;
+  }
+
+  /**
+   * Scopes alert evaluation to a specific presentation group key on individual line
+   * items. Only present for spend alerts.
+   */
+  export interface GroupKeyFilter {
+    key: string;
+
+    value: string;
+  }
 }
 
 export interface AlertArchiveParams {

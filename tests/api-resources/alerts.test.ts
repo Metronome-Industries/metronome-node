@@ -1,6 +1,6 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from 'metronome';
+import Metronome from '@metronome/sdk';
 import { Response } from 'node-fetch';
 
 const metronome = new Metronome({
@@ -11,8 +11,8 @@ const metronome = new Metronome({
 describe('resource alerts', () => {
   test('create: only required params', async () => {
     const responsePromise = metronome.alerts.create({
-      alert_type: 'low_credit_balance_reached',
-      name: '$100 credit balance alert for single customer',
+      alert_type: 'spend_threshold_reached',
+      name: '$100 spend threshold reached',
       threshold: 10000,
     });
     const rawResponse = await responsePromise.asResponse();
@@ -26,13 +26,26 @@ describe('resource alerts', () => {
 
   test('create: required and optional params', async () => {
     const response = await metronome.alerts.create({
-      alert_type: 'low_credit_balance_reached',
-      name: '$100 credit balance alert for single customer',
+      alert_type: 'spend_threshold_reached',
+      name: '$100 spend threshold reached',
       threshold: 10000,
       billable_metric_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+      custom_field_filters: [
+        { entity: 'Contract', key: 'string', value: 'string' },
+        { entity: 'Contract', key: 'string', value: 'string' },
+        { entity: 'Contract', key: 'string', value: 'string' },
+      ],
       customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
+      evaluate_on_create: true,
+      group_key_filter: { key: 'string', value: 'string' },
+      invoice_types_filter: [
+        'PLAN_ARREARS, SCHEDULED, USAGE, CORRECTION, CREDIT_PURCHASE, or SEAT_PURCHASE',
+        'PLAN_ARREARS, SCHEDULED, USAGE, CORRECTION, CREDIT_PURCHASE, or SEAT_PURCHASE',
+        'PLAN_ARREARS, SCHEDULED, USAGE, CORRECTION, CREDIT_PURCHASE, or SEAT_PURCHASE',
+      ],
       plan_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      uniqueness_key: 'x',
     });
   });
 

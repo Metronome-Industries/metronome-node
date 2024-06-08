@@ -1,6 +1,6 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from 'metronome';
+import Metronome from '@metronome/sdk';
 import { Response } from 'node-fetch';
 
 const metronome = new Metronome({
@@ -31,7 +31,15 @@ describe('resource auditLogs', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       metronome.auditLogs.list(
-        { limit: 1, next_page: 'string', starting_on: '2019-12-27T18:11:19.117Z' },
+        {
+          ending_before: '2019-12-27T18:11:19.117Z',
+          limit: 1,
+          next_page: 'string',
+          resource_id: 'string',
+          resource_type: 'string',
+          sort: 'date_asc',
+          starting_on: '2019-12-27T18:11:19.117Z',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);

@@ -1,8 +1,8 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'metronome/core';
-import { APIResource } from 'metronome/resource';
-import * as BillingConfigAPI from 'metronome/resources/customers/billing-config';
+import * as Core from '@metronome/sdk/core';
+import { APIResource } from '@metronome/sdk/resource';
+import * as BillingConfigAPI from '@metronome/sdk/resources/customers/billing-config';
 
 export class BillingConfig extends APIResource {
   /**
@@ -16,14 +16,16 @@ export class BillingConfig extends APIResource {
       | 'netsuite'
       | 'custom'
       | 'azure_marketplace'
-      | 'quickbooks_online',
+      | 'quickbooks_online'
+      | 'workday'
+      | 'gcp_marketplace',
     body: BillingConfigCreateParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<void> {
     return this._client.post(`/customers/${customerId}/billing-config/${billingProviderType}`, {
       body,
       ...options,
-      headers: { Accept: '', ...options?.headers },
+      headers: { Accept: '*/*', ...options?.headers },
     });
   }
 
@@ -38,7 +40,9 @@ export class BillingConfig extends APIResource {
       | 'netsuite'
       | 'custom'
       | 'azure_marketplace'
-      | 'quickbooks_online',
+      | 'quickbooks_online'
+      | 'workday'
+      | 'gcp_marketplace',
     options?: Core.RequestOptions,
   ): Core.APIPromise<BillingConfigRetrieveResponse> {
     return this._client.get(`/customers/${customerId}/billing-config/${billingProviderType}`, options);
@@ -56,12 +60,14 @@ export class BillingConfig extends APIResource {
       | 'netsuite'
       | 'custom'
       | 'azure_marketplace'
-      | 'quickbooks_online',
+      | 'quickbooks_online'
+      | 'workday'
+      | 'gcp_marketplace',
     options?: Core.RequestOptions,
   ): Core.APIPromise<void> {
     return this._client.delete(`/customers/${customerId}/billing-config/${billingProviderType}`, {
       ...options,
-      headers: { Accept: '', ...options?.headers },
+      headers: { Accept: '*/*', ...options?.headers },
     });
   }
 }

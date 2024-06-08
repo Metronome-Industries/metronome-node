@@ -1,5 +1,5 @@
-import { createResponseHeaders } from 'metronome/core';
-import { Headers } from 'metronome/_shims/index';
+import { createResponseHeaders } from '@metronome/sdk/core';
+import { Headers } from '@metronome/sdk/_shims/index';
 
 describe('response parsing', () => {
   // TODO: test unicode characters

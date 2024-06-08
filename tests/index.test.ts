@@ -1,8 +1,8 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from 'metronome';
-import { APIUserAbortError } from 'metronome';
-import { Headers } from 'metronome/core';
+import Metronome from '@metronome/sdk';
+import { APIUserAbortError } from '@metronome/sdk';
+import { Headers } from '@metronome/sdk/core';
 import defaultFetch, { Response, type RequestInit, type RequestInfo } from 'node-fetch';
 
 describe('instantiate client', () => {
@@ -140,7 +140,7 @@ describe('instantiate client', () => {
     });
 
     afterEach(() => {
-      process.env['SINK_BASE_URL'] = undefined;
+      process.env['METRONOME_BASE_URL'] = undefined;
     });
 
     test('explicit option', () => {
@@ -152,6 +152,18 @@ describe('instantiate client', () => {
       process.env['METRONOME_BASE_URL'] = 'https://example.com/from_env';
       const client = new Metronome({ bearerToken: 'My Bearer Token' });
       expect(client.baseURL).toEqual('https://example.com/from_env');
+    });
+
+    test('empty env variable', () => {
+      process.env['METRONOME_BASE_URL'] = ''; // empty
+      const client = new Metronome({ bearerToken: 'My Bearer Token' });
+      expect(client.baseURL).toEqual('https://api.metronome.com/v1');
+    });
+
+    test('blank env variable', () => {
+      process.env['METRONOME_BASE_URL'] = '  '; // blank
+      const client = new Metronome({ bearerToken: 'My Bearer Token' });
+      expect(client.baseURL).toEqual('https://api.metronome.com/v1');
     });
   });
 
@@ -211,17 +223,18 @@ describe('request building', () => {
 });
 
 describe('retries', () => {
-  test('single retry', async () => {
+  test('retry on timeout', async () => {
     let count = 0;
     const testFetch = async (url: RequestInfo, { signal }: RequestInit = {}): Promise<Response> => {
-      if (!count++)
+      if (count++ === 0) {
         return new Promise(
           (resolve, reject) => signal?.addEventListener('abort', () => reject(new Error('timed out'))),
         );
+      }
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Metronome({ bearerToken: 'My Bearer Token', timeout: 2000, fetch: testFetch });
+    const client = new Metronome({ bearerToken: 'My Bearer Token', timeout: 10, fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -232,5 +245,59 @@ describe('retries', () => {
         .then((r) => r.text()),
     ).toEqual(JSON.stringify({ a: 1 }));
     expect(count).toEqual(3);
-  }, 10000);
+  });
+
+  test('retry on 429 with retry-after', async () => {
+    let count = 0;
+    const testFetch = async (url: RequestInfo, { signal }: RequestInit = {}): Promise<Response> => {
+      if (count++ === 0) {
+        return new Response(undefined, {
+          status: 429,
+          headers: {
+            'Retry-After': '0.1',
+          },
+        });
+      }
+      return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
+    };
+
+    const client = new Metronome({ bearerToken: 'My Bearer Token', fetch: testFetch });
+
+    expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
+    expect(count).toEqual(2);
+    expect(
+      await client
+        .request({ path: '/foo', method: 'get' })
+        .asResponse()
+        .then((r) => r.text()),
+    ).toEqual(JSON.stringify({ a: 1 }));
+    expect(count).toEqual(3);
+  });
+
+  test('retry on 429 with retry-after-ms', async () => {
+    let count = 0;
+    const testFetch = async (url: RequestInfo, { signal }: RequestInit = {}): Promise<Response> => {
+      if (count++ === 0) {
+        return new Response(undefined, {
+          status: 429,
+          headers: {
+            'Retry-After-Ms': '10',
+          },
+        });
+      }
+      return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
+    };
+
+    const client = new Metronome({ bearerToken: 'My Bearer Token', fetch: testFetch });
+
+    expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
+    expect(count).toEqual(2);
+    expect(
+      await client
+        .request({ path: '/foo', method: 'get' })
+        .asResponse()
+        .then((r) => r.text()),
+    ).toEqual(JSON.stringify({ a: 1 }));
+    expect(count).toEqual(3);
+  });
 });

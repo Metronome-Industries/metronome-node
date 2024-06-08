@@ -48,7 +48,9 @@ async function defaultParseResponse<T>(props: APIResponseProps): Promise<T> {
   }
 
   const contentType = response.headers.get('content-type');
-  if (contentType?.includes('application/json')) {
+  const isJSON =
+    contentType?.includes('application/json') || contentType?.includes('application/vnd.api+json');
+  if (isJSON) {
     const json = await response.json();
 
     debug('response', response.status, response.url, response.headers, json);
@@ -95,9 +97,9 @@ export class APIPromise<T> extends Promise<T> {
    *
    * 👋 Getting the wrong TypeScript type for `Response`?
    * Try setting `"moduleResolution": "NodeNext"` if you can,
-   * or add one of these imports before your first `import … from 'metronome'`:
-   * - `import 'metronome/shims/node'` (if you're running on Node)
-   * - `import 'metronome/shims/web'` (otherwise)
+   * or add one of these imports before your first `import … from '@metronome/sdk'`:
+   * - `import '@metronome/sdk/shims/node'` (if you're running on Node)
+   * - `import '@metronome/sdk/shims/web'` (otherwise)
    */
   asResponse(): Promise<Response> {
     return this.responsePromise.then((p) => p.response);
@@ -111,9 +113,9 @@ export class APIPromise<T> extends Promise<T> {
    *
    * 👋 Getting the wrong TypeScript type for `Response`?
    * Try setting `"moduleResolution": "NodeNext"` if you can,
-   * or add one of these imports before your first `import … from 'metronome'`:
-   * - `import 'metronome/shims/node'` (if you're running on Node)
-   * - `import 'metronome/shims/web'` (otherwise)
+   * or add one of these imports before your first `import … from '@metronome/sdk'`:
+   * - `import '@metronome/sdk/shims/node'` (if you're running on Node)
+   * - `import '@metronome/sdk/shims/web'` (otherwise)
    */
   async withResponse(): Promise<{ data: T; response: Response }> {
     const [data, response] = await Promise.all([this.parse(), this.asResponse()]);
@@ -334,6 +336,11 @@ export abstract class APIClient {
   }
 
   /**
+   * Used as a callback for mutating the given `FinalRequestOptions` object.
+   */
+  protected async prepareOptions(options: FinalRequestOptions): Promise<void> {}
+
+  /**
    * Used as a callback for mutating the given `RequestInit` object.
    *
    * This is useful for cases where you want to add certain headers based off of
@@ -378,6 +385,8 @@ export abstract class APIClient {
       retriesRemaining = options.maxRetries ?? this.maxRetries;
     }
 
+    await this.prepareOptions(options);
+
     const { req, url, timeout } = this.buildRequest(options);
 
     await this.prepareRequest(req, { url, options });
@@ -408,14 +417,17 @@ export abstract class APIClient {
 
     if (!response.ok) {
       if (retriesRemaining && this.shouldRetry(response)) {
+        const retryMessage = `retrying, ${retriesRemaining} attempts remaining`;
+        debug(`response (error; ${retryMessage})`, response.status, url, responseHeaders);
         return this.retryRequest(options, retriesRemaining, responseHeaders);
       }
 
       const errText = await response.text().catch((e) => castToError(e).message);
       const errJSON = safeJSON(errText);
       const errMessage = errJSON ? undefined : errText;
+      const retryMessage = retriesRemaining ? `(error; no more retries left)` : `(error; not retryable)`;
 
-      debug('response', response.status, url, responseHeaders, errMessage);
+      debug(`response (error; ${retryMessage})`, response.status, url, responseHeaders, errMessage);
 
       const err = this.makeStatusError(response.status, errJSON, errMessage, responseHeaders);
       throw err;
@@ -443,8 +455,8 @@ export abstract class APIClient {
       query = { ...defaultQuery, ...query } as Req;
     }
 
-    if (query) {
-      url.search = this.stringifyQuery(query);
+    if (typeof query === 'object' && query && !Array.isArray(query)) {
+      url.search = this.stringifyQuery(query as Record<string, unknown>);
     }
 
     return url.toString();
@@ -520,11 +532,21 @@ export abstract class APIClient {
     retriesRemaining: number,
     responseHeaders?: Headers | undefined,
   ): Promise<APIResponseProps> {
-    // About the Retry-After header: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
     let timeoutMillis: number | undefined;
+
+    // Note the `retry-after-ms` header may not be standard, but is a good idea and we'd like proactive support for it.
+    const retryAfterMillisHeader = responseHeaders?.['retry-after-ms'];
+    if (retryAfterMillisHeader) {
+      const timeoutMs = parseFloat(retryAfterMillisHeader);
+      if (!Number.isNaN(timeoutMs)) {
+        timeoutMillis = timeoutMs;
+      }
+    }
+
+    // About the Retry-After header: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
     const retryAfterHeader = responseHeaders?.['retry-after'];
-    if (retryAfterHeader) {
-      const timeoutSeconds = parseInt(retryAfterHeader);
+    if (retryAfterHeader && !timeoutMillis) {
+      const timeoutSeconds = parseFloat(retryAfterHeader);
       if (!Number.isNaN(timeoutSeconds)) {
         timeoutMillis = timeoutSeconds * 1000;
       } else {
@@ -534,12 +556,7 @@ export abstract class APIClient {
 
     // If the API asks us to wait a certain amount of time (and it's a reasonable amount),
     // just do what it says, but otherwise calculate a default
-    if (
-      !timeoutMillis ||
-      !Number.isInteger(timeoutMillis) ||
-      timeoutMillis <= 0 ||
-      timeoutMillis > 60 * 1000
-    ) {
+    if (!(timeoutMillis && 0 <= timeoutMillis && timeoutMillis < 60 * 1000)) {
       const maxRetries = options.maxRetries ?? this.maxRetries;
       timeoutMillis = this.calculateDefaultRetryTimeoutMillis(retriesRemaining, maxRetries);
     }
@@ -708,7 +725,7 @@ export type RequestOptions<Req = unknown | Record<string, unknown> | Readable> =
   method?: HTTPMethod;
   path?: string;
   query?: Req | undefined;
-  body?: Req | undefined;
+  body?: Req | null | undefined;
   headers?: Headers | undefined;
 
   maxRetries?: number;
@@ -785,7 +802,8 @@ const getPlatformProperties = (): PlatformProperties => {
       'X-Stainless-OS': normalizePlatform(Deno.build.os),
       'X-Stainless-Arch': normalizeArch(Deno.build.arch),
       'X-Stainless-Runtime': 'deno',
-      'X-Stainless-Runtime-Version': Deno.version,
+      'X-Stainless-Runtime-Version':
+        typeof Deno.version === 'string' ? Deno.version : Deno.version?.deno ?? 'unknown',
     };
   }
   if (typeof EdgeRuntime !== 'undefined') {
@@ -952,14 +970,16 @@ export const ensurePresent = <T>(value: T | null | undefined): T => {
 /**
  * Read an environment variable.
  *
+ * Trims beginning and trailing whitespace.
+ *
  * Will return undefined if the environment variable doesn't exist or cannot be accessed.
  */
 export const readEnv = (env: string): string | undefined => {
   if (typeof process !== 'undefined') {
-    return process.env?.[env] ?? undefined;
+    return process.env?.[env]?.trim() ?? undefined;
   }
   if (typeof Deno !== 'undefined') {
-    return Deno.env?.get?.(env);
+    return Deno.env?.get?.(env)?.trim();
   }
   return undefined;
 };
@@ -1040,7 +1060,7 @@ function applyHeadersMut(targetHeaders: Headers, newHeaders: Headers): void {
 }
 
 export function debug(action: string, ...args: any[]) {
-  if (typeof process !== 'undefined' && process.env['DEBUG'] === 'true') {
+  if (typeof process !== 'undefined' && process?.env?.['DEBUG'] === 'true') {
     console.log(`Metronome:DEBUG:${action}`, ...args);
   }
 }
@@ -1120,3 +1140,7 @@ export const toBase64 = (str: string | null | undefined): string => {
 
   throw new MetronomeError('Cannot generate b64 string; Expected `Buffer` or `btoa` to be defined');
 };
+
+export function isObj(obj: unknown): obj is Record<string, unknown> {
+  return obj != null && typeof obj === 'object' && !Array.isArray(obj);
+}

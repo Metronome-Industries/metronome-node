@@ -1,10 +1,10 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'metronome/core';
-import { APIResource } from 'metronome/resource';
-import { isRequestOptions } from 'metronome/core';
-import * as InvoicesAPI from 'metronome/resources/customers/invoices';
-import { Page, type PageParams } from 'metronome/pagination';
+import * as Core from '@metronome/sdk/core';
+import { APIResource } from '@metronome/sdk/resource';
+import { isRequestOptions } from '@metronome/sdk/core';
+import * as InvoicesAPI from '@metronome/sdk/resources/customers/invoices';
+import * as Shared from '@metronome/sdk/resources/shared';
 
 export class Invoices extends APIResource {
   /**
@@ -13,9 +13,24 @@ export class Invoices extends APIResource {
   retrieve(
     customerId: string,
     invoiceId: string,
+    query?: InvoiceRetrieveParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<InvoiceRetrieveResponse>;
+  retrieve(
+    customerId: string,
+    invoiceId: string,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<InvoiceRetrieveResponse>;
+  retrieve(
+    customerId: string,
+    invoiceId: string,
+    query: InvoiceRetrieveParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
   ): Core.APIPromise<InvoiceRetrieveResponse> {
-    return this._client.get(`/customers/${customerId}/invoices/${invoiceId}`, options);
+    if (isRequestOptions(query)) {
+      return this.retrieve(customerId, invoiceId, {}, query);
+    }
+    return this._client.get(`/customers/${customerId}/invoices/${invoiceId}`, { query, ...options });
   }
 
   /**
@@ -26,26 +41,37 @@ export class Invoices extends APIResource {
     customerId: string,
     query?: InvoiceListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<InvoicesPage, Invoice>;
-  list(customerId: string, options?: Core.RequestOptions): Core.PagePromise<InvoicesPage, Invoice>;
+  ): Core.APIPromise<InvoiceListResponse>;
+  list(customerId: string, options?: Core.RequestOptions): Core.APIPromise<InvoiceListResponse>;
   list(
     customerId: string,
     query: InvoiceListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<InvoicesPage, Invoice> {
+  ): Core.APIPromise<InvoiceListResponse> {
     if (isRequestOptions(query)) {
       return this.list(customerId, {}, query);
     }
-    return this._client.getAPIList(`/customers/${customerId}/invoices`, InvoicesPage, { query, ...options });
+    return this._client.get(`/customers/${customerId}/invoices`, { query, ...options });
+  }
+
+  /**
+   * Add a one time charge to the specified invoice
+   */
+  addCharge(
+    customerId: string,
+    body: InvoiceAddChargeParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<InvoiceAddChargeResponse> {
+    return this._client.post(`/customers/${customerId}/addCharge`, { body, ...options });
   }
 }
-
-export class InvoicesPage extends Page<Invoice> {}
 
 export interface Invoice {
   id: string;
 
-  credit_type: Invoice.CreditType;
+  billable_status: 'billable' | 'unbillable';
+
+  credit_type: Shared.CreditType;
 
   customer_id: string;
 
@@ -59,11 +85,21 @@ export interface Invoice {
 
   amendment_id?: string;
 
+  contract_custom_fields?: Record<string, string>;
+
   contract_id?: string;
 
   correction_record?: Invoice.CorrectionRecord;
 
+  /**
+   * When the invoice was created (UTC). This field is present for correction
+   * invoices only.
+   */
+  created_at?: string;
+
   custom_fields?: Record<string, unknown>;
+
+  customer_custom_fields?: Record<string, string>;
 
   /**
    * End of the usage period this invoice covers (UTC)
@@ -111,18 +147,14 @@ export interface Invoice {
 }
 
 export namespace Invoice {
-  export interface CreditType {
-    id: string;
-
-    name: string;
-  }
-
   export interface LineItem {
-    credit_type: LineItem.CreditType;
+    credit_type: Shared.CreditType;
 
     name: string;
 
     total: number;
+
+    commit_custom_fields?: Record<string, string>;
 
     /**
      * only present for beta contract invoices
@@ -130,9 +162,26 @@ export namespace Invoice {
     commit_id?: string;
 
     /**
+     * only present for beta contract invoices. This field's availability is dependent
+     * on your client's configuration.
+     */
+    commit_netsuite_item_id?: string;
+
+    /**
+     * only present for beta contract invoices. This field's availability is dependent
+     * on your client's configuration.
+     */
+    commit_netsuite_sales_order_id?: string;
+
+    /**
      * only present for beta contract invoices
      */
     commit_segment_id?: string;
+
+    /**
+     * only present for beta contract invoices
+     */
+    commit_type?: string;
 
     custom_fields?: Record<string, string>;
 
@@ -143,12 +192,24 @@ export namespace Invoice {
 
     group_key?: string;
 
-    group_value?: string;
+    group_value?: string | null;
 
     /**
      * only present for beta contract invoices
      */
     is_prorated?: boolean;
+
+    metadata?: string;
+
+    /**
+     * The end date for the billing period on the invoice.
+     */
+    netsuite_invoice_billing_end?: string;
+
+    /**
+     * The start date for the billing period on the invoice.
+     */
+    netsuite_invoice_billing_start?: string;
 
     /**
      * only present for beta contract invoices. This field's availability is dependent
@@ -161,11 +222,41 @@ export namespace Invoice {
      */
     postpaid_commit?: LineItem.PostpaidCommit;
 
+    /**
+     * if presentation groups are used, this will contain the values used to break down
+     * the line item
+     */
+    presentation_group_values?: Record<string, string | null>;
+
+    /**
+     * if pricing groups are used, this will contain the values used to calculate the
+     * price
+     */
+    pricing_group_values?: Record<string, string>;
+
+    product_custom_fields?: Record<string, string>;
+
     product_id?: string;
+
+    product_type?: string;
+
+    professional_service_custom_fields?: Record<string, string>;
+
+    /**
+     * only present for beta contract invoices
+     */
+    professional_service_id?: string;
 
     quantity?: number;
 
-    reseller_type?: 'AWS' | 'GCP';
+    reseller_type?: 'AWS' | 'AWS_PRO_SERVICE' | 'GCP' | 'GCP_PRO_SERVICE';
+
+    scheduled_charge_custom_fields?: Record<string, string>;
+
+    /**
+     * only present for beta contract invoices
+     */
+    scheduled_charge_id?: string;
 
     /**
      * only present for beta contract invoices
@@ -181,12 +272,6 @@ export namespace Invoice {
   }
 
   export namespace LineItem {
-    export interface CreditType {
-      id: string;
-
-      name: string;
-    }
-
     /**
      * only present for beta contract invoices
      */
@@ -250,7 +335,9 @@ export namespace Invoice {
         | 'netsuite'
         | 'custom'
         | 'azure_marketplace'
-        | 'quickbooks_online';
+        | 'quickbooks_online'
+        | 'workday'
+        | 'gcp_marketplace';
 
       external_status?:
         | 'DRAFT'
@@ -278,7 +365,9 @@ export namespace Invoice {
       | 'netsuite'
       | 'custom'
       | 'azure_marketplace'
-      | 'quickbooks_online';
+      | 'quickbooks_online'
+      | 'workday'
+      | 'gcp_marketplace';
 
     external_status?:
       | 'DRAFT'
@@ -299,19 +388,13 @@ export namespace Invoice {
   }
 
   export interface InvoiceAdjustment {
-    credit_type: InvoiceAdjustment.CreditType;
+    credit_type: Shared.CreditType;
 
     name: string;
 
     total: number;
-  }
 
-  export namespace InvoiceAdjustment {
-    export interface CreditType {
-      id: string;
-
-      name: string;
-    }
+    credit_grant_id?: string;
   }
 
   /**
@@ -322,7 +405,7 @@ export namespace Invoice {
 
     netsuite_reseller_id: string;
 
-    reseller_type: 'AWS' | 'GCP';
+    reseller_type: 'AWS' | 'AWS_PRO_SERVICE' | 'GCP' | 'GCP_PRO_SERVICE';
 
     aws_options?: ResellerRoyalty.AwsOptions;
 
@@ -350,7 +433,22 @@ export interface InvoiceRetrieveResponse {
   data: Invoice;
 }
 
-export interface InvoiceListParams extends PageParams {
+export interface InvoiceListResponse {
+  data: Array<Invoice>;
+
+  next_page: string | null;
+}
+
+export interface InvoiceAddChargeResponse {}
+
+export interface InvoiceRetrieveParams {
+  /**
+   * If set, all zero quantity line items will be filtered out of the response
+   */
+  skip_zero_qty_line_items?: boolean;
+}
+
+export interface InvoiceListParams {
   /**
    * Only return invoices for the specified credit type
    */
@@ -366,6 +464,16 @@ export interface InvoiceListParams extends PageParams {
    * Max number of results that should be returned
    */
   limit?: number;
+
+  /**
+   * Cursor that indicates where the next page of results should start.
+   */
+  next_page?: string;
+
+  /**
+   * If set, all zero quantity line items will be filtered out of the response
+   */
+  skip_zero_qty_line_items?: boolean;
 
   /**
    * Invoice sort order by issued_at, e.g. date_asc or date_desc. Defaults to
@@ -385,9 +493,41 @@ export interface InvoiceListParams extends PageParams {
   status?: string;
 }
 
+export interface InvoiceAddChargeParams {
+  /**
+   * The Metronome ID of the charge to add to the invoice. Note that the charge must
+   * be on a product that is not on the current plan, and the product must have only
+   * fixed charges.
+   */
+  charge_id: string;
+
+  /**
+   * The Metronome ID of the customer plan to add the charge to.
+   */
+  customer_plan_id: string;
+
+  description: string;
+
+  /**
+   * The start_timestamp of the invoice to add the charge to.
+   */
+  invoice_start_timestamp: string;
+
+  /**
+   * The price of the charge. This price will match the currency on the invoice, e.g.
+   * USD cents.
+   */
+  price: number;
+
+  quantity: number;
+}
+
 export namespace Invoices {
   export import Invoice = InvoicesAPI.Invoice;
   export import InvoiceRetrieveResponse = InvoicesAPI.InvoiceRetrieveResponse;
-  export import InvoicesPage = InvoicesAPI.InvoicesPage;
+  export import InvoiceListResponse = InvoicesAPI.InvoiceListResponse;
+  export import InvoiceAddChargeResponse = InvoicesAPI.InvoiceAddChargeResponse;
+  export import InvoiceRetrieveParams = InvoicesAPI.InvoiceRetrieveParams;
   export import InvoiceListParams = InvoicesAPI.InvoiceListParams;
+  export import InvoiceAddChargeParams = InvoicesAPI.InvoiceAddChargeParams;
 }

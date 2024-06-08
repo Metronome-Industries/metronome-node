@@ -1,25 +1,31 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'metronome/core';
-import { APIResource } from 'metronome/resource';
-import * as UsageAPI from 'metronome/resources/usage';
-import { Page, type PageParams } from 'metronome/pagination';
+import * as Core from '@metronome/sdk/core';
+import { APIResource } from '@metronome/sdk/resource';
+import * as UsageAPI from '@metronome/sdk/resources/usage';
 
 export class Usage extends APIResource {
   /**
    * Fetch aggregated usage data for multiple customers and billable-metrics, broken
    * into intervals of the specified length.
    */
-  list(
-    params: UsageListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<UsageListResponsesPage, UsageListResponse> {
+  list(params: UsageListParams, options?: Core.RequestOptions): Core.APIPromise<UsageListResponse> {
     const { next_page, ...body } = params;
-    return this._client.getAPIList('/usage', UsageListResponsesPage, {
-      query: { next_page },
+    return this._client.post('/usage', { query: { next_page }, body, ...options });
+  }
+
+  /**
+   * Send usage events to Metronome. The body of this request is expected to be a
+   * JSON array of between 1 and 100 usage events. Compressed request bodies are
+   * supported with a `Content-Encoding: gzip` header. See
+   * [Getting usage into Metronome](https://docs.metronome.com/getting-usage-data-into-metronome/overview)
+   * to learn more about usage events.
+   */
+  ingest(body: UsageIngestParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+    return this._client.post('/ingest', {
       body,
-      method: 'post',
       ...options,
+      headers: { Accept: '*/*', ...options?.headers },
     });
   }
 
@@ -30,54 +36,61 @@ export class Usage extends APIResource {
   listWithGroups(
     params: UsageListWithGroupsParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<UsageListWithGroupsResponsesPage, UsageListWithGroupsResponse> {
+  ): Core.APIPromise<UsageListWithGroupsResponse> {
     const { limit, next_page, ...body } = params;
-    return this._client.getAPIList('/usage/groups', UsageListWithGroupsResponsesPage, {
-      query: { limit, next_page },
-      body,
-      method: 'post',
-      ...options,
-    });
+    return this._client.post('/usage/groups', { query: { limit, next_page }, body, ...options });
   }
 }
 
-export class UsageListResponsesPage extends Page<UsageListResponse> {}
-
-export class UsageListWithGroupsResponsesPage extends Page<UsageListWithGroupsResponse> {}
-
 export interface UsageListResponse {
-  billable_metric_id: string;
+  data: Array<UsageListResponse.Data>;
 
-  billable_metric_name: string;
+  next_page: string | null;
+}
 
-  customer_id: string;
+export namespace UsageListResponse {
+  export interface Data {
+    billable_metric_id: string;
 
-  end_timestamp: string;
+    billable_metric_name: string;
 
-  start_timestamp: string;
+    customer_id: string;
 
-  value: number | null;
+    end_timestamp: string;
 
-  /**
-   * Values will be either a number or null. Null indicates that there were no
-   * matches for the group_by value.
-   */
-  groups?: Record<string, number | null>;
+    start_timestamp: string;
+
+    value: number | null;
+
+    /**
+     * Values will be either a number or null. Null indicates that there were no
+     * matches for the group_by value.
+     */
+    groups?: Record<string, number | null>;
+  }
 }
 
 export interface UsageListWithGroupsResponse {
-  ending_before: string;
+  data: Array<UsageListWithGroupsResponse.Data>;
 
-  group_key: string | null;
-
-  group_value: string | null;
-
-  starting_on: string;
-
-  value: number | null;
+  next_page: string | null;
 }
 
-export interface UsageListParams extends PageParams {
+export namespace UsageListWithGroupsResponse {
+  export interface Data {
+    ending_before: string;
+
+    group_key: string | null;
+
+    group_value: string | null;
+
+    starting_on: string;
+
+    value: number | null;
+  }
+}
+
+export interface UsageListParams {
   /**
    * Body param:
    */
@@ -95,6 +108,11 @@ export interface UsageListParams extends PageParams {
    * period.
    */
   window_size: 'hour' | 'day' | 'none' | 'HOUR' | 'DAY' | 'NONE' | 'Hour' | 'Day' | 'None';
+
+  /**
+   * Query param: Cursor that indicates where the next page of results should start.
+   */
+  next_page?: string;
 
   /**
    * Body param: A list of billable metrics to fetch usage for. If absent, all
@@ -132,7 +150,26 @@ export namespace UsageListParams {
   }
 }
 
-export interface UsageListWithGroupsParams extends PageParams {
+export type UsageIngestParams = Array<UsageIngestParams.Usage>;
+
+export namespace UsageIngestParams {
+  export interface Usage {
+    customer_id: string;
+
+    event_type: string;
+
+    /**
+     * RFC 3339 formatted
+     */
+    timestamp: string;
+
+    transaction_id: string;
+
+    properties?: Record<string, unknown>;
+  }
+}
+
+export interface UsageListWithGroupsParams {
   /**
    * Body param:
    */
@@ -155,6 +192,11 @@ export interface UsageListWithGroupsParams extends PageParams {
    * Query param: Max number of results that should be returned
    */
   limit?: number;
+
+  /**
+   * Query param: Cursor that indicates where the next page of results should start.
+   */
+  next_page?: string;
 
   /**
    * Body param: If true, will return the usage for the current billing period. Will
@@ -197,8 +239,7 @@ export namespace UsageListWithGroupsParams {
 export namespace Usage {
   export import UsageListResponse = UsageAPI.UsageListResponse;
   export import UsageListWithGroupsResponse = UsageAPI.UsageListWithGroupsResponse;
-  export import UsageListResponsesPage = UsageAPI.UsageListResponsesPage;
-  export import UsageListWithGroupsResponsesPage = UsageAPI.UsageListWithGroupsResponsesPage;
   export import UsageListParams = UsageAPI.UsageListParams;
+  export import UsageIngestParams = UsageAPI.UsageIngestParams;
   export import UsageListWithGroupsParams = UsageAPI.UsageListWithGroupsParams;
 }

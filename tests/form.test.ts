@@ -1,6 +1,6 @@
-import { multipartFormRequestOptions, createForm } from 'metronome/core';
-import { Blob } from 'metronome/_shims/index';
-import { toFile } from 'metronome';
+import { multipartFormRequestOptions, createForm } from '@metronome/sdk/core';
+import { Blob } from '@metronome/sdk/_shims/index';
+import { toFile } from '@metronome/sdk';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

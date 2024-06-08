@@ -1,39 +1,39 @@
 # Metronome Node API Library
 
-[![NPM version](https://img.shields.io/npm/v/metronome.svg)](https://npmjs.org/package/metronome)
+[![NPM version](https://img.shields.io/npm/v/@metronome/sdk.svg)](https://npmjs.org/package/@metronome/sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@metronome/sdk)
 
 This library provides convenient access to the Metronome REST API from server-side TypeScript or JavaScript.
 
-The API documentation can be found [here](https://docs.metronome.com).
+The REST API documentation can be found [on docs.metronome.com](https://docs.metronome.com). The full API of this library can be found in [api.md](api.md).
+
+It is generated with [Stainless](https://www.stainlessapi.com/).
 
 ## Installation
 
 ```sh
-npm install --save metronome
-# or
-yarn add metronome
+npm install @metronome/sdk
 ```
 
 ## Usage
 
-The full API of this library can be found in [api.md](https://www.github.com/Metronome-Industries/metronome-node/blob/main/api.md).
+The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import Metronome from 'metronome';
+import Metronome from '@metronome/sdk';
 
 const metronome = new Metronome({
   bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
 async function main() {
-  await metronome.ingest({
-    body: [
+  const response = await metronome.usage.ingest({
+    usage: [
       {
-        transaction_id: '2021-01-01T00:00:00+00:00_cluster42',
+        transaction_id: '2021-01-01T00:00:00Z_cluster42',
         customer_id: 'team@example.com',
         event_type: 'heartbeat',
-        timestamp: '2021-01-01T00:00:00+00:00',
+        timestamp: '2021-01-01T00:00:00Z',
       },
     ],
   });
@@ -48,7 +48,7 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import Metronome from 'metronome';
+import Metronome from '@metronome/sdk';
 
 const metronome = new Metronome({
   bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted
@@ -56,8 +56,8 @@ const metronome = new Metronome({
 
 async function main() {
   const params: Metronome.AlertCreateParams = {
-    alert_type: 'low_credit_balance_reached',
-    name: '$100 credit balance alert for single customer',
+    alert_type: 'spend_threshold_reached',
+    name: '$100 spend threshold reached',
     threshold: 10000,
   };
   const alertCreateResponse: Metronome.AlertCreateResponse = await metronome.alerts.create(params);
@@ -77,13 +77,9 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const alert = await metronome.alerts
-    .create({
-      alert_type: 'low_credit_balance_reached',
-      name: '$100 credit balance alert for single customer',
-      threshold: 10000,
-    })
-    .catch((err) => {
+  const alertCreateResponse = await metronome.alerts
+    .create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 })
+    .catch(async (err) => {
       if (err instanceof Metronome.APIError) {
         console.log(err.status); // 400
         console.log(err.name); // BadRequestError
@@ -126,7 +122,7 @@ const metronome = new Metronome({
 });
 
 // Or, configure per-request:
-await metronome.alerts.create({ alert_type: 'low_credit_balance_reached', name: '$100 credit balance alert for single customer', threshold: 10000 }, {
+await metronome.alerts.create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 }, {
   maxRetries: 5,
 });
 ```
@@ -143,7 +139,7 @@ const metronome = new Metronome({
 });
 
 // Override per-request:
-await metronome.alerts.create({ alert_type: 'low_credit_balance_reached', name: '$100 credit balance alert for single customer', threshold: 10000 }, {
+await metronome.alerts.create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 }, {
   timeout: 5 * 1000,
 });
 ```
@@ -165,27 +161,63 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 const metronome = new Metronome();
 
 const response = await metronome.alerts
-  .create({
-    alert_type: 'low_credit_balance_reached',
-    name: '$100 credit balance alert for single customer',
-    threshold: 10000,
-  })
+  .create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
 const { data: alertCreateResponse, response: raw } = await metronome.alerts
-  .create({
-    alert_type: 'low_credit_balance_reached',
-    name: '$100 credit balance alert for single customer',
-    threshold: 10000,
-  })
+  .create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(alertCreateResponse.data);
 ```
 
-## Customizing the fetch client
+### Making custom/undocumented requests
+
+This library is typed for convenient access to the documented API. If you need to access undocumented
+endpoints, params, or response properties, the library can still be used.
+
+#### Undocumented endpoints
+
+To make requests to undocumented endpoints, you can use `client.get`, `client.post`, and other HTTP verbs.
+Options on the client, such as retries, will be respected when making these requests.
+
+```ts
+await client.post('/some/path', {
+  body: { some_prop: 'foo' },
+  query: { some_query_arg: 'bar' },
+});
+```
+
+#### Undocumented request params
+
+To make requests using undocumented parameters, you may use `// @ts-expect-error` on the undocumented
+parameter. This library doesn't validate at runtime that the request matches the type, so any extra values you
+send will be sent as-is.
+
+```ts
+client.foo.create({
+  foo: 'my_param',
+  bar: 12,
+  // @ts-expect-error baz is not yet public
+  baz: 'undocumented option',
+});
+```
+
+For requests with the `GET` verb, any extra params will be in the query, all other requests will send the
+extra param in the body.
+
+If you want to explicitly send an extra argument, you can do so with the `query`, `body`, and `headers` request
+options.
+
+#### Undocumented response properties
+
+To access undocumented response properties, you may access the response object with `// @ts-expect-error` on
+the response object, or cast the response object to the requisite type. Like the request params, we do not
+validate or strip extra properties from the response from the API.
+
+### Customizing the fetch client
 
 By default, this library uses `node-fetch` in Node, and expects a global `fetch` function in other environments.
 
@@ -196,23 +228,25 @@ add the following import before your first import `from "Metronome"`:
 ```ts
 // Tell TypeScript and the package to use the global web fetch instead of node-fetch.
 // Note, despite the name, this does not add any polyfills, but expects them to be provided if needed.
-import 'metronome/shims/web';
-import Metronome from 'metronome';
+import '@metronome/sdk/shims/web';
+import Metronome from '@metronome/sdk';
 ```
 
-To do the inverse, add `import "metronome/shims/node"` (which does import polyfills).
-This can also be useful if you are getting the wrong TypeScript types for `Response` - more details [here](https://github.com/Metronome-Industries/metronome-node/tree/main/src/_shims#readme).
+To do the inverse, add `import "@metronome/sdk/shims/node"` (which does import polyfills).
+This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/Metronome-Industries/metronome-node/tree/main/src/_shims#readme)).
+
+### Logging and middleware
 
 You may also provide a custom `fetch` function when instantiating the client,
 which can be used to inspect or alter the `Request` or `Response` before/after each request:
 
 ```ts
 import { fetch } from 'undici'; // as one example
-import Metronome from 'metronome';
+import Metronome from '@metronome/sdk';
 
 const client = new Metronome({
-  fetch: (url: RequestInfo, init?: RequestInfo): Response => {
-    console.log('About to make request', url, init);
+  fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
+    console.log('About to make a request', url, init);
     const response = await fetch(url, init);
     console.log('Got response', response);
     return response;
@@ -223,7 +257,7 @@ const client = new Metronome({
 Note that if given a `DEBUG=true` environment variable, this library will log all requests and responses automatically.
 This is intended for debugging purposes only and may change in the future without notice.
 
-## Configuring an HTTP(S) Agent (e.g., for proxies)
+### Configuring an HTTP(S) Agent (e.g., for proxies)
 
 By default, this library uses a stable agent for all http/https requests to reuse TCP connections, eliminating many TCP & TLS handshakes and shaving around 100ms off most requests.
 
@@ -232,7 +266,7 @@ If you would like to disable or customize this behavior, for example to use the 
 <!-- prettier-ignore -->
 ```ts
 import http from 'http';
-import HttpsProxyAgent from 'https-proxy-agent';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // Configure the default for all requests:
 const metronome = new Metronome({
@@ -240,13 +274,15 @@ const metronome = new Metronome({
 });
 
 // Override per-request:
-await metronome.alerts.create({ alert_type: 'low_credit_balance_reached', name: '$100 credit balance alert for single customer', threshold: 10000 }, {
-  baseURL: 'http://localhost:8080/test-api',
-  httpAgent: new http.Agent({ keepAlive: false }),
-})
+await metronome.alerts.create(
+  { alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 },
+  {
+    httpAgent: new http.Agent({ keepAlive: false }),
+  },
+);
 ```
 
-## Semantic Versioning
+## Semantic versioning
 
 This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
 
@@ -265,7 +301,7 @@ TypeScript >= 4.5 is supported.
 The following runtimes are supported:
 
 - Node.js 18 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
-- Deno v1.28.0 or higher, using `import Metronome from "npm:metronome"`.
+- Deno v1.28.0 or higher, using `import Metronome from "npm:@metronome/sdk"`.
 - Bun 1.0 or later.
 - Cloudflare Workers.
 - Vercel Edge Runtime.

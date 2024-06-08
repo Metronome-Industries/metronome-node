@@ -1,19 +1,22 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import * as Core from './core';
-import * as Pagination from './pagination';
 import * as Errors from './error';
 import { type Agent } from './_shims/index';
 import * as Uploads from './uploads';
 import * as qs from 'qs';
-import * as API from 'metronome/resources/index';
-import * as TopLevelAPI from 'metronome/resources/top-level';
+import * as API from '@metronome/sdk/resources/index';
 
 export interface ClientOptions {
   /**
    * Defaults to process.env['METRONOME_BEARER_TOKEN'].
    */
-  bearerToken?: string;
+  bearerToken?: string | undefined;
+
+  /**
+   * Defaults to process.env['METRONOME_WEBHOOK_SECRET'].
+   */
+  webhookSecret?: string | null | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -75,13 +78,15 @@ export interface ClientOptions {
 /** API Client for interfacing with the Metronome API. */
 export class Metronome extends Core.APIClient {
   bearerToken: string;
+  webhookSecret: string | null;
 
   private _options: ClientOptions;
 
   /**
    * API Client for interfacing with the Metronome API.
    *
-   * @param {string} [opts.bearerToken=process.env['METRONOME_BEARER_TOKEN'] ?? undefined]
+   * @param {string | undefined} [opts.bearerToken=process.env['METRONOME_BEARER_TOKEN'] ?? undefined]
+   * @param {string | null | undefined} [opts.webhookSecret=process.env['METRONOME_WEBHOOK_SECRET'] ?? null]
    * @param {string} [opts.baseURL=process.env['METRONOME_BASE_URL'] ?? https://api.metronome.com/v1] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -93,6 +98,7 @@ export class Metronome extends Core.APIClient {
   constructor({
     baseURL = Core.readEnv('METRONOME_BASE_URL'),
     bearerToken = Core.readEnv('METRONOME_BEARER_TOKEN'),
+    webhookSecret = Core.readEnv('METRONOME_WEBHOOK_SECRET') ?? null,
     ...opts
   }: ClientOptions = {}) {
     if (bearerToken === undefined) {
@@ -103,8 +109,9 @@ export class Metronome extends Core.APIClient {
 
     const options: ClientOptions = {
       bearerToken,
+      webhookSecret,
       ...opts,
-      baseURL: baseURL ?? `https://api.metronome.com/v1`,
+      baseURL: baseURL || `https://api.metronome.com/v1`,
     };
 
     super({
@@ -117,30 +124,20 @@ export class Metronome extends Core.APIClient {
     this._options = options;
 
     this.bearerToken = bearerToken;
+    this.webhookSecret = webhookSecret;
   }
 
   alerts: API.Alerts = new API.Alerts(this);
-  customerAlerts: API.CustomerAlerts = new API.CustomerAlerts(this);
   plans: API.Plans = new API.Plans(this);
-  credits: API.Credits = new API.Credits(this);
-  creditTypes: API.CreditTypes = new API.CreditTypes(this);
+  creditGrants: API.CreditGrants = new API.CreditGrants(this);
   customers: API.Customers = new API.Customers(this);
   dashboards: API.Dashboards = new API.Dashboards(this);
   webhooks: API.Webhooks = new API.Webhooks(this);
   usage: API.Usage = new API.Usage(this);
   auditLogs: API.AuditLogs = new API.AuditLogs(this);
   customFields: API.CustomFields = new API.CustomFields(this);
-
-  /**
-   * Send usage events to Metronome. The body of this request is expected to be a
-   * JSON array of between 1 and 100 usage events. Compressed request bodies are
-   * supported with a `Content-Encoding: gzip` header. See
-   * [Getting usage into Metronome](https://docs.metronome.com/getting-usage-data-into-metronome/overview)
-   * to learn more about usage events.
-   */
-  ingest(body: TopLevelAPI.IngestParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this.post('/ingest', { body, ...options, headers: { Accept: '', ...options?.headers } });
-  }
+  billableMetrics: API.BillableMetrics = new API.BillableMetrics(this);
+  services: API.Services = new API.Services(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -176,6 +173,9 @@ export class Metronome extends Core.APIClient {
   static InternalServerError = Errors.InternalServerError;
   static PermissionDeniedError = Errors.PermissionDeniedError;
   static UnprocessableEntityError = Errors.UnprocessableEntityError;
+
+  static toFile = Uploads.toFile;
+  static fileFromPath = Uploads.fileFromPath;
 }
 
 export const {
@@ -198,17 +198,7 @@ export import toFile = Uploads.toFile;
 export import fileFromPath = Uploads.fileFromPath;
 
 export namespace Metronome {
-  // Helper functions
-  export import toFile = Uploads.toFile;
-  export import fileFromPath = Uploads.fileFromPath;
-
   export import RequestOptions = Core.RequestOptions;
-
-  export import Page = Pagination.Page;
-  export import PageParams = Pagination.PageParams;
-  export import PageResponse = Pagination.PageResponse;
-
-  export import IngestParams = API.IngestParams;
 
   export import Alerts = API.Alerts;
   export import AlertCreateResponse = API.AlertCreateResponse;
@@ -216,57 +206,43 @@ export namespace Metronome {
   export import AlertCreateParams = API.AlertCreateParams;
   export import AlertArchiveParams = API.AlertArchiveParams;
 
-  export import CustomerAlerts = API.CustomerAlerts;
-  export import CustomerAlert = API.CustomerAlert;
-  export import CustomerAlertRetrieveResponse = API.CustomerAlertRetrieveResponse;
-  export import CustomerAlertsPage = API.CustomerAlertsPage;
-  export import CustomerAlertRetrieveParams = API.CustomerAlertRetrieveParams;
-  export import CustomerAlertListParams = API.CustomerAlertListParams;
-
   export import Plans = API.Plans;
   export import PlanDetail = API.PlanDetail;
   export import PlanListResponse = API.PlanListResponse;
   export import PlanGetDetailsResponse = API.PlanGetDetailsResponse;
   export import PlanListChargesResponse = API.PlanListChargesResponse;
   export import PlanListCustomersResponse = API.PlanListCustomersResponse;
-  export import PlanListResponsesPage = API.PlanListResponsesPage;
-  export import PlanListChargesResponsesPage = API.PlanListChargesResponsesPage;
-  export import PlanListCustomersResponsesPage = API.PlanListCustomersResponsesPage;
   export import PlanListParams = API.PlanListParams;
   export import PlanListChargesParams = API.PlanListChargesParams;
   export import PlanListCustomersParams = API.PlanListCustomersParams;
 
-  export import Credits = API.Credits;
-  export import CreditCreateGrantResponse = API.CreditCreateGrantResponse;
-  export import CreditEditGrantResponse = API.CreditEditGrantResponse;
-  export import CreditListEntriesResponse = API.CreditListEntriesResponse;
-  export import CreditListGrantsResponse = API.CreditListGrantsResponse;
-  export import CreditVoidGrantResponse = API.CreditVoidGrantResponse;
-  export import CreditListEntriesResponsesPage = API.CreditListEntriesResponsesPage;
-  export import CreditListGrantsResponsesPage = API.CreditListGrantsResponsesPage;
-  export import CreditCreateGrantParams = API.CreditCreateGrantParams;
-  export import CreditEditGrantParams = API.CreditEditGrantParams;
-  export import CreditListEntriesParams = API.CreditListEntriesParams;
-  export import CreditListGrantsParams = API.CreditListGrantsParams;
-  export import CreditVoidGrantParams = API.CreditVoidGrantParams;
-
-  export import CreditTypes = API.CreditTypes;
-  export import CreditTypeListResponse = API.CreditTypeListResponse;
-  export import CreditTypeListResponsesPage = API.CreditTypeListResponsesPage;
-  export import CreditTypeListParams = API.CreditTypeListParams;
+  export import CreditGrants = API.CreditGrants;
+  export import CreditLedgerEntry = API.CreditLedgerEntry;
+  export import RolloverAmountMaxAmount = API.RolloverAmountMaxAmount;
+  export import RolloverAmountMaxPercentage = API.RolloverAmountMaxPercentage;
+  export import CreditGrantCreateResponse = API.CreditGrantCreateResponse;
+  export import CreditGrantListResponse = API.CreditGrantListResponse;
+  export import CreditGrantEditResponse = API.CreditGrantEditResponse;
+  export import CreditGrantListCreditTypesResponse = API.CreditGrantListCreditTypesResponse;
+  export import CreditGrantListEntriesResponse = API.CreditGrantListEntriesResponse;
+  export import CreditGrantVoidResponse = API.CreditGrantVoidResponse;
+  export import CreditGrantCreateParams = API.CreditGrantCreateParams;
+  export import CreditGrantListParams = API.CreditGrantListParams;
+  export import CreditGrantEditParams = API.CreditGrantEditParams;
+  export import CreditGrantListCreditTypesParams = API.CreditGrantListCreditTypesParams;
+  export import CreditGrantListEntriesParams = API.CreditGrantListEntriesParams;
+  export import CreditGrantVoidParams = API.CreditGrantVoidParams;
 
   export import Customers = API.Customers;
   export import Customer = API.Customer;
   export import CustomerDetail = API.CustomerDetail;
   export import CustomerCreateResponse = API.CustomerCreateResponse;
   export import CustomerRetrieveResponse = API.CustomerRetrieveResponse;
+  export import CustomerListResponse = API.CustomerListResponse;
   export import CustomerArchiveResponse = API.CustomerArchiveResponse;
   export import CustomerListBillableMetricsResponse = API.CustomerListBillableMetricsResponse;
   export import CustomerListCostsResponse = API.CustomerListCostsResponse;
   export import CustomerSetNameResponse = API.CustomerSetNameResponse;
-  export import CustomerDetailsPage = API.CustomerDetailsPage;
-  export import CustomerListBillableMetricsResponsesPage = API.CustomerListBillableMetricsResponsesPage;
-  export import CustomerListCostsResponsesPage = API.CustomerListCostsResponsesPage;
   export import CustomerCreateParams = API.CustomerCreateParams;
   export import CustomerListParams = API.CustomerListParams;
   export import CustomerArchiveParams = API.CustomerArchiveParams;
@@ -285,27 +261,37 @@ export namespace Metronome {
   export import Usage = API.Usage;
   export import UsageListResponse = API.UsageListResponse;
   export import UsageListWithGroupsResponse = API.UsageListWithGroupsResponse;
-  export import UsageListResponsesPage = API.UsageListResponsesPage;
-  export import UsageListWithGroupsResponsesPage = API.UsageListWithGroupsResponsesPage;
   export import UsageListParams = API.UsageListParams;
+  export import UsageIngestParams = API.UsageIngestParams;
   export import UsageListWithGroupsParams = API.UsageListWithGroupsParams;
 
   export import AuditLogs = API.AuditLogs;
   export import AuditLogListResponse = API.AuditLogListResponse;
-  export import AuditLogListResponsesPage = API.AuditLogListResponsesPage;
   export import AuditLogListParams = API.AuditLogListParams;
 
   export import CustomFields = API.CustomFields;
   export import CustomFieldListKeysResponse = API.CustomFieldListKeysResponse;
-  export import CustomFieldListKeysResponsesPage = API.CustomFieldListKeysResponsesPage;
   export import CustomFieldAddKeyParams = API.CustomFieldAddKeyParams;
   export import CustomFieldDeleteValuesParams = API.CustomFieldDeleteValuesParams;
   export import CustomFieldListKeysParams = API.CustomFieldListKeysParams;
   export import CustomFieldRemoveKeyParams = API.CustomFieldRemoveKeyParams;
   export import CustomFieldSetValuesParams = API.CustomFieldSetValuesParams;
 
+  export import BillableMetrics = API.BillableMetrics;
+  export import BillableMetricCreateResponse = API.BillableMetricCreateResponse;
+  export import BillableMetricRetrieveResponse = API.BillableMetricRetrieveResponse;
+  export import BillableMetricListResponse = API.BillableMetricListResponse;
+  export import BillableMetricArchiveResponse = API.BillableMetricArchiveResponse;
+  export import BillableMetricCreateParams = API.BillableMetricCreateParams;
+  export import BillableMetricListParams = API.BillableMetricListParams;
+  export import BillableMetricArchiveParams = API.BillableMetricArchiveParams;
+
+  export import Services = API.Services;
+  export import ServiceListResponse = API.ServiceListResponse;
+
   export import Commit = API.Commit;
   export import ContractWithoutAmendments = API.ContractWithoutAmendments;
+  export import CreditType = API.CreditType;
   export import Discount = API.Discount;
   export import ID = API.ID;
   export import Override = API.Override;
