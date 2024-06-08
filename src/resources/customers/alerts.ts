@@ -1,28 +1,23 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '../core';
-import { APIResource } from '../resource';
-import * as CustomerAlertsAPI from './customer-alerts';
+import * as Core from '@metronome/sdk/core';
+import { APIResource } from '@metronome/sdk/resource';
+import * as AlertsAPI from '@metronome/sdk/resources/customers/alerts';
+import * as Shared from '@metronome/sdk/resources/shared';
 
-export class CustomerAlerts extends APIResource {
+export class Alerts extends APIResource {
   /**
    * Get the customer alert status and alert information for the specified customer
    * and alert
    */
-  retrieve(
-    body: CustomerAlertRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomerAlertRetrieveResponse> {
+  retrieve(body: AlertRetrieveParams, options?: Core.RequestOptions): Core.APIPromise<AlertRetrieveResponse> {
     return this._client.post('/customer-alerts/get', { body, ...options });
   }
 
   /**
    * Fetch all customer alert statuses and alert information for a customer
    */
-  list(
-    params: CustomerAlertListParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomerAlertListResponse> {
+  list(params: AlertListParams, options?: Core.RequestOptions): Core.APIPromise<AlertListResponse> {
     const { next_page, ...body } = params;
     return this._client.post('/customer-alerts/list', { query: { next_page }, body, ...options });
   }
@@ -30,7 +25,7 @@ export class CustomerAlerts extends APIResource {
   /**
    * Reset state for an alert by customer id and force re-evaluation
    */
-  reset(body: CustomerAlertResetParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+  reset(body: AlertResetParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/customer-alerts/reset', {
       body,
       ...options,
@@ -91,14 +86,15 @@ export namespace CustomerAlert {
       | 'low_remaining_commit_percentage_reached'
       | 'low_remaining_days_for_contract_credit_segment_reached'
       | 'low_remaining_contract_credit_balance_reached'
-      | 'low_remaining_contract_credit_percentage_reached';
+      | 'low_remaining_contract_credit_percentage_reached'
+      | 'invoice_total_reached';
 
     /**
      * Timestamp for when the alert was last updated
      */
     updated_at: string;
 
-    credit_type?: Alert.CreditType | null;
+    credit_type?: Shared.CreditType | null;
 
     /**
      * A list of custom field filters for alert types that support advanced filtering
@@ -112,6 +108,12 @@ export namespace CustomerAlert {
     group_key_filter?: Alert.GroupKeyFilter;
 
     /**
+     * Only supported for invoice_total_reached alerts. A list of invoice types to
+     * evaluate.
+     */
+    invoice_types_filter?: Array<string>;
+
+    /**
      * Prevents the creation of duplicates. If a request to create a record is made
      * with a previously used uniqueness key, a new record will not be created and the
      * request will fail with a 409 error.
@@ -120,12 +122,6 @@ export namespace CustomerAlert {
   }
 
   export namespace Alert {
-    export interface CreditType {
-      id: string;
-
-      name: string;
-    }
-
     export interface CustomFieldFilter {
       entity: 'Contract' | 'Commit' | 'ContractCredit';
 
@@ -146,17 +142,17 @@ export namespace CustomerAlert {
   }
 }
 
-export interface CustomerAlertRetrieveResponse {
+export interface AlertRetrieveResponse {
   data: CustomerAlert;
 }
 
-export interface CustomerAlertListResponse {
+export interface AlertListResponse {
   data: Array<CustomerAlert>;
 
   next_page: string | null;
 }
 
-export interface CustomerAlertRetrieveParams {
+export interface AlertRetrieveParams {
   /**
    * The Metronome ID of the alert
    */
@@ -168,7 +164,7 @@ export interface CustomerAlertRetrieveParams {
   customer_id: string;
 }
 
-export interface CustomerAlertListParams {
+export interface AlertListParams {
   /**
    * Body param: The Metronome ID of the customer
    */
@@ -196,7 +192,7 @@ export interface CustomerAlertListParams {
   >;
 }
 
-export interface CustomerAlertResetParams {
+export interface AlertResetParams {
   /**
    * The Metronome ID of the alert
    */
@@ -208,11 +204,11 @@ export interface CustomerAlertResetParams {
   customer_id: string;
 }
 
-export namespace CustomerAlerts {
-  export import CustomerAlert = CustomerAlertsAPI.CustomerAlert;
-  export import CustomerAlertRetrieveResponse = CustomerAlertsAPI.CustomerAlertRetrieveResponse;
-  export import CustomerAlertListResponse = CustomerAlertsAPI.CustomerAlertListResponse;
-  export import CustomerAlertRetrieveParams = CustomerAlertsAPI.CustomerAlertRetrieveParams;
-  export import CustomerAlertListParams = CustomerAlertsAPI.CustomerAlertListParams;
-  export import CustomerAlertResetParams = CustomerAlertsAPI.CustomerAlertResetParams;
+export namespace Alerts {
+  export import CustomerAlert = AlertsAPI.CustomerAlert;
+  export import AlertRetrieveResponse = AlertsAPI.AlertRetrieveResponse;
+  export import AlertListResponse = AlertsAPI.AlertListResponse;
+  export import AlertRetrieveParams = AlertsAPI.AlertRetrieveParams;
+  export import AlertListParams = AlertsAPI.AlertListParams;
+  export import AlertResetParams = AlertsAPI.AlertResetParams;
 }

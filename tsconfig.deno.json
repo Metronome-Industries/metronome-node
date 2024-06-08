@@ -6,9 +6,9 @@
     "rootDir": "./deno",
     "lib": ["es2020", "DOM"],
     "paths": {
-      "metronome/_shims/auto/*": ["deno/_shims/auto/*-deno"],
-      "metronome/*": ["deno/*"],
-      "metronome": ["deno/index.ts"],
+      "@metronome/sdk/_shims/auto/*": ["deno/_shims/auto/*-deno"],
+      "@metronome/sdk/*": ["deno/*"],
+      "@metronome/sdk": ["deno/index.ts"],
     },
     "noEmit": true,
     "declaration": true,

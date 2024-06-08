@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from 'metronome';
+import Metronome from '@metronome/sdk';
 import { Response } from 'node-fetch';
 
 const metronome = new Metronome({
@@ -84,5 +84,34 @@ describe('resource invoices', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
+  });
+
+  test('addCharge: only required params', async () => {
+    const responsePromise = metronome.customers.invoices.addCharge('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
+      charge_id: '5ae4b726-1ebe-439c-9190-9831760ba195',
+      customer_plan_id: 'a23b3cf4-47fb-4c3f-bb3d-9e64f7704015',
+      description: 'One time charge',
+      invoice_start_timestamp: '2024-01-01T00:00:00Z',
+      price: 250,
+      quantity: 1,
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('addCharge: required and optional params', async () => {
+    const response = await metronome.customers.invoices.addCharge('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
+      charge_id: '5ae4b726-1ebe-439c-9190-9831760ba195',
+      customer_plan_id: 'a23b3cf4-47fb-4c3f-bb3d-9e64f7704015',
+      description: 'One time charge',
+      invoice_start_timestamp: '2024-01-01T00:00:00Z',
+      price: 250,
+      quantity: 1,
+    });
   });
 });

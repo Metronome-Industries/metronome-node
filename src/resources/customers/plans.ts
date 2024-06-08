@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '../../core';
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as PlansAPI from './plans';
-import * as Shared from '../shared';
+import * as Core from '@metronome/sdk/core';
+import { APIResource } from '@metronome/sdk/resource';
+import { isRequestOptions } from '@metronome/sdk/core';
+import * as PlansAPI from '@metronome/sdk/resources/customers/plans';
+import * as Shared from '@metronome/sdk/resources/shared';
 
 export class Plans extends APIResource {
   /**
@@ -144,15 +144,7 @@ export namespace PlanListResponse {
 
         amount_remaining: number;
 
-        credit_type: SpendingCap.CreditType;
-      }
-
-      export namespace SpendingCap {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
+        credit_type: Shared.CreditType;
       }
     }
   }

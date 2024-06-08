@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '../core';
-import { APIResource } from '../resource';
-import * as AlertsAPI from './alerts';
-import * as Shared from './shared';
+import * as Core from '@metronome/sdk/core';
+import { APIResource } from '@metronome/sdk/resource';
+import * as AlertsAPI from '@metronome/sdk/resources/alerts';
+import * as Shared from '@metronome/sdk/resources/shared';
 
 export class Alerts extends APIResource {
   /**
@@ -45,7 +45,8 @@ export interface AlertCreateParams {
     | 'low_remaining_commit_percentage_reached'
     | 'low_remaining_days_for_contract_credit_segment_reached'
     | 'low_remaining_contract_credit_balance_reached'
-    | 'low_remaining_contract_credit_percentage_reached';
+    | 'low_remaining_contract_credit_percentage_reached'
+    | 'invoice_total_reached';
 
   /**
    * Name of the alert
@@ -90,6 +91,12 @@ export interface AlertCreateParams {
    * items. Only present for spend alerts.
    */
   group_key_filter?: AlertCreateParams.GroupKeyFilter;
+
+  /**
+   * Only supported for invoice_total_reached alerts. A list of invoice types to
+   * evaluate.
+   */
+  invoice_types_filter?: Array<string>;
 
   /**
    * If provided, will create this alert for this specific plan. To create an alert

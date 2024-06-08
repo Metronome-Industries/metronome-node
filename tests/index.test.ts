@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from 'metronome';
-import { APIUserAbortError } from 'metronome';
-import { Headers } from 'metronome/core';
+import Metronome from '@metronome/sdk';
+import { APIUserAbortError } from '@metronome/sdk';
+import { Headers } from '@metronome/sdk/core';
 import defaultFetch, { Response, type RequestInit, type RequestInfo } from 'node-fetch';
 
 describe('instantiate client', () => {
