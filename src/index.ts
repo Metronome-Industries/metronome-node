@@ -5,7 +5,7 @@ import * as Errors from './error';
 import { type Agent } from './_shims/index';
 import * as Uploads from './uploads';
 import * as qs from 'qs';
-import * as API from './resources/index';
+import * as API from '@metronome/sdk/resources/index';
 
 export interface ClientOptions {
   /**
@@ -128,16 +128,16 @@ export class Metronome extends Core.APIClient {
   }
 
   alerts: API.Alerts = new API.Alerts(this);
-  customerAlerts: API.CustomerAlerts = new API.CustomerAlerts(this);
   plans: API.Plans = new API.Plans(this);
-  credits: API.Credits = new API.Credits(this);
-  creditTypes: API.CreditTypes = new API.CreditTypes(this);
+  creditGrants: API.CreditGrants = new API.CreditGrants(this);
   customers: API.Customers = new API.Customers(this);
   dashboards: API.Dashboards = new API.Dashboards(this);
   webhooks: API.Webhooks = new API.Webhooks(this);
   usage: API.Usage = new API.Usage(this);
   auditLogs: API.AuditLogs = new API.AuditLogs(this);
   customFields: API.CustomFields = new API.CustomFields(this);
+  billableMetrics: API.BillableMetrics = new API.BillableMetrics(this);
+  services: API.Services = new API.Services(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -206,14 +206,6 @@ export namespace Metronome {
   export import AlertCreateParams = API.AlertCreateParams;
   export import AlertArchiveParams = API.AlertArchiveParams;
 
-  export import CustomerAlerts = API.CustomerAlerts;
-  export import CustomerAlert = API.CustomerAlert;
-  export import CustomerAlertRetrieveResponse = API.CustomerAlertRetrieveResponse;
-  export import CustomerAlertListResponse = API.CustomerAlertListResponse;
-  export import CustomerAlertRetrieveParams = API.CustomerAlertRetrieveParams;
-  export import CustomerAlertListParams = API.CustomerAlertListParams;
-  export import CustomerAlertResetParams = API.CustomerAlertResetParams;
-
   export import Plans = API.Plans;
   export import PlanDetail = API.PlanDetail;
   export import PlanListResponse = API.PlanListResponse;
@@ -224,21 +216,22 @@ export namespace Metronome {
   export import PlanListChargesParams = API.PlanListChargesParams;
   export import PlanListCustomersParams = API.PlanListCustomersParams;
 
-  export import Credits = API.Credits;
-  export import CreditCreateGrantResponse = API.CreditCreateGrantResponse;
-  export import CreditEditGrantResponse = API.CreditEditGrantResponse;
-  export import CreditListEntriesResponse = API.CreditListEntriesResponse;
-  export import CreditListGrantsResponse = API.CreditListGrantsResponse;
-  export import CreditVoidGrantResponse = API.CreditVoidGrantResponse;
-  export import CreditCreateGrantParams = API.CreditCreateGrantParams;
-  export import CreditEditGrantParams = API.CreditEditGrantParams;
-  export import CreditListEntriesParams = API.CreditListEntriesParams;
-  export import CreditListGrantsParams = API.CreditListGrantsParams;
-  export import CreditVoidGrantParams = API.CreditVoidGrantParams;
-
-  export import CreditTypes = API.CreditTypes;
-  export import CreditTypeListResponse = API.CreditTypeListResponse;
-  export import CreditTypeListParams = API.CreditTypeListParams;
+  export import CreditGrants = API.CreditGrants;
+  export import CreditLedgerEntry = API.CreditLedgerEntry;
+  export import RolloverAmountMaxAmount = API.RolloverAmountMaxAmount;
+  export import RolloverAmountMaxPercentage = API.RolloverAmountMaxPercentage;
+  export import CreditGrantCreateResponse = API.CreditGrantCreateResponse;
+  export import CreditGrantListResponse = API.CreditGrantListResponse;
+  export import CreditGrantEditResponse = API.CreditGrantEditResponse;
+  export import CreditGrantListCreditTypesResponse = API.CreditGrantListCreditTypesResponse;
+  export import CreditGrantListEntriesResponse = API.CreditGrantListEntriesResponse;
+  export import CreditGrantVoidResponse = API.CreditGrantVoidResponse;
+  export import CreditGrantCreateParams = API.CreditGrantCreateParams;
+  export import CreditGrantListParams = API.CreditGrantListParams;
+  export import CreditGrantEditParams = API.CreditGrantEditParams;
+  export import CreditGrantListCreditTypesParams = API.CreditGrantListCreditTypesParams;
+  export import CreditGrantListEntriesParams = API.CreditGrantListEntriesParams;
+  export import CreditGrantVoidParams = API.CreditGrantVoidParams;
 
   export import Customers = API.Customers;
   export import Customer = API.Customer;
@@ -269,6 +262,7 @@ export namespace Metronome {
   export import UsageListResponse = API.UsageListResponse;
   export import UsageListWithGroupsResponse = API.UsageListWithGroupsResponse;
   export import UsageListParams = API.UsageListParams;
+  export import UsageIngestParams = API.UsageIngestParams;
   export import UsageListWithGroupsParams = API.UsageListWithGroupsParams;
 
   export import AuditLogs = API.AuditLogs;
@@ -283,8 +277,21 @@ export namespace Metronome {
   export import CustomFieldRemoveKeyParams = API.CustomFieldRemoveKeyParams;
   export import CustomFieldSetValuesParams = API.CustomFieldSetValuesParams;
 
+  export import BillableMetrics = API.BillableMetrics;
+  export import BillableMetricCreateResponse = API.BillableMetricCreateResponse;
+  export import BillableMetricRetrieveResponse = API.BillableMetricRetrieveResponse;
+  export import BillableMetricListResponse = API.BillableMetricListResponse;
+  export import BillableMetricArchiveResponse = API.BillableMetricArchiveResponse;
+  export import BillableMetricCreateParams = API.BillableMetricCreateParams;
+  export import BillableMetricListParams = API.BillableMetricListParams;
+  export import BillableMetricArchiveParams = API.BillableMetricArchiveParams;
+
+  export import Services = API.Services;
+  export import ServiceListResponse = API.ServiceListResponse;
+
   export import Commit = API.Commit;
   export import ContractWithoutAmendments = API.ContractWithoutAmendments;
+  export import CreditType = API.CreditType;
   export import Discount = API.Discount;
   export import ID = API.ID;
   export import Override = API.Override;

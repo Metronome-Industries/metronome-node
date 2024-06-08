@@ -10,19 +10,33 @@ export {
 } from './alerts';
 export { AuditLogListResponse, AuditLogListParams, AuditLogs } from './audit-logs';
 export {
-  CreditCreateGrantResponse,
-  CreditEditGrantResponse,
-  CreditListEntriesResponse,
-  CreditListGrantsResponse,
-  CreditVoidGrantResponse,
-  CreditCreateGrantParams,
-  CreditEditGrantParams,
-  CreditListEntriesParams,
-  CreditListGrantsParams,
-  CreditVoidGrantParams,
-  Credits,
-} from './credits';
-export { CreditTypeListResponse, CreditTypeListParams, CreditTypes } from './credit-types';
+  BillableMetricCreateResponse,
+  BillableMetricRetrieveResponse,
+  BillableMetricListResponse,
+  BillableMetricArchiveResponse,
+  BillableMetricCreateParams,
+  BillableMetricListParams,
+  BillableMetricArchiveParams,
+  BillableMetrics,
+} from './billable-metrics';
+export {
+  CreditLedgerEntry,
+  RolloverAmountMaxAmount,
+  RolloverAmountMaxPercentage,
+  CreditGrantCreateResponse,
+  CreditGrantListResponse,
+  CreditGrantEditResponse,
+  CreditGrantListCreditTypesResponse,
+  CreditGrantListEntriesResponse,
+  CreditGrantVoidResponse,
+  CreditGrantCreateParams,
+  CreditGrantListParams,
+  CreditGrantEditParams,
+  CreditGrantListCreditTypesParams,
+  CreditGrantListEntriesParams,
+  CreditGrantVoidParams,
+  CreditGrants,
+} from './credit-grants';
 export {
   CustomFieldListKeysResponse,
   CustomFieldAddKeyParams,
@@ -52,15 +66,6 @@ export {
   CustomerUpdateConfigParams,
   Customers,
 } from './customers/customers';
-export {
-  CustomerAlert,
-  CustomerAlertRetrieveResponse,
-  CustomerAlertListResponse,
-  CustomerAlertRetrieveParams,
-  CustomerAlertListParams,
-  CustomerAlertResetParams,
-  CustomerAlerts,
-} from './customer-alerts';
 export { DashboardGetEmbeddableURLResponse, DashboardGetEmbeddableURLParams, Dashboards } from './dashboards';
 export {
   PlanDetail,
@@ -73,10 +78,12 @@ export {
   PlanListCustomersParams,
   Plans,
 } from './plans';
+export { ServiceListResponse, Services } from './services';
 export {
   UsageListResponse,
   UsageListWithGroupsResponse,
   UsageListParams,
+  UsageIngestParams,
   UsageListWithGroupsParams,
   Usage,
 } from './usage';

@@ -1,10 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '../core';
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as PlansAPI from './plans';
-import * as CustomersAPI from './customers/customers';
+import * as Core from '@metronome/sdk/core';
+import { APIResource } from '@metronome/sdk/resource';
+import { isRequestOptions } from '@metronome/sdk/core';
+import * as PlansAPI from '@metronome/sdk/resources/plans';
+import * as Shared from '@metronome/sdk/resources/shared';
+import * as CustomersAPI from '@metronome/sdk/resources/customers/customers';
 
 export class Plans extends APIResource {
   /**
@@ -91,11 +92,11 @@ export namespace PlanDetail {
   export interface CreditGrant {
     amount_granted: number;
 
-    amount_granted_credit_type: CreditGrant.AmountGrantedCreditType;
+    amount_granted_credit_type: Shared.CreditType;
 
     amount_paid: number;
 
-    amount_paid_credit_type: CreditGrant.AmountPaidCreditType;
+    amount_paid_credit_type: Shared.CreditType;
 
     effective_duration: number;
 
@@ -112,22 +113,8 @@ export namespace PlanDetail {
     recurrence_interval?: number;
   }
 
-  export namespace CreditGrant {
-    export interface AmountGrantedCreditType {
-      id: string;
-
-      name: string;
-    }
-
-    export interface AmountPaidCreditType {
-      id: string;
-
-      name: string;
-    }
-  }
-
   export interface Minimum {
-    credit_type: Minimum.CreditType;
+    credit_type: Shared.CreditType;
 
     name: string;
 
@@ -140,18 +127,10 @@ export namespace PlanDetail {
     value: number;
   }
 
-  export namespace Minimum {
-    export interface CreditType {
-      id: string;
-
-      name: string;
-    }
-  }
-
   export interface OverageRate {
-    credit_type: OverageRate.CreditType;
+    credit_type: Shared.CreditType;
 
-    fiat_credit_type: OverageRate.FiatCreditType;
+    fiat_credit_type: Shared.CreditType;
 
     /**
      * Used in price ramps. Indicates how many billing periods pass before the charge
@@ -160,20 +139,6 @@ export namespace PlanDetail {
     start_period: number;
 
     to_fiat_conversion_factor: number;
-  }
-
-  export namespace OverageRate {
-    export interface CreditType {
-      id: string;
-
-      name: string;
-    }
-
-    export interface FiatCreditType {
-      id: string;
-
-      name: string;
-    }
   }
 }
 
@@ -211,7 +176,7 @@ export namespace PlanListChargesResponse {
 
     charge_type: 'usage' | 'fixed' | 'composite' | 'minimum' | 'seat';
 
-    credit_type: Data.CreditType;
+    credit_type: Shared.CreditType;
 
     custom_fields: Record<string, string>;
 
@@ -238,12 +203,6 @@ export namespace PlanListChargesResponse {
   }
 
   export namespace Data {
-    export interface CreditType {
-      id: string;
-
-      name: string;
-    }
-
     export interface Price {
       /**
        * Used in pricing tiers. Indicates at what metric value the price applies.

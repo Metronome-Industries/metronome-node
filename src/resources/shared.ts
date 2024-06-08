@@ -1,5 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import * as Shared from '@metronome/sdk/resources/shared';
+
 export interface Commit {
   id: string;
 
@@ -99,7 +101,7 @@ export namespace Commit {
   export interface AccessSchedule {
     schedule_items: Array<AccessSchedule.ScheduleItem>;
 
-    credit_type?: AccessSchedule.CreditType;
+    credit_type?: Shared.CreditType;
   }
 
   export namespace AccessSchedule {
@@ -111,12 +113,6 @@ export namespace Commit {
       ending_before: string;
 
       starting_at: string;
-    }
-
-    export interface CreditType {
-      id: string;
-
-      name: string;
     }
   }
 
@@ -439,7 +435,7 @@ export namespace ContractWithoutAmendments {
     export interface AccessSchedule {
       schedule_items: Array<AccessSchedule.ScheduleItem>;
 
-      credit_type?: AccessSchedule.CreditType;
+      credit_type?: Shared.CreditType;
     }
 
     export namespace AccessSchedule {
@@ -451,12 +447,6 @@ export namespace ContractWithoutAmendments {
         ending_before: string;
 
         starting_at: string;
-      }
-
-      export interface CreditType {
-        id: string;
-
-        name: string;
       }
     }
 
@@ -624,6 +614,12 @@ export namespace ContractWithoutAmendments {
       starting_at: string;
     }
   }
+}
+
+export interface CreditType {
+  id: string;
+
+  name: string;
 }
 
 export interface Discount {
