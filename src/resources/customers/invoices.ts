@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '../../core';
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as InvoicesAPI from './invoices';
+import * as Core from '@metronome/sdk/core';
+import { APIResource } from '@metronome/sdk/resource';
+import { isRequestOptions } from '@metronome/sdk/core';
+import * as InvoicesAPI from '@metronome/sdk/resources/customers/invoices';
+import * as Shared from '@metronome/sdk/resources/shared';
 
 export class Invoices extends APIResource {
   /**
@@ -52,6 +53,17 @@ export class Invoices extends APIResource {
     }
     return this._client.get(`/customers/${customerId}/invoices`, { query, ...options });
   }
+
+  /**
+   * Add a one time charge to the specified invoice
+   */
+  addCharge(
+    customerId: string,
+    body: InvoiceAddChargeParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<InvoiceAddChargeResponse> {
+    return this._client.post(`/customers/${customerId}/addCharge`, { body, ...options });
+  }
 }
 
 export interface Invoice {
@@ -59,7 +71,7 @@ export interface Invoice {
 
   billable_status: 'billable' | 'unbillable';
 
-  credit_type: Invoice.CreditType;
+  credit_type: Shared.CreditType;
 
   customer_id: string;
 
@@ -135,14 +147,8 @@ export interface Invoice {
 }
 
 export namespace Invoice {
-  export interface CreditType {
-    id: string;
-
-    name: string;
-  }
-
   export interface LineItem {
-    credit_type: LineItem.CreditType;
+    credit_type: Shared.CreditType;
 
     name: string;
 
@@ -266,12 +272,6 @@ export namespace Invoice {
   }
 
   export namespace LineItem {
-    export interface CreditType {
-      id: string;
-
-      name: string;
-    }
-
     /**
      * only present for beta contract invoices
      */
@@ -388,21 +388,13 @@ export namespace Invoice {
   }
 
   export interface InvoiceAdjustment {
-    credit_type: InvoiceAdjustment.CreditType;
+    credit_type: Shared.CreditType;
 
     name: string;
 
     total: number;
 
     credit_grant_id?: string;
-  }
-
-  export namespace InvoiceAdjustment {
-    export interface CreditType {
-      id: string;
-
-      name: string;
-    }
   }
 
   /**
@@ -446,6 +438,8 @@ export interface InvoiceListResponse {
 
   next_page: string | null;
 }
+
+export interface InvoiceAddChargeResponse {}
 
 export interface InvoiceRetrieveParams {
   /**
@@ -499,10 +493,41 @@ export interface InvoiceListParams {
   status?: string;
 }
 
+export interface InvoiceAddChargeParams {
+  /**
+   * The Metronome ID of the charge to add to the invoice. Note that the charge must
+   * be on a product that is not on the current plan, and the product must have only
+   * fixed charges.
+   */
+  charge_id: string;
+
+  /**
+   * The Metronome ID of the customer plan to add the charge to.
+   */
+  customer_plan_id: string;
+
+  description: string;
+
+  /**
+   * The start_timestamp of the invoice to add the charge to.
+   */
+  invoice_start_timestamp: string;
+
+  /**
+   * The price of the charge. This price will match the currency on the invoice, e.g.
+   * USD cents.
+   */
+  price: number;
+
+  quantity: number;
+}
+
 export namespace Invoices {
   export import Invoice = InvoicesAPI.Invoice;
   export import InvoiceRetrieveResponse = InvoicesAPI.InvoiceRetrieveResponse;
   export import InvoiceListResponse = InvoicesAPI.InvoiceListResponse;
+  export import InvoiceAddChargeResponse = InvoicesAPI.InvoiceAddChargeResponse;
   export import InvoiceRetrieveParams = InvoicesAPI.InvoiceRetrieveParams;
   export import InvoiceListParams = InvoicesAPI.InvoiceListParams;
+  export import InvoiceAddChargeParams = InvoicesAPI.InvoiceAddChargeParams;
 }

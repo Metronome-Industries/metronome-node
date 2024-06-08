@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '../core';
-import { APIResource } from '../resource';
-import * as UsageAPI from './usage';
+import * as Core from '@metronome/sdk/core';
+import { APIResource } from '@metronome/sdk/resource';
+import * as UsageAPI from '@metronome/sdk/resources/usage';
 
 export class Usage extends APIResource {
   /**
@@ -12,6 +12,21 @@ export class Usage extends APIResource {
   list(params: UsageListParams, options?: Core.RequestOptions): Core.APIPromise<UsageListResponse> {
     const { next_page, ...body } = params;
     return this._client.post('/usage', { query: { next_page }, body, ...options });
+  }
+
+  /**
+   * Send usage events to Metronome. The body of this request is expected to be a
+   * JSON array of between 1 and 100 usage events. Compressed request bodies are
+   * supported with a `Content-Encoding: gzip` header. See
+   * [Getting usage into Metronome](https://docs.metronome.com/getting-usage-data-into-metronome/overview)
+   * to learn more about usage events.
+   */
+  ingest(body: UsageIngestParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+    return this._client.post('/ingest', {
+      body,
+      ...options,
+      headers: { Accept: '*/*', ...options?.headers },
+    });
   }
 
   /**
@@ -135,6 +150,25 @@ export namespace UsageListParams {
   }
 }
 
+export type UsageIngestParams = Array<UsageIngestParams.Usage>;
+
+export namespace UsageIngestParams {
+  export interface Usage {
+    customer_id: string;
+
+    event_type: string;
+
+    /**
+     * RFC 3339 formatted
+     */
+    timestamp: string;
+
+    transaction_id: string;
+
+    properties?: Record<string, unknown>;
+  }
+}
+
 export interface UsageListWithGroupsParams {
   /**
    * Body param:
@@ -206,5 +240,6 @@ export namespace Usage {
   export import UsageListResponse = UsageAPI.UsageListResponse;
   export import UsageListWithGroupsResponse = UsageAPI.UsageListWithGroupsResponse;
   export import UsageListParams = UsageAPI.UsageListParams;
+  export import UsageIngestParams = UsageAPI.UsageIngestParams;
   export import UsageListWithGroupsParams = UsageAPI.UsageListWithGroupsParams;
 }

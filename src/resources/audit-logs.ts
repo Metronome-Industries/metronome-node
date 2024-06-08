@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '../core';
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as AuditLogsAPI from './audit-logs';
+import * as Core from '@metronome/sdk/core';
+import { APIResource } from '@metronome/sdk/resource';
+import { isRequestOptions } from '@metronome/sdk/core';
+import * as AuditLogsAPI from '@metronome/sdk/resources/audit-logs';
 
 export class AuditLogs extends APIResource {
   /**

@@ -1,5 +1,5 @@
 {
-  "name": "metronome",
+  "name": "@metronome/sdk",
   "version": "0.0.1",
   "description": "The official TypeScript library for the Metronome API",
   "author": "Metronome <dev-feedback@metronome.com>",
@@ -62,8 +62,8 @@
     "./shims/web.mjs"
   ],
   "imports": {
-    "metronome": ".",
-    "metronome/*": "./src/*"
+    "@metronome/sdk": ".",
+    "@metronome/sdk/*": "./src/*"
   },
   "exports": {
     "./_shims/auto/*": {

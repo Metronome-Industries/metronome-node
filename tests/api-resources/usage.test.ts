@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from 'metronome';
+import Metronome from '@metronome/sdk';
 import { Response } from 'node-fetch';
 
 const metronome = new Metronome({
@@ -41,6 +41,36 @@ describe('resource usage', () => {
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       ],
     });
+  });
+
+  test('ingest: only required params', async () => {
+    const responsePromise = metronome.usage.ingest([
+      {
+        transaction_id: '2021-01-01T00:00:00Z_cluster42',
+        customer_id: 'team@example.com',
+        event_type: 'heartbeat',
+        timestamp: '2021-01-01T00:00:00Z',
+      },
+    ]);
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('ingest: required and optional params', async () => {
+    const response = await metronome.usage.ingest([
+      {
+        transaction_id: '2021-01-01T00:00:00Z_cluster42',
+        customer_id: 'team@example.com',
+        event_type: 'heartbeat',
+        timestamp: '2021-01-01T00:00:00Z',
+        properties: { cluster_id: 'bar', cpu_seconds: 'bar', region: 'bar' },
+      },
+    ]);
   });
 
   test('listWithGroups: only required params', async () => {

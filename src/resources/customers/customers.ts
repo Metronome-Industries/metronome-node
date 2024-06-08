@@ -1,15 +1,17 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '../../core';
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as CustomersAPI from './customers';
-import * as Shared from '../shared';
-import * as BillingConfigAPI from './billing-config';
-import * as InvoicesAPI from './invoices';
-import * as PlansAPI from './plans';
+import * as Core from '@metronome/sdk/core';
+import { APIResource } from '@metronome/sdk/resource';
+import { isRequestOptions } from '@metronome/sdk/core';
+import * as CustomersAPI from '@metronome/sdk/resources/customers/customers';
+import * as Shared from '@metronome/sdk/resources/shared';
+import * as AlertsAPI from '@metronome/sdk/resources/customers/alerts';
+import * as BillingConfigAPI from '@metronome/sdk/resources/customers/billing-config';
+import * as InvoicesAPI from '@metronome/sdk/resources/customers/invoices';
+import * as PlansAPI from '@metronome/sdk/resources/customers/plans';
 
 export class Customers extends APIResource {
+  alerts: AlertsAPI.Alerts = new AlertsAPI.Alerts(this._client);
   plans: PlansAPI.Plans = new PlansAPI.Plans(this._client);
   invoices: InvoicesAPI.Invoices = new InvoicesAPI.Invoices(this._client);
   billingConfig: BillingConfigAPI.BillingConfig = new BillingConfigAPI.BillingConfig(this._client);
@@ -468,6 +470,13 @@ export namespace Customers {
   export import CustomerSetIngestAliasesParams = CustomersAPI.CustomerSetIngestAliasesParams;
   export import CustomerSetNameParams = CustomersAPI.CustomerSetNameParams;
   export import CustomerUpdateConfigParams = CustomersAPI.CustomerUpdateConfigParams;
+  export import Alerts = AlertsAPI.Alerts;
+  export import CustomerAlert = AlertsAPI.CustomerAlert;
+  export import AlertRetrieveResponse = AlertsAPI.AlertRetrieveResponse;
+  export import AlertListResponse = AlertsAPI.AlertListResponse;
+  export import AlertRetrieveParams = AlertsAPI.AlertRetrieveParams;
+  export import AlertListParams = AlertsAPI.AlertListParams;
+  export import AlertResetParams = AlertsAPI.AlertResetParams;
   export import Plans = PlansAPI.Plans;
   export import PlanListResponse = PlansAPI.PlanListResponse;
   export import PlanAddResponse = PlansAPI.PlanAddResponse;
@@ -481,8 +490,10 @@ export namespace Customers {
   export import Invoice = InvoicesAPI.Invoice;
   export import InvoiceRetrieveResponse = InvoicesAPI.InvoiceRetrieveResponse;
   export import InvoiceListResponse = InvoicesAPI.InvoiceListResponse;
+  export import InvoiceAddChargeResponse = InvoicesAPI.InvoiceAddChargeResponse;
   export import InvoiceRetrieveParams = InvoicesAPI.InvoiceRetrieveParams;
   export import InvoiceListParams = InvoicesAPI.InvoiceListParams;
+  export import InvoiceAddChargeParams = InvoicesAPI.InvoiceAddChargeParams;
   export import BillingConfig = BillingConfigAPI.BillingConfig;
   export import BillingConfigRetrieveResponse = BillingConfigAPI.BillingConfigRetrieveResponse;
   export import BillingConfigCreateParams = BillingConfigAPI.BillingConfigCreateParams;

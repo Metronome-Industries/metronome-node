@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from 'metronome';
+import Metronome from '@metronome/sdk';
 import { Response } from 'node-fetch';
 
 const metronome = new Metronome({
@@ -39,6 +39,11 @@ describe('resource alerts', () => {
       customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
       evaluate_on_create: true,
       group_key_filter: { key: 'string', value: 'string' },
+      invoice_types_filter: [
+        'PLAN_ARREARS, SCHEDULED, USAGE, CORRECTION, CREDIT_PURCHASE, or SEAT_PURCHASE',
+        'PLAN_ARREARS, SCHEDULED, USAGE, CORRECTION, CREDIT_PURCHASE, or SEAT_PURCHASE',
+        'PLAN_ARREARS, SCHEDULED, USAGE, CORRECTION, CREDIT_PURCHASE, or SEAT_PURCHASE',
+      ],
       plan_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       uniqueness_key: 'x',
     });

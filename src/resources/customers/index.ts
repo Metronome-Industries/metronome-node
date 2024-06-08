@@ -22,11 +22,22 @@ export {
   Customers,
 } from './customers';
 export {
+  CustomerAlert,
+  AlertRetrieveResponse,
+  AlertListResponse,
+  AlertRetrieveParams,
+  AlertListParams,
+  AlertResetParams,
+  Alerts,
+} from './alerts';
+export {
   Invoice,
   InvoiceRetrieveResponse,
   InvoiceListResponse,
+  InvoiceAddChargeResponse,
   InvoiceRetrieveParams,
   InvoiceListParams,
+  InvoiceAddChargeParams,
   Invoices,
 } from './invoices';
 export {

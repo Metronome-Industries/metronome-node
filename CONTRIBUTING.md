@@ -55,12 +55,12 @@ cd metronome-node
 # With yarn
 yarn link
 cd ../my-package
-yarn link metronome
+yarn link @metronome/sdk
 
 # With pnpm
 pnpm link --global
 cd ../my-package
-pnpm link -—global metronome
+pnpm link -—global @metronome/sdk
 ```
 
 ## Running tests
