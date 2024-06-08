@@ -6,7 +6,6 @@ import { type Agent } from './_shims/index';
 import * as Uploads from './uploads';
 import * as qs from 'qs';
 import * as API from './resources/index';
-import * as TopLevelAPI from './resources/top-level';
 
 export interface ClientOptions {
   /**
@@ -140,17 +139,6 @@ export class Metronome extends Core.APIClient {
   auditLogs: API.AuditLogs = new API.AuditLogs(this);
   customFields: API.CustomFields = new API.CustomFields(this);
 
-  /**
-   * Send usage events to Metronome. The body of this request is expected to be a
-   * JSON array of between 1 and 100 usage events. Compressed request bodies are
-   * supported with a `Content-Encoding: gzip` header. See
-   * [Getting usage into Metronome](https://docs.metronome.com/getting-usage-data-into-metronome/overview)
-   * to learn more about usage events.
-   */
-  ingest(body: TopLevelAPI.IngestParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this.post('/ingest', { body, ...options, headers: { Accept: '*/*', ...options?.headers } });
-  }
-
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
   }
@@ -211,8 +199,6 @@ export import fileFromPath = Uploads.fileFromPath;
 
 export namespace Metronome {
   export import RequestOptions = Core.RequestOptions;
-
-  export import IngestParams = API.IngestParams;
 
   export import Alerts = API.Alerts;
   export import AlertCreateResponse = API.AlertCreateResponse;

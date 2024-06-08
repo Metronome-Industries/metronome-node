@@ -62,7 +62,6 @@ export {
   CustomerAlerts,
 } from './customer-alerts';
 export { DashboardGetEmbeddableURLResponse, DashboardGetEmbeddableURLParams, Dashboards } from './dashboards';
-export { IngestParams } from './top-level';
 export {
   PlanDetail,
   PlanListResponse,
