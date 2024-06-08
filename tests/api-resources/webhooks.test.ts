@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from 'metronome';
+import Metronome from '@metronome/sdk';
 
 const metronome = new Metronome({
   bearerToken: 'My Bearer Token',
