@@ -5,6 +5,7 @@ import { APIResource } from '@metronome/sdk/resource';
 import { isRequestOptions } from '@metronome/sdk/core';
 import * as CreditGrantsAPI from '@metronome/sdk/resources/credit-grants';
 import * as Shared from '@metronome/sdk/resources/shared';
+import { CursorPage, type CursorPageParams } from '@metronome/sdk/pagination';
 
 export class CreditGrants extends APIResource {
   /**
@@ -23,17 +24,24 @@ export class CreditGrants extends APIResource {
   list(
     params?: CreditGrantListParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditGrantListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<CreditGrantListResponse>;
+  ): Core.PagePromise<CreditGrantListResponsesCursorPage, CreditGrantListResponse>;
+  list(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CreditGrantListResponsesCursorPage, CreditGrantListResponse>;
   list(
     params: CreditGrantListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditGrantListResponse> {
+  ): Core.PagePromise<CreditGrantListResponsesCursorPage, CreditGrantListResponse> {
     if (isRequestOptions(params)) {
       return this.list({}, params);
     }
     const { limit, next_page, ...body } = params;
-    return this._client.post('/credits/listGrants', { query: { limit, next_page }, body, ...options });
+    return this._client.getAPIList('/credits/listGrants', CreditGrantListResponsesCursorPage, {
+      query: { limit, next_page },
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -49,16 +57,21 @@ export class CreditGrants extends APIResource {
   listCreditTypes(
     query?: CreditGrantListCreditTypesParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditGrantListCreditTypesResponse>;
-  listCreditTypes(options?: Core.RequestOptions): Core.APIPromise<CreditGrantListCreditTypesResponse>;
+  ): Core.PagePromise<CreditGrantListCreditTypesResponsesCursorPage, CreditGrantListCreditTypesResponse>;
+  listCreditTypes(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CreditGrantListCreditTypesResponsesCursorPage, CreditGrantListCreditTypesResponse>;
   listCreditTypes(
     query: CreditGrantListCreditTypesParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditGrantListCreditTypesResponse> {
+  ): Core.PagePromise<CreditGrantListCreditTypesResponsesCursorPage, CreditGrantListCreditTypesResponse> {
     if (isRequestOptions(query)) {
       return this.listCreditTypes({}, query);
     }
-    return this._client.get('/credit-types/list', { query, ...options });
+    return this._client.getAPIList('/credit-types/list', CreditGrantListCreditTypesResponsesCursorPage, {
+      query,
+      ...options,
+    });
   }
 
   /**
@@ -89,6 +102,10 @@ export class CreditGrants extends APIResource {
     return this._client.post('/credits/voidGrant', { body, ...options });
   }
 }
+
+export class CreditGrantListResponsesCursorPage extends CursorPage<CreditGrantListResponse> {}
+
+export class CreditGrantListCreditTypesResponsesCursorPage extends CursorPage<CreditGrantListCreditTypesResponse> {}
 
 export interface CreditLedgerEntry {
   /**
@@ -150,133 +167,125 @@ export interface CreditGrantCreateResponse {
 }
 
 export interface CreditGrantListResponse {
-  data: Array<CreditGrantListResponse.Data>;
+  /**
+   * the Metronome ID of the credit grant
+   */
+  id: string;
 
-  next_page: string | null;
+  /**
+   * The effective balance of the grant as of the end of the customer's current
+   * billing period. Expiration deductions will be included only if the grant expires
+   * before the end of the current billing period.
+   */
+  balance: CreditGrantListResponse.Balance;
+
+  custom_fields: Record<string, string>;
+
+  /**
+   * the Metronome ID of the customer
+   */
+  customer_id: string;
+
+  deductions: Array<CreditLedgerEntry>;
+
+  effective_at: string;
+
+  expires_at: string;
+
+  /**
+   * the amount of credits initially granted
+   */
+  grant_amount: CreditGrantListResponse.GrantAmount;
+
+  name: string;
+
+  /**
+   * the amount paid for this credit grant
+   */
+  paid_amount: CreditGrantListResponse.PaidAmount;
+
+  pending_deductions: Array<CreditLedgerEntry>;
+
+  priority: number;
+
+  credit_grant_type?: string | null;
+
+  /**
+   * the Metronome ID of the invoice with the purchase charge for this credit grant,
+   * if applicable
+   */
+  invoice_id?: string | null;
+
+  /**
+   * The products which these credits will be applied to. (If unspecified, the
+   * credits will be applied to charges for all products.)
+   */
+  products?: Array<CreditGrantListResponse.Product>;
+
+  reason?: string | null;
+
+  /**
+   * Prevents the creation of duplicates. If a request to create a record is made
+   * with a previously used uniqueness key, a new record will not be created and the
+   * request will fail with a 409 error.
+   */
+  uniqueness_key?: string | null;
 }
 
 export namespace CreditGrantListResponse {
-  export interface Data {
+  /**
+   * The effective balance of the grant as of the end of the customer's current
+   * billing period. Expiration deductions will be included only if the grant expires
+   * before the end of the current billing period.
+   */
+  export interface Balance {
     /**
-     * the Metronome ID of the credit grant
+     * The end_date of the customer's current billing period.
      */
-    id: string;
-
-    /**
-     * The effective balance of the grant as of the end of the customer's current
-     * billing period. Expiration deductions will be included only if the grant expires
-     * before the end of the current billing period.
-     */
-    balance: Data.Balance;
-
-    custom_fields: Record<string, string>;
-
-    /**
-     * the Metronome ID of the customer
-     */
-    customer_id: string;
-
-    deductions: Array<CreditGrantsAPI.CreditLedgerEntry>;
-
     effective_at: string;
 
-    expires_at: string;
+    /**
+     * The grant's current balance including all posted deductions. If the grant has
+     * expired, this amount will be 0.
+     */
+    excluding_pending: number;
 
     /**
-     * the amount of credits initially granted
+     * The grant's current balance including all posted and pending deductions. If the
+     * grant expires before the end of the customer's current billing period, this
+     * amount will be 0.
      */
-    grant_amount: Data.GrantAmount;
-
-    name: string;
-
-    /**
-     * the amount paid for this credit grant
-     */
-    paid_amount: Data.PaidAmount;
-
-    pending_deductions: Array<CreditGrantsAPI.CreditLedgerEntry>;
-
-    priority: number;
-
-    credit_grant_type?: string | null;
-
-    /**
-     * the Metronome ID of the invoice with the purchase charge for this credit grant,
-     * if applicable
-     */
-    invoice_id?: string | null;
-
-    /**
-     * The products which these credits will be applied to. (If unspecified, the
-     * credits will be applied to charges for all products.)
-     */
-    products?: Array<Data.Product>;
-
-    reason?: string | null;
-
-    /**
-     * Prevents the creation of duplicates. If a request to create a record is made
-     * with a previously used uniqueness key, a new record will not be created and the
-     * request will fail with a 409 error.
-     */
-    uniqueness_key?: string | null;
+    including_pending: number;
   }
 
-  export namespace Data {
-    /**
-     * The effective balance of the grant as of the end of the customer's current
-     * billing period. Expiration deductions will be included only if the grant expires
-     * before the end of the current billing period.
-     */
-    export interface Balance {
-      /**
-       * The end_date of the customer's current billing period.
-       */
-      effective_at: string;
-
-      /**
-       * The grant's current balance including all posted deductions. If the grant has
-       * expired, this amount will be 0.
-       */
-      excluding_pending: number;
-
-      /**
-       * The grant's current balance including all posted and pending deductions. If the
-       * grant expires before the end of the customer's current billing period, this
-       * amount will be 0.
-       */
-      including_pending: number;
-    }
+  /**
+   * the amount of credits initially granted
+   */
+  export interface GrantAmount {
+    amount: number;
 
     /**
-     * the amount of credits initially granted
+     * the credit type for the amount granted
      */
-    export interface GrantAmount {
-      amount: number;
+    credit_type: Shared.CreditType;
+  }
 
-      /**
-       * the credit type for the amount granted
-       */
-      credit_type: Shared.CreditType;
-    }
+  /**
+   * the amount paid for this credit grant
+   */
+  export interface PaidAmount {
+    amount: number;
 
     /**
-     * the amount paid for this credit grant
+     * the credit type for the amount paid
      */
-    export interface PaidAmount {
-      amount: number;
+    credit_type: Shared.CreditType;
+  }
 
-      /**
-       * the credit type for the amount paid
-       */
-      credit_type: Shared.CreditType;
-    }
+  export interface Product {
+    id: string;
 
-    export interface Product {
-      id: string;
-
-      name: string;
-    }
+    name: string;
   }
 }
 
@@ -285,19 +294,11 @@ export interface CreditGrantEditResponse {
 }
 
 export interface CreditGrantListCreditTypesResponse {
-  data: Array<CreditGrantListCreditTypesResponse.Data>;
+  id?: string;
 
-  next_page: string | null;
-}
+  is_currency?: boolean;
 
-export namespace CreditGrantListCreditTypesResponse {
-  export interface Data {
-    id?: string;
-
-    is_currency?: boolean;
-
-    name?: string;
-  }
+  name?: string;
 }
 
 export interface CreditGrantListEntriesResponse {
@@ -496,17 +497,7 @@ export namespace CreditGrantCreateParams {
   }
 }
 
-export interface CreditGrantListParams {
-  /**
-   * Query param: Max number of results that should be returned
-   */
-  limit?: number;
-
-  /**
-   * Query param: Cursor that indicates where the next page of results should start.
-   */
-  next_page?: string;
-
+export interface CreditGrantListParams extends CursorPageParams {
   /**
    * Body param: An array of credit grant IDs. If this is specified, neither
    * credit_type_ids nor customer_ids may be specified.
@@ -554,17 +545,7 @@ export interface CreditGrantEditParams {
   name?: string;
 }
 
-export interface CreditGrantListCreditTypesParams {
-  /**
-   * Max number of results that should be returned
-   */
-  limit?: number;
-
-  /**
-   * Cursor that indicates where the next page of results should start.
-   */
-  next_page?: string;
-}
+export interface CreditGrantListCreditTypesParams extends CursorPageParams {}
 
 export interface CreditGrantListEntriesParams {
   /**
@@ -618,6 +599,8 @@ export namespace CreditGrants {
   export import CreditGrantListCreditTypesResponse = CreditGrantsAPI.CreditGrantListCreditTypesResponse;
   export import CreditGrantListEntriesResponse = CreditGrantsAPI.CreditGrantListEntriesResponse;
   export import CreditGrantVoidResponse = CreditGrantsAPI.CreditGrantVoidResponse;
+  export import CreditGrantListResponsesCursorPage = CreditGrantsAPI.CreditGrantListResponsesCursorPage;
+  export import CreditGrantListCreditTypesResponsesCursorPage = CreditGrantsAPI.CreditGrantListCreditTypesResponsesCursorPage;
   export import CreditGrantCreateParams = CreditGrantsAPI.CreditGrantCreateParams;
   export import CreditGrantListParams = CreditGrantsAPI.CreditGrantListParams;
   export import CreditGrantEditParams = CreditGrantsAPI.CreditGrantEditParams;
