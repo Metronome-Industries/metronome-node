@@ -8,7 +8,12 @@ export {
   AlertArchiveParams,
   Alerts,
 } from './alerts';
-export { AuditLogListResponse, AuditLogListParams, AuditLogs } from './audit-logs';
+export {
+  AuditLogListResponse,
+  AuditLogListParams,
+  AuditLogListResponsesCursorPage,
+  AuditLogs,
+} from './audit-logs';
 export {
   BillableMetricCreateResponse,
   BillableMetricRetrieveResponse,
@@ -17,6 +22,7 @@ export {
   BillableMetricCreateParams,
   BillableMetricListParams,
   BillableMetricArchiveParams,
+  BillableMetricListResponsesCursorPage,
   BillableMetrics,
 } from './billable-metrics';
 export {
@@ -35,6 +41,8 @@ export {
   CreditGrantListCreditTypesParams,
   CreditGrantListEntriesParams,
   CreditGrantVoidParams,
+  CreditGrantListResponsesCursorPage,
+  CreditGrantListCreditTypesResponsesCursorPage,
   CreditGrants,
 } from './credit-grants';
 export {
@@ -51,7 +59,6 @@ export {
   CustomerDetail,
   CustomerCreateResponse,
   CustomerRetrieveResponse,
-  CustomerListResponse,
   CustomerArchiveResponse,
   CustomerListBillableMetricsResponse,
   CustomerListCostsResponse,
@@ -64,6 +71,9 @@ export {
   CustomerSetIngestAliasesParams,
   CustomerSetNameParams,
   CustomerUpdateConfigParams,
+  CustomerDetailsCursorPage,
+  CustomerListBillableMetricsResponsesCursorPage,
+  CustomerListCostsResponsesCursorPage,
   Customers,
 } from './customers/customers';
 export { DashboardGetEmbeddableURLResponse, DashboardGetEmbeddableURLParams, Dashboards } from './dashboards';
@@ -76,6 +86,9 @@ export {
   PlanListParams,
   PlanListChargesParams,
   PlanListCustomersParams,
+  PlanListResponsesCursorPage,
+  PlanListChargesResponsesCursorPage,
+  PlanListCustomersResponsesCursorPage,
   Plans,
 } from './plans';
 export { ServiceListResponse, Services } from './services';
@@ -85,5 +98,6 @@ export {
   UsageListParams,
   UsageIngestParams,
   UsageListWithGroupsParams,
+  UsageListWithGroupsResponsesCursorPage,
   Usage,
 } from './usage';

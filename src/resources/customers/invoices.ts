@@ -5,6 +5,7 @@ import { APIResource } from '@metronome/sdk/resource';
 import { isRequestOptions } from '@metronome/sdk/core';
 import * as InvoicesAPI from '@metronome/sdk/resources/customers/invoices';
 import * as Shared from '@metronome/sdk/resources/shared';
+import { CursorPage, type CursorPageParams } from '@metronome/sdk/pagination';
 
 export class Invoices extends APIResource {
   /**
@@ -41,17 +42,20 @@ export class Invoices extends APIResource {
     customerId: string,
     query?: InvoiceListParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<InvoiceListResponse>;
-  list(customerId: string, options?: Core.RequestOptions): Core.APIPromise<InvoiceListResponse>;
+  ): Core.PagePromise<InvoicesCursorPage, Invoice>;
+  list(customerId: string, options?: Core.RequestOptions): Core.PagePromise<InvoicesCursorPage, Invoice>;
   list(
     customerId: string,
     query: InvoiceListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<InvoiceListResponse> {
+  ): Core.PagePromise<InvoicesCursorPage, Invoice> {
     if (isRequestOptions(query)) {
       return this.list(customerId, {}, query);
     }
-    return this._client.get(`/customers/${customerId}/invoices`, { query, ...options });
+    return this._client.getAPIList(`/customers/${customerId}/invoices`, InvoicesCursorPage, {
+      query,
+      ...options,
+    });
   }
 
   /**
@@ -65,6 +69,8 @@ export class Invoices extends APIResource {
     return this._client.post(`/customers/${customerId}/addCharge`, { body, ...options });
   }
 }
+
+export class InvoicesCursorPage extends CursorPage<Invoice> {}
 
 export interface Invoice {
   id: string;
@@ -433,12 +439,6 @@ export interface InvoiceRetrieveResponse {
   data: Invoice;
 }
 
-export interface InvoiceListResponse {
-  data: Array<Invoice>;
-
-  next_page: string | null;
-}
-
 export interface InvoiceAddChargeResponse {}
 
 export interface InvoiceRetrieveParams {
@@ -448,7 +448,7 @@ export interface InvoiceRetrieveParams {
   skip_zero_qty_line_items?: boolean;
 }
 
-export interface InvoiceListParams {
+export interface InvoiceListParams extends CursorPageParams {
   /**
    * Only return invoices for the specified credit type
    */
@@ -459,16 +459,6 @@ export interface InvoiceListParams {
    * periods that end before this time.
    */
   ending_before?: string;
-
-  /**
-   * Max number of results that should be returned
-   */
-  limit?: number;
-
-  /**
-   * Cursor that indicates where the next page of results should start.
-   */
-  next_page?: string;
 
   /**
    * If set, all zero quantity line items will be filtered out of the response
@@ -525,8 +515,8 @@ export interface InvoiceAddChargeParams {
 export namespace Invoices {
   export import Invoice = InvoicesAPI.Invoice;
   export import InvoiceRetrieveResponse = InvoicesAPI.InvoiceRetrieveResponse;
-  export import InvoiceListResponse = InvoicesAPI.InvoiceListResponse;
   export import InvoiceAddChargeResponse = InvoicesAPI.InvoiceAddChargeResponse;
+  export import InvoicesCursorPage = InvoicesAPI.InvoicesCursorPage;
   export import InvoiceRetrieveParams = InvoicesAPI.InvoiceRetrieveParams;
   export import InvoiceListParams = InvoicesAPI.InvoiceListParams;
   export import InvoiceAddChargeParams = InvoicesAPI.InvoiceAddChargeParams;

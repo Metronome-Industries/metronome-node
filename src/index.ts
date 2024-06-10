@@ -5,6 +5,7 @@ import * as Errors from './error';
 import { type Agent } from './_shims/index';
 import * as Uploads from './uploads';
 import * as qs from 'qs';
+import * as Pagination from '@metronome/sdk/pagination';
 import * as API from '@metronome/sdk/resources/index';
 
 export interface ClientOptions {
@@ -199,6 +200,10 @@ export import fileFromPath = Uploads.fileFromPath;
 export namespace Metronome {
   export import RequestOptions = Core.RequestOptions;
 
+  export import CursorPage = Pagination.CursorPage;
+  export import CursorPageParams = Pagination.CursorPageParams;
+  export import CursorPageResponse = Pagination.CursorPageResponse;
+
   export import Alerts = API.Alerts;
   export import AlertCreateResponse = API.AlertCreateResponse;
   export import AlertArchiveResponse = API.AlertArchiveResponse;
@@ -211,6 +216,9 @@ export namespace Metronome {
   export import PlanGetDetailsResponse = API.PlanGetDetailsResponse;
   export import PlanListChargesResponse = API.PlanListChargesResponse;
   export import PlanListCustomersResponse = API.PlanListCustomersResponse;
+  export import PlanListResponsesCursorPage = API.PlanListResponsesCursorPage;
+  export import PlanListChargesResponsesCursorPage = API.PlanListChargesResponsesCursorPage;
+  export import PlanListCustomersResponsesCursorPage = API.PlanListCustomersResponsesCursorPage;
   export import PlanListParams = API.PlanListParams;
   export import PlanListChargesParams = API.PlanListChargesParams;
   export import PlanListCustomersParams = API.PlanListCustomersParams;
@@ -225,6 +233,8 @@ export namespace Metronome {
   export import CreditGrantListCreditTypesResponse = API.CreditGrantListCreditTypesResponse;
   export import CreditGrantListEntriesResponse = API.CreditGrantListEntriesResponse;
   export import CreditGrantVoidResponse = API.CreditGrantVoidResponse;
+  export import CreditGrantListResponsesCursorPage = API.CreditGrantListResponsesCursorPage;
+  export import CreditGrantListCreditTypesResponsesCursorPage = API.CreditGrantListCreditTypesResponsesCursorPage;
   export import CreditGrantCreateParams = API.CreditGrantCreateParams;
   export import CreditGrantListParams = API.CreditGrantListParams;
   export import CreditGrantEditParams = API.CreditGrantEditParams;
@@ -237,11 +247,13 @@ export namespace Metronome {
   export import CustomerDetail = API.CustomerDetail;
   export import CustomerCreateResponse = API.CustomerCreateResponse;
   export import CustomerRetrieveResponse = API.CustomerRetrieveResponse;
-  export import CustomerListResponse = API.CustomerListResponse;
   export import CustomerArchiveResponse = API.CustomerArchiveResponse;
   export import CustomerListBillableMetricsResponse = API.CustomerListBillableMetricsResponse;
   export import CustomerListCostsResponse = API.CustomerListCostsResponse;
   export import CustomerSetNameResponse = API.CustomerSetNameResponse;
+  export import CustomerDetailsCursorPage = API.CustomerDetailsCursorPage;
+  export import CustomerListBillableMetricsResponsesCursorPage = API.CustomerListBillableMetricsResponsesCursorPage;
+  export import CustomerListCostsResponsesCursorPage = API.CustomerListCostsResponsesCursorPage;
   export import CustomerCreateParams = API.CustomerCreateParams;
   export import CustomerListParams = API.CustomerListParams;
   export import CustomerArchiveParams = API.CustomerArchiveParams;
@@ -258,12 +270,14 @@ export namespace Metronome {
   export import Usage = API.Usage;
   export import UsageListResponse = API.UsageListResponse;
   export import UsageListWithGroupsResponse = API.UsageListWithGroupsResponse;
+  export import UsageListWithGroupsResponsesCursorPage = API.UsageListWithGroupsResponsesCursorPage;
   export import UsageListParams = API.UsageListParams;
   export import UsageIngestParams = API.UsageIngestParams;
   export import UsageListWithGroupsParams = API.UsageListWithGroupsParams;
 
   export import AuditLogs = API.AuditLogs;
   export import AuditLogListResponse = API.AuditLogListResponse;
+  export import AuditLogListResponsesCursorPage = API.AuditLogListResponsesCursorPage;
   export import AuditLogListParams = API.AuditLogListParams;
 
   export import CustomFields = API.CustomFields;
@@ -279,6 +293,7 @@ export namespace Metronome {
   export import BillableMetricRetrieveResponse = API.BillableMetricRetrieveResponse;
   export import BillableMetricListResponse = API.BillableMetricListResponse;
   export import BillableMetricArchiveResponse = API.BillableMetricArchiveResponse;
+  export import BillableMetricListResponsesCursorPage = API.BillableMetricListResponsesCursorPage;
   export import BillableMetricCreateParams = API.BillableMetricCreateParams;
   export import BillableMetricListParams = API.BillableMetricListParams;
   export import BillableMetricArchiveParams = API.BillableMetricArchiveParams;

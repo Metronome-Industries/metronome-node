@@ -9,6 +9,7 @@ import * as AlertsAPI from '@metronome/sdk/resources/customers/alerts';
 import * as BillingConfigAPI from '@metronome/sdk/resources/customers/billing-config';
 import * as InvoicesAPI from '@metronome/sdk/resources/customers/invoices';
 import * as PlansAPI from '@metronome/sdk/resources/customers/plans';
+import { CursorPage, type CursorPageParams } from '@metronome/sdk/pagination';
 
 export class Customers extends APIResource {
   alerts: AlertsAPI.Alerts = new AlertsAPI.Alerts(this._client);
@@ -33,16 +34,19 @@ export class Customers extends APIResource {
   /**
    * List all customers.
    */
-  list(query?: CustomerListParams, options?: Core.RequestOptions): Core.APIPromise<CustomerListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<CustomerListResponse>;
+  list(
+    query?: CustomerListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CustomerDetailsCursorPage, CustomerDetail>;
+  list(options?: Core.RequestOptions): Core.PagePromise<CustomerDetailsCursorPage, CustomerDetail>;
   list(
     query: CustomerListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomerListResponse> {
+  ): Core.PagePromise<CustomerDetailsCursorPage, CustomerDetail> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/customers', { query, ...options });
+    return this._client.getAPIList('/customers', CustomerDetailsCursorPage, { query, ...options });
   }
 
   /**
@@ -62,20 +66,24 @@ export class Customers extends APIResource {
     customerId: string,
     query?: CustomerListBillableMetricsParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomerListBillableMetricsResponse>;
+  ): Core.PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse>;
   listBillableMetrics(
     customerId: string,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomerListBillableMetricsResponse>;
+  ): Core.PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse>;
   listBillableMetrics(
     customerId: string,
     query: CustomerListBillableMetricsParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomerListBillableMetricsResponse> {
+  ): Core.PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse> {
     if (isRequestOptions(query)) {
       return this.listBillableMetrics(customerId, {}, query);
     }
-    return this._client.get(`/customers/${customerId}/billable-metrics`, { query, ...options });
+    return this._client.getAPIList(
+      `/customers/${customerId}/billable-metrics`,
+      CustomerListBillableMetricsResponsesCursorPage,
+      { query, ...options },
+    );
   }
 
   /**
@@ -87,8 +95,11 @@ export class Customers extends APIResource {
     customerId: string,
     query: CustomerListCostsParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomerListCostsResponse> {
-    return this._client.get(`/customers/${customerId}/costs`, { query, ...options });
+  ): Core.PagePromise<CustomerListCostsResponsesCursorPage, CustomerListCostsResponse> {
+    return this._client.getAPIList(`/customers/${customerId}/costs`, CustomerListCostsResponsesCursorPage, {
+      query,
+      ...options,
+    });
   }
 
   /**
@@ -143,6 +154,12 @@ export class Customers extends APIResource {
     });
   }
 }
+
+export class CustomerDetailsCursorPage extends CursorPage<CustomerDetail> {}
+
+export class CustomerListBillableMetricsResponsesCursorPage extends CursorPage<CustomerListBillableMetricsResponse> {}
+
+export class CustomerListCostsResponsesCursorPage extends CursorPage<CustomerListCostsResponse> {}
 
 export interface Customer {
   /**
@@ -217,66 +234,44 @@ export interface CustomerRetrieveResponse {
   data: CustomerDetail;
 }
 
-export interface CustomerListResponse {
-  data: Array<CustomerDetail>;
-
-  next_page: string | null;
-}
-
 export interface CustomerArchiveResponse {
   data: Shared.ID;
 }
 
 export interface CustomerListBillableMetricsResponse {
-  data: Array<CustomerListBillableMetricsResponse.Data>;
+  id: string;
 
-  next_page: string | null;
-}
+  name: string;
 
-export namespace CustomerListBillableMetricsResponse {
-  export interface Data {
-    id: string;
-
-    name: string;
-
-    group_by?: Array<string>;
-  }
+  group_by?: Array<string>;
 }
 
 export interface CustomerListCostsResponse {
-  data: Array<CustomerListCostsResponse.Data>;
+  credit_types: Record<string, CustomerListCostsResponse.CreditTypes>;
 
-  next_page: string | null;
+  end_timestamp: string;
+
+  start_timestamp: string;
 }
 
 export namespace CustomerListCostsResponse {
-  export interface Data {
-    credit_types: Record<string, Data.CreditTypes>;
+  export interface CreditTypes {
+    cost?: number;
 
-    end_timestamp: string;
+    line_item_breakdown?: Array<CreditTypes.LineItemBreakdown>;
 
-    start_timestamp: string;
+    name?: string;
   }
 
-  export namespace Data {
-    export interface CreditTypes {
-      cost?: number;
+  export namespace CreditTypes {
+    export interface LineItemBreakdown {
+      cost: number;
 
-      line_item_breakdown?: Array<CreditTypes.LineItemBreakdown>;
+      name: string;
 
-      name?: string;
-    }
+      group_key?: string;
 
-    export namespace CreditTypes {
-      export interface LineItemBreakdown {
-        cost: number;
-
-        name: string;
-
-        group_key?: string;
-
-        group_value?: string | null;
-      }
+      group_value?: string | null;
     }
   }
 }
@@ -351,7 +346,7 @@ export namespace CustomerCreateParams {
   }
 }
 
-export interface CustomerListParams {
+export interface CustomerListParams extends CursorPageParams {
   /**
    * Filter the customer list by customer_id. Up to 100 ids can be provided.
    */
@@ -361,16 +356,6 @@ export interface CustomerListParams {
    * Filter the customer list by ingest_alias
    */
   ingest_alias?: string;
-
-  /**
-   * Max number of results that should be returned
-   */
-  limit?: number;
-
-  /**
-   * Cursor that indicates where the next page of results should start.
-   */
-  next_page?: string;
 
   /**
    * Filter the customer list by only archived customers.
@@ -388,17 +373,7 @@ export interface CustomerArchiveParams {
   id: string;
 }
 
-export interface CustomerListBillableMetricsParams {
-  /**
-   * Max number of results that should be returned
-   */
-  limit?: number;
-
-  /**
-   * Cursor that indicates where the next page of results should start.
-   */
-  next_page?: string;
-
+export interface CustomerListBillableMetricsParams extends CursorPageParams {
   /**
    * If true, the list of metrics will be filtered to just ones that are on the
    * customer's current plan
@@ -406,7 +381,7 @@ export interface CustomerListBillableMetricsParams {
   on_current_plan?: boolean;
 }
 
-export interface CustomerListCostsParams {
+export interface CustomerListCostsParams extends CursorPageParams {
   /**
    * RFC 3339 timestamp (exclusive)
    */
@@ -416,16 +391,6 @@ export interface CustomerListCostsParams {
    * RFC 3339 timestamp (inclusive)
    */
   starting_on: string;
-
-  /**
-   * Max number of results that should be returned
-   */
-  limit?: number;
-
-  /**
-   * Cursor that indicates where the next page of results should start.
-   */
-  next_page?: string;
 }
 
 export interface CustomerSetIngestAliasesParams {
@@ -457,11 +422,13 @@ export namespace Customers {
   export import CustomerDetail = CustomersAPI.CustomerDetail;
   export import CustomerCreateResponse = CustomersAPI.CustomerCreateResponse;
   export import CustomerRetrieveResponse = CustomersAPI.CustomerRetrieveResponse;
-  export import CustomerListResponse = CustomersAPI.CustomerListResponse;
   export import CustomerArchiveResponse = CustomersAPI.CustomerArchiveResponse;
   export import CustomerListBillableMetricsResponse = CustomersAPI.CustomerListBillableMetricsResponse;
   export import CustomerListCostsResponse = CustomersAPI.CustomerListCostsResponse;
   export import CustomerSetNameResponse = CustomersAPI.CustomerSetNameResponse;
+  export import CustomerDetailsCursorPage = CustomersAPI.CustomerDetailsCursorPage;
+  export import CustomerListBillableMetricsResponsesCursorPage = CustomersAPI.CustomerListBillableMetricsResponsesCursorPage;
+  export import CustomerListCostsResponsesCursorPage = CustomersAPI.CustomerListCostsResponsesCursorPage;
   export import CustomerCreateParams = CustomersAPI.CustomerCreateParams;
   export import CustomerListParams = CustomersAPI.CustomerListParams;
   export import CustomerArchiveParams = CustomersAPI.CustomerArchiveParams;
@@ -482,6 +449,8 @@ export namespace Customers {
   export import PlanAddResponse = PlansAPI.PlanAddResponse;
   export import PlanEndResponse = PlansAPI.PlanEndResponse;
   export import PlanListPriceAdjustmentsResponse = PlansAPI.PlanListPriceAdjustmentsResponse;
+  export import PlanListResponsesCursorPage = PlansAPI.PlanListResponsesCursorPage;
+  export import PlanListPriceAdjustmentsResponsesCursorPage = PlansAPI.PlanListPriceAdjustmentsResponsesCursorPage;
   export import PlanListParams = PlansAPI.PlanListParams;
   export import PlanAddParams = PlansAPI.PlanAddParams;
   export import PlanEndParams = PlansAPI.PlanEndParams;
@@ -489,8 +458,8 @@ export namespace Customers {
   export import Invoices = InvoicesAPI.Invoices;
   export import Invoice = InvoicesAPI.Invoice;
   export import InvoiceRetrieveResponse = InvoicesAPI.InvoiceRetrieveResponse;
-  export import InvoiceListResponse = InvoicesAPI.InvoiceListResponse;
   export import InvoiceAddChargeResponse = InvoicesAPI.InvoiceAddChargeResponse;
+  export import InvoicesCursorPage = InvoicesAPI.InvoicesCursorPage;
   export import InvoiceRetrieveParams = InvoicesAPI.InvoiceRetrieveParams;
   export import InvoiceListParams = InvoicesAPI.InvoiceListParams;
   export import InvoiceAddChargeParams = InvoicesAPI.InvoiceAddChargeParams;

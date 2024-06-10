@@ -5,6 +5,7 @@ import { APIResource } from '@metronome/sdk/resource';
 import { isRequestOptions } from '@metronome/sdk/core';
 import * as BillableMetricsAPI from '@metronome/sdk/resources/billable-metrics';
 import * as Shared from '@metronome/sdk/resources/shared';
+import { CursorPage, type CursorPageParams } from '@metronome/sdk/pagination';
 
 export class BillableMetrics extends APIResource {
   /**
@@ -34,17 +35,24 @@ export class BillableMetrics extends APIResource {
     customerId: string,
     query?: BillableMetricListParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<BillableMetricListResponse>;
-  list(customerId: string, options?: Core.RequestOptions): Core.APIPromise<BillableMetricListResponse>;
+  ): Core.PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse>;
+  list(
+    customerId: string,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse>;
   list(
     customerId: string,
     query: BillableMetricListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<BillableMetricListResponse> {
+  ): Core.PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse> {
     if (isRequestOptions(query)) {
       return this.list(customerId, {}, query);
     }
-    return this._client.get(`/customers/${customerId}/billable-metrics`, { query, ...options });
+    return this._client.getAPIList(
+      `/customers/${customerId}/billable-metrics`,
+      BillableMetricListResponsesCursorPage,
+      { query, ...options },
+    );
   }
 
   /**
@@ -57,6 +65,8 @@ export class BillableMetrics extends APIResource {
     return this._client.post('/billable-metrics/archive', { body, ...options });
   }
 }
+
+export class BillableMetricListResponsesCursorPage extends CursorPage<BillableMetricListResponse> {}
 
 export interface BillableMetricCreateResponse {
   data: Shared.ID;
@@ -180,19 +190,11 @@ export namespace BillableMetricRetrieveResponse {
 }
 
 export interface BillableMetricListResponse {
-  data: Array<BillableMetricListResponse.Data>;
+  id: string;
 
-  next_page: string | null;
-}
+  name: string;
 
-export namespace BillableMetricListResponse {
-  export interface Data {
-    id: string;
-
-    name: string;
-
-    group_by?: Array<string>;
-  }
+  group_by?: Array<string>;
 }
 
 export interface BillableMetricArchiveResponse {
@@ -308,17 +310,7 @@ export namespace BillableMetricCreateParams {
   }
 }
 
-export interface BillableMetricListParams {
-  /**
-   * Max number of results that should be returned
-   */
-  limit?: number;
-
-  /**
-   * Cursor that indicates where the next page of results should start.
-   */
-  next_page?: string;
-
+export interface BillableMetricListParams extends CursorPageParams {
   /**
    * If true, the list of metrics will be filtered to just ones that are on the
    * customer's current plan
@@ -335,6 +327,7 @@ export namespace BillableMetrics {
   export import BillableMetricRetrieveResponse = BillableMetricsAPI.BillableMetricRetrieveResponse;
   export import BillableMetricListResponse = BillableMetricsAPI.BillableMetricListResponse;
   export import BillableMetricArchiveResponse = BillableMetricsAPI.BillableMetricArchiveResponse;
+  export import BillableMetricListResponsesCursorPage = BillableMetricsAPI.BillableMetricListResponsesCursorPage;
   export import BillableMetricCreateParams = BillableMetricsAPI.BillableMetricCreateParams;
   export import BillableMetricListParams = BillableMetricsAPI.BillableMetricListParams;
   export import BillableMetricArchiveParams = BillableMetricsAPI.BillableMetricArchiveParams;
