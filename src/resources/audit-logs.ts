@@ -4,6 +4,7 @@ import * as Core from '@metronome/sdk/core';
 import { APIResource } from '@metronome/sdk/resource';
 import { isRequestOptions } from '@metronome/sdk/core';
 import * as AuditLogsAPI from '@metronome/sdk/resources/audit-logs';
+import { CursorPage, type CursorPageParams } from '@metronome/sdk/pagination';
 
 export class AuditLogs extends APIResource {
   /**
@@ -12,79 +13,59 @@ export class AuditLogs extends APIResource {
    * subsequent requests using the same next_page value will be in the returned data
    * array, ensuring a continuous and uninterrupted reading of audit logs.
    */
-  list(query?: AuditLogListParams, options?: Core.RequestOptions): Core.APIPromise<AuditLogListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<AuditLogListResponse>;
+  list(
+    query?: AuditLogListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<AuditLogListResponsesCursorPage, AuditLogListResponse>;
+  list(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<AuditLogListResponsesCursorPage, AuditLogListResponse>;
   list(
     query: AuditLogListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<AuditLogListResponse> {
+  ): Core.PagePromise<AuditLogListResponsesCursorPage, AuditLogListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/auditLogs', { query, ...options });
+    return this._client.getAPIList('/auditLogs', AuditLogListResponsesCursorPage, { query, ...options });
   }
 }
 
-export interface AuditLogListResponse {
-  data: Array<AuditLogListResponse.Data>;
+export class AuditLogListResponsesCursorPage extends CursorPage<AuditLogListResponse> {}
 
-  /**
-   * The next_page parameter is always returned to support ongoing log retrieval. It
-   * enables continuous querying, even when some requests return no new data. Save
-   * the next_page token from each response and use it for future requests to ensure
-   * no logs are missed. This setup is ideal for regular updates via automated
-   * processes, like cron jobs, to fetch logs continuously as they become available.
-   * When you receive an empty data array, it indicates a temporary absence of new
-   * logs, but subsequent requests might return new data.
-   */
-  next_page: string | null;
+export interface AuditLogListResponse {
+  id: string;
+
+  timestamp: string;
+
+  action?: string;
+
+  actor?: AuditLogListResponse.Actor;
+
+  description?: string;
+
+  resource_id?: string;
+
+  resource_type?: string;
+
+  status?: 'success' | 'failure' | 'pending';
 }
 
 export namespace AuditLogListResponse {
-  export interface Data {
+  export interface Actor {
     id: string;
 
-    timestamp: string;
+    name: string;
 
-    action?: string;
-
-    actor?: Data.Actor;
-
-    description?: string;
-
-    resource_id?: string;
-
-    resource_type?: string;
-
-    status?: 'success' | 'failure' | 'pending';
-  }
-
-  export namespace Data {
-    export interface Actor {
-      id: string;
-
-      name: string;
-
-      email?: string;
-    }
+    email?: string;
   }
 }
 
-export interface AuditLogListParams {
+export interface AuditLogListParams extends CursorPageParams {
   /**
    * RFC 3339 timestamp (exclusive). Cannot be used with 'next_page'.
    */
   ending_before?: string;
-
-  /**
-   * Max number of results that should be returned
-   */
-  limit?: number;
-
-  /**
-   * Cursor that indicates where the next page of results should start.
-   */
-  next_page?: string;
 
   /**
    * Optional parameter that can be used to filter which audit logs are returned. If
@@ -112,5 +93,6 @@ export interface AuditLogListParams {
 
 export namespace AuditLogs {
   export import AuditLogListResponse = AuditLogsAPI.AuditLogListResponse;
+  export import AuditLogListResponsesCursorPage = AuditLogsAPI.AuditLogListResponsesCursorPage;
   export import AuditLogListParams = AuditLogsAPI.AuditLogListParams;
 }
