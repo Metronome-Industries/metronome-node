@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.2 (2024-06-10)
+
+Full Changelog: [v0.1.0-alpha.0...v0.1.0-alpha.2](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-alpha.0...v0.1.0-alpha.2)
+
+### Features
+
+* **api:** update via SDK Studio ([#19](https://github.com/Metronome-Industries/metronome-node/issues/19)) ([363050b](https://github.com/Metronome-Industries/metronome-node/commit/363050b908b2680bbed116943dd1d19a688aba8a))
+* **api:** update via SDK Studio ([#20](https://github.com/Metronome-Industries/metronome-node/issues/20)) ([56338f4](https://github.com/Metronome-Industries/metronome-node/commit/56338f4dc2222243ce9e889394ff472aa37ec154))
+
+
+### Chores
+
+* **internal:** version bump ([#17](https://github.com/Metronome-Industries/metronome-node/issues/17)) ([3f60240](https://github.com/Metronome-Industries/metronome-node/commit/3f60240d1d5c4b453cbd33cbdefc6ea92c75b091))
+
 ## 0.1.0-alpha.0 (2024-06-08)
 
 Full Changelog: [v0.0.1...v0.1.0-alpha.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.0.1...v0.1.0-alpha.0)

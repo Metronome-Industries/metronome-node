@@ -36,10 +36,10 @@ Types:
 
 Methods:
 
-- <code title="get /plans">client.plans.<a href="./src/resources/plans.ts">list</a>({ ...params }) -> PlanListResponse</code>
+- <code title="get /plans">client.plans.<a href="./src/resources/plans.ts">list</a>({ ...params }) -> PlanListResponsesCursorPage</code>
 - <code title="get /planDetails/{plan_id}">client.plans.<a href="./src/resources/plans.ts">getDetails</a>(planId) -> PlanGetDetailsResponse</code>
-- <code title="get /planDetails/{plan_id}/charges">client.plans.<a href="./src/resources/plans.ts">listCharges</a>(planId, { ...params }) -> PlanListChargesResponse</code>
-- <code title="get /planDetails/{plan_id}/customers">client.plans.<a href="./src/resources/plans.ts">listCustomers</a>(planId, { ...params }) -> PlanListCustomersResponse</code>
+- <code title="get /planDetails/{plan_id}/charges">client.plans.<a href="./src/resources/plans.ts">listCharges</a>(planId, { ...params }) -> PlanListChargesResponsesCursorPage</code>
+- <code title="get /planDetails/{plan_id}/customers">client.plans.<a href="./src/resources/plans.ts">listCustomers</a>(planId, { ...params }) -> PlanListCustomersResponsesCursorPage</code>
 
 # CreditGrants
 
@@ -58,9 +58,9 @@ Types:
 Methods:
 
 - <code title="post /credits/createGrant">client.creditGrants.<a href="./src/resources/credit-grants.ts">create</a>({ ...params }) -> CreditGrantCreateResponse</code>
-- <code title="post /credits/listGrants">client.creditGrants.<a href="./src/resources/credit-grants.ts">list</a>({ ...params }) -> CreditGrantListResponse</code>
+- <code title="post /credits/listGrants">client.creditGrants.<a href="./src/resources/credit-grants.ts">list</a>({ ...params }) -> CreditGrantListResponsesCursorPage</code>
 - <code title="post /credits/editGrant">client.creditGrants.<a href="./src/resources/credit-grants.ts">edit</a>({ ...params }) -> CreditGrantEditResponse</code>
-- <code title="get /credit-types/list">client.creditGrants.<a href="./src/resources/credit-grants.ts">listCreditTypes</a>({ ...params }) -> CreditGrantListCreditTypesResponse</code>
+- <code title="get /credit-types/list">client.creditGrants.<a href="./src/resources/credit-grants.ts">listCreditTypes</a>({ ...params }) -> CreditGrantListCreditTypesResponsesCursorPage</code>
 - <code title="post /credits/listEntries">client.creditGrants.<a href="./src/resources/credit-grants.ts">listEntries</a>({ ...params }) -> CreditGrantListEntriesResponse</code>
 - <code title="post /credits/voidGrant">client.creditGrants.<a href="./src/resources/credit-grants.ts">void</a>({ ...params }) -> CreditGrantVoidResponse</code>
 
@@ -72,7 +72,6 @@ Types:
 - <code><a href="./src/resources/customers/customers.ts">CustomerDetail</a></code>
 - <code><a href="./src/resources/customers/customers.ts">CustomerCreateResponse</a></code>
 - <code><a href="./src/resources/customers/customers.ts">CustomerRetrieveResponse</a></code>
-- <code><a href="./src/resources/customers/customers.ts">CustomerListResponse</a></code>
 - <code><a href="./src/resources/customers/customers.ts">CustomerArchiveResponse</a></code>
 - <code><a href="./src/resources/customers/customers.ts">CustomerListBillableMetricsResponse</a></code>
 - <code><a href="./src/resources/customers/customers.ts">CustomerListCostsResponse</a></code>
@@ -82,10 +81,10 @@ Methods:
 
 - <code title="post /customers">client.customers.<a href="./src/resources/customers/customers.ts">create</a>({ ...params }) -> CustomerCreateResponse</code>
 - <code title="get /customers/{customer_id}">client.customers.<a href="./src/resources/customers/customers.ts">retrieve</a>(customerId) -> CustomerRetrieveResponse</code>
-- <code title="get /customers">client.customers.<a href="./src/resources/customers/customers.ts">list</a>({ ...params }) -> CustomerListResponse</code>
+- <code title="get /customers">client.customers.<a href="./src/resources/customers/customers.ts">list</a>({ ...params }) -> CustomerDetailsCursorPage</code>
 - <code title="post /customers/archive">client.customers.<a href="./src/resources/customers/customers.ts">archive</a>({ ...params }) -> CustomerArchiveResponse</code>
-- <code title="get /customers/{customer_id}/billable-metrics">client.customers.<a href="./src/resources/customers/customers.ts">listBillableMetrics</a>(customerId, { ...params }) -> CustomerListBillableMetricsResponse</code>
-- <code title="get /customers/{customer_id}/costs">client.customers.<a href="./src/resources/customers/customers.ts">listCosts</a>(customerId, { ...params }) -> CustomerListCostsResponse</code>
+- <code title="get /customers/{customer_id}/billable-metrics">client.customers.<a href="./src/resources/customers/customers.ts">listBillableMetrics</a>(customerId, { ...params }) -> CustomerListBillableMetricsResponsesCursorPage</code>
+- <code title="get /customers/{customer_id}/costs">client.customers.<a href="./src/resources/customers/customers.ts">listCosts</a>(customerId, { ...params }) -> CustomerListCostsResponsesCursorPage</code>
 - <code title="post /customers/{customer_id}/setIngestAliases">client.customers.<a href="./src/resources/customers/customers.ts">setIngestAliases</a>(customerId, { ...params }) -> void</code>
 - <code title="post /customers/{customer_id}/setName">client.customers.<a href="./src/resources/customers/customers.ts">setName</a>(customerId, { ...params }) -> CustomerSetNameResponse</code>
 - <code title="post /customers/{customer_id}/updateConfig">client.customers.<a href="./src/resources/customers/customers.ts">updateConfig</a>(customerId, { ...params }) -> void</code>
@@ -115,10 +114,10 @@ Types:
 
 Methods:
 
-- <code title="get /customers/{customer_id}/plans">client.customers.plans.<a href="./src/resources/customers/plans.ts">list</a>(customerId, { ...params }) -> PlanListResponse</code>
+- <code title="get /customers/{customer_id}/plans">client.customers.plans.<a href="./src/resources/customers/plans.ts">list</a>(customerId, { ...params }) -> PlanListResponsesCursorPage</code>
 - <code title="post /customers/{customer_id}/plans/add">client.customers.plans.<a href="./src/resources/customers/plans.ts">add</a>(customerId, { ...params }) -> PlanAddResponse</code>
 - <code title="post /customers/{customer_id}/plans/{customer_plan_id}/end">client.customers.plans.<a href="./src/resources/customers/plans.ts">end</a>(customerId, customerPlanId, { ...params }) -> PlanEndResponse</code>
-- <code title="get /customers/{customer_id}/plans/{customer_plan_id}/priceAdjustments">client.customers.plans.<a href="./src/resources/customers/plans.ts">listPriceAdjustments</a>(customerId, customerPlanId, { ...params }) -> PlanListPriceAdjustmentsResponse</code>
+- <code title="get /customers/{customer_id}/plans/{customer_plan_id}/priceAdjustments">client.customers.plans.<a href="./src/resources/customers/plans.ts">listPriceAdjustments</a>(customerId, customerPlanId, { ...params }) -> PlanListPriceAdjustmentsResponsesCursorPage</code>
 
 ## Invoices
 
@@ -126,13 +125,12 @@ Types:
 
 - <code><a href="./src/resources/customers/invoices.ts">Invoice</a></code>
 - <code><a href="./src/resources/customers/invoices.ts">InvoiceRetrieveResponse</a></code>
-- <code><a href="./src/resources/customers/invoices.ts">InvoiceListResponse</a></code>
 - <code><a href="./src/resources/customers/invoices.ts">InvoiceAddChargeResponse</a></code>
 
 Methods:
 
 - <code title="get /customers/{customer_id}/invoices/{invoice_id}">client.customers.invoices.<a href="./src/resources/customers/invoices.ts">retrieve</a>(customerId, invoiceId, { ...params }) -> InvoiceRetrieveResponse</code>
-- <code title="get /customers/{customer_id}/invoices">client.customers.invoices.<a href="./src/resources/customers/invoices.ts">list</a>(customerId, { ...params }) -> InvoiceListResponse</code>
+- <code title="get /customers/{customer_id}/invoices">client.customers.invoices.<a href="./src/resources/customers/invoices.ts">list</a>(customerId, { ...params }) -> InvoicesCursorPage</code>
 - <code title="post /customers/{customer_id}/addCharge">client.customers.invoices.<a href="./src/resources/customers/invoices.ts">addCharge</a>(customerId, { ...params }) -> InvoiceAddChargeResponse</code>
 
 ## BillingConfig
@@ -175,7 +173,7 @@ Methods:
 
 - <code title="post /usage">client.usage.<a href="./src/resources/usage.ts">list</a>({ ...params }) -> UsageListResponse</code>
 - <code title="post /ingest">client.usage.<a href="./src/resources/usage.ts">ingest</a>([ ...usage ]) -> void</code>
-- <code title="post /usage/groups">client.usage.<a href="./src/resources/usage.ts">listWithGroups</a>({ ...params }) -> UsageListWithGroupsResponse</code>
+- <code title="post /usage/groups">client.usage.<a href="./src/resources/usage.ts">listWithGroups</a>({ ...params }) -> UsageListWithGroupsResponsesCursorPage</code>
 
 # AuditLogs
 
@@ -185,7 +183,7 @@ Types:
 
 Methods:
 
-- <code title="get /auditLogs">client.auditLogs.<a href="./src/resources/audit-logs.ts">list</a>({ ...params }) -> AuditLogListResponse</code>
+- <code title="get /auditLogs">client.auditLogs.<a href="./src/resources/audit-logs.ts">list</a>({ ...params }) -> AuditLogListResponsesCursorPage</code>
 
 # CustomFields
 
@@ -214,7 +212,7 @@ Methods:
 
 - <code title="post /billable-metrics/create">client.billableMetrics.<a href="./src/resources/billable-metrics.ts">create</a>({ ...params }) -> BillableMetricCreateResponse</code>
 - <code title="get /billable-metrics/{billable_metric_id}">client.billableMetrics.<a href="./src/resources/billable-metrics.ts">retrieve</a>(billableMetricId) -> BillableMetricRetrieveResponse</code>
-- <code title="get /customers/{customer_id}/billable-metrics">client.billableMetrics.<a href="./src/resources/billable-metrics.ts">list</a>(customerId, { ...params }) -> BillableMetricListResponse</code>
+- <code title="get /customers/{customer_id}/billable-metrics">client.billableMetrics.<a href="./src/resources/billable-metrics.ts">list</a>(customerId, { ...params }) -> BillableMetricListResponsesCursorPage</code>
 - <code title="post /billable-metrics/archive">client.billableMetrics.<a href="./src/resources/billable-metrics.ts">archive</a>({ ...params }) -> BillableMetricArchiveResponse</code>
 
 # Services

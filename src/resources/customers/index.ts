@@ -6,7 +6,6 @@ export {
   CustomerDetail,
   CustomerCreateResponse,
   CustomerRetrieveResponse,
-  CustomerListResponse,
   CustomerArchiveResponse,
   CustomerListBillableMetricsResponse,
   CustomerListCostsResponse,
@@ -19,6 +18,9 @@ export {
   CustomerSetIngestAliasesParams,
   CustomerSetNameParams,
   CustomerUpdateConfigParams,
+  CustomerDetailsCursorPage,
+  CustomerListBillableMetricsResponsesCursorPage,
+  CustomerListCostsResponsesCursorPage,
   Customers,
 } from './customers';
 export {
@@ -33,11 +35,11 @@ export {
 export {
   Invoice,
   InvoiceRetrieveResponse,
-  InvoiceListResponse,
   InvoiceAddChargeResponse,
   InvoiceRetrieveParams,
   InvoiceListParams,
   InvoiceAddChargeParams,
+  InvoicesCursorPage,
   Invoices,
 } from './invoices';
 export {
@@ -49,5 +51,7 @@ export {
   PlanAddParams,
   PlanEndParams,
   PlanListPriceAdjustmentsParams,
+  PlanListResponsesCursorPage,
+  PlanListPriceAdjustmentsResponsesCursorPage,
   Plans,
 } from './plans';

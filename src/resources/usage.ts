@@ -3,6 +3,7 @@
 import * as Core from '@metronome/sdk/core';
 import { APIResource } from '@metronome/sdk/resource';
 import * as UsageAPI from '@metronome/sdk/resources/usage';
+import { CursorPage, type CursorPageParams } from '@metronome/sdk/pagination';
 
 export class Usage extends APIResource {
   /**
@@ -36,11 +37,18 @@ export class Usage extends APIResource {
   listWithGroups(
     params: UsageListWithGroupsParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<UsageListWithGroupsResponse> {
+  ): Core.PagePromise<UsageListWithGroupsResponsesCursorPage, UsageListWithGroupsResponse> {
     const { limit, next_page, ...body } = params;
-    return this._client.post('/usage/groups', { query: { limit, next_page }, body, ...options });
+    return this._client.getAPIList('/usage/groups', UsageListWithGroupsResponsesCursorPage, {
+      query: { limit, next_page },
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 }
+
+export class UsageListWithGroupsResponsesCursorPage extends CursorPage<UsageListWithGroupsResponse> {}
 
 export interface UsageListResponse {
   data: Array<UsageListResponse.Data>;
@@ -71,23 +79,15 @@ export namespace UsageListResponse {
 }
 
 export interface UsageListWithGroupsResponse {
-  data: Array<UsageListWithGroupsResponse.Data>;
+  ending_before: string;
 
-  next_page: string | null;
-}
+  group_key: string | null;
 
-export namespace UsageListWithGroupsResponse {
-  export interface Data {
-    ending_before: string;
+  group_value: string | null;
 
-    group_key: string | null;
+  starting_on: string;
 
-    group_value: string | null;
-
-    starting_on: string;
-
-    value: number | null;
-  }
+  value: number | null;
 }
 
 export interface UsageListParams {
@@ -169,7 +169,7 @@ export namespace UsageIngestParams {
   }
 }
 
-export interface UsageListWithGroupsParams {
+export interface UsageListWithGroupsParams extends CursorPageParams {
   /**
    * Body param:
    */
@@ -187,16 +187,6 @@ export interface UsageListWithGroupsParams {
    * period.
    */
   window_size: 'hour' | 'day' | 'none' | 'HOUR' | 'DAY' | 'NONE' | 'Hour' | 'Day' | 'None';
-
-  /**
-   * Query param: Max number of results that should be returned
-   */
-  limit?: number;
-
-  /**
-   * Query param: Cursor that indicates where the next page of results should start.
-   */
-  next_page?: string;
 
   /**
    * Body param: If true, will return the usage for the current billing period. Will
@@ -239,6 +229,7 @@ export namespace UsageListWithGroupsParams {
 export namespace Usage {
   export import UsageListResponse = UsageAPI.UsageListResponse;
   export import UsageListWithGroupsResponse = UsageAPI.UsageListWithGroupsResponse;
+  export import UsageListWithGroupsResponsesCursorPage = UsageAPI.UsageListWithGroupsResponsesCursorPage;
   export import UsageListParams = UsageAPI.UsageListParams;
   export import UsageIngestParams = UsageAPI.UsageIngestParams;
   export import UsageListWithGroupsParams = UsageAPI.UsageListWithGroupsParams;
