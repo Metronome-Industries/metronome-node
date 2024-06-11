@@ -19,7 +19,7 @@ export class BillableMetrics extends APIResource {
   }
 
   /**
-   * Get a billable metric
+   * Get a billable metric.
    */
   retrieve(
     billableMetricId: string,
@@ -29,7 +29,7 @@ export class BillableMetrics extends APIResource {
   }
 
   /**
-   * List all billable metrics.
+   * Get all billable metrics for a given customer.
    */
   list(
     customerId: string,
@@ -56,7 +56,7 @@ export class BillableMetrics extends APIResource {
   }
 
   /**
-   * Archive an existing billable metric
+   * Archive an existing billable metric.
    */
   archive(
     body: BillableMetricArchiveParams,
