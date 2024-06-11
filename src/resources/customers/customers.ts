@@ -60,7 +60,7 @@ export class Customers extends APIResource {
   }
 
   /**
-   * List all billable metrics.
+   * Get all billable metrics for a given customer.
    */
   listBillableMetrics(
     customerId: string,
