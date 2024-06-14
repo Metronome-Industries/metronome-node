@@ -19,7 +19,7 @@ export class BillableMetrics extends APIResource {
   }
 
   /**
-   * Get a billable metric
+   * Get a billable metric.
    */
   retrieve(
     billableMetricId: string,
@@ -29,7 +29,7 @@ export class BillableMetrics extends APIResource {
   }
 
   /**
-   * List all billable metrics.
+   * Get all billable metrics for a given customer.
    */
   list(
     customerId: string,
@@ -56,7 +56,7 @@ export class BillableMetrics extends APIResource {
   }
 
   /**
-   * Archive an existing billable metric
+   * Archive an existing billable metric.
    */
   archive(
     body: BillableMetricArchiveParams,
@@ -194,7 +194,124 @@ export interface BillableMetricListResponse {
 
   name: string;
 
+  /**
+   * (DEPRECATED) use aggregation_type instead
+   */
+  aggregate?: string;
+
+  /**
+   * (DEPRECATED) use aggregation_key instead
+   */
+  aggregate_keys?: Array<string>;
+
+  /**
+   * A key that specifies which property of the event is used to aggregate data. This
+   * key must be one of the property filter names and is not applicable when the
+   * aggregation type is 'count'.
+   */
+  aggregation_key?: string;
+
+  /**
+   * Specifies the type of aggregation performed on matching events.
+   */
+  aggregation_type?:
+    | 'count'
+    | 'Count'
+    | 'COUNT'
+    | 'latest'
+    | 'Latest'
+    | 'LATEST'
+    | 'max'
+    | 'Max'
+    | 'MAX'
+    | 'sum'
+    | 'Sum'
+    | 'SUM'
+    | 'unique'
+    | 'Unique'
+    | 'UNIQUE';
+
+  custom_fields?: Record<string, string>;
+
+  /**
+   * An optional filtering rule to match the 'event_type' property of an event.
+   */
+  event_type_filter?: BillableMetricListResponse.EventTypeFilter;
+
+  /**
+   * (DEPRECATED) use property_filters & event_type_filter instead
+   */
+  filter?: Record<string, unknown>;
+
+  /**
+   * (DEPRECATED) use group_keys instead
+   */
   group_by?: Array<string>;
+
+  /**
+   * Property names that are used to group usage costs on an invoice. Each entry
+   * represents a set of properties used to slice events into distinct buckets.
+   */
+  group_keys?: Array<Array<string>>;
+
+  /**
+   * A list of filters to match events to this billable metric. Each filter defines a
+   * rule on an event property. All rules must pass for the event to match the
+   * billable metric.
+   */
+  property_filters?: Array<BillableMetricListResponse.PropertyFilter>;
+}
+
+export namespace BillableMetricListResponse {
+  /**
+   * An optional filtering rule to match the 'event_type' property of an event.
+   */
+  export interface EventTypeFilter {
+    /**
+     * A list of event types that are explicitly included in the billable metric. If
+     * specified, only events of these types will match the billable metric. Must be
+     * non-empty if present.
+     */
+    in_values?: Array<string>;
+
+    /**
+     * A list of event types that are explicitly excluded from the billable metric. If
+     * specified, events of these types will not match the billable metric. Must be
+     * non-empty if present.
+     */
+    not_in_values?: Array<string>;
+  }
+
+  export interface PropertyFilter {
+    /**
+     * The name of the event property.
+     */
+    name: string;
+
+    /**
+     * Determines whether the property must exist in the event. If true, only events
+     * with this property will pass the filter. If false, only events without this
+     * property will pass the filter. If null or omitted, the existence of the property
+     * is optional.
+     */
+    exists?: boolean;
+
+    /**
+     * Specifies the allowed values for the property to match an event. An event will
+     * pass the filter only if its property value is included in this list. If
+     * undefined, all property values will pass the filter. Must be non-empty if
+     * present.
+     */
+    in_values?: Array<string>;
+
+    /**
+     * Specifies the values that prevent an event from matching the filter. An event
+     * will not pass the filter if its property value is included in this list. If null
+     * or empty, all property values will pass the filter. Must be non-empty if
+     * present.
+     */
+    not_in_values?: Array<string>;
+  }
 }
 
 export interface BillableMetricArchiveResponse {
