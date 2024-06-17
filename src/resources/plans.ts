@@ -204,6 +204,12 @@ export interface PlanListChargesResponse {
   start_period?: number;
 
   /**
+   * Used in pricing tiers. Indicates how often the tier resets. Default is 1 - the
+   * tier count resets every billing period.
+   */
+  tier_reset_frequency?: number;
+
+  /**
    * Specifies how quantities for usage based charges will be converted.
    */
   unit_conversion?: PlanListChargesResponse.UnitConversion;
