@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome/sdk/core';
 import { APIResource } from '@metronome/sdk/resource';
+import * as Core from '@metronome/sdk/core';
 import * as BillingConfigAPI from '@metronome/sdk/resources/customers/billing-config';
 
 export class BillingConfig extends APIResource {
