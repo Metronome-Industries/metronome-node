@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome/sdk/core';
 import { APIResource } from '@metronome/sdk/resource';
+import * as Core from '@metronome/sdk/core';
 import * as AlertsAPI from '@metronome/sdk/resources/alerts';
 import * as Shared from '@metronome/sdk/resources/shared';
 
