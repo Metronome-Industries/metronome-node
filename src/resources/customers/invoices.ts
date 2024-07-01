@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome/sdk/core';
 import { APIResource } from '@metronome/sdk/resource';
 import { isRequestOptions } from '@metronome/sdk/core';
+import * as Core from '@metronome/sdk/core';
 import * as InvoicesAPI from '@metronome/sdk/resources/customers/invoices';
 import * as Shared from '@metronome/sdk/resources/shared';
 import { CursorPage, type CursorPageParams } from '@metronome/sdk/pagination';
@@ -299,10 +299,20 @@ export namespace Invoice {
       credit_grant_id?: string;
 
       /**
+       * The end date for the charge (for seats charges only).
+       */
+      end_date?: string;
+
+      /**
        * the unit price for this charge, present only if the charge is not tiered and the
        * quantity is nonzero
        */
       price?: number;
+
+      /**
+       * The start date for the charge (for seats charges only).
+       */
+      start_date?: string;
 
       tiers?: Array<SubLineItem.Tier>;
     }

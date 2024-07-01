@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome/sdk/core';
 import { APIResource } from '@metronome/sdk/resource';
 import { isRequestOptions } from '@metronome/sdk/core';
+import * as Core from '@metronome/sdk/core';
 import * as CustomFieldsAPI from '@metronome/sdk/resources/custom-fields';
 
 export class CustomFields extends APIResource {

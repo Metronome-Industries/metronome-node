@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.0-alpha.4 (2024-07-01)
+
+Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#28](https://github.com/Metronome-Industries/metronome-node/issues/28)) ([d8e6bd8](https://github.com/Metronome-Industries/metronome-node/commit/d8e6bd81bffc2ed5a90b8ca876f3dbe067d42a2c))
+* **api:** OpenAPI spec update via Stainless API ([#30](https://github.com/Metronome-Industries/metronome-node/issues/30)) ([ca6a6b2](https://github.com/Metronome-Industries/metronome-node/commit/ca6a6b27f22877d53b161538820f328ff9213924))
+* **api:** OpenAPI spec update via Stainless API ([#31](https://github.com/Metronome-Industries/metronome-node/issues/31)) ([a028087](https://github.com/Metronome-Industries/metronome-node/commit/a028087120218009fb756c5dec3441ec2bf88f92))
+
 ## 0.1.0-alpha.3 (2024-06-14)
 
 Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)

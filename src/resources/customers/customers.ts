@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome/sdk/core';
 import { APIResource } from '@metronome/sdk/resource';
 import { isRequestOptions } from '@metronome/sdk/core';
+import * as Core from '@metronome/sdk/core';
 import * as CustomersAPI from '@metronome/sdk/resources/customers/customers';
 import * as Shared from '@metronome/sdk/resources/shared';
 import * as AlertsAPI from '@metronome/sdk/resources/customers/alerts';
@@ -398,6 +398,9 @@ export interface CustomerSetNameResponse {
 }
 
 export interface CustomerCreateParams {
+  /**
+   * This will be truncated to 160 characters if the provided name is longer.
+   */
   name: string;
 
   billing_config?: CustomerCreateParams.BillingConfig;
@@ -516,7 +519,8 @@ export interface CustomerSetIngestAliasesParams {
 
 export interface CustomerSetNameParams {
   /**
-   * The new name for the customer
+   * The new name for the customer. This will be truncated to 160 characters if the
+   * provided name is longer.
    */
   name: string;
 }

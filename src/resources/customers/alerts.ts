@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome/sdk/core';
 import { APIResource } from '@metronome/sdk/resource';
+import * as Core from '@metronome/sdk/core';
 import * as AlertsAPI from '@metronome/sdk/resources/customers/alerts';
 import * as Shared from '@metronome/sdk/resources/shared';
 
@@ -93,6 +93,13 @@ export namespace CustomerAlert {
      * Timestamp for when the alert was last updated
      */
     updated_at: string;
+
+    /**
+     * An array of strings, representing a way to filter the credit grant this alert
+     * applies to, by looking at the credit_grant_type field on the credit grant. This
+     * field is only defined for CreditPercentage and CreditBalance alerts
+     */
+    credit_grant_type_filters?: Array<string>;
 
     credit_type?: Shared.CreditType | null;
 

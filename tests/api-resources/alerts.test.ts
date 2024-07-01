@@ -30,6 +30,7 @@ describe('resource alerts', () => {
       name: '$100 spend threshold reached',
       threshold: 10000,
       billable_metric_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      credit_grant_type_filters: ['enterprise'],
       credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
       custom_field_filters: [
         { entity: 'Contract', key: 'string', value: 'string' },
