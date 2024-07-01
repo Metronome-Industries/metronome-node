@@ -299,10 +299,20 @@ export namespace Invoice {
       credit_grant_id?: string;
 
       /**
+       * The end date for the charge (for seats charges only).
+       */
+      end_date?: string;
+
+      /**
        * the unit price for this charge, present only if the charge is not tiered and the
        * quantity is nonzero
        */
       price?: number;
+
+      /**
+       * The start date for the charge (for seats charges only).
+       */
+      start_date?: string;
 
       tiers?: Array<SubLineItem.Tier>;
     }
