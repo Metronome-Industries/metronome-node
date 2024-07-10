@@ -751,6 +751,8 @@ export interface Rate {
     | 'TIERED'
     | 'tiered';
 
+  credit_type?: CreditType;
+
   /**
    * Only set for CUSTOM rate_type. This field is interpreted by custom rate
    * processors.
