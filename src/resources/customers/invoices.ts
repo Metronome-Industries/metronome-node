@@ -314,10 +314,24 @@ export namespace Invoice {
        */
       start_date?: string;
 
+      /**
+       * when the current tier started and ends (for tiered charges only)
+       */
+      tier_period?: SubLineItem.TierPeriod;
+
       tiers?: Array<SubLineItem.Tier>;
     }
 
     export namespace SubLineItem {
+      /**
+       * when the current tier started and ends (for tiered charges only)
+       */
+      export interface TierPeriod {
+        starting_at: string;
+
+        ending_before?: string;
+      }
+
       export interface Tier {
         price: number;
 
