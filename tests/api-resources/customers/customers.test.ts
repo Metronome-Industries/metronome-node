@@ -25,9 +25,9 @@ describe('resource customers', () => {
       name: 'Example, Inc.',
       billing_config: {
         billing_provider_type: 'aws_marketplace',
-        billing_provider_customer_id: 'string',
+        billing_provider_customer_id: 'billing_provider_customer_id',
         stripe_collection_method: 'charge_automatically',
-        aws_product_code: 'string',
+        aws_product_code: 'aws_product_code',
         aws_region: 'af-south-1',
       },
       custom_fields: { foo: 'string' },
@@ -80,9 +80,9 @@ describe('resource customers', () => {
       metronome.customers.list(
         {
           customer_ids: ['string', 'string', 'string'],
-          ingest_alias: 'string',
+          ingest_alias: 'ingest_alias',
           limit: 1,
-          next_page: 'string',
+          next_page: 'next_page',
           only_archived: true,
           salesforce_account_ids: ['string', 'string', 'string'],
         },
@@ -131,7 +131,7 @@ describe('resource customers', () => {
     await expect(
       metronome.customers.listBillableMetrics(
         'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        { limit: 1, next_page: 'string', on_current_plan: true },
+        { limit: 1, next_page: 'next_page', on_current_plan: true },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
@@ -156,7 +156,7 @@ describe('resource customers', () => {
       ending_before: '2019-12-27T18:11:19.117Z',
       starting_on: '2019-12-27T18:11:19.117Z',
       limit: 1,
-      next_page: 'string',
+      next_page: 'next_page',
     });
   });
 

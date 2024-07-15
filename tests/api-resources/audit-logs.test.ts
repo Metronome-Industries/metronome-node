@@ -34,9 +34,9 @@ describe('resource auditLogs', () => {
         {
           ending_before: '2019-12-27T18:11:19.117Z',
           limit: 1,
-          next_page: 'string',
-          resource_id: 'string',
-          resource_type: 'string',
+          next_page: 'next_page',
+          resource_id: 'resource_id',
+          resource_type: 'resource_type',
           sort: 'date_asc',
           starting_on: '2019-12-27T18:11:19.117Z',
         },

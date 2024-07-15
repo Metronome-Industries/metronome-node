@@ -34,7 +34,7 @@ describe('resource plans', () => {
     await expect(
       metronome.customers.plans.list(
         'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        { limit: 1, next_page: 'string' },
+        { limit: 1, next_page: 'next_page' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
@@ -103,7 +103,7 @@ describe('resource plans', () => {
           start_period: 0,
         },
       ],
-      trial_spec: { length_in_days: 0, spending_cap: { credit_type_id: 'string', amount: 0 } },
+      trial_spec: { length_in_days: 0, spending_cap: { credit_type_id: 'credit_type_id', amount: 0 } },
     });
   });
 
@@ -175,7 +175,7 @@ describe('resource plans', () => {
       metronome.customers.plans.listPriceAdjustments(
         'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
         '7aa11640-0703-4600-8eb9-293f535a6b74',
-        { limit: 1, next_page: 'string' },
+        { limit: 1, next_page: 'next_page' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);

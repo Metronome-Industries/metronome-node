@@ -30,7 +30,7 @@ describe('resource plans', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      metronome.plans.list({ limit: 1, next_page: 'string' }, { path: '/_stainless_unknown_path' }),
+      metronome.plans.list({ limit: 1, next_page: 'next_page' }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Metronome.NotFoundError);
   });
 
@@ -79,7 +79,7 @@ describe('resource plans', () => {
     await expect(
       metronome.plans.listCharges(
         'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        { limit: 1, next_page: 'string' },
+        { limit: 1, next_page: 'next_page' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
@@ -110,7 +110,7 @@ describe('resource plans', () => {
     await expect(
       metronome.plans.listCustomers(
         'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        { limit: 1, next_page: 'string', status: 'all' },
+        { limit: 1, next_page: 'next_page', status: 'all' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);

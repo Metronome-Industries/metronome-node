@@ -72,14 +72,14 @@ describe('resource invoices', () => {
       metronome.customers.invoices.list(
         'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
         {
-          credit_type_id: 'string',
+          credit_type_id: 'credit_type_id',
           ending_before: '2019-12-27T18:11:19.117Z',
           limit: 1,
-          next_page: 'string',
+          next_page: 'next_page',
           skip_zero_qty_line_items: true,
           sort: 'date_asc',
           starting_on: '2019-12-27T18:11:19.117Z',
-          status: 'string',
+          status: 'status',
         },
         { path: '/_stainless_unknown_path' },
       ),

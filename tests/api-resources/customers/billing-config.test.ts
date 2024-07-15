@@ -30,7 +30,7 @@ describe('resource billingConfig', () => {
       'stripe',
       {
         billing_provider_customer_id: 'cus_AJ6y20bjkOOayM',
-        aws_product_code: 'string',
+        aws_product_code: 'aws_product_code',
         aws_region: 'af-south-1',
         stripe_collection_method: 'charge_automatically',
       },
