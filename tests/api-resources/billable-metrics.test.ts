@@ -96,7 +96,7 @@ describe('resource billableMetrics', () => {
     await expect(
       metronome.billableMetrics.list(
         'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        { limit: 1, next_page: 'string', on_current_plan: true },
+        { limit: 1, next_page: 'next_page', on_current_plan: true },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
