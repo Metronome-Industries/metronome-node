@@ -29,9 +29,9 @@ describe('resource dashboards', () => {
       dashboard: 'invoices',
       color_overrides: [{ name: 'Gray_dark', value: '#ff0000' }],
       dashboard_options: [
-        { key: 'string', value: 'string' },
-        { key: 'string', value: 'string' },
-        { key: 'string', value: 'string' },
+        { key: 'key', value: 'value' },
+        { key: 'key', value: 'value' },
+        { key: 'key', value: 'value' },
       ],
     });
   });

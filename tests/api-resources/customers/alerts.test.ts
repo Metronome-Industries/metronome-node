@@ -46,7 +46,7 @@ describe('resource alerts', () => {
   test('list: required and optional params', async () => {
     const response = await metronome.customers.alerts.list({
       customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
-      next_page: 'string',
+      next_page: 'next_page',
       alert_statuses: ['enabled'],
     });
   });

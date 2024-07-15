@@ -78,7 +78,7 @@ describe('resource creditGrants', () => {
       metronome.creditGrants.list(
         {
           limit: 1,
-          next_page: 'string',
+          next_page: 'next_page',
           credit_grant_ids: [
             '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -135,7 +135,7 @@ describe('resource creditGrants', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       metronome.creditGrants.listCreditTypes(
-        { limit: 1, next_page: 'string' },
+        { limit: 1, next_page: 'next_page' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
@@ -164,7 +164,7 @@ describe('resource creditGrants', () => {
     await expect(
       metronome.creditGrants.listEntries(
         {
-          next_page: 'string',
+          next_page: 'next_page',
           credit_type_ids: ['2714e483-4ff1-48e4-9e25-ac732e8f24f2'],
           customer_ids: ['6a37bb88-8538-48c5-b37b-a41c836328bd'],
           ending_before: '2021-02-01T00:00:00Z',

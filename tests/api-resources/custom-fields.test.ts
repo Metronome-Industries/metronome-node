@@ -77,7 +77,7 @@ describe('resource customFields', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       metronome.customFields.listKeys(
-        { next_page: 'string', entities: ['customer', 'credit_grant'] },
+        { next_page: 'next_page', entities: ['customer', 'credit_grant'] },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
