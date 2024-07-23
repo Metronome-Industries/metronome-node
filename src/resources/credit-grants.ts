@@ -584,6 +584,11 @@ export interface CreditGrantVoidParams {
   id: string;
 
   /**
+   * If true, resets the uniqueness key on this grant so it can be re-used
+   */
+  release_uniqueness_key?: boolean;
+
+  /**
    * If true, void the purchase invoice associated with the grant
    */
   void_credit_purchase_invoice?: boolean;
