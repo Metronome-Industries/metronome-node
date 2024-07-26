@@ -3,14 +3,14 @@
 import Metronome from '@metronome/sdk';
 import { Response } from 'node-fetch';
 
-const metronome = new Metronome({
+const client = new Metronome({
   bearerToken: 'My Bearer Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource dashboards', () => {
   test('getEmbeddableURL: only required params', async () => {
-    const responsePromise = metronome.dashboards.getEmbeddableURL({
+    const responsePromise = client.dashboards.getEmbeddableURL({
       customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
       dashboard: 'invoices',
     });
@@ -24,7 +24,7 @@ describe('resource dashboards', () => {
   });
 
   test('getEmbeddableURL: required and optional params', async () => {
-    const response = await metronome.dashboards.getEmbeddableURL({
+    const response = await client.dashboards.getEmbeddableURL({
       customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
       dashboard: 'invoices',
       color_overrides: [{ name: 'Gray_dark', value: '#ff0000' }],

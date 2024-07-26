@@ -29,7 +29,7 @@ const client = new Metronome({
 });
 
 async function main() {
-  const response = await metronome.usage.ingest({
+  const response = await client.usage.ingest({
     usage: [
       {
         transaction_id: '2021-01-01T00:00:00Z_cluster42',
@@ -62,7 +62,7 @@ async function main() {
     name: '$100 spend threshold reached',
     threshold: 10000,
   };
-  const alertCreateResponse: Metronome.AlertCreateResponse = await metronome.alerts.create(params);
+  const alertCreateResponse: Metronome.AlertCreateResponse = await client.alerts.create(params);
 }
 
 main();
@@ -79,7 +79,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const alertCreateResponse = await metronome.alerts
+  const alertCreateResponse = await client.alerts
     .create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 })
     .catch(async (err) => {
       if (err instanceof Metronome.APIError) {
@@ -124,7 +124,7 @@ const client = new Metronome({
 });
 
 // Or, configure per-request:
-await metronome.alerts.create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 }, {
+await client.alerts.create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 }, {
   maxRetries: 5,
 });
 ```
@@ -141,7 +141,7 @@ const client = new Metronome({
 });
 
 // Override per-request:
-await metronome.alerts.create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 }, {
+await client.alerts.create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 }, {
   timeout: 5 * 1000,
 });
 ```
@@ -162,13 +162,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Metronome();
 
-const response = await metronome.alerts
+const response = await client.alerts
   .create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: alertCreateResponse, response: raw } = await metronome.alerts
+const { data: alertCreateResponse, response: raw } = await client.alerts
   .create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
@@ -276,7 +276,7 @@ const client = new Metronome({
 });
 
 // Override per-request:
-await metronome.alerts.create(
+await client.alerts.create(
   { alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 },
   {
     httpAgent: new http.Agent({ keepAlive: false }),

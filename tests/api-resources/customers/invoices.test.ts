@@ -3,14 +3,14 @@
 import Metronome from '@metronome/sdk';
 import { Response } from 'node-fetch';
 
-const metronome = new Metronome({
+const client = new Metronome({
   bearerToken: 'My Bearer Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource invoices', () => {
   test('retrieve', async () => {
-    const responsePromise = metronome.customers.invoices.retrieve(
+    const responsePromise = client.customers.invoices.retrieve(
       'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       '6a37bb88-8538-48c5-b37b-a41c836328bd',
     );
@@ -26,7 +26,7 @@ describe('resource invoices', () => {
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      metronome.customers.invoices.retrieve(
+      client.customers.invoices.retrieve(
         'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
         '6a37bb88-8538-48c5-b37b-a41c836328bd',
         { path: '/_stainless_unknown_path' },
@@ -37,7 +37,7 @@ describe('resource invoices', () => {
   test('retrieve: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      metronome.customers.invoices.retrieve(
+      client.customers.invoices.retrieve(
         'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
         '6a37bb88-8538-48c5-b37b-a41c836328bd',
         { skip_zero_qty_line_items: true },
@@ -47,7 +47,7 @@ describe('resource invoices', () => {
   });
 
   test('list', async () => {
-    const responsePromise = metronome.customers.invoices.list('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc');
+    const responsePromise = client.customers.invoices.list('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -60,7 +60,7 @@ describe('resource invoices', () => {
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      metronome.customers.invoices.list('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
+      client.customers.invoices.list('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
         path: '/_stainless_unknown_path',
       }),
     ).rejects.toThrow(Metronome.NotFoundError);
@@ -69,7 +69,7 @@ describe('resource invoices', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      metronome.customers.invoices.list(
+      client.customers.invoices.list(
         'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
         {
           credit_type_id: 'credit_type_id',
@@ -87,7 +87,7 @@ describe('resource invoices', () => {
   });
 
   test('addCharge: only required params', async () => {
-    const responsePromise = metronome.customers.invoices.addCharge('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
+    const responsePromise = client.customers.invoices.addCharge('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
       charge_id: '5ae4b726-1ebe-439c-9190-9831760ba195',
       customer_plan_id: 'a23b3cf4-47fb-4c3f-bb3d-9e64f7704015',
       description: 'One time charge',
@@ -105,7 +105,7 @@ describe('resource invoices', () => {
   });
 
   test('addCharge: required and optional params', async () => {
-    const response = await metronome.customers.invoices.addCharge('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
+    const response = await client.customers.invoices.addCharge('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
       charge_id: '5ae4b726-1ebe-439c-9190-9831760ba195',
       customer_plan_id: 'a23b3cf4-47fb-4c3f-bb3d-9e64f7704015',
       description: 'One time charge',
