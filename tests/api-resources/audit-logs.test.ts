@@ -3,14 +3,14 @@
 import Metronome from '@metronome/sdk';
 import { Response } from 'node-fetch';
 
-const metronome = new Metronome({
+const client = new Metronome({
   bearerToken: 'My Bearer Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource auditLogs', () => {
   test('list', async () => {
-    const responsePromise = metronome.auditLogs.list();
+    const responsePromise = client.auditLogs.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,7 +22,7 @@ describe('resource auditLogs', () => {
 
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(metronome.auditLogs.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.auditLogs.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       Metronome.NotFoundError,
     );
   });
@@ -30,7 +30,7 @@ describe('resource auditLogs', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      metronome.auditLogs.list(
+      client.auditLogs.list(
         {
           ending_before: '2019-12-27T18:11:19.117Z',
           limit: 1,

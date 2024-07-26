@@ -3,14 +3,14 @@
 import Metronome from '@metronome/sdk';
 import { Response } from 'node-fetch';
 
-const metronome = new Metronome({
+const client = new Metronome({
   bearerToken: 'My Bearer Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource alerts', () => {
   test('create: only required params', async () => {
-    const responsePromise = metronome.alerts.create({
+    const responsePromise = client.alerts.create({
       alert_type: 'spend_threshold_reached',
       name: '$100 spend threshold reached',
       threshold: 10000,
@@ -25,7 +25,7 @@ describe('resource alerts', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await metronome.alerts.create({
+    const response = await client.alerts.create({
       alert_type: 'spend_threshold_reached',
       name: '$100 spend threshold reached',
       threshold: 10000,
@@ -51,7 +51,7 @@ describe('resource alerts', () => {
   });
 
   test('archive: only required params', async () => {
-    const responsePromise = metronome.alerts.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
+    const responsePromise = client.alerts.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -62,6 +62,6 @@ describe('resource alerts', () => {
   });
 
   test('archive: required and optional params', async () => {
-    const response = await metronome.alerts.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
+    const response = await client.alerts.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
   });
 });
