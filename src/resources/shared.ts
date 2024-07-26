@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Shared from '@metronome/sdk/resources/shared';
+import * as Shared from './shared';
 
 export interface Commit {
   id: string;

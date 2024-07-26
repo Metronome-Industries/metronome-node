@@ -1,15 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '@metronome/sdk/resource';
-import { isRequestOptions } from '@metronome/sdk/core';
-import * as Core from '@metronome/sdk/core';
-import * as CustomersAPI from '@metronome/sdk/resources/customers/customers';
-import * as Shared from '@metronome/sdk/resources/shared';
-import * as AlertsAPI from '@metronome/sdk/resources/customers/alerts';
-import * as BillingConfigAPI from '@metronome/sdk/resources/customers/billing-config';
-import * as InvoicesAPI from '@metronome/sdk/resources/customers/invoices';
-import * as PlansAPI from '@metronome/sdk/resources/customers/plans';
-import { CursorPage, type CursorPageParams } from '@metronome/sdk/pagination';
+import { APIResource } from '../../resource';
+import { isRequestOptions } from '../../core';
+import * as Core from '../../core';
+import * as CustomersAPI from './customers';
+import * as Shared from '../shared';
+import * as AlertsAPI from './alerts';
+import * as BillingConfigAPI from './billing-config';
+import * as InvoicesAPI from './invoices';
+import * as PlansAPI from './plans';
+import { CursorPage, type CursorPageParams } from '../../pagination';
 
 export class Customers extends APIResource {
   alerts: AlertsAPI.Alerts = new AlertsAPI.Alerts(this._client);
