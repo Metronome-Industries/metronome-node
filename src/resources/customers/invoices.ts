@@ -424,6 +424,8 @@ export namespace Invoice {
 
     total: number;
 
+    credit_grant_custom_fields?: Record<string, string>;
+
     credit_grant_id?: string;
   }
 
