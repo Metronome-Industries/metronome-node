@@ -87,6 +87,7 @@ export namespace CustomerAlert {
       | 'low_remaining_days_for_contract_credit_segment_reached'
       | 'low_remaining_contract_credit_balance_reached'
       | 'low_remaining_contract_credit_percentage_reached'
+      | 'low_remaining_contract_credit_and_commit_balance_reached'
       | 'invoice_total_reached';
 
     /**
