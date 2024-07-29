@@ -163,6 +163,7 @@ export class Metronome extends Core.APIClient {
   }
 
   static Metronome = this;
+  static DEFAULT_TIMEOUT = 60000; // 1 minute
 
   static MetronomeError = Errors.MetronomeError;
   static APIError = Errors.APIError;
