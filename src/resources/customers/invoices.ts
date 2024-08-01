@@ -75,8 +75,6 @@ export class InvoicesCursorPage extends CursorPage<Invoice> {}
 export interface Invoice {
   id: string;
 
-  billable_status: 'billable' | 'unbillable';
-
   credit_type: Shared.CreditType;
 
   customer_id: string;
@@ -90,6 +88,11 @@ export interface Invoice {
   type: string;
 
   amendment_id?: string;
+
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
+  billable_status?: 'billable' | 'unbillable';
 
   contract_custom_fields?: Record<string, string>;
 
