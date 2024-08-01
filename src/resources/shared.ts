@@ -348,6 +348,9 @@ export interface ContractWithoutAmendments {
    */
   salesforce_opportunity_id?: string;
 
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
   total_contract_value?: number;
 
   usage_filter?: ContractWithoutAmendments.UsageFilter;

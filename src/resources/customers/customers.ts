@@ -190,8 +190,6 @@ export interface CustomerDetail {
    */
   id: string;
 
-  current_billable_status: CustomerDetail.CurrentBillableStatus;
-
   custom_fields: Record<string, string>;
 
   customer_config: CustomerDetail.CustomerConfig;
@@ -209,20 +207,28 @@ export interface CustomerDetail {
   ingest_aliases: Array<string>;
 
   name: string;
+
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
+  current_billable_status?: CustomerDetail.CurrentBillableStatus;
 }
 
 export namespace CustomerDetail {
-  export interface CurrentBillableStatus {
-    value: 'billable' | 'unbillable';
-
-    effective_at?: string | null;
-  }
-
   export interface CustomerConfig {
     /**
      * The Salesforce account ID for the customer
      */
     salesforce_account_id: string | null;
+  }
+
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
+  export interface CurrentBillableStatus {
+    value: 'billable' | 'unbillable';
+
+    effective_at?: string | null;
   }
 }
 
