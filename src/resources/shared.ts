@@ -806,6 +806,8 @@ export namespace Rate {
 }
 
 export interface SchedulePointInTime {
+  credit_type?: CreditType;
+
   schedule_items?: Array<SchedulePointInTime.ScheduleItem>;
 }
 
