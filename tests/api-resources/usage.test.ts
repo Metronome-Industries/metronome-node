@@ -3,14 +3,14 @@
 import Metronome from '@metronome/sdk';
 import { Response } from 'node-fetch';
 
-const metronome = new Metronome({
+const client = new Metronome({
   bearerToken: 'My Bearer Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource usage', () => {
   test('list: only required params', async () => {
-    const responsePromise = metronome.usage.list({
+    const responsePromise = client.usage.list({
       ending_before: '2021-01-03T00:00:00Z',
       starting_on: '2021-01-01T00:00:00Z',
       window_size: 'day',
@@ -25,15 +25,15 @@ describe('resource usage', () => {
   });
 
   test('list: required and optional params', async () => {
-    const response = await metronome.usage.list({
+    const response = await client.usage.list({
       ending_before: '2021-01-03T00:00:00Z',
       starting_on: '2021-01-01T00:00:00Z',
       window_size: 'day',
-      next_page: 'string',
+      next_page: 'next_page',
       billable_metrics: [
-        { id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', group_by: { key: 'string', values: ['x'] } },
-        { id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', group_by: { key: 'string', values: ['x'] } },
-        { id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', group_by: { key: 'string', values: ['x'] } },
+        { id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', group_by: { key: 'key', values: ['x'] } },
+        { id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', group_by: { key: 'key', values: ['x'] } },
+        { id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', group_by: { key: 'key', values: ['x'] } },
       ],
       customer_ids: [
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -44,7 +44,7 @@ describe('resource usage', () => {
   });
 
   test('ingest: only required params', async () => {
-    const responsePromise = metronome.usage.ingest([
+    const responsePromise = client.usage.ingest([
       {
         transaction_id: '2021-01-01T00:00:00Z_cluster42',
         customer_id: 'team@example.com',
@@ -62,7 +62,7 @@ describe('resource usage', () => {
   });
 
   test('ingest: required and optional params', async () => {
-    const response = await metronome.usage.ingest([
+    const response = await client.usage.ingest([
       {
         transaction_id: '2021-01-01T00:00:00Z_cluster42',
         customer_id: 'team@example.com',
@@ -74,7 +74,7 @@ describe('resource usage', () => {
   });
 
   test('listWithGroups: only required params', async () => {
-    const responsePromise = metronome.usage.listWithGroups({
+    const responsePromise = client.usage.listWithGroups({
       billable_metric_id: '222796fd-d29c-429e-89b2-549fabda4ed6',
       customer_id: '04ca7e72-4229-4a6e-ab11-9f7376fccbcb',
       window_size: 'day',
@@ -89,12 +89,12 @@ describe('resource usage', () => {
   });
 
   test('listWithGroups: required and optional params', async () => {
-    const response = await metronome.usage.listWithGroups({
+    const response = await client.usage.listWithGroups({
       billable_metric_id: '222796fd-d29c-429e-89b2-549fabda4ed6',
       customer_id: '04ca7e72-4229-4a6e-ab11-9f7376fccbcb',
       window_size: 'day',
       limit: 1,
-      next_page: 'string',
+      next_page: 'next_page',
       current_period: true,
       ending_before: '2021-01-03T00:00:00Z',
       group_by: { key: 'region', values: ['US-East', 'US-West', 'EU-Central'] },

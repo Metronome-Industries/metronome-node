@@ -1,15 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome/sdk/core';
-import { APIResource } from '@metronome/sdk/resource';
-import { isRequestOptions } from '@metronome/sdk/core';
-import * as CustomersAPI from '@metronome/sdk/resources/customers/customers';
-import * as Shared from '@metronome/sdk/resources/shared';
-import * as AlertsAPI from '@metronome/sdk/resources/customers/alerts';
-import * as BillingConfigAPI from '@metronome/sdk/resources/customers/billing-config';
-import * as InvoicesAPI from '@metronome/sdk/resources/customers/invoices';
-import * as PlansAPI from '@metronome/sdk/resources/customers/plans';
-import { CursorPage, type CursorPageParams } from '@metronome/sdk/pagination';
+import { APIResource } from '../../resource';
+import { isRequestOptions } from '../../core';
+import * as Core from '../../core';
+import * as CustomersAPI from './customers';
+import * as Shared from '../shared';
+import * as AlertsAPI from './alerts';
+import * as BillingConfigAPI from './billing-config';
+import * as InvoicesAPI from './invoices';
+import * as PlansAPI from './plans';
+import { CursorPage, type CursorPageParams } from '../../pagination';
 
 export class Customers extends APIResource {
   alerts: AlertsAPI.Alerts = new AlertsAPI.Alerts(this._client);
@@ -190,8 +190,6 @@ export interface CustomerDetail {
    */
   id: string;
 
-  current_billable_status: CustomerDetail.CurrentBillableStatus;
-
   custom_fields: Record<string, string>;
 
   customer_config: CustomerDetail.CustomerConfig;
@@ -209,20 +207,28 @@ export interface CustomerDetail {
   ingest_aliases: Array<string>;
 
   name: string;
+
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
+  current_billable_status?: CustomerDetail.CurrentBillableStatus;
 }
 
 export namespace CustomerDetail {
-  export interface CurrentBillableStatus {
-    value: 'billable' | 'unbillable';
-
-    effective_at?: string | null;
-  }
-
   export interface CustomerConfig {
     /**
      * The Salesforce account ID for the customer
      */
     salesforce_account_id: string | null;
+  }
+
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
+  export interface CurrentBillableStatus {
+    value: 'billable' | 'unbillable';
+
+    effective_at?: string | null;
   }
 }
 
@@ -398,6 +404,9 @@ export interface CustomerSetNameResponse {
 }
 
 export interface CustomerCreateParams {
+  /**
+   * This will be truncated to 160 characters if the provided name is longer.
+   */
   name: string;
 
   billing_config?: CustomerCreateParams.BillingConfig;
@@ -516,7 +525,8 @@ export interface CustomerSetIngestAliasesParams {
 
 export interface CustomerSetNameParams {
   /**
-   * The new name for the customer
+   * The new name for the customer. This will be truncated to 160 characters if the
+   * provided name is longer.
    */
   name: string;
 }

@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Shared from '@metronome/sdk/resources/shared';
+import * as Shared from './shared';
 
 export interface Commit {
   id: string;
@@ -348,6 +348,9 @@ export interface ContractWithoutAmendments {
    */
   salesforce_opportunity_id?: string;
 
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
   total_contract_value?: number;
 
   usage_filter?: ContractWithoutAmendments.UsageFilter;
@@ -750,6 +753,8 @@ export interface Rate {
     | 'custom'
     | 'TIERED'
     | 'tiered';
+
+  credit_type?: CreditType;
 
   /**
    * Only set for CUSTOM rate_type. This field is interpreted by custom rate

@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome/sdk/core';
-import { APIResource } from '@metronome/sdk/resource';
-import { isRequestOptions } from '@metronome/sdk/core';
-import * as InvoicesAPI from '@metronome/sdk/resources/customers/invoices';
-import * as Shared from '@metronome/sdk/resources/shared';
-import { CursorPage, type CursorPageParams } from '@metronome/sdk/pagination';
+import { APIResource } from '../../resource';
+import { isRequestOptions } from '../../core';
+import * as Core from '../../core';
+import * as InvoicesAPI from './invoices';
+import * as Shared from '../shared';
+import { CursorPage, type CursorPageParams } from '../../pagination';
 
 export class Invoices extends APIResource {
   /**
@@ -75,8 +75,6 @@ export class InvoicesCursorPage extends CursorPage<Invoice> {}
 export interface Invoice {
   id: string;
 
-  billable_status: 'billable' | 'unbillable';
-
   credit_type: Shared.CreditType;
 
   customer_id: string;
@@ -90,6 +88,11 @@ export interface Invoice {
   type: string;
 
   amendment_id?: string;
+
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
+  billable_status?: 'billable' | 'unbillable';
 
   contract_custom_fields?: Record<string, string>;
 
@@ -299,15 +302,39 @@ export namespace Invoice {
       credit_grant_id?: string;
 
       /**
+       * The end date for the charge (for seats charges only).
+       */
+      end_date?: string;
+
+      /**
        * the unit price for this charge, present only if the charge is not tiered and the
        * quantity is nonzero
        */
       price?: number;
 
+      /**
+       * The start date for the charge (for seats charges only).
+       */
+      start_date?: string;
+
+      /**
+       * when the current tier started and ends (for tiered charges only)
+       */
+      tier_period?: SubLineItem.TierPeriod;
+
       tiers?: Array<SubLineItem.Tier>;
     }
 
     export namespace SubLineItem {
+      /**
+       * when the current tier started and ends (for tiered charges only)
+       */
+      export interface TierPeriod {
+        starting_at: string;
+
+        ending_before?: string;
+      }
+
       export interface Tier {
         price: number;
 
@@ -399,6 +426,8 @@ export namespace Invoice {
     name: string;
 
     total: number;
+
+    credit_grant_custom_fields?: Record<string, string>;
 
     credit_grant_id?: string;
   }

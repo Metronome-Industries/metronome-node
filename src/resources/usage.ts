@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome/sdk/core';
-import { APIResource } from '@metronome/sdk/resource';
-import * as UsageAPI from '@metronome/sdk/resources/usage';
-import { CursorPage, type CursorPageParams } from '@metronome/sdk/pagination';
+import { APIResource } from '../resource';
+import * as Core from '../core';
+import * as UsageAPI from './usage';
+import { CursorPage, type CursorPageParams } from '../pagination';
 
 export class Usage extends APIResource {
   /**

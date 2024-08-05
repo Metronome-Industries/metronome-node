@@ -1,12 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome/sdk/core';
-import { APIResource } from '@metronome/sdk/resource';
-import { isRequestOptions } from '@metronome/sdk/core';
-import * as PlansAPI from '@metronome/sdk/resources/plans';
-import * as Shared from '@metronome/sdk/resources/shared';
-import * as CustomersAPI from '@metronome/sdk/resources/customers/customers';
-import { CursorPage, type CursorPageParams } from '@metronome/sdk/pagination';
+import { APIResource } from '../resource';
+import { isRequestOptions } from '../core';
+import * as Core from '../core';
+import * as PlansAPI from './plans';
+import * as Shared from './shared';
+import * as CustomersAPI from './customers/customers';
+import { CursorPage, type CursorPageParams } from '../pagination';
 
 export class Plans extends APIResource {
   /**
@@ -202,6 +202,12 @@ export interface PlanListChargesResponse {
    * applies.
    */
   start_period?: number;
+
+  /**
+   * Used in pricing tiers. Indicates how often the tier resets. Default is 1 - the
+   * tier count resets every billing period.
+   */
+  tier_reset_frequency?: number;
 
   /**
    * Specifies how quantities for usage based charges will be converted.

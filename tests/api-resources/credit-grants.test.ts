@@ -3,14 +3,14 @@
 import Metronome from '@metronome/sdk';
 import { Response } from 'node-fetch';
 
-const metronome = new Metronome({
+const client = new Metronome({
   bearerToken: 'My Bearer Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource creditGrants', () => {
   test('create: only required params', async () => {
-    const responsePromise = metronome.creditGrants.create({
+    const responsePromise = client.creditGrants.create({
       customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
       expires_at: '2022-04-01T00:00:00Z',
       grant_amount: { amount: 1000, credit_type_id: '5ae401dc-a648-4b49-9ac3-391bb5bc4d7b' },
@@ -28,7 +28,7 @@ describe('resource creditGrants', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await metronome.creditGrants.create({
+    const response = await client.creditGrants.create({
       customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
       expires_at: '2022-04-01T00:00:00Z',
       grant_amount: { amount: 1000, credit_type_id: '5ae401dc-a648-4b49-9ac3-391bb5bc4d7b' },
@@ -55,7 +55,7 @@ describe('resource creditGrants', () => {
   });
 
   test('list', async () => {
-    const responsePromise = metronome.creditGrants.list();
+    const responsePromise = client.creditGrants.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -67,7 +67,7 @@ describe('resource creditGrants', () => {
 
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(metronome.creditGrants.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.creditGrants.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       Metronome.NotFoundError,
     );
   });
@@ -75,10 +75,10 @@ describe('resource creditGrants', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      metronome.creditGrants.list(
+      client.creditGrants.list(
         {
           limit: 1,
-          next_page: 'string',
+          next_page: 'next_page',
           credit_grant_ids: [
             '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -95,7 +95,7 @@ describe('resource creditGrants', () => {
   });
 
   test('edit: only required params', async () => {
-    const responsePromise = metronome.creditGrants.edit({ id: '9b85c1c1-5238-4f2a-a409-61412905e1e1' });
+    const responsePromise = client.creditGrants.edit({ id: '9b85c1c1-5238-4f2a-a409-61412905e1e1' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -106,7 +106,7 @@ describe('resource creditGrants', () => {
   });
 
   test('edit: required and optional params', async () => {
-    const response = await metronome.creditGrants.edit({
+    const response = await client.creditGrants.edit({
       id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
       expires_at: '2022-04-01T00:00:00Z',
       name: 'Acme Corp Promotional Credit Grant',
@@ -114,7 +114,7 @@ describe('resource creditGrants', () => {
   });
 
   test('listCreditTypes', async () => {
-    const responsePromise = metronome.creditGrants.listCreditTypes();
+    const responsePromise = client.creditGrants.listCreditTypes();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -126,23 +126,23 @@ describe('resource creditGrants', () => {
 
   test('listCreditTypes: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      metronome.creditGrants.listCreditTypes({ path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Metronome.NotFoundError);
+    await expect(client.creditGrants.listCreditTypes({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Metronome.NotFoundError,
+    );
   });
 
   test('listCreditTypes: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      metronome.creditGrants.listCreditTypes(
-        { limit: 1, next_page: 'string' },
+      client.creditGrants.listCreditTypes(
+        { limit: 1, next_page: 'next_page' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
   });
 
   test('listEntries', async () => {
-    const responsePromise = metronome.creditGrants.listEntries();
+    const responsePromise = client.creditGrants.listEntries();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -154,7 +154,7 @@ describe('resource creditGrants', () => {
 
   test('listEntries: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(metronome.creditGrants.listEntries({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.creditGrants.listEntries({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       Metronome.NotFoundError,
     );
   });
@@ -162,9 +162,9 @@ describe('resource creditGrants', () => {
   test('listEntries: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      metronome.creditGrants.listEntries(
+      client.creditGrants.listEntries(
         {
-          next_page: 'string',
+          next_page: 'next_page',
           credit_type_ids: ['2714e483-4ff1-48e4-9e25-ac732e8f24f2'],
           customer_ids: ['6a37bb88-8538-48c5-b37b-a41c836328bd'],
           ending_before: '2021-02-01T00:00:00Z',
@@ -176,7 +176,7 @@ describe('resource creditGrants', () => {
   });
 
   test('void: only required params', async () => {
-    const responsePromise = metronome.creditGrants.void({ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
+    const responsePromise = client.creditGrants.void({ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -187,8 +187,9 @@ describe('resource creditGrants', () => {
   });
 
   test('void: required and optional params', async () => {
-    const response = await metronome.creditGrants.void({
+    const response = await client.creditGrants.void({
       id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      release_uniqueness_key: true,
       void_credit_purchase_invoice: true,
     });
   });

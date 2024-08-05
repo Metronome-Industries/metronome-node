@@ -3,14 +3,14 @@
 import Metronome from '@metronome/sdk';
 import { Response } from 'node-fetch';
 
-const metronome = new Metronome({
+const client = new Metronome({
   bearerToken: 'My Bearer Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource billableMetrics', () => {
   test('create: only required params', async () => {
-    const responsePromise = metronome.billableMetrics.create({ aggregation_type: 'sum', name: 'CPU Hours' });
+    const responsePromise = client.billableMetrics.create({ aggregation_type: 'sum', name: 'CPU Hours' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -21,7 +21,7 @@ describe('resource billableMetrics', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await metronome.billableMetrics.create({
+    const response = await client.billableMetrics.create({
       aggregation_type: 'sum',
       name: 'CPU Hours',
       aggregation_key: 'cpu_hours',
@@ -52,7 +52,7 @@ describe('resource billableMetrics', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = metronome.billableMetrics.retrieve('13117714-3f05-48e5-a6e9-a66093f13b4d');
+    const responsePromise = client.billableMetrics.retrieve('13117714-3f05-48e5-a6e9-a66093f13b4d');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -65,14 +65,14 @@ describe('resource billableMetrics', () => {
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      metronome.billableMetrics.retrieve('13117714-3f05-48e5-a6e9-a66093f13b4d', {
+      client.billableMetrics.retrieve('13117714-3f05-48e5-a6e9-a66093f13b4d', {
         path: '/_stainless_unknown_path',
       }),
     ).rejects.toThrow(Metronome.NotFoundError);
   });
 
   test('list', async () => {
-    const responsePromise = metronome.billableMetrics.list('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc');
+    const responsePromise = client.billableMetrics.list('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -85,7 +85,7 @@ describe('resource billableMetrics', () => {
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      metronome.billableMetrics.list('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
+      client.billableMetrics.list('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
         path: '/_stainless_unknown_path',
       }),
     ).rejects.toThrow(Metronome.NotFoundError);
@@ -94,16 +94,16 @@ describe('resource billableMetrics', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      metronome.billableMetrics.list(
+      client.billableMetrics.list(
         'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        { limit: 1, next_page: 'string', on_current_plan: true },
+        { limit: 1, next_page: 'next_page', on_current_plan: true },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
   });
 
   test('archive: only required params', async () => {
-    const responsePromise = metronome.billableMetrics.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
+    const responsePromise = client.billableMetrics.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -114,6 +114,6 @@ describe('resource billableMetrics', () => {
   });
 
   test('archive: required and optional params', async () => {
-    const response = await metronome.billableMetrics.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
+    const response = await client.billableMetrics.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
   });
 });

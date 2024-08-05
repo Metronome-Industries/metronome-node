@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome/sdk/core';
-import { APIResource } from '@metronome/sdk/resource';
-import * as ServicesAPI from '@metronome/sdk/resources/services';
+import { APIResource } from '../resource';
+import * as Core from '../core';
+import * as ServicesAPI from './services';
 
 export class Services extends APIResource {
   /**

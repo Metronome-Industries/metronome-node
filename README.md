@@ -8,7 +8,7 @@
 
 This library provides convenient access to the Metronome REST API from server-side TypeScript or JavaScript.
 
-The REST API documentation can be found [on docs.metronome.com](https://docs.metronome.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.metronome.com](https://docs.metronome.com). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -24,12 +24,12 @@ The full API of this library can be found in [api.md](api.md).
 ```js
 import Metronome from '@metronome/sdk';
 
-const metronome = new Metronome({
+const client = new Metronome({
   bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
 async function main() {
-  const response = await metronome.usage.ingest({
+  const response = await client.usage.ingest({
     usage: [
       {
         transaction_id: '2021-01-01T00:00:00Z_cluster42',
@@ -52,7 +52,7 @@ This library includes TypeScript definitions for all request params and response
 ```ts
 import Metronome from '@metronome/sdk';
 
-const metronome = new Metronome({
+const client = new Metronome({
   bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
@@ -62,7 +62,7 @@ async function main() {
     name: '$100 spend threshold reached',
     threshold: 10000,
   };
-  const alertCreateResponse: Metronome.AlertCreateResponse = await metronome.alerts.create(params);
+  const alertCreateResponse: Metronome.AlertCreateResponse = await client.alerts.create(params);
 }
 
 main();
@@ -79,7 +79,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const alertCreateResponse = await metronome.alerts
+  const alertCreateResponse = await client.alerts
     .create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 })
     .catch(async (err) => {
       if (err instanceof Metronome.APIError) {
@@ -119,12 +119,12 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const metronome = new Metronome({
+const client = new Metronome({
   maxRetries: 0, // default is 2
 });
 
 // Or, configure per-request:
-await metronome.alerts.create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 }, {
+await client.alerts.create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 }, {
   maxRetries: 5,
 });
 ```
@@ -136,12 +136,12 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const metronome = new Metronome({
+const client = new Metronome({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
 // Override per-request:
-await metronome.alerts.create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 }, {
+await client.alerts.create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 }, {
   timeout: 5 * 1000,
 });
 ```
@@ -160,15 +160,15 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 
 <!-- prettier-ignore -->
 ```ts
-const metronome = new Metronome();
+const client = new Metronome();
 
-const response = await metronome.alerts
+const response = await client.alerts
   .create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: alertCreateResponse, response: raw } = await metronome.alerts
+const { data: alertCreateResponse, response: raw } = await client.alerts
   .create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
@@ -271,12 +271,12 @@ import http from 'http';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // Configure the default for all requests:
-const metronome = new Metronome({
+const client = new Metronome({
   httpAgent: new HttpsProxyAgent(process.env.PROXY_URL),
 });
 
 // Override per-request:
-await metronome.alerts.create(
+await client.alerts.create(
   { alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
@@ -301,14 +301,6 @@ We are keen for your feedback; please open an [issue](https://www.github.com/Met
 TypeScript >= 4.5 is supported.
 
 The following runtimes are supported:
-
-- Node.js 18 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
-- Deno v1.28.0 or higher, using `import Metronome from "npm:@metronome/sdk"`.
-- Bun 1.0 or later.
-- Cloudflare Workers.
-- Vercel Edge Runtime.
-- Jest 28 or greater with the `"node"` environment (`"jsdom"` is not supported at this time).
-- Nitro v2.6 or greater.
 
 Note that React Native is not supported at this time.
 

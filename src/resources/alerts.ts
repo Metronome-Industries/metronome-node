@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome/sdk/core';
-import { APIResource } from '@metronome/sdk/resource';
-import * as AlertsAPI from '@metronome/sdk/resources/alerts';
-import * as Shared from '@metronome/sdk/resources/shared';
+import { APIResource } from '../resource';
+import * as Core from '../core';
+import * as AlertsAPI from './alerts';
+import * as Shared from './shared';
 
 export class Alerts extends APIResource {
   /**
@@ -46,6 +46,7 @@ export interface AlertCreateParams {
     | 'low_remaining_days_for_contract_credit_segment_reached'
     | 'low_remaining_contract_credit_balance_reached'
     | 'low_remaining_contract_credit_percentage_reached'
+    | 'low_remaining_contract_credit_and_commit_balance_reached'
     | 'invoice_total_reached';
 
   /**
@@ -63,6 +64,13 @@ export interface AlertCreateParams {
    * track the usage for.
    */
   billable_metric_id?: string;
+
+  /**
+   * An array of strings, representing a way to filter the credit grant this alert
+   * applies to, by looking at the credit_grant_type field on the credit grant. This
+   * field is only defined for CreditPercentage and CreditBalance alerts
+   */
+  credit_grant_type_filters?: Array<string>;
 
   credit_type_id?: string;
 

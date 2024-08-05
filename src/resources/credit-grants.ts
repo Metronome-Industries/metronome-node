@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '@metronome/sdk/core';
-import { APIResource } from '@metronome/sdk/resource';
-import { isRequestOptions } from '@metronome/sdk/core';
-import * as CreditGrantsAPI from '@metronome/sdk/resources/credit-grants';
-import * as Shared from '@metronome/sdk/resources/shared';
-import { CursorPage, type CursorPageParams } from '@metronome/sdk/pagination';
+import { APIResource } from '../resource';
+import { isRequestOptions } from '../core';
+import * as Core from '../core';
+import * as CreditGrantsAPI from './credit-grants';
+import * as Shared from './shared';
+import { CursorPage, type CursorPageParams } from '../pagination';
 
 export class CreditGrants extends APIResource {
   /**
@@ -582,6 +582,11 @@ export interface CreditGrantListEntriesParams {
 
 export interface CreditGrantVoidParams {
   id: string;
+
+  /**
+   * If true, resets the uniqueness key on this grant so it can be re-used
+   */
+  release_uniqueness_key?: boolean;
 
   /**
    * If true, void the purchase invoice associated with the grant
