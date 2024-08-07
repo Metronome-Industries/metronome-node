@@ -56,8 +56,6 @@ export interface Commit {
     | Commit.PostpaidCommitInitialBalanceLedgerEntry
     | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry
     | Commit.PostpaidCommitRolloverLedgerEntry
-    | Commit.PostpaidCommitCanceledLedgerEntry
-    | Commit.PostpaidCommitCreditedLedgerEntry
     | Commit.PostpaidCommitTrueupLedgerEntry
     | Commit.PrepaidCommitManualLedgerEntry
     | Commit.PostpaidCommitManualLedgerEntry
@@ -225,30 +223,6 @@ export namespace Commit {
     timestamp: string;
 
     type: 'POSTPAID_COMMIT_ROLLOVER';
-  }
-
-  export interface PostpaidCommitCanceledLedgerEntry {
-    amount: number;
-
-    invoice_id: string;
-
-    segment_id: string;
-
-    timestamp: string;
-
-    type: 'POSTPAID_COMMIT_CANCELED';
-  }
-
-  export interface PostpaidCommitCreditedLedgerEntry {
-    amount: number;
-
-    invoice_id: string;
-
-    segment_id: string;
-
-    timestamp: string;
-
-    type: 'POSTPAID_COMMIT_CREDITED';
   }
 
   export interface PostpaidCommitTrueupLedgerEntry {
