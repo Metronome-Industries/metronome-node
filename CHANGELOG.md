@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.0-alpha.5 (2024-08-08)
+
+Full Changelog: [v0.1.0-alpha.4...v0.1.0-alpha.5](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-alpha.4...v0.1.0-alpha.5)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#55](https://github.com/Metronome-Industries/metronome-node/issues/55)) ([f85192c](https://github.com/Metronome-Industries/metronome-node/commit/f85192c2b2871e05fe0dff43a4d7c9aa5527f868))
+* **api:** OpenAPI spec update via Stainless API ([#57](https://github.com/Metronome-Industries/metronome-node/issues/57)) ([a546a9d](https://github.com/Metronome-Industries/metronome-node/commit/a546a9dab745b42853db9b1ab098fcf1f533a082))
+* **api:** OpenAPI spec update via Stainless API ([#58](https://github.com/Metronome-Industries/metronome-node/issues/58)) ([b93fde6](https://github.com/Metronome-Industries/metronome-node/commit/b93fde62aa49b5b47394389c8a61f2b68bf43e07))
+* **api:** OpenAPI spec update via Stainless API ([#59](https://github.com/Metronome-Industries/metronome-node/issues/59)) ([22802b9](https://github.com/Metronome-Industries/metronome-node/commit/22802b92dbbd0a4becdb67c0042fde5e399f5758))
+
+
+### Chores
+
+* force eslint to use non flat config ([#60](https://github.com/Metronome-Industries/metronome-node/issues/60)) ([5fc993f](https://github.com/Metronome-Industries/metronome-node/commit/5fc993f0f95d1a8bcf44c9ac586b5689d3534eb8))
+
 ## 0.1.0-alpha.4 (2024-08-01)
 
 Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
