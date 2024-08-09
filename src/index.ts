@@ -141,6 +141,8 @@ export class Metronome extends Core.APIClient {
   customFields: API.CustomFields = new API.CustomFields(this);
   billableMetrics: API.BillableMetrics = new API.BillableMetrics(this);
   services: API.Services = new API.Services(this);
+  invoices: API.Invoices = new API.Invoices(this);
+  contracts: API.Contracts = new API.Contracts(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -304,6 +306,32 @@ export namespace Metronome {
 
   export import Services = API.Services;
   export import ServiceListResponse = API.ServiceListResponse;
+
+  export import Invoices = API.Invoices;
+  export import InvoiceRegenerateResponse = API.InvoiceRegenerateResponse;
+  export import InvoiceRegenerateParams = API.InvoiceRegenerateParams;
+
+  export import Contracts = API.Contracts;
+  export import ContractCreateResponse = API.ContractCreateResponse;
+  export import ContractRetrieveResponse = API.ContractRetrieveResponse;
+  export import ContractListResponse = API.ContractListResponse;
+  export import ContractAmendResponse = API.ContractAmendResponse;
+  export import ContractArchiveResponse = API.ContractArchiveResponse;
+  export import ContractListBalancesResponse = API.ContractListBalancesResponse;
+  export import ContractRetrieveRateScheduleResponse = API.ContractRetrieveRateScheduleResponse;
+  export import ContractScheduleProServicesInvoiceResponse = API.ContractScheduleProServicesInvoiceResponse;
+  export import ContractUpdateEndDateResponse = API.ContractUpdateEndDateResponse;
+  export import ContractCreateParams = API.ContractCreateParams;
+  export import ContractRetrieveParams = API.ContractRetrieveParams;
+  export import ContractListParams = API.ContractListParams;
+  export import ContractAddManualBalanceEntryParams = API.ContractAddManualBalanceEntryParams;
+  export import ContractAmendParams = API.ContractAmendParams;
+  export import ContractArchiveParams = API.ContractArchiveParams;
+  export import ContractListBalancesParams = API.ContractListBalancesParams;
+  export import ContractRetrieveRateScheduleParams = API.ContractRetrieveRateScheduleParams;
+  export import ContractScheduleProServicesInvoiceParams = API.ContractScheduleProServicesInvoiceParams;
+  export import ContractSetUsageFilterParams = API.ContractSetUsageFilterParams;
+  export import ContractUpdateEndDateParams = API.ContractUpdateEndDateParams;
 
   export import Commit = API.Commit;
   export import ContractWithoutAmendments = API.ContractWithoutAmendments;

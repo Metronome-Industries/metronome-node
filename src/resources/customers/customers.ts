@@ -7,7 +7,10 @@ import * as CustomersAPI from './customers';
 import * as Shared from '../shared';
 import * as AlertsAPI from './alerts';
 import * as BillingConfigAPI from './billing-config';
+import * as CommitsAPI from './commits';
+import * as CreditsAPI from './credits';
 import * as InvoicesAPI from './invoices';
+import * as NamedSchedulesAPI from './named-schedules';
 import * as PlansAPI from './plans';
 import { CursorPage, type CursorPageParams } from '../../pagination';
 
@@ -16,6 +19,9 @@ export class Customers extends APIResource {
   plans: PlansAPI.Plans = new PlansAPI.Plans(this._client);
   invoices: InvoicesAPI.Invoices = new InvoicesAPI.Invoices(this._client);
   billingConfig: BillingConfigAPI.BillingConfig = new BillingConfigAPI.BillingConfig(this._client);
+  commits: CommitsAPI.Commits = new CommitsAPI.Commits(this._client);
+  credits: CreditsAPI.Credits = new CreditsAPI.Credits(this._client);
+  namedSchedules: NamedSchedulesAPI.NamedSchedules = new NamedSchedulesAPI.NamedSchedules(this._client);
 
   /**
    * Create a new customer
@@ -593,4 +599,22 @@ export namespace Customers {
   export import BillingConfig = BillingConfigAPI.BillingConfig;
   export import BillingConfigRetrieveResponse = BillingConfigAPI.BillingConfigRetrieveResponse;
   export import BillingConfigCreateParams = BillingConfigAPI.BillingConfigCreateParams;
+  export import Commits = CommitsAPI.Commits;
+  export import CommitCreateResponse = CommitsAPI.CommitCreateResponse;
+  export import CommitListResponse = CommitsAPI.CommitListResponse;
+  export import CommitUpdateEndDateResponse = CommitsAPI.CommitUpdateEndDateResponse;
+  export import CommitCreateParams = CommitsAPI.CommitCreateParams;
+  export import CommitListParams = CommitsAPI.CommitListParams;
+  export import CommitUpdateEndDateParams = CommitsAPI.CommitUpdateEndDateParams;
+  export import Credits = CreditsAPI.Credits;
+  export import CreditCreateResponse = CreditsAPI.CreditCreateResponse;
+  export import CreditListResponse = CreditsAPI.CreditListResponse;
+  export import CreditUpdateEndDateResponse = CreditsAPI.CreditUpdateEndDateResponse;
+  export import CreditCreateParams = CreditsAPI.CreditCreateParams;
+  export import CreditListParams = CreditsAPI.CreditListParams;
+  export import CreditUpdateEndDateParams = CreditsAPI.CreditUpdateEndDateParams;
+  export import NamedSchedules = NamedSchedulesAPI.NamedSchedules;
+  export import NamedScheduleRetrieveResponse = NamedSchedulesAPI.NamedScheduleRetrieveResponse;
+  export import NamedScheduleRetrieveParams = NamedSchedulesAPI.NamedScheduleRetrieveParams;
+  export import NamedScheduleUpdateParams = NamedSchedulesAPI.NamedScheduleUpdateParams;
 }

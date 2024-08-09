@@ -26,6 +26,29 @@ export {
   BillableMetrics,
 } from './billable-metrics';
 export {
+  ContractCreateResponse,
+  ContractRetrieveResponse,
+  ContractListResponse,
+  ContractAmendResponse,
+  ContractArchiveResponse,
+  ContractListBalancesResponse,
+  ContractRetrieveRateScheduleResponse,
+  ContractScheduleProServicesInvoiceResponse,
+  ContractUpdateEndDateResponse,
+  ContractCreateParams,
+  ContractRetrieveParams,
+  ContractListParams,
+  ContractAddManualBalanceEntryParams,
+  ContractAmendParams,
+  ContractArchiveParams,
+  ContractListBalancesParams,
+  ContractRetrieveRateScheduleParams,
+  ContractScheduleProServicesInvoiceParams,
+  ContractSetUsageFilterParams,
+  ContractUpdateEndDateParams,
+  Contracts,
+} from './contracts/contracts';
+export {
   CreditLedgerEntry,
   RolloverAmountMaxAmount,
   RolloverAmountMaxPercentage,
@@ -77,6 +100,7 @@ export {
   Customers,
 } from './customers/customers';
 export { DashboardGetEmbeddableURLResponse, DashboardGetEmbeddableURLParams, Dashboards } from './dashboards';
+export { InvoiceRegenerateResponse, InvoiceRegenerateParams, Invoices } from './invoices';
 export {
   PlanDetail,
   PlanListResponse,

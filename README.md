@@ -55,12 +55,11 @@ const client = new Metronome({
 });
 
 async function main() {
-  const params: Metronome.AlertCreateParams = {
-    alert_type: 'spend_threshold_reached',
-    name: '$100 spend threshold reached',
-    threshold: 10000,
+  const params: Metronome.ContractCreateParams = {
+    customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    starting_at: '2020-01-01T00:00:00.000Z',
   };
-  const alertCreateResponse: Metronome.AlertCreateResponse = await client.alerts.create(params);
+  const contractCreateResponse: Metronome.ContractCreateResponse = await client.contracts.create(params);
 }
 
 main();
@@ -77,8 +76,8 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const alertCreateResponse = await client.alerts
-    .create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 })
+  const contractCreateResponse = await client.contracts
+    .create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' })
     .catch(async (err) => {
       if (err instanceof Metronome.APIError) {
         console.log(err.status); // 400
@@ -122,7 +121,7 @@ const client = new Metronome({
 });
 
 // Or, configure per-request:
-await client.alerts.create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 }, {
+await client.contracts.create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' }, {
   maxRetries: 5,
 });
 ```
@@ -139,7 +138,7 @@ const client = new Metronome({
 });
 
 // Override per-request:
-await client.alerts.create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 }, {
+await client.contracts.create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -147,6 +146,37 @@ await client.alerts.create({ alert_type: 'spend_threshold_reached', name: '$100 
 On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
+
+## Auto-pagination
+
+List methods in the Metronome API are paginated.
+You can use `for await … of` syntax to iterate through items across all pages:
+
+```ts
+async function fetchAllContractsProducts(params) {
+  const allContractsProducts = [];
+  // Automatically fetches more pages as needed.
+  for await (const productListResponse of client.contracts.products.list()) {
+    allContractsProducts.push(productListResponse);
+  }
+  return allContractsProducts;
+}
+```
+
+Alternatively, you can make request a single page at a time:
+
+```ts
+let page = await client.contracts.products.list();
+for (const productListResponse of page.data) {
+  console.log(productListResponse);
+}
+
+// Convenience methods are provided for manually paginating:
+while (page.hasNextPage()) {
+  page = page.getNextPage();
+  // ...
+}
+```
 
 ## Advanced Usage
 
@@ -160,17 +190,17 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Metronome();
 
-const response = await client.alerts
-  .create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 })
+const response = await client.contracts
+  .create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: alertCreateResponse, response: raw } = await client.alerts
-  .create({ alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 })
+const { data: contractCreateResponse, response: raw } = await client.contracts
+  .create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(alertCreateResponse.data);
+console.log(contractCreateResponse.data);
 ```
 
 ### Making custom/undocumented requests
@@ -274,8 +304,8 @@ const client = new Metronome({
 });
 
 // Override per-request:
-await client.alerts.create(
-  { alert_type: 'spend_threshold_reached', name: '$100 spend threshold reached', threshold: 10000 },
+await client.contracts.create(
+  { customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
   },
