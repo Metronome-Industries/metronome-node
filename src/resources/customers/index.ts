@@ -2,6 +2,24 @@
 
 export { BillingConfigRetrieveResponse, BillingConfigCreateParams, BillingConfig } from './billing-config';
 export {
+  CommitCreateResponse,
+  CommitListResponse,
+  CommitUpdateEndDateResponse,
+  CommitCreateParams,
+  CommitListParams,
+  CommitUpdateEndDateParams,
+  Commits,
+} from './commits';
+export {
+  CreditCreateResponse,
+  CreditListResponse,
+  CreditUpdateEndDateResponse,
+  CreditCreateParams,
+  CreditListParams,
+  CreditUpdateEndDateParams,
+  Credits,
+} from './credits';
+export {
   Customer,
   CustomerDetail,
   CustomerCreateResponse,
@@ -42,6 +60,12 @@ export {
   InvoicesCursorPage,
   Invoices,
 } from './invoices';
+export {
+  NamedScheduleRetrieveResponse,
+  NamedScheduleRetrieveParams,
+  NamedScheduleUpdateParams,
+  NamedSchedules,
+} from './named-schedules';
 export {
   PlanListResponse,
   PlanAddResponse,
