@@ -79,31 +79,31 @@ describe('resource plans', () => {
       ],
       price_adjustments: [
         {
-          charge_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           adjustment_type: 'percentage',
-          value: 0,
+          charge_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          start_period: 0,
           quantity: 0,
           tier: 0,
-          start_period: 0,
+          value: 0,
         },
         {
-          charge_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           adjustment_type: 'percentage',
-          value: 0,
+          charge_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          start_period: 0,
           quantity: 0,
           tier: 0,
-          start_period: 0,
+          value: 0,
         },
         {
-          charge_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           adjustment_type: 'percentage',
-          value: 0,
+          charge_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          start_period: 0,
           quantity: 0,
           tier: 0,
-          start_period: 0,
+          value: 0,
         },
       ],
-      trial_spec: { length_in_days: 0, spending_cap: { credit_type_id: 'credit_type_id', amount: 0 } },
+      trial_spec: { length_in_days: 0, spending_cap: { amount: 0, credit_type_id: 'credit_type_id' } },
     });
   });
 

@@ -26,8 +26,8 @@ describe('resource rateCards', () => {
       aliases: [
         {
           name: 'my-rate-card',
-          starting_at: '2019-12-27T18:11:19.117Z',
           ending_before: '2019-12-27T18:11:19.117Z',
+          starting_at: '2019-12-27T18:11:19.117Z',
         },
       ],
       credit_type_conversions: [
@@ -75,9 +75,9 @@ describe('resource rateCards', () => {
     const response = await client.contracts.rateCards.update({
       rate_card_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       aliases: [
-        { name: 'name', starting_at: '2019-12-27T18:11:19.117Z', ending_before: '2019-12-27T18:11:19.117Z' },
-        { name: 'name', starting_at: '2019-12-27T18:11:19.117Z', ending_before: '2019-12-27T18:11:19.117Z' },
-        { name: 'name', starting_at: '2019-12-27T18:11:19.117Z', ending_before: '2019-12-27T18:11:19.117Z' },
+        { name: 'name', ending_before: '2019-12-27T18:11:19.117Z', starting_at: '2019-12-27T18:11:19.117Z' },
+        { name: 'name', ending_before: '2019-12-27T18:11:19.117Z', starting_at: '2019-12-27T18:11:19.117Z' },
+        { name: 'name', ending_before: '2019-12-27T18:11:19.117Z', starting_at: '2019-12-27T18:11:19.117Z' },
       ],
       custom_fields: { foo: 'string' },
       description: 'My Updated Rate Card Description',
@@ -123,9 +123,9 @@ describe('resource rateCards', () => {
       ending_before: '2019-12-27T18:11:19.117Z',
       selectors: [
         {
-          product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
-          pricing_group_values: { foo: 'string' },
           partial_pricing_group_values: { region: 'us-west-2', cloud: 'aws' },
+          pricing_group_values: { foo: 'string' },
+          product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
         },
       ],
     });

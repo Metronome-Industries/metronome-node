@@ -10,7 +10,7 @@ const client = new Metronome({
 
 describe('resource products', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.contracts.products.create({ name: 'My Product', type: 'USAGE' });
+    const responsePromise = client.contracts.products.create({ name: 'My Product', type: 'FIXED' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -23,7 +23,7 @@ describe('resource products', () => {
   test('create: required and optional params', async () => {
     const response = await client.contracts.products.create({
       name: 'My Product',
-      type: 'USAGE',
+      type: 'FIXED',
       billable_metric_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
       composite_product_ids: [
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -37,8 +37,8 @@ describe('resource products', () => {
       netsuite_overage_item_id: 'netsuite_overage_item_id',
       presentation_group_key: ['string', 'string', 'string'],
       pricing_group_key: ['string', 'string', 'string'],
-      quantity_conversion: { name: 'name', conversion_factor: 0, operation: 'multiply' },
-      quantity_rounding: { rounding_method: 'round_up', decimal_places: 0 },
+      quantity_conversion: { conversion_factor: 0, operation: 'multiply', name: 'name' },
+      quantity_rounding: { decimal_places: 0, rounding_method: 'round_up' },
       tags: ['string', 'string', 'string'],
     });
   });
@@ -92,8 +92,8 @@ describe('resource products', () => {
       netsuite_overage_item_id: 'netsuite_overage_item_id',
       presentation_group_key: ['string', 'string', 'string'],
       pricing_group_key: ['string', 'string', 'string'],
-      quantity_conversion: { name: 'name', conversion_factor: 0, operation: 'multiply' },
-      quantity_rounding: { rounding_method: 'round_up', decimal_places: 0 },
+      quantity_conversion: { conversion_factor: 0, operation: 'multiply', name: 'name' },
+      quantity_rounding: { decimal_places: 0, rounding_method: 'round_up' },
       tags: ['string', 'string', 'string'],
     });
   });
@@ -120,7 +120,7 @@ describe('resource products', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.contracts.products.list(
-        { limit: 1, next_page: 'next_page', archive_filter: 'NOT_ARCHIVED' },
+        { limit: 1, next_page: 'next_page', archive_filter: 'ARCHIVED' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
