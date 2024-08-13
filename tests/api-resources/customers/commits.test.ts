@@ -15,15 +15,15 @@ describe('resource commits', () => {
         schedule_items: [
           {
             amount: 1000,
-            starting_at: '2020-01-01T00:00:00.000Z',
             ending_before: '2020-02-01T00:00:00.000Z',
+            starting_at: '2020-01-01T00:00:00.000Z',
           },
         ],
       },
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
       priority: 100,
       product_id: 'f14d6729-6a44-4b13-9908-9387f1918790',
-      type: 'prepaid',
+      type: 'PREPAID',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -37,19 +37,19 @@ describe('resource commits', () => {
   test('create: required and optional params', async () => {
     const response = await client.customers.commits.create({
       access_schedule: {
-        credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
         schedule_items: [
           {
             amount: 1000,
-            starting_at: '2020-01-01T00:00:00.000Z',
             ending_before: '2020-02-01T00:00:00.000Z',
+            starting_at: '2020-01-01T00:00:00.000Z',
           },
         ],
+        credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
       },
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
       priority: 100,
       product_id: 'f14d6729-6a44-4b13-9908-9387f1918790',
-      type: 'prepaid',
+      type: 'PREPAID',
       applicable_contract_ids: ['string', 'string', 'string'],
       applicable_product_ids: [
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -62,18 +62,18 @@ describe('resource commits', () => {
       invoice_contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       invoice_schedule: {
         credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
-        schedule_items: [
-          { unit_price: 10000000, quantity: 1, amount: 10000000, timestamp: '2020-03-01T00:00:00.000Z' },
-        ],
         recurring_schedule: {
-          starting_at: '2019-12-27T18:11:19.117Z',
+          amount_distribution: 'DIVIDED',
           ending_before: '2019-12-27T18:11:19.117Z',
           frequency: 'MONTHLY',
-          unit_price: 0,
-          quantity: 0,
+          starting_at: '2019-12-27T18:11:19.117Z',
           amount: 0,
-          amount_distribution: 'DIVIDED',
+          quantity: 0,
+          unit_price: 0,
         },
+        schedule_items: [
+          { timestamp: '2020-03-01T00:00:00.000Z', amount: 10000000, quantity: 1, unit_price: 10000000 },
+        ],
       },
       name: 'My Commit',
       netsuite_sales_order_id: 'netsuite_sales_order_id',

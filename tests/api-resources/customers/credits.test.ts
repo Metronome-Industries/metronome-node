@@ -15,8 +15,8 @@ describe('resource credits', () => {
         schedule_items: [
           {
             amount: 1000,
-            starting_at: '2020-01-01T00:00:00.000Z',
             ending_before: '2020-02-01T00:00:00.000Z',
+            starting_at: '2020-01-01T00:00:00.000Z',
           },
         ],
       },
@@ -36,14 +36,14 @@ describe('resource credits', () => {
   test('create: required and optional params', async () => {
     const response = await client.customers.credits.create({
       access_schedule: {
-        credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
         schedule_items: [
           {
             amount: 1000,
-            starting_at: '2020-01-01T00:00:00.000Z',
             ending_before: '2020-02-01T00:00:00.000Z',
+            starting_at: '2020-01-01T00:00:00.000Z',
           },
         ],
+        credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
       },
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
       priority: 100,
