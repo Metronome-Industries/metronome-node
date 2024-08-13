@@ -535,6 +535,11 @@ export interface CreditGrantEditParams {
   id: string;
 
   /**
+   * the updated credit grant type
+   */
+  credit_grant_type?: string;
+
+  /**
    * the updated expiration date for the credit grant
    */
   expires_at?: string;
