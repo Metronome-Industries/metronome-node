@@ -11,7 +11,7 @@ const client = new Metronome({
 describe('resource alerts', () => {
   test('create: only required params', async () => {
     const responsePromise = client.alerts.create({
-      alert_type: 'spend_threshold_reached',
+      alert_type: 'low_credit_balance_reached',
       name: '$100 spend threshold reached',
       threshold: 10000,
     });
@@ -26,7 +26,7 @@ describe('resource alerts', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.alerts.create({
-      alert_type: 'spend_threshold_reached',
+      alert_type: 'low_credit_balance_reached',
       name: '$100 spend threshold reached',
       threshold: 10000,
       billable_metric_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',

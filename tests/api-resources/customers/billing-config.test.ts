@@ -12,7 +12,7 @@ describe('resource billingConfig', () => {
   test('create: only required params', async () => {
     const responsePromise = client.customers.billingConfig.create(
       'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      'stripe',
+      'aws_marketplace',
       { billing_provider_customer_id: 'cus_AJ6y20bjkOOayM' },
     );
     const rawResponse = await responsePromise.asResponse();
@@ -27,7 +27,7 @@ describe('resource billingConfig', () => {
   test('create: required and optional params', async () => {
     const response = await client.customers.billingConfig.create(
       'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      'stripe',
+      'aws_marketplace',
       {
         billing_provider_customer_id: 'cus_AJ6y20bjkOOayM',
         aws_product_code: 'aws_product_code',
@@ -40,7 +40,7 @@ describe('resource billingConfig', () => {
   test('retrieve', async () => {
     const responsePromise = client.customers.billingConfig.retrieve(
       'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      'stripe',
+      'aws_marketplace',
     );
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -54,7 +54,7 @@ describe('resource billingConfig', () => {
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.customers.billingConfig.retrieve('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', 'stripe', {
+      client.customers.billingConfig.retrieve('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', 'aws_marketplace', {
         path: '/_stainless_unknown_path',
       }),
     ).rejects.toThrow(Metronome.NotFoundError);
@@ -63,7 +63,7 @@ describe('resource billingConfig', () => {
   test('delete', async () => {
     const responsePromise = client.customers.billingConfig.delete(
       'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      'stripe',
+      'aws_marketplace',
     );
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -77,7 +77,7 @@ describe('resource billingConfig', () => {
   test('delete: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.customers.billingConfig.delete('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', 'stripe', {
+      client.customers.billingConfig.delete('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', 'aws_marketplace', {
         path: '/_stainless_unknown_path',
       }),
     ).rejects.toThrow(Metronome.NotFoundError);
