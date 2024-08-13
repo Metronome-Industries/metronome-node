@@ -84,9 +84,21 @@ export namespace BillableMetricRetrieveResponse {
     id: string;
 
     /**
+     * The display name of the billable metric.
+     */
+    name: string;
+
+    /**
+     * A key that specifies which property of the event is used to aggregate data. This
+     * key must be one of the property filter names and is not applicable when the
+     * aggregation type is 'count'.
+     */
+    aggregation_key?: string;
+
+    /**
      * Specifies the type of aggregation performed on matching events.
      */
-    aggregation_type:
+    aggregation_type?:
       | 'count'
       | 'Count'
       | 'COUNT'
@@ -102,18 +114,6 @@ export namespace BillableMetricRetrieveResponse {
       | 'unique'
       | 'Unique'
       | 'UNIQUE';
-
-    /**
-     * The display name of the billable metric.
-     */
-    name: string;
-
-    /**
-     * A key that specifies which property of the event is used to aggregate data. This
-     * key must be one of the property filter names and is not applicable when the
-     * aggregation type is 'count'.
-     */
-    aggregation_key?: string;
 
     custom_fields?: Record<string, string>;
 
@@ -134,6 +134,11 @@ export namespace BillableMetricRetrieveResponse {
      * billable metric.
      */
     property_filters?: Array<Data.PropertyFilter>;
+
+    /**
+     * The SQL query associated with the billable metric
+     */
+    sql?: string;
   }
 
   export namespace Data {
@@ -260,6 +265,11 @@ export interface BillableMetricListResponse {
    * billable metric.
    */
   property_filters?: Array<BillableMetricListResponse.PropertyFilter>;
+
+  /**
+   * The SQL query associated with the billable metric
+   */
+  sql?: string;
 }
 
 export namespace BillableMetricListResponse {
