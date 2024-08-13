@@ -321,6 +321,11 @@ export interface CustomerListBillableMetricsResponse {
    * billable metric.
    */
   property_filters?: Array<CustomerListBillableMetricsResponse.PropertyFilter>;
+
+  /**
+   * The SQL query associated with the billable metric
+   */
+  sql?: string;
 }
 
 export namespace CustomerListBillableMetricsResponse {
