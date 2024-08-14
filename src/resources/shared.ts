@@ -633,19 +633,64 @@ export interface Override {
 
   applicable_product_tags?: Array<string>;
 
+  credit_type?: CreditType;
+
   ending_before?: string;
 
   entitled?: boolean;
+
+  /**
+   * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+   */
+  is_prorated?: boolean;
 
   multiplier?: number;
 
   override_specifiers?: Array<Override.OverrideSpecifier>;
 
+  override_tiers?: Array<Override.OverrideTier>;
+
   overwrite_rate?: Override.OverwriteRate;
+
+  /**
+   * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
+   * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
+   */
+  price?: number;
+
+  priority?: number;
 
   product?: Override.Product;
 
-  type?: 'OVERWRITE' | 'MULTIPLIER';
+  /**
+   * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
+   */
+  quantity?: number;
+
+  rate_type?:
+    | 'FLAT'
+    | 'flat'
+    | 'PERCENTAGE'
+    | 'percentage'
+    | 'SUBSCRIPTION'
+    | 'subscription'
+    | 'TIERED'
+    | 'tiered'
+    | 'CUSTOM'
+    | 'custom';
+
+  /**
+   * Only set for TIERED rate_type.
+   */
+  tiers?: Array<Override.Tier>;
+
+  type?: 'OVERWRITE' | 'MULTIPLIER' | 'TIERED';
+
+  /**
+   * Only set for CUSTOM rate_type. This field is interpreted by custom rate
+   * processors.
+   */
+  value?: Record<string, unknown>;
 }
 
 export namespace Override {
@@ -657,6 +702,12 @@ export namespace Override {
     product_id?: string;
 
     product_tags?: Array<string>;
+  }
+
+  export interface OverrideTier {
+    multiplier: number;
+
+    size?: number;
   }
 
   export interface OverwriteRate {
@@ -671,6 +722,8 @@ export namespace Override {
       | 'tiered'
       | 'CUSTOM'
       | 'custom';
+
+    credit_type?: Shared.CreditType;
 
     /**
      * Only set for CUSTOM rate_type. This field is interpreted by custom rate
@@ -712,6 +765,12 @@ export namespace Override {
     id: string;
 
     name: string;
+  }
+
+  export interface Tier {
+    price: number;
+
+    size?: number;
   }
 }
 
