@@ -1053,9 +1053,14 @@ export namespace ContractCreateParams {
    * This field's availability is dependent on your client's configuration.
    */
   export interface BillingProviderConfiguration {
-    billing_provider: 'aws_marketplace' | 'azure_marketplace' | 'gcp_marketplace' | 'stripe' | 'netsuite';
+    billing_provider?: 'aws_marketplace' | 'azure_marketplace' | 'gcp_marketplace' | 'stripe' | 'netsuite';
 
-    delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+    /**
+     * The Metronome ID of the billing provider configuration
+     */
+    billing_provider_configuration_id?: string;
+
+    delivery_method?: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
   }
 
   export interface Commit {
