@@ -989,7 +989,7 @@ export interface ContractCreateParams {
    * Defaults to LOWEST_MULTIPLIER, which applies the greatest discount to list
    * prices automatically. EXPLICIT prioritization requires specifying priorities for
    * each multiplier; the one with the lowest priority value will be prioritized
-   * first.
+   * first. If tiered overrides are used, prioritization must be explicit.
    */
   multiplier_override_prioritization?: 'LOWEST_MULTIPLIER' | 'lowest_multiplier' | 'EXPLICIT' | 'explicit';
 
@@ -1487,9 +1487,10 @@ export namespace ContractCreateParams {
     overwrite_rate?: Override.OverwriteRate;
 
     /**
-     * Required for EXPLICIT multiplier prioritization scheme. If multiple multipliers
-     * are applicable, the one with the lower priority value will apply first. Must
-     * be >0.
+     * Required for EXPLICIT multiplier prioritization scheme and all TIERED overrides.
+     * Under EXPLICIT prioritization, overwrites are prioritized first, and then tiered
+     * and multiplier overrides are prioritized by their priority value (lowest first).
+     * Must be > 0.
      */
     priority?: number;
 
@@ -1499,9 +1500,14 @@ export namespace ContractCreateParams {
     product_id?: string;
 
     /**
-     * Overwrites are prioritized over multipliers.
+     * Required for TIERED type. Must have at least one tier.
      */
-    type?: 'OVERWRITE' | 'overwrite' | 'MULTIPLIER' | 'multiplier';
+    tiers?: Array<Override.Tier>;
+
+    /**
+     * Overwrites are prioritized over multipliers and tiered overrides.
+     */
+    type?: 'OVERWRITE' | 'overwrite' | 'MULTIPLIER' | 'multiplier' | 'TIERED' | 'tiered';
   }
 
   export namespace Override {
@@ -1583,6 +1589,12 @@ export namespace ContractCreateParams {
 
         size?: number;
       }
+    }
+
+    export interface Tier {
+      multiplier: number;
+
+      size?: number;
     }
   }
 
@@ -2396,9 +2408,10 @@ export namespace ContractAmendParams {
     overwrite_rate?: Override.OverwriteRate;
 
     /**
-     * Required for EXPLICIT multiplier prioritization scheme. If multiple multipliers
-     * are applicable, the one with the lower priority value will apply first. Must
-     * be >0.
+     * Required for EXPLICIT multiplier prioritization scheme and all TIERED overrides.
+     * Under EXPLICIT prioritization, overwrites are prioritized first, and then tiered
+     * and multiplier overrides are prioritized by their priority value (lowest first).
+     * Must be > 0.
      */
     priority?: number;
 
@@ -2408,9 +2421,14 @@ export namespace ContractAmendParams {
     product_id?: string;
 
     /**
-     * Overwrites are prioritized over multipliers.
+     * Required for TIERED type. Must have at least one tier.
      */
-    type?: 'OVERWRITE' | 'overwrite' | 'MULTIPLIER' | 'multiplier';
+    tiers?: Array<Override.Tier>;
+
+    /**
+     * Overwrites are prioritized over multipliers and tiered overrides.
+     */
+    type?: 'OVERWRITE' | 'overwrite' | 'MULTIPLIER' | 'multiplier' | 'TIERED' | 'tiered';
   }
 
   export namespace Override {
@@ -2492,6 +2510,12 @@ export namespace ContractAmendParams {
 
         size?: number;
       }
+    }
+
+    export interface Tier {
+      multiplier: number;
+
+      size?: number;
     }
   }
 
