@@ -1,7 +1,7 @@
 # Metronome Node API Library
 
 > [!WARNING]
-> This is prerelease alpha software that is not ready for production use. There may be bugs and
+> This is prerelease software that is not ready for production use. There may be bugs and
 > there will be breaking changes version to version. Use at your own risk.
 
 [![NPM version](https://img.shields.io/npm/v/@metronome/sdk.svg)](https://npmjs.org/package/@metronome/sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@metronome/sdk)
