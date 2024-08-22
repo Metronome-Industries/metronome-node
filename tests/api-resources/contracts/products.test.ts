@@ -37,8 +37,8 @@ describe('resource products', () => {
       netsuite_overage_item_id: 'netsuite_overage_item_id',
       presentation_group_key: ['string', 'string', 'string'],
       pricing_group_key: ['string', 'string', 'string'],
-      quantity_conversion: { conversion_factor: 0, operation: 'multiply', name: 'name' },
-      quantity_rounding: { decimal_places: 0, rounding_method: 'round_up' },
+      quantity_conversion: { conversion_factor: 0, operation: 'MULTIPLY', name: 'name' },
+      quantity_rounding: { decimal_places: 0, rounding_method: 'ROUND_UP' },
       tags: ['string', 'string', 'string'],
     });
   });
@@ -92,8 +92,8 @@ describe('resource products', () => {
       netsuite_overage_item_id: 'netsuite_overage_item_id',
       presentation_group_key: ['string', 'string', 'string'],
       pricing_group_key: ['string', 'string', 'string'],
-      quantity_conversion: { conversion_factor: 0, operation: 'multiply', name: 'name' },
-      quantity_rounding: { decimal_places: 0, rounding_method: 'round_up' },
+      quantity_conversion: { conversion_factor: 0, operation: 'MULTIPLY', name: 'name' },
+      quantity_rounding: { decimal_places: 0, rounding_method: 'ROUND_UP' },
       tags: ['string', 'string', 'string'],
     });
   });

@@ -340,7 +340,7 @@ export namespace ContractWithoutAmendments {
   }
 
   export interface UsageStatementSchedule {
-    frequency: 'MONTHLY' | 'monthly' | 'QUARTERLY' | 'quarterly';
+    frequency: 'MONTHLY' | 'QUARTERLY';
   }
 
   export interface Credit {
@@ -667,17 +667,7 @@ export interface Override {
    */
   quantity?: number;
 
-  rate_type?:
-    | 'FLAT'
-    | 'flat'
-    | 'PERCENTAGE'
-    | 'percentage'
-    | 'SUBSCRIPTION'
-    | 'subscription'
-    | 'TIERED'
-    | 'tiered'
-    | 'CUSTOM'
-    | 'custom';
+  rate_type?: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
   /**
    * Only set for TIERED rate_type.
@@ -711,17 +701,7 @@ export namespace Override {
   }
 
   export interface OverwriteRate {
-    rate_type:
-      | 'FLAT'
-      | 'flat'
-      | 'PERCENTAGE'
-      | 'percentage'
-      | 'SUBSCRIPTION'
-      | 'subscription'
-      | 'TIERED'
-      | 'tiered'
-      | 'CUSTOM'
-      | 'custom';
+    rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
     credit_type?: Shared.CreditType;
 
@@ -775,17 +755,7 @@ export namespace Override {
 }
 
 export interface Rate {
-  rate_type:
-    | 'FLAT'
-    | 'flat'
-    | 'PERCENTAGE'
-    | 'percentage'
-    | 'SUBSCRIPTION'
-    | 'subscription'
-    | 'CUSTOM'
-    | 'custom'
-    | 'TIERED'
-    | 'tiered';
+  rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
 
   credit_type?: CreditType;
 

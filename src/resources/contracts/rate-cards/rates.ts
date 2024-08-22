@@ -137,17 +137,7 @@ export interface RateAddParams {
    */
   rate_card_id: string;
 
-  rate_type:
-    | 'FLAT'
-    | 'flat'
-    | 'PERCENTAGE'
-    | 'percentage'
-    | 'SUBSCRIPTION'
-    | 'subscription'
-    | 'TIERED'
-    | 'tiered'
-    | 'CUSTOM'
-    | 'custom';
+  rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
   /**
    * inclusive effective date
@@ -231,17 +221,7 @@ export namespace RateAddManyParams {
      */
     product_id: string;
 
-    rate_type:
-      | 'FLAT'
-      | 'flat'
-      | 'PERCENTAGE'
-      | 'percentage'
-      | 'SUBSCRIPTION'
-      | 'subscription'
-      | 'TIERED'
-      | 'tiered'
-      | 'CUSTOM'
-      | 'custom';
+    rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
     /**
      * inclusive effective date

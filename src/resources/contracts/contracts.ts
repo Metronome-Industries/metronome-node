@@ -991,7 +991,7 @@ export interface ContractCreateParams {
    * each multiplier; the one with the lowest priority value will be prioritized
    * first. If tiered overrides are used, prioritization must be explicit.
    */
-  multiplier_override_prioritization?: 'LOWEST_MULTIPLIER' | 'lowest_multiplier' | 'EXPLICIT' | 'explicit';
+  multiplier_override_prioritization?: 'LOWEST_MULTIPLIER' | 'EXPLICIT';
 
   name?: string;
 
@@ -1066,7 +1066,7 @@ export namespace ContractCreateParams {
   export interface Commit {
     product_id: string;
 
-    type: 'PREPAID' | 'prepaid' | 'POSTPAID' | 'postpaid';
+    type: 'PREPAID' | 'POSTPAID';
 
     /**
      * Required: Schedule for distributing the commit to the customer. For "POSTPAID"
@@ -1189,22 +1189,14 @@ export namespace ContractCreateParams {
        * quantity is inferred to be 1.
        */
       export interface RecurringSchedule {
-        amount_distribution: 'DIVIDED' | 'divided' | 'DIVIDED_ROUNDED' | 'divided_rounded' | 'EACH' | 'each';
+        amount_distribution: 'DIVIDED' | 'DIVIDED_ROUNDED' | 'EACH';
 
         /**
          * RFC 3339 timestamp (exclusive).
          */
         ending_before: string;
 
-        frequency:
-          | 'MONTHLY'
-          | 'monthly'
-          | 'QUARTERLY'
-          | 'quarterly'
-          | 'SEMI_ANNUAL'
-          | 'semi_annual'
-          | 'ANNUAL'
-          | 'annual';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
 
         /**
          * RFC 3339 timestamp (inclusive).
@@ -1383,22 +1375,14 @@ export namespace ContractCreateParams {
        * quantity is inferred to be 1.
        */
       export interface RecurringSchedule {
-        amount_distribution: 'DIVIDED' | 'divided' | 'DIVIDED_ROUNDED' | 'divided_rounded' | 'EACH' | 'each';
+        amount_distribution: 'DIVIDED' | 'DIVIDED_ROUNDED' | 'EACH';
 
         /**
          * RFC 3339 timestamp (exclusive).
          */
         ending_before: string;
 
-        frequency:
-          | 'MONTHLY'
-          | 'monthly'
-          | 'QUARTERLY'
-          | 'quarterly'
-          | 'SEMI_ANNUAL'
-          | 'semi_annual'
-          | 'ANNUAL'
-          | 'annual';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
 
         /**
          * RFC 3339 timestamp (inclusive).
@@ -1512,7 +1496,7 @@ export namespace ContractCreateParams {
     /**
      * Overwrites are prioritized over multipliers and tiered overrides.
      */
-    type?: 'OVERWRITE' | 'overwrite' | 'MULTIPLIER' | 'multiplier' | 'TIERED' | 'tiered';
+    type?: 'OVERWRITE' | 'MULTIPLIER' | 'TIERED';
   }
 
   export namespace Override {
@@ -1546,17 +1530,7 @@ export namespace ContractCreateParams {
      * Required for OVERWRITE type.
      */
     export interface OverwriteRate {
-      rate_type:
-        | 'FLAT'
-        | 'flat'
-        | 'PERCENTAGE'
-        | 'percentage'
-        | 'SUBSCRIPTION'
-        | 'subscription'
-        | 'TIERED'
-        | 'tiered'
-        | 'CUSTOM'
-        | 'custom';
+      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
       credit_type_id?: string;
 
@@ -1726,22 +1700,14 @@ export namespace ContractCreateParams {
        * quantity is inferred to be 1.
        */
       export interface RecurringSchedule {
-        amount_distribution: 'DIVIDED' | 'divided' | 'DIVIDED_ROUNDED' | 'divided_rounded' | 'EACH' | 'each';
+        amount_distribution: 'DIVIDED' | 'DIVIDED_ROUNDED' | 'EACH';
 
         /**
          * RFC 3339 timestamp (exclusive).
          */
         ending_before: string;
 
-        frequency:
-          | 'MONTHLY'
-          | 'monthly'
-          | 'QUARTERLY'
-          | 'quarterly'
-          | 'SEMI_ANNUAL'
-          | 'semi_annual'
-          | 'ANNUAL'
-          | 'annual';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
 
         /**
          * RFC 3339 timestamp (inclusive).
@@ -1806,7 +1772,7 @@ export namespace ContractCreateParams {
     /**
      * This field's available values may vary based on your client's configuration.
      */
-    type: 'SUPERSEDE' | 'RENEWAL' | 'supersede' | 'renewal';
+    type: 'SUPERSEDE' | 'RENEWAL';
 
     future_invoice_behavior?: Transition.FutureInvoiceBehavior;
   }
@@ -1817,7 +1783,7 @@ export namespace ContractCreateParams {
        * Controls whether future trueup invoices are billed or removed. Default behavior
        * is AS_IS if not specified.
        */
-      trueup?: 'remove' | 'as_is' | 'REMOVE' | 'AS_IS' | null;
+      trueup?: 'REMOVE' | 'AS_IS' | null;
     }
   }
 
@@ -1830,12 +1796,12 @@ export namespace ContractCreateParams {
   }
 
   export interface UsageStatementSchedule {
-    frequency: 'MONTHLY' | 'monthly' | 'QUARTERLY' | 'quarterly';
+    frequency: 'MONTHLY' | 'QUARTERLY';
 
     /**
      * If not provided, defaults to the first day of the month.
      */
-    day?: 'FIRST_OF_MONTH' | 'first_of_month' | 'CONTRACT_START' | 'contract_start';
+    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START';
 
     /**
      * The date Metronome should start generating usage invoices. If unspecified,
@@ -1987,7 +1953,7 @@ export namespace ContractAmendParams {
   export interface Commit {
     product_id: string;
 
-    type: 'PREPAID' | 'prepaid' | 'POSTPAID' | 'postpaid';
+    type: 'PREPAID' | 'POSTPAID';
 
     /**
      * Required: Schedule for distributing the commit to the customer. For "POSTPAID"
@@ -2110,22 +2076,14 @@ export namespace ContractAmendParams {
        * quantity is inferred to be 1.
        */
       export interface RecurringSchedule {
-        amount_distribution: 'DIVIDED' | 'divided' | 'DIVIDED_ROUNDED' | 'divided_rounded' | 'EACH' | 'each';
+        amount_distribution: 'DIVIDED' | 'DIVIDED_ROUNDED' | 'EACH';
 
         /**
          * RFC 3339 timestamp (exclusive).
          */
         ending_before: string;
 
-        frequency:
-          | 'MONTHLY'
-          | 'monthly'
-          | 'QUARTERLY'
-          | 'quarterly'
-          | 'SEMI_ANNUAL'
-          | 'semi_annual'
-          | 'ANNUAL'
-          | 'annual';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
 
         /**
          * RFC 3339 timestamp (inclusive).
@@ -2304,22 +2262,14 @@ export namespace ContractAmendParams {
        * quantity is inferred to be 1.
        */
       export interface RecurringSchedule {
-        amount_distribution: 'DIVIDED' | 'divided' | 'DIVIDED_ROUNDED' | 'divided_rounded' | 'EACH' | 'each';
+        amount_distribution: 'DIVIDED' | 'DIVIDED_ROUNDED' | 'EACH';
 
         /**
          * RFC 3339 timestamp (exclusive).
          */
         ending_before: string;
 
-        frequency:
-          | 'MONTHLY'
-          | 'monthly'
-          | 'QUARTERLY'
-          | 'quarterly'
-          | 'SEMI_ANNUAL'
-          | 'semi_annual'
-          | 'ANNUAL'
-          | 'annual';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
 
         /**
          * RFC 3339 timestamp (inclusive).
@@ -2433,7 +2383,7 @@ export namespace ContractAmendParams {
     /**
      * Overwrites are prioritized over multipliers and tiered overrides.
      */
-    type?: 'OVERWRITE' | 'overwrite' | 'MULTIPLIER' | 'multiplier' | 'TIERED' | 'tiered';
+    type?: 'OVERWRITE' | 'MULTIPLIER' | 'TIERED';
   }
 
   export namespace Override {
@@ -2467,17 +2417,7 @@ export namespace ContractAmendParams {
      * Required for OVERWRITE type.
      */
     export interface OverwriteRate {
-      rate_type:
-        | 'FLAT'
-        | 'flat'
-        | 'PERCENTAGE'
-        | 'percentage'
-        | 'SUBSCRIPTION'
-        | 'subscription'
-        | 'TIERED'
-        | 'tiered'
-        | 'CUSTOM'
-        | 'custom';
+      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
       credit_type_id?: string;
 
@@ -2650,22 +2590,14 @@ export namespace ContractAmendParams {
        * quantity is inferred to be 1.
        */
       export interface RecurringSchedule {
-        amount_distribution: 'DIVIDED' | 'divided' | 'DIVIDED_ROUNDED' | 'divided_rounded' | 'EACH' | 'each';
+        amount_distribution: 'DIVIDED' | 'DIVIDED_ROUNDED' | 'EACH';
 
         /**
          * RFC 3339 timestamp (exclusive).
          */
         ending_before: string;
 
-        frequency:
-          | 'MONTHLY'
-          | 'monthly'
-          | 'QUARTERLY'
-          | 'quarterly'
-          | 'SEMI_ANNUAL'
-          | 'semi_annual'
-          | 'ANNUAL'
-          | 'annual';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
 
         /**
          * RFC 3339 timestamp (inclusive).
