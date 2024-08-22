@@ -13,7 +13,7 @@ describe('resource usage', () => {
     const responsePromise = client.usage.list({
       ending_before: '2021-01-03T00:00:00Z',
       starting_on: '2021-01-01T00:00:00Z',
-      window_size: 'hour',
+      window_size: 'HOUR',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -28,7 +28,7 @@ describe('resource usage', () => {
     const response = await client.usage.list({
       ending_before: '2021-01-03T00:00:00Z',
       starting_on: '2021-01-01T00:00:00Z',
-      window_size: 'hour',
+      window_size: 'HOUR',
       next_page: 'next_page',
       billable_metrics: [
         { id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', group_by: { key: 'key', values: ['x'] } },
@@ -77,7 +77,7 @@ describe('resource usage', () => {
     const responsePromise = client.usage.listWithGroups({
       billable_metric_id: '222796fd-d29c-429e-89b2-549fabda4ed6',
       customer_id: '04ca7e72-4229-4a6e-ab11-9f7376fccbcb',
-      window_size: 'hour',
+      window_size: 'HOUR',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -92,7 +92,7 @@ describe('resource usage', () => {
     const response = await client.usage.listWithGroups({
       billable_metric_id: '222796fd-d29c-429e-89b2-549fabda4ed6',
       customer_id: '04ca7e72-4229-4a6e-ab11-9f7376fccbcb',
-      window_size: 'hour',
+      window_size: 'HOUR',
       limit: 1,
       next_page: 'next_page',
       current_period: true,

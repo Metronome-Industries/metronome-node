@@ -98,22 +98,7 @@ export namespace BillableMetricRetrieveResponse {
     /**
      * Specifies the type of aggregation performed on matching events.
      */
-    aggregation_type?:
-      | 'count'
-      | 'Count'
-      | 'COUNT'
-      | 'latest'
-      | 'Latest'
-      | 'LATEST'
-      | 'max'
-      | 'Max'
-      | 'MAX'
-      | 'sum'
-      | 'Sum'
-      | 'SUM'
-      | 'unique'
-      | 'Unique'
-      | 'UNIQUE';
+    aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
 
     custom_fields?: Record<string, string>;
 
@@ -219,22 +204,7 @@ export interface BillableMetricListResponse {
   /**
    * Specifies the type of aggregation performed on matching events.
    */
-  aggregation_type?:
-    | 'count'
-    | 'Count'
-    | 'COUNT'
-    | 'latest'
-    | 'Latest'
-    | 'LATEST'
-    | 'max'
-    | 'Max'
-    | 'MAX'
-    | 'sum'
-    | 'Sum'
-    | 'SUM'
-    | 'unique'
-    | 'Unique'
-    | 'UNIQUE';
+  aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
 
   custom_fields?: Record<string, string>;
 
@@ -332,22 +302,7 @@ export interface BillableMetricCreateParams {
   /**
    * Specifies the type of aggregation performed on matching events.
    */
-  aggregation_type:
-    | 'count'
-    | 'Count'
-    | 'COUNT'
-    | 'latest'
-    | 'Latest'
-    | 'LATEST'
-    | 'max'
-    | 'Max'
-    | 'MAX'
-    | 'sum'
-    | 'Sum'
-    | 'SUM'
-    | 'unique'
-    | 'Unique'
-    | 'UNIQUE';
+  aggregation_type: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
 
   /**
    * The display name of the billable metric.

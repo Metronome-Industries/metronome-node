@@ -62,7 +62,7 @@ export interface CommitCreateParams {
 
   product_id: string;
 
-  type: 'PREPAID' | 'prepaid' | 'POSTPAID' | 'postpaid';
+  type: 'PREPAID' | 'POSTPAID';
 
   /**
    * Which contract the commit applies to. If not provided, the commit applies to all
@@ -179,22 +179,14 @@ export namespace CommitCreateParams {
      * quantity is inferred to be 1.
      */
     export interface RecurringSchedule {
-      amount_distribution: 'DIVIDED' | 'divided' | 'DIVIDED_ROUNDED' | 'divided_rounded' | 'EACH' | 'each';
+      amount_distribution: 'DIVIDED' | 'DIVIDED_ROUNDED' | 'EACH';
 
       /**
        * RFC 3339 timestamp (exclusive).
        */
       ending_before: string;
 
-      frequency:
-        | 'MONTHLY'
-        | 'monthly'
-        | 'QUARTERLY'
-        | 'quarterly'
-        | 'SEMI_ANNUAL'
-        | 'semi_annual'
-        | 'ANNUAL'
-        | 'annual';
+      frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
 
       /**
        * RFC 3339 timestamp (inclusive).

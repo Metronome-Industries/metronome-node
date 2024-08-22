@@ -107,7 +107,7 @@ export interface UsageListParams {
    * "none" will return a single usage aggregate for the entirety of the specified
    * period.
    */
-  window_size: 'hour' | 'day' | 'none' | 'HOUR' | 'DAY' | 'NONE' | 'Hour' | 'Day' | 'None';
+  window_size: 'HOUR' | 'DAY' | 'NONE';
 
   /**
    * Query param: Cursor that indicates where the next page of results should start.
@@ -186,7 +186,7 @@ export interface UsageListWithGroupsParams extends CursorPageParams {
    * "none" will return a single usage aggregate for the entirety of the specified
    * period.
    */
-  window_size: 'hour' | 'day' | 'none' | 'HOUR' | 'DAY' | 'NONE' | 'Hour' | 'Day' | 'None';
+  window_size: 'HOUR' | 'DAY' | 'NONE';
 
   /**
    * Body param: If true, will return the usage for the current billing period. Will

@@ -275,22 +275,7 @@ export interface CustomerListBillableMetricsResponse {
   /**
    * Specifies the type of aggregation performed on matching events.
    */
-  aggregation_type?:
-    | 'count'
-    | 'Count'
-    | 'COUNT'
-    | 'latest'
-    | 'Latest'
-    | 'LATEST'
-    | 'max'
-    | 'Max'
-    | 'MAX'
-    | 'sum'
-    | 'Sum'
-    | 'SUM'
-    | 'unique'
-    | 'Unique'
-    | 'UNIQUE';
+  aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
 
   custom_fields?: Record<string, string>;
 
