@@ -179,7 +179,7 @@ export namespace ProductRetrieveResponse {
         /**
          * The operation to perform on the quantity
          */
-        operation: 'multiply' | 'divide' | 'MULTIPLY' | 'DIVIDE';
+        operation: 'MULTIPLY' | 'DIVIDE';
 
         /**
          * Optional name for this conversion.
@@ -196,13 +196,7 @@ export namespace ProductRetrieveResponse {
       export interface QuantityRounding {
         decimal_places: number;
 
-        rounding_method:
-          | 'round_up'
-          | 'round_down'
-          | 'round_half_up'
-          | 'ROUND_UP'
-          | 'ROUND_DOWN'
-          | 'ROUND_HALF_UP';
+        rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
       }
     }
 
@@ -290,7 +284,7 @@ export namespace ProductRetrieveResponse {
         /**
          * The operation to perform on the quantity
          */
-        operation: 'multiply' | 'divide' | 'MULTIPLY' | 'DIVIDE';
+        operation: 'MULTIPLY' | 'DIVIDE';
 
         /**
          * Optional name for this conversion.
@@ -307,13 +301,7 @@ export namespace ProductRetrieveResponse {
       export interface QuantityRounding {
         decimal_places: number;
 
-        rounding_method:
-          | 'round_up'
-          | 'round_down'
-          | 'round_half_up'
-          | 'ROUND_UP'
-          | 'ROUND_DOWN'
-          | 'ROUND_HALF_UP';
+        rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
       }
     }
 
@@ -398,7 +386,7 @@ export namespace ProductRetrieveResponse {
         /**
          * The operation to perform on the quantity
          */
-        operation: 'multiply' | 'divide' | 'MULTIPLY' | 'DIVIDE';
+        operation: 'MULTIPLY' | 'DIVIDE';
 
         /**
          * Optional name for this conversion.
@@ -415,13 +403,7 @@ export namespace ProductRetrieveResponse {
       export interface QuantityRounding {
         decimal_places: number;
 
-        rounding_method:
-          | 'round_up'
-          | 'round_down'
-          | 'round_half_up'
-          | 'ROUND_UP'
-          | 'ROUND_DOWN'
-          | 'ROUND_HALF_UP';
+        rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
       }
     }
   }
@@ -532,7 +514,7 @@ export namespace ProductListResponse {
       /**
        * The operation to perform on the quantity
        */
-      operation: 'multiply' | 'divide' | 'MULTIPLY' | 'DIVIDE';
+      operation: 'MULTIPLY' | 'DIVIDE';
 
       /**
        * Optional name for this conversion.
@@ -549,13 +531,7 @@ export namespace ProductListResponse {
     export interface QuantityRounding {
       decimal_places: number;
 
-      rounding_method:
-        | 'round_up'
-        | 'round_down'
-        | 'round_half_up'
-        | 'ROUND_UP'
-        | 'ROUND_DOWN'
-        | 'ROUND_HALF_UP';
+      rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
     }
   }
 
@@ -643,7 +619,7 @@ export namespace ProductListResponse {
       /**
        * The operation to perform on the quantity
        */
-      operation: 'multiply' | 'divide' | 'MULTIPLY' | 'DIVIDE';
+      operation: 'MULTIPLY' | 'DIVIDE';
 
       /**
        * Optional name for this conversion.
@@ -660,13 +636,7 @@ export namespace ProductListResponse {
     export interface QuantityRounding {
       decimal_places: number;
 
-      rounding_method:
-        | 'round_up'
-        | 'round_down'
-        | 'round_half_up'
-        | 'ROUND_UP'
-        | 'ROUND_DOWN'
-        | 'ROUND_HALF_UP';
+      rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
     }
   }
 
@@ -751,7 +721,7 @@ export namespace ProductListResponse {
       /**
        * The operation to perform on the quantity
        */
-      operation: 'multiply' | 'divide' | 'MULTIPLY' | 'DIVIDE';
+      operation: 'MULTIPLY' | 'DIVIDE';
 
       /**
        * Optional name for this conversion.
@@ -768,13 +738,7 @@ export namespace ProductListResponse {
     export interface QuantityRounding {
       decimal_places: number;
 
-      rounding_method:
-        | 'round_up'
-        | 'round_down'
-        | 'round_half_up'
-        | 'ROUND_UP'
-        | 'ROUND_DOWN'
-        | 'ROUND_HALF_UP';
+      rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
     }
   }
 }
@@ -789,19 +753,7 @@ export interface ProductCreateParams {
    */
   name: string;
 
-  type:
-    | 'FIXED'
-    | 'fixed'
-    | 'USAGE'
-    | 'usage'
-    | 'COMPOSITE'
-    | 'composite'
-    | 'SUBSCRIPTION'
-    | 'subscription'
-    | 'PROFESSIONAL_SERVICE'
-    | 'professional_service'
-    | 'PRO_SERVICE'
-    | 'pro_service';
+  type: 'FIXED' | 'USAGE' | 'COMPOSITE' | 'SUBSCRIPTION' | 'PROFESSIONAL_SERVICE' | 'PRO_SERVICE';
 
   /**
    * Required for USAGE products
@@ -892,7 +844,7 @@ export namespace ProductCreateParams {
     /**
      * The operation to perform on the quantity
      */
-    operation: 'multiply' | 'divide' | 'MULTIPLY' | 'DIVIDE';
+    operation: 'MULTIPLY' | 'DIVIDE';
 
     /**
      * Optional name for this conversion.
@@ -909,13 +861,7 @@ export namespace ProductCreateParams {
   export interface QuantityRounding {
     decimal_places: number;
 
-    rounding_method:
-      | 'round_up'
-      | 'round_down'
-      | 'round_half_up'
-      | 'ROUND_UP'
-      | 'ROUND_DOWN'
-      | 'ROUND_HALF_UP';
+    rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
   }
 }
 
@@ -1038,7 +984,7 @@ export namespace ProductUpdateParams {
     /**
      * The operation to perform on the quantity
      */
-    operation: 'multiply' | 'divide' | 'MULTIPLY' | 'DIVIDE';
+    operation: 'MULTIPLY' | 'DIVIDE';
 
     /**
      * Optional name for this conversion.
@@ -1055,13 +1001,7 @@ export namespace ProductUpdateParams {
   export interface QuantityRounding {
     decimal_places: number;
 
-    rounding_method:
-      | 'round_up'
-      | 'round_down'
-      | 'round_half_up'
-      | 'ROUND_UP'
-      | 'ROUND_DOWN'
-      | 'ROUND_HALF_UP';
+    rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
   }
 }
 

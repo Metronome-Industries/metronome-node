@@ -187,17 +187,7 @@ export interface AlertListParams {
    * Body param: Optionally filter by alert status. If absent, only enabled alerts
    * will be returned.
    */
-  alert_statuses?: Array<
-    | 'enabled'
-    | 'disabled'
-    | 'archived'
-    | 'ENABLED'
-    | 'DISABLED'
-    | 'ARCHIVED'
-    | 'Enabled'
-    | 'Disabled'
-    | 'Archived'
-  >;
+  alert_statuses?: Array<'ENABLED' | 'DISABLED' | 'ARCHIVED'>;
 }
 
 export interface AlertResetParams {
