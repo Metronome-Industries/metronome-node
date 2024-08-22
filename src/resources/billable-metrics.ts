@@ -84,26 +84,6 @@ export namespace BillableMetricRetrieveResponse {
     id: string;
 
     /**
-     * Specifies the type of aggregation performed on matching events.
-     */
-    aggregation_type:
-      | 'count'
-      | 'Count'
-      | 'COUNT'
-      | 'latest'
-      | 'Latest'
-      | 'LATEST'
-      | 'max'
-      | 'Max'
-      | 'MAX'
-      | 'sum'
-      | 'Sum'
-      | 'SUM'
-      | 'unique'
-      | 'Unique'
-      | 'UNIQUE';
-
-    /**
      * The display name of the billable metric.
      */
     name: string;
@@ -115,12 +95,17 @@ export namespace BillableMetricRetrieveResponse {
      */
     aggregation_key?: string;
 
+    /**
+     * Specifies the type of aggregation performed on matching events.
+     */
+    aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
+
     custom_fields?: Record<string, string>;
 
     /**
      * An optional filtering rule to match the 'event_type' property of an event.
      */
-    event_type_filter?: Data.EventTypeFilter;
+    event_type_filter?: Shared.EventTypeFilter;
 
     /**
      * Property names that are used to group usage costs on an invoice. Each entry
@@ -133,59 +118,12 @@ export namespace BillableMetricRetrieveResponse {
      * rule on an event property. All rules must pass for the event to match the
      * billable metric.
      */
-    property_filters?: Array<Data.PropertyFilter>;
-  }
+    property_filters?: Array<Shared.PropertyFilter>;
 
-  export namespace Data {
     /**
-     * An optional filtering rule to match the 'event_type' property of an event.
+     * The SQL query associated with the billable metric
      */
-    export interface EventTypeFilter {
-      /**
-       * A list of event types that are explicitly included in the billable metric. If
-       * specified, only events of these types will match the billable metric. Must be
-       * non-empty if present.
-       */
-      in_values?: Array<string>;
-
-      /**
-       * A list of event types that are explicitly excluded from the billable metric. If
-       * specified, events of these types will not match the billable metric. Must be
-       * non-empty if present.
-       */
-      not_in_values?: Array<string>;
-    }
-
-    export interface PropertyFilter {
-      /**
-       * The name of the event property.
-       */
-      name: string;
-
-      /**
-       * Determines whether the property must exist in the event. If true, only events
-       * with this property will pass the filter. If false, only events without this
-       * property will pass the filter. If null or omitted, the existence of the property
-       * is optional.
-       */
-      exists?: boolean;
-
-      /**
-       * Specifies the allowed values for the property to match an event. An event will
-       * pass the filter only if its property value is included in this list. If
-       * undefined, all property values will pass the filter. Must be non-empty if
-       * present.
-       */
-      in_values?: Array<string>;
-
-      /**
-       * Specifies the values that prevent an event from matching the filter. An event
-       * will not pass the filter if its property value is included in this list. If null
-       * or empty, all property values will pass the filter. Must be non-empty if
-       * present.
-       */
-      not_in_values?: Array<string>;
-    }
+    sql?: string;
   }
 }
 
@@ -214,29 +152,14 @@ export interface BillableMetricListResponse {
   /**
    * Specifies the type of aggregation performed on matching events.
    */
-  aggregation_type?:
-    | 'count'
-    | 'Count'
-    | 'COUNT'
-    | 'latest'
-    | 'Latest'
-    | 'LATEST'
-    | 'max'
-    | 'Max'
-    | 'MAX'
-    | 'sum'
-    | 'Sum'
-    | 'SUM'
-    | 'unique'
-    | 'Unique'
-    | 'UNIQUE';
+  aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
 
   custom_fields?: Record<string, string>;
 
   /**
    * An optional filtering rule to match the 'event_type' property of an event.
    */
-  event_type_filter?: BillableMetricListResponse.EventTypeFilter;
+  event_type_filter?: Shared.EventTypeFilter;
 
   /**
    * (DEPRECATED) use property_filters & event_type_filter instead
@@ -259,59 +182,12 @@ export interface BillableMetricListResponse {
    * rule on an event property. All rules must pass for the event to match the
    * billable metric.
    */
-  property_filters?: Array<BillableMetricListResponse.PropertyFilter>;
-}
+  property_filters?: Array<Shared.PropertyFilter>;
 
-export namespace BillableMetricListResponse {
   /**
-   * An optional filtering rule to match the 'event_type' property of an event.
+   * The SQL query associated with the billable metric
    */
-  export interface EventTypeFilter {
-    /**
-     * A list of event types that are explicitly included in the billable metric. If
-     * specified, only events of these types will match the billable metric. Must be
-     * non-empty if present.
-     */
-    in_values?: Array<string>;
-
-    /**
-     * A list of event types that are explicitly excluded from the billable metric. If
-     * specified, events of these types will not match the billable metric. Must be
-     * non-empty if present.
-     */
-    not_in_values?: Array<string>;
-  }
-
-  export interface PropertyFilter {
-    /**
-     * The name of the event property.
-     */
-    name: string;
-
-    /**
-     * Determines whether the property must exist in the event. If true, only events
-     * with this property will pass the filter. If false, only events without this
-     * property will pass the filter. If null or omitted, the existence of the property
-     * is optional.
-     */
-    exists?: boolean;
-
-    /**
-     * Specifies the allowed values for the property to match an event. An event will
-     * pass the filter only if its property value is included in this list. If
-     * undefined, all property values will pass the filter. Must be non-empty if
-     * present.
-     */
-    in_values?: Array<string>;
-
-    /**
-     * Specifies the values that prevent an event from matching the filter. An event
-     * will not pass the filter if its property value is included in this list. If null
-     * or empty, all property values will pass the filter. Must be non-empty if
-     * present.
-     */
-    not_in_values?: Array<string>;
-  }
+  sql?: string;
 }
 
 export interface BillableMetricArchiveResponse {
@@ -322,22 +198,7 @@ export interface BillableMetricCreateParams {
   /**
    * Specifies the type of aggregation performed on matching events.
    */
-  aggregation_type:
-    | 'count'
-    | 'Count'
-    | 'COUNT'
-    | 'latest'
-    | 'Latest'
-    | 'LATEST'
-    | 'max'
-    | 'Max'
-    | 'MAX'
-    | 'sum'
-    | 'Sum'
-    | 'SUM'
-    | 'unique'
-    | 'Unique'
-    | 'UNIQUE';
+  aggregation_type: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
 
   /**
    * The display name of the billable metric.
@@ -359,7 +220,7 @@ export interface BillableMetricCreateParams {
   /**
    * An optional filtering rule to match the 'event_type' property of an event.
    */
-  event_type_filter?: BillableMetricCreateParams.EventTypeFilter;
+  event_type_filter?: Shared.EventTypeFilter;
 
   /**
    * Property names that are used to group usage costs on an invoice. Each entry
@@ -372,59 +233,7 @@ export interface BillableMetricCreateParams {
    * rule on an event property. All rules must pass for the event to match the
    * billable metric.
    */
-  property_filters?: Array<BillableMetricCreateParams.PropertyFilter>;
-}
-
-export namespace BillableMetricCreateParams {
-  /**
-   * An optional filtering rule to match the 'event_type' property of an event.
-   */
-  export interface EventTypeFilter {
-    /**
-     * A list of event types that are explicitly included in the billable metric. If
-     * specified, only events of these types will match the billable metric. Must be
-     * non-empty if present.
-     */
-    in_values?: Array<string>;
-
-    /**
-     * A list of event types that are explicitly excluded from the billable metric. If
-     * specified, events of these types will not match the billable metric. Must be
-     * non-empty if present.
-     */
-    not_in_values?: Array<string>;
-  }
-
-  export interface PropertyFilter {
-    /**
-     * The name of the event property.
-     */
-    name: string;
-
-    /**
-     * Determines whether the property must exist in the event. If true, only events
-     * with this property will pass the filter. If false, only events without this
-     * property will pass the filter. If null or omitted, the existence of the property
-     * is optional.
-     */
-    exists?: boolean;
-
-    /**
-     * Specifies the allowed values for the property to match an event. An event will
-     * pass the filter only if its property value is included in this list. If
-     * undefined, all property values will pass the filter. Must be non-empty if
-     * present.
-     */
-    in_values?: Array<string>;
-
-    /**
-     * Specifies the values that prevent an event from matching the filter. An event
-     * will not pass the filter if its property value is included in this list. If null
-     * or empty, all property values will pass the filter. Must be non-empty if
-     * present.
-     */
-    not_in_values?: Array<string>;
-  }
+  property_filters?: Array<Shared.PropertyFilter>;
 }
 
 export interface BillableMetricListParams extends CursorPageParams {

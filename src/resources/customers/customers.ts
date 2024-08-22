@@ -7,7 +7,10 @@ import * as CustomersAPI from './customers';
 import * as Shared from '../shared';
 import * as AlertsAPI from './alerts';
 import * as BillingConfigAPI from './billing-config';
+import * as CommitsAPI from './commits';
+import * as CreditsAPI from './credits';
 import * as InvoicesAPI from './invoices';
+import * as NamedSchedulesAPI from './named-schedules';
 import * as PlansAPI from './plans';
 import { CursorPage, type CursorPageParams } from '../../pagination';
 
@@ -16,6 +19,9 @@ export class Customers extends APIResource {
   plans: PlansAPI.Plans = new PlansAPI.Plans(this._client);
   invoices: InvoicesAPI.Invoices = new InvoicesAPI.Invoices(this._client);
   billingConfig: BillingConfigAPI.BillingConfig = new BillingConfigAPI.BillingConfig(this._client);
+  commits: CommitsAPI.Commits = new CommitsAPI.Commits(this._client);
+  credits: CreditsAPI.Credits = new CreditsAPI.Credits(this._client);
+  namedSchedules: NamedSchedulesAPI.NamedSchedules = new NamedSchedulesAPI.NamedSchedules(this._client);
 
   /**
    * Create a new customer
@@ -269,29 +275,14 @@ export interface CustomerListBillableMetricsResponse {
   /**
    * Specifies the type of aggregation performed on matching events.
    */
-  aggregation_type?:
-    | 'count'
-    | 'Count'
-    | 'COUNT'
-    | 'latest'
-    | 'Latest'
-    | 'LATEST'
-    | 'max'
-    | 'Max'
-    | 'MAX'
-    | 'sum'
-    | 'Sum'
-    | 'SUM'
-    | 'unique'
-    | 'Unique'
-    | 'UNIQUE';
+  aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
 
   custom_fields?: Record<string, string>;
 
   /**
    * An optional filtering rule to match the 'event_type' property of an event.
    */
-  event_type_filter?: CustomerListBillableMetricsResponse.EventTypeFilter;
+  event_type_filter?: Shared.EventTypeFilter;
 
   /**
    * (DEPRECATED) use property_filters & event_type_filter instead
@@ -314,59 +305,12 @@ export interface CustomerListBillableMetricsResponse {
    * rule on an event property. All rules must pass for the event to match the
    * billable metric.
    */
-  property_filters?: Array<CustomerListBillableMetricsResponse.PropertyFilter>;
-}
+  property_filters?: Array<Shared.PropertyFilter>;
 
-export namespace CustomerListBillableMetricsResponse {
   /**
-   * An optional filtering rule to match the 'event_type' property of an event.
+   * The SQL query associated with the billable metric
    */
-  export interface EventTypeFilter {
-    /**
-     * A list of event types that are explicitly included in the billable metric. If
-     * specified, only events of these types will match the billable metric. Must be
-     * non-empty if present.
-     */
-    in_values?: Array<string>;
-
-    /**
-     * A list of event types that are explicitly excluded from the billable metric. If
-     * specified, events of these types will not match the billable metric. Must be
-     * non-empty if present.
-     */
-    not_in_values?: Array<string>;
-  }
-
-  export interface PropertyFilter {
-    /**
-     * The name of the event property.
-     */
-    name: string;
-
-    /**
-     * Determines whether the property must exist in the event. If true, only events
-     * with this property will pass the filter. If false, only events without this
-     * property will pass the filter. If null or omitted, the existence of the property
-     * is optional.
-     */
-    exists?: boolean;
-
-    /**
-     * Specifies the allowed values for the property to match an event. An event will
-     * pass the filter only if its property value is included in this list. If
-     * undefined, all property values will pass the filter. Must be non-empty if
-     * present.
-     */
-    in_values?: Array<string>;
-
-    /**
-     * Specifies the values that prevent an event from matching the filter. An event
-     * will not pass the filter if its property value is included in this list. If null
-     * or empty, all property values will pass the filter. Must be non-empty if
-     * present.
-     */
-    not_in_values?: Array<string>;
-  }
+  sql?: string;
 }
 
 export interface CustomerListCostsResponse {
@@ -593,4 +537,22 @@ export namespace Customers {
   export import BillingConfig = BillingConfigAPI.BillingConfig;
   export import BillingConfigRetrieveResponse = BillingConfigAPI.BillingConfigRetrieveResponse;
   export import BillingConfigCreateParams = BillingConfigAPI.BillingConfigCreateParams;
+  export import Commits = CommitsAPI.Commits;
+  export import CommitCreateResponse = CommitsAPI.CommitCreateResponse;
+  export import CommitListResponse = CommitsAPI.CommitListResponse;
+  export import CommitUpdateEndDateResponse = CommitsAPI.CommitUpdateEndDateResponse;
+  export import CommitCreateParams = CommitsAPI.CommitCreateParams;
+  export import CommitListParams = CommitsAPI.CommitListParams;
+  export import CommitUpdateEndDateParams = CommitsAPI.CommitUpdateEndDateParams;
+  export import Credits = CreditsAPI.Credits;
+  export import CreditCreateResponse = CreditsAPI.CreditCreateResponse;
+  export import CreditListResponse = CreditsAPI.CreditListResponse;
+  export import CreditUpdateEndDateResponse = CreditsAPI.CreditUpdateEndDateResponse;
+  export import CreditCreateParams = CreditsAPI.CreditCreateParams;
+  export import CreditListParams = CreditsAPI.CreditListParams;
+  export import CreditUpdateEndDateParams = CreditsAPI.CreditUpdateEndDateParams;
+  export import NamedSchedules = NamedSchedulesAPI.NamedSchedules;
+  export import NamedScheduleRetrieveResponse = NamedSchedulesAPI.NamedScheduleRetrieveResponse;
+  export import NamedScheduleRetrieveParams = NamedSchedulesAPI.NamedScheduleRetrieveParams;
+  export import NamedScheduleUpdateParams = NamedSchedulesAPI.NamedScheduleUpdateParams;
 }

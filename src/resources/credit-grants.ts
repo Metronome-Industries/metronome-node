@@ -76,8 +76,8 @@ export class CreditGrants extends APIResource {
 
   /**
    * Fetches a list of credit ledger entries. Returns lists of ledgers per customer.
-   * Ledger entries are returned in reverse chronological order. Ledger entries
-   * associated with voided credit grants are not included.
+   * Ledger entries are returned in chronological order. Ledger entries associated
+   * with voided credit grants are not included.
    */
   listEntries(
     params?: CreditGrantListEntriesParams,
@@ -533,6 +533,11 @@ export interface CreditGrantEditParams {
    * the ID of the credit grant
    */
   id: string;
+
+  /**
+   * the updated credit grant type
+   */
+  credit_grant_type?: string;
 
   /**
    * the updated expiration date for the credit grant
