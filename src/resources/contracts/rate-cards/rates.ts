@@ -188,7 +188,7 @@ export interface RateAddParams {
   /**
    * Only set for TIERED rate_type.
    */
-  tiers?: Array<RateAddParams.Tier>;
+  tiers?: Array<Shared.Tier>;
 
   /**
    * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
@@ -196,14 +196,6 @@ export interface RateAddParams {
    * contract.
    */
   use_list_prices?: boolean;
-}
-
-export namespace RateAddParams {
-  export interface Tier {
-    price: number;
-
-    size?: number;
-  }
 }
 
 export interface RateAddManyParams {
@@ -272,7 +264,7 @@ export namespace RateAddManyParams {
     /**
      * Only set for TIERED rate_type.
      */
-    tiers?: Array<Rate.Tier>;
+    tiers?: Array<Shared.Tier>;
 
     /**
      * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
@@ -280,14 +272,6 @@ export namespace RateAddManyParams {
      * contract.
      */
     use_list_prices?: boolean;
-  }
-
-  export namespace Rate {
-    export interface Tier {
-      price: number;
-
-      size?: number;
-    }
   }
 }
 
