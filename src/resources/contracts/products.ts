@@ -69,6 +69,109 @@ export class Products extends APIResource {
 
 export class ProductListResponsesCursorPage extends CursorPage<ProductListResponse> {}
 
+export interface ProductListItemState {
+  created_at: string;
+
+  created_by: string;
+
+  name: string;
+
+  billable_metric_id?: string;
+
+  composite_product_ids?: Array<string>;
+
+  composite_tags?: Array<string>;
+
+  exclude_free_usage?: boolean;
+
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
+  is_refundable?: boolean;
+
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
+  netsuite_internal_item_id?: string;
+
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
+  netsuite_overage_item_id?: string;
+
+  /**
+   * For USAGE products only. Groups usage line items on invoices.
+   */
+  presentation_group_key?: Array<string>;
+
+  /**
+   * For USAGE products only. If set, pricing for this product will be determined for
+   * each pricing_group_key value, as opposed to the product as a whole.
+   */
+  pricing_group_key?: Array<string>;
+
+  /**
+   * Optional. Only valid for USAGE products. If provided, the quantity will be
+   * converted using the provided conversion factor and operation. For example, if
+   * the operation is "multiply" and the conversion factor is 100, then the quantity
+   * will be multiplied by 100. This can be used in cases where data is sent in one
+   * unit and priced in another. For example, data could be sent in MB and priced in
+   * GB. In this case, the conversion factor would be 1024 and the operation would be
+   * "divide".
+   */
+  quantity_conversion?: QuantityConversion | null;
+
+  /**
+   * Optional. Only valid for USAGE products. If provided, the quantity will be
+   * rounded using the provided rounding method and decimal places. For example, if
+   * the method is "round up" and the decimal places is 0, then the quantity will be
+   * rounded up to the nearest integer.
+   */
+  quantity_rounding?: QuantityRounding | null;
+
+  starting_at?: string;
+
+  tags?: Array<string>;
+}
+
+/**
+ * Optional. Only valid for USAGE products. If provided, the quantity will be
+ * converted using the provided conversion factor and operation. For example, if
+ * the operation is "multiply" and the conversion factor is 100, then the quantity
+ * will be multiplied by 100. This can be used in cases where data is sent in one
+ * unit and priced in another. For example, data could be sent in MB and priced in
+ * GB. In this case, the conversion factor would be 1024 and the operation would be
+ * "divide".
+ */
+export interface QuantityConversion {
+  /**
+   * The factor to multiply or divide the quantity by.
+   */
+  conversion_factor: number;
+
+  /**
+   * The operation to perform on the quantity
+   */
+  operation: 'MULTIPLY' | 'DIVIDE';
+
+  /**
+   * Optional name for this conversion.
+   */
+  name?: string;
+}
+
+/**
+ * Optional. Only valid for USAGE products. If provided, the quantity will be
+ * rounded using the provided rounding method and decimal places. For example, if
+ * the method is "round up" and the decimal places is 0, then the quantity will be
+ * rounded up to the nearest integer.
+ */
+export interface QuantityRounding {
+  decimal_places: number;
+
+  rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
+}
+
 export interface ProductCreateResponse {
   data: Shared.ID;
 }
@@ -81,9 +184,9 @@ export namespace ProductRetrieveResponse {
   export interface Data {
     id: string;
 
-    current: Data.Current;
+    current: ProductsAPI.ProductListItemState;
 
-    initial: Data.Initial;
+    initial: ProductsAPI.ProductListItemState;
 
     type: 'USAGE' | 'SUBSCRIPTION' | 'COMPOSITE' | 'FIXED' | 'PRO_SERVICE';
 
@@ -95,216 +198,6 @@ export namespace ProductRetrieveResponse {
   }
 
   export namespace Data {
-    export interface Current {
-      created_at: string;
-
-      created_by: string;
-
-      name: string;
-
-      billable_metric_id?: string;
-
-      composite_product_ids?: Array<string>;
-
-      composite_tags?: Array<string>;
-
-      exclude_free_usage?: boolean;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      is_refundable?: boolean;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_internal_item_id?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_overage_item_id?: string;
-
-      /**
-       * For USAGE products only. Groups usage line items on invoices.
-       */
-      presentation_group_key?: Array<string>;
-
-      /**
-       * For USAGE products only. If set, pricing for this product will be determined for
-       * each pricing_group_key value, as opposed to the product as a whole.
-       */
-      pricing_group_key?: Array<string>;
-
-      /**
-       * Optional. Only valid for USAGE products. If provided, the quantity will be
-       * converted using the provided conversion factor and operation. For example, if
-       * the operation is "multiply" and the conversion factor is 100, then the quantity
-       * will be multiplied by 100. This can be used in cases where data is sent in one
-       * unit and priced in another. For example, data could be sent in MB and priced in
-       * GB. In this case, the conversion factor would be 1024 and the operation would be
-       * "divide".
-       */
-      quantity_conversion?: Current.QuantityConversion | null;
-
-      /**
-       * Optional. Only valid for USAGE products. If provided, the quantity will be
-       * rounded using the provided rounding method and decimal places. For example, if
-       * the method is "round up" and the decimal places is 0, then the quantity will be
-       * rounded up to the nearest integer.
-       */
-      quantity_rounding?: Current.QuantityRounding | null;
-
-      starting_at?: string;
-
-      tags?: Array<string>;
-    }
-
-    export namespace Current {
-      /**
-       * Optional. Only valid for USAGE products. If provided, the quantity will be
-       * converted using the provided conversion factor and operation. For example, if
-       * the operation is "multiply" and the conversion factor is 100, then the quantity
-       * will be multiplied by 100. This can be used in cases where data is sent in one
-       * unit and priced in another. For example, data could be sent in MB and priced in
-       * GB. In this case, the conversion factor would be 1024 and the operation would be
-       * "divide".
-       */
-      export interface QuantityConversion {
-        /**
-         * The factor to multiply or divide the quantity by.
-         */
-        conversion_factor: number;
-
-        /**
-         * The operation to perform on the quantity
-         */
-        operation: 'MULTIPLY' | 'DIVIDE';
-
-        /**
-         * Optional name for this conversion.
-         */
-        name?: string;
-      }
-
-      /**
-       * Optional. Only valid for USAGE products. If provided, the quantity will be
-       * rounded using the provided rounding method and decimal places. For example, if
-       * the method is "round up" and the decimal places is 0, then the quantity will be
-       * rounded up to the nearest integer.
-       */
-      export interface QuantityRounding {
-        decimal_places: number;
-
-        rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
-      }
-    }
-
-    export interface Initial {
-      created_at: string;
-
-      created_by: string;
-
-      name: string;
-
-      billable_metric_id?: string;
-
-      composite_product_ids?: Array<string>;
-
-      composite_tags?: Array<string>;
-
-      exclude_free_usage?: boolean;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      is_refundable?: boolean;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_internal_item_id?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_overage_item_id?: string;
-
-      /**
-       * For USAGE products only. Groups usage line items on invoices.
-       */
-      presentation_group_key?: Array<string>;
-
-      /**
-       * For USAGE products only. If set, pricing for this product will be determined for
-       * each pricing_group_key value, as opposed to the product as a whole.
-       */
-      pricing_group_key?: Array<string>;
-
-      /**
-       * Optional. Only valid for USAGE products. If provided, the quantity will be
-       * converted using the provided conversion factor and operation. For example, if
-       * the operation is "multiply" and the conversion factor is 100, then the quantity
-       * will be multiplied by 100. This can be used in cases where data is sent in one
-       * unit and priced in another. For example, data could be sent in MB and priced in
-       * GB. In this case, the conversion factor would be 1024 and the operation would be
-       * "divide".
-       */
-      quantity_conversion?: Initial.QuantityConversion | null;
-
-      /**
-       * Optional. Only valid for USAGE products. If provided, the quantity will be
-       * rounded using the provided rounding method and decimal places. For example, if
-       * the method is "round up" and the decimal places is 0, then the quantity will be
-       * rounded up to the nearest integer.
-       */
-      quantity_rounding?: Initial.QuantityRounding | null;
-
-      starting_at?: string;
-
-      tags?: Array<string>;
-    }
-
-    export namespace Initial {
-      /**
-       * Optional. Only valid for USAGE products. If provided, the quantity will be
-       * converted using the provided conversion factor and operation. For example, if
-       * the operation is "multiply" and the conversion factor is 100, then the quantity
-       * will be multiplied by 100. This can be used in cases where data is sent in one
-       * unit and priced in another. For example, data could be sent in MB and priced in
-       * GB. In this case, the conversion factor would be 1024 and the operation would be
-       * "divide".
-       */
-      export interface QuantityConversion {
-        /**
-         * The factor to multiply or divide the quantity by.
-         */
-        conversion_factor: number;
-
-        /**
-         * The operation to perform on the quantity
-         */
-        operation: 'MULTIPLY' | 'DIVIDE';
-
-        /**
-         * Optional name for this conversion.
-         */
-        name?: string;
-      }
-
-      /**
-       * Optional. Only valid for USAGE products. If provided, the quantity will be
-       * rounded using the provided rounding method and decimal places. For example, if
-       * the method is "round up" and the decimal places is 0, then the quantity will be
-       * rounded up to the nearest integer.
-       */
-      export interface QuantityRounding {
-        decimal_places: number;
-
-        rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
-      }
-    }
-
     export interface Update {
       created_at: string;
 
@@ -352,7 +245,7 @@ export namespace ProductRetrieveResponse {
        * GB. In this case, the conversion factor would be 1024 and the operation would be
        * "divide".
        */
-      quantity_conversion?: Update.QuantityConversion | null;
+      quantity_conversion?: ProductsAPI.QuantityConversion | null;
 
       /**
        * Optional. Only valid for USAGE products. If provided, the quantity will be
@@ -360,51 +253,11 @@ export namespace ProductRetrieveResponse {
        * the method is "round up" and the decimal places is 0, then the quantity will be
        * rounded up to the nearest integer.
        */
-      quantity_rounding?: Update.QuantityRounding | null;
+      quantity_rounding?: ProductsAPI.QuantityRounding | null;
 
       starting_at?: string;
 
       tags?: Array<string>;
-    }
-
-    export namespace Update {
-      /**
-       * Optional. Only valid for USAGE products. If provided, the quantity will be
-       * converted using the provided conversion factor and operation. For example, if
-       * the operation is "multiply" and the conversion factor is 100, then the quantity
-       * will be multiplied by 100. This can be used in cases where data is sent in one
-       * unit and priced in another. For example, data could be sent in MB and priced in
-       * GB. In this case, the conversion factor would be 1024 and the operation would be
-       * "divide".
-       */
-      export interface QuantityConversion {
-        /**
-         * The factor to multiply or divide the quantity by.
-         */
-        conversion_factor: number;
-
-        /**
-         * The operation to perform on the quantity
-         */
-        operation: 'MULTIPLY' | 'DIVIDE';
-
-        /**
-         * Optional name for this conversion.
-         */
-        name?: string;
-      }
-
-      /**
-       * Optional. Only valid for USAGE products. If provided, the quantity will be
-       * rounded using the provided rounding method and decimal places. For example, if
-       * the method is "round up" and the decimal places is 0, then the quantity will be
-       * rounded up to the nearest integer.
-       */
-      export interface QuantityRounding {
-        decimal_places: number;
-
-        rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
-      }
     }
   }
 }
@@ -416,9 +269,9 @@ export interface ProductUpdateResponse {
 export interface ProductListResponse {
   id: string;
 
-  current: ProductListResponse.Current;
+  current: ProductListItemState;
 
-  initial: ProductListResponse.Initial;
+  initial: ProductListItemState;
 
   type: 'USAGE' | 'SUBSCRIPTION' | 'COMPOSITE' | 'FIXED' | 'PRO_SERVICE';
 
@@ -430,216 +283,6 @@ export interface ProductListResponse {
 }
 
 export namespace ProductListResponse {
-  export interface Current {
-    created_at: string;
-
-    created_by: string;
-
-    name: string;
-
-    billable_metric_id?: string;
-
-    composite_product_ids?: Array<string>;
-
-    composite_tags?: Array<string>;
-
-    exclude_free_usage?: boolean;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    is_refundable?: boolean;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    netsuite_internal_item_id?: string;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    netsuite_overage_item_id?: string;
-
-    /**
-     * For USAGE products only. Groups usage line items on invoices.
-     */
-    presentation_group_key?: Array<string>;
-
-    /**
-     * For USAGE products only. If set, pricing for this product will be determined for
-     * each pricing_group_key value, as opposed to the product as a whole.
-     */
-    pricing_group_key?: Array<string>;
-
-    /**
-     * Optional. Only valid for USAGE products. If provided, the quantity will be
-     * converted using the provided conversion factor and operation. For example, if
-     * the operation is "multiply" and the conversion factor is 100, then the quantity
-     * will be multiplied by 100. This can be used in cases where data is sent in one
-     * unit and priced in another. For example, data could be sent in MB and priced in
-     * GB. In this case, the conversion factor would be 1024 and the operation would be
-     * "divide".
-     */
-    quantity_conversion?: Current.QuantityConversion | null;
-
-    /**
-     * Optional. Only valid for USAGE products. If provided, the quantity will be
-     * rounded using the provided rounding method and decimal places. For example, if
-     * the method is "round up" and the decimal places is 0, then the quantity will be
-     * rounded up to the nearest integer.
-     */
-    quantity_rounding?: Current.QuantityRounding | null;
-
-    starting_at?: string;
-
-    tags?: Array<string>;
-  }
-
-  export namespace Current {
-    /**
-     * Optional. Only valid for USAGE products. If provided, the quantity will be
-     * converted using the provided conversion factor and operation. For example, if
-     * the operation is "multiply" and the conversion factor is 100, then the quantity
-     * will be multiplied by 100. This can be used in cases where data is sent in one
-     * unit and priced in another. For example, data could be sent in MB and priced in
-     * GB. In this case, the conversion factor would be 1024 and the operation would be
-     * "divide".
-     */
-    export interface QuantityConversion {
-      /**
-       * The factor to multiply or divide the quantity by.
-       */
-      conversion_factor: number;
-
-      /**
-       * The operation to perform on the quantity
-       */
-      operation: 'MULTIPLY' | 'DIVIDE';
-
-      /**
-       * Optional name for this conversion.
-       */
-      name?: string;
-    }
-
-    /**
-     * Optional. Only valid for USAGE products. If provided, the quantity will be
-     * rounded using the provided rounding method and decimal places. For example, if
-     * the method is "round up" and the decimal places is 0, then the quantity will be
-     * rounded up to the nearest integer.
-     */
-    export interface QuantityRounding {
-      decimal_places: number;
-
-      rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
-    }
-  }
-
-  export interface Initial {
-    created_at: string;
-
-    created_by: string;
-
-    name: string;
-
-    billable_metric_id?: string;
-
-    composite_product_ids?: Array<string>;
-
-    composite_tags?: Array<string>;
-
-    exclude_free_usage?: boolean;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    is_refundable?: boolean;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    netsuite_internal_item_id?: string;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    netsuite_overage_item_id?: string;
-
-    /**
-     * For USAGE products only. Groups usage line items on invoices.
-     */
-    presentation_group_key?: Array<string>;
-
-    /**
-     * For USAGE products only. If set, pricing for this product will be determined for
-     * each pricing_group_key value, as opposed to the product as a whole.
-     */
-    pricing_group_key?: Array<string>;
-
-    /**
-     * Optional. Only valid for USAGE products. If provided, the quantity will be
-     * converted using the provided conversion factor and operation. For example, if
-     * the operation is "multiply" and the conversion factor is 100, then the quantity
-     * will be multiplied by 100. This can be used in cases where data is sent in one
-     * unit and priced in another. For example, data could be sent in MB and priced in
-     * GB. In this case, the conversion factor would be 1024 and the operation would be
-     * "divide".
-     */
-    quantity_conversion?: Initial.QuantityConversion | null;
-
-    /**
-     * Optional. Only valid for USAGE products. If provided, the quantity will be
-     * rounded using the provided rounding method and decimal places. For example, if
-     * the method is "round up" and the decimal places is 0, then the quantity will be
-     * rounded up to the nearest integer.
-     */
-    quantity_rounding?: Initial.QuantityRounding | null;
-
-    starting_at?: string;
-
-    tags?: Array<string>;
-  }
-
-  export namespace Initial {
-    /**
-     * Optional. Only valid for USAGE products. If provided, the quantity will be
-     * converted using the provided conversion factor and operation. For example, if
-     * the operation is "multiply" and the conversion factor is 100, then the quantity
-     * will be multiplied by 100. This can be used in cases where data is sent in one
-     * unit and priced in another. For example, data could be sent in MB and priced in
-     * GB. In this case, the conversion factor would be 1024 and the operation would be
-     * "divide".
-     */
-    export interface QuantityConversion {
-      /**
-       * The factor to multiply or divide the quantity by.
-       */
-      conversion_factor: number;
-
-      /**
-       * The operation to perform on the quantity
-       */
-      operation: 'MULTIPLY' | 'DIVIDE';
-
-      /**
-       * Optional name for this conversion.
-       */
-      name?: string;
-    }
-
-    /**
-     * Optional. Only valid for USAGE products. If provided, the quantity will be
-     * rounded using the provided rounding method and decimal places. For example, if
-     * the method is "round up" and the decimal places is 0, then the quantity will be
-     * rounded up to the nearest integer.
-     */
-    export interface QuantityRounding {
-      decimal_places: number;
-
-      rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
-    }
-  }
-
   export interface Update {
     created_at: string;
 
@@ -687,7 +330,7 @@ export namespace ProductListResponse {
      * GB. In this case, the conversion factor would be 1024 and the operation would be
      * "divide".
      */
-    quantity_conversion?: Update.QuantityConversion | null;
+    quantity_conversion?: ProductsAPI.QuantityConversion | null;
 
     /**
      * Optional. Only valid for USAGE products. If provided, the quantity will be
@@ -695,51 +338,11 @@ export namespace ProductListResponse {
      * the method is "round up" and the decimal places is 0, then the quantity will be
      * rounded up to the nearest integer.
      */
-    quantity_rounding?: Update.QuantityRounding | null;
+    quantity_rounding?: ProductsAPI.QuantityRounding | null;
 
     starting_at?: string;
 
     tags?: Array<string>;
-  }
-
-  export namespace Update {
-    /**
-     * Optional. Only valid for USAGE products. If provided, the quantity will be
-     * converted using the provided conversion factor and operation. For example, if
-     * the operation is "multiply" and the conversion factor is 100, then the quantity
-     * will be multiplied by 100. This can be used in cases where data is sent in one
-     * unit and priced in another. For example, data could be sent in MB and priced in
-     * GB. In this case, the conversion factor would be 1024 and the operation would be
-     * "divide".
-     */
-    export interface QuantityConversion {
-      /**
-       * The factor to multiply or divide the quantity by.
-       */
-      conversion_factor: number;
-
-      /**
-       * The operation to perform on the quantity
-       */
-      operation: 'MULTIPLY' | 'DIVIDE';
-
-      /**
-       * Optional name for this conversion.
-       */
-      name?: string;
-    }
-
-    /**
-     * Optional. Only valid for USAGE products. If provided, the quantity will be
-     * rounded using the provided rounding method and decimal places. For example, if
-     * the method is "round up" and the decimal places is 0, then the quantity will be
-     * rounded up to the nearest integer.
-     */
-    export interface QuantityRounding {
-      decimal_places: number;
-
-      rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
-    }
   }
 }
 
@@ -812,7 +415,7 @@ export interface ProductCreateParams {
    * GB. In this case, the conversion factor would be 1024 and the operation would be
    * "divide".
    */
-  quantity_conversion?: ProductCreateParams.QuantityConversion | null;
+  quantity_conversion?: QuantityConversion | null;
 
   /**
    * Optional. Only valid for USAGE products. If provided, the quantity will be
@@ -820,49 +423,9 @@ export interface ProductCreateParams {
    * the method is "round up" and the decimal places is 0, then the quantity will be
    * rounded up to the nearest integer.
    */
-  quantity_rounding?: ProductCreateParams.QuantityRounding | null;
+  quantity_rounding?: QuantityRounding | null;
 
   tags?: Array<string>;
-}
-
-export namespace ProductCreateParams {
-  /**
-   * Optional. Only valid for USAGE products. If provided, the quantity will be
-   * converted using the provided conversion factor and operation. For example, if
-   * the operation is "multiply" and the conversion factor is 100, then the quantity
-   * will be multiplied by 100. This can be used in cases where data is sent in one
-   * unit and priced in another. For example, data could be sent in MB and priced in
-   * GB. In this case, the conversion factor would be 1024 and the operation would be
-   * "divide".
-   */
-  export interface QuantityConversion {
-    /**
-     * The factor to multiply or divide the quantity by.
-     */
-    conversion_factor: number;
-
-    /**
-     * The operation to perform on the quantity
-     */
-    operation: 'MULTIPLY' | 'DIVIDE';
-
-    /**
-     * Optional name for this conversion.
-     */
-    name?: string;
-  }
-
-  /**
-   * Optional. Only valid for USAGE products. If provided, the quantity will be
-   * rounded using the provided rounding method and decimal places. For example, if
-   * the method is "round up" and the decimal places is 0, then the quantity will be
-   * rounded up to the nearest integer.
-   */
-  export interface QuantityRounding {
-    decimal_places: number;
-
-    rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
-  }
 }
 
 export interface ProductRetrieveParams {
@@ -949,7 +512,7 @@ export interface ProductUpdateParams {
    * GB. In this case, the conversion factor would be 1024 and the operation would be
    * "divide".
    */
-  quantity_conversion?: ProductUpdateParams.QuantityConversion | null;
+  quantity_conversion?: QuantityConversion | null;
 
   /**
    * Optional. Only valid for USAGE products. If provided, the quantity will be
@@ -957,52 +520,12 @@ export interface ProductUpdateParams {
    * the method is "round up" and the decimal places is 0, then the quantity will be
    * rounded up to the nearest integer.
    */
-  quantity_rounding?: ProductUpdateParams.QuantityRounding | null;
+  quantity_rounding?: QuantityRounding | null;
 
   /**
    * If not provided, defaults to product's current tags
    */
   tags?: Array<string>;
-}
-
-export namespace ProductUpdateParams {
-  /**
-   * Optional. Only valid for USAGE products. If provided, the quantity will be
-   * converted using the provided conversion factor and operation. For example, if
-   * the operation is "multiply" and the conversion factor is 100, then the quantity
-   * will be multiplied by 100. This can be used in cases where data is sent in one
-   * unit and priced in another. For example, data could be sent in MB and priced in
-   * GB. In this case, the conversion factor would be 1024 and the operation would be
-   * "divide".
-   */
-  export interface QuantityConversion {
-    /**
-     * The factor to multiply or divide the quantity by.
-     */
-    conversion_factor: number;
-
-    /**
-     * The operation to perform on the quantity
-     */
-    operation: 'MULTIPLY' | 'DIVIDE';
-
-    /**
-     * Optional name for this conversion.
-     */
-    name?: string;
-  }
-
-  /**
-   * Optional. Only valid for USAGE products. If provided, the quantity will be
-   * rounded using the provided rounding method and decimal places. For example, if
-   * the method is "round up" and the decimal places is 0, then the quantity will be
-   * rounded up to the nearest integer.
-   */
-  export interface QuantityRounding {
-    decimal_places: number;
-
-    rounding_method: 'ROUND_UP' | 'ROUND_DOWN' | 'ROUND_HALF_UP';
-  }
 }
 
 export interface ProductListParams extends CursorPageParams {
@@ -1020,6 +543,9 @@ export interface ProductArchiveParams {
 }
 
 export namespace Products {
+  export import ProductListItemState = ProductsAPI.ProductListItemState;
+  export import QuantityConversion = ProductsAPI.QuantityConversion;
+  export import QuantityRounding = ProductsAPI.QuantityRounding;
   export import ProductCreateResponse = ProductsAPI.ProductCreateResponse;
   export import ProductRetrieveResponse = ProductsAPI.ProductRetrieveResponse;
   export import ProductUpdateResponse = ProductsAPI.ProductUpdateResponse;

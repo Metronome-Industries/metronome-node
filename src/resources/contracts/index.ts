@@ -30,6 +30,9 @@ export {
   NamedSchedules,
 } from './named-schedules';
 export {
+  ProductListItemState,
+  QuantityConversion,
+  QuantityRounding,
   ProductCreateResponse,
   ProductRetrieveResponse,
   ProductUpdateResponse,

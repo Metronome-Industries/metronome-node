@@ -2,6 +2,14 @@
 
 import * as Shared from './shared';
 
+export interface BaseUsageFilter {
+  group_key: string;
+
+  group_values: Array<string>;
+
+  starting_at?: string;
+}
+
 export interface Commit {
   id: string;
 
@@ -13,7 +21,7 @@ export interface Commit {
    * The schedule that the customer will gain access to the credits purposed with
    * this commit.
    */
-  access_schedule?: Commit.AccessSchedule;
+  access_schedule?: ScheduleDuration;
 
   /**
    * (DEPRECATED) Use access_schedule + invoice_schedule instead.
@@ -90,28 +98,6 @@ export namespace Commit {
     id: string;
 
     name: string;
-  }
-
-  /**
-   * The schedule that the customer will gain access to the credits purposed with
-   * this commit.
-   */
-  export interface AccessSchedule {
-    schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-    credit_type?: Shared.CreditType;
-  }
-
-  export namespace AccessSchedule {
-    export interface ScheduleItem {
-      id: string;
-
-      amount: number;
-
-      ending_before: string;
-
-      starting_at: string;
-    }
   }
 
   export interface Contract {
@@ -287,7 +273,7 @@ export interface ContractWithoutAmendments {
 
   usage_statement_schedule: ContractWithoutAmendments.UsageStatementSchedule;
 
-  credits?: Array<ContractWithoutAmendments.Credit>;
+  credits?: Array<Credit>;
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -308,7 +294,7 @@ export interface ContractWithoutAmendments {
   /**
    * This field's availability is dependent on your client's configuration.
    */
-  professional_services?: Array<ContractWithoutAmendments.ProfessionalService>;
+  professional_services?: Array<ProService>;
 
   rate_card_id?: string;
 
@@ -343,193 +329,6 @@ export namespace ContractWithoutAmendments {
     frequency: 'MONTHLY' | 'QUARTERLY';
   }
 
-  export interface Credit {
-    id: string;
-
-    product: Credit.Product;
-
-    type: 'CREDIT';
-
-    /**
-     * The schedule that the customer will gain access to the credits.
-     */
-    access_schedule?: Credit.AccessSchedule;
-
-    applicable_contract_ids?: Array<string>;
-
-    applicable_product_ids?: Array<string>;
-
-    applicable_product_tags?: Array<string>;
-
-    contract?: Credit.Contract;
-
-    custom_fields?: Record<string, string>;
-
-    description?: string;
-
-    /**
-     * A list of ordered events that impact the balance of a credit. For example, an
-     * invoice deduction or an expiration.
-     */
-    ledger?: Array<
-      | Credit.CreditSegmentStartLedgerEntry
-      | Credit.CreditAutomatedInvoiceDeductionLedgerEntry
-      | Credit.CreditExpirationLedgerEntry
-      | Credit.CreditCanceledLedgerEntry
-      | Credit.CreditCreditedLedgerEntry
-      | Credit.CreditManualLedgerEntry
-    >;
-
-    name?: string;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    netsuite_sales_order_id?: string;
-
-    /**
-     * If multiple credits or commits are applicable, the one with the lower priority
-     * will apply first.
-     */
-    priority?: number;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    salesforce_opportunity_id?: string;
-  }
-
-  export namespace Credit {
-    export interface Product {
-      id: string;
-
-      name: string;
-    }
-
-    /**
-     * The schedule that the customer will gain access to the credits.
-     */
-    export interface AccessSchedule {
-      schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-      credit_type?: Shared.CreditType;
-    }
-
-    export namespace AccessSchedule {
-      export interface ScheduleItem {
-        id: string;
-
-        amount: number;
-
-        ending_before: string;
-
-        starting_at: string;
-      }
-    }
-
-    export interface Contract {
-      id: string;
-    }
-
-    export interface CreditSegmentStartLedgerEntry {
-      amount: number;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_SEGMENT_START';
-    }
-
-    export interface CreditAutomatedInvoiceDeductionLedgerEntry {
-      amount: number;
-
-      invoice_id: string;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_AUTOMATED_INVOICE_DEDUCTION';
-    }
-
-    export interface CreditExpirationLedgerEntry {
-      amount: number;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_EXPIRATION';
-    }
-
-    export interface CreditCanceledLedgerEntry {
-      amount: number;
-
-      invoice_id: string;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_CANCELED';
-    }
-
-    export interface CreditCreditedLedgerEntry {
-      amount: number;
-
-      invoice_id: string;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_CREDITED';
-    }
-
-    export interface CreditManualLedgerEntry {
-      amount: number;
-
-      reason: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_MANUAL';
-    }
-  }
-
-  export interface ProfessionalService {
-    id: string;
-
-    /**
-     * Maximum amount for the term.
-     */
-    max_amount: number;
-
-    product_id: string;
-
-    /**
-     * Quantity for the charge. Will be multiplied by unit_price to determine the
-     * amount.
-     */
-    quantity: number;
-
-    /**
-     * Unit price for the charge. Will be multiplied by quantity to determine the
-     * amount and must be specified.
-     */
-    unit_price: number;
-
-    custom_fields?: Record<string, string>;
-
-    description?: string;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    netsuite_sales_order_id?: string;
-  }
-
   export interface ResellerRoyalty {
     fraction: number;
 
@@ -559,30 +358,14 @@ export namespace ContractWithoutAmendments {
   }
 
   export interface UsageFilter {
-    current: UsageFilter.Current | null;
+    current: Shared.BaseUsageFilter | null;
 
-    initial: UsageFilter.Initial;
+    initial: Shared.BaseUsageFilter;
 
     updates: Array<UsageFilter.Update>;
   }
 
   export namespace UsageFilter {
-    export interface Current {
-      group_key: string;
-
-      group_values: Array<string>;
-
-      starting_at?: string;
-    }
-
-    export interface Initial {
-      group_key: string;
-
-      group_values: Array<string>;
-
-      starting_at?: string;
-    }
-
     export interface Update {
       group_key: string;
 
@@ -590,6 +373,140 @@ export namespace ContractWithoutAmendments {
 
       starting_at: string;
     }
+  }
+}
+
+export interface Credit {
+  id: string;
+
+  product: Credit.Product;
+
+  type: 'CREDIT';
+
+  /**
+   * The schedule that the customer will gain access to the credits.
+   */
+  access_schedule?: ScheduleDuration;
+
+  applicable_contract_ids?: Array<string>;
+
+  applicable_product_ids?: Array<string>;
+
+  applicable_product_tags?: Array<string>;
+
+  contract?: Credit.Contract;
+
+  custom_fields?: Record<string, string>;
+
+  description?: string;
+
+  /**
+   * A list of ordered events that impact the balance of a credit. For example, an
+   * invoice deduction or an expiration.
+   */
+  ledger?: Array<
+    | Credit.CreditSegmentStartLedgerEntry
+    | Credit.CreditAutomatedInvoiceDeductionLedgerEntry
+    | Credit.CreditExpirationLedgerEntry
+    | Credit.CreditCanceledLedgerEntry
+    | Credit.CreditCreditedLedgerEntry
+    | Credit.CreditManualLedgerEntry
+  >;
+
+  name?: string;
+
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
+  netsuite_sales_order_id?: string;
+
+  /**
+   * If multiple credits or commits are applicable, the one with the lower priority
+   * will apply first.
+   */
+  priority?: number;
+
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
+  salesforce_opportunity_id?: string;
+}
+
+export namespace Credit {
+  export interface Product {
+    id: string;
+
+    name: string;
+  }
+
+  export interface Contract {
+    id: string;
+  }
+
+  export interface CreditSegmentStartLedgerEntry {
+    amount: number;
+
+    segment_id: string;
+
+    timestamp: string;
+
+    type: 'CREDIT_SEGMENT_START';
+  }
+
+  export interface CreditAutomatedInvoiceDeductionLedgerEntry {
+    amount: number;
+
+    invoice_id: string;
+
+    segment_id: string;
+
+    timestamp: string;
+
+    type: 'CREDIT_AUTOMATED_INVOICE_DEDUCTION';
+  }
+
+  export interface CreditExpirationLedgerEntry {
+    amount: number;
+
+    segment_id: string;
+
+    timestamp: string;
+
+    type: 'CREDIT_EXPIRATION';
+  }
+
+  export interface CreditCanceledLedgerEntry {
+    amount: number;
+
+    invoice_id: string;
+
+    segment_id: string;
+
+    timestamp: string;
+
+    type: 'CREDIT_CANCELED';
+  }
+
+  export interface CreditCreditedLedgerEntry {
+    amount: number;
+
+    invoice_id: string;
+
+    segment_id: string;
+
+    timestamp: string;
+
+    type: 'CREDIT_CREDITED';
+  }
+
+  export interface CreditManualLedgerEntry {
+    amount: number;
+
+    reason: string;
+
+    timestamp: string;
+
+    type: 'CREDIT_MANUAL';
   }
 }
 
@@ -620,6 +537,25 @@ export namespace Discount {
 
     name: string;
   }
+}
+
+/**
+ * An optional filtering rule to match the 'event_type' property of an event.
+ */
+export interface EventTypeFilter {
+  /**
+   * A list of event types that are explicitly included in the billable metric. If
+   * specified, only events of these types will match the billable metric. Must be
+   * non-empty if present.
+   */
+  in_values?: Array<string>;
+
+  /**
+   * A list of event types that are explicitly excluded from the billable metric. If
+   * specified, events of these types will not match the billable metric. Must be
+   * non-empty if present.
+   */
+  not_in_values?: Array<string>;
 }
 
 export interface ID {
@@ -672,7 +608,7 @@ export interface Override {
   /**
    * Only set for TIERED rate_type.
    */
-  tiers?: Array<Override.Tier>;
+  tiers?: Array<Tier>;
 
   type?: 'OVERWRITE' | 'MULTIPLIER' | 'TIERED';
 
@@ -730,15 +666,7 @@ export namespace Override {
     /**
      * Only set for TIERED rate_type.
      */
-    tiers?: Array<OverwriteRate.Tier>;
-  }
-
-  export namespace OverwriteRate {
-    export interface Tier {
-      price: number;
-
-      size?: number;
-    }
+    tiers?: Array<Shared.Tier>;
   }
 
   export interface Product {
@@ -746,12 +674,69 @@ export namespace Override {
 
     name: string;
   }
+}
 
-  export interface Tier {
-    price: number;
+export interface PropertyFilter {
+  /**
+   * The name of the event property.
+   */
+  name: string;
 
-    size?: number;
-  }
+  /**
+   * Determines whether the property must exist in the event. If true, only events
+   * with this property will pass the filter. If false, only events without this
+   * property will pass the filter. If null or omitted, the existence of the property
+   * is optional.
+   */
+  exists?: boolean;
+
+  /**
+   * Specifies the allowed values for the property to match an event. An event will
+   * pass the filter only if its property value is included in this list. If
+   * undefined, all property values will pass the filter. Must be non-empty if
+   * present.
+   */
+  in_values?: Array<string>;
+
+  /**
+   * Specifies the values that prevent an event from matching the filter. An event
+   * will not pass the filter if its property value is included in this list. If null
+   * or empty, all property values will pass the filter. Must be non-empty if
+   * present.
+   */
+  not_in_values?: Array<string>;
+}
+
+export interface ProService {
+  id: string;
+
+  /**
+   * Maximum amount for the term.
+   */
+  max_amount: number;
+
+  product_id: string;
+
+  /**
+   * Quantity for the charge. Will be multiplied by unit_price to determine the
+   * amount.
+   */
+  quantity: number;
+
+  /**
+   * Unit price for the charge. Will be multiplied by quantity to determine the
+   * amount and must be specified.
+   */
+  unit_price: number;
+
+  custom_fields?: Record<string, string>;
+
+  description?: string;
+
+  /**
+   * This field's availability is dependent on your client's configuration.
+   */
+  netsuite_sales_order_id?: string;
 }
 
 export interface Rate {
@@ -790,7 +775,7 @@ export interface Rate {
   /**
    * Only set for TIERED rate_type.
    */
-  tiers?: Array<Rate.Tier>;
+  tiers?: Array<Tier>;
 
   /**
    * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
@@ -798,36 +783,6 @@ export interface Rate {
    * contract.
    */
   use_list_prices?: boolean;
-}
-
-export namespace Rate {
-  export interface Tier {
-    price: number;
-
-    size?: number;
-  }
-}
-
-export interface SchedulePointInTime {
-  credit_type?: CreditType;
-
-  schedule_items?: Array<SchedulePointInTime.ScheduleItem>;
-}
-
-export namespace SchedulePointInTime {
-  export interface ScheduleItem {
-    id: string;
-
-    amount: number;
-
-    invoice_id: string;
-
-    quantity: number;
-
-    timestamp: string;
-
-    unit_price: number;
-  }
 }
 
 export interface ScheduledCharge {
@@ -856,4 +811,50 @@ export namespace ScheduledCharge {
 
     name: string;
   }
+}
+
+export interface ScheduleDuration {
+  schedule_items: Array<ScheduleDuration.ScheduleItem>;
+
+  credit_type?: CreditType;
+}
+
+export namespace ScheduleDuration {
+  export interface ScheduleItem {
+    id: string;
+
+    amount: number;
+
+    ending_before: string;
+
+    starting_at: string;
+  }
+}
+
+export interface SchedulePointInTime {
+  credit_type?: CreditType;
+
+  schedule_items?: Array<SchedulePointInTime.ScheduleItem>;
+}
+
+export namespace SchedulePointInTime {
+  export interface ScheduleItem {
+    id: string;
+
+    amount: number;
+
+    invoice_id: string;
+
+    quantity: number;
+
+    timestamp: string;
+
+    unit_price: number;
+  }
+}
+
+export interface Tier {
+  price: number;
+
+  size?: number;
 }

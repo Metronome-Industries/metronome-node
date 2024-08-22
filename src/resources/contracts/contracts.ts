@@ -178,7 +178,7 @@ export namespace ContractRetrieveResponse {
 
       starting_at: string;
 
-      credits?: Array<Amendment.Credit>;
+      credits?: Array<Shared.Credit>;
 
       /**
        * This field's availability is dependent on your client's configuration.
@@ -193,7 +193,7 @@ export namespace ContractRetrieveResponse {
       /**
        * This field's availability is dependent on your client's configuration.
        */
-      professional_services?: Array<Amendment.ProfessionalService>;
+      professional_services?: Array<Shared.ProService>;
 
       /**
        * This field's availability is dependent on your client's configuration.
@@ -207,193 +207,6 @@ export namespace ContractRetrieveResponse {
     }
 
     export namespace Amendment {
-      export interface Credit {
-        id: string;
-
-        product: Credit.Product;
-
-        type: 'CREDIT';
-
-        /**
-         * The schedule that the customer will gain access to the credits.
-         */
-        access_schedule?: Credit.AccessSchedule;
-
-        applicable_contract_ids?: Array<string>;
-
-        applicable_product_ids?: Array<string>;
-
-        applicable_product_tags?: Array<string>;
-
-        contract?: Credit.Contract;
-
-        custom_fields?: Record<string, string>;
-
-        description?: string;
-
-        /**
-         * A list of ordered events that impact the balance of a credit. For example, an
-         * invoice deduction or an expiration.
-         */
-        ledger?: Array<
-          | Credit.CreditSegmentStartLedgerEntry
-          | Credit.CreditAutomatedInvoiceDeductionLedgerEntry
-          | Credit.CreditExpirationLedgerEntry
-          | Credit.CreditCanceledLedgerEntry
-          | Credit.CreditCreditedLedgerEntry
-          | Credit.CreditManualLedgerEntry
-        >;
-
-        name?: string;
-
-        /**
-         * This field's availability is dependent on your client's configuration.
-         */
-        netsuite_sales_order_id?: string;
-
-        /**
-         * If multiple credits or commits are applicable, the one with the lower priority
-         * will apply first.
-         */
-        priority?: number;
-
-        /**
-         * This field's availability is dependent on your client's configuration.
-         */
-        salesforce_opportunity_id?: string;
-      }
-
-      export namespace Credit {
-        export interface Product {
-          id: string;
-
-          name: string;
-        }
-
-        /**
-         * The schedule that the customer will gain access to the credits.
-         */
-        export interface AccessSchedule {
-          schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-          credit_type?: Shared.CreditType;
-        }
-
-        export namespace AccessSchedule {
-          export interface ScheduleItem {
-            id: string;
-
-            amount: number;
-
-            ending_before: string;
-
-            starting_at: string;
-          }
-        }
-
-        export interface Contract {
-          id: string;
-        }
-
-        export interface CreditSegmentStartLedgerEntry {
-          amount: number;
-
-          segment_id: string;
-
-          timestamp: string;
-
-          type: 'CREDIT_SEGMENT_START';
-        }
-
-        export interface CreditAutomatedInvoiceDeductionLedgerEntry {
-          amount: number;
-
-          invoice_id: string;
-
-          segment_id: string;
-
-          timestamp: string;
-
-          type: 'CREDIT_AUTOMATED_INVOICE_DEDUCTION';
-        }
-
-        export interface CreditExpirationLedgerEntry {
-          amount: number;
-
-          segment_id: string;
-
-          timestamp: string;
-
-          type: 'CREDIT_EXPIRATION';
-        }
-
-        export interface CreditCanceledLedgerEntry {
-          amount: number;
-
-          invoice_id: string;
-
-          segment_id: string;
-
-          timestamp: string;
-
-          type: 'CREDIT_CANCELED';
-        }
-
-        export interface CreditCreditedLedgerEntry {
-          amount: number;
-
-          invoice_id: string;
-
-          segment_id: string;
-
-          timestamp: string;
-
-          type: 'CREDIT_CREDITED';
-        }
-
-        export interface CreditManualLedgerEntry {
-          amount: number;
-
-          reason: string;
-
-          timestamp: string;
-
-          type: 'CREDIT_MANUAL';
-        }
-      }
-
-      export interface ProfessionalService {
-        id: string;
-
-        /**
-         * Maximum amount for the term.
-         */
-        max_amount: number;
-
-        product_id: string;
-
-        /**
-         * Quantity for the charge. Will be multiplied by unit_price to determine the
-         * amount.
-         */
-        quantity: number;
-
-        /**
-         * Unit price for the charge. Will be multiplied by quantity to determine the
-         * amount and must be specified.
-         */
-        unit_price: number;
-
-        custom_fields?: Record<string, string>;
-
-        description?: string;
-
-        /**
-         * This field's availability is dependent on your client's configuration.
-         */
-        netsuite_sales_order_id?: string;
-      }
-
       export interface ResellerRoyalty {
         reseller_type: 'AWS' | 'AWS_PRO_SERVICE' | 'GCP' | 'GCP_PRO_SERVICE';
 
@@ -485,7 +298,7 @@ export namespace ContractListResponse {
 
       starting_at: string;
 
-      credits?: Array<Amendment.Credit>;
+      credits?: Array<Shared.Credit>;
 
       /**
        * This field's availability is dependent on your client's configuration.
@@ -500,7 +313,7 @@ export namespace ContractListResponse {
       /**
        * This field's availability is dependent on your client's configuration.
        */
-      professional_services?: Array<Amendment.ProfessionalService>;
+      professional_services?: Array<Shared.ProService>;
 
       /**
        * This field's availability is dependent on your client's configuration.
@@ -514,193 +327,6 @@ export namespace ContractListResponse {
     }
 
     export namespace Amendment {
-      export interface Credit {
-        id: string;
-
-        product: Credit.Product;
-
-        type: 'CREDIT';
-
-        /**
-         * The schedule that the customer will gain access to the credits.
-         */
-        access_schedule?: Credit.AccessSchedule;
-
-        applicable_contract_ids?: Array<string>;
-
-        applicable_product_ids?: Array<string>;
-
-        applicable_product_tags?: Array<string>;
-
-        contract?: Credit.Contract;
-
-        custom_fields?: Record<string, string>;
-
-        description?: string;
-
-        /**
-         * A list of ordered events that impact the balance of a credit. For example, an
-         * invoice deduction or an expiration.
-         */
-        ledger?: Array<
-          | Credit.CreditSegmentStartLedgerEntry
-          | Credit.CreditAutomatedInvoiceDeductionLedgerEntry
-          | Credit.CreditExpirationLedgerEntry
-          | Credit.CreditCanceledLedgerEntry
-          | Credit.CreditCreditedLedgerEntry
-          | Credit.CreditManualLedgerEntry
-        >;
-
-        name?: string;
-
-        /**
-         * This field's availability is dependent on your client's configuration.
-         */
-        netsuite_sales_order_id?: string;
-
-        /**
-         * If multiple credits or commits are applicable, the one with the lower priority
-         * will apply first.
-         */
-        priority?: number;
-
-        /**
-         * This field's availability is dependent on your client's configuration.
-         */
-        salesforce_opportunity_id?: string;
-      }
-
-      export namespace Credit {
-        export interface Product {
-          id: string;
-
-          name: string;
-        }
-
-        /**
-         * The schedule that the customer will gain access to the credits.
-         */
-        export interface AccessSchedule {
-          schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-          credit_type?: Shared.CreditType;
-        }
-
-        export namespace AccessSchedule {
-          export interface ScheduleItem {
-            id: string;
-
-            amount: number;
-
-            ending_before: string;
-
-            starting_at: string;
-          }
-        }
-
-        export interface Contract {
-          id: string;
-        }
-
-        export interface CreditSegmentStartLedgerEntry {
-          amount: number;
-
-          segment_id: string;
-
-          timestamp: string;
-
-          type: 'CREDIT_SEGMENT_START';
-        }
-
-        export interface CreditAutomatedInvoiceDeductionLedgerEntry {
-          amount: number;
-
-          invoice_id: string;
-
-          segment_id: string;
-
-          timestamp: string;
-
-          type: 'CREDIT_AUTOMATED_INVOICE_DEDUCTION';
-        }
-
-        export interface CreditExpirationLedgerEntry {
-          amount: number;
-
-          segment_id: string;
-
-          timestamp: string;
-
-          type: 'CREDIT_EXPIRATION';
-        }
-
-        export interface CreditCanceledLedgerEntry {
-          amount: number;
-
-          invoice_id: string;
-
-          segment_id: string;
-
-          timestamp: string;
-
-          type: 'CREDIT_CANCELED';
-        }
-
-        export interface CreditCreditedLedgerEntry {
-          amount: number;
-
-          invoice_id: string;
-
-          segment_id: string;
-
-          timestamp: string;
-
-          type: 'CREDIT_CREDITED';
-        }
-
-        export interface CreditManualLedgerEntry {
-          amount: number;
-
-          reason: string;
-
-          timestamp: string;
-
-          type: 'CREDIT_MANUAL';
-        }
-      }
-
-      export interface ProfessionalService {
-        id: string;
-
-        /**
-         * Maximum amount for the term.
-         */
-        max_amount: number;
-
-        product_id: string;
-
-        /**
-         * Quantity for the charge. Will be multiplied by unit_price to determine the
-         * amount.
-         */
-        quantity: number;
-
-        /**
-         * Unit price for the charge. Will be multiplied by quantity to determine the
-         * amount and must be specified.
-         */
-        unit_price: number;
-
-        custom_fields?: Record<string, string>;
-
-        description?: string;
-
-        /**
-         * This field's availability is dependent on your client's configuration.
-         */
-        netsuite_sales_order_id?: string;
-      }
-
       export interface ResellerRoyalty {
         reseller_type: 'AWS' | 'AWS_PRO_SERVICE' | 'GCP' | 'GCP_PRO_SERVICE';
 
@@ -754,166 +380,9 @@ export interface ContractArchiveResponse {
 }
 
 export interface ContractListBalancesResponse {
-  data: Array<Shared.Commit | ContractListBalancesResponse.Credit>;
+  data: Array<Shared.Commit | Shared.Credit>;
 
   next_page: string | null;
-}
-
-export namespace ContractListBalancesResponse {
-  export interface Credit {
-    id: string;
-
-    product: Credit.Product;
-
-    type: 'CREDIT';
-
-    /**
-     * The schedule that the customer will gain access to the credits.
-     */
-    access_schedule?: Credit.AccessSchedule;
-
-    applicable_contract_ids?: Array<string>;
-
-    applicable_product_ids?: Array<string>;
-
-    applicable_product_tags?: Array<string>;
-
-    contract?: Credit.Contract;
-
-    custom_fields?: Record<string, string>;
-
-    description?: string;
-
-    /**
-     * A list of ordered events that impact the balance of a credit. For example, an
-     * invoice deduction or an expiration.
-     */
-    ledger?: Array<
-      | Credit.CreditSegmentStartLedgerEntry
-      | Credit.CreditAutomatedInvoiceDeductionLedgerEntry
-      | Credit.CreditExpirationLedgerEntry
-      | Credit.CreditCanceledLedgerEntry
-      | Credit.CreditCreditedLedgerEntry
-      | Credit.CreditManualLedgerEntry
-    >;
-
-    name?: string;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    netsuite_sales_order_id?: string;
-
-    /**
-     * If multiple credits or commits are applicable, the one with the lower priority
-     * will apply first.
-     */
-    priority?: number;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    salesforce_opportunity_id?: string;
-  }
-
-  export namespace Credit {
-    export interface Product {
-      id: string;
-
-      name: string;
-    }
-
-    /**
-     * The schedule that the customer will gain access to the credits.
-     */
-    export interface AccessSchedule {
-      schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-      credit_type?: Shared.CreditType;
-    }
-
-    export namespace AccessSchedule {
-      export interface ScheduleItem {
-        id: string;
-
-        amount: number;
-
-        ending_before: string;
-
-        starting_at: string;
-      }
-    }
-
-    export interface Contract {
-      id: string;
-    }
-
-    export interface CreditSegmentStartLedgerEntry {
-      amount: number;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_SEGMENT_START';
-    }
-
-    export interface CreditAutomatedInvoiceDeductionLedgerEntry {
-      amount: number;
-
-      invoice_id: string;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_AUTOMATED_INVOICE_DEDUCTION';
-    }
-
-    export interface CreditExpirationLedgerEntry {
-      amount: number;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_EXPIRATION';
-    }
-
-    export interface CreditCanceledLedgerEntry {
-      amount: number;
-
-      invoice_id: string;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_CANCELED';
-    }
-
-    export interface CreditCreditedLedgerEntry {
-      amount: number;
-
-      invoice_id: string;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_CREDITED';
-    }
-
-    export interface CreditManualLedgerEntry {
-      amount: number;
-
-      reason: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_MANUAL';
-    }
-  }
 }
 
 export interface ContractRetrieveRateScheduleResponse {
@@ -1043,7 +512,7 @@ export interface ContractCreateParams {
    */
   uniqueness_key?: string;
 
-  usage_filter?: ContractCreateParams.UsageFilter;
+  usage_filter?: Shared.BaseUsageFilter;
 
   usage_statement_schedule?: ContractCreateParams.UsageStatementSchedule;
 }
@@ -1559,15 +1028,7 @@ export namespace ContractCreateParams {
       /**
        * Only set for TIERED rate_type.
        */
-      tiers?: Array<OverwriteRate.Tier>;
-    }
-
-    export namespace OverwriteRate {
-      export interface Tier {
-        price: number;
-
-        size?: number;
-      }
+      tiers?: Array<Shared.Tier>;
     }
 
     export interface Tier {
@@ -1785,14 +1246,6 @@ export namespace ContractCreateParams {
        */
       trueup?: 'REMOVE' | 'AS_IS' | null;
     }
-  }
-
-  export interface UsageFilter {
-    group_key: string;
-
-    group_values: Array<string>;
-
-    starting_at?: string;
   }
 
   export interface UsageStatementSchedule {
@@ -2446,15 +1899,7 @@ export namespace ContractAmendParams {
       /**
        * Only set for TIERED rate_type.
        */
-      tiers?: Array<OverwriteRate.Tier>;
-    }
-
-    export namespace OverwriteRate {
-      export interface Tier {
-        price: number;
-
-        size?: number;
-      }
+      tiers?: Array<Shared.Tier>;
     }
 
     export interface Tier {
@@ -2903,6 +2348,9 @@ export namespace Contracts {
   export import ContractSetUsageFilterParams = ContractsAPI.ContractSetUsageFilterParams;
   export import ContractUpdateEndDateParams = ContractsAPI.ContractUpdateEndDateParams;
   export import Products = ProductsAPI.Products;
+  export import ProductListItemState = ProductsAPI.ProductListItemState;
+  export import QuantityConversion = ProductsAPI.QuantityConversion;
+  export import QuantityRounding = ProductsAPI.QuantityRounding;
   export import ProductCreateResponse = ProductsAPI.ProductCreateResponse;
   export import ProductRetrieveResponse = ProductsAPI.ProductRetrieveResponse;
   export import ProductUpdateResponse = ProductsAPI.ProductUpdateResponse;
