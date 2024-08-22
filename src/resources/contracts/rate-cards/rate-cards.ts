@@ -134,15 +134,7 @@ export namespace RateCardRetrieveResponse {
 
         starting_at?: string;
 
-        tiers?: Array<Current.Tier>;
-      }
-
-      export namespace Current {
-        export interface Tier {
-          price: number;
-
-          size?: number;
-        }
+        tiers?: Array<Shared.Tier>;
       }
 
       export interface Update {
@@ -172,15 +164,7 @@ export namespace RateCardRetrieveResponse {
 
         quantity?: number;
 
-        tiers?: Array<Update.Tier>;
-      }
-
-      export namespace Update {
-        export interface Tier {
-          price: number;
-
-          size?: number;
-        }
+        tiers?: Array<Shared.Tier>;
       }
     }
 
@@ -257,15 +241,7 @@ export namespace RateCardListResponse {
 
       starting_at?: string;
 
-      tiers?: Array<Current.Tier>;
-    }
-
-    export namespace Current {
-      export interface Tier {
-        price: number;
-
-        size?: number;
-      }
+      tiers?: Array<Shared.Tier>;
     }
 
     export interface Update {
@@ -295,15 +271,7 @@ export namespace RateCardListResponse {
 
       quantity?: number;
 
-      tiers?: Array<Update.Tier>;
-    }
-
-    export namespace Update {
-      export interface Tier {
-        price: number;
-
-        size?: number;
-      }
+      tiers?: Array<Shared.Tier>;
     }
   }
 

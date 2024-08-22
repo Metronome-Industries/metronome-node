@@ -2,15 +2,22 @@
 
 Types:
 
+- <code><a href="./src/resources/shared.ts">BaseUsageFilter</a></code>
 - <code><a href="./src/resources/shared.ts">Commit</a></code>
 - <code><a href="./src/resources/shared.ts">ContractWithoutAmendments</a></code>
+- <code><a href="./src/resources/shared.ts">Credit</a></code>
 - <code><a href="./src/resources/shared.ts">CreditType</a></code>
 - <code><a href="./src/resources/shared.ts">Discount</a></code>
+- <code><a href="./src/resources/shared.ts">EventTypeFilter</a></code>
 - <code><a href="./src/resources/shared.ts">ID</a></code>
 - <code><a href="./src/resources/shared.ts">Override</a></code>
+- <code><a href="./src/resources/shared.ts">PropertyFilter</a></code>
+- <code><a href="./src/resources/shared.ts">ProService</a></code>
 - <code><a href="./src/resources/shared.ts">Rate</a></code>
-- <code><a href="./src/resources/shared.ts">SchedulePointInTime</a></code>
 - <code><a href="./src/resources/shared.ts">ScheduledCharge</a></code>
+- <code><a href="./src/resources/shared.ts">ScheduleDuration</a></code>
+- <code><a href="./src/resources/shared.ts">SchedulePointInTime</a></code>
+- <code><a href="./src/resources/shared.ts">Tier</a></code>
 
 # Alerts
 
@@ -306,6 +313,9 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/contracts/products.ts">ProductListItemState</a></code>
+- <code><a href="./src/resources/contracts/products.ts">QuantityConversion</a></code>
+- <code><a href="./src/resources/contracts/products.ts">QuantityRounding</a></code>
 - <code><a href="./src/resources/contracts/products.ts">ProductCreateResponse</a></code>
 - <code><a href="./src/resources/contracts/products.ts">ProductRetrieveResponse</a></code>
 - <code><a href="./src/resources/contracts/products.ts">ProductUpdateResponse</a></code>

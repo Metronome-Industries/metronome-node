@@ -336,15 +336,22 @@ export namespace Metronome {
   export import ContractSetUsageFilterParams = API.ContractSetUsageFilterParams;
   export import ContractUpdateEndDateParams = API.ContractUpdateEndDateParams;
 
+  export import BaseUsageFilter = API.BaseUsageFilter;
   export import Commit = API.Commit;
   export import ContractWithoutAmendments = API.ContractWithoutAmendments;
+  export import Credit = API.Credit;
   export import CreditType = API.CreditType;
   export import Discount = API.Discount;
+  export import EventTypeFilter = API.EventTypeFilter;
   export import ID = API.ID;
   export import Override = API.Override;
+  export import PropertyFilter = API.PropertyFilter;
+  export import ProService = API.ProService;
   export import Rate = API.Rate;
-  export import SchedulePointInTime = API.SchedulePointInTime;
   export import ScheduledCharge = API.ScheduledCharge;
+  export import ScheduleDuration = API.ScheduleDuration;
+  export import SchedulePointInTime = API.SchedulePointInTime;
+  export import Tier = API.Tier;
 }
 
 export default Metronome;
