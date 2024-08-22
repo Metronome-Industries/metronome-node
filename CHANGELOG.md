@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.1.0-beta.0 (2024-08-22)
+
+Full Changelog: [v0.1.0-alpha.4...v0.1.0-beta.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-alpha.4...v0.1.0-beta.0)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#55](https://github.com/Metronome-Industries/metronome-node/issues/55)) ([15bd178](https://github.com/Metronome-Industries/metronome-node/commit/15bd17847a400df178d25e6c922a7a6b690d6616))
+* **api:** OpenAPI spec update via Stainless API ([#57](https://github.com/Metronome-Industries/metronome-node/issues/57)) ([0e9d365](https://github.com/Metronome-Industries/metronome-node/commit/0e9d3658783efbb87cb3bc41e7662a1506b1044f))
+* **api:** OpenAPI spec update via Stainless API ([#58](https://github.com/Metronome-Industries/metronome-node/issues/58)) ([bdb2c46](https://github.com/Metronome-Industries/metronome-node/commit/bdb2c46ce76a3846e6de70ac09d8c61c2fd3a437))
+* **api:** OpenAPI spec update via Stainless API ([#59](https://github.com/Metronome-Industries/metronome-node/issues/59)) ([270fe8a](https://github.com/Metronome-Industries/metronome-node/commit/270fe8a9402e448bd698d819737a8b83ed75d132))
+* **api:** OpenAPI spec update via Stainless API ([#61](https://github.com/Metronome-Industries/metronome-node/issues/61)) ([4ce07d0](https://github.com/Metronome-Industries/metronome-node/commit/4ce07d03bf3ffdfebed6d71020da48be221c8fb0))
+* **api:** OpenAPI spec update via Stainless API ([#64](https://github.com/Metronome-Industries/metronome-node/issues/64)) ([8fcd675](https://github.com/Metronome-Industries/metronome-node/commit/8fcd675ba3812b743b2212b87d116e990e6bcecc))
+* **api:** OpenAPI spec update via Stainless API ([#66](https://github.com/Metronome-Industries/metronome-node/issues/66)) ([30fd815](https://github.com/Metronome-Industries/metronome-node/commit/30fd8154807d09a98222065b2e799604f943dc0a))
+* **api:** OpenAPI spec update via Stainless API ([#67](https://github.com/Metronome-Industries/metronome-node/issues/67)) ([d9fbbb6](https://github.com/Metronome-Industries/metronome-node/commit/d9fbbb60f0d031965393a3ead353e31ee2db281b))
+* **api:** OpenAPI spec update via Stainless API ([#68](https://github.com/Metronome-Industries/metronome-node/issues/68)) ([888fa5a](https://github.com/Metronome-Industries/metronome-node/commit/888fa5a10d7b3c7f71bc62b6b1985eb62d4b60d3))
+* **api:** OpenAPI spec update via Stainless API ([#69](https://github.com/Metronome-Industries/metronome-node/issues/69)) ([51f3a7d](https://github.com/Metronome-Industries/metronome-node/commit/51f3a7db6cb57a770a9b9aab7f05a19587a94681))
+* **api:** OpenAPI spec update via Stainless API ([#70](https://github.com/Metronome-Industries/metronome-node/issues/70)) ([6b4fd60](https://github.com/Metronome-Industries/metronome-node/commit/6b4fd609d5169648f53f3518f83b93c550c78604))
+* **api:** OpenAPI spec update via Stainless API ([#72](https://github.com/Metronome-Industries/metronome-node/issues/72)) ([3c5a396](https://github.com/Metronome-Industries/metronome-node/commit/3c5a39610786728f27aeb00a4f97b705047b61d3))
+* **api:** OpenAPI spec update via Stainless API ([#73](https://github.com/Metronome-Industries/metronome-node/issues/73)) ([b275770](https://github.com/Metronome-Industries/metronome-node/commit/b2757709a197d7544498f383fdea264b856823ac))
+
+
+### Chores
+
+* **ci:** bump prism mock server version ([#63](https://github.com/Metronome-Industries/metronome-node/issues/63)) ([9058bc6](https://github.com/Metronome-Industries/metronome-node/commit/9058bc65e94042fe4f4627c2ea3c705882314603))
+* **ci:** minor changes ([#62](https://github.com/Metronome-Industries/metronome-node/issues/62)) ([a2a72d3](https://github.com/Metronome-Industries/metronome-node/commit/a2a72d3c31f5399882552e81a2f81e424c952582))
+* **examples:** minor formatting changes ([#65](https://github.com/Metronome-Industries/metronome-node/issues/65)) ([d080d1b](https://github.com/Metronome-Industries/metronome-node/commit/d080d1b1d909c01c57a1f8648dde3c8fe960acf0))
+* force eslint to use non flat config ([#60](https://github.com/Metronome-Industries/metronome-node/issues/60)) ([52c52f5](https://github.com/Metronome-Industries/metronome-node/commit/52c52f587333151c0a3f59cb2939e4853864619b))
+* update SDK settings ([#71](https://github.com/Metronome-Industries/metronome-node/issues/71)) ([a736a0d](https://github.com/Metronome-Industries/metronome-node/commit/a736a0da2d5c18bba34a1d082b3c3a01719b4cba))
+
 ## 0.1.0-alpha.4 (2024-08-01)
 
 Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
