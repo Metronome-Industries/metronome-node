@@ -100,7 +100,13 @@ export {
   Customers,
 } from './customers/customers';
 export { DashboardGetEmbeddableURLResponse, DashboardGetEmbeddableURLParams, Dashboards } from './dashboards';
-export { InvoiceRegenerateResponse, InvoiceRegenerateParams, Invoices } from './invoices';
+export {
+  InvoiceRegenerateResponse,
+  InvoiceVoidResponse,
+  InvoiceRegenerateParams,
+  InvoiceVoidParams,
+  Invoices,
+} from './invoices';
 export {
   PlanDetail,
   PlanListResponse,

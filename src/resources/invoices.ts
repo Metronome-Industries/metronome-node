@@ -14,6 +14,13 @@ export class Invoices extends APIResource {
   ): Core.APIPromise<InvoiceRegenerateResponse> {
     return this._client.post('/invoices/regenerate', { body, ...options });
   }
+
+  /**
+   * Void an invoice
+   */
+  void(body: InvoiceVoidParams, options?: Core.RequestOptions): Core.APIPromise<InvoiceVoidResponse> {
+    return this._client.post('/invoices/void', { body, ...options });
+  }
 }
 
 export interface InvoiceRegenerateResponse {
@@ -29,6 +36,16 @@ export namespace InvoiceRegenerateResponse {
   }
 }
 
+export interface InvoiceVoidResponse {
+  data?: InvoiceVoidResponse.Data;
+}
+
+export namespace InvoiceVoidResponse {
+  export interface Data {
+    id: string;
+  }
+}
+
 export interface InvoiceRegenerateParams {
   /**
    * The invoice id to regenerate
@@ -36,7 +53,16 @@ export interface InvoiceRegenerateParams {
   id: string;
 }
 
+export interface InvoiceVoidParams {
+  /**
+   * The invoice id to void
+   */
+  id: string;
+}
+
 export namespace Invoices {
   export import InvoiceRegenerateResponse = InvoicesAPI.InvoiceRegenerateResponse;
+  export import InvoiceVoidResponse = InvoicesAPI.InvoiceVoidResponse;
   export import InvoiceRegenerateParams = InvoicesAPI.InvoiceRegenerateParams;
+  export import InvoiceVoidParams = InvoicesAPI.InvoiceVoidParams;
 }
