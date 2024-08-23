@@ -276,10 +276,12 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/invoices.ts">InvoiceRegenerateResponse</a></code>
+- <code><a href="./src/resources/invoices.ts">InvoiceVoidResponse</a></code>
 
 Methods:
 
 - <code title="post /invoices/regenerate">client.invoices.<a href="./src/resources/invoices.ts">regenerate</a>({ ...params }) -> InvoiceRegenerateResponse</code>
+- <code title="post /invoices/void">client.invoices.<a href="./src/resources/invoices.ts">void</a>({ ...params }) -> InvoiceVoidResponse</code>
 
 # Contracts
 
