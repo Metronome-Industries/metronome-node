@@ -309,7 +309,9 @@ export namespace Metronome {
 
   export import Invoices = API.Invoices;
   export import InvoiceRegenerateResponse = API.InvoiceRegenerateResponse;
+  export import InvoiceVoidResponse = API.InvoiceVoidResponse;
   export import InvoiceRegenerateParams = API.InvoiceRegenerateParams;
+  export import InvoiceVoidParams = API.InvoiceVoidParams;
 
   export import Contracts = API.Contracts;
   export import ContractCreateResponse = API.ContractCreateResponse;
