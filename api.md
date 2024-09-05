@@ -251,7 +251,7 @@ Methods:
 
 - <code title="post /billable-metrics/create">client.billableMetrics.<a href="./src/resources/billable-metrics.ts">create</a>({ ...params }) -> BillableMetricCreateResponse</code>
 - <code title="get /billable-metrics/{billable_metric_id}">client.billableMetrics.<a href="./src/resources/billable-metrics.ts">retrieve</a>(billableMetricId) -> BillableMetricRetrieveResponse</code>
-- <code title="get /customers/{customer_id}/billable-metrics">client.billableMetrics.<a href="./src/resources/billable-metrics.ts">list</a>(customerId, { ...params }) -> BillableMetricListResponsesCursorPage</code>
+- <code title="get /billable-metrics">client.billableMetrics.<a href="./src/resources/billable-metrics.ts">list</a>({ ...params }) -> BillableMetricListResponsesCursorPage</code>
 - <code title="post /billable-metrics/archive">client.billableMetrics.<a href="./src/resources/billable-metrics.ts">archive</a>({ ...params }) -> BillableMetricArchiveResponse</code>
 
 # Services
@@ -285,6 +285,7 @@ Types:
 - <code><a href="./src/resources/contracts/contracts.ts">ContractListResponse</a></code>
 - <code><a href="./src/resources/contracts/contracts.ts">ContractAmendResponse</a></code>
 - <code><a href="./src/resources/contracts/contracts.ts">ContractArchiveResponse</a></code>
+- <code><a href="./src/resources/contracts/contracts.ts">ContractCreateHistoricalInvoicesResponse</a></code>
 - <code><a href="./src/resources/contracts/contracts.ts">ContractListBalancesResponse</a></code>
 - <code><a href="./src/resources/contracts/contracts.ts">ContractRetrieveRateScheduleResponse</a></code>
 - <code><a href="./src/resources/contracts/contracts.ts">ContractScheduleProServicesInvoiceResponse</a></code>
@@ -298,6 +299,7 @@ Methods:
 - <code title="post /contracts/addManualBalanceLedgerEntry">client.contracts.<a href="./src/resources/contracts/contracts.ts">addManualBalanceEntry</a>({ ...params }) -> void</code>
 - <code title="post /contracts/amend">client.contracts.<a href="./src/resources/contracts/contracts.ts">amend</a>({ ...params }) -> ContractAmendResponse</code>
 - <code title="post /contracts/archive">client.contracts.<a href="./src/resources/contracts/contracts.ts">archive</a>({ ...params }) -> ContractArchiveResponse</code>
+- <code title="post /contracts/createHistoricalInvoices">client.contracts.<a href="./src/resources/contracts/contracts.ts">createHistoricalInvoices</a>({ ...params }) -> ContractCreateHistoricalInvoicesResponse</code>
 - <code title="post /contracts/customerBalances/list">client.contracts.<a href="./src/resources/contracts/contracts.ts">listBalances</a>({ ...params }) -> ContractListBalancesResponse</code>
 - <code title="post /contracts/getContractRateSchedule">client.contracts.<a href="./src/resources/contracts/contracts.ts">retrieveRateSchedule</a>({ ...params }) -> ContractRetrieveRateScheduleResponse</code>
 - <code title="post /contracts/scheduleProServicesInvoice">client.contracts.<a href="./src/resources/contracts/contracts.ts">scheduleProServicesInvoice</a>({ ...params }) -> ContractScheduleProServicesInvoiceResponse</code>
