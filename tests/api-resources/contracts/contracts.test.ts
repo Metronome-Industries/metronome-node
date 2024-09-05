@@ -1643,7 +1643,7 @@ describe('resource contracts', () => {
             },
           ],
           billable_status: 'billable',
-          breakdown_granularity: 'hour',
+          breakdown_granularity: 'HOUR',
           custom_fields: { foo: 'string' },
         },
         {
@@ -1731,7 +1731,7 @@ describe('resource contracts', () => {
             },
           ],
           billable_status: 'billable',
-          breakdown_granularity: 'hour',
+          breakdown_granularity: 'HOUR',
           custom_fields: { foo: 'string' },
         },
         {
@@ -1819,7 +1819,7 @@ describe('resource contracts', () => {
             },
           ],
           billable_status: 'billable',
-          breakdown_granularity: 'hour',
+          breakdown_granularity: 'HOUR',
           custom_fields: { foo: 'string' },
         },
       ],
