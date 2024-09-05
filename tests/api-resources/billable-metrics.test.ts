@@ -72,7 +72,7 @@ describe('resource billableMetrics', () => {
   });
 
   test('list', async () => {
-    const responsePromise = client.billableMetrics.list('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc');
+    const responsePromise = client.billableMetrics.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -84,21 +84,15 @@ describe('resource billableMetrics', () => {
 
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.billableMetrics.list('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
-        path: '/_stainless_unknown_path',
-      }),
-    ).rejects.toThrow(Metronome.NotFoundError);
+    await expect(client.billableMetrics.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Metronome.NotFoundError,
+    );
   });
 
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.billableMetrics.list(
-        'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        { limit: 1, next_page: 'next_page', on_current_plan: true },
-        { path: '/_stainless_unknown_path' },
-      ),
+      client.billableMetrics.list({ limit: 1, next_page: 'next_page' }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Metronome.NotFoundError);
   });
 

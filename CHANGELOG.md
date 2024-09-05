@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.1.0-beta.2 (2024-09-05)
+
+Full Changelog: [v0.1.0-beta.1...v0.1.0-beta.2](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.1...v0.1.0-beta.2)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#80](https://github.com/Metronome-Industries/metronome-node/issues/80)) ([64ca167](https://github.com/Metronome-Industries/metronome-node/commit/64ca167d1a58a2019335e66f6ce865eddd89a5e0))
+* **api:** OpenAPI spec update via Stainless API ([#83](https://github.com/Metronome-Industries/metronome-node/issues/83)) ([b9b40f8](https://github.com/Metronome-Industries/metronome-node/commit/b9b40f8238a9df6b0a40e46484cf7dd2a37fdf29))
+* **api:** OpenAPI spec update via Stainless API ([#89](https://github.com/Metronome-Industries/metronome-node/issues/89)) ([2189fbb](https://github.com/Metronome-Industries/metronome-node/commit/2189fbbacc85fba4dd92fff6a233fcbde4e2416a))
+
+
+### Bug Fixes
+
+* **client:** correct File construction from node-fetch Responses ([#86](https://github.com/Metronome-Industries/metronome-node/issues/86)) ([bd542df](https://github.com/Metronome-Industries/metronome-node/commit/bd542df2dd247dfaec1b7dfb69917bbb7e1eac54))
+
+
+### Chores
+
+* **ci:** check for build errors ([#82](https://github.com/Metronome-Industries/metronome-node/issues/82)) ([40011a9](https://github.com/Metronome-Industries/metronome-node/commit/40011a999f06ff27d38e2e854f68ae223249e51f))
+* **ci:** install deps via ./script/bootstrap ([#85](https://github.com/Metronome-Industries/metronome-node/issues/85)) ([14ee02d](https://github.com/Metronome-Industries/metronome-node/commit/14ee02d3651d5038a640676be79dad9f22825140))
+* **internal:** codegen related update ([#84](https://github.com/Metronome-Industries/metronome-node/issues/84)) ([f0753f2](https://github.com/Metronome-Industries/metronome-node/commit/f0753f272509d79b0b6d3be01393dd61c41ecbc2))
+* **internal:** dependency updates ([#87](https://github.com/Metronome-Industries/metronome-node/issues/87)) ([1f4dd86](https://github.com/Metronome-Industries/metronome-node/commit/1f4dd860ab54c4a20eeb15018e6008c667a42dfc))
+* **internal:** minor bump qs version ([#88](https://github.com/Metronome-Industries/metronome-node/issues/88)) ([603491f](https://github.com/Metronome-Industries/metronome-node/commit/603491fecaed5a8004e6ab19ea7d7fbf0f471c0b))
+
 ## 0.1.0-beta.1 (2024-08-23)
 
 Full Changelog: [v0.1.0-beta.0...v0.1.0-beta.1](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.0...v0.1.0-beta.1)

@@ -29,30 +29,26 @@ export class BillableMetrics extends APIResource {
   }
 
   /**
-   * Get all billable metrics for a given customer.
+   * List all billable metrics.
    */
   list(
-    customerId: string,
     query?: BillableMetricListParams,
     options?: Core.RequestOptions,
   ): Core.PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse>;
   list(
-    customerId: string,
     options?: Core.RequestOptions,
   ): Core.PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse>;
   list(
-    customerId: string,
     query: BillableMetricListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
   ): Core.PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse> {
     if (isRequestOptions(query)) {
-      return this.list(customerId, {}, query);
+      return this.list({}, query);
     }
-    return this._client.getAPIList(
-      `/customers/${customerId}/billable-metrics`,
-      BillableMetricListResponsesCursorPage,
-      { query, ...options },
-    );
+    return this._client.getAPIList('/billable-metrics', BillableMetricListResponsesCursorPage, {
+      query,
+      ...options,
+    });
   }
 
   /**
@@ -128,19 +124,15 @@ export namespace BillableMetricRetrieveResponse {
 }
 
 export interface BillableMetricListResponse {
+  /**
+   * ID of the billable metric
+   */
   id: string;
 
+  /**
+   * The display name of the billable metric.
+   */
   name: string;
-
-  /**
-   * (DEPRECATED) use aggregation_type instead
-   */
-  aggregate?: string;
-
-  /**
-   * (DEPRECATED) use aggregation_key instead
-   */
-  aggregate_keys?: Array<string>;
 
   /**
    * A key that specifies which property of the event is used to aggregate data. This
@@ -160,16 +152,6 @@ export interface BillableMetricListResponse {
    * An optional filtering rule to match the 'event_type' property of an event.
    */
   event_type_filter?: Shared.EventTypeFilter;
-
-  /**
-   * (DEPRECATED) use property_filters & event_type_filter instead
-   */
-  filter?: Record<string, unknown>;
-
-  /**
-   * (DEPRECATED) use group_keys instead
-   */
-  group_by?: Array<string>;
 
   /**
    * Property names that are used to group usage costs on an invoice. Each entry
@@ -236,13 +218,7 @@ export interface BillableMetricCreateParams {
   property_filters?: Array<Shared.PropertyFilter>;
 }
 
-export interface BillableMetricListParams extends CursorPageParams {
-  /**
-   * If true, the list of metrics will be filtered to just ones that are on the
-   * customer's current plan
-   */
-  on_current_plan?: boolean;
-}
+export interface BillableMetricListParams extends CursorPageParams {}
 
 export interface BillableMetricArchiveParams {
   id: string;

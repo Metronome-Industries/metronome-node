@@ -1465,6 +1465,368 @@ describe('resource contracts', () => {
     });
   });
 
+  test('createHistoricalInvoices: only required params', async () => {
+    const responsePromise = client.contracts.createHistoricalInvoices({
+      invoices: [
+        {
+          contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          customer_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          exclusive_end_date: '2019-12-27T18:11:19.117Z',
+          inclusive_start_date: '2019-12-27T18:11:19.117Z',
+          issue_date: '2019-12-27T18:11:19.117Z',
+          usage_line_items: [
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            },
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            },
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            },
+          ],
+        },
+        {
+          contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          customer_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          exclusive_end_date: '2019-12-27T18:11:19.117Z',
+          inclusive_start_date: '2019-12-27T18:11:19.117Z',
+          issue_date: '2019-12-27T18:11:19.117Z',
+          usage_line_items: [
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            },
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            },
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            },
+          ],
+        },
+        {
+          contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          customer_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          exclusive_end_date: '2019-12-27T18:11:19.117Z',
+          inclusive_start_date: '2019-12-27T18:11:19.117Z',
+          issue_date: '2019-12-27T18:11:19.117Z',
+          usage_line_items: [
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            },
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            },
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            },
+          ],
+        },
+      ],
+      preview: true,
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('createHistoricalInvoices: required and optional params', async () => {
+    const response = await client.contracts.createHistoricalInvoices({
+      invoices: [
+        {
+          contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          customer_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          exclusive_end_date: '2019-12-27T18:11:19.117Z',
+          inclusive_start_date: '2019-12-27T18:11:19.117Z',
+          issue_date: '2019-12-27T18:11:19.117Z',
+          usage_line_items: [
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              quantity: 0,
+              subtotals_with_quantity: [
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+              ],
+            },
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              quantity: 0,
+              subtotals_with_quantity: [
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+              ],
+            },
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              quantity: 0,
+              subtotals_with_quantity: [
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+              ],
+            },
+          ],
+          billable_status: 'billable',
+          breakdown_granularity: 'HOUR',
+          custom_fields: { foo: 'string' },
+        },
+        {
+          contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          customer_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          exclusive_end_date: '2019-12-27T18:11:19.117Z',
+          inclusive_start_date: '2019-12-27T18:11:19.117Z',
+          issue_date: '2019-12-27T18:11:19.117Z',
+          usage_line_items: [
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              quantity: 0,
+              subtotals_with_quantity: [
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+              ],
+            },
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              quantity: 0,
+              subtotals_with_quantity: [
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+              ],
+            },
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              quantity: 0,
+              subtotals_with_quantity: [
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+              ],
+            },
+          ],
+          billable_status: 'billable',
+          breakdown_granularity: 'HOUR',
+          custom_fields: { foo: 'string' },
+        },
+        {
+          contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          customer_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          exclusive_end_date: '2019-12-27T18:11:19.117Z',
+          inclusive_start_date: '2019-12-27T18:11:19.117Z',
+          issue_date: '2019-12-27T18:11:19.117Z',
+          usage_line_items: [
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              quantity: 0,
+              subtotals_with_quantity: [
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+              ],
+            },
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              quantity: 0,
+              subtotals_with_quantity: [
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+              ],
+            },
+            {
+              exclusive_end_date: '2019-12-27T18:11:19.117Z',
+              inclusive_start_date: '2019-12-27T18:11:19.117Z',
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              quantity: 0,
+              subtotals_with_quantity: [
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+                {
+                  exclusive_end_date: '2019-12-27T18:11:19.117Z',
+                  inclusive_start_date: '2019-12-27T18:11:19.117Z',
+                  quantity: 0,
+                },
+              ],
+            },
+          ],
+          billable_status: 'billable',
+          breakdown_granularity: 'HOUR',
+          custom_fields: { foo: 'string' },
+        },
+      ],
+      preview: true,
+    });
+  });
+
   test('listBalances: only required params', async () => {
     const responsePromise = client.contracts.listBalances({
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',

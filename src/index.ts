@@ -322,6 +322,7 @@ export namespace Metronome {
   export import ContractListResponse = API.ContractListResponse;
   export import ContractAmendResponse = API.ContractAmendResponse;
   export import ContractArchiveResponse = API.ContractArchiveResponse;
+  export import ContractCreateHistoricalInvoicesResponse = API.ContractCreateHistoricalInvoicesResponse;
   export import ContractListBalancesResponse = API.ContractListBalancesResponse;
   export import ContractRetrieveRateScheduleResponse = API.ContractRetrieveRateScheduleResponse;
   export import ContractScheduleProServicesInvoiceResponse = API.ContractScheduleProServicesInvoiceResponse;
@@ -332,6 +333,7 @@ export namespace Metronome {
   export import ContractAddManualBalanceEntryParams = API.ContractAddManualBalanceEntryParams;
   export import ContractAmendParams = API.ContractAmendParams;
   export import ContractArchiveParams = API.ContractArchiveParams;
+  export import ContractCreateHistoricalInvoicesParams = API.ContractCreateHistoricalInvoicesParams;
   export import ContractListBalancesParams = API.ContractListBalancesParams;
   export import ContractRetrieveRateScheduleParams = API.ContractRetrieveRateScheduleParams;
   export import ContractScheduleProServicesInvoiceParams = API.ContractScheduleProServicesInvoiceParams;
