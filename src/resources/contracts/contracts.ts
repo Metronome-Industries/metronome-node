@@ -2161,7 +2161,7 @@ export namespace ContractCreateHistoricalInvoicesParams {
      */
     billable_status?: 'billable' | 'unbillable';
 
-    breakdown_granularity?: 'hour' | 'day' | 'HOUR' | 'DAY' | 'Hour' | 'Day';
+    breakdown_granularity?: 'HOUR' | 'DAY';
 
     custom_fields?: Record<string, string>;
   }
