@@ -36,6 +36,10 @@ export interface DashboardGetEmbeddableURLParams {
    */
   dashboard: 'invoices' | 'usage' | 'credits';
 
+  bm_group_key_display_name_overrides?: DashboardGetEmbeddableURLParams.BmGroupKeyDisplayNameOverrides;
+
+  bm_group_key_values_display_name_overrides?: DashboardGetEmbeddableURLParams.BmGroupKeyValuesDisplayNameOverrides;
+
   /**
    * Optional list of colors to override
    */
@@ -48,6 +52,50 @@ export interface DashboardGetEmbeddableURLParams {
 }
 
 export namespace DashboardGetEmbeddableURLParams {
+  export interface BmGroupKeyDisplayNameOverrides {
+    /**
+     * The new display name for the group key. e.g. "Tenant ID"
+     */
+    display_name?: string;
+
+    /**
+     * The current name of the group key. e.g. "tenant_id"
+     */
+    group_key_name?: string;
+  }
+
+  export interface BmGroupKeyValuesDisplayNameOverrides {
+    /**
+     * The actual value of the group key. e.g. "123-xyz-abc". If group key is not used,
+     * it is the BM's name.
+     */
+    group_key_name?: string;
+
+    /**
+     * An object containing the group key value and the new display name for the group
+     * key value.
+     */
+    value_display_name?: BmGroupKeyValuesDisplayNameOverrides.ValueDisplayName;
+  }
+
+  export namespace BmGroupKeyValuesDisplayNameOverrides {
+    /**
+     * An object containing the group key value and the new display name for the group
+     * key value.
+     */
+    export interface ValueDisplayName {
+      /**
+       * The new display name for the group key value. e.g. "EU-Cluster-A"
+       */
+      display_name?: string;
+
+      /**
+       * The actual value of the group key. e.g. "123-xyz-abc"
+       */
+      group_key_value?: string;
+    }
+  }
+
   export interface ColorOverride {
     /**
      * The color to override

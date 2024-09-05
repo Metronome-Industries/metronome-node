@@ -70,6 +70,16 @@ export class Contracts extends APIResource {
   }
 
   /**
+   * Creates historical usage invoices for a contract
+   */
+  createHistoricalInvoices(
+    body: ContractCreateHistoricalInvoicesParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<ContractCreateHistoricalInvoicesResponse> {
+    return this._client.post('/contracts/createHistoricalInvoices', { body, ...options });
+  }
+
+  /**
    * List balances (commits and credits).
    */
   listBalances(
@@ -377,6 +387,10 @@ export interface ContractAmendResponse {
 
 export interface ContractArchiveResponse {
   data: Shared.ID;
+}
+
+export interface ContractCreateHistoricalInvoicesResponse {
+  data: Array<InvoicesAPI.Invoice>;
 }
 
 export interface ContractListBalancesResponse {
@@ -2120,6 +2134,67 @@ export interface ContractArchiveParams {
   void_invoices: boolean;
 }
 
+export interface ContractCreateHistoricalInvoicesParams {
+  invoices: Array<ContractCreateHistoricalInvoicesParams.Invoice>;
+
+  preview: boolean;
+}
+
+export namespace ContractCreateHistoricalInvoicesParams {
+  export interface Invoice {
+    contract_id: string;
+
+    credit_type_id: string;
+
+    customer_id: string;
+
+    exclusive_end_date: string;
+
+    inclusive_start_date: string;
+
+    issue_date: string;
+
+    usage_line_items: Array<Invoice.UsageLineItem>;
+
+    /**
+     * This field's availability is dependent on your client's configuration.
+     */
+    billable_status?: 'billable' | 'unbillable';
+
+    breakdown_granularity?: 'hour' | 'day' | 'HOUR' | 'DAY' | 'Hour' | 'Day';
+
+    custom_fields?: Record<string, string>;
+  }
+
+  export namespace Invoice {
+    export interface UsageLineItem {
+      exclusive_end_date: string;
+
+      inclusive_start_date: string;
+
+      product_id: string;
+
+      presentation_group_values?: Record<string, string>;
+
+      pricing_group_values?: Record<string, string>;
+
+      quantity?: number;
+
+      subtotals_with_quantity?: Array<UsageLineItem.SubtotalsWithQuantity>;
+    }
+
+    export namespace UsageLineItem {
+      export interface SubtotalsWithQuantity {
+        exclusive_end_date: string;
+
+        inclusive_start_date: string;
+
+        quantity: number;
+      }
+    }
+  }
+}
+
 export interface ContractListBalancesParams {
   customer_id: string;
 
@@ -2332,6 +2407,7 @@ export namespace Contracts {
   export import ContractListResponse = ContractsAPI.ContractListResponse;
   export import ContractAmendResponse = ContractsAPI.ContractAmendResponse;
   export import ContractArchiveResponse = ContractsAPI.ContractArchiveResponse;
+  export import ContractCreateHistoricalInvoicesResponse = ContractsAPI.ContractCreateHistoricalInvoicesResponse;
   export import ContractListBalancesResponse = ContractsAPI.ContractListBalancesResponse;
   export import ContractRetrieveRateScheduleResponse = ContractsAPI.ContractRetrieveRateScheduleResponse;
   export import ContractScheduleProServicesInvoiceResponse = ContractsAPI.ContractScheduleProServicesInvoiceResponse;
@@ -2342,6 +2418,7 @@ export namespace Contracts {
   export import ContractAddManualBalanceEntryParams = ContractsAPI.ContractAddManualBalanceEntryParams;
   export import ContractAmendParams = ContractsAPI.ContractAmendParams;
   export import ContractArchiveParams = ContractsAPI.ContractArchiveParams;
+  export import ContractCreateHistoricalInvoicesParams = ContractsAPI.ContractCreateHistoricalInvoicesParams;
   export import ContractListBalancesParams = ContractsAPI.ContractListBalancesParams;
   export import ContractRetrieveRateScheduleParams = ContractsAPI.ContractRetrieveRateScheduleParams;
   export import ContractScheduleProServicesInvoiceParams = ContractsAPI.ContractScheduleProServicesInvoiceParams;

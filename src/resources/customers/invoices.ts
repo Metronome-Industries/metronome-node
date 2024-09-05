@@ -208,6 +208,13 @@ export namespace Invoice {
      */
     is_prorated?: boolean;
 
+    /**
+     * only present for contract invoices and when the include_list_prices query
+     * parameter is set to true. This will include the list rate for the charge if
+     * applicable. Only present for usage and subscription line items.
+     */
+    list_price?: Shared.Rate;
+
     metadata?: string;
 
     /**
