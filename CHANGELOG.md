@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.1.0-beta.3 (2024-09-13)
+
+Full Changelog: [v0.1.0-beta.2...v0.1.0-beta.3](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.2...v0.1.0-beta.3)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#93](https://github.com/Metronome-Industries/metronome-node/issues/93)) ([96e2738](https://github.com/Metronome-Industries/metronome-node/commit/96e2738640fa6e5dd9f6a00c57bec3da48e42c5e))
+
+
+### Bug Fixes
+
+* **errors:** pass message through to APIConnectionError ([#94](https://github.com/Metronome-Industries/metronome-node/issues/94)) ([383df6d](https://github.com/Metronome-Industries/metronome-node/commit/383df6d7b41b6e68722716daf4bfac5bc90dbb9a))
+* **uploads:** avoid making redundant memory copies ([#91](https://github.com/Metronome-Industries/metronome-node/issues/91)) ([38c2861](https://github.com/Metronome-Industries/metronome-node/commit/38c2861bd37ddac6447357d36699938dbadd459b))
+
+
+### Chores
+
+* better object fallback behaviour for casting errors ([#95](https://github.com/Metronome-Industries/metronome-node/issues/95)) ([aa9e7ad](https://github.com/Metronome-Industries/metronome-node/commit/aa9e7ad3f48f6d6d2ad08c3093518e0cd326ab22))
+* **internal:** codegen related update ([#96](https://github.com/Metronome-Industries/metronome-node/issues/96)) ([0df33e3](https://github.com/Metronome-Industries/metronome-node/commit/0df33e3ce5a0630f6be7c72ced8242af3f575973))
+* **internal:** codegen related update ([#97](https://github.com/Metronome-Industries/metronome-node/issues/97)) ([03fb88a](https://github.com/Metronome-Industries/metronome-node/commit/03fb88a5885ae99703f3731e113b91bf6cdc3cbc))
+
+
+### Documentation
+
+* update CONTRIBUTING.md ([#98](https://github.com/Metronome-Industries/metronome-node/issues/98)) ([0af4791](https://github.com/Metronome-Industries/metronome-node/commit/0af479124895e36b02456ef31b8aee0ab9f1c1f8))
+
 ## 0.1.0-beta.2 (2024-09-05)
 
 Full Changelog: [v0.1.0-beta.1...v0.1.0-beta.2](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.1...v0.1.0-beta.2)
