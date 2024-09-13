@@ -27,11 +27,13 @@ describe('resource dashboards', () => {
     const response = await client.dashboards.getEmbeddableURL({
       customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
       dashboard: 'invoices',
-      bm_group_key_display_name_overrides: { display_name: 'display_name', group_key_name: 'group_key_name' },
-      bm_group_key_values_display_name_overrides: {
-        group_key_name: 'group_key_name',
-        value_display_name: { display_name: 'display_name', group_key_value: 'group_key_value' },
-      },
+      bm_group_key_overrides: [
+        {
+          group_key_name: 'tenant_id',
+          display_name: 'Org ID',
+          value_display_names: { '48ecb18f358f': 'bar', e358f3ce242d: 'bar' },
+        },
+      ],
       color_overrides: [{ name: 'Gray_dark', value: '#ff0000' }],
       dashboard_options: [
         { key: 'key', value: 'value' },
