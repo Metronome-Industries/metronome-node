@@ -29,7 +29,7 @@ const client = new Metronome({
 });
 
 async function main() {
-  const response = await client.usage.ingest({
+  await client.usage.ingest({
     usage: [
       {
         customer_id: 'team@example.com',
