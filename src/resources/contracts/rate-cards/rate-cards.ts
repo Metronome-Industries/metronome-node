@@ -22,7 +22,8 @@ export class RateCards extends APIResource {
   }
 
   /**
-   * Get a specific rate card
+   * Get a specific rate card NOTE: Use `/contract-pricing/rate-cards/getRates` to
+   * retrieve rate card rates.
    */
   retrieve(
     body: RateCardRetrieveParams,
@@ -39,7 +40,8 @@ export class RateCards extends APIResource {
   }
 
   /**
-   * List rate cards
+   * List rate cards NOTE: Use `/contract-pricing/rate-cards/getRates` to retrieve
+   * rate card rates.
    */
   list(
     params: RateCardListParams,
