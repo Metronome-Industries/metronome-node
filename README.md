@@ -29,7 +29,7 @@ const client = new Metronome({
 });
 
 async function main() {
-  const response = await client.usage.ingest({
+  await client.usage.ingest({
     usage: [
       {
         customer_id: 'team@example.com',
@@ -61,7 +61,7 @@ async function main() {
     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
     starting_at: '2020-01-01T00:00:00.000Z',
   };
-  const contractCreateResponse: Metronome.ContractCreateResponse = await client.contracts.create(params);
+  const contract: Metronome.ContractCreateResponse = await client.contracts.create(params);
 }
 
 main();
@@ -78,7 +78,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const contractCreateResponse = await client.contracts
+  const contract = await client.contracts
     .create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' })
     .catch(async (err) => {
       if (err instanceof Metronome.APIError) {
@@ -198,11 +198,11 @@ const response = await client.contracts
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: contractCreateResponse, response: raw } = await client.contracts
+const { data: contract, response: raw } = await client.contracts
   .create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(contractCreateResponse.data);
+console.log(contract.data);
 ```
 
 ### Making custom/undocumented requests
