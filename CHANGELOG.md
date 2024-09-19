@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.1.0-beta.4 (2024-09-19)
+
+Full Changelog: [v0.1.0-beta.3...v0.1.0-beta.4](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.3...v0.1.0-beta.4)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#104](https://github.com/Metronome-Industries/metronome-node/issues/104)) ([6cc74f3](https://github.com/Metronome-Industries/metronome-node/commit/6cc74f326221fcc00d01765248deab8821b22bb3))
+
+
+### Bug Fixes
+
+* **types:** remove leftover polyfill usage ([#103](https://github.com/Metronome-Industries/metronome-node/issues/103)) ([8faaf42](https://github.com/Metronome-Industries/metronome-node/commit/8faaf425cb227e1d02b8de4e123a3aefb650c8d8))
+
+
+### Chores
+
+* **docs:** fix snippets ([#105](https://github.com/Metronome-Industries/metronome-node/issues/105)) ([c99e5ea](https://github.com/Metronome-Industries/metronome-node/commit/c99e5ea02cb6523125535e2296e6266d99477e64))
+* **internal:** add dev dependency ([#100](https://github.com/Metronome-Industries/metronome-node/issues/100)) ([bc3a17e](https://github.com/Metronome-Industries/metronome-node/commit/bc3a17e444052d409f3a9da1907178377c98a528))
+* **internal:** fix some types ([#102](https://github.com/Metronome-Industries/metronome-node/issues/102)) ([eedfa95](https://github.com/Metronome-Industries/metronome-node/commit/eedfa95113d65ae2b7764eb6a034e39cc807c774))
+
 ## 0.1.0-beta.3 (2024-09-13)
 
 Full Changelog: [v0.1.0-beta.2...v0.1.0-beta.3](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.2...v0.1.0-beta.3)
