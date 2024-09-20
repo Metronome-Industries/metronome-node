@@ -54,10 +54,13 @@ export {
   Invoice,
   InvoiceRetrieveResponse,
   InvoiceAddChargeResponse,
+  InvoiceListBreakdownsResponse,
   InvoiceRetrieveParams,
   InvoiceListParams,
   InvoiceAddChargeParams,
+  InvoiceListBreakdownsParams,
   InvoicesCursorPage,
+  InvoiceListBreakdownsResponsesCursorPage,
   Invoices,
 } from './invoices';
 export {
