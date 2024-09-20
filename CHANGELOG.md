@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-beta.5 (2024-09-20)
+
+Full Changelog: [v0.1.0-beta.4...v0.1.0-beta.5](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.4...v0.1.0-beta.5)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#109](https://github.com/Metronome-Industries/metronome-node/issues/109)) ([015b008](https://github.com/Metronome-Industries/metronome-node/commit/015b008fc62450e29de68671b932246d80328101))
+* **client:** send retry count header ([#107](https://github.com/Metronome-Industries/metronome-node/issues/107)) ([6992cf7](https://github.com/Metronome-Industries/metronome-node/commit/6992cf75364fb700caa3b9148dbb905aa109671d))
+
 ## 0.1.0-beta.4 (2024-09-19)
 
 Full Changelog: [v0.1.0-beta.3...v0.1.0-beta.4](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.3...v0.1.0-beta.4)
