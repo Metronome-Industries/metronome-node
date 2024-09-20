@@ -68,9 +68,27 @@ export class Invoices extends APIResource {
   ): Core.APIPromise<InvoiceAddChargeResponse> {
     return this._client.post(`/customers/${customerId}/addCharge`, { body, ...options });
   }
+
+  /**
+   * List daily or hourly breakdown invoices for a given customer, optionally
+   * filtered by status, date range, and/or credit type.
+   */
+  listBreakdowns(
+    customerId: string,
+    query: InvoiceListBreakdownsParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<InvoiceListBreakdownsResponsesCursorPage, InvoiceListBreakdownsResponse> {
+    return this._client.getAPIList(
+      `/customers/${customerId}/invoices/breakdowns`,
+      InvoiceListBreakdownsResponsesCursorPage,
+      { query, ...options },
+    );
+  }
 }
 
 export class InvoicesCursorPage extends CursorPage<Invoice> {}
+
+export class InvoiceListBreakdownsResponsesCursorPage extends CursorPage<InvoiceListBreakdownsResponse> {}
 
 export interface Invoice {
   id: string;
@@ -477,6 +495,12 @@ export interface InvoiceRetrieveResponse {
 
 export interface InvoiceAddChargeResponse {}
 
+export interface InvoiceListBreakdownsResponse extends Invoice {
+  breakdown_end_timestamp: string;
+
+  breakdown_start_timestamp: string;
+}
+
 export interface InvoiceRetrieveParams {
   /**
    * If set, all zero quantity line items will be filtered out of the response
@@ -548,12 +572,55 @@ export interface InvoiceAddChargeParams {
   quantity: number;
 }
 
+export interface InvoiceListBreakdownsParams extends CursorPageParams {
+  /**
+   * RFC 3339 timestamp. Breakdowns will only be returned for time windows that end
+   * on or before this time.
+   */
+  ending_before: string;
+
+  /**
+   * RFC 3339 timestamp. Breakdowns will only be returned for time windows that start
+   * on or after this time.
+   */
+  starting_on: string;
+
+  /**
+   * Only return invoices for the specified credit type
+   */
+  credit_type_id?: string;
+
+  /**
+   * If set, all zero quantity line items will be filtered out of the response
+   */
+  skip_zero_qty_line_items?: boolean;
+
+  /**
+   * Invoice sort order by issued_at, e.g. date_asc or date_desc. Defaults to
+   * date_asc.
+   */
+  sort?: 'date_asc' | 'date_desc';
+
+  /**
+   * Invoice status, e.g. DRAFT or FINALIZED
+   */
+  status?: string;
+
+  /**
+   * The granularity of the breakdowns to return. Defaults to day.
+   */
+  window_size?: 'HOUR' | 'DAY';
+}
+
 export namespace Invoices {
   export import Invoice = InvoicesAPI.Invoice;
   export import InvoiceRetrieveResponse = InvoicesAPI.InvoiceRetrieveResponse;
   export import InvoiceAddChargeResponse = InvoicesAPI.InvoiceAddChargeResponse;
+  export import InvoiceListBreakdownsResponse = InvoicesAPI.InvoiceListBreakdownsResponse;
   export import InvoicesCursorPage = InvoicesAPI.InvoicesCursorPage;
+  export import InvoiceListBreakdownsResponsesCursorPage = InvoicesAPI.InvoiceListBreakdownsResponsesCursorPage;
   export import InvoiceRetrieveParams = InvoicesAPI.InvoiceRetrieveParams;
   export import InvoiceListParams = InvoicesAPI.InvoiceListParams;
   export import InvoiceAddChargeParams = InvoicesAPI.InvoiceAddChargeParams;
+  export import InvoiceListBreakdownsParams = InvoicesAPI.InvoiceListBreakdownsParams;
 }
