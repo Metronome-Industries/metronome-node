@@ -114,4 +114,32 @@ describe('resource invoices', () => {
       quantity: 1,
     });
   });
+
+  test('listBreakdowns: only required params', async () => {
+    const responsePromise = client.customers.invoices.listBreakdowns('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
+      ending_before: '2019-12-27T18:11:19.117Z',
+      starting_on: '2019-12-27T18:11:19.117Z',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listBreakdowns: required and optional params', async () => {
+    const response = await client.customers.invoices.listBreakdowns('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
+      ending_before: '2019-12-27T18:11:19.117Z',
+      starting_on: '2019-12-27T18:11:19.117Z',
+      credit_type_id: 'credit_type_id',
+      limit: 1,
+      next_page: 'next_page',
+      skip_zero_qty_line_items: true,
+      sort: 'date_asc',
+      status: 'status',
+      window_size: 'HOUR',
+    });
+  });
 });
