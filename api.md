@@ -133,12 +133,14 @@ Types:
 - <code><a href="./src/resources/customers/invoices.ts">Invoice</a></code>
 - <code><a href="./src/resources/customers/invoices.ts">InvoiceRetrieveResponse</a></code>
 - <code><a href="./src/resources/customers/invoices.ts">InvoiceAddChargeResponse</a></code>
+- <code><a href="./src/resources/customers/invoices.ts">InvoiceListBreakdownsResponse</a></code>
 
 Methods:
 
 - <code title="get /customers/{customer_id}/invoices/{invoice_id}">client.customers.invoices.<a href="./src/resources/customers/invoices.ts">retrieve</a>(customerId, invoiceId, { ...params }) -> InvoiceRetrieveResponse</code>
 - <code title="get /customers/{customer_id}/invoices">client.customers.invoices.<a href="./src/resources/customers/invoices.ts">list</a>(customerId, { ...params }) -> InvoicesCursorPage</code>
 - <code title="post /customers/{customer_id}/addCharge">client.customers.invoices.<a href="./src/resources/customers/invoices.ts">addCharge</a>(customerId, { ...params }) -> InvoiceAddChargeResponse</code>
+- <code title="get /customers/{customer_id}/invoices/breakdowns">client.customers.invoices.<a href="./src/resources/customers/invoices.ts">listBreakdowns</a>(customerId, { ...params }) -> InvoiceListBreakdownsResponsesCursorPage</code>
 
 ## BillingConfig
 

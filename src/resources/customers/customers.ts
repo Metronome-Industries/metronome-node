@@ -530,10 +530,13 @@ export namespace Customers {
   export import Invoice = InvoicesAPI.Invoice;
   export import InvoiceRetrieveResponse = InvoicesAPI.InvoiceRetrieveResponse;
   export import InvoiceAddChargeResponse = InvoicesAPI.InvoiceAddChargeResponse;
+  export import InvoiceListBreakdownsResponse = InvoicesAPI.InvoiceListBreakdownsResponse;
   export import InvoicesCursorPage = InvoicesAPI.InvoicesCursorPage;
+  export import InvoiceListBreakdownsResponsesCursorPage = InvoicesAPI.InvoiceListBreakdownsResponsesCursorPage;
   export import InvoiceRetrieveParams = InvoicesAPI.InvoiceRetrieveParams;
   export import InvoiceListParams = InvoicesAPI.InvoiceListParams;
   export import InvoiceAddChargeParams = InvoicesAPI.InvoiceAddChargeParams;
+  export import InvoiceListBreakdownsParams = InvoicesAPI.InvoiceListBreakdownsParams;
   export import BillingConfig = BillingConfigAPI.BillingConfig;
   export import BillingConfigRetrieveResponse = BillingConfigAPI.BillingConfigRetrieveResponse;
   export import BillingConfigCreateParams = BillingConfigAPI.BillingConfigCreateParams;
