@@ -1263,7 +1263,7 @@ export namespace ContractCreateParams {
   }
 
   export interface UsageStatementSchedule {
-    frequency: 'MONTHLY' | 'QUARTERLY';
+    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
 
     /**
      * If not provided, defaults to the first day of the month.

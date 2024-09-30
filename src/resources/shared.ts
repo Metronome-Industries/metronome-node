@@ -326,7 +326,7 @@ export namespace ContractWithoutAmendments {
   }
 
   export interface UsageStatementSchedule {
-    frequency: 'MONTHLY' | 'QUARTERLY';
+    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
   }
 
   export interface ResellerRoyalty {
