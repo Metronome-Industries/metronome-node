@@ -55,7 +55,8 @@ export interface AlertCreateParams {
   name: string;
 
   /**
-   * Threshold value of the alert policy
+   * Threshold value of the alert policy. Depending upon the alert type, this number
+   * may represent a financial amount, the days remaining, or a percentage reached.
    */
   threshold: number;
 
