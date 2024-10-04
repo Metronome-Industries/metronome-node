@@ -22,10 +22,11 @@ export class BillableMetrics extends APIResource {
    * Get a billable metric.
    */
   retrieve(
-    billableMetricId: string,
+    params: BillableMetricRetrieveParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<BillableMetricRetrieveResponse> {
-    return this._client.get(`/billable-metrics/${billableMetricId}`, options);
+    const { billable_metric_id } = params;
+    return this._client.get(`/billable-metrics/${billable_metric_id}`, options);
   }
 
   /**
@@ -218,6 +219,10 @@ export interface BillableMetricCreateParams {
   property_filters?: Array<Shared.PropertyFilter>;
 }
 
+export interface BillableMetricRetrieveParams {
+  billable_metric_id: string;
+}
+
 export interface BillableMetricListParams extends CursorPageParams {}
 
 export interface BillableMetricArchiveParams {
@@ -231,6 +236,7 @@ export namespace BillableMetrics {
   export import BillableMetricArchiveResponse = BillableMetricsAPI.BillableMetricArchiveResponse;
   export import BillableMetricListResponsesCursorPage = BillableMetricsAPI.BillableMetricListResponsesCursorPage;
   export import BillableMetricCreateParams = BillableMetricsAPI.BillableMetricCreateParams;
+  export import BillableMetricRetrieveParams = BillableMetricsAPI.BillableMetricRetrieveParams;
   export import BillableMetricListParams = BillableMetricsAPI.BillableMetricListParams;
   export import BillableMetricArchiveParams = BillableMetricsAPI.BillableMetricArchiveParams;
 }

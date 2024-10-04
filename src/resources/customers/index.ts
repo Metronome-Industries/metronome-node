@@ -1,6 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { BillingConfigRetrieveResponse, BillingConfigCreateParams, BillingConfig } from './billing-config';
+export {
+  BillingConfigRetrieveResponse,
+  BillingConfigCreateParams,
+  BillingConfigRetrieveParams,
+  BillingConfigDeleteParams,
+  BillingConfig,
+} from './billing-config';
 export {
   CommitCreateResponse,
   CommitListResponse,
@@ -29,6 +35,7 @@ export {
   CustomerListCostsResponse,
   CustomerSetNameResponse,
   CustomerCreateParams,
+  CustomerRetrieveParams,
   CustomerListParams,
   CustomerArchiveParams,
   CustomerListBillableMetricsParams,
