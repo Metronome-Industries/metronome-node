@@ -8,21 +8,9 @@ export class BillingConfig extends APIResource {
   /**
    * Set the billing configuration for a given customer.
    */
-  create(
-    customerId: string,
-    billingProviderType:
-      | 'aws_marketplace'
-      | 'stripe'
-      | 'netsuite'
-      | 'custom'
-      | 'azure_marketplace'
-      | 'quickbooks_online'
-      | 'workday'
-      | 'gcp_marketplace',
-    body: BillingConfigCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<void> {
-    return this._client.post(`/customers/${customerId}/billing-config/${billingProviderType}`, {
+  create(params: BillingConfigCreateParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+    const { customer_id, billing_provider_type, ...body } = params;
+    return this._client.post(`/customers/${customer_id}/billing-config/${billing_provider_type}`, {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -33,39 +21,20 @@ export class BillingConfig extends APIResource {
    * Fetch the billing configuration for the given customer.
    */
   retrieve(
-    customerId: string,
-    billingProviderType:
-      | 'aws_marketplace'
-      | 'stripe'
-      | 'netsuite'
-      | 'custom'
-      | 'azure_marketplace'
-      | 'quickbooks_online'
-      | 'workday'
-      | 'gcp_marketplace',
+    params: BillingConfigRetrieveParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<BillingConfigRetrieveResponse> {
-    return this._client.get(`/customers/${customerId}/billing-config/${billingProviderType}`, options);
+    const { customer_id, billing_provider_type } = params;
+    return this._client.get(`/customers/${customer_id}/billing-config/${billing_provider_type}`, options);
   }
 
   /**
    * Delete the billing configuration for a given customer. Note: this is unsupported
    * for Azure and AWS Marketplace customers.
    */
-  delete(
-    customerId: string,
-    billingProviderType:
-      | 'aws_marketplace'
-      | 'stripe'
-      | 'netsuite'
-      | 'custom'
-      | 'azure_marketplace'
-      | 'quickbooks_online'
-      | 'workday'
-      | 'gcp_marketplace',
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<void> {
-    return this._client.delete(`/customers/${customerId}/billing-config/${billingProviderType}`, {
+  delete(params: BillingConfigDeleteParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+    const { customer_id, billing_provider_type } = params;
+    return this._client.delete(`/customers/${customer_id}/billing-config/${billing_provider_type}`, {
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
     });
@@ -140,13 +109,37 @@ export namespace BillingConfigRetrieveResponse {
 
 export interface BillingConfigCreateParams {
   /**
-   * The customer ID in the billing provider's system. For Azure, this is the
-   * subscription ID.
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Path param: The billing provider (e.g. stripe)
+   */
+  billing_provider_type:
+    | 'aws_marketplace'
+    | 'stripe'
+    | 'netsuite'
+    | 'custom'
+    | 'azure_marketplace'
+    | 'quickbooks_online'
+    | 'workday'
+    | 'gcp_marketplace';
+
+  /**
+   * Body param: The customer ID in the billing provider's system. For Azure, this is
+   * the subscription ID.
    */
   billing_provider_customer_id: string;
 
+  /**
+   * Body param:
+   */
   aws_product_code?: string;
 
+  /**
+   * Body param:
+   */
   aws_region?:
     | 'af-south-1'
     | 'ap-east-1'
@@ -174,10 +167,49 @@ export interface BillingConfigCreateParams {
     | 'us-west-1'
     | 'us-west-2';
 
+  /**
+   * Body param:
+   */
   stripe_collection_method?: 'charge_automatically' | 'send_invoice';
+}
+
+export interface BillingConfigRetrieveParams {
+  customer_id: string;
+
+  /**
+   * The billing provider (e.g. stripe)
+   */
+  billing_provider_type:
+    | 'aws_marketplace'
+    | 'stripe'
+    | 'netsuite'
+    | 'custom'
+    | 'azure_marketplace'
+    | 'quickbooks_online'
+    | 'workday'
+    | 'gcp_marketplace';
+}
+
+export interface BillingConfigDeleteParams {
+  customer_id: string;
+
+  /**
+   * The billing provider (e.g. stripe)
+   */
+  billing_provider_type:
+    | 'aws_marketplace'
+    | 'stripe'
+    | 'netsuite'
+    | 'custom'
+    | 'azure_marketplace'
+    | 'quickbooks_online'
+    | 'workday'
+    | 'gcp_marketplace';
 }
 
 export namespace BillingConfig {
   export import BillingConfigRetrieveResponse = BillingConfigAPI.BillingConfigRetrieveResponse;
   export import BillingConfigCreateParams = BillingConfigAPI.BillingConfigCreateParams;
+  export import BillingConfigRetrieveParams = BillingConfigAPI.BillingConfigRetrieveParams;
+  export import BillingConfigDeleteParams = BillingConfigAPI.BillingConfigDeleteParams;
 }

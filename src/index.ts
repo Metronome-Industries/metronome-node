@@ -226,6 +226,7 @@ export namespace Metronome {
   export import PlanListChargesResponsesCursorPage = API.PlanListChargesResponsesCursorPage;
   export import PlanListCustomersResponsesCursorPage = API.PlanListCustomersResponsesCursorPage;
   export import PlanListParams = API.PlanListParams;
+  export import PlanGetDetailsParams = API.PlanGetDetailsParams;
   export import PlanListChargesParams = API.PlanListChargesParams;
   export import PlanListCustomersParams = API.PlanListCustomersParams;
 
@@ -261,6 +262,7 @@ export namespace Metronome {
   export import CustomerListBillableMetricsResponsesCursorPage = API.CustomerListBillableMetricsResponsesCursorPage;
   export import CustomerListCostsResponsesCursorPage = API.CustomerListCostsResponsesCursorPage;
   export import CustomerCreateParams = API.CustomerCreateParams;
+  export import CustomerRetrieveParams = API.CustomerRetrieveParams;
   export import CustomerListParams = API.CustomerListParams;
   export import CustomerArchiveParams = API.CustomerArchiveParams;
   export import CustomerListBillableMetricsParams = API.CustomerListBillableMetricsParams;
@@ -301,6 +303,7 @@ export namespace Metronome {
   export import BillableMetricArchiveResponse = API.BillableMetricArchiveResponse;
   export import BillableMetricListResponsesCursorPage = API.BillableMetricListResponsesCursorPage;
   export import BillableMetricCreateParams = API.BillableMetricCreateParams;
+  export import BillableMetricRetrieveParams = API.BillableMetricRetrieveParams;
   export import BillableMetricListParams = API.BillableMetricListParams;
   export import BillableMetricArchiveParams = API.BillableMetricArchiveParams;
 
