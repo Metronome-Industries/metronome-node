@@ -9,11 +9,11 @@ const client = new Metronome({
 });
 
 describe('resource invoices', () => {
-  test('retrieve', async () => {
-    const responsePromise = client.customers.invoices.retrieve(
-      'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      '6a37bb88-8538-48c5-b37b-a41c836328bd',
-    );
+  test('retrieve: only required params', async () => {
+    const responsePromise = client.customers.invoices.retrieve({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      invoice_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -23,31 +23,18 @@ describe('resource invoices', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('retrieve: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.customers.invoices.retrieve(
-        'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        '6a37bb88-8538-48c5-b37b-a41c836328bd',
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Metronome.NotFoundError);
+  test('retrieve: required and optional params', async () => {
+    const response = await client.customers.invoices.retrieve({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      invoice_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+      skip_zero_qty_line_items: true,
+    });
   });
 
-  test('retrieve: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.customers.invoices.retrieve(
-        'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        '6a37bb88-8538-48c5-b37b-a41c836328bd',
-        { skip_zero_qty_line_items: true },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Metronome.NotFoundError);
-  });
-
-  test('list', async () => {
-    const responsePromise = client.customers.invoices.list('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc');
+  test('list: only required params', async () => {
+    const responsePromise = client.customers.invoices.list({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -57,37 +44,23 @@ describe('resource invoices', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.customers.invoices.list('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
-        path: '/_stainless_unknown_path',
-      }),
-    ).rejects.toThrow(Metronome.NotFoundError);
-  });
-
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.customers.invoices.list(
-        'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        {
-          credit_type_id: 'credit_type_id',
-          ending_before: '2019-12-27T18:11:19.117Z',
-          limit: 1,
-          next_page: 'next_page',
-          skip_zero_qty_line_items: true,
-          sort: 'date_asc',
-          starting_on: '2019-12-27T18:11:19.117Z',
-          status: 'status',
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Metronome.NotFoundError);
+  test('list: required and optional params', async () => {
+    const response = await client.customers.invoices.list({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      credit_type_id: 'credit_type_id',
+      ending_before: '2019-12-27T18:11:19.117Z',
+      limit: 1,
+      next_page: 'next_page',
+      skip_zero_qty_line_items: true,
+      sort: 'date_asc',
+      starting_on: '2019-12-27T18:11:19.117Z',
+      status: 'status',
+    });
   });
 
   test('addCharge: only required params', async () => {
-    const responsePromise = client.customers.invoices.addCharge('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
+    const responsePromise = client.customers.invoices.addCharge({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       charge_id: '5ae4b726-1ebe-439c-9190-9831760ba195',
       customer_plan_id: 'a23b3cf4-47fb-4c3f-bb3d-9e64f7704015',
       description: 'One time charge',
@@ -105,7 +78,8 @@ describe('resource invoices', () => {
   });
 
   test('addCharge: required and optional params', async () => {
-    const response = await client.customers.invoices.addCharge('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
+    const response = await client.customers.invoices.addCharge({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       charge_id: '5ae4b726-1ebe-439c-9190-9831760ba195',
       customer_plan_id: 'a23b3cf4-47fb-4c3f-bb3d-9e64f7704015',
       description: 'One time charge',
@@ -116,7 +90,8 @@ describe('resource invoices', () => {
   });
 
   test('listBreakdowns: only required params', async () => {
-    const responsePromise = client.customers.invoices.listBreakdowns('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
+    const responsePromise = client.customers.invoices.listBreakdowns({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       ending_before: '2019-12-27T18:11:19.117Z',
       starting_on: '2019-12-27T18:11:19.117Z',
     });
@@ -130,7 +105,8 @@ describe('resource invoices', () => {
   });
 
   test('listBreakdowns: required and optional params', async () => {
-    const response = await client.customers.invoices.listBreakdowns('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
+    const response = await client.customers.invoices.listBreakdowns({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       ending_before: '2019-12-27T18:11:19.117Z',
       starting_on: '2019-12-27T18:11:19.117Z',
       credit_type_id: 'credit_type_id',

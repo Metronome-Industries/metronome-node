@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
 import * as PlansAPI from './plans';
 import * as Shared from '../shared';
@@ -12,23 +11,11 @@ export class Plans extends APIResource {
    * List the given customer's plans in reverse-chronological order.
    */
   list(
-    customerId: string,
-    query?: PlanListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListResponsesCursorPage, PlanListResponse>;
-  list(
-    customerId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListResponsesCursorPage, PlanListResponse>;
-  list(
-    customerId: string,
-    query: PlanListParams | Core.RequestOptions = {},
+    params: PlanListParams,
     options?: Core.RequestOptions,
   ): Core.PagePromise<PlanListResponsesCursorPage, PlanListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list(customerId, {}, query);
-    }
-    return this._client.getAPIList(`/customers/${customerId}/plans`, PlanListResponsesCursorPage, {
+    const { customer_id, ...query } = params;
+    return this._client.getAPIList(`/customers/${customer_id}/plans`, PlanListResponsesCursorPage, {
       query,
       ...options,
     });
@@ -39,38 +26,17 @@ export class Plans extends APIResource {
    * [price adjustments documentation](https://docs.metronome.com/pricing/managing-plans/#price-adjustments)
    * for details on the price adjustments.
    */
-  add(
-    customerId: string,
-    body: PlanAddParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanAddResponse> {
-    return this._client.post(`/customers/${customerId}/plans/add`, { body, ...options });
+  add(params: PlanAddParams, options?: Core.RequestOptions): Core.APIPromise<PlanAddResponse> {
+    const { customer_id, ...body } = params;
+    return this._client.post(`/customers/${customer_id}/plans/add`, { body, ...options });
   }
 
   /**
    * Change the end date of a customer's plan.
    */
-  end(
-    customerId: string,
-    customerPlanId: string,
-    body?: PlanEndParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanEndResponse>;
-  end(
-    customerId: string,
-    customerPlanId: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanEndResponse>;
-  end(
-    customerId: string,
-    customerPlanId: string,
-    body: PlanEndParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanEndResponse> {
-    if (isRequestOptions(body)) {
-      return this.end(customerId, customerPlanId, {}, body);
-    }
-    return this._client.post(`/customers/${customerId}/plans/${customerPlanId}/end`, { body, ...options });
+  end(params: PlanEndParams, options?: Core.RequestOptions): Core.APIPromise<PlanEndResponse> {
+    const { customer_id, customer_plan_id, ...body } = params;
+    return this._client.post(`/customers/${customer_id}/plans/${customer_plan_id}/end`, { body, ...options });
   }
 
   /**
@@ -79,27 +45,12 @@ export class Plans extends APIResource {
    * for details.
    */
   listPriceAdjustments(
-    customerId: string,
-    customerPlanId: string,
-    query?: PlanListPriceAdjustmentsParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListPriceAdjustmentsResponsesCursorPage, PlanListPriceAdjustmentsResponse>;
-  listPriceAdjustments(
-    customerId: string,
-    customerPlanId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListPriceAdjustmentsResponsesCursorPage, PlanListPriceAdjustmentsResponse>;
-  listPriceAdjustments(
-    customerId: string,
-    customerPlanId: string,
-    query: PlanListPriceAdjustmentsParams | Core.RequestOptions = {},
+    params: PlanListPriceAdjustmentsParams,
     options?: Core.RequestOptions,
   ): Core.PagePromise<PlanListPriceAdjustmentsResponsesCursorPage, PlanListPriceAdjustmentsResponse> {
-    if (isRequestOptions(query)) {
-      return this.listPriceAdjustments(customerId, customerPlanId, {}, query);
-    }
+    const { customer_id, customer_plan_id, ...query } = params;
     return this._client.getAPIList(
-      `/customers/${customerId}/plans/${customerPlanId}/priceAdjustments`,
+      `/customers/${customer_id}/plans/${customer_plan_id}/priceAdjustments`,
       PlanListPriceAdjustmentsResponsesCursorPage,
       { query, ...options },
     );
@@ -188,45 +139,58 @@ export namespace PlanListPriceAdjustmentsResponse {
   }
 }
 
-export interface PlanListParams extends CursorPageParams {}
+export interface PlanListParams extends CursorPageParams {
+  /**
+   * Path param:
+   */
+  customer_id: string;
+}
 
 export interface PlanAddParams {
+  /**
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Body param:
+   */
   plan_id: string;
 
   /**
-   * RFC 3339 timestamp for when the plan becomes active for this customer. Must be
-   * at 0:00 UTC (midnight).
+   * Body param: RFC 3339 timestamp for when the plan becomes active for this
+   * customer. Must be at 0:00 UTC (midnight).
    */
   starting_on: string;
 
   /**
-   * RFC 3339 timestamp for when the plan ends (exclusive) for this customer. Must be
-   * at 0:00 UTC (midnight).
+   * Body param: RFC 3339 timestamp for when the plan ends (exclusive) for this
+   * customer. Must be at 0:00 UTC (midnight).
    */
   ending_before?: string;
 
   /**
-   * Number of days after issuance of invoice after which the invoice is due (e.g.
-   * Net 30).
+   * Body param: Number of days after issuance of invoice after which the invoice is
+   * due (e.g. Net 30).
    */
   net_payment_terms_days?: number;
 
   /**
-   * An optional list of overage rates that override the rates of the original plan
-   * configuration. These new rates will apply to all pricing ramps.
+   * Body param: An optional list of overage rates that override the rates of the
+   * original plan configuration. These new rates will apply to all pricing ramps.
    */
   overage_rate_adjustments?: Array<PlanAddParams.OverageRateAdjustment>;
 
   /**
-   * A list of price adjustments can be applied on top of the pricing in the plans.
-   * See the
+   * Body param: A list of price adjustments can be applied on top of the pricing in
+   * the plans. See the
    * [price adjustments documentation](https://docs.metronome.com/pricing/managing-plans/#price-adjustments)
    * for details.
    */
   price_adjustments?: Array<PlanAddParams.PriceAdjustment>;
 
   /**
-   * A custom trial can be set for the customer's plan. See the
+   * Body param: A custom trial can be set for the customer's plan. See the
    * [trial configuration documentation](https://docs.metronome.com/provisioning/configure-trials/)
    * for details.
    */
@@ -306,26 +270,48 @@ export namespace PlanAddParams {
 
 export interface PlanEndParams {
   /**
-   * RFC 3339 timestamp for when the plan ends (exclusive) for this customer. Must be
-   * at 0:00 UTC (midnight). If not provided, the plan end date will be cleared.
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Path param: the ID of a customer-plan relationship
+   */
+  customer_plan_id: string;
+
+  /**
+   * Body param: RFC 3339 timestamp for when the plan ends (exclusive) for this
+   * customer. Must be at 0:00 UTC (midnight). If not provided, the plan end date
+   * will be cleared.
    */
   ending_before?: string;
 
   /**
-   * If true, plan end date can be before the last finalized invoice date. Any
-   * invoices generated after the plan end date will be voided.
+   * Body param: If true, plan end date can be before the last finalized invoice
+   * date. Any invoices generated after the plan end date will be voided.
    */
   void_invoices?: boolean;
 
   /**
-   * Only applicable when void_invoices is set to true. If true, for every invoice
-   * that is voided we will also attempt to void/delete the stripe invoice (if any).
-   * Stripe invoices will be voided if finalized or deleted if still in draft state.
+   * Body param: Only applicable when void_invoices is set to true. If true, for
+   * every invoice that is voided we will also attempt to void/delete the stripe
+   * invoice (if any). Stripe invoices will be voided if finalized or deleted if
+   * still in draft state.
    */
   void_stripe_invoices?: boolean;
 }
 
-export interface PlanListPriceAdjustmentsParams extends CursorPageParams {}
+export interface PlanListPriceAdjustmentsParams extends CursorPageParams {
+  /**
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Path param: the ID of a customer-plan relationship
+   */
+  customer_plan_id: string;
+}
 
 export namespace Plans {
   export import PlanListResponse = PlansAPI.PlanListResponse;
