@@ -423,11 +423,70 @@ export namespace ContractRetrieveRateScheduleResponse {
 
     starting_at: string;
 
+    /**
+     * The rate that will be used to rate a product when it is paid for by a commit.
+     * This feature requires opt-in before it can be used. Please contact Metronome
+     * support to enable this feature.
+     */
+    commit_rate?: Data.CommitRate;
+
     ending_before?: string;
 
     override_rate?: Shared.Rate;
 
     pricing_group_values?: Record<string, string>;
+  }
+
+  export namespace Data {
+    /**
+     * The rate that will be used to rate a product when it is paid for by a commit.
+     * This feature requires opt-in before it can be used. Please contact Metronome
+     * support to enable this feature.
+     */
+    export interface CommitRate {
+      rate_type:
+        | 'FLAT'
+        | 'flat'
+        | 'PERCENTAGE'
+        | 'percentage'
+        | 'SUBSCRIPTION'
+        | 'subscription'
+        | 'TIERED'
+        | 'tiered'
+        | 'CUSTOM'
+        | 'custom';
+
+      credit_type?: Shared.CreditType;
+
+      /**
+       * Commit rate proration configuration. Only valid for SUBSCRIPTION rate_type.
+       */
+      is_prorated?: boolean;
+
+      /**
+       * Commit rate price. For FLAT rate_type, this must be >=0. For PERCENTAGE
+       * rate_type, this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0
+       * and <=1.
+       */
+      price?: number;
+
+      /**
+       * Commit rate quantity. For SUBSCRIPTION rate_type, this must be >=0.
+       */
+      quantity?: number;
+
+      /**
+       * Only set for TIERED rate_type.
+       */
+      tiers?: Array<Shared.Tier>;
+
+      /**
+       * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
+       * using list prices rather than the standard rates for this product on the
+       * contract.
+       */
+      use_list_prices?: boolean;
+    }
   }
 }
 
@@ -1266,9 +1325,18 @@ export namespace ContractCreateParams {
     frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
 
     /**
+     * Required when using CUSTOM_DATE. This option lets you set a historical billing
+     * anchor date, aligning future billing cycles with a chosen cadence. For example,
+     * if a contract starts on 2024-09-15 and you set the anchor date to 2024-09-10
+     * with a MONTHLY frequency, the first usage statement will cover 09-15 to 10-10.
+     * Subsequent statements will follow the 10th of each month.
+     */
+    billing_anchor_date?: string;
+
+    /**
      * If not provided, defaults to the first day of the month.
      */
-    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START';
+    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE' | 'custom_date';
 
     /**
      * The date Metronome should start generating usage invoices. If unspecified,

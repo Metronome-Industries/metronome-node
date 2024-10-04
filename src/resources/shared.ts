@@ -326,6 +326,11 @@ export namespace ContractWithoutAmendments {
   }
 
   export interface UsageStatementSchedule {
+    /**
+     * Contract usage statements follow a selected cadence based on this date.
+     */
+    billing_anchor_date: string;
+
     frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
   }
 

@@ -696,6 +696,7 @@ describe('resource contracts', () => {
       },
       usage_statement_schedule: {
         frequency: 'MONTHLY',
+        billing_anchor_date: '2019-12-27T18:11:19.117Z',
         day: 'FIRST_OF_MONTH',
         invoice_generation_starting_at: '2019-12-27T18:11:19.117Z',
       },
