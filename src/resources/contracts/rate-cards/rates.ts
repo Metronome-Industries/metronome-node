@@ -9,7 +9,7 @@ import { CursorPage, type CursorPageParams } from '../../../pagination';
 
 export class Rates extends APIResource {
   /**
-   * Get rate card rates for a specific time.
+   * Get all rates for a rate card at a point in time
    */
   list(
     params: RateListParams,
@@ -62,13 +62,189 @@ export interface RateListResponse {
 
   starting_at: string;
 
+  /**
+   * The rate that will be used to rate a product when it is paid for by a commit.
+   * This feature requires opt-in before it can be used. Please contact Metronome
+   * support to enable this feature.
+   */
+  commit_rate?: RateListResponse.CommitRate;
+
   ending_before?: string;
 
   pricing_group_values?: Record<string, string>;
 }
 
+export namespace RateListResponse {
+  /**
+   * The rate that will be used to rate a product when it is paid for by a commit.
+   * This feature requires opt-in before it can be used. Please contact Metronome
+   * support to enable this feature.
+   */
+  export interface CommitRate {
+    rate_type:
+      | 'FLAT'
+      | 'flat'
+      | 'PERCENTAGE'
+      | 'percentage'
+      | 'SUBSCRIPTION'
+      | 'subscription'
+      | 'TIERED'
+      | 'tiered'
+      | 'CUSTOM'
+      | 'custom';
+
+    credit_type?: Shared.CreditType;
+
+    /**
+     * Commit rate proration configuration. Only valid for SUBSCRIPTION rate_type.
+     */
+    is_prorated?: boolean;
+
+    /**
+     * Commit rate price. For FLAT rate_type, this must be >=0. For PERCENTAGE
+     * rate_type, this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0
+     * and <=1.
+     */
+    price?: number;
+
+    /**
+     * Commit rate quantity. For SUBSCRIPTION rate_type, this must be >=0.
+     */
+    quantity?: number;
+
+    /**
+     * Only set for TIERED rate_type.
+     */
+    tiers?: Array<Shared.Tier>;
+
+    /**
+     * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
+     * using list prices rather than the standard rates for this product on the
+     * contract.
+     */
+    use_list_prices?: boolean;
+  }
+}
+
 export interface RateAddResponse {
-  data: Shared.Rate;
+  data: RateAddResponse.Data;
+}
+
+export namespace RateAddResponse {
+  export interface Data {
+    rate_type:
+      | 'FLAT'
+      | 'flat'
+      | 'PERCENTAGE'
+      | 'percentage'
+      | 'SUBSCRIPTION'
+      | 'subscription'
+      | 'CUSTOM'
+      | 'custom'
+      | 'TIERED'
+      | 'tiered';
+
+    /**
+     * The rate that will be used to rate a product when it is paid for by a commit.
+     * This feature requires opt-in before it can be used. Please contact Metronome
+     * support to enable this feature.
+     */
+    commit_rate?: Data.CommitRate;
+
+    credit_type?: Shared.CreditType;
+
+    /**
+     * Only set for CUSTOM rate_type. This field is interpreted by custom rate
+     * processors.
+     */
+    custom_rate?: Record<string, unknown>;
+
+    /**
+     * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+     */
+    is_prorated?: boolean;
+
+    /**
+     * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
+     * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
+     */
+    price?: number;
+
+    /**
+     * if pricing groups are used, this will contain the values used to calculate the
+     * price
+     */
+    pricing_group_values?: Record<string, string>;
+
+    /**
+     * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
+     */
+    quantity?: number;
+
+    /**
+     * Only set for TIERED rate_type.
+     */
+    tiers?: Array<Shared.Tier>;
+
+    /**
+     * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
+     * using list prices rather than the standard rates for this product on the
+     * contract.
+     */
+    use_list_prices?: boolean;
+  }
+
+  export namespace Data {
+    /**
+     * The rate that will be used to rate a product when it is paid for by a commit.
+     * This feature requires opt-in before it can be used. Please contact Metronome
+     * support to enable this feature.
+     */
+    export interface CommitRate {
+      rate_type:
+        | 'FLAT'
+        | 'flat'
+        | 'PERCENTAGE'
+        | 'percentage'
+        | 'SUBSCRIPTION'
+        | 'subscription'
+        | 'TIERED'
+        | 'tiered'
+        | 'CUSTOM'
+        | 'custom';
+
+      credit_type?: Shared.CreditType;
+
+      /**
+       * Commit rate proration configuration. Only valid for SUBSCRIPTION rate_type.
+       */
+      is_prorated?: boolean;
+
+      /**
+       * Commit rate price. For FLAT rate_type, this must be >=0. For PERCENTAGE
+       * rate_type, this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0
+       * and <=1.
+       */
+      price?: number;
+
+      /**
+       * Commit rate quantity. For SUBSCRIPTION rate_type, this must be >=0.
+       */
+      quantity?: number;
+
+      /**
+       * Only set for TIERED rate_type.
+       */
+      tiers?: Array<Shared.Tier>;
+
+      /**
+       * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
+       * using list prices rather than the standard rates for this product on the
+       * contract.
+       */
+      use_list_prices?: boolean;
+    }
+  }
 }
 
 export interface RateAddManyResponse {
@@ -145,6 +321,13 @@ export interface RateAddParams {
   starting_at: string;
 
   /**
+   * The rate that will be used to rate a product when it is paid for by a commit.
+   * This feature requires opt-in before it can be used. Please contact Metronome
+   * support to enable this feature.
+   */
+  commit_rate?: RateAddParams.CommitRate;
+
+  /**
    * "The Metronome ID of the credit type to associate with price, defaults to USD
    * (cents) if not passed. Used by all rate_types except type PERCENTAGE. PERCENTAGE
    * rates use the credit type of associated rates."
@@ -198,6 +381,58 @@ export interface RateAddParams {
   use_list_prices?: boolean;
 }
 
+export namespace RateAddParams {
+  /**
+   * The rate that will be used to rate a product when it is paid for by a commit.
+   * This feature requires opt-in before it can be used. Please contact Metronome
+   * support to enable this feature.
+   */
+  export interface CommitRate {
+    rate_type:
+      | 'FLAT'
+      | 'flat'
+      | 'PERCENTAGE'
+      | 'percentage'
+      | 'SUBSCRIPTION'
+      | 'subscription'
+      | 'TIERED'
+      | 'tiered'
+      | 'CUSTOM'
+      | 'custom';
+
+    credit_type?: Shared.CreditType;
+
+    /**
+     * Commit rate proration configuration. Only valid for SUBSCRIPTION rate_type.
+     */
+    is_prorated?: boolean;
+
+    /**
+     * Commit rate price. For FLAT rate_type, this must be >=0. For PERCENTAGE
+     * rate_type, this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0
+     * and <=1.
+     */
+    price?: number;
+
+    /**
+     * Commit rate quantity. For SUBSCRIPTION rate_type, this must be >=0.
+     */
+    quantity?: number;
+
+    /**
+     * Only set for TIERED rate_type.
+     */
+    tiers?: Array<Shared.Tier>;
+
+    /**
+     * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
+     * using list prices rather than the standard rates for this product on the
+     * contract.
+     */
+    use_list_prices?: boolean;
+  }
+}
+
 export interface RateAddManyParams {
   rate_card_id?: string;
 
@@ -219,6 +454,13 @@ export namespace RateAddManyParams {
      * inclusive effective date
      */
     starting_at: string;
+
+    /**
+     * The rate that will be used to rate a product when it is paid for by a commit.
+     * This feature requires opt-in before it can be used. Please contact Metronome
+     * support to enable this feature.
+     */
+    commit_rate?: Rate.CommitRate;
 
     /**
      * "The Metronome ID of the credit type to associate with price, defaults to USD
@@ -272,6 +514,58 @@ export namespace RateAddManyParams {
      * contract.
      */
     use_list_prices?: boolean;
+  }
+
+  export namespace Rate {
+    /**
+     * The rate that will be used to rate a product when it is paid for by a commit.
+     * This feature requires opt-in before it can be used. Please contact Metronome
+     * support to enable this feature.
+     */
+    export interface CommitRate {
+      rate_type:
+        | 'FLAT'
+        | 'flat'
+        | 'PERCENTAGE'
+        | 'percentage'
+        | 'SUBSCRIPTION'
+        | 'subscription'
+        | 'TIERED'
+        | 'tiered'
+        | 'CUSTOM'
+        | 'custom';
+
+      credit_type?: Shared.CreditType;
+
+      /**
+       * Commit rate proration configuration. Only valid for SUBSCRIPTION rate_type.
+       */
+      is_prorated?: boolean;
+
+      /**
+       * Commit rate price. For FLAT rate_type, this must be >=0. For PERCENTAGE
+       * rate_type, this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0
+       * and <=1.
+       */
+      price?: number;
+
+      /**
+       * Commit rate quantity. For SUBSCRIPTION rate_type, this must be >=0.
+       */
+      quantity?: number;
+
+      /**
+       * Only set for TIERED rate_type.
+       */
+      tiers?: Array<Shared.Tier>;
+
+      /**
+       * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
+       * using list prices rather than the standard rates for this product on the
+       * contract.
+       */
+      use_list_prices?: boolean;
+    }
   }
 }
 
