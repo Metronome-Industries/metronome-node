@@ -103,7 +103,7 @@ export namespace RateCardRetrieveResponse {
 
     description?: string;
 
-    fiat_credit_type?: Shared.CreditType;
+    fiat_credit_type?: Shared.CreditTypeData;
   }
 
   export namespace Data {
@@ -121,7 +121,7 @@ export namespace RateCardRetrieveResponse {
 
         created_by?: string;
 
-        credit_type?: Shared.CreditType;
+        credit_type?: Shared.CreditTypeData;
 
         custom_rate?: Record<string, unknown>;
 
@@ -162,7 +162,7 @@ export namespace RateCardRetrieveResponse {
          */
         commit_rate?: Update.CommitRate;
 
-        credit_type?: Shared.CreditType;
+        credit_type?: Shared.CreditTypeData;
 
         custom_rate?: Record<string, unknown>;
 
@@ -196,7 +196,7 @@ export namespace RateCardRetrieveResponse {
             | 'CUSTOM'
             | 'custom';
 
-          credit_type?: Shared.CreditType;
+          credit_type?: Shared.CreditTypeData;
 
           /**
            * Commit rate proration configuration. Only valid for SUBSCRIPTION rate_type.
@@ -239,7 +239,7 @@ export namespace RateCardRetrieveResponse {
     }
 
     export interface CreditTypeConversion {
-      custom_credit_type: Shared.CreditType;
+      custom_credit_type: Shared.CreditTypeData;
 
       fiat_per_custom_credit: string;
     }
@@ -269,7 +269,7 @@ export interface RateCardListResponse {
 
   description?: string;
 
-  fiat_credit_type?: Shared.CreditType;
+  fiat_credit_type?: Shared.CreditTypeData;
 }
 
 export namespace RateCardListResponse {
@@ -287,7 +287,7 @@ export namespace RateCardListResponse {
 
       created_by?: string;
 
-      credit_type?: Shared.CreditType;
+      credit_type?: Shared.CreditTypeData;
 
       custom_rate?: Record<string, unknown>;
 
@@ -328,7 +328,7 @@ export namespace RateCardListResponse {
        */
       commit_rate?: Update.CommitRate;
 
-      credit_type?: Shared.CreditType;
+      credit_type?: Shared.CreditTypeData;
 
       custom_rate?: Record<string, unknown>;
 
@@ -362,7 +362,7 @@ export namespace RateCardListResponse {
           | 'CUSTOM'
           | 'custom';
 
-        credit_type?: Shared.CreditType;
+        credit_type?: Shared.CreditTypeData;
 
         /**
          * Commit rate proration configuration. Only valid for SUBSCRIPTION rate_type.
@@ -405,7 +405,7 @@ export namespace RateCardListResponse {
   }
 
   export interface CreditTypeConversion {
-    custom_credit_type: Shared.CreditType;
+    custom_credit_type: Shared.CreditTypeData;
 
     fiat_per_custom_credit: string;
   }
@@ -462,7 +462,7 @@ export namespace RateCardRetrieveRateScheduleResponse {
         | 'CUSTOM'
         | 'custom';
 
-      credit_type?: Shared.CreditType;
+      credit_type?: Shared.CreditTypeData;
 
       /**
        * Commit rate proration configuration. Only valid for SUBSCRIPTION rate_type.

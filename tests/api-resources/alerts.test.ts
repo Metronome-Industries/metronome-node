@@ -62,6 +62,9 @@ describe('resource alerts', () => {
   });
 
   test('archive: required and optional params', async () => {
-    const response = await client.alerts.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
+    const response = await client.alerts.archive({
+      id: '8deed800-1b7a-495d-a207-6c52bac54dc9',
+      release_uniqueness_key: true,
+    });
   });
 });

@@ -6,7 +6,7 @@ Types:
 - <code><a href="./src/resources/shared.ts">Commit</a></code>
 - <code><a href="./src/resources/shared.ts">ContractWithoutAmendments</a></code>
 - <code><a href="./src/resources/shared.ts">Credit</a></code>
-- <code><a href="./src/resources/shared.ts">CreditType</a></code>
+- <code><a href="./src/resources/shared.ts">CreditTypeData</a></code>
 - <code><a href="./src/resources/shared.ts">Discount</a></code>
 - <code><a href="./src/resources/shared.ts">EventTypeFilter</a></code>
 - <code><a href="./src/resources/shared.ts">ID</a></code>
