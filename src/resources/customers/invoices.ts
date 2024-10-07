@@ -68,7 +68,7 @@ export class InvoiceListBreakdownsResponsesCursorPage extends CursorPage<Invoice
 export interface Invoice {
   id: string;
 
-  credit_type: Shared.CreditType;
+  credit_type: Shared.CreditTypeData;
 
   customer_id: string;
 
@@ -150,7 +150,7 @@ export interface Invoice {
 
 export namespace Invoice {
   export interface LineItem {
-    credit_type: Shared.CreditType;
+    credit_type: Shared.CreditTypeData;
 
     name: string;
 
@@ -421,7 +421,7 @@ export namespace Invoice {
   }
 
   export interface InvoiceAdjustment {
-    credit_type: Shared.CreditType;
+    credit_type: Shared.CreditTypeData;
 
     name: string;
 

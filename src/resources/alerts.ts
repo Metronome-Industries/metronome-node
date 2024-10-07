@@ -142,7 +142,15 @@ export namespace AlertCreateParams {
 }
 
 export interface AlertArchiveParams {
+  /**
+   * The Metronome ID of the alert
+   */
   id: string;
+
+  /**
+   * If true, resets the uniqueness key on this alert so it can be re-used
+   */
+  release_uniqueness_key?: boolean;
 }
 
 export namespace Alerts {

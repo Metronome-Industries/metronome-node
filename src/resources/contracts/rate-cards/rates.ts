@@ -93,7 +93,7 @@ export namespace RateListResponse {
       | 'CUSTOM'
       | 'custom';
 
-    credit_type?: Shared.CreditType;
+    credit_type?: Shared.CreditTypeData;
 
     /**
      * Commit rate proration configuration. Only valid for SUBSCRIPTION rate_type.
@@ -151,7 +151,7 @@ export namespace RateAddResponse {
      */
     commit_rate?: Data.CommitRate;
 
-    credit_type?: Shared.CreditType;
+    credit_type?: Shared.CreditTypeData;
 
     /**
      * Only set for CUSTOM rate_type. This field is interpreted by custom rate
@@ -213,7 +213,7 @@ export namespace RateAddResponse {
         | 'CUSTOM'
         | 'custom';
 
-      credit_type?: Shared.CreditType;
+      credit_type?: Shared.CreditTypeData;
 
       /**
        * Commit rate proration configuration. Only valid for SUBSCRIPTION rate_type.
@@ -400,7 +400,7 @@ export namespace RateAddParams {
       | 'CUSTOM'
       | 'custom';
 
-    credit_type?: Shared.CreditType;
+    credit_type?: Shared.CreditTypeData;
 
     /**
      * Commit rate proration configuration. Only valid for SUBSCRIPTION rate_type.
@@ -535,7 +535,7 @@ export namespace RateAddManyParams {
         | 'CUSTOM'
         | 'custom';
 
-      credit_type?: Shared.CreditType;
+      credit_type?: Shared.CreditTypeData;
 
       /**
        * Commit rate proration configuration. Only valid for SUBSCRIPTION rate_type.

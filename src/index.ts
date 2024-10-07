@@ -344,7 +344,7 @@ export namespace Metronome {
   export import Commit = API.Commit;
   export import ContractWithoutAmendments = API.ContractWithoutAmendments;
   export import Credit = API.Credit;
-  export import CreditType = API.CreditType;
+  export import CreditTypeData = API.CreditTypeData;
   export import Discount = API.Discount;
   export import EventTypeFilter = API.EventTypeFilter;
   export import ID = API.ID;

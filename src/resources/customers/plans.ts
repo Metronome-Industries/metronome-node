@@ -100,7 +100,7 @@ export namespace PlanListResponse {
 
       amount_remaining: number;
 
-      credit_type: Shared.CreditType;
+      credit_type: Shared.CreditTypeData;
     }
   }
 }

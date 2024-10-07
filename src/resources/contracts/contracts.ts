@@ -456,7 +456,7 @@ export namespace ContractRetrieveRateScheduleResponse {
         | 'CUSTOM'
         | 'custom';
 
-      credit_type?: Shared.CreditType;
+      credit_type?: Shared.CreditTypeData;
 
       /**
        * Commit rate proration configuration. Only valid for SUBSCRIPTION rate_type.
