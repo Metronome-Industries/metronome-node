@@ -34,8 +34,8 @@ describe('resource plans', () => {
     ).rejects.toThrow(Metronome.NotFoundError);
   });
 
-  test('getDetails', async () => {
-    const responsePromise = client.plans.getDetails('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc');
+  test('getDetails: only required params', async () => {
+    const responsePromise = client.plans.getDetails({ plan_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -45,15 +45,12 @@ describe('resource plans', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('getDetails: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.plans.getDetails('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Metronome.NotFoundError);
+  test('getDetails: required and optional params', async () => {
+    const response = await client.plans.getDetails({ plan_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' });
   });
 
-  test('listCharges', async () => {
-    const responsePromise = client.plans.listCharges('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc');
+  test('listCharges: only required params', async () => {
+    const responsePromise = client.plans.listCharges({ plan_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -63,26 +60,16 @@ describe('resource plans', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('listCharges: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.plans.listCharges('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Metronome.NotFoundError);
+  test('listCharges: required and optional params', async () => {
+    const response = await client.plans.listCharges({
+      plan_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      limit: 1,
+      next_page: 'next_page',
+    });
   });
 
-  test('listCharges: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.plans.listCharges(
-        'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        { limit: 1, next_page: 'next_page' },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Metronome.NotFoundError);
-  });
-
-  test('listCustomers', async () => {
-    const responsePromise = client.plans.listCustomers('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc');
+  test('listCustomers: only required params', async () => {
+    const responsePromise = client.plans.listCustomers({ plan_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -92,23 +79,12 @@ describe('resource plans', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('listCustomers: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.plans.listCustomers('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
-        path: '/_stainless_unknown_path',
-      }),
-    ).rejects.toThrow(Metronome.NotFoundError);
-  });
-
-  test('listCustomers: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.plans.listCustomers(
-        'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        { limit: 1, next_page: 'next_page', status: 'all' },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Metronome.NotFoundError);
+  test('listCustomers: required and optional params', async () => {
+    const response = await client.plans.listCustomers({
+      plan_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      limit: 1,
+      next_page: 'next_page',
+      status: 'all',
+    });
   });
 });

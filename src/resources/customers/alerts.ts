@@ -102,7 +102,7 @@ export namespace CustomerAlert {
      */
     credit_grant_type_filters?: Array<string>;
 
-    credit_type?: Shared.CreditType | null;
+    credit_type?: Shared.CreditTypeData | null;
 
     /**
      * A list of custom field filters for alert types that support advanced filtering

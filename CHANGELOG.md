@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.1.0-beta.6 (2024-10-07)
+
+Full Changelog: [v0.1.0-beta.5...v0.1.0-beta.6](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.5...v0.1.0-beta.6)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#111](https://github.com/Metronome-Industries/metronome-node/issues/111)) ([594c7aa](https://github.com/Metronome-Industries/metronome-node/commit/594c7aa0b348a3ba12cd4440dd2c6b58e766c50a))
+* **api:** OpenAPI spec update via Stainless API ([#114](https://github.com/Metronome-Industries/metronome-node/issues/114)) ([933a4e9](https://github.com/Metronome-Industries/metronome-node/commit/933a4e95100d2fdace1578d51c588931d463a1d2))
+* **api:** OpenAPI spec update via Stainless API ([#117](https://github.com/Metronome-Industries/metronome-node/issues/117)) ([4cdfad6](https://github.com/Metronome-Industries/metronome-node/commit/4cdfad676be1cc7a703f9d682e6a95bcdf0f3452))
+
+
+### Chores
+
+* **internal:** codegen related update ([#113](https://github.com/Metronome-Industries/metronome-node/issues/113)) ([f89462a](https://github.com/Metronome-Industries/metronome-node/commit/f89462a6fb658924918ec10ee7bbc0363e13ed5a))
+* **internal:** codegen related update ([#115](https://github.com/Metronome-Industries/metronome-node/issues/115)) ([335f682](https://github.com/Metronome-Industries/metronome-node/commit/335f68267fc8465ddcdf793d5c762833f9aeb24c))
+* **internal:** codegen related update ([#116](https://github.com/Metronome-Industries/metronome-node/issues/116)) ([d2f661f](https://github.com/Metronome-Industries/metronome-node/commit/d2f661fb3516edb01c2e9bf474703585e49b92ac))
+
 ## 0.1.0-beta.5 (2024-09-20)
 
 Full Changelog: [v0.1.0-beta.4...v0.1.0-beta.5](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.4...v0.1.0-beta.5)
