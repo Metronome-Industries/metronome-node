@@ -267,7 +267,7 @@ export namespace CreditGrantListResponse {
     /**
      * the credit type for the amount granted
      */
-    credit_type: Shared.CreditType;
+    credit_type: Shared.CreditTypeData;
   }
 
   /**
@@ -279,7 +279,7 @@ export namespace CreditGrantListResponse {
     /**
      * the credit type for the amount paid
      */
-    credit_type: Shared.CreditType;
+    credit_type: Shared.CreditTypeData;
   }
 
   export interface Product {
@@ -316,7 +316,7 @@ export namespace CreditGrantListEntriesResponse {
 
   export namespace Data {
     export interface Ledger {
-      credit_type: Shared.CreditType;
+      credit_type: Shared.CreditTypeData;
 
       /**
        * the effective balances at the end of the specified time window

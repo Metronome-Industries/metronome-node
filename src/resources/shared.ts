@@ -515,7 +515,7 @@ export namespace Credit {
   }
 }
 
-export interface CreditType {
+export interface CreditTypeData {
   id: string;
 
   name: string;
@@ -574,7 +574,7 @@ export interface Override {
 
   applicable_product_tags?: Array<string>;
 
-  credit_type?: CreditType;
+  credit_type?: CreditTypeData;
 
   ending_before?: string;
 
@@ -644,7 +644,7 @@ export namespace Override {
   export interface OverwriteRate {
     rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
-    credit_type?: Shared.CreditType;
+    credit_type?: Shared.CreditTypeData;
 
     /**
      * Only set for CUSTOM rate_type. This field is interpreted by custom rate
@@ -747,7 +747,7 @@ export interface ProService {
 export interface Rate {
   rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
 
-  credit_type?: CreditType;
+  credit_type?: CreditTypeData;
 
   /**
    * Only set for CUSTOM rate_type. This field is interpreted by custom rate
@@ -821,7 +821,7 @@ export namespace ScheduledCharge {
 export interface ScheduleDuration {
   schedule_items: Array<ScheduleDuration.ScheduleItem>;
 
-  credit_type?: CreditType;
+  credit_type?: CreditTypeData;
 }
 
 export namespace ScheduleDuration {
@@ -837,7 +837,7 @@ export namespace ScheduleDuration {
 }
 
 export interface SchedulePointInTime {
-  credit_type?: CreditType;
+  credit_type?: CreditTypeData;
 
   schedule_items?: Array<SchedulePointInTime.ScheduleItem>;
 }

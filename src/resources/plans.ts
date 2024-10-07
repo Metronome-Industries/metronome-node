@@ -95,11 +95,11 @@ export namespace PlanDetail {
   export interface CreditGrant {
     amount_granted: number;
 
-    amount_granted_credit_type: Shared.CreditType;
+    amount_granted_credit_type: Shared.CreditTypeData;
 
     amount_paid: number;
 
-    amount_paid_credit_type: Shared.CreditType;
+    amount_paid_credit_type: Shared.CreditTypeData;
 
     effective_duration: number;
 
@@ -117,7 +117,7 @@ export namespace PlanDetail {
   }
 
   export interface Minimum {
-    credit_type: Shared.CreditType;
+    credit_type: Shared.CreditTypeData;
 
     name: string;
 
@@ -131,9 +131,9 @@ export namespace PlanDetail {
   }
 
   export interface OverageRate {
-    credit_type: Shared.CreditType;
+    credit_type: Shared.CreditTypeData;
 
-    fiat_credit_type: Shared.CreditType;
+    fiat_credit_type: Shared.CreditTypeData;
 
     /**
      * Used in price ramps. Indicates how many billing periods pass before the charge
@@ -164,7 +164,7 @@ export interface PlanListChargesResponse {
 
   charge_type: 'usage' | 'fixed' | 'composite' | 'minimum' | 'seat';
 
-  credit_type: Shared.CreditType;
+  credit_type: Shared.CreditTypeData;
 
   custom_fields: Record<string, string>;
 
