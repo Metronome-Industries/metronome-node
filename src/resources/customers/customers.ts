@@ -33,8 +33,12 @@ export class Customers extends APIResource {
   /**
    * Get a customer by Metronome ID.
    */
-  retrieve(customerId: string, options?: Core.RequestOptions): Core.APIPromise<CustomerRetrieveResponse> {
-    return this._client.get(`/customers/${customerId}`, options);
+  retrieve(
+    params: CustomerRetrieveParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<CustomerRetrieveResponse> {
+    const { customer_id } = params;
+    return this._client.get(`/customers/${customer_id}`, options);
   }
 
   /**
@@ -69,24 +73,12 @@ export class Customers extends APIResource {
    * Get all billable metrics for a given customer.
    */
   listBillableMetrics(
-    customerId: string,
-    query?: CustomerListBillableMetricsParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse>;
-  listBillableMetrics(
-    customerId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse>;
-  listBillableMetrics(
-    customerId: string,
-    query: CustomerListBillableMetricsParams | Core.RequestOptions = {},
+    params: CustomerListBillableMetricsParams,
     options?: Core.RequestOptions,
   ): Core.PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse> {
-    if (isRequestOptions(query)) {
-      return this.listBillableMetrics(customerId, {}, query);
-    }
+    const { customer_id, ...query } = params;
     return this._client.getAPIList(
-      `/customers/${customerId}/billable-metrics`,
+      `/customers/${customer_id}/billable-metrics`,
       CustomerListBillableMetricsResponsesCursorPage,
       { query, ...options },
     );
@@ -98,11 +90,11 @@ export class Customers extends APIResource {
    * UNIQUE-type billable metric.
    */
   listCosts(
-    customerId: string,
-    query: CustomerListCostsParams,
+    params: CustomerListCostsParams,
     options?: Core.RequestOptions,
   ): Core.PagePromise<CustomerListCostsResponsesCursorPage, CustomerListCostsResponse> {
-    return this._client.getAPIList(`/customers/${customerId}/costs`, CustomerListCostsResponsesCursorPage, {
+    const { customer_id, ...query } = params;
+    return this._client.getAPIList(`/customers/${customer_id}/costs`, CustomerListCostsResponsesCursorPage, {
       query,
       ...options,
     });
@@ -114,11 +106,11 @@ export class Customers extends APIResource {
    * idempotent. It fully replaces the set of ingest aliases for the given customer.
    */
   setIngestAliases(
-    customerId: string,
-    body: CustomerSetIngestAliasesParams,
+    params: CustomerSetIngestAliasesParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<void> {
-    return this._client.post(`/customers/${customerId}/setIngestAliases`, {
+    const { customer_id, ...body } = params;
+    return this._client.post(`/customers/${customer_id}/setIngestAliases`, {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -129,31 +121,19 @@ export class Customers extends APIResource {
    * Updates the specified customer's name.
    */
   setName(
-    customerId: string,
-    body: CustomerSetNameParams,
+    params: CustomerSetNameParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<CustomerSetNameResponse> {
-    return this._client.post(`/customers/${customerId}/setName`, { body, ...options });
+    const { customer_id, ...body } = params;
+    return this._client.post(`/customers/${customer_id}/setName`, { body, ...options });
   }
 
   /**
    * Updates the specified customer's config.
    */
-  updateConfig(
-    customerId: string,
-    body?: CustomerUpdateConfigParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<void>;
-  updateConfig(customerId: string, options?: Core.RequestOptions): Core.APIPromise<void>;
-  updateConfig(
-    customerId: string,
-    body: CustomerUpdateConfigParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<void> {
-    if (isRequestOptions(body)) {
-      return this.updateConfig(customerId, {}, body);
-    }
-    return this._client.post(`/customers/${customerId}/updateConfig`, {
+  updateConfig(params: CustomerUpdateConfigParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+    const { customer_id, ...body } = params;
+    return this._client.post(`/customers/${customer_id}/updateConfig`, {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -416,6 +396,10 @@ export namespace CustomerCreateParams {
   }
 }
 
+export interface CustomerRetrieveParams {
+  customer_id: string;
+}
+
 export interface CustomerListParams extends CursorPageParams {
   /**
    * Filter the customer list by customer_id. Up to 100 ids can be provided.
@@ -445,45 +429,73 @@ export interface CustomerArchiveParams {
 
 export interface CustomerListBillableMetricsParams extends CursorPageParams {
   /**
-   * If true, the list of metrics will be filtered to just ones that are on the
-   * customer's current plan
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Query param: If true, the list of metrics will be filtered to just ones that are
+   * on the customer's current plan
    */
   on_current_plan?: boolean;
 }
 
 export interface CustomerListCostsParams extends CursorPageParams {
   /**
-   * RFC 3339 timestamp (exclusive)
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Query param: RFC 3339 timestamp (exclusive)
    */
   ending_before: string;
 
   /**
-   * RFC 3339 timestamp (inclusive)
+   * Query param: RFC 3339 timestamp (inclusive)
    */
   starting_on: string;
 }
 
 export interface CustomerSetIngestAliasesParams {
+  /**
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Body param:
+   */
   ingest_aliases: Array<string>;
 }
 
 export interface CustomerSetNameParams {
   /**
-   * The new name for the customer. This will be truncated to 160 characters if the
-   * provided name is longer.
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Body param: The new name for the customer. This will be truncated to 160
+   * characters if the provided name is longer.
    */
   name: string;
 }
 
 export interface CustomerUpdateConfigParams {
   /**
-   * Leave in draft or set to auto-advance on invoices sent to Stripe. Falls back to
-   * the client-level config if unset, which defaults to true if unset.
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Body param: Leave in draft or set to auto-advance on invoices sent to Stripe.
+   * Falls back to the client-level config if unset, which defaults to true if unset.
    */
   leave_stripe_invoices_in_draft?: boolean | null;
 
   /**
-   * The Salesforce account ID for the customer
+   * Body param: The Salesforce account ID for the customer
    */
   salesforce_account_id?: string | null;
 }
@@ -501,6 +513,7 @@ export namespace Customers {
   export import CustomerListBillableMetricsResponsesCursorPage = CustomersAPI.CustomerListBillableMetricsResponsesCursorPage;
   export import CustomerListCostsResponsesCursorPage = CustomersAPI.CustomerListCostsResponsesCursorPage;
   export import CustomerCreateParams = CustomersAPI.CustomerCreateParams;
+  export import CustomerRetrieveParams = CustomersAPI.CustomerRetrieveParams;
   export import CustomerListParams = CustomersAPI.CustomerListParams;
   export import CustomerArchiveParams = CustomersAPI.CustomerArchiveParams;
   export import CustomerListBillableMetricsParams = CustomersAPI.CustomerListBillableMetricsParams;
@@ -540,6 +553,8 @@ export namespace Customers {
   export import BillingConfig = BillingConfigAPI.BillingConfig;
   export import BillingConfigRetrieveResponse = BillingConfigAPI.BillingConfigRetrieveResponse;
   export import BillingConfigCreateParams = BillingConfigAPI.BillingConfigCreateParams;
+  export import BillingConfigRetrieveParams = BillingConfigAPI.BillingConfigRetrieveParams;
+  export import BillingConfigDeleteParams = BillingConfigAPI.BillingConfigDeleteParams;
   export import Commits = CommitsAPI.Commits;
   export import CommitCreateResponse = CommitsAPI.CommitCreateResponse;
   export import CommitListResponse = CommitsAPI.CommitListResponse;
