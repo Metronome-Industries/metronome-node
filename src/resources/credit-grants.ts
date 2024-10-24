@@ -267,7 +267,7 @@ export namespace CreditGrantListResponse {
     /**
      * the credit type for the amount granted
      */
-    credit_type: Shared.CreditType;
+    credit_type: Shared.CreditTypeData;
   }
 
   /**
@@ -279,7 +279,7 @@ export namespace CreditGrantListResponse {
     /**
      * the credit type for the amount paid
      */
-    credit_type: Shared.CreditType;
+    credit_type: Shared.CreditTypeData;
   }
 
   export interface Product {
@@ -316,7 +316,7 @@ export namespace CreditGrantListEntriesResponse {
 
   export namespace Data {
     export interface Ledger {
-      credit_type: Shared.CreditType;
+      credit_type: Shared.CreditTypeData;
 
       /**
        * the effective balances at the end of the specified time window
@@ -389,8 +389,7 @@ export interface CreditGrantCreateParams {
   customer_id: string;
 
   /**
-   * The credit grant will only apply to billing periods that end before this
-   * timestamp.
+   * The credit grant will only apply to usage or charges dated before this timestamp
    */
   expires_at: string;
 
@@ -419,8 +418,8 @@ export interface CreditGrantCreateParams {
   custom_fields?: Record<string, string>;
 
   /**
-   * The credit grant will only apply to billing periods that end at or after this
-   * timestamp.
+   * The credit grant will only apply to usage or charges dated on or after this
+   * timestamp
    */
   effective_at?: string;
 
@@ -461,6 +460,9 @@ export namespace CreditGrantCreateParams {
   export interface GrantAmount {
     amount: number;
 
+    /**
+     * the ID of the pricing unit to be used
+     */
     credit_type_id: string;
   }
 
@@ -470,6 +472,9 @@ export namespace CreditGrantCreateParams {
   export interface PaidAmount {
     amount: number;
 
+    /**
+     * the ID of the pricing unit to be used
+     */
     credit_type_id: string;
   }
 

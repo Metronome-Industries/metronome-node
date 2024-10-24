@@ -105,7 +105,7 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Create a new, scheduled invoice for Professional Services terms on a contract.
+   * Create a new scheduled invoice for Professional Services terms on a contract.
    * This endpoint's availability is dependent on your client's configuration.
    */
   scheduleProServicesInvoice(
@@ -605,6 +605,8 @@ export namespace ContractCreateParams {
      * first.
      */
     priority?: number;
+
+    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
 
     /**
      * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
@@ -1263,12 +1265,21 @@ export namespace ContractCreateParams {
   }
 
   export interface UsageStatementSchedule {
-    frequency: 'MONTHLY' | 'QUARTERLY';
+    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+
+    /**
+     * Required when using CUSTOM_DATE. This option lets you set a historical billing
+     * anchor date, aligning future billing cycles with a chosen cadence. For example,
+     * if a contract starts on 2024-09-15 and you set the anchor date to 2024-09-10
+     * with a MONTHLY frequency, the first usage statement will cover 09-15 to 10-10.
+     * Subsequent statements will follow the 10th of each month.
+     */
+    billing_anchor_date?: string;
 
     /**
      * If not provided, defaults to the first day of the month.
      */
-    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START';
+    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE' | 'custom_date';
 
     /**
      * The date Metronome should start generating usage invoices. If unspecified,
@@ -1476,6 +1487,8 @@ export namespace ContractAmendParams {
      * first.
      */
     priority?: number;
+
+    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
 
     /**
      * Fraction of unused segments that will be rolled over. Must be between 0 and 1.

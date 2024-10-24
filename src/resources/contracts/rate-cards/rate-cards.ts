@@ -57,7 +57,8 @@ export class RateCards extends APIResource {
   }
 
   /**
-   * Get a specific rate schedule including all rate card entries
+   * Get all rates for a rate card from starting_at (either in perpetuity or until
+   * ending_before, if provided)
    */
   retrieveRateSchedule(
     params: RateCardRetrieveRateScheduleParams,
@@ -102,7 +103,7 @@ export namespace RateCardRetrieveResponse {
 
     description?: string;
 
-    fiat_credit_type?: Shared.CreditType;
+    fiat_credit_type?: Shared.CreditTypeData;
   }
 
   export namespace Data {
@@ -120,7 +121,7 @@ export namespace RateCardRetrieveResponse {
 
         created_by?: string;
 
-        credit_type?: Shared.CreditType;
+        credit_type?: Shared.CreditTypeData;
 
         custom_rate?: Record<string, unknown>;
 
@@ -154,7 +155,7 @@ export namespace RateCardRetrieveResponse {
 
         starting_at: string;
 
-        credit_type?: Shared.CreditType;
+        credit_type?: Shared.CreditTypeData;
 
         custom_rate?: Record<string, unknown>;
 
@@ -179,7 +180,7 @@ export namespace RateCardRetrieveResponse {
     }
 
     export interface CreditTypeConversion {
-      custom_credit_type: Shared.CreditType;
+      custom_credit_type: Shared.CreditTypeData;
 
       fiat_per_custom_credit: string;
     }
@@ -209,7 +210,7 @@ export interface RateCardListResponse {
 
   description?: string;
 
-  fiat_credit_type?: Shared.CreditType;
+  fiat_credit_type?: Shared.CreditTypeData;
 }
 
 export namespace RateCardListResponse {
@@ -227,7 +228,7 @@ export namespace RateCardListResponse {
 
       created_by?: string;
 
-      credit_type?: Shared.CreditType;
+      credit_type?: Shared.CreditTypeData;
 
       custom_rate?: Record<string, unknown>;
 
@@ -261,7 +262,7 @@ export namespace RateCardListResponse {
 
       starting_at: string;
 
-      credit_type?: Shared.CreditType;
+      credit_type?: Shared.CreditTypeData;
 
       custom_rate?: Record<string, unknown>;
 
@@ -286,7 +287,7 @@ export namespace RateCardListResponse {
   }
 
   export interface CreditTypeConversion {
-    custom_credit_type: Shared.CreditType;
+    custom_credit_type: Shared.CreditTypeData;
 
     fiat_per_custom_credit: string;
   }
@@ -341,8 +342,8 @@ export interface RateCardCreateParams {
   description?: string;
 
   /**
-   * "The Metronome ID of the credit type to associate with the rate card, defaults
-   * to USD (cents) if not passed."
+   * The Metronome ID of the credit type to associate with the rate card, defaults to
+   * USD (cents) if not passed.
    */
   fiat_credit_type_id?: string;
 }

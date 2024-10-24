@@ -36,9 +36,8 @@ describe('resource dashboards', () => {
       ],
       color_overrides: [{ name: 'Gray_dark', value: '#ff0000' }],
       dashboard_options: [
-        { key: 'key', value: 'value' },
-        { key: 'key', value: 'value' },
-        { key: 'key', value: 'value' },
+        { key: 'show_zero_usage_line_items', value: 'false' },
+        { key: 'hide_voided_invoices', value: 'true' },
       ],
     });
   });

@@ -77,7 +77,7 @@ describe('resource customFields', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.customFields.listKeys(
-        { next_page: 'next_page', entities: ['alert', 'billable_metric'] },
+        { next_page: 'next_page', entities: ['alert'] },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);

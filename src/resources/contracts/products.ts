@@ -381,7 +381,7 @@ export interface ProductCreateParams {
 
   /**
    * This field's availability is dependent on your client's configuration. Defaults
-   * to true
+   * to true.
    */
   is_refundable?: boolean;
 
