@@ -49,8 +49,8 @@ export namespace BillingConfigRetrieveResponse {
   export interface Data {
     /**
      * Contract expiration date for the customer. The expected format is RFC 3339 and
-     * can be retrieved from AWS's GetEntitlements API. (See
-     * https://docs.aws.amazon.com/marketplaceentitlement/latest/APIReference/API_GetEntitlements.html.)
+     * can be retrieved from
+     * [AWS's GetEntitlements API](https://docs.aws.amazon.com/marketplaceentitlement/latest/APIReference/API_GetEntitlements.html).
      */
     aws_expiration_date?: string;
 
@@ -85,8 +85,8 @@ export namespace BillingConfigRetrieveResponse {
 
     /**
      * Subscription term start/end date for the customer. The expected format is RFC
-     * 3339 and can be retrieved from Azure's Get Subscription API. (See
-     * https://learn.microsoft.com/en-us/partner-center/marketplace/partner-center-portal/pc-saas-fulfillment-subscription-api#get-subscription.)
+     * 3339 and can be retrieved from
+     * [Azure's Get Subscription API](https://learn.microsoft.com/en-us/partner-center/marketplace/partner-center-portal/pc-saas-fulfillment-subscription-api#get-subscription).
      */
     azure_expiration_date?: string;
 
@@ -94,8 +94,8 @@ export namespace BillingConfigRetrieveResponse {
 
     /**
      * Subscription term start/end date for the customer. The expected format is RFC
-     * 3339 and can be retrieved from Azure's Get Subscription API. (See
-     * https://learn.microsoft.com/en-us/partner-center/marketplace/partner-center-portal/pc-saas-fulfillment-subscription-api#get-subscription.)
+     * 3339 and can be retrieved from
+     * [Azure's Get Subscription API](https://learn.microsoft.com/en-us/partner-center/marketplace/partner-center-portal/pc-saas-fulfillment-subscription-api#get-subscription).
      */
     azure_start_date?: string;
 

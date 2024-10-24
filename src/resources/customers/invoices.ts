@@ -156,6 +156,9 @@ export namespace Invoice {
 
     total: number;
 
+    /**
+     * only present for beta contract invoices
+     */
     commit_custom_fields?: Record<string, string>;
 
     /**
@@ -202,7 +205,7 @@ export namespace Invoice {
     is_prorated?: boolean;
 
     /**
-     * only present for contract invoices and when the include_list_prices query
+     * Only present for contract invoices and when the include_list_prices query
      * parameter is set to true. This will include the list rate for the charge if
      * applicable. Only present for usage and subscription line items.
      */
@@ -249,6 +252,9 @@ export namespace Invoice {
 
     product_type?: string;
 
+    /**
+     * only present for beta contract invoices
+     */
     professional_service_custom_fields?: Record<string, string>;
 
     /**
