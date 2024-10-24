@@ -83,6 +83,8 @@ export interface Commit {
    */
   priority?: number;
 
+  rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
   rolled_over_from?: Commit.RolledOverFrom;
 
   rollover_fraction?: number;

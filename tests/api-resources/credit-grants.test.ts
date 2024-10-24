@@ -177,7 +177,7 @@ describe('resource creditGrants', () => {
   });
 
   test('void: only required params', async () => {
-    const responsePromise = client.creditGrants.void({ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
+    const responsePromise = client.creditGrants.void({ id: '9b85c1c1-5238-4f2a-a409-61412905e1e1' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -189,7 +189,7 @@ describe('resource creditGrants', () => {
 
   test('void: required and optional params', async () => {
     const response = await client.creditGrants.void({
-      id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
       release_uniqueness_key: true,
       void_credit_purchase_invoice: true,
     });

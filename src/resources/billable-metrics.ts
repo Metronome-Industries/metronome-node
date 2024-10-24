@@ -179,21 +179,20 @@ export interface BillableMetricArchiveResponse {
 
 export interface BillableMetricCreateParams {
   /**
-   * Specifies the type of aggregation performed on matching events.
-   */
-  aggregation_type: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
-
-  /**
    * The display name of the billable metric.
    */
   name: string;
 
   /**
-   * A key that specifies which property of the event is used to aggregate data. This
-   * key must be one of the property filter names and is not applicable when the
-   * aggregation type is 'count'.
+   * Specifies the type of aggregation performed on matching events. Required if
+   * `sql` is not provided.
    */
   aggregation_key?: string;
+
+  /**
+   * Specifies the type of aggregation performed on matching events.
+   */
+  aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
 
   /**
    * Custom fields to attach to the billable metric.
@@ -217,6 +216,14 @@ export interface BillableMetricCreateParams {
    * billable metric.
    */
   property_filters?: Array<Shared.PropertyFilter>;
+
+  /**
+   * The SQL query associated with the billable metric. This field is mutually
+   * exclusive with aggregation_type, event_type_filter, property_filters,
+   * aggregation_key, and group_keys. If provided, these other fields must be
+   * omitted.
+   */
+  sql?: string;
 }
 
 export interface BillableMetricRetrieveParams {

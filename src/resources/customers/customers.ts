@@ -338,8 +338,8 @@ export interface CustomerCreateParams {
   custom_fields?: Record<string, string>;
 
   /**
-   * (deprecated, use ingest_aliases instead) the first ID (Metronome ID or ingest
-   * alias) that can be used in usage events
+   * (deprecated, use ingest_aliases instead) an alias that can be used to refer to
+   * this customer in usage events
    */
   external_id?: string;
 
