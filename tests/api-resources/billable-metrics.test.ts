@@ -10,7 +10,7 @@ const client = new Metronome({
 
 describe('resource billableMetrics', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.billableMetrics.create({ aggregation_type: 'COUNT', name: 'CPU Hours' });
+    const responsePromise = client.billableMetrics.create({ name: 'CPU Hours' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,9 +22,9 @@ describe('resource billableMetrics', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.billableMetrics.create({
-      aggregation_type: 'COUNT',
       name: 'CPU Hours',
       aggregation_key: 'cpu_hours',
+      aggregation_type: 'COUNT',
       custom_fields: { foo: 'string' },
       event_type_filter: { in_values: ['cpu_usage'], not_in_values: ['string', 'string', 'string'] },
       group_keys: [['region'], ['machine_type']],
@@ -48,6 +48,7 @@ describe('resource billableMetrics', () => {
           not_in_values: ['string', 'string', 'string'],
         },
       ],
+      sql: 'sql',
     });
   });
 
