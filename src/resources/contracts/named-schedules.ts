@@ -84,7 +84,7 @@ export interface NamedScheduleUpdateParams {
 }
 
 export namespace NamedSchedules {
-  export import NamedScheduleRetrieveResponse = NamedSchedulesAPI.NamedScheduleRetrieveResponse;
-  export import NamedScheduleRetrieveParams = NamedSchedulesAPI.NamedScheduleRetrieveParams;
-  export import NamedScheduleUpdateParams = NamedSchedulesAPI.NamedScheduleUpdateParams;
+  export type NamedScheduleRetrieveResponse = NamedSchedulesAPI.NamedScheduleRetrieveResponse;
+  export type NamedScheduleRetrieveParams = NamedSchedulesAPI.NamedScheduleRetrieveParams;
+  export type NamedScheduleUpdateParams = NamedSchedulesAPI.NamedScheduleUpdateParams;
 }

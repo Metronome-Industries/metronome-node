@@ -203,10 +203,10 @@ export interface AlertResetParams {
 }
 
 export namespace Alerts {
-  export import CustomerAlert = AlertsAPI.CustomerAlert;
-  export import AlertRetrieveResponse = AlertsAPI.AlertRetrieveResponse;
-  export import AlertListResponse = AlertsAPI.AlertListResponse;
-  export import AlertRetrieveParams = AlertsAPI.AlertRetrieveParams;
-  export import AlertListParams = AlertsAPI.AlertListParams;
-  export import AlertResetParams = AlertsAPI.AlertResetParams;
+  export type CustomerAlert = AlertsAPI.CustomerAlert;
+  export type AlertRetrieveResponse = AlertsAPI.AlertRetrieveResponse;
+  export type AlertListResponse = AlertsAPI.AlertListResponse;
+  export type AlertRetrieveParams = AlertsAPI.AlertRetrieveParams;
+  export type AlertListParams = AlertsAPI.AlertListParams;
+  export type AlertResetParams = AlertsAPI.AlertResetParams;
 }

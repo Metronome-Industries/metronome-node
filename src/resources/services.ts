@@ -31,5 +31,5 @@ export namespace ServiceListResponse {
 }
 
 export namespace Services {
-  export import ServiceListResponse = ServicesAPI.ServiceListResponse;
+  export type ServiceListResponse = ServicesAPI.ServiceListResponse;
 }

@@ -628,14 +628,14 @@ export interface InvoiceListBreakdownsParams extends CursorPageParams {
 }
 
 export namespace Invoices {
-  export import Invoice = InvoicesAPI.Invoice;
-  export import InvoiceRetrieveResponse = InvoicesAPI.InvoiceRetrieveResponse;
-  export import InvoiceAddChargeResponse = InvoicesAPI.InvoiceAddChargeResponse;
-  export import InvoiceListBreakdownsResponse = InvoicesAPI.InvoiceListBreakdownsResponse;
+  export type Invoice = InvoicesAPI.Invoice;
+  export type InvoiceRetrieveResponse = InvoicesAPI.InvoiceRetrieveResponse;
+  export type InvoiceAddChargeResponse = InvoicesAPI.InvoiceAddChargeResponse;
+  export type InvoiceListBreakdownsResponse = InvoicesAPI.InvoiceListBreakdownsResponse;
   export import InvoicesCursorPage = InvoicesAPI.InvoicesCursorPage;
   export import InvoiceListBreakdownsResponsesCursorPage = InvoicesAPI.InvoiceListBreakdownsResponsesCursorPage;
-  export import InvoiceRetrieveParams = InvoicesAPI.InvoiceRetrieveParams;
-  export import InvoiceListParams = InvoicesAPI.InvoiceListParams;
-  export import InvoiceAddChargeParams = InvoicesAPI.InvoiceAddChargeParams;
-  export import InvoiceListBreakdownsParams = InvoicesAPI.InvoiceListBreakdownsParams;
+  export type InvoiceRetrieveParams = InvoicesAPI.InvoiceRetrieveParams;
+  export type InvoiceListParams = InvoicesAPI.InvoiceListParams;
+  export type InvoiceAddChargeParams = InvoicesAPI.InvoiceAddChargeParams;
+  export type InvoiceListBreakdownsParams = InvoicesAPI.InvoiceListBreakdownsParams;
 }
