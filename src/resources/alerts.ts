@@ -154,8 +154,8 @@ export interface AlertArchiveParams {
 }
 
 export namespace Alerts {
-  export import AlertCreateResponse = AlertsAPI.AlertCreateResponse;
-  export import AlertArchiveResponse = AlertsAPI.AlertArchiveResponse;
-  export import AlertCreateParams = AlertsAPI.AlertCreateParams;
-  export import AlertArchiveParams = AlertsAPI.AlertArchiveParams;
+  export type AlertCreateResponse = AlertsAPI.AlertCreateResponse;
+  export type AlertArchiveResponse = AlertsAPI.AlertArchiveResponse;
+  export type AlertCreateParams = AlertsAPI.AlertCreateParams;
+  export type AlertArchiveParams = AlertsAPI.AlertArchiveParams;
 }
