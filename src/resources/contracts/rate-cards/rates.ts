@@ -325,11 +325,11 @@ export namespace RateAddManyParams {
 }
 
 export namespace Rates {
-  export type RateListResponse = RatesAPI.RateListResponse;
-  export type RateAddResponse = RatesAPI.RateAddResponse;
-  export type RateAddManyResponse = RatesAPI.RateAddManyResponse;
+  export import RateListResponse = RatesAPI.RateListResponse;
+  export import RateAddResponse = RatesAPI.RateAddResponse;
+  export import RateAddManyResponse = RatesAPI.RateAddManyResponse;
   export import RateListResponsesCursorPage = RatesAPI.RateListResponsesCursorPage;
-  export type RateListParams = RatesAPI.RateListParams;
-  export type RateAddParams = RatesAPI.RateAddParams;
-  export type RateAddManyParams = RatesAPI.RateAddManyParams;
+  export import RateListParams = RatesAPI.RateListParams;
+  export import RateAddParams = RatesAPI.RateAddParams;
+  export import RateAddManyParams = RatesAPI.RateAddManyParams;
 }

@@ -291,16 +291,16 @@ export interface PlanListCustomersParams extends CursorPageParams {
 }
 
 export namespace Plans {
-  export type PlanDetail = PlansAPI.PlanDetail;
-  export type PlanListResponse = PlansAPI.PlanListResponse;
-  export type PlanGetDetailsResponse = PlansAPI.PlanGetDetailsResponse;
-  export type PlanListChargesResponse = PlansAPI.PlanListChargesResponse;
-  export type PlanListCustomersResponse = PlansAPI.PlanListCustomersResponse;
+  export import PlanDetail = PlansAPI.PlanDetail;
+  export import PlanListResponse = PlansAPI.PlanListResponse;
+  export import PlanGetDetailsResponse = PlansAPI.PlanGetDetailsResponse;
+  export import PlanListChargesResponse = PlansAPI.PlanListChargesResponse;
+  export import PlanListCustomersResponse = PlansAPI.PlanListCustomersResponse;
   export import PlanListResponsesCursorPage = PlansAPI.PlanListResponsesCursorPage;
   export import PlanListChargesResponsesCursorPage = PlansAPI.PlanListChargesResponsesCursorPage;
   export import PlanListCustomersResponsesCursorPage = PlansAPI.PlanListCustomersResponsesCursorPage;
-  export type PlanListParams = PlansAPI.PlanListParams;
-  export type PlanGetDetailsParams = PlansAPI.PlanGetDetailsParams;
-  export type PlanListChargesParams = PlansAPI.PlanListChargesParams;
-  export type PlanListCustomersParams = PlansAPI.PlanListCustomersParams;
+  export import PlanListParams = PlansAPI.PlanListParams;
+  export import PlanGetDetailsParams = PlansAPI.PlanGetDetailsParams;
+  export import PlanListChargesParams = PlansAPI.PlanListChargesParams;
+  export import PlanListCustomersParams = PlansAPI.PlanListCustomersParams;
 }

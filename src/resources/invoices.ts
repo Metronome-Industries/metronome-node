@@ -61,8 +61,8 @@ export interface InvoiceVoidParams {
 }
 
 export namespace Invoices {
-  export type InvoiceRegenerateResponse = InvoicesAPI.InvoiceRegenerateResponse;
-  export type InvoiceVoidResponse = InvoicesAPI.InvoiceVoidResponse;
-  export type InvoiceRegenerateParams = InvoicesAPI.InvoiceRegenerateParams;
-  export type InvoiceVoidParams = InvoicesAPI.InvoiceVoidParams;
+  export import InvoiceRegenerateResponse = InvoicesAPI.InvoiceRegenerateResponse;
+  export import InvoiceVoidResponse = InvoicesAPI.InvoiceVoidResponse;
+  export import InvoiceRegenerateParams = InvoicesAPI.InvoiceRegenerateParams;
+  export import InvoiceVoidParams = InvoicesAPI.InvoiceVoidParams;
 }
