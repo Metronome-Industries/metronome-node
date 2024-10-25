@@ -465,32 +465,32 @@ export namespace RateCardRetrieveRateScheduleParams {
 }
 
 export namespace RateCards {
-  export type RateCardCreateResponse = RateCardsAPI.RateCardCreateResponse;
-  export type RateCardRetrieveResponse = RateCardsAPI.RateCardRetrieveResponse;
-  export type RateCardUpdateResponse = RateCardsAPI.RateCardUpdateResponse;
-  export type RateCardListResponse = RateCardsAPI.RateCardListResponse;
-  export type RateCardRetrieveRateScheduleResponse = RateCardsAPI.RateCardRetrieveRateScheduleResponse;
+  export import RateCardCreateResponse = RateCardsAPI.RateCardCreateResponse;
+  export import RateCardRetrieveResponse = RateCardsAPI.RateCardRetrieveResponse;
+  export import RateCardUpdateResponse = RateCardsAPI.RateCardUpdateResponse;
+  export import RateCardListResponse = RateCardsAPI.RateCardListResponse;
+  export import RateCardRetrieveRateScheduleResponse = RateCardsAPI.RateCardRetrieveRateScheduleResponse;
   export import RateCardListResponsesCursorPage = RateCardsAPI.RateCardListResponsesCursorPage;
-  export type RateCardCreateParams = RateCardsAPI.RateCardCreateParams;
-  export type RateCardRetrieveParams = RateCardsAPI.RateCardRetrieveParams;
-  export type RateCardUpdateParams = RateCardsAPI.RateCardUpdateParams;
-  export type RateCardListParams = RateCardsAPI.RateCardListParams;
-  export type RateCardRetrieveRateScheduleParams = RateCardsAPI.RateCardRetrieveRateScheduleParams;
+  export import RateCardCreateParams = RateCardsAPI.RateCardCreateParams;
+  export import RateCardRetrieveParams = RateCardsAPI.RateCardRetrieveParams;
+  export import RateCardUpdateParams = RateCardsAPI.RateCardUpdateParams;
+  export import RateCardListParams = RateCardsAPI.RateCardListParams;
+  export import RateCardRetrieveRateScheduleParams = RateCardsAPI.RateCardRetrieveRateScheduleParams;
   export import ProductOrders = ProductOrdersAPI.ProductOrders;
-  export type ProductOrderUpdateResponse = ProductOrdersAPI.ProductOrderUpdateResponse;
-  export type ProductOrderSetResponse = ProductOrdersAPI.ProductOrderSetResponse;
-  export type ProductOrderUpdateParams = ProductOrdersAPI.ProductOrderUpdateParams;
-  export type ProductOrderSetParams = ProductOrdersAPI.ProductOrderSetParams;
+  export import ProductOrderUpdateResponse = ProductOrdersAPI.ProductOrderUpdateResponse;
+  export import ProductOrderSetResponse = ProductOrdersAPI.ProductOrderSetResponse;
+  export import ProductOrderUpdateParams = ProductOrdersAPI.ProductOrderUpdateParams;
+  export import ProductOrderSetParams = ProductOrdersAPI.ProductOrderSetParams;
   export import Rates = RatesAPI.Rates;
-  export type RateListResponse = RatesAPI.RateListResponse;
-  export type RateAddResponse = RatesAPI.RateAddResponse;
-  export type RateAddManyResponse = RatesAPI.RateAddManyResponse;
+  export import RateListResponse = RatesAPI.RateListResponse;
+  export import RateAddResponse = RatesAPI.RateAddResponse;
+  export import RateAddManyResponse = RatesAPI.RateAddManyResponse;
   export import RateListResponsesCursorPage = RatesAPI.RateListResponsesCursorPage;
-  export type RateListParams = RatesAPI.RateListParams;
-  export type RateAddParams = RatesAPI.RateAddParams;
-  export type RateAddManyParams = RatesAPI.RateAddManyParams;
+  export import RateListParams = RatesAPI.RateListParams;
+  export import RateAddParams = RatesAPI.RateAddParams;
+  export import RateAddManyParams = RatesAPI.RateAddManyParams;
   export import NamedSchedules = NamedSchedulesAPI.NamedSchedules;
-  export type NamedScheduleRetrieveResponse = NamedSchedulesAPI.NamedScheduleRetrieveResponse;
-  export type NamedScheduleRetrieveParams = NamedSchedulesAPI.NamedScheduleRetrieveParams;
-  export type NamedScheduleUpdateParams = NamedSchedulesAPI.NamedScheduleUpdateParams;
+  export import NamedScheduleRetrieveResponse = NamedSchedulesAPI.NamedScheduleRetrieveResponse;
+  export import NamedScheduleRetrieveParams = NamedSchedulesAPI.NamedScheduleRetrieveParams;
+  export import NamedScheduleUpdateParams = NamedSchedulesAPI.NamedScheduleUpdateParams;
 }

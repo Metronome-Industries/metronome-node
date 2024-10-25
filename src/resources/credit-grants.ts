@@ -605,21 +605,21 @@ export interface CreditGrantVoidParams {
 }
 
 export namespace CreditGrants {
-  export type CreditLedgerEntry = CreditGrantsAPI.CreditLedgerEntry;
-  export type RolloverAmountMaxAmount = CreditGrantsAPI.RolloverAmountMaxAmount;
-  export type RolloverAmountMaxPercentage = CreditGrantsAPI.RolloverAmountMaxPercentage;
-  export type CreditGrantCreateResponse = CreditGrantsAPI.CreditGrantCreateResponse;
-  export type CreditGrantListResponse = CreditGrantsAPI.CreditGrantListResponse;
-  export type CreditGrantEditResponse = CreditGrantsAPI.CreditGrantEditResponse;
-  export type CreditGrantListCreditTypesResponse = CreditGrantsAPI.CreditGrantListCreditTypesResponse;
-  export type CreditGrantListEntriesResponse = CreditGrantsAPI.CreditGrantListEntriesResponse;
-  export type CreditGrantVoidResponse = CreditGrantsAPI.CreditGrantVoidResponse;
+  export import CreditLedgerEntry = CreditGrantsAPI.CreditLedgerEntry;
+  export import RolloverAmountMaxAmount = CreditGrantsAPI.RolloverAmountMaxAmount;
+  export import RolloverAmountMaxPercentage = CreditGrantsAPI.RolloverAmountMaxPercentage;
+  export import CreditGrantCreateResponse = CreditGrantsAPI.CreditGrantCreateResponse;
+  export import CreditGrantListResponse = CreditGrantsAPI.CreditGrantListResponse;
+  export import CreditGrantEditResponse = CreditGrantsAPI.CreditGrantEditResponse;
+  export import CreditGrantListCreditTypesResponse = CreditGrantsAPI.CreditGrantListCreditTypesResponse;
+  export import CreditGrantListEntriesResponse = CreditGrantsAPI.CreditGrantListEntriesResponse;
+  export import CreditGrantVoidResponse = CreditGrantsAPI.CreditGrantVoidResponse;
   export import CreditGrantListResponsesCursorPage = CreditGrantsAPI.CreditGrantListResponsesCursorPage;
   export import CreditGrantListCreditTypesResponsesCursorPage = CreditGrantsAPI.CreditGrantListCreditTypesResponsesCursorPage;
-  export type CreditGrantCreateParams = CreditGrantsAPI.CreditGrantCreateParams;
-  export type CreditGrantListParams = CreditGrantsAPI.CreditGrantListParams;
-  export type CreditGrantEditParams = CreditGrantsAPI.CreditGrantEditParams;
-  export type CreditGrantListCreditTypesParams = CreditGrantsAPI.CreditGrantListCreditTypesParams;
-  export type CreditGrantListEntriesParams = CreditGrantsAPI.CreditGrantListEntriesParams;
-  export type CreditGrantVoidParams = CreditGrantsAPI.CreditGrantVoidParams;
+  export import CreditGrantCreateParams = CreditGrantsAPI.CreditGrantCreateParams;
+  export import CreditGrantListParams = CreditGrantsAPI.CreditGrantListParams;
+  export import CreditGrantEditParams = CreditGrantsAPI.CreditGrantEditParams;
+  export import CreditGrantListCreditTypesParams = CreditGrantsAPI.CreditGrantListCreditTypesParams;
+  export import CreditGrantListEntriesParams = CreditGrantsAPI.CreditGrantListEntriesParams;
+  export import CreditGrantVoidParams = CreditGrantsAPI.CreditGrantVoidParams;
 }

@@ -65,8 +65,8 @@ export interface ProductOrderSetParams {
 }
 
 export namespace ProductOrders {
-  export type ProductOrderUpdateResponse = ProductOrdersAPI.ProductOrderUpdateResponse;
-  export type ProductOrderSetResponse = ProductOrdersAPI.ProductOrderSetResponse;
-  export type ProductOrderUpdateParams = ProductOrdersAPI.ProductOrderUpdateParams;
-  export type ProductOrderSetParams = ProductOrdersAPI.ProductOrderSetParams;
+  export import ProductOrderUpdateResponse = ProductOrdersAPI.ProductOrderUpdateResponse;
+  export import ProductOrderSetResponse = ProductOrdersAPI.ProductOrderSetResponse;
+  export import ProductOrderUpdateParams = ProductOrdersAPI.ProductOrderUpdateParams;
+  export import ProductOrderSetParams = ProductOrdersAPI.ProductOrderSetParams;
 }

@@ -543,18 +543,18 @@ export interface ProductArchiveParams {
 }
 
 export namespace Products {
-  export type ProductListItemState = ProductsAPI.ProductListItemState;
-  export type QuantityConversion = ProductsAPI.QuantityConversion;
-  export type QuantityRounding = ProductsAPI.QuantityRounding;
-  export type ProductCreateResponse = ProductsAPI.ProductCreateResponse;
-  export type ProductRetrieveResponse = ProductsAPI.ProductRetrieveResponse;
-  export type ProductUpdateResponse = ProductsAPI.ProductUpdateResponse;
-  export type ProductListResponse = ProductsAPI.ProductListResponse;
-  export type ProductArchiveResponse = ProductsAPI.ProductArchiveResponse;
+  export import ProductListItemState = ProductsAPI.ProductListItemState;
+  export import QuantityConversion = ProductsAPI.QuantityConversion;
+  export import QuantityRounding = ProductsAPI.QuantityRounding;
+  export import ProductCreateResponse = ProductsAPI.ProductCreateResponse;
+  export import ProductRetrieveResponse = ProductsAPI.ProductRetrieveResponse;
+  export import ProductUpdateResponse = ProductsAPI.ProductUpdateResponse;
+  export import ProductListResponse = ProductsAPI.ProductListResponse;
+  export import ProductArchiveResponse = ProductsAPI.ProductArchiveResponse;
   export import ProductListResponsesCursorPage = ProductsAPI.ProductListResponsesCursorPage;
-  export type ProductCreateParams = ProductsAPI.ProductCreateParams;
-  export type ProductRetrieveParams = ProductsAPI.ProductRetrieveParams;
-  export type ProductUpdateParams = ProductsAPI.ProductUpdateParams;
-  export type ProductListParams = ProductsAPI.ProductListParams;
-  export type ProductArchiveParams = ProductsAPI.ProductArchiveParams;
+  export import ProductCreateParams = ProductsAPI.ProductCreateParams;
+  export import ProductRetrieveParams = ProductsAPI.ProductRetrieveParams;
+  export import ProductUpdateParams = ProductsAPI.ProductUpdateParams;
+  export import ProductListParams = ProductsAPI.ProductListParams;
+  export import ProductArchiveParams = ProductsAPI.ProductArchiveParams;
 }

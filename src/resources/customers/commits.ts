@@ -313,10 +313,10 @@ export interface CommitUpdateEndDateParams {
 }
 
 export namespace Commits {
-  export type CommitCreateResponse = CommitsAPI.CommitCreateResponse;
-  export type CommitListResponse = CommitsAPI.CommitListResponse;
-  export type CommitUpdateEndDateResponse = CommitsAPI.CommitUpdateEndDateResponse;
-  export type CommitCreateParams = CommitsAPI.CommitCreateParams;
-  export type CommitListParams = CommitsAPI.CommitListParams;
-  export type CommitUpdateEndDateParams = CommitsAPI.CommitUpdateEndDateParams;
+  export import CommitCreateResponse = CommitsAPI.CommitCreateResponse;
+  export import CommitListResponse = CommitsAPI.CommitListResponse;
+  export import CommitUpdateEndDateResponse = CommitsAPI.CommitUpdateEndDateResponse;
+  export import CommitCreateParams = CommitsAPI.CommitCreateParams;
+  export import CommitListParams = CommitsAPI.CommitListParams;
+  export import CommitUpdateEndDateParams = CommitsAPI.CommitUpdateEndDateParams;
 }
