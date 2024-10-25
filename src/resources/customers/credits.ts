@@ -190,10 +190,10 @@ export interface CreditUpdateEndDateParams {
 }
 
 export namespace Credits {
-  export type CreditCreateResponse = CreditsAPI.CreditCreateResponse;
-  export type CreditListResponse = CreditsAPI.CreditListResponse;
-  export type CreditUpdateEndDateResponse = CreditsAPI.CreditUpdateEndDateResponse;
-  export type CreditCreateParams = CreditsAPI.CreditCreateParams;
-  export type CreditListParams = CreditsAPI.CreditListParams;
-  export type CreditUpdateEndDateParams = CreditsAPI.CreditUpdateEndDateParams;
+  export import CreditCreateResponse = CreditsAPI.CreditCreateResponse;
+  export import CreditListResponse = CreditsAPI.CreditListResponse;
+  export import CreditUpdateEndDateResponse = CreditsAPI.CreditUpdateEndDateResponse;
+  export import CreditCreateParams = CreditsAPI.CreditCreateParams;
+  export import CreditListParams = CreditsAPI.CreditListParams;
+  export import CreditUpdateEndDateParams = CreditsAPI.CreditUpdateEndDateParams;
 }

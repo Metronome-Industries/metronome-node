@@ -314,14 +314,14 @@ export interface PlanListPriceAdjustmentsParams extends CursorPageParams {
 }
 
 export namespace Plans {
-  export type PlanListResponse = PlansAPI.PlanListResponse;
-  export type PlanAddResponse = PlansAPI.PlanAddResponse;
-  export type PlanEndResponse = PlansAPI.PlanEndResponse;
-  export type PlanListPriceAdjustmentsResponse = PlansAPI.PlanListPriceAdjustmentsResponse;
+  export import PlanListResponse = PlansAPI.PlanListResponse;
+  export import PlanAddResponse = PlansAPI.PlanAddResponse;
+  export import PlanEndResponse = PlansAPI.PlanEndResponse;
+  export import PlanListPriceAdjustmentsResponse = PlansAPI.PlanListPriceAdjustmentsResponse;
   export import PlanListResponsesCursorPage = PlansAPI.PlanListResponsesCursorPage;
   export import PlanListPriceAdjustmentsResponsesCursorPage = PlansAPI.PlanListPriceAdjustmentsResponsesCursorPage;
-  export type PlanListParams = PlansAPI.PlanListParams;
-  export type PlanAddParams = PlansAPI.PlanAddParams;
-  export type PlanEndParams = PlansAPI.PlanEndParams;
-  export type PlanListPriceAdjustmentsParams = PlansAPI.PlanListPriceAdjustmentsParams;
+  export import PlanListParams = PlansAPI.PlanListParams;
+  export import PlanAddParams = PlansAPI.PlanAddParams;
+  export import PlanEndParams = PlansAPI.PlanEndParams;
+  export import PlanListPriceAdjustmentsParams = PlansAPI.PlanListPriceAdjustmentsParams;
 }

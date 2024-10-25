@@ -116,6 +116,6 @@ export namespace DashboardGetEmbeddableURLParams {
 }
 
 export namespace Dashboards {
-  export type DashboardGetEmbeddableURLResponse = DashboardsAPI.DashboardGetEmbeddableURLResponse;
-  export type DashboardGetEmbeddableURLParams = DashboardsAPI.DashboardGetEmbeddableURLParams;
+  export import DashboardGetEmbeddableURLResponse = DashboardsAPI.DashboardGetEmbeddableURLResponse;
+  export import DashboardGetEmbeddableURLParams = DashboardsAPI.DashboardGetEmbeddableURLParams;
 }

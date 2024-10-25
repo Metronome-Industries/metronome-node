@@ -227,10 +227,10 @@ export namespace UsageListWithGroupsParams {
 }
 
 export namespace Usage {
-  export type UsageListResponse = UsageAPI.UsageListResponse;
-  export type UsageListWithGroupsResponse = UsageAPI.UsageListWithGroupsResponse;
+  export import UsageListResponse = UsageAPI.UsageListResponse;
+  export import UsageListWithGroupsResponse = UsageAPI.UsageListWithGroupsResponse;
   export import UsageListWithGroupsResponsesCursorPage = UsageAPI.UsageListWithGroupsResponsesCursorPage;
-  export type UsageListParams = UsageAPI.UsageListParams;
-  export type UsageIngestParams = UsageAPI.UsageIngestParams;
-  export type UsageListWithGroupsParams = UsageAPI.UsageListWithGroupsParams;
+  export import UsageListParams = UsageAPI.UsageListParams;
+  export import UsageIngestParams = UsageAPI.UsageIngestParams;
+  export import UsageListWithGroupsParams = UsageAPI.UsageListWithGroupsParams;
 }

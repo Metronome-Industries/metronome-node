@@ -233,10 +233,10 @@ export interface CustomFieldSetValuesParams {
 }
 
 export namespace CustomFields {
-  export type CustomFieldListKeysResponse = CustomFieldsAPI.CustomFieldListKeysResponse;
-  export type CustomFieldAddKeyParams = CustomFieldsAPI.CustomFieldAddKeyParams;
-  export type CustomFieldDeleteValuesParams = CustomFieldsAPI.CustomFieldDeleteValuesParams;
-  export type CustomFieldListKeysParams = CustomFieldsAPI.CustomFieldListKeysParams;
-  export type CustomFieldRemoveKeyParams = CustomFieldsAPI.CustomFieldRemoveKeyParams;
-  export type CustomFieldSetValuesParams = CustomFieldsAPI.CustomFieldSetValuesParams;
+  export import CustomFieldListKeysResponse = CustomFieldsAPI.CustomFieldListKeysResponse;
+  export import CustomFieldAddKeyParams = CustomFieldsAPI.CustomFieldAddKeyParams;
+  export import CustomFieldDeleteValuesParams = CustomFieldsAPI.CustomFieldDeleteValuesParams;
+  export import CustomFieldListKeysParams = CustomFieldsAPI.CustomFieldListKeysParams;
+  export import CustomFieldRemoveKeyParams = CustomFieldsAPI.CustomFieldRemoveKeyParams;
+  export import CustomFieldSetValuesParams = CustomFieldsAPI.CustomFieldSetValuesParams;
 }
