@@ -92,7 +92,7 @@ export interface AuditLogListParams extends CursorPageParams {
 }
 
 export namespace AuditLogs {
-  export import AuditLogListResponse = AuditLogsAPI.AuditLogListResponse;
+  export type AuditLogListResponse = AuditLogsAPI.AuditLogListResponse;
   export import AuditLogListResponsesCursorPage = AuditLogsAPI.AuditLogListResponsesCursorPage;
-  export import AuditLogListParams = AuditLogsAPI.AuditLogListParams;
+  export type AuditLogListParams = AuditLogsAPI.AuditLogListParams;
 }

@@ -208,8 +208,8 @@ export interface BillingConfigDeleteParams {
 }
 
 export namespace BillingConfig {
-  export import BillingConfigRetrieveResponse = BillingConfigAPI.BillingConfigRetrieveResponse;
-  export import BillingConfigCreateParams = BillingConfigAPI.BillingConfigCreateParams;
-  export import BillingConfigRetrieveParams = BillingConfigAPI.BillingConfigRetrieveParams;
-  export import BillingConfigDeleteParams = BillingConfigAPI.BillingConfigDeleteParams;
+  export type BillingConfigRetrieveResponse = BillingConfigAPI.BillingConfigRetrieveResponse;
+  export type BillingConfigCreateParams = BillingConfigAPI.BillingConfigCreateParams;
+  export type BillingConfigRetrieveParams = BillingConfigAPI.BillingConfigRetrieveParams;
+  export type BillingConfigDeleteParams = BillingConfigAPI.BillingConfigDeleteParams;
 }

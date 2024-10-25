@@ -237,13 +237,13 @@ export interface BillableMetricArchiveParams {
 }
 
 export namespace BillableMetrics {
-  export import BillableMetricCreateResponse = BillableMetricsAPI.BillableMetricCreateResponse;
-  export import BillableMetricRetrieveResponse = BillableMetricsAPI.BillableMetricRetrieveResponse;
-  export import BillableMetricListResponse = BillableMetricsAPI.BillableMetricListResponse;
-  export import BillableMetricArchiveResponse = BillableMetricsAPI.BillableMetricArchiveResponse;
+  export type BillableMetricCreateResponse = BillableMetricsAPI.BillableMetricCreateResponse;
+  export type BillableMetricRetrieveResponse = BillableMetricsAPI.BillableMetricRetrieveResponse;
+  export type BillableMetricListResponse = BillableMetricsAPI.BillableMetricListResponse;
+  export type BillableMetricArchiveResponse = BillableMetricsAPI.BillableMetricArchiveResponse;
   export import BillableMetricListResponsesCursorPage = BillableMetricsAPI.BillableMetricListResponsesCursorPage;
-  export import BillableMetricCreateParams = BillableMetricsAPI.BillableMetricCreateParams;
-  export import BillableMetricRetrieveParams = BillableMetricsAPI.BillableMetricRetrieveParams;
-  export import BillableMetricListParams = BillableMetricsAPI.BillableMetricListParams;
-  export import BillableMetricArchiveParams = BillableMetricsAPI.BillableMetricArchiveParams;
+  export type BillableMetricCreateParams = BillableMetricsAPI.BillableMetricCreateParams;
+  export type BillableMetricRetrieveParams = BillableMetricsAPI.BillableMetricRetrieveParams;
+  export type BillableMetricListParams = BillableMetricsAPI.BillableMetricListParams;
+  export type BillableMetricArchiveParams = BillableMetricsAPI.BillableMetricArchiveParams;
 }
