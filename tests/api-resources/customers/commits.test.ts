@@ -72,7 +72,7 @@ describe('resource commits', () => {
           unit_price: 0,
         },
         schedule_items: [
-          { timestamp: '2020-03-01T00:00:00.000Z', amount: 10000000, quantity: 1, unit_price: 10000000 },
+          { timestamp: '2020-03-01T00:00:00.000Z', amount: 0, quantity: 1, unit_price: 10000000 },
         ],
       },
       name: 'My Commit',
