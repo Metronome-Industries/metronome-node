@@ -87,6 +87,7 @@ describe('resource contracts', () => {
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
+          temporary_id: 'temporary_id',
         },
         {
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -142,6 +143,7 @@ describe('resource contracts', () => {
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
+          temporary_id: 'temporary_id',
         },
         {
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -197,6 +199,7 @@ describe('resource contracts', () => {
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
+          temporary_id: 'temporary_id',
         },
       ],
       credits: [
@@ -383,21 +386,25 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string', 'string', 'string'],
           ending_before: '2019-12-27T18:11:19.117Z',
           entitled: true,
+          is_commit_specific: true,
           multiplier: 0,
           override_specifiers: [
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string', 'string', 'string'],
             },
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string', 'string', 'string'],
             },
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -419,6 +426,7 @@ describe('resource contracts', () => {
           },
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          target: 'COMMIT_RATE',
           tiers: [
             { multiplier: 0, size: 0 },
             { multiplier: 0, size: 0 },
@@ -431,21 +439,25 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string', 'string', 'string'],
           ending_before: '2019-12-27T18:11:19.117Z',
           entitled: true,
+          is_commit_specific: true,
           multiplier: 0,
           override_specifiers: [
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string', 'string', 'string'],
             },
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string', 'string', 'string'],
             },
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -467,6 +479,7 @@ describe('resource contracts', () => {
           },
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          target: 'COMMIT_RATE',
           tiers: [
             { multiplier: 0, size: 0 },
             { multiplier: 0, size: 0 },
@@ -479,21 +492,25 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string', 'string', 'string'],
           ending_before: '2019-12-27T18:11:19.117Z',
           entitled: true,
+          is_commit_specific: true,
           multiplier: 0,
           override_specifiers: [
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string', 'string', 'string'],
             },
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string', 'string', 'string'],
             },
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -515,6 +532,7 @@ describe('resource contracts', () => {
           },
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          target: 'COMMIT_RATE',
           tiers: [
             { multiplier: 0, size: 0 },
             { multiplier: 0, size: 0 },
@@ -853,6 +871,7 @@ describe('resource contracts', () => {
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
+          temporary_id: 'temporary_id',
         },
         {
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -908,6 +927,7 @@ describe('resource contracts', () => {
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
+          temporary_id: 'temporary_id',
         },
         {
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -963,6 +983,7 @@ describe('resource contracts', () => {
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
+          temporary_id: 'temporary_id',
         },
       ],
       credits: [
@@ -1145,21 +1166,25 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string', 'string', 'string'],
           ending_before: '2019-12-27T18:11:19.117Z',
           entitled: true,
+          is_commit_specific: true,
           multiplier: 0,
           override_specifiers: [
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string', 'string', 'string'],
             },
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string', 'string', 'string'],
             },
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -1181,6 +1206,7 @@ describe('resource contracts', () => {
           },
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          target: 'COMMIT_RATE',
           tiers: [
             { multiplier: 0, size: 0 },
             { multiplier: 0, size: 0 },
@@ -1193,21 +1219,25 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string', 'string', 'string'],
           ending_before: '2019-12-27T18:11:19.117Z',
           entitled: true,
+          is_commit_specific: true,
           multiplier: 0,
           override_specifiers: [
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string', 'string', 'string'],
             },
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string', 'string', 'string'],
             },
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -1229,6 +1259,7 @@ describe('resource contracts', () => {
           },
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          target: 'COMMIT_RATE',
           tiers: [
             { multiplier: 0, size: 0 },
             { multiplier: 0, size: 0 },
@@ -1241,21 +1272,25 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string', 'string', 'string'],
           ending_before: '2019-12-27T18:11:19.117Z',
           entitled: true,
+          is_commit_specific: true,
           multiplier: 0,
           override_specifiers: [
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string', 'string', 'string'],
             },
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string', 'string', 'string'],
             },
             {
+              commit_ids: ['string', 'string', 'string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -1277,6 +1312,7 @@ describe('resource contracts', () => {
           },
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          target: 'COMMIT_RATE',
           tiers: [
             { multiplier: 0, size: 0 },
             { multiplier: 0, size: 0 },
