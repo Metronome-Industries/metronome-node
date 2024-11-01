@@ -642,18 +642,10 @@ export namespace ContractCreateParams {
      */
     priority?: number;
 
-    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
-
     /**
      * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
      */
     rollover_fraction?: number;
-
-    /**
-     * A temporary ID for the commit that can be used to reference the commit for
-     * commit specific overrides.
-     */
-    temporary_id?: string;
   }
 
   export namespace Commit {
@@ -987,13 +979,6 @@ export namespace ContractCreateParams {
     entitled?: boolean;
 
     /**
-     * Indicates whether the override should only apply to commits. Defaults to
-     * `false`. If `true`, you can specify relevant commits in `override_specifiers` by
-     * passing `commit_ids`.
-     */
-    is_commit_specific?: boolean;
-
-    /**
      * Required for MULTIPLIER type. Must be >=0.
      */
     multiplier?: number;
@@ -1023,13 +1008,6 @@ export namespace ContractCreateParams {
     product_id?: string;
 
     /**
-     * Indicates whether the override applies to commit rates or list rates. Can only
-     * be used for overrides that have `is_commit_specific` set to `true`. Defaults to
-     * `"LIST_RATE"`.
-     */
-    target?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
-
-    /**
      * Required for TIERED type. Must have at least one tier.
      */
     tiers?: Array<Override.Tier>;
@@ -1042,13 +1020,6 @@ export namespace ContractCreateParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
-      /**
-       * If provided, the override will only apply to the specified commits. Can only be
-       * used for commit specific overrides. If not provided, the override will apply to
-       * all commits.
-       */
-      commit_ids?: Array<string>;
-
       /**
        * A map of group names to values. The override will only apply to line items with
        * the specified presentation group values. Can only be used for multiplier
@@ -1551,18 +1522,10 @@ export namespace ContractAmendParams {
      */
     priority?: number;
 
-    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
-
     /**
      * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
      */
     rollover_fraction?: number;
-
-    /**
-     * A temporary ID for the commit that can be used to reference the commit for
-     * commit specific overrides.
-     */
-    temporary_id?: string;
   }
 
   export namespace Commit {
@@ -1896,13 +1859,6 @@ export namespace ContractAmendParams {
     entitled?: boolean;
 
     /**
-     * Indicates whether the override should only apply to commits. Defaults to
-     * `false`. If `true`, you can specify relevant commits in `override_specifiers` by
-     * passing `commit_ids`.
-     */
-    is_commit_specific?: boolean;
-
-    /**
      * Required for MULTIPLIER type. Must be >=0.
      */
     multiplier?: number;
@@ -1932,13 +1888,6 @@ export namespace ContractAmendParams {
     product_id?: string;
 
     /**
-     * Indicates whether the override applies to commit rates or list rates. Can only
-     * be used for overrides that have `is_commit_specific` set to `true`. Defaults to
-     * `"LIST_RATE"`.
-     */
-    target?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
-
-    /**
      * Required for TIERED type. Must have at least one tier.
      */
     tiers?: Array<Override.Tier>;
@@ -1951,13 +1900,6 @@ export namespace ContractAmendParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
-      /**
-       * If provided, the override will only apply to the specified commits. Can only be
-       * used for commit specific overrides. If not provided, the override will apply to
-       * all commits.
-       */
-      commit_ids?: Array<string>;
-
       /**
        * A map of group names to values. The override will only apply to line items with
        * the specified presentation group values. Can only be used for multiplier
