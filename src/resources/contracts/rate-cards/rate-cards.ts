@@ -2,11 +2,33 @@
 
 import { APIResource } from '../../../resource';
 import * as Core from '../../../core';
-import * as RateCardsAPI from './rate-cards';
 import * as Shared from '../../shared';
 import * as NamedSchedulesAPI from './named-schedules';
+import {
+  NamedScheduleRetrieveParams,
+  NamedScheduleRetrieveResponse,
+  NamedScheduleUpdateParams,
+  NamedSchedules,
+} from './named-schedules';
 import * as ProductOrdersAPI from './product-orders';
+import {
+  ProductOrderSetParams,
+  ProductOrderSetResponse,
+  ProductOrderUpdateParams,
+  ProductOrderUpdateResponse,
+  ProductOrders,
+} from './product-orders';
 import * as RatesAPI from './rates';
+import {
+  RateAddManyParams,
+  RateAddManyResponse,
+  RateAddParams,
+  RateAddResponse,
+  RateListParams,
+  RateListResponse,
+  RateListResponsesCursorPage,
+  Rates,
+} from './rates';
 import { CursorPage, type CursorPageParams } from '../../../pagination';
 
 export class RateCards extends APIResource {
@@ -464,33 +486,50 @@ export namespace RateCardRetrieveRateScheduleParams {
   }
 }
 
-export namespace RateCards {
-  export import RateCardCreateResponse = RateCardsAPI.RateCardCreateResponse;
-  export import RateCardRetrieveResponse = RateCardsAPI.RateCardRetrieveResponse;
-  export import RateCardUpdateResponse = RateCardsAPI.RateCardUpdateResponse;
-  export import RateCardListResponse = RateCardsAPI.RateCardListResponse;
-  export import RateCardRetrieveRateScheduleResponse = RateCardsAPI.RateCardRetrieveRateScheduleResponse;
-  export import RateCardListResponsesCursorPage = RateCardsAPI.RateCardListResponsesCursorPage;
-  export import RateCardCreateParams = RateCardsAPI.RateCardCreateParams;
-  export import RateCardRetrieveParams = RateCardsAPI.RateCardRetrieveParams;
-  export import RateCardUpdateParams = RateCardsAPI.RateCardUpdateParams;
-  export import RateCardListParams = RateCardsAPI.RateCardListParams;
-  export import RateCardRetrieveRateScheduleParams = RateCardsAPI.RateCardRetrieveRateScheduleParams;
-  export import ProductOrders = ProductOrdersAPI.ProductOrders;
-  export import ProductOrderUpdateResponse = ProductOrdersAPI.ProductOrderUpdateResponse;
-  export import ProductOrderSetResponse = ProductOrdersAPI.ProductOrderSetResponse;
-  export import ProductOrderUpdateParams = ProductOrdersAPI.ProductOrderUpdateParams;
-  export import ProductOrderSetParams = ProductOrdersAPI.ProductOrderSetParams;
-  export import Rates = RatesAPI.Rates;
-  export import RateListResponse = RatesAPI.RateListResponse;
-  export import RateAddResponse = RatesAPI.RateAddResponse;
-  export import RateAddManyResponse = RatesAPI.RateAddManyResponse;
-  export import RateListResponsesCursorPage = RatesAPI.RateListResponsesCursorPage;
-  export import RateListParams = RatesAPI.RateListParams;
-  export import RateAddParams = RatesAPI.RateAddParams;
-  export import RateAddManyParams = RatesAPI.RateAddManyParams;
-  export import NamedSchedules = NamedSchedulesAPI.NamedSchedules;
-  export import NamedScheduleRetrieveResponse = NamedSchedulesAPI.NamedScheduleRetrieveResponse;
-  export import NamedScheduleRetrieveParams = NamedSchedulesAPI.NamedScheduleRetrieveParams;
-  export import NamedScheduleUpdateParams = NamedSchedulesAPI.NamedScheduleUpdateParams;
+RateCards.RateCardListResponsesCursorPage = RateCardListResponsesCursorPage;
+RateCards.ProductOrders = ProductOrders;
+RateCards.Rates = Rates;
+RateCards.RateListResponsesCursorPage = RateListResponsesCursorPage;
+RateCards.NamedSchedules = NamedSchedules;
+
+export declare namespace RateCards {
+  export {
+    type RateCardCreateResponse as RateCardCreateResponse,
+    type RateCardRetrieveResponse as RateCardRetrieveResponse,
+    type RateCardUpdateResponse as RateCardUpdateResponse,
+    type RateCardListResponse as RateCardListResponse,
+    type RateCardRetrieveRateScheduleResponse as RateCardRetrieveRateScheduleResponse,
+    RateCardListResponsesCursorPage as RateCardListResponsesCursorPage,
+    type RateCardCreateParams as RateCardCreateParams,
+    type RateCardRetrieveParams as RateCardRetrieveParams,
+    type RateCardUpdateParams as RateCardUpdateParams,
+    type RateCardListParams as RateCardListParams,
+    type RateCardRetrieveRateScheduleParams as RateCardRetrieveRateScheduleParams,
+  };
+
+  export {
+    ProductOrders as ProductOrders,
+    type ProductOrderUpdateResponse as ProductOrderUpdateResponse,
+    type ProductOrderSetResponse as ProductOrderSetResponse,
+    type ProductOrderUpdateParams as ProductOrderUpdateParams,
+    type ProductOrderSetParams as ProductOrderSetParams,
+  };
+
+  export {
+    Rates as Rates,
+    type RateListResponse as RateListResponse,
+    type RateAddResponse as RateAddResponse,
+    type RateAddManyResponse as RateAddManyResponse,
+    RateListResponsesCursorPage as RateListResponsesCursorPage,
+    type RateListParams as RateListParams,
+    type RateAddParams as RateAddParams,
+    type RateAddManyParams as RateAddManyParams,
+  };
+
+  export {
+    NamedSchedules as NamedSchedules,
+    type NamedScheduleRetrieveResponse as NamedScheduleRetrieveResponse,
+    type NamedScheduleRetrieveParams as NamedScheduleRetrieveParams,
+    type NamedScheduleUpdateParams as NamedScheduleUpdateParams,
+  };
 }

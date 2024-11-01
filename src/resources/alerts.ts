@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as AlertsAPI from './alerts';
 import * as Shared from './shared';
 
 export class Alerts extends APIResource {
@@ -153,9 +152,11 @@ export interface AlertArchiveParams {
   release_uniqueness_key?: boolean;
 }
 
-export namespace Alerts {
-  export import AlertCreateResponse = AlertsAPI.AlertCreateResponse;
-  export import AlertArchiveResponse = AlertsAPI.AlertArchiveResponse;
-  export import AlertCreateParams = AlertsAPI.AlertCreateParams;
-  export import AlertArchiveParams = AlertsAPI.AlertArchiveParams;
+export declare namespace Alerts {
+  export {
+    type AlertCreateResponse as AlertCreateResponse,
+    type AlertArchiveResponse as AlertArchiveResponse,
+    type AlertCreateParams as AlertCreateParams,
+    type AlertArchiveParams as AlertArchiveParams,
+  };
 }

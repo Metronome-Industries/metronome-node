@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
-import * as CreditsAPI from './credits';
 import * as Shared from '../shared';
 
 export class Credits extends APIResource {
@@ -189,11 +188,13 @@ export interface CreditUpdateEndDateParams {
   customer_id: string;
 }
 
-export namespace Credits {
-  export import CreditCreateResponse = CreditsAPI.CreditCreateResponse;
-  export import CreditListResponse = CreditsAPI.CreditListResponse;
-  export import CreditUpdateEndDateResponse = CreditsAPI.CreditUpdateEndDateResponse;
-  export import CreditCreateParams = CreditsAPI.CreditCreateParams;
-  export import CreditListParams = CreditsAPI.CreditListParams;
-  export import CreditUpdateEndDateParams = CreditsAPI.CreditUpdateEndDateParams;
+export declare namespace Credits {
+  export {
+    type CreditCreateResponse as CreditCreateResponse,
+    type CreditListResponse as CreditListResponse,
+    type CreditUpdateEndDateResponse as CreditUpdateEndDateResponse,
+    type CreditCreateParams as CreditCreateParams,
+    type CreditListParams as CreditListParams,
+    type CreditUpdateEndDateParams as CreditUpdateEndDateParams,
+  };
 }

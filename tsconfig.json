@@ -11,7 +11,7 @@
     "paths": {
       "@metronome/sdk/_shims/auto/*": ["src/_shims/auto/*-node"],
       "@metronome/sdk/*": ["src/*"],
-      "@metronome/sdk": ["src/index.ts"],
+      "@metronome/sdk": ["src/index.ts"]
     },
     "noEmit": true,
 

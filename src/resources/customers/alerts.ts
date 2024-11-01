@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
-import * as AlertsAPI from './alerts';
 import * as Shared from '../shared';
 
 export class Alerts extends APIResource {
@@ -202,11 +201,13 @@ export interface AlertResetParams {
   customer_id: string;
 }
 
-export namespace Alerts {
-  export import CustomerAlert = AlertsAPI.CustomerAlert;
-  export import AlertRetrieveResponse = AlertsAPI.AlertRetrieveResponse;
-  export import AlertListResponse = AlertsAPI.AlertListResponse;
-  export import AlertRetrieveParams = AlertsAPI.AlertRetrieveParams;
-  export import AlertListParams = AlertsAPI.AlertListParams;
-  export import AlertResetParams = AlertsAPI.AlertResetParams;
+export declare namespace Alerts {
+  export {
+    type CustomerAlert as CustomerAlert,
+    type AlertRetrieveResponse as AlertRetrieveResponse,
+    type AlertListResponse as AlertListResponse,
+    type AlertRetrieveParams as AlertRetrieveParams,
+    type AlertListParams as AlertListParams,
+    type AlertResetParams as AlertResetParams,
+  };
 }

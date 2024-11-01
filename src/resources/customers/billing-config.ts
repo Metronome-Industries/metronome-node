@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
-import * as BillingConfigAPI from './billing-config';
 
 export class BillingConfig extends APIResource {
   /**
@@ -207,9 +206,11 @@ export interface BillingConfigDeleteParams {
     | 'gcp_marketplace';
 }
 
-export namespace BillingConfig {
-  export import BillingConfigRetrieveResponse = BillingConfigAPI.BillingConfigRetrieveResponse;
-  export import BillingConfigCreateParams = BillingConfigAPI.BillingConfigCreateParams;
-  export import BillingConfigRetrieveParams = BillingConfigAPI.BillingConfigRetrieveParams;
-  export import BillingConfigDeleteParams = BillingConfigAPI.BillingConfigDeleteParams;
+export declare namespace BillingConfig {
+  export {
+    type BillingConfigRetrieveResponse as BillingConfigRetrieveResponse,
+    type BillingConfigCreateParams as BillingConfigCreateParams,
+    type BillingConfigRetrieveParams as BillingConfigRetrieveParams,
+    type BillingConfigDeleteParams as BillingConfigDeleteParams,
+  };
 }

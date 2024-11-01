@@ -604,22 +604,27 @@ export interface CreditGrantVoidParams {
   void_credit_purchase_invoice?: boolean;
 }
 
-export namespace CreditGrants {
-  export import CreditLedgerEntry = CreditGrantsAPI.CreditLedgerEntry;
-  export import RolloverAmountMaxAmount = CreditGrantsAPI.RolloverAmountMaxAmount;
-  export import RolloverAmountMaxPercentage = CreditGrantsAPI.RolloverAmountMaxPercentage;
-  export import CreditGrantCreateResponse = CreditGrantsAPI.CreditGrantCreateResponse;
-  export import CreditGrantListResponse = CreditGrantsAPI.CreditGrantListResponse;
-  export import CreditGrantEditResponse = CreditGrantsAPI.CreditGrantEditResponse;
-  export import CreditGrantListCreditTypesResponse = CreditGrantsAPI.CreditGrantListCreditTypesResponse;
-  export import CreditGrantListEntriesResponse = CreditGrantsAPI.CreditGrantListEntriesResponse;
-  export import CreditGrantVoidResponse = CreditGrantsAPI.CreditGrantVoidResponse;
-  export import CreditGrantListResponsesCursorPage = CreditGrantsAPI.CreditGrantListResponsesCursorPage;
-  export import CreditGrantListCreditTypesResponsesCursorPage = CreditGrantsAPI.CreditGrantListCreditTypesResponsesCursorPage;
-  export import CreditGrantCreateParams = CreditGrantsAPI.CreditGrantCreateParams;
-  export import CreditGrantListParams = CreditGrantsAPI.CreditGrantListParams;
-  export import CreditGrantEditParams = CreditGrantsAPI.CreditGrantEditParams;
-  export import CreditGrantListCreditTypesParams = CreditGrantsAPI.CreditGrantListCreditTypesParams;
-  export import CreditGrantListEntriesParams = CreditGrantsAPI.CreditGrantListEntriesParams;
-  export import CreditGrantVoidParams = CreditGrantsAPI.CreditGrantVoidParams;
+CreditGrants.CreditGrantListResponsesCursorPage = CreditGrantListResponsesCursorPage;
+CreditGrants.CreditGrantListCreditTypesResponsesCursorPage = CreditGrantListCreditTypesResponsesCursorPage;
+
+export declare namespace CreditGrants {
+  export {
+    type CreditLedgerEntry as CreditLedgerEntry,
+    type RolloverAmountMaxAmount as RolloverAmountMaxAmount,
+    type RolloverAmountMaxPercentage as RolloverAmountMaxPercentage,
+    type CreditGrantCreateResponse as CreditGrantCreateResponse,
+    type CreditGrantListResponse as CreditGrantListResponse,
+    type CreditGrantEditResponse as CreditGrantEditResponse,
+    type CreditGrantListCreditTypesResponse as CreditGrantListCreditTypesResponse,
+    type CreditGrantListEntriesResponse as CreditGrantListEntriesResponse,
+    type CreditGrantVoidResponse as CreditGrantVoidResponse,
+    CreditGrantListResponsesCursorPage as CreditGrantListResponsesCursorPage,
+    CreditGrantListCreditTypesResponsesCursorPage as CreditGrantListCreditTypesResponsesCursorPage,
+    type CreditGrantCreateParams as CreditGrantCreateParams,
+    type CreditGrantListParams as CreditGrantListParams,
+    type CreditGrantEditParams as CreditGrantEditParams,
+    type CreditGrantListCreditTypesParams as CreditGrantListCreditTypesParams,
+    type CreditGrantListEntriesParams as CreditGrantListEntriesParams,
+    type CreditGrantVoidParams as CreditGrantVoidParams,
+  };
 }
