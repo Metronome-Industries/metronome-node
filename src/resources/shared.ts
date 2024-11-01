@@ -83,8 +83,6 @@ export interface Commit {
    */
   priority?: number;
 
-  rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
-
   rolled_over_from?: Commit.RolledOverFrom;
 
   rollover_fraction?: number;
@@ -582,8 +580,6 @@ export interface Override {
 
   entitled?: boolean;
 
-  is_commit_specific?: boolean;
-
   /**
    * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
    */
@@ -614,8 +610,6 @@ export interface Override {
 
   rate_type?: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
-  target?: 'COMMIT_RATE' | 'LIST_RATE';
-
   /**
    * Only set for TIERED rate_type.
    */
@@ -632,8 +626,6 @@ export interface Override {
 
 export namespace Override {
   export interface OverrideSpecifier {
-    commit_ids?: Array<string>;
-
     presentation_group_values?: Record<string, string | null>;
 
     pricing_group_values?: Record<string, string>;
