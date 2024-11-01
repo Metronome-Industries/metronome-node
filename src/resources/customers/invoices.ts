@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
-import * as InvoicesAPI from './invoices';
 import * as Shared from '../shared';
 import { CursorPage, type CursorPageParams } from '../../pagination';
 
@@ -627,15 +626,20 @@ export interface InvoiceListBreakdownsParams extends CursorPageParams {
   window_size?: 'HOUR' | 'DAY';
 }
 
-export namespace Invoices {
-  export import Invoice = InvoicesAPI.Invoice;
-  export import InvoiceRetrieveResponse = InvoicesAPI.InvoiceRetrieveResponse;
-  export import InvoiceAddChargeResponse = InvoicesAPI.InvoiceAddChargeResponse;
-  export import InvoiceListBreakdownsResponse = InvoicesAPI.InvoiceListBreakdownsResponse;
-  export import InvoicesCursorPage = InvoicesAPI.InvoicesCursorPage;
-  export import InvoiceListBreakdownsResponsesCursorPage = InvoicesAPI.InvoiceListBreakdownsResponsesCursorPage;
-  export import InvoiceRetrieveParams = InvoicesAPI.InvoiceRetrieveParams;
-  export import InvoiceListParams = InvoicesAPI.InvoiceListParams;
-  export import InvoiceAddChargeParams = InvoicesAPI.InvoiceAddChargeParams;
-  export import InvoiceListBreakdownsParams = InvoicesAPI.InvoiceListBreakdownsParams;
+Invoices.InvoicesCursorPage = InvoicesCursorPage;
+Invoices.InvoiceListBreakdownsResponsesCursorPage = InvoiceListBreakdownsResponsesCursorPage;
+
+export declare namespace Invoices {
+  export {
+    type Invoice as Invoice,
+    type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
+    type InvoiceAddChargeResponse as InvoiceAddChargeResponse,
+    type InvoiceListBreakdownsResponse as InvoiceListBreakdownsResponse,
+    InvoicesCursorPage as InvoicesCursorPage,
+    InvoiceListBreakdownsResponsesCursorPage as InvoiceListBreakdownsResponsesCursorPage,
+    type InvoiceRetrieveParams as InvoiceRetrieveParams,
+    type InvoiceListParams as InvoiceListParams,
+    type InvoiceAddChargeParams as InvoiceAddChargeParams,
+    type InvoiceListBreakdownsParams as InvoiceListBreakdownsParams,
+  };
 }

@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
-import * as PlansAPI from './plans';
 import * as Shared from '../shared';
 import { CursorPage, type CursorPageParams } from '../../pagination';
 
@@ -313,15 +312,20 @@ export interface PlanListPriceAdjustmentsParams extends CursorPageParams {
   customer_plan_id: string;
 }
 
-export namespace Plans {
-  export import PlanListResponse = PlansAPI.PlanListResponse;
-  export import PlanAddResponse = PlansAPI.PlanAddResponse;
-  export import PlanEndResponse = PlansAPI.PlanEndResponse;
-  export import PlanListPriceAdjustmentsResponse = PlansAPI.PlanListPriceAdjustmentsResponse;
-  export import PlanListResponsesCursorPage = PlansAPI.PlanListResponsesCursorPage;
-  export import PlanListPriceAdjustmentsResponsesCursorPage = PlansAPI.PlanListPriceAdjustmentsResponsesCursorPage;
-  export import PlanListParams = PlansAPI.PlanListParams;
-  export import PlanAddParams = PlansAPI.PlanAddParams;
-  export import PlanEndParams = PlansAPI.PlanEndParams;
-  export import PlanListPriceAdjustmentsParams = PlansAPI.PlanListPriceAdjustmentsParams;
+Plans.PlanListResponsesCursorPage = PlanListResponsesCursorPage;
+Plans.PlanListPriceAdjustmentsResponsesCursorPage = PlanListPriceAdjustmentsResponsesCursorPage;
+
+export declare namespace Plans {
+  export {
+    type PlanListResponse as PlanListResponse,
+    type PlanAddResponse as PlanAddResponse,
+    type PlanEndResponse as PlanEndResponse,
+    type PlanListPriceAdjustmentsResponse as PlanListPriceAdjustmentsResponse,
+    PlanListResponsesCursorPage as PlanListResponsesCursorPage,
+    PlanListPriceAdjustmentsResponsesCursorPage as PlanListPriceAdjustmentsResponsesCursorPage,
+    type PlanListParams as PlanListParams,
+    type PlanAddParams as PlanAddParams,
+    type PlanEndParams as PlanEndParams,
+    type PlanListPriceAdjustmentsParams as PlanListPriceAdjustmentsParams,
+  };
 }

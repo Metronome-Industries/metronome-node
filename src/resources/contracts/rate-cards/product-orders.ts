@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../../resource';
 import * as Core from '../../../core';
-import * as ProductOrdersAPI from './product-orders';
 import * as Shared from '../../shared';
 
 export class ProductOrders extends APIResource {
@@ -64,9 +63,11 @@ export interface ProductOrderSetParams {
   rate_card_id: string;
 }
 
-export namespace ProductOrders {
-  export import ProductOrderUpdateResponse = ProductOrdersAPI.ProductOrderUpdateResponse;
-  export import ProductOrderSetResponse = ProductOrdersAPI.ProductOrderSetResponse;
-  export import ProductOrderUpdateParams = ProductOrdersAPI.ProductOrderUpdateParams;
-  export import ProductOrderSetParams = ProductOrdersAPI.ProductOrderSetParams;
+export declare namespace ProductOrders {
+  export {
+    type ProductOrderUpdateResponse as ProductOrderUpdateResponse,
+    type ProductOrderSetResponse as ProductOrderSetResponse,
+    type ProductOrderUpdateParams as ProductOrderUpdateParams,
+    type ProductOrderSetParams as ProductOrderSetParams,
+  };
 }

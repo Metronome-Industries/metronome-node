@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../../resource';
 import * as Core from '../../../core';
-import * as RatesAPI from './rates';
 import * as Shared from '../../shared';
 import { CursorPage, type CursorPageParams } from '../../../pagination';
 
@@ -324,12 +323,16 @@ export namespace RateAddManyParams {
   }
 }
 
-export namespace Rates {
-  export import RateListResponse = RatesAPI.RateListResponse;
-  export import RateAddResponse = RatesAPI.RateAddResponse;
-  export import RateAddManyResponse = RatesAPI.RateAddManyResponse;
-  export import RateListResponsesCursorPage = RatesAPI.RateListResponsesCursorPage;
-  export import RateListParams = RatesAPI.RateListParams;
-  export import RateAddParams = RatesAPI.RateAddParams;
-  export import RateAddManyParams = RatesAPI.RateAddManyParams;
+Rates.RateListResponsesCursorPage = RateListResponsesCursorPage;
+
+export declare namespace Rates {
+  export {
+    type RateListResponse as RateListResponse,
+    type RateAddResponse as RateAddResponse,
+    type RateAddManyResponse as RateAddManyResponse,
+    RateListResponsesCursorPage as RateListResponsesCursorPage,
+    type RateListParams as RateListParams,
+    type RateAddParams as RateAddParams,
+    type RateAddManyParams as RateAddManyParams,
+  };
 }

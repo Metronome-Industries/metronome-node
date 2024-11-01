@@ -3,7 +3,6 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as PlansAPI from './plans';
 import * as Shared from './shared';
 import * as CustomersAPI from './customers/customers';
 import { CursorPage, type CursorPageParams } from '../pagination';
@@ -290,17 +289,23 @@ export interface PlanListCustomersParams extends CursorPageParams {
   status?: 'all' | 'active' | 'ended' | 'upcoming';
 }
 
-export namespace Plans {
-  export import PlanDetail = PlansAPI.PlanDetail;
-  export import PlanListResponse = PlansAPI.PlanListResponse;
-  export import PlanGetDetailsResponse = PlansAPI.PlanGetDetailsResponse;
-  export import PlanListChargesResponse = PlansAPI.PlanListChargesResponse;
-  export import PlanListCustomersResponse = PlansAPI.PlanListCustomersResponse;
-  export import PlanListResponsesCursorPage = PlansAPI.PlanListResponsesCursorPage;
-  export import PlanListChargesResponsesCursorPage = PlansAPI.PlanListChargesResponsesCursorPage;
-  export import PlanListCustomersResponsesCursorPage = PlansAPI.PlanListCustomersResponsesCursorPage;
-  export import PlanListParams = PlansAPI.PlanListParams;
-  export import PlanGetDetailsParams = PlansAPI.PlanGetDetailsParams;
-  export import PlanListChargesParams = PlansAPI.PlanListChargesParams;
-  export import PlanListCustomersParams = PlansAPI.PlanListCustomersParams;
+Plans.PlanListResponsesCursorPage = PlanListResponsesCursorPage;
+Plans.PlanListChargesResponsesCursorPage = PlanListChargesResponsesCursorPage;
+Plans.PlanListCustomersResponsesCursorPage = PlanListCustomersResponsesCursorPage;
+
+export declare namespace Plans {
+  export {
+    type PlanDetail as PlanDetail,
+    type PlanListResponse as PlanListResponse,
+    type PlanGetDetailsResponse as PlanGetDetailsResponse,
+    type PlanListChargesResponse as PlanListChargesResponse,
+    type PlanListCustomersResponse as PlanListCustomersResponse,
+    PlanListResponsesCursorPage as PlanListResponsesCursorPage,
+    PlanListChargesResponsesCursorPage as PlanListChargesResponsesCursorPage,
+    PlanListCustomersResponsesCursorPage as PlanListCustomersResponsesCursorPage,
+    type PlanListParams as PlanListParams,
+    type PlanGetDetailsParams as PlanGetDetailsParams,
+    type PlanListChargesParams as PlanListChargesParams,
+    type PlanListCustomersParams as PlanListCustomersParams,
+  };
 }

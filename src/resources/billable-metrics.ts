@@ -3,7 +3,6 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as BillableMetricsAPI from './billable-metrics';
 import * as Shared from './shared';
 import { CursorPage, type CursorPageParams } from '../pagination';
 
@@ -236,14 +235,18 @@ export interface BillableMetricArchiveParams {
   id: string;
 }
 
-export namespace BillableMetrics {
-  export import BillableMetricCreateResponse = BillableMetricsAPI.BillableMetricCreateResponse;
-  export import BillableMetricRetrieveResponse = BillableMetricsAPI.BillableMetricRetrieveResponse;
-  export import BillableMetricListResponse = BillableMetricsAPI.BillableMetricListResponse;
-  export import BillableMetricArchiveResponse = BillableMetricsAPI.BillableMetricArchiveResponse;
-  export import BillableMetricListResponsesCursorPage = BillableMetricsAPI.BillableMetricListResponsesCursorPage;
-  export import BillableMetricCreateParams = BillableMetricsAPI.BillableMetricCreateParams;
-  export import BillableMetricRetrieveParams = BillableMetricsAPI.BillableMetricRetrieveParams;
-  export import BillableMetricListParams = BillableMetricsAPI.BillableMetricListParams;
-  export import BillableMetricArchiveParams = BillableMetricsAPI.BillableMetricArchiveParams;
+BillableMetrics.BillableMetricListResponsesCursorPage = BillableMetricListResponsesCursorPage;
+
+export declare namespace BillableMetrics {
+  export {
+    type BillableMetricCreateResponse as BillableMetricCreateResponse,
+    type BillableMetricRetrieveResponse as BillableMetricRetrieveResponse,
+    type BillableMetricListResponse as BillableMetricListResponse,
+    type BillableMetricArchiveResponse as BillableMetricArchiveResponse,
+    BillableMetricListResponsesCursorPage as BillableMetricListResponsesCursorPage,
+    type BillableMetricCreateParams as BillableMetricCreateParams,
+    type BillableMetricRetrieveParams as BillableMetricRetrieveParams,
+    type BillableMetricListParams as BillableMetricListParams,
+    type BillableMetricArchiveParams as BillableMetricArchiveParams,
+  };
 }

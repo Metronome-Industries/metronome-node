@@ -542,19 +542,23 @@ export interface ProductArchiveParams {
   product_id: string;
 }
 
-export namespace Products {
-  export import ProductListItemState = ProductsAPI.ProductListItemState;
-  export import QuantityConversion = ProductsAPI.QuantityConversion;
-  export import QuantityRounding = ProductsAPI.QuantityRounding;
-  export import ProductCreateResponse = ProductsAPI.ProductCreateResponse;
-  export import ProductRetrieveResponse = ProductsAPI.ProductRetrieveResponse;
-  export import ProductUpdateResponse = ProductsAPI.ProductUpdateResponse;
-  export import ProductListResponse = ProductsAPI.ProductListResponse;
-  export import ProductArchiveResponse = ProductsAPI.ProductArchiveResponse;
-  export import ProductListResponsesCursorPage = ProductsAPI.ProductListResponsesCursorPage;
-  export import ProductCreateParams = ProductsAPI.ProductCreateParams;
-  export import ProductRetrieveParams = ProductsAPI.ProductRetrieveParams;
-  export import ProductUpdateParams = ProductsAPI.ProductUpdateParams;
-  export import ProductListParams = ProductsAPI.ProductListParams;
-  export import ProductArchiveParams = ProductsAPI.ProductArchiveParams;
+Products.ProductListResponsesCursorPage = ProductListResponsesCursorPage;
+
+export declare namespace Products {
+  export {
+    type ProductListItemState as ProductListItemState,
+    type QuantityConversion as QuantityConversion,
+    type QuantityRounding as QuantityRounding,
+    type ProductCreateResponse as ProductCreateResponse,
+    type ProductRetrieveResponse as ProductRetrieveResponse,
+    type ProductUpdateResponse as ProductUpdateResponse,
+    type ProductListResponse as ProductListResponse,
+    type ProductArchiveResponse as ProductArchiveResponse,
+    ProductListResponsesCursorPage as ProductListResponsesCursorPage,
+    type ProductCreateParams as ProductCreateParams,
+    type ProductRetrieveParams as ProductRetrieveParams,
+    type ProductUpdateParams as ProductUpdateParams,
+    type ProductListParams as ProductListParams,
+    type ProductArchiveParams as ProductArchiveParams,
+  };
 }

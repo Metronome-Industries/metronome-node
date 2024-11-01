@@ -2,12 +2,48 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
-import * as ContractsAPI from './contracts';
 import * as Shared from '../shared';
 import * as NamedSchedulesAPI from './named-schedules';
+import {
+  NamedScheduleRetrieveParams,
+  NamedScheduleRetrieveResponse,
+  NamedScheduleUpdateParams,
+  NamedSchedules,
+} from './named-schedules';
 import * as ProductsAPI from './products';
+import {
+  ProductArchiveParams,
+  ProductArchiveResponse,
+  ProductCreateParams,
+  ProductCreateResponse,
+  ProductListItemState,
+  ProductListParams,
+  ProductListResponse,
+  ProductListResponsesCursorPage,
+  ProductRetrieveParams,
+  ProductRetrieveResponse,
+  ProductUpdateParams,
+  ProductUpdateResponse,
+  Products,
+  QuantityConversion,
+  QuantityRounding,
+} from './products';
 import * as InvoicesAPI from '../customers/invoices';
 import * as RateCardsAPI from './rate-cards/rate-cards';
+import {
+  RateCardCreateParams,
+  RateCardCreateResponse,
+  RateCardListParams,
+  RateCardListResponse,
+  RateCardListResponsesCursorPage,
+  RateCardRetrieveParams,
+  RateCardRetrieveRateScheduleParams,
+  RateCardRetrieveRateScheduleResponse,
+  RateCardRetrieveResponse,
+  RateCardUpdateParams,
+  RateCardUpdateResponse,
+  RateCards,
+} from './rate-cards/rate-cards';
 
 export class Contracts extends APIResource {
   products: ProductsAPI.Products = new ProductsAPI.Products(this._client);
@@ -2468,58 +2504,75 @@ export interface ContractUpdateEndDateParams {
   ending_before?: string;
 }
 
-export namespace Contracts {
-  export import ContractCreateResponse = ContractsAPI.ContractCreateResponse;
-  export import ContractRetrieveResponse = ContractsAPI.ContractRetrieveResponse;
-  export import ContractListResponse = ContractsAPI.ContractListResponse;
-  export import ContractAmendResponse = ContractsAPI.ContractAmendResponse;
-  export import ContractArchiveResponse = ContractsAPI.ContractArchiveResponse;
-  export import ContractCreateHistoricalInvoicesResponse = ContractsAPI.ContractCreateHistoricalInvoicesResponse;
-  export import ContractListBalancesResponse = ContractsAPI.ContractListBalancesResponse;
-  export import ContractRetrieveRateScheduleResponse = ContractsAPI.ContractRetrieveRateScheduleResponse;
-  export import ContractScheduleProServicesInvoiceResponse = ContractsAPI.ContractScheduleProServicesInvoiceResponse;
-  export import ContractUpdateEndDateResponse = ContractsAPI.ContractUpdateEndDateResponse;
-  export import ContractCreateParams = ContractsAPI.ContractCreateParams;
-  export import ContractRetrieveParams = ContractsAPI.ContractRetrieveParams;
-  export import ContractListParams = ContractsAPI.ContractListParams;
-  export import ContractAddManualBalanceEntryParams = ContractsAPI.ContractAddManualBalanceEntryParams;
-  export import ContractAmendParams = ContractsAPI.ContractAmendParams;
-  export import ContractArchiveParams = ContractsAPI.ContractArchiveParams;
-  export import ContractCreateHistoricalInvoicesParams = ContractsAPI.ContractCreateHistoricalInvoicesParams;
-  export import ContractListBalancesParams = ContractsAPI.ContractListBalancesParams;
-  export import ContractRetrieveRateScheduleParams = ContractsAPI.ContractRetrieveRateScheduleParams;
-  export import ContractScheduleProServicesInvoiceParams = ContractsAPI.ContractScheduleProServicesInvoiceParams;
-  export import ContractSetUsageFilterParams = ContractsAPI.ContractSetUsageFilterParams;
-  export import ContractUpdateEndDateParams = ContractsAPI.ContractUpdateEndDateParams;
-  export import Products = ProductsAPI.Products;
-  export import ProductListItemState = ProductsAPI.ProductListItemState;
-  export import QuantityConversion = ProductsAPI.QuantityConversion;
-  export import QuantityRounding = ProductsAPI.QuantityRounding;
-  export import ProductCreateResponse = ProductsAPI.ProductCreateResponse;
-  export import ProductRetrieveResponse = ProductsAPI.ProductRetrieveResponse;
-  export import ProductUpdateResponse = ProductsAPI.ProductUpdateResponse;
-  export import ProductListResponse = ProductsAPI.ProductListResponse;
-  export import ProductArchiveResponse = ProductsAPI.ProductArchiveResponse;
-  export import ProductListResponsesCursorPage = ProductsAPI.ProductListResponsesCursorPage;
-  export import ProductCreateParams = ProductsAPI.ProductCreateParams;
-  export import ProductRetrieveParams = ProductsAPI.ProductRetrieveParams;
-  export import ProductUpdateParams = ProductsAPI.ProductUpdateParams;
-  export import ProductListParams = ProductsAPI.ProductListParams;
-  export import ProductArchiveParams = ProductsAPI.ProductArchiveParams;
-  export import RateCards = RateCardsAPI.RateCards;
-  export import RateCardCreateResponse = RateCardsAPI.RateCardCreateResponse;
-  export import RateCardRetrieveResponse = RateCardsAPI.RateCardRetrieveResponse;
-  export import RateCardUpdateResponse = RateCardsAPI.RateCardUpdateResponse;
-  export import RateCardListResponse = RateCardsAPI.RateCardListResponse;
-  export import RateCardRetrieveRateScheduleResponse = RateCardsAPI.RateCardRetrieveRateScheduleResponse;
-  export import RateCardListResponsesCursorPage = RateCardsAPI.RateCardListResponsesCursorPage;
-  export import RateCardCreateParams = RateCardsAPI.RateCardCreateParams;
-  export import RateCardRetrieveParams = RateCardsAPI.RateCardRetrieveParams;
-  export import RateCardUpdateParams = RateCardsAPI.RateCardUpdateParams;
-  export import RateCardListParams = RateCardsAPI.RateCardListParams;
-  export import RateCardRetrieveRateScheduleParams = RateCardsAPI.RateCardRetrieveRateScheduleParams;
-  export import NamedSchedules = NamedSchedulesAPI.NamedSchedules;
-  export import NamedScheduleRetrieveResponse = NamedSchedulesAPI.NamedScheduleRetrieveResponse;
-  export import NamedScheduleRetrieveParams = NamedSchedulesAPI.NamedScheduleRetrieveParams;
-  export import NamedScheduleUpdateParams = NamedSchedulesAPI.NamedScheduleUpdateParams;
+Contracts.Products = Products;
+Contracts.ProductListResponsesCursorPage = ProductListResponsesCursorPage;
+Contracts.RateCards = RateCards;
+Contracts.RateCardListResponsesCursorPage = RateCardListResponsesCursorPage;
+Contracts.NamedSchedules = NamedSchedules;
+
+export declare namespace Contracts {
+  export {
+    type ContractCreateResponse as ContractCreateResponse,
+    type ContractRetrieveResponse as ContractRetrieveResponse,
+    type ContractListResponse as ContractListResponse,
+    type ContractAmendResponse as ContractAmendResponse,
+    type ContractArchiveResponse as ContractArchiveResponse,
+    type ContractCreateHistoricalInvoicesResponse as ContractCreateHistoricalInvoicesResponse,
+    type ContractListBalancesResponse as ContractListBalancesResponse,
+    type ContractRetrieveRateScheduleResponse as ContractRetrieveRateScheduleResponse,
+    type ContractScheduleProServicesInvoiceResponse as ContractScheduleProServicesInvoiceResponse,
+    type ContractUpdateEndDateResponse as ContractUpdateEndDateResponse,
+    type ContractCreateParams as ContractCreateParams,
+    type ContractRetrieveParams as ContractRetrieveParams,
+    type ContractListParams as ContractListParams,
+    type ContractAddManualBalanceEntryParams as ContractAddManualBalanceEntryParams,
+    type ContractAmendParams as ContractAmendParams,
+    type ContractArchiveParams as ContractArchiveParams,
+    type ContractCreateHistoricalInvoicesParams as ContractCreateHistoricalInvoicesParams,
+    type ContractListBalancesParams as ContractListBalancesParams,
+    type ContractRetrieveRateScheduleParams as ContractRetrieveRateScheduleParams,
+    type ContractScheduleProServicesInvoiceParams as ContractScheduleProServicesInvoiceParams,
+    type ContractSetUsageFilterParams as ContractSetUsageFilterParams,
+    type ContractUpdateEndDateParams as ContractUpdateEndDateParams,
+  };
+
+  export {
+    Products as Products,
+    type ProductListItemState as ProductListItemState,
+    type QuantityConversion as QuantityConversion,
+    type QuantityRounding as QuantityRounding,
+    type ProductCreateResponse as ProductCreateResponse,
+    type ProductRetrieveResponse as ProductRetrieveResponse,
+    type ProductUpdateResponse as ProductUpdateResponse,
+    type ProductListResponse as ProductListResponse,
+    type ProductArchiveResponse as ProductArchiveResponse,
+    ProductListResponsesCursorPage as ProductListResponsesCursorPage,
+    type ProductCreateParams as ProductCreateParams,
+    type ProductRetrieveParams as ProductRetrieveParams,
+    type ProductUpdateParams as ProductUpdateParams,
+    type ProductListParams as ProductListParams,
+    type ProductArchiveParams as ProductArchiveParams,
+  };
+
+  export {
+    RateCards as RateCards,
+    type RateCardCreateResponse as RateCardCreateResponse,
+    type RateCardRetrieveResponse as RateCardRetrieveResponse,
+    type RateCardUpdateResponse as RateCardUpdateResponse,
+    type RateCardListResponse as RateCardListResponse,
+    type RateCardRetrieveRateScheduleResponse as RateCardRetrieveRateScheduleResponse,
+    RateCardListResponsesCursorPage as RateCardListResponsesCursorPage,
+    type RateCardCreateParams as RateCardCreateParams,
+    type RateCardRetrieveParams as RateCardRetrieveParams,
+    type RateCardUpdateParams as RateCardUpdateParams,
+    type RateCardListParams as RateCardListParams,
+    type RateCardRetrieveRateScheduleParams as RateCardRetrieveRateScheduleParams,
+  };
+
+  export {
+    NamedSchedules as NamedSchedules,
+    type NamedScheduleRetrieveResponse as NamedScheduleRetrieveResponse,
+    type NamedScheduleRetrieveParams as NamedScheduleRetrieveParams,
+    type NamedScheduleUpdateParams as NamedScheduleUpdateParams,
+  };
 }

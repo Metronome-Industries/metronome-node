@@ -3,7 +3,6 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as CustomFieldsAPI from './custom-fields';
 
 export class CustomFields extends APIResource {
   /**
@@ -232,11 +231,13 @@ export interface CustomFieldSetValuesParams {
   entity_id: string;
 }
 
-export namespace CustomFields {
-  export import CustomFieldListKeysResponse = CustomFieldsAPI.CustomFieldListKeysResponse;
-  export import CustomFieldAddKeyParams = CustomFieldsAPI.CustomFieldAddKeyParams;
-  export import CustomFieldDeleteValuesParams = CustomFieldsAPI.CustomFieldDeleteValuesParams;
-  export import CustomFieldListKeysParams = CustomFieldsAPI.CustomFieldListKeysParams;
-  export import CustomFieldRemoveKeyParams = CustomFieldsAPI.CustomFieldRemoveKeyParams;
-  export import CustomFieldSetValuesParams = CustomFieldsAPI.CustomFieldSetValuesParams;
+export declare namespace CustomFields {
+  export {
+    type CustomFieldListKeysResponse as CustomFieldListKeysResponse,
+    type CustomFieldAddKeyParams as CustomFieldAddKeyParams,
+    type CustomFieldDeleteValuesParams as CustomFieldDeleteValuesParams,
+    type CustomFieldListKeysParams as CustomFieldListKeysParams,
+    type CustomFieldRemoveKeyParams as CustomFieldRemoveKeyParams,
+    type CustomFieldSetValuesParams as CustomFieldSetValuesParams,
+  };
 }
