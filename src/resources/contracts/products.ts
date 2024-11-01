@@ -100,13 +100,17 @@ export interface ProductListItemState {
   netsuite_overage_item_id?: string;
 
   /**
-   * For USAGE products only. Groups usage line items on invoices.
+   * For USAGE products only. Groups usage line items on invoices. The superset of
+   * values in the pricing group key and presentation group key must be set as one
+   * compound group key on the billable metric.
    */
   presentation_group_key?: Array<string>;
 
   /**
    * For USAGE products only. If set, pricing for this product will be determined for
-   * each pricing_group_key value, as opposed to the product as a whole.
+   * each pricing_group_key value, as opposed to the product as a whole. The superset
+   * of values in the pricing group key and presentation group key must be set as one
+   * compound group key on the billable metric.
    */
   pricing_group_key?: Array<string>;
 
@@ -226,13 +230,17 @@ export namespace ProductRetrieveResponse {
       netsuite_overage_item_id?: string;
 
       /**
-       * For USAGE products only. Groups usage line items on invoices.
+       * For USAGE products only. Groups usage line items on invoices. The superset of
+       * values in the pricing group key and presentation group key must be set as one
+       * compound group key on the billable metric.
        */
       presentation_group_key?: Array<string>;
 
       /**
        * For USAGE products only. If set, pricing for this product will be determined for
-       * each pricing_group_key value, as opposed to the product as a whole.
+       * each pricing_group_key value, as opposed to the product as a whole. The superset
+       * of values in the pricing group key and presentation group key must be set as one
+       * compound group key on the billable metric.
        */
       pricing_group_key?: Array<string>;
 
@@ -311,13 +319,17 @@ export namespace ProductListResponse {
     netsuite_overage_item_id?: string;
 
     /**
-     * For USAGE products only. Groups usage line items on invoices.
+     * For USAGE products only. Groups usage line items on invoices. The superset of
+     * values in the pricing group key and presentation group key must be set as one
+     * compound group key on the billable metric.
      */
     presentation_group_key?: Array<string>;
 
     /**
      * For USAGE products only. If set, pricing for this product will be determined for
-     * each pricing_group_key value, as opposed to the product as a whole.
+     * each pricing_group_key value, as opposed to the product as a whole. The superset
+     * of values in the pricing group key and presentation group key must be set as one
+     * compound group key on the billable metric.
      */
     pricing_group_key?: Array<string>;
 
@@ -396,13 +408,17 @@ export interface ProductCreateParams {
   netsuite_overage_item_id?: string;
 
   /**
-   * For USAGE products only. Groups usage line items on invoices.
+   * For USAGE products only. Groups usage line items on invoices. The superset of
+   * values in the pricing group key and presentation group key must be set as one
+   * compound group key on the billable metric.
    */
   presentation_group_key?: Array<string>;
 
   /**
    * For USAGE products only. If set, pricing for this product will be determined for
-   * each pricing_group_key value, as opposed to the product as a whole.
+   * each pricing_group_key value, as opposed to the product as a whole. The superset
+   * of values in the pricing group key and presentation group key must be set as one
+   * compound group key on the billable metric.
    */
   pricing_group_key?: Array<string>;
 
@@ -493,13 +509,17 @@ export interface ProductUpdateParams {
   netsuite_overage_item_id?: string;
 
   /**
-   * For USAGE products only. Groups usage line items on invoices.
+   * For USAGE products only. Groups usage line items on invoices. The superset of
+   * values in the pricing group key and presentation group key must be set as one
+   * compound group key on the billable metric.
    */
   presentation_group_key?: Array<string>;
 
   /**
    * For USAGE products only. If set, pricing for this product will be determined for
-   * each pricing_group_key value, as opposed to the product as a whole.
+   * each pricing_group_key value, as opposed to the product as a whole. The superset
+   * of values in the pricing group key and presentation group key must be set as one
+   * compound group key on the billable metric.
    */
   pricing_group_key?: Array<string>;
 
