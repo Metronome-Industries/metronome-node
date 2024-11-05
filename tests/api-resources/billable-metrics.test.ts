@@ -92,7 +92,10 @@ describe('resource billableMetrics', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.billableMetrics.list({ limit: 1, next_page: 'next_page' }, { path: '/_stainless_unknown_path' }),
+      client.billableMetrics.list(
+        { include_archived: true, limit: 1, next_page: 'next_page' },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(Metronome.NotFoundError);
   });
 
