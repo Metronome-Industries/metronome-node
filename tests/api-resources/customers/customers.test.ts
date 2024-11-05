@@ -119,6 +119,7 @@ describe('resource customers', () => {
   test('listBillableMetrics: required and optional params', async () => {
     const response = await client.customers.listBillableMetrics({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      include_archived: true,
       limit: 1,
       next_page: 'next_page',
       on_current_plan: true,

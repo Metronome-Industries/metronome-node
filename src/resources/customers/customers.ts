@@ -322,6 +322,12 @@ export interface CustomerListBillableMetricsResponse {
    */
   aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
 
+  /**
+   * RFC 3339 timestamp indicating when the billable metric was archived. If not
+   * provided, the billable metric is not archived.
+   */
+  archived_at?: string;
+
   custom_fields?: Record<string, string>;
 
   /**
@@ -497,6 +503,11 @@ export interface CustomerListBillableMetricsParams extends CursorPageParams {
    * Path param:
    */
   customer_id: string;
+
+  /**
+   * Query param: If true, the list of returned metrics will include archived metrics
+   */
+  include_archived?: boolean;
 
   /**
    * Query param: If true, the list of metrics will be filtered to just ones that are
