@@ -96,6 +96,12 @@ export namespace BillableMetricRetrieveResponse {
      */
     aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
 
+    /**
+     * RFC 3339 timestamp indicating when the billable metric was archived. If not
+     * provided, the billable metric is not archived.
+     */
+    archived_at?: string;
+
     custom_fields?: Record<string, string>;
 
     /**
@@ -145,6 +151,12 @@ export interface BillableMetricListResponse {
    * Specifies the type of aggregation performed on matching events.
    */
   aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
+
+  /**
+   * RFC 3339 timestamp indicating when the billable metric was archived. If not
+   * provided, the billable metric is not archived.
+   */
+  archived_at?: string;
 
   custom_fields?: Record<string, string>;
 
@@ -229,7 +241,12 @@ export interface BillableMetricRetrieveParams {
   billable_metric_id: string;
 }
 
-export interface BillableMetricListParams extends CursorPageParams {}
+export interface BillableMetricListParams extends CursorPageParams {
+  /**
+   * If true, the list of returned metrics will include archived metrics
+   */
+  include_archived?: boolean;
+}
 
 export interface BillableMetricArchiveParams {
   id: string;
