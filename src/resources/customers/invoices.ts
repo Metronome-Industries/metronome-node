@@ -158,6 +158,11 @@ export namespace Invoice {
     /**
      * only present for beta contract invoices
      */
+    applied_commit_or_credit?: LineItem.AppliedCommitOrCredit;
+
+    /**
+     * only present for beta contract invoices
+     */
     commit_custom_fields?: Record<string, string>;
 
     /**
@@ -286,6 +291,15 @@ export namespace Invoice {
   }
 
   export namespace LineItem {
+    /**
+     * only present for beta contract invoices
+     */
+    export interface AppliedCommitOrCredit {
+      id: string;
+
+      type: 'PREPAID' | 'POSTPAID' | 'CREDIT';
+    }
+
     /**
      * only present for beta contract invoices
      */
