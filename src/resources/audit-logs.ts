@@ -3,7 +3,6 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as AuditLogsAPI from './audit-logs';
 import { CursorPage, type CursorPageParams } from '../pagination';
 
 export class AuditLogs extends APIResource {
@@ -91,8 +90,12 @@ export interface AuditLogListParams extends CursorPageParams {
   starting_on?: string;
 }
 
-export namespace AuditLogs {
-  export import AuditLogListResponse = AuditLogsAPI.AuditLogListResponse;
-  export import AuditLogListResponsesCursorPage = AuditLogsAPI.AuditLogListResponsesCursorPage;
-  export import AuditLogListParams = AuditLogsAPI.AuditLogListParams;
+AuditLogs.AuditLogListResponsesCursorPage = AuditLogListResponsesCursorPage;
+
+export declare namespace AuditLogs {
+  export {
+    type AuditLogListResponse as AuditLogListResponse,
+    AuditLogListResponsesCursorPage as AuditLogListResponsesCursorPage,
+    type AuditLogListParams as AuditLogListParams,
+  };
 }

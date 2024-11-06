@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as UsageAPI from './usage';
 import { CursorPage, type CursorPageParams } from '../pagination';
 
 export class Usage extends APIResource {
@@ -226,11 +225,15 @@ export namespace UsageListWithGroupsParams {
   }
 }
 
-export namespace Usage {
-  export import UsageListResponse = UsageAPI.UsageListResponse;
-  export import UsageListWithGroupsResponse = UsageAPI.UsageListWithGroupsResponse;
-  export import UsageListWithGroupsResponsesCursorPage = UsageAPI.UsageListWithGroupsResponsesCursorPage;
-  export import UsageListParams = UsageAPI.UsageListParams;
-  export import UsageIngestParams = UsageAPI.UsageIngestParams;
-  export import UsageListWithGroupsParams = UsageAPI.UsageListWithGroupsParams;
+Usage.UsageListWithGroupsResponsesCursorPage = UsageListWithGroupsResponsesCursorPage;
+
+export declare namespace Usage {
+  export {
+    type UsageListResponse as UsageListResponse,
+    type UsageListWithGroupsResponse as UsageListWithGroupsResponse,
+    UsageListWithGroupsResponsesCursorPage as UsageListWithGroupsResponsesCursorPage,
+    type UsageListParams as UsageListParams,
+    type UsageIngestParams as UsageIngestParams,
+    type UsageListWithGroupsParams as UsageListWithGroupsParams,
+  };
 }

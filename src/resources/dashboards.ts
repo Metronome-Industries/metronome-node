@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as DashboardsAPI from './dashboards';
 
 export class Dashboards extends APIResource {
   /**
@@ -115,7 +114,9 @@ export namespace DashboardGetEmbeddableURLParams {
   }
 }
 
-export namespace Dashboards {
-  export import DashboardGetEmbeddableURLResponse = DashboardsAPI.DashboardGetEmbeddableURLResponse;
-  export import DashboardGetEmbeddableURLParams = DashboardsAPI.DashboardGetEmbeddableURLParams;
+export declare namespace Dashboards {
+  export {
+    type DashboardGetEmbeddableURLResponse as DashboardGetEmbeddableURLResponse,
+    type DashboardGetEmbeddableURLParams as DashboardGetEmbeddableURLParams,
+  };
 }

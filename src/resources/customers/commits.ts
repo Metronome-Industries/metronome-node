@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
-import * as CommitsAPI from './commits';
 import * as Shared from '../shared';
 
 export class Commits extends APIResource {
@@ -312,11 +311,13 @@ export interface CommitUpdateEndDateParams {
   invoices_ending_before?: string;
 }
 
-export namespace Commits {
-  export import CommitCreateResponse = CommitsAPI.CommitCreateResponse;
-  export import CommitListResponse = CommitsAPI.CommitListResponse;
-  export import CommitUpdateEndDateResponse = CommitsAPI.CommitUpdateEndDateResponse;
-  export import CommitCreateParams = CommitsAPI.CommitCreateParams;
-  export import CommitListParams = CommitsAPI.CommitListParams;
-  export import CommitUpdateEndDateParams = CommitsAPI.CommitUpdateEndDateParams;
+export declare namespace Commits {
+  export {
+    type CommitCreateResponse as CommitCreateResponse,
+    type CommitListResponse as CommitListResponse,
+    type CommitUpdateEndDateResponse as CommitUpdateEndDateResponse,
+    type CommitCreateParams as CommitCreateParams,
+    type CommitListParams as CommitListParams,
+    type CommitUpdateEndDateParams as CommitUpdateEndDateParams,
+  };
 }
