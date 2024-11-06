@@ -44,7 +44,7 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * List daily or hourly breakdown invoices for a given customer, optionally
+   * List daily or hourly invoice breakdowns for a given customer, optionally
    * filtered by status, date range, and/or credit type.
    */
   listBreakdowns(
