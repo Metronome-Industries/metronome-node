@@ -327,25 +327,6 @@ export class Metronome extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-export {
-  MetronomeError,
-  APIError,
-  APIConnectionError,
-  APIConnectionTimeoutError,
-  APIUserAbortError,
-  NotFoundError,
-  ConflictError,
-  RateLimitError,
-  BadRequestError,
-  AuthenticationError,
-  InternalServerError,
-  PermissionDeniedError,
-  UnprocessableEntityError,
-} from './error';
-
-export import toFile = Uploads.toFile;
-export import fileFromPath = Uploads.fileFromPath;
-
 Metronome.Alerts = Alerts;
 Metronome.Plans = Plans;
 Metronome.PlanListResponsesCursorPage = PlanListResponsesCursorPage;
@@ -369,7 +350,6 @@ Metronome.BillableMetricListResponsesCursorPage = BillableMetricListResponsesCur
 Metronome.Services = Services;
 Metronome.Invoices = Invoices;
 Metronome.Contracts = Contracts;
-
 export declare namespace Metronome {
   export type RequestOptions = Core.RequestOptions;
 
@@ -546,5 +526,22 @@ export declare namespace Metronome {
   export type SchedulePointInTime = API.SchedulePointInTime;
   export type Tier = API.Tier;
 }
+
+export { toFile, fileFromPath } from '@metronome/sdk/uploads';
+export {
+  MetronomeError,
+  APIError,
+  APIConnectionError,
+  APIConnectionTimeoutError,
+  APIUserAbortError,
+  NotFoundError,
+  ConflictError,
+  RateLimitError,
+  BadRequestError,
+  AuthenticationError,
+  InternalServerError,
+  PermissionDeniedError,
+  UnprocessableEntityError,
+} from '@metronome/sdk/error';
 
 export default Metronome;
