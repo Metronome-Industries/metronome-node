@@ -177,6 +177,13 @@ export namespace RateCardRetrieveResponse {
 
         starting_at: string;
 
+        /**
+         * A distinct rate on the rate card. You can choose to use this rate rather than
+         * list rate when consuming a credit or commit. This feature requires opt-in before
+         * it can be used. Please contact Metronome support to enable this feature.
+         */
+        commit_rate?: Update.CommitRate;
+
         credit_type?: Shared.CreditTypeData;
 
         custom_rate?: Record<string, unknown>;
@@ -190,6 +197,37 @@ export namespace RateCardRetrieveResponse {
         quantity?: number;
 
         tiers?: Array<Shared.Tier>;
+      }
+
+      export namespace Update {
+        /**
+         * A distinct rate on the rate card. You can choose to use this rate rather than
+         * list rate when consuming a credit or commit. This feature requires opt-in before
+         * it can be used. Please contact Metronome support to enable this feature.
+         */
+        export interface CommitRate {
+          rate_type:
+            | 'FLAT'
+            | 'flat'
+            | 'PERCENTAGE'
+            | 'percentage'
+            | 'SUBSCRIPTION'
+            | 'subscription'
+            | 'TIERED'
+            | 'tiered'
+            | 'CUSTOM'
+            | 'custom';
+
+          /**
+           * Commit rate price. For FLAT rate_type, this must be >=0.
+           */
+          price?: number;
+
+          /**
+           * Only set for TIERED rate_type.
+           */
+          tiers?: Array<Shared.Tier>;
+        }
       }
     }
 
@@ -284,6 +322,13 @@ export namespace RateCardListResponse {
 
       starting_at: string;
 
+      /**
+       * A distinct rate on the rate card. You can choose to use this rate rather than
+       * list rate when consuming a credit or commit. This feature requires opt-in before
+       * it can be used. Please contact Metronome support to enable this feature.
+       */
+      commit_rate?: Update.CommitRate;
+
       credit_type?: Shared.CreditTypeData;
 
       custom_rate?: Record<string, unknown>;
@@ -297,6 +342,37 @@ export namespace RateCardListResponse {
       quantity?: number;
 
       tiers?: Array<Shared.Tier>;
+    }
+
+    export namespace Update {
+      /**
+       * A distinct rate on the rate card. You can choose to use this rate rather than
+       * list rate when consuming a credit or commit. This feature requires opt-in before
+       * it can be used. Please contact Metronome support to enable this feature.
+       */
+      export interface CommitRate {
+        rate_type:
+          | 'FLAT'
+          | 'flat'
+          | 'PERCENTAGE'
+          | 'percentage'
+          | 'SUBSCRIPTION'
+          | 'subscription'
+          | 'TIERED'
+          | 'tiered'
+          | 'CUSTOM'
+          | 'custom';
+
+        /**
+         * Commit rate price. For FLAT rate_type, this must be >=0.
+         */
+        price?: number;
+
+        /**
+         * Only set for TIERED rate_type.
+         */
+        tiers?: Array<Shared.Tier>;
+      }
     }
   }
 
@@ -335,9 +411,47 @@ export namespace RateCardRetrieveRateScheduleResponse {
 
     starting_at: string;
 
+    /**
+     * A distinct rate on the rate card. You can choose to use this rate rather than
+     * list rate when consuming a credit or commit. This feature requires opt-in before
+     * it can be used. Please contact Metronome support to enable this feature.
+     */
+    commit_rate?: Data.CommitRate;
+
     ending_before?: string;
 
     pricing_group_values?: Record<string, string>;
+  }
+
+  export namespace Data {
+    /**
+     * A distinct rate on the rate card. You can choose to use this rate rather than
+     * list rate when consuming a credit or commit. This feature requires opt-in before
+     * it can be used. Please contact Metronome support to enable this feature.
+     */
+    export interface CommitRate {
+      rate_type:
+        | 'FLAT'
+        | 'flat'
+        | 'PERCENTAGE'
+        | 'percentage'
+        | 'SUBSCRIPTION'
+        | 'subscription'
+        | 'TIERED'
+        | 'tiered'
+        | 'CUSTOM'
+        | 'custom';
+
+      /**
+       * Commit rate price. For FLAT rate_type, this must be >=0.
+       */
+      price?: number;
+
+      /**
+       * Only set for TIERED rate_type.
+       */
+      tiers?: Array<Shared.Tier>;
+    }
   }
 }
 

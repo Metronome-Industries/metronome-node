@@ -196,7 +196,7 @@ export namespace ContractRetrieveResponse {
     custom_fields?: Record<string, string>;
 
     /**
-     * This field's availability is dependent on your client's configuration.
+     * The billing provider configuration associated with a contract.
      */
     customer_billing_provider_configuration?: Data.CustomerBillingProviderConfiguration;
 
@@ -279,7 +279,7 @@ export namespace ContractRetrieveResponse {
     }
 
     /**
-     * This field's availability is dependent on your client's configuration.
+     * The billing provider configuration associated with a contract.
      */
     export interface CustomerBillingProviderConfiguration {
       billing_provider:
@@ -316,7 +316,7 @@ export namespace ContractListResponse {
     custom_fields?: Record<string, string>;
 
     /**
-     * This field's availability is dependent on your client's configuration.
+     * The billing provider configuration associated with a contract.
      */
     customer_billing_provider_configuration?: Data.CustomerBillingProviderConfiguration;
 
@@ -399,7 +399,7 @@ export namespace ContractListResponse {
     }
 
     /**
-     * This field's availability is dependent on your client's configuration.
+     * The billing provider configuration associated with a contract.
      */
     export interface CustomerBillingProviderConfiguration {
       billing_provider:
@@ -459,11 +459,49 @@ export namespace ContractRetrieveRateScheduleResponse {
 
     starting_at: string;
 
+    /**
+     * A distinct rate on the rate card. You can choose to use this rate rather than
+     * list rate when consuming a credit or commit. This feature requires opt-in before
+     * it can be used. Please contact Metronome support to enable this feature.
+     */
+    commit_rate?: Data.CommitRate;
+
     ending_before?: string;
 
     override_rate?: Shared.Rate;
 
     pricing_group_values?: Record<string, string>;
+  }
+
+  export namespace Data {
+    /**
+     * A distinct rate on the rate card. You can choose to use this rate rather than
+     * list rate when consuming a credit or commit. This feature requires opt-in before
+     * it can be used. Please contact Metronome support to enable this feature.
+     */
+    export interface CommitRate {
+      rate_type:
+        | 'FLAT'
+        | 'flat'
+        | 'PERCENTAGE'
+        | 'percentage'
+        | 'SUBSCRIPTION'
+        | 'subscription'
+        | 'TIERED'
+        | 'tiered'
+        | 'CUSTOM'
+        | 'custom';
+
+      /**
+       * Commit rate price. For FLAT rate_type, this must be >=0.
+       */
+      price?: number;
+
+      /**
+       * Only set for TIERED rate_type.
+       */
+      tiers?: Array<Shared.Tier>;
+    }
   }
 }
 
@@ -484,7 +522,7 @@ export interface ContractCreateParams {
   starting_at: string;
 
   /**
-   * This field's availability is dependent on your client's configuration.
+   * The billing provider configuration associated with a contract.
    */
   billing_provider_configuration?: ContractCreateParams.BillingProviderConfiguration;
 
@@ -569,7 +607,7 @@ export interface ContractCreateParams {
 
 export namespace ContractCreateParams {
   /**
-   * This field's availability is dependent on your client's configuration.
+   * The billing provider configuration associated with a contract.
    */
   export interface BillingProviderConfiguration {
     billing_provider?: 'aws_marketplace' | 'azure_marketplace' | 'gcp_marketplace' | 'stripe' | 'netsuite';
@@ -642,10 +680,18 @@ export namespace ContractCreateParams {
      */
     priority?: number;
 
+    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+
     /**
      * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
      */
     rollover_fraction?: number;
+
+    /**
+     * A temporary ID for the commit that can be used to reference the commit for
+     * commit specific overrides.
+     */
+    temporary_id?: string;
   }
 
   export namespace Commit {
@@ -967,7 +1013,8 @@ export namespace ContractCreateParams {
     starting_at: string;
 
     /**
-     * tags identifying products whose rates are being overridden
+     * tags identifying products whose rates are being overridden. Cannot be used in
+     * conjunction with override_specifiers.
      */
     applicable_product_tags?: Array<string>;
 
@@ -977,6 +1024,14 @@ export namespace ContractCreateParams {
     ending_before?: string;
 
     entitled?: boolean;
+
+    /**
+     * Indicates whether the override should only apply to commits. Defaults to
+     * `false`. If `true`, you can specify relevant commits in `override_specifiers` by
+     * passing `commit_ids`. if you do not specify `commit_ids`, then the override will
+     * apply when consuming any prepaid or postpaid commit.
+     */
+    is_commit_specific?: boolean;
 
     /**
      * Required for MULTIPLIER type. Must be >=0.
@@ -1003,9 +1058,17 @@ export namespace ContractCreateParams {
     priority?: number;
 
     /**
-     * ID of the product whose rate is being overridden
+     * ID of the product whose rate is being overridden. Cannot be used in conjunction
+     * with override_specifiers.
      */
     product_id?: string;
+
+    /**
+     * Indicates whether the override applies to commit rates or list rates. Can only
+     * be used for overrides that have `is_commit_specific` set to `true`. Defaults to
+     * `"LIST_RATE"`.
+     */
+    target?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
 
     /**
      * Required for TIERED type. Must have at least one tier.
@@ -1020,6 +1083,14 @@ export namespace ContractCreateParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
+      /**
+       * Can only be used for commit specific overrides. Must be used in conjunction with
+       * one of product_id, product_tags, pricing_group_values, or
+       * presentation_group_values. If provided, the override will only apply to the
+       * specified commits. If not provided, the override will apply to all commits.
+       */
+      commit_ids?: Array<string>;
+
       /**
        * A map of group names to values. The override will only apply to line items with
        * the specified presentation group values. Can only be used for multiplier
@@ -1522,10 +1593,18 @@ export namespace ContractAmendParams {
      */
     priority?: number;
 
+    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+
     /**
      * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
      */
     rollover_fraction?: number;
+
+    /**
+     * A temporary ID for the commit that can be used to reference the commit for
+     * commit specific overrides.
+     */
+    temporary_id?: string;
   }
 
   export namespace Commit {
@@ -1847,7 +1926,8 @@ export namespace ContractAmendParams {
     starting_at: string;
 
     /**
-     * tags identifying products whose rates are being overridden
+     * tags identifying products whose rates are being overridden. Cannot be used in
+     * conjunction with override_specifiers.
      */
     applicable_product_tags?: Array<string>;
 
@@ -1857,6 +1937,14 @@ export namespace ContractAmendParams {
     ending_before?: string;
 
     entitled?: boolean;
+
+    /**
+     * Indicates whether the override should only apply to commits. Defaults to
+     * `false`. If `true`, you can specify relevant commits in `override_specifiers` by
+     * passing `commit_ids`. if you do not specify `commit_ids`, then the override will
+     * apply when consuming any prepaid or postpaid commit.
+     */
+    is_commit_specific?: boolean;
 
     /**
      * Required for MULTIPLIER type. Must be >=0.
@@ -1883,9 +1971,17 @@ export namespace ContractAmendParams {
     priority?: number;
 
     /**
-     * ID of the product whose rate is being overridden
+     * ID of the product whose rate is being overridden. Cannot be used in conjunction
+     * with override_specifiers.
      */
     product_id?: string;
+
+    /**
+     * Indicates whether the override applies to commit rates or list rates. Can only
+     * be used for overrides that have `is_commit_specific` set to `true`. Defaults to
+     * `"LIST_RATE"`.
+     */
+    target?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
 
     /**
      * Required for TIERED type. Must have at least one tier.
@@ -1900,6 +1996,14 @@ export namespace ContractAmendParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
+      /**
+       * Can only be used for commit specific overrides. Must be used in conjunction with
+       * one of product_id, product_tags, pricing_group_values, or
+       * presentation_group_values. If provided, the override will only apply to the
+       * specified commits. If not provided, the override will apply to all commits.
+       */
+      commit_ids?: Array<string>;
+
       /**
        * A map of group names to values. The override will only apply to line items with
        * the specified presentation group values. Can only be used for multiplier

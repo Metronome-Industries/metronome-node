@@ -77,6 +77,7 @@ describe('resource commits', () => {
       },
       name: 'My Commit',
       netsuite_sales_order_id: 'netsuite_sales_order_id',
+      rate_type: 'COMMIT_RATE',
       salesforce_opportunity_id: 'salesforce_opportunity_id',
     });
   });
