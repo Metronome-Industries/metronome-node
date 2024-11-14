@@ -862,6 +862,8 @@ export namespace ContractCreateParams {
      * first.
      */
     priority?: number;
+
+    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
   }
 
   export namespace Credit {
@@ -1775,6 +1777,8 @@ export namespace ContractAmendParams {
      * first.
      */
     priority?: number;
+
+    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
   }
 
   export namespace Credit {
