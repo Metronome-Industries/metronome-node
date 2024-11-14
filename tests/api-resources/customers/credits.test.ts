@@ -59,6 +59,7 @@ describe('resource credits', () => {
       description: 'description',
       name: 'My Credit',
       netsuite_sales_order_id: 'netsuite_sales_order_id',
+      rate_type: 'COMMIT_RATE',
       salesforce_opportunity_id: 'salesforce_opportunity_id',
     });
   });

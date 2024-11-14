@@ -433,6 +433,8 @@ export interface Credit {
    */
   priority?: number;
 
+  rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
   /**
    * This field's availability is dependent on your client's configuration.
    */

@@ -236,6 +236,7 @@ describe('resource contracts', () => {
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
+          rate_type: 'COMMIT_RATE',
         },
         {
           access_schedule: {
@@ -270,6 +271,7 @@ describe('resource contracts', () => {
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
+          rate_type: 'COMMIT_RATE',
         },
         {
           access_schedule: {
@@ -304,6 +306,7 @@ describe('resource contracts', () => {
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
+          rate_type: 'COMMIT_RATE',
         },
       ],
       custom_fields: { foo: 'string' },
@@ -1020,6 +1023,7 @@ describe('resource contracts', () => {
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
+          rate_type: 'COMMIT_RATE',
         },
         {
           access_schedule: {
@@ -1054,6 +1058,7 @@ describe('resource contracts', () => {
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
+          rate_type: 'COMMIT_RATE',
         },
         {
           access_schedule: {
@@ -1088,6 +1093,7 @@ describe('resource contracts', () => {
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
+          rate_type: 'COMMIT_RATE',
         },
       ],
       custom_fields: { foo: 'string' },
