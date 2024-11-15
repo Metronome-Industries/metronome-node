@@ -522,7 +522,7 @@ export declare namespace Metronome {
   export type Tier = API.Tier;
 }
 
-export { toFile, fileFromPath } from '@metronome/sdk/uploads';
+export { toFile, fileFromPath } from './uploads';
 export {
   MetronomeError,
   APIError,
@@ -537,6 +537,6 @@ export {
   InternalServerError,
   PermissionDeniedError,
   UnprocessableEntityError,
-} from '@metronome/sdk/error';
+} from './error';
 
 export default Metronome;
