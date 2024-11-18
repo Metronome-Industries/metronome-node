@@ -34,7 +34,7 @@ describe('resource rates', () => {
           partial_pricing_group_values: { region: 'us-west-2', cloud: 'aws' },
           pricing_group_values: { foo: 'string' },
           product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
-          product_tags: ['string', 'string', 'string'],
+          product_tags: ['string'],
         },
       ],
     });
@@ -64,15 +64,7 @@ describe('resource rates', () => {
       rate_card_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       rate_type: 'FLAT',
       starting_at: '2020-01-01T00:00:00.000Z',
-      commit_rate: {
-        rate_type: 'FLAT',
-        price: 0,
-        tiers: [
-          { price: 0, size: 0 },
-          { price: 0, size: 0 },
-          { price: 0, size: 0 },
-        ],
-      },
+      commit_rate: { rate_type: 'FLAT', price: 0, tiers: [{ price: 0, size: 0 }] },
       credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
       custom_rate: { foo: 'bar' },
       ending_before: '2019-12-27T18:11:19.117Z',
@@ -80,11 +72,7 @@ describe('resource rates', () => {
       price: 100,
       pricing_group_values: { foo: 'string' },
       quantity: 0,
-      tiers: [
-        { price: 0, size: 0 },
-        { price: 0, size: 0 },
-        { price: 0, size: 0 },
-      ],
+      tiers: [{ price: 0, size: 0 }],
       use_list_prices: true,
     });
   });
@@ -125,15 +113,7 @@ describe('resource rates', () => {
           product_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
           rate_type: 'FLAT',
           starting_at: '2020-01-01T00:00:00.000Z',
-          commit_rate: {
-            rate_type: 'FLAT',
-            price: 0,
-            tiers: [
-              { price: 0, size: 0 },
-              { price: 0, size: 0 },
-              { price: 0, size: 0 },
-            ],
-          },
+          commit_rate: { rate_type: 'FLAT', price: 0, tiers: [{ price: 0, size: 0 }] },
           credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
           custom_rate: { foo: 'bar' },
           ending_before: '2019-12-27T18:11:19.117Z',
@@ -141,11 +121,7 @@ describe('resource rates', () => {
           price: 100,
           pricing_group_values: { region: 'us-west-2', cloud: 'aws' },
           quantity: 0,
-          tiers: [
-            { price: 0, size: 0 },
-            { price: 0, size: 0 },
-            { price: 0, size: 0 },
-          ],
+          tiers: [{ price: 0, size: 0 }],
           use_list_prices: true,
         },
         {
@@ -153,15 +129,7 @@ describe('resource rates', () => {
           product_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
           rate_type: 'FLAT',
           starting_at: '2020-01-01T00:00:00.000Z',
-          commit_rate: {
-            rate_type: 'FLAT',
-            price: 0,
-            tiers: [
-              { price: 0, size: 0 },
-              { price: 0, size: 0 },
-              { price: 0, size: 0 },
-            ],
-          },
+          commit_rate: { rate_type: 'FLAT', price: 0, tiers: [{ price: 0, size: 0 }] },
           credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
           custom_rate: { foo: 'bar' },
           ending_before: '2019-12-27T18:11:19.117Z',
@@ -169,11 +137,7 @@ describe('resource rates', () => {
           price: 120,
           pricing_group_values: { region: 'us-east-2', cloud: 'aws' },
           quantity: 0,
-          tiers: [
-            { price: 0, size: 0 },
-            { price: 0, size: 0 },
-            { price: 0, size: 0 },
-          ],
+          tiers: [{ price: 0, size: 0 }],
           use_list_prices: true,
         },
       ],

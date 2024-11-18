@@ -26,27 +26,12 @@ describe('resource billableMetrics', () => {
       aggregation_key: 'cpu_hours',
       aggregation_type: 'COUNT',
       custom_fields: { foo: 'string' },
-      event_type_filter: { in_values: ['cpu_usage'], not_in_values: ['string', 'string', 'string'] },
+      event_type_filter: { in_values: ['cpu_usage'], not_in_values: ['string'] },
       group_keys: [['region'], ['machine_type']],
       property_filters: [
-        {
-          name: 'cpu_hours',
-          exists: true,
-          in_values: ['string', 'string', 'string'],
-          not_in_values: ['string', 'string', 'string'],
-        },
-        {
-          name: 'region',
-          exists: true,
-          in_values: ['EU', 'NA'],
-          not_in_values: ['string', 'string', 'string'],
-        },
-        {
-          name: 'machine_type',
-          exists: true,
-          in_values: ['slow', 'fast'],
-          not_in_values: ['string', 'string', 'string'],
-        },
+        { name: 'cpu_hours', exists: true, in_values: ['string'], not_in_values: ['string'] },
+        { name: 'region', exists: true, in_values: ['EU', 'NA'], not_in_values: ['string'] },
+        { name: 'machine_type', exists: true, in_values: ['slow', 'fast'], not_in_values: ['string'] },
       ],
       sql: 'sql',
     });

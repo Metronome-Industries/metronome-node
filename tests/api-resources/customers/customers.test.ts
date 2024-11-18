@@ -76,12 +76,12 @@ describe('resource customers', () => {
     await expect(
       client.customers.list(
         {
-          customer_ids: ['string', 'string', 'string'],
+          customer_ids: ['string'],
           ingest_alias: 'ingest_alias',
           limit: 1,
           next_page: 'next_page',
           only_archived: true,
-          salesforce_account_ids: ['string', 'string', 'string'],
+          salesforce_account_ids: ['string'],
         },
         { path: '/_stainless_unknown_path' },
       ),
