@@ -115,8 +115,6 @@ export namespace RateCardRetrieveResponse {
 
     name: string;
 
-    rate_card_entries: Record<string, Data.RateCardEntries>;
-
     aliases?: Array<Data.Alias>;
 
     credit_type_conversions?: Array<Data.CreditTypeConversion>;
@@ -129,108 +127,6 @@ export namespace RateCardRetrieveResponse {
   }
 
   export namespace Data {
-    export interface RateCardEntries {
-      current?: RateCardEntries.Current | null;
-
-      updates?: Array<RateCardEntries.Update>;
-    }
-
-    export namespace RateCardEntries {
-      export interface Current {
-        id?: string;
-
-        created_at?: string;
-
-        created_by?: string;
-
-        credit_type?: Shared.CreditTypeData;
-
-        custom_rate?: Record<string, unknown>;
-
-        ending_before?: string;
-
-        entitled?: boolean;
-
-        price?: number;
-
-        product_id?: string;
-
-        rate_type?: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
-
-        starting_at?: string;
-
-        tiers?: Array<Shared.Tier>;
-      }
-
-      export interface Update {
-        id: string;
-
-        created_at: string;
-
-        created_by: string;
-
-        entitled: boolean;
-
-        product_id: string;
-
-        rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
-
-        starting_at: string;
-
-        /**
-         * A distinct rate on the rate card. You can choose to use this rate rather than
-         * list rate when consuming a credit or commit. This feature requires opt-in before
-         * it can be used. Please contact Metronome support to enable this feature.
-         */
-        commit_rate?: Update.CommitRate;
-
-        credit_type?: Shared.CreditTypeData;
-
-        custom_rate?: Record<string, unknown>;
-
-        ending_before?: string;
-
-        is_prorated?: boolean;
-
-        price?: number;
-
-        quantity?: number;
-
-        tiers?: Array<Shared.Tier>;
-      }
-
-      export namespace Update {
-        /**
-         * A distinct rate on the rate card. You can choose to use this rate rather than
-         * list rate when consuming a credit or commit. This feature requires opt-in before
-         * it can be used. Please contact Metronome support to enable this feature.
-         */
-        export interface CommitRate {
-          rate_type:
-            | 'FLAT'
-            | 'flat'
-            | 'PERCENTAGE'
-            | 'percentage'
-            | 'SUBSCRIPTION'
-            | 'subscription'
-            | 'TIERED'
-            | 'tiered'
-            | 'CUSTOM'
-            | 'custom';
-
-          /**
-           * Commit rate price. For FLAT rate_type, this must be >=0.
-           */
-          price?: number;
-
-          /**
-           * Only set for TIERED rate_type.
-           */
-          tiers?: Array<Shared.Tier>;
-        }
-      }
-    }
-
     export interface Alias {
       name: string;
 
@@ -260,8 +156,6 @@ export interface RateCardListResponse {
 
   name: string;
 
-  rate_card_entries: Record<string, RateCardListResponse.RateCardEntries>;
-
   aliases?: Array<RateCardListResponse.Alias>;
 
   credit_type_conversions?: Array<RateCardListResponse.CreditTypeConversion>;
@@ -274,108 +168,6 @@ export interface RateCardListResponse {
 }
 
 export namespace RateCardListResponse {
-  export interface RateCardEntries {
-    current?: RateCardEntries.Current | null;
-
-    updates?: Array<RateCardEntries.Update>;
-  }
-
-  export namespace RateCardEntries {
-    export interface Current {
-      id?: string;
-
-      created_at?: string;
-
-      created_by?: string;
-
-      credit_type?: Shared.CreditTypeData;
-
-      custom_rate?: Record<string, unknown>;
-
-      ending_before?: string;
-
-      entitled?: boolean;
-
-      price?: number;
-
-      product_id?: string;
-
-      rate_type?: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
-
-      starting_at?: string;
-
-      tiers?: Array<Shared.Tier>;
-    }
-
-    export interface Update {
-      id: string;
-
-      created_at: string;
-
-      created_by: string;
-
-      entitled: boolean;
-
-      product_id: string;
-
-      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
-
-      starting_at: string;
-
-      /**
-       * A distinct rate on the rate card. You can choose to use this rate rather than
-       * list rate when consuming a credit or commit. This feature requires opt-in before
-       * it can be used. Please contact Metronome support to enable this feature.
-       */
-      commit_rate?: Update.CommitRate;
-
-      credit_type?: Shared.CreditTypeData;
-
-      custom_rate?: Record<string, unknown>;
-
-      ending_before?: string;
-
-      is_prorated?: boolean;
-
-      price?: number;
-
-      quantity?: number;
-
-      tiers?: Array<Shared.Tier>;
-    }
-
-    export namespace Update {
-      /**
-       * A distinct rate on the rate card. You can choose to use this rate rather than
-       * list rate when consuming a credit or commit. This feature requires opt-in before
-       * it can be used. Please contact Metronome support to enable this feature.
-       */
-      export interface CommitRate {
-        rate_type:
-          | 'FLAT'
-          | 'flat'
-          | 'PERCENTAGE'
-          | 'percentage'
-          | 'SUBSCRIPTION'
-          | 'subscription'
-          | 'TIERED'
-          | 'tiered'
-          | 'CUSTOM'
-          | 'custom';
-
-        /**
-         * Commit rate price. For FLAT rate_type, this must be >=0.
-         */
-        price?: number;
-
-        /**
-         * Only set for TIERED rate_type.
-         */
-        tiers?: Array<Shared.Tier>;
-      }
-    }
-  }
-
   export interface Alias {
     name: string;
 
