@@ -22,7 +22,7 @@ export class Plans extends APIResource {
 
   /**
    * Associate an existing customer with a plan for a specified date range. See the
-   * [price adjustments documentation](https://docs.metronome.com/pricing/managing-plans/#price-adjustments)
+   * [price adjustments documentation](https://plans-docs.metronome.com/pricing/managing-plans/#price-adjustments)
    * for details on the price adjustments.
    */
   add(params: PlanAddParams, options?: Core.RequestOptions): Core.APIPromise<PlanAddResponse> {
@@ -40,7 +40,7 @@ export class Plans extends APIResource {
 
   /**
    * Lists a customer plans adjustments. See the
-   * [price adjustments documentation](https://docs.metronome.com/pricing/managing-plans/#price-adjustments)
+   * [price adjustments documentation](https://plans-docs.metronome.com/pricing/managing-plans/#price-adjustments)
    * for details.
    */
   listPriceAdjustments(
@@ -183,7 +183,7 @@ export interface PlanAddParams {
   /**
    * Body param: A list of price adjustments can be applied on top of the pricing in
    * the plans. See the
-   * [price adjustments documentation](https://docs.metronome.com/pricing/managing-plans/#price-adjustments)
+   * [price adjustments documentation](https://plans-docs.metronome.com/pricing/managing-plans/#price-adjustments)
    * for details.
    */
   price_adjustments?: Array<PlanAddParams.PriceAdjustment>;

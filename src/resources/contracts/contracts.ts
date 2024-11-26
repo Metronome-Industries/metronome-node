@@ -193,6 +193,12 @@ export namespace ContractRetrieveResponse {
 
     initial: Shared.ContractWithoutAmendments;
 
+    /**
+     * RFC 3339 timestamp indicating when the contract was archived. If not returned,
+     * the contract is not archived.
+     */
+    archived_at?: string;
+
     custom_fields?: Record<string, string>;
 
     /**
@@ -312,6 +318,12 @@ export namespace ContractListResponse {
     customer_id: string;
 
     initial: Shared.ContractWithoutAmendments;
+
+    /**
+     * RFC 3339 timestamp indicating when the contract was archived. If not returned,
+     * the contract is not archived.
+     */
+    archived_at?: string;
 
     custom_fields?: Record<string, string>;
 
