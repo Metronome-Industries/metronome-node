@@ -473,8 +473,7 @@ export namespace ContractRetrieveRateScheduleResponse {
 
     /**
      * A distinct rate on the rate card. You can choose to use this rate rather than
-     * list rate when consuming a credit or commit. This feature requires opt-in before
-     * it can be used. Please contact Metronome support to enable this feature.
+     * list rate when consuming a credit or commit.
      */
     commit_rate?: Data.CommitRate;
 
@@ -488,8 +487,7 @@ export namespace ContractRetrieveRateScheduleResponse {
   export namespace Data {
     /**
      * A distinct rate on the rate card. You can choose to use this rate rather than
-     * list rate when consuming a credit or commit. This feature requires opt-in before
-     * it can be used. Please contact Metronome support to enable this feature.
+     * list rate when consuming a credit or commit.
      */
     export interface CommitRate {
       rate_type:
