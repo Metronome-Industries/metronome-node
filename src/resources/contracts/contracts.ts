@@ -1143,7 +1143,8 @@ export namespace ContractCreateParams {
       custom_rate?: Record<string, unknown>;
 
       /**
-       * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+       * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+       * set to true.
        */
       is_prorated?: boolean;
 
@@ -2058,7 +2059,8 @@ export namespace ContractAmendParams {
       custom_rate?: Record<string, unknown>;
 
       /**
-       * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+       * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+       * set to true.
        */
       is_prorated?: boolean;
 
