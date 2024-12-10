@@ -587,7 +587,8 @@ export interface Override {
   is_commit_specific?: boolean;
 
   /**
-   * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+   * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+   * set to true.
    */
   is_prorated?: boolean;
 
@@ -663,7 +664,8 @@ export namespace Override {
     custom_rate?: Record<string, unknown>;
 
     /**
-     * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+     * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+     * set to true.
      */
     is_prorated?: boolean;
 
@@ -766,7 +768,8 @@ export interface Rate {
   custom_rate?: Record<string, unknown>;
 
   /**
-   * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+   * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+   * set to true.
    */
   is_prorated?: boolean;
 

@@ -126,7 +126,8 @@ export namespace RateAddResponse {
     custom_rate?: Record<string, unknown>;
 
     /**
-     * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+     * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+     * set to true.
      */
     is_prorated?: boolean;
 
@@ -289,7 +290,8 @@ export interface RateAddParams {
   ending_before?: string;
 
   /**
-   * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+   * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+   * set to true.
    */
   is_prorated?: boolean;
 
@@ -401,7 +403,8 @@ export namespace RateAddManyParams {
     ending_before?: string;
 
     /**
-     * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+     * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+     * set to true.
      */
     is_prorated?: boolean;
 
