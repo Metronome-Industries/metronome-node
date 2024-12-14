@@ -110,6 +110,9 @@ export namespace CreditCreateParams {
   export interface AccessSchedule {
     schedule_items: Array<AccessSchedule.ScheduleItem>;
 
+    /**
+     * Defaults to USD (cents) if not passed
+     */
     credit_type_id?: string;
   }
 
