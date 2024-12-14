@@ -129,6 +129,9 @@ export namespace CommitCreateParams {
   export interface AccessSchedule {
     schedule_items: Array<AccessSchedule.ScheduleItem>;
 
+    /**
+     * Defaults to USD (cents) if not passed
+     */
     credit_type_id?: string;
   }
 
@@ -156,7 +159,7 @@ export namespace CommitCreateParams {
    */
   export interface InvoiceSchedule {
     /**
-     * Defaults to USD if not passed. Only USD is supported at this time.
+     * Defaults to USD (cents) if not passed.
      */
     credit_type_id?: string;
 

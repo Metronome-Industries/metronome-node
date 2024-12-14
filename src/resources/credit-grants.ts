@@ -461,7 +461,7 @@ export namespace CreditGrantCreateParams {
     amount: number;
 
     /**
-     * the ID of the pricing unit to be used
+     * the ID of the pricing unit to be used. Defaults to USD (cents) if not passed.
      */
     credit_type_id: string;
   }
@@ -473,7 +473,7 @@ export namespace CreditGrantCreateParams {
     amount: number;
 
     /**
-     * the ID of the pricing unit to be used
+     * the ID of the pricing unit to be used. Defaults to USD (cents) if not passed.
      */
     credit_type_id: string;
   }
