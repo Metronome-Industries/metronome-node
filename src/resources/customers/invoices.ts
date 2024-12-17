@@ -284,6 +284,8 @@ export namespace Invoice {
 
     sub_line_items?: Array<LineItem.SubLineItem>;
 
+    tier?: LineItem.Tier;
+
     /**
      * only present for beta contract invoices
      */
@@ -366,6 +368,14 @@ export namespace Invoice {
 
         subtotal: number;
       }
+    }
+
+    export interface Tier {
+      level: number;
+
+      starting_at: string;
+
+      size?: string | null;
     }
   }
 
