@@ -193,6 +193,8 @@ export namespace RateCardRetrieveRateScheduleResponse {
   export interface Data {
     entitled: boolean;
 
+    product_custom_fields: Record<string, string>;
+
     product_id: string;
 
     product_name: string;
