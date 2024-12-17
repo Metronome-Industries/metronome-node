@@ -42,6 +42,8 @@ export class RateListResponsesCursorPage extends CursorPage<RateListResponse> {}
 export interface RateListResponse {
   entitled: boolean;
 
+  product_custom_fields: Record<string, string>;
+
   product_id: string;
 
   product_name: string;
