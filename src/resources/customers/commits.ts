@@ -119,6 +119,14 @@ export interface CommitCreateParams {
    * This field's availability is dependent on your client's configuration.
    */
   salesforce_opportunity_id?: string;
+
+  /**
+   * Prevents the creation of duplicates. If a request to create a commit or credit
+   * is made with a uniqueness key that was previously used to create a commit or
+   * credit, a new record will not be created and the request will fail with a 409
+   * error.
+   */
+  uniqueness_key?: string;
 }
 
 export namespace CommitCreateParams {
