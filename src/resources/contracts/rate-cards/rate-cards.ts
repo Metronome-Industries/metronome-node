@@ -309,8 +309,6 @@ export interface RateCardUpdateParams {
    */
   aliases?: Array<RateCardUpdateParams.Alias>;
 
-  custom_fields?: Record<string, string>;
-
   description?: string;
 
   /**
