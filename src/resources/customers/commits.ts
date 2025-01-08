@@ -59,6 +59,10 @@ export interface CommitCreateParams {
    */
   priority: number;
 
+  /**
+   * ID of the fixed product associated with the commit. This is required because
+   * products are used to invoice the commit amount.
+   */
   product_id: string;
 
   type: 'PREPAID' | 'POSTPAID';
