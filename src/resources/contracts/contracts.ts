@@ -1421,6 +1421,12 @@ export interface ContractRetrieveParams {
   customer_id: string;
 
   /**
+   * Include the balance of credits and commits in the response. Setting this flag
+   * may cause the query to be slower.
+   */
+  include_balance?: boolean;
+
+  /**
    * Include commit ledgers in the response. Setting this flag may cause the query to
    * be slower.
    */
@@ -1441,6 +1447,12 @@ export interface ContractListParams {
    * Include archived contracts in the response
    */
   include_archived?: boolean;
+
+  /**
+   * Include the balance of credits and commits in the response. Setting this flag
+   * may cause the query to be slower.
+   */
+  include_balance?: boolean;
 
   /**
    * Include commit ledgers in the response. Setting this flag may cause the query to
@@ -2391,6 +2403,12 @@ export interface ContractListBalancesParams {
    * Include credits from archived contracts.
    */
   include_archived?: boolean;
+
+  /**
+   * Include the balance of credits and commits in the response. Setting this flag
+   * may cause the query to be slower.
+   */
+  include_balance?: boolean;
 
   /**
    * Include balances on the contract level.

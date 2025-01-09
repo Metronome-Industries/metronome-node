@@ -81,6 +81,7 @@ describe('resource credits', () => {
       credit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
       effective_before: '2019-12-27T18:11:19.117Z',
       include_archived: true,
+      include_balance: true,
       include_contract_credits: true,
       include_ledgers: true,
       next_page: 'next_page',
