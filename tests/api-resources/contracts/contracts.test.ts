@@ -251,6 +251,7 @@ describe('resource contracts', () => {
     const response = await client.contracts.retrieve({
       contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      include_balance: true,
       include_ledgers: true,
     });
   });
@@ -271,6 +272,7 @@ describe('resource contracts', () => {
       customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
       covering_date: '2019-12-27T18:11:19.117Z',
       include_archived: true,
+      include_balance: true,
       include_ledgers: true,
       starting_at: '2019-12-27T18:11:19.117Z',
     });
@@ -612,6 +614,7 @@ describe('resource contracts', () => {
       covering_date: '2019-12-27T18:11:19.117Z',
       effective_before: '2019-12-27T18:11:19.117Z',
       include_archived: true,
+      include_balance: true,
       include_contract_balances: true,
       include_ledgers: true,
       next_page: 'next_page',

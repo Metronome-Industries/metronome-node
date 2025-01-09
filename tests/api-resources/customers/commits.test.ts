@@ -99,6 +99,7 @@ describe('resource commits', () => {
       covering_date: '2019-12-27T18:11:19.117Z',
       effective_before: '2019-12-27T18:11:19.117Z',
       include_archived: true,
+      include_balance: true,
       include_contract_commits: true,
       include_ledgers: true,
       next_page: 'next_page',

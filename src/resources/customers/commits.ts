@@ -282,6 +282,12 @@ export interface CommitListParams {
   include_archived?: boolean;
 
   /**
+   * Include the balance in the response. Setting this flag may cause the query to be
+   * slower.
+   */
+  include_balance?: boolean;
+
+  /**
    * Include commits on the contract level.
    */
   include_contract_commits?: boolean;
