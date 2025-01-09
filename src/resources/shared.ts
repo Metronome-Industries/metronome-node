@@ -34,6 +34,18 @@ export interface Commit {
 
   applicable_product_tags?: Array<string>;
 
+  /**
+   * The current balance of the credit or commit. This balance reflects the amount of
+   * credit or commit that the customer has access to use at this moment - thus,
+   * expired and upcoming credit or commit segments contribute 0 to the balance. The
+   * balance will match the sum of all ledger entries with the exception of the case
+   * where the sum of negative manual ledger entries exceeds the positive amount
+   * remaining on the credit or commit - in that case, the balance will be 0. All
+   * manual ledger entries associated with active credit or commit segments are
+   * included in the balance, including future-dated manual ledger entries.
+   */
+  balance?: number;
+
   contract?: Commit.Contract;
 
   custom_fields?: Record<string, string>;
@@ -408,6 +420,18 @@ export interface Credit {
   applicable_product_ids?: Array<string>;
 
   applicable_product_tags?: Array<string>;
+
+  /**
+   * The current balance of the credit or commit. This balance reflects the amount of
+   * credit or commit that the customer has access to use at this moment - thus,
+   * expired and upcoming credit or commit segments contribute 0 to the balance. The
+   * balance will match the sum of all ledger entries with the exception of the case
+   * where the sum of negative manual ledger entries exceeds the positive amount
+   * remaining on the credit or commit - in that case, the balance will be 0. All
+   * manual ledger entries associated with active credit or commit segments are
+   * included in the balance, including future-dated manual ledger entries.
+   */
+  balance?: number;
 
   contract?: Credit.Contract;
 

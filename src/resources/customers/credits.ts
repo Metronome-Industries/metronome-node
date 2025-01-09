@@ -162,6 +162,12 @@ export interface CreditListParams {
   include_archived?: boolean;
 
   /**
+   * Include the balance in the response. Setting this flag may cause the query to be
+   * slower.
+   */
+  include_balance?: boolean;
+
+  /**
    * Include credits on the contract level.
    */
   include_contract_credits?: boolean;
