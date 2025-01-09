@@ -35,6 +35,8 @@ export class AuditLogListResponsesCursorPage extends CursorPage<AuditLogListResp
 export interface AuditLogListResponse {
   id: string;
 
+  request: AuditLogListResponse.Request;
+
   timestamp: string;
 
   action?: string;
@@ -51,6 +53,14 @@ export interface AuditLogListResponse {
 }
 
 export namespace AuditLogListResponse {
+  export interface Request {
+    id: string;
+
+    ip?: string;
+
+    user_agent?: string;
+  }
+
   export interface Actor {
     id: string;
 
