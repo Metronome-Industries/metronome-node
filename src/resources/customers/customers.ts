@@ -408,6 +408,8 @@ export interface CustomerCreateParams {
 
   custom_fields?: Record<string, string>;
 
+  customer_billing_provider_configurations?: Array<CustomerCreateParams.CustomerBillingProviderConfiguration>;
+
   /**
    * (deprecated, use ingest_aliases instead) an alias that can be used to refer to
    * this customer in usage events
@@ -433,6 +435,11 @@ export namespace CustomerCreateParams {
       | 'quickbooks_online'
       | 'workday'
       | 'gcp_marketplace';
+
+    /**
+     * True if the aws_product_code is a SAAS subscription product, false otherwise.
+     */
+    aws_is_subscription_product?: boolean;
 
     aws_product_code?: string;
 
@@ -464,6 +471,33 @@ export namespace CustomerCreateParams {
       | 'us-west-2';
 
     stripe_collection_method?: 'charge_automatically' | 'send_invoice';
+  }
+
+  export interface CustomerBillingProviderConfiguration {
+    /**
+     * The billing provider set for this configuration.
+     */
+    billing_provider: 'aws_marketplace' | 'azure_marketplace' | 'gcp_marketplace' | 'stripe' | 'netsuite';
+
+    /**
+     * Configuration for the billing provider. The structure of this object is specific
+     * to the billing provider and delivery provider combination. Defaults to an empty
+     * object, however, for most billing provider + delivery method combinations, it
+     * will not be a valid configuration.
+     */
+    configuration?: Record<string, unknown>;
+
+    /**
+     * The method to use for delivering invoices to this customer. If not provided, the
+     * `delivery_method_id` must be provided.
+     */
+    delivery_method?: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+
+    /**
+     * ID of the delivery method to use for this customer. If not provided, the
+     * `delivery_method` must be provided.
+     */
+    delivery_method_id?: string;
   }
 }
 
