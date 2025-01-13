@@ -737,6 +737,7 @@ describe('resource contracts', () => {
     const response = await client.contracts.updateEndDate({
       contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      allow_ending_before_finalized_invoice: true,
       ending_before: '2020-01-01T00:00:00.000Z',
     });
   });
