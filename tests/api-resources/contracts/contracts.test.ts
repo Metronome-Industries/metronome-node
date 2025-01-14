@@ -212,6 +212,7 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
         },
       ],
+      scheduled_charges_on_usage_invoices: 'ALL',
       total_contract_value: 0,
       transition: {
         from_contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
