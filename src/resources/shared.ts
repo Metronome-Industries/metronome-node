@@ -331,6 +331,15 @@ export interface ContractWithoutAmendments {
   salesforce_opportunity_id?: string;
 
   /**
+   * Determines which scheduled and commit charges to consolidate onto the Contract's
+   * usage invoice. The charge's `timestamp` must match the usage invoice's
+   * `ending_before` date for consolidation to occur. This field cannot be modified
+   * after a Contract has been created. If this field is omitted, charges will appear
+   * on a separate invoice from usage charges.
+   */
+  scheduled_charges_on_usage_invoices?: 'ALL';
+
+  /**
    * This field's availability is dependent on your client's configuration.
    */
   total_contract_value?: number;
