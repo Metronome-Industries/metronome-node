@@ -207,6 +207,15 @@ export namespace ContractRetrieveResponse {
     customer_billing_provider_configuration?: Data.CustomerBillingProviderConfiguration;
 
     /**
+     * Determines which scheduled and commit charges to consolidate onto the Contract's
+     * usage invoice. The charge's `timestamp` must match the usage invoice's
+     * `ending_before` date for consolidation to occur. This field cannot be modified
+     * after a Contract has been created. If this field is omitted, charges will appear
+     * on a separate invoice from usage charges.
+     */
+    scheduled_charges_on_usage_invoices?: 'ALL';
+
+    /**
      * Prevents the creation of duplicates. If a request to create a record is made
      * with a previously used uniqueness key, a new record will not be created and the
      * request will fail with a 409 error.
@@ -331,6 +340,15 @@ export namespace ContractListResponse {
      * The billing provider configuration associated with a contract.
      */
     customer_billing_provider_configuration?: Data.CustomerBillingProviderConfiguration;
+
+    /**
+     * Determines which scheduled and commit charges to consolidate onto the Contract's
+     * usage invoice. The charge's `timestamp` must match the usage invoice's
+     * `ending_before` date for consolidation to occur. This field cannot be modified
+     * after a Contract has been created. If this field is omitted, charges will appear
+     * on a separate invoice from usage charges.
+     */
+    scheduled_charges_on_usage_invoices?: 'ALL';
 
     /**
      * Prevents the creation of duplicates. If a request to create a record is made
@@ -595,6 +613,15 @@ export interface ContractCreateParams {
   salesforce_opportunity_id?: string;
 
   scheduled_charges?: Array<ContractCreateParams.ScheduledCharge>;
+
+  /**
+   * Determines which scheduled and commit charges to consolidate onto the Contract's
+   * usage invoice. The charge's `timestamp` must match the usage invoice's
+   * `ending_before` date for consolidation to occur. This field cannot be modified
+   * after a Contract has been created. If this field is omitted, charges will appear
+   * on a separate invoice from usage charges.
+   */
+  scheduled_charges_on_usage_invoices?: 'ALL';
 
   /**
    * This field's availability is dependent on your client's configuration.
