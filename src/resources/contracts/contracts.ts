@@ -944,6 +944,8 @@ export namespace ContractCreateParams {
      */
     schedule: Discount.Schedule;
 
+    custom_fields?: Record<string, string>;
+
     /**
      * displayed on invoices
      */
@@ -1877,6 +1879,8 @@ export namespace ContractAmendParams {
      * Must provide either schedule_items or recurring_schedule.
      */
     schedule: Discount.Schedule;
+
+    custom_fields?: Record<string, string>;
 
     /**
      * displayed on invoices

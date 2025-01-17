@@ -581,6 +581,8 @@ export interface Discount {
 
   schedule: SchedulePointInTime;
 
+  custom_fields?: Record<string, string>;
+
   name?: string;
 
   /**
