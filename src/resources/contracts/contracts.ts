@@ -2624,7 +2624,7 @@ export interface ContractUpdateEndDateParams {
    * If true, allows setting the contract end date earlier than the end_timestamp of
    * existing finalized invoices. Finalized invoices will be unchanged; if you want
    * to incorporate the new end date, you can void and regenerate finalized usage
-   * invoices. Defaults to false.
+   * invoices.
    */
   allow_ending_before_finalized_invoice?: boolean;
 
