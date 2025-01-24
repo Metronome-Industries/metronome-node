@@ -3,15 +3,80 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
-import * as CustomersAPI from './customers';
 import * as Shared from '../shared';
 import * as AlertsAPI from './alerts';
+import {
+  AlertListParams,
+  AlertListResponse,
+  AlertResetParams,
+  AlertRetrieveParams,
+  AlertRetrieveResponse,
+  Alerts,
+  CustomerAlert,
+} from './alerts';
 import * as BillingConfigAPI from './billing-config';
+import {
+  BillingConfig as BillingConfigAPIBillingConfig,
+  BillingConfigCreateParams,
+  BillingConfigDeleteParams,
+  BillingConfigRetrieveParams,
+  BillingConfigRetrieveResponse,
+} from './billing-config';
 import * as CommitsAPI from './commits';
+import {
+  CommitCreateParams,
+  CommitCreateResponse,
+  CommitListParams,
+  CommitListResponse,
+  CommitUpdateEndDateParams,
+  CommitUpdateEndDateResponse,
+  Commits,
+} from './commits';
 import * as CreditsAPI from './credits';
+import {
+  CreditCreateParams,
+  CreditCreateResponse,
+  CreditListParams,
+  CreditListResponse,
+  CreditUpdateEndDateParams,
+  CreditUpdateEndDateResponse,
+  Credits,
+} from './credits';
 import * as InvoicesAPI from './invoices';
+import {
+  Invoice,
+  InvoiceAddChargeParams,
+  InvoiceAddChargeResponse,
+  InvoiceListBreakdownsParams,
+  InvoiceListBreakdownsResponse,
+  InvoiceListBreakdownsResponsesCursorPage,
+  InvoiceListParams,
+  InvoiceRetrieveParams,
+  InvoiceRetrieveResponse,
+  Invoices,
+  InvoicesCursorPage,
+} from './invoices';
 import * as NamedSchedulesAPI from './named-schedules';
+import {
+  NamedScheduleRetrieveParams,
+  NamedScheduleRetrieveResponse,
+  NamedScheduleUpdateParams,
+  NamedSchedules,
+} from './named-schedules';
 import * as PlansAPI from './plans';
+import {
+  PlanAddParams,
+  PlanAddResponse,
+  PlanEndParams,
+  PlanEndResponse,
+  PlanListParams,
+  PlanListPriceAdjustmentsParams,
+  PlanListPriceAdjustmentsResponse,
+  PlanListPriceAdjustmentsResponsesCursorPage,
+  PlanListResponse,
+  PlanListResponsesCursorPage,
+  Plans,
+} from './plans';
 import { CursorPage, type CursorPageParams } from '../../pagination';
 
 export class Customers extends APIResource {
@@ -33,8 +98,12 @@ export class Customers extends APIResource {
   /**
    * Get a customer by Metronome ID.
    */
-  retrieve(customerId: string, options?: Core.RequestOptions): Core.APIPromise<CustomerRetrieveResponse> {
-    return this._client.get(`/customers/${customerId}`, options);
+  retrieve(
+    params: CustomerRetrieveParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<CustomerRetrieveResponse> {
+    const { customer_id } = params;
+    return this._client.get(`/customers/${customer_id}`, options);
   }
 
   /**
@@ -69,24 +138,12 @@ export class Customers extends APIResource {
    * Get all billable metrics for a given customer.
    */
   listBillableMetrics(
-    customerId: string,
-    query?: CustomerListBillableMetricsParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse>;
-  listBillableMetrics(
-    customerId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse>;
-  listBillableMetrics(
-    customerId: string,
-    query: CustomerListBillableMetricsParams | Core.RequestOptions = {},
+    params: CustomerListBillableMetricsParams,
     options?: Core.RequestOptions,
   ): Core.PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse> {
-    if (isRequestOptions(query)) {
-      return this.listBillableMetrics(customerId, {}, query);
-    }
+    const { customer_id, ...query } = params;
     return this._client.getAPIList(
-      `/customers/${customerId}/billable-metrics`,
+      `/customers/${customer_id}/billable-metrics`,
       CustomerListBillableMetricsResponsesCursorPage,
       { query, ...options },
     );
@@ -98,11 +155,11 @@ export class Customers extends APIResource {
    * UNIQUE-type billable metric.
    */
   listCosts(
-    customerId: string,
-    query: CustomerListCostsParams,
+    params: CustomerListCostsParams,
     options?: Core.RequestOptions,
   ): Core.PagePromise<CustomerListCostsResponsesCursorPage, CustomerListCostsResponse> {
-    return this._client.getAPIList(`/customers/${customerId}/costs`, CustomerListCostsResponsesCursorPage, {
+    const { customer_id, ...query } = params;
+    return this._client.getAPIList(`/customers/${customer_id}/costs`, CustomerListCostsResponsesCursorPage, {
       query,
       ...options,
     });
@@ -114,11 +171,11 @@ export class Customers extends APIResource {
    * idempotent. It fully replaces the set of ingest aliases for the given customer.
    */
   setIngestAliases(
-    customerId: string,
-    body: CustomerSetIngestAliasesParams,
+    params: CustomerSetIngestAliasesParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<void> {
-    return this._client.post(`/customers/${customerId}/setIngestAliases`, {
+    const { customer_id, ...body } = params;
+    return this._client.post(`/customers/${customer_id}/setIngestAliases`, {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -129,31 +186,19 @@ export class Customers extends APIResource {
    * Updates the specified customer's name.
    */
   setName(
-    customerId: string,
-    body: CustomerSetNameParams,
+    params: CustomerSetNameParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<CustomerSetNameResponse> {
-    return this._client.post(`/customers/${customerId}/setName`, { body, ...options });
+    const { customer_id, ...body } = params;
+    return this._client.post(`/customers/${customer_id}/setName`, { body, ...options });
   }
 
   /**
    * Updates the specified customer's config.
    */
-  updateConfig(
-    customerId: string,
-    body?: CustomerUpdateConfigParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<void>;
-  updateConfig(customerId: string, options?: Core.RequestOptions): Core.APIPromise<void>;
-  updateConfig(
-    customerId: string,
-    body: CustomerUpdateConfigParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<void> {
-    if (isRequestOptions(body)) {
-      return this.updateConfig(customerId, {}, body);
-    }
-    return this._client.post(`/customers/${customerId}/updateConfig`, {
+  updateConfig(params: CustomerUpdateConfigParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+    const { customer_id, ...body } = params;
+    return this._client.post(`/customers/${customer_id}/updateConfig`, {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -277,6 +322,12 @@ export interface CustomerListBillableMetricsResponse {
    */
   aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
 
+  /**
+   * RFC 3339 timestamp indicating when the billable metric was archived. If not
+   * provided, the billable metric is not archived.
+   */
+  archived_at?: string;
+
   custom_fields?: Record<string, string>;
 
   /**
@@ -357,9 +408,11 @@ export interface CustomerCreateParams {
 
   custom_fields?: Record<string, string>;
 
+  customer_billing_provider_configurations?: Array<CustomerCreateParams.CustomerBillingProviderConfiguration>;
+
   /**
-   * (deprecated, use ingest_aliases instead) the first ID (Metronome ID or ingest
-   * alias) that can be used in usage events
+   * (deprecated, use ingest_aliases instead) an alias that can be used to refer to
+   * this customer in usage events
    */
   external_id?: string;
 
@@ -382,6 +435,11 @@ export namespace CustomerCreateParams {
       | 'quickbooks_online'
       | 'workday'
       | 'gcp_marketplace';
+
+    /**
+     * True if the aws_product_code is a SAAS subscription product, false otherwise.
+     */
+    aws_is_subscription_product?: boolean;
 
     aws_product_code?: string;
 
@@ -414,6 +472,37 @@ export namespace CustomerCreateParams {
 
     stripe_collection_method?: 'charge_automatically' | 'send_invoice';
   }
+
+  export interface CustomerBillingProviderConfiguration {
+    /**
+     * The billing provider set for this configuration.
+     */
+    billing_provider: 'aws_marketplace' | 'azure_marketplace' | 'gcp_marketplace' | 'stripe' | 'netsuite';
+
+    /**
+     * Configuration for the billing provider. The structure of this object is specific
+     * to the billing provider and delivery provider combination. Defaults to an empty
+     * object, however, for most billing provider + delivery method combinations, it
+     * will not be a valid configuration.
+     */
+    configuration?: Record<string, unknown>;
+
+    /**
+     * The method to use for delivering invoices to this customer. If not provided, the
+     * `delivery_method_id` must be provided.
+     */
+    delivery_method?: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+
+    /**
+     * ID of the delivery method to use for this customer. If not provided, the
+     * `delivery_method` must be provided.
+     */
+    delivery_method_id?: string;
+  }
+}
+
+export interface CustomerRetrieveParams {
+  customer_id: string;
 }
 
 export interface CustomerListParams extends CursorPageParams {
@@ -445,117 +534,191 @@ export interface CustomerArchiveParams {
 
 export interface CustomerListBillableMetricsParams extends CursorPageParams {
   /**
-   * If true, the list of metrics will be filtered to just ones that are on the
-   * customer's current plan
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Query param: If true, the list of returned metrics will include archived metrics
+   */
+  include_archived?: boolean;
+
+  /**
+   * Query param: If true, the list of metrics will be filtered to just ones that are
+   * on the customer's current plan
    */
   on_current_plan?: boolean;
 }
 
 export interface CustomerListCostsParams extends CursorPageParams {
   /**
-   * RFC 3339 timestamp (exclusive)
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Query param: RFC 3339 timestamp (exclusive)
    */
   ending_before: string;
 
   /**
-   * RFC 3339 timestamp (inclusive)
+   * Query param: RFC 3339 timestamp (inclusive)
    */
   starting_on: string;
 }
 
 export interface CustomerSetIngestAliasesParams {
+  /**
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Body param:
+   */
   ingest_aliases: Array<string>;
 }
 
 export interface CustomerSetNameParams {
   /**
-   * The new name for the customer. This will be truncated to 160 characters if the
-   * provided name is longer.
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Body param: The new name for the customer. This will be truncated to 160
+   * characters if the provided name is longer.
    */
   name: string;
 }
 
 export interface CustomerUpdateConfigParams {
   /**
-   * Leave in draft or set to auto-advance on invoices sent to Stripe. Falls back to
-   * the client-level config if unset, which defaults to true if unset.
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Body param: Leave in draft or set to auto-advance on invoices sent to Stripe.
+   * Falls back to the client-level config if unset, which defaults to true if unset.
    */
   leave_stripe_invoices_in_draft?: boolean | null;
 
   /**
-   * The Salesforce account ID for the customer
+   * Body param: The Salesforce account ID for the customer
    */
   salesforce_account_id?: string | null;
 }
 
-export namespace Customers {
-  export import Customer = CustomersAPI.Customer;
-  export import CustomerDetail = CustomersAPI.CustomerDetail;
-  export import CustomerCreateResponse = CustomersAPI.CustomerCreateResponse;
-  export import CustomerRetrieveResponse = CustomersAPI.CustomerRetrieveResponse;
-  export import CustomerArchiveResponse = CustomersAPI.CustomerArchiveResponse;
-  export import CustomerListBillableMetricsResponse = CustomersAPI.CustomerListBillableMetricsResponse;
-  export import CustomerListCostsResponse = CustomersAPI.CustomerListCostsResponse;
-  export import CustomerSetNameResponse = CustomersAPI.CustomerSetNameResponse;
-  export import CustomerDetailsCursorPage = CustomersAPI.CustomerDetailsCursorPage;
-  export import CustomerListBillableMetricsResponsesCursorPage = CustomersAPI.CustomerListBillableMetricsResponsesCursorPage;
-  export import CustomerListCostsResponsesCursorPage = CustomersAPI.CustomerListCostsResponsesCursorPage;
-  export import CustomerCreateParams = CustomersAPI.CustomerCreateParams;
-  export import CustomerListParams = CustomersAPI.CustomerListParams;
-  export import CustomerArchiveParams = CustomersAPI.CustomerArchiveParams;
-  export import CustomerListBillableMetricsParams = CustomersAPI.CustomerListBillableMetricsParams;
-  export import CustomerListCostsParams = CustomersAPI.CustomerListCostsParams;
-  export import CustomerSetIngestAliasesParams = CustomersAPI.CustomerSetIngestAliasesParams;
-  export import CustomerSetNameParams = CustomersAPI.CustomerSetNameParams;
-  export import CustomerUpdateConfigParams = CustomersAPI.CustomerUpdateConfigParams;
-  export import Alerts = AlertsAPI.Alerts;
-  export import CustomerAlert = AlertsAPI.CustomerAlert;
-  export import AlertRetrieveResponse = AlertsAPI.AlertRetrieveResponse;
-  export import AlertListResponse = AlertsAPI.AlertListResponse;
-  export import AlertRetrieveParams = AlertsAPI.AlertRetrieveParams;
-  export import AlertListParams = AlertsAPI.AlertListParams;
-  export import AlertResetParams = AlertsAPI.AlertResetParams;
-  export import Plans = PlansAPI.Plans;
-  export import PlanListResponse = PlansAPI.PlanListResponse;
-  export import PlanAddResponse = PlansAPI.PlanAddResponse;
-  export import PlanEndResponse = PlansAPI.PlanEndResponse;
-  export import PlanListPriceAdjustmentsResponse = PlansAPI.PlanListPriceAdjustmentsResponse;
-  export import PlanListResponsesCursorPage = PlansAPI.PlanListResponsesCursorPage;
-  export import PlanListPriceAdjustmentsResponsesCursorPage = PlansAPI.PlanListPriceAdjustmentsResponsesCursorPage;
-  export import PlanListParams = PlansAPI.PlanListParams;
-  export import PlanAddParams = PlansAPI.PlanAddParams;
-  export import PlanEndParams = PlansAPI.PlanEndParams;
-  export import PlanListPriceAdjustmentsParams = PlansAPI.PlanListPriceAdjustmentsParams;
-  export import Invoices = InvoicesAPI.Invoices;
-  export import Invoice = InvoicesAPI.Invoice;
-  export import InvoiceRetrieveResponse = InvoicesAPI.InvoiceRetrieveResponse;
-  export import InvoiceAddChargeResponse = InvoicesAPI.InvoiceAddChargeResponse;
-  export import InvoiceListBreakdownsResponse = InvoicesAPI.InvoiceListBreakdownsResponse;
-  export import InvoicesCursorPage = InvoicesAPI.InvoicesCursorPage;
-  export import InvoiceListBreakdownsResponsesCursorPage = InvoicesAPI.InvoiceListBreakdownsResponsesCursorPage;
-  export import InvoiceRetrieveParams = InvoicesAPI.InvoiceRetrieveParams;
-  export import InvoiceListParams = InvoicesAPI.InvoiceListParams;
-  export import InvoiceAddChargeParams = InvoicesAPI.InvoiceAddChargeParams;
-  export import InvoiceListBreakdownsParams = InvoicesAPI.InvoiceListBreakdownsParams;
-  export import BillingConfig = BillingConfigAPI.BillingConfig;
-  export import BillingConfigRetrieveResponse = BillingConfigAPI.BillingConfigRetrieveResponse;
-  export import BillingConfigCreateParams = BillingConfigAPI.BillingConfigCreateParams;
-  export import Commits = CommitsAPI.Commits;
-  export import CommitCreateResponse = CommitsAPI.CommitCreateResponse;
-  export import CommitListResponse = CommitsAPI.CommitListResponse;
-  export import CommitUpdateEndDateResponse = CommitsAPI.CommitUpdateEndDateResponse;
-  export import CommitCreateParams = CommitsAPI.CommitCreateParams;
-  export import CommitListParams = CommitsAPI.CommitListParams;
-  export import CommitUpdateEndDateParams = CommitsAPI.CommitUpdateEndDateParams;
-  export import Credits = CreditsAPI.Credits;
-  export import CreditCreateResponse = CreditsAPI.CreditCreateResponse;
-  export import CreditListResponse = CreditsAPI.CreditListResponse;
-  export import CreditUpdateEndDateResponse = CreditsAPI.CreditUpdateEndDateResponse;
-  export import CreditCreateParams = CreditsAPI.CreditCreateParams;
-  export import CreditListParams = CreditsAPI.CreditListParams;
-  export import CreditUpdateEndDateParams = CreditsAPI.CreditUpdateEndDateParams;
-  export import NamedSchedules = NamedSchedulesAPI.NamedSchedules;
-  export import NamedScheduleRetrieveResponse = NamedSchedulesAPI.NamedScheduleRetrieveResponse;
-  export import NamedScheduleRetrieveParams = NamedSchedulesAPI.NamedScheduleRetrieveParams;
-  export import NamedScheduleUpdateParams = NamedSchedulesAPI.NamedScheduleUpdateParams;
+Customers.CustomerDetailsCursorPage = CustomerDetailsCursorPage;
+Customers.CustomerListBillableMetricsResponsesCursorPage = CustomerListBillableMetricsResponsesCursorPage;
+Customers.CustomerListCostsResponsesCursorPage = CustomerListCostsResponsesCursorPage;
+Customers.Alerts = Alerts;
+Customers.Plans = Plans;
+Customers.PlanListResponsesCursorPage = PlanListResponsesCursorPage;
+Customers.PlanListPriceAdjustmentsResponsesCursorPage = PlanListPriceAdjustmentsResponsesCursorPage;
+Customers.Invoices = Invoices;
+Customers.InvoicesCursorPage = InvoicesCursorPage;
+Customers.InvoiceListBreakdownsResponsesCursorPage = InvoiceListBreakdownsResponsesCursorPage;
+Customers.BillingConfig = BillingConfigAPIBillingConfig;
+Customers.Commits = Commits;
+Customers.Credits = Credits;
+Customers.NamedSchedules = NamedSchedules;
+
+export declare namespace Customers {
+  export {
+    type Customer as Customer,
+    type CustomerDetail as CustomerDetail,
+    type CustomerCreateResponse as CustomerCreateResponse,
+    type CustomerRetrieveResponse as CustomerRetrieveResponse,
+    type CustomerArchiveResponse as CustomerArchiveResponse,
+    type CustomerListBillableMetricsResponse as CustomerListBillableMetricsResponse,
+    type CustomerListCostsResponse as CustomerListCostsResponse,
+    type CustomerSetNameResponse as CustomerSetNameResponse,
+    CustomerDetailsCursorPage as CustomerDetailsCursorPage,
+    CustomerListBillableMetricsResponsesCursorPage as CustomerListBillableMetricsResponsesCursorPage,
+    CustomerListCostsResponsesCursorPage as CustomerListCostsResponsesCursorPage,
+    type CustomerCreateParams as CustomerCreateParams,
+    type CustomerRetrieveParams as CustomerRetrieveParams,
+    type CustomerListParams as CustomerListParams,
+    type CustomerArchiveParams as CustomerArchiveParams,
+    type CustomerListBillableMetricsParams as CustomerListBillableMetricsParams,
+    type CustomerListCostsParams as CustomerListCostsParams,
+    type CustomerSetIngestAliasesParams as CustomerSetIngestAliasesParams,
+    type CustomerSetNameParams as CustomerSetNameParams,
+    type CustomerUpdateConfigParams as CustomerUpdateConfigParams,
+  };
+
+  export {
+    Alerts as Alerts,
+    type CustomerAlert as CustomerAlert,
+    type AlertRetrieveResponse as AlertRetrieveResponse,
+    type AlertListResponse as AlertListResponse,
+    type AlertRetrieveParams as AlertRetrieveParams,
+    type AlertListParams as AlertListParams,
+    type AlertResetParams as AlertResetParams,
+  };
+
+  export {
+    Plans as Plans,
+    type PlanListResponse as PlanListResponse,
+    type PlanAddResponse as PlanAddResponse,
+    type PlanEndResponse as PlanEndResponse,
+    type PlanListPriceAdjustmentsResponse as PlanListPriceAdjustmentsResponse,
+    PlanListResponsesCursorPage as PlanListResponsesCursorPage,
+    PlanListPriceAdjustmentsResponsesCursorPage as PlanListPriceAdjustmentsResponsesCursorPage,
+    type PlanListParams as PlanListParams,
+    type PlanAddParams as PlanAddParams,
+    type PlanEndParams as PlanEndParams,
+    type PlanListPriceAdjustmentsParams as PlanListPriceAdjustmentsParams,
+  };
+
+  export {
+    Invoices as Invoices,
+    type Invoice as Invoice,
+    type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
+    type InvoiceAddChargeResponse as InvoiceAddChargeResponse,
+    type InvoiceListBreakdownsResponse as InvoiceListBreakdownsResponse,
+    InvoicesCursorPage as InvoicesCursorPage,
+    InvoiceListBreakdownsResponsesCursorPage as InvoiceListBreakdownsResponsesCursorPage,
+    type InvoiceRetrieveParams as InvoiceRetrieveParams,
+    type InvoiceListParams as InvoiceListParams,
+    type InvoiceAddChargeParams as InvoiceAddChargeParams,
+    type InvoiceListBreakdownsParams as InvoiceListBreakdownsParams,
+  };
+
+  export {
+    BillingConfigAPIBillingConfig as BillingConfig,
+    type BillingConfigRetrieveResponse as BillingConfigRetrieveResponse,
+    type BillingConfigCreateParams as BillingConfigCreateParams,
+    type BillingConfigRetrieveParams as BillingConfigRetrieveParams,
+    type BillingConfigDeleteParams as BillingConfigDeleteParams,
+  };
+
+  export {
+    Commits as Commits,
+    type CommitCreateResponse as CommitCreateResponse,
+    type CommitListResponse as CommitListResponse,
+    type CommitUpdateEndDateResponse as CommitUpdateEndDateResponse,
+    type CommitCreateParams as CommitCreateParams,
+    type CommitListParams as CommitListParams,
+    type CommitUpdateEndDateParams as CommitUpdateEndDateParams,
+  };
+
+  export {
+    Credits as Credits,
+    type CreditCreateResponse as CreditCreateResponse,
+    type CreditListResponse as CreditListResponse,
+    type CreditUpdateEndDateResponse as CreditUpdateEndDateResponse,
+    type CreditCreateParams as CreditCreateParams,
+    type CreditListParams as CreditListParams,
+    type CreditUpdateEndDateParams as CreditUpdateEndDateParams,
+  };
+
+  export {
+    NamedSchedules as NamedSchedules,
+    type NamedScheduleRetrieveResponse as NamedScheduleRetrieveResponse,
+    type NamedScheduleRetrieveParams as NamedScheduleRetrieveParams,
+    type NamedScheduleUpdateParams as NamedScheduleUpdateParams,
+  };
 }

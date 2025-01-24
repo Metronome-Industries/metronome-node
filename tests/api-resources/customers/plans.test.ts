@@ -9,8 +9,10 @@ const client = new Metronome({
 });
 
 describe('resource plans', () => {
-  test('list', async () => {
-    const responsePromise = client.customers.plans.list('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc');
+  test('list: only required params', async () => {
+    const responsePromise = client.customers.plans.list({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,28 +22,17 @@ describe('resource plans', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.customers.plans.list('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
-        path: '/_stainless_unknown_path',
-      }),
-    ).rejects.toThrow(Metronome.NotFoundError);
-  });
-
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.customers.plans.list(
-        'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        { limit: 1, next_page: 'next_page' },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Metronome.NotFoundError);
+  test('list: required and optional params', async () => {
+    const response = await client.customers.plans.list({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      limit: 1,
+      next_page: 'next_page',
+    });
   });
 
   test('add: only required params', async () => {
-    const responsePromise = client.customers.plans.add('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
+    const responsePromise = client.customers.plans.add({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       plan_id: 'd2c06dae-9549-4d7d-bc04-b78dd3d241b8',
       starting_on: '2021-02-01T00:00:00Z',
     });
@@ -55,22 +46,13 @@ describe('resource plans', () => {
   });
 
   test('add: required and optional params', async () => {
-    const response = await client.customers.plans.add('d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', {
+    const response = await client.customers.plans.add({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       plan_id: 'd2c06dae-9549-4d7d-bc04-b78dd3d241b8',
       starting_on: '2021-02-01T00:00:00Z',
       ending_before: '2022-02-01T00:00:00Z',
       net_payment_terms_days: 0,
       overage_rate_adjustments: [
-        {
-          custom_credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-          fiat_currency_credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-          to_fiat_conversion_factor: 0,
-        },
-        {
-          custom_credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-          fiat_currency_credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-          to_fiat_conversion_factor: 0,
-        },
         {
           custom_credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           fiat_currency_credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -86,32 +68,16 @@ describe('resource plans', () => {
           tier: 0,
           value: 0,
         },
-        {
-          adjustment_type: 'percentage',
-          charge_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-          start_period: 0,
-          quantity: 0,
-          tier: 0,
-          value: 0,
-        },
-        {
-          adjustment_type: 'percentage',
-          charge_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-          start_period: 0,
-          quantity: 0,
-          tier: 0,
-          value: 0,
-        },
       ],
       trial_spec: { length_in_days: 0, spending_cap: { amount: 0, credit_type_id: 'credit_type_id' } },
     });
   });
 
-  test('end', async () => {
-    const responsePromise = client.customers.plans.end(
-      'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      '7aa11640-0703-4600-8eb9-293f535a6b74',
-    );
+  test('end: only required params', async () => {
+    const responsePromise = client.customers.plans.end({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_plan_id: '7aa11640-0703-4600-8eb9-293f535a6b74',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -121,34 +87,21 @@ describe('resource plans', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('end: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.customers.plans.end(
-        'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        '7aa11640-0703-4600-8eb9-293f535a6b74',
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Metronome.NotFoundError);
+  test('end: required and optional params', async () => {
+    const response = await client.customers.plans.end({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_plan_id: '7aa11640-0703-4600-8eb9-293f535a6b74',
+      ending_before: '2021-02-01T00:00:00Z',
+      void_invoices: true,
+      void_stripe_invoices: true,
+    });
   });
 
-  test('end: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.customers.plans.end(
-        'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        '7aa11640-0703-4600-8eb9-293f535a6b74',
-        { ending_before: '2021-02-01T00:00:00Z', void_invoices: true, void_stripe_invoices: true },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Metronome.NotFoundError);
-  });
-
-  test('listPriceAdjustments', async () => {
-    const responsePromise = client.customers.plans.listPriceAdjustments(
-      'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      '7aa11640-0703-4600-8eb9-293f535a6b74',
-    );
+  test('listPriceAdjustments: only required params', async () => {
+    const responsePromise = client.customers.plans.listPriceAdjustments({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_plan_id: '7aa11640-0703-4600-8eb9-293f535a6b74',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -158,26 +111,12 @@ describe('resource plans', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('listPriceAdjustments: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.customers.plans.listPriceAdjustments(
-        'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        '7aa11640-0703-4600-8eb9-293f535a6b74',
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Metronome.NotFoundError);
-  });
-
-  test('listPriceAdjustments: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.customers.plans.listPriceAdjustments(
-        'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-        '7aa11640-0703-4600-8eb9-293f535a6b74',
-        { limit: 1, next_page: 'next_page' },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Metronome.NotFoundError);
+  test('listPriceAdjustments: required and optional params', async () => {
+    const response = await client.customers.plans.listPriceAdjustments({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_plan_id: '7aa11640-0703-4600-8eb9-293f535a6b74',
+      limit: 1,
+      next_page: 'next_page',
+    });
   });
 });

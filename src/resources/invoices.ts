@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as InvoicesAPI from './invoices';
 
 export class Invoices extends APIResource {
   /**
@@ -60,9 +59,11 @@ export interface InvoiceVoidParams {
   id: string;
 }
 
-export namespace Invoices {
-  export import InvoiceRegenerateResponse = InvoicesAPI.InvoiceRegenerateResponse;
-  export import InvoiceVoidResponse = InvoicesAPI.InvoiceVoidResponse;
-  export import InvoiceRegenerateParams = InvoicesAPI.InvoiceRegenerateParams;
-  export import InvoiceVoidParams = InvoicesAPI.InvoiceVoidParams;
+export declare namespace Invoices {
+  export {
+    type InvoiceRegenerateResponse as InvoiceRegenerateResponse,
+    type InvoiceVoidResponse as InvoiceVoidResponse,
+    type InvoiceRegenerateParams as InvoiceRegenerateParams,
+    type InvoiceVoidParams as InvoiceVoidParams,
+  };
 }

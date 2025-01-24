@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as UsageAPI from './usage';
 import { CursorPage, type CursorPageParams } from '../pagination';
 
 export class Usage extends APIResource {
@@ -19,8 +18,8 @@ export class Usage extends APIResource {
    * Send usage events to Metronome. The body of this request is expected to be a
    * JSON array of between 1 and 100 usage events. Compressed request bodies are
    * supported with a `Content-Encoding: gzip` header. See
-   * [Getting usage into Metronome](https://docs.metronome.com/getting-usage-data-into-metronome/overview)
-   * to learn more about usage events.
+   * [Getting usage into Metronome](https://docs.metronome.com/connect-metronome/) to
+   * learn more about usage events.
    */
   ingest(body: UsageIngestParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/ingest', {
@@ -226,11 +225,15 @@ export namespace UsageListWithGroupsParams {
   }
 }
 
-export namespace Usage {
-  export import UsageListResponse = UsageAPI.UsageListResponse;
-  export import UsageListWithGroupsResponse = UsageAPI.UsageListWithGroupsResponse;
-  export import UsageListWithGroupsResponsesCursorPage = UsageAPI.UsageListWithGroupsResponsesCursorPage;
-  export import UsageListParams = UsageAPI.UsageListParams;
-  export import UsageIngestParams = UsageAPI.UsageIngestParams;
-  export import UsageListWithGroupsParams = UsageAPI.UsageListWithGroupsParams;
+Usage.UsageListWithGroupsResponsesCursorPage = UsageListWithGroupsResponsesCursorPage;
+
+export declare namespace Usage {
+  export {
+    type UsageListResponse as UsageListResponse,
+    type UsageListWithGroupsResponse as UsageListWithGroupsResponse,
+    UsageListWithGroupsResponsesCursorPage as UsageListWithGroupsResponsesCursorPage,
+    type UsageListParams as UsageListParams,
+    type UsageIngestParams as UsageIngestParams,
+    type UsageListWithGroupsParams as UsageListWithGroupsParams,
+  };
 }

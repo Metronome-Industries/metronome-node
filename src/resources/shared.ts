@@ -34,6 +34,18 @@ export interface Commit {
 
   applicable_product_tags?: Array<string>;
 
+  /**
+   * The current balance of the credit or commit. This balance reflects the amount of
+   * credit or commit that the customer has access to use at this moment - thus,
+   * expired and upcoming credit or commit segments contribute 0 to the balance. The
+   * balance will match the sum of all ledger entries with the exception of the case
+   * where the sum of negative manual ledger entries exceeds the positive amount
+   * remaining on the credit or commit - in that case, the balance will be 0. All
+   * manual ledger entries associated with active credit or commit segments are
+   * included in the balance, including future-dated manual ledger entries.
+   */
+  balance?: number;
+
   contract?: Commit.Contract;
 
   custom_fields?: Record<string, string>;
@@ -83,6 +95,8 @@ export interface Commit {
    */
   priority?: number;
 
+  rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
   rolled_over_from?: Commit.RolledOverFrom;
 
   rollover_fraction?: number;
@@ -91,6 +105,14 @@ export interface Commit {
    * This field's availability is dependent on your client's configuration.
    */
   salesforce_opportunity_id?: string;
+
+  /**
+   * Prevents the creation of duplicates. If a request to create a commit or credit
+   * is made with a uniqueness key that was previously used to create a commit or
+   * credit, a new record will not be created and the request will fail with a 409
+   * error.
+   */
+  uniqueness_key?: string;
 }
 
 export namespace Commit {
@@ -309,6 +331,15 @@ export interface ContractWithoutAmendments {
   salesforce_opportunity_id?: string;
 
   /**
+   * Determines which scheduled and commit charges to consolidate onto the Contract's
+   * usage invoice. The charge's `timestamp` must match the usage invoice's
+   * `ending_before` date for consolidation to occur. This field cannot be modified
+   * after a Contract has been created. If this field is omitted, charges will appear
+   * on a separate invoice from usage charges.
+   */
+  scheduled_charges_on_usage_invoices?: 'ALL';
+
+  /**
    * This field's availability is dependent on your client's configuration.
    */
   total_contract_value?: number;
@@ -326,7 +357,12 @@ export namespace ContractWithoutAmendments {
   }
 
   export interface UsageStatementSchedule {
-    frequency: 'MONTHLY' | 'QUARTERLY';
+    /**
+     * Contract usage statements follow a selected cadence based on this date.
+     */
+    billing_anchor_date: string;
+
+    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
   }
 
   export interface ResellerRoyalty {
@@ -394,6 +430,18 @@ export interface Credit {
 
   applicable_product_tags?: Array<string>;
 
+  /**
+   * The current balance of the credit or commit. This balance reflects the amount of
+   * credit or commit that the customer has access to use at this moment - thus,
+   * expired and upcoming credit or commit segments contribute 0 to the balance. The
+   * balance will match the sum of all ledger entries with the exception of the case
+   * where the sum of negative manual ledger entries exceeds the positive amount
+   * remaining on the credit or commit - in that case, the balance will be 0. All
+   * manual ledger entries associated with active credit or commit segments are
+   * included in the balance, including future-dated manual ledger entries.
+   */
+  balance?: number;
+
   contract?: Credit.Contract;
 
   custom_fields?: Record<string, string>;
@@ -426,10 +474,20 @@ export interface Credit {
    */
   priority?: number;
 
+  rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
   /**
    * This field's availability is dependent on your client's configuration.
    */
   salesforce_opportunity_id?: string;
+
+  /**
+   * Prevents the creation of duplicates. If a request to create a commit or credit
+   * is made with a uniqueness key that was previously used to create a commit or
+   * credit, a new record will not be created and the request will fail with a 409
+   * error.
+   */
+  uniqueness_key?: string;
 }
 
 export namespace Credit {
@@ -510,7 +568,7 @@ export namespace Credit {
   }
 }
 
-export interface CreditType {
+export interface CreditTypeData {
   id: string;
 
   name: string;
@@ -522,6 +580,8 @@ export interface Discount {
   product: Discount.Product;
 
   schedule: SchedulePointInTime;
+
+  custom_fields?: Record<string, string>;
 
   name?: string;
 
@@ -569,14 +629,17 @@ export interface Override {
 
   applicable_product_tags?: Array<string>;
 
-  credit_type?: CreditType;
+  credit_type?: CreditTypeData;
 
   ending_before?: string;
 
   entitled?: boolean;
 
+  is_commit_specific?: boolean;
+
   /**
-   * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+   * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+   * set to true.
    */
   is_prorated?: boolean;
 
@@ -605,6 +668,8 @@ export interface Override {
 
   rate_type?: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
+  target?: 'COMMIT_RATE' | 'LIST_RATE';
+
   /**
    * Only set for TIERED rate_type.
    */
@@ -621,6 +686,8 @@ export interface Override {
 
 export namespace Override {
   export interface OverrideSpecifier {
+    commit_ids?: Array<string>;
+
     presentation_group_values?: Record<string, string | null>;
 
     pricing_group_values?: Record<string, string>;
@@ -639,7 +706,7 @@ export namespace Override {
   export interface OverwriteRate {
     rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
-    credit_type?: Shared.CreditType;
+    credit_type?: Shared.CreditTypeData;
 
     /**
      * Only set for CUSTOM rate_type. This field is interpreted by custom rate
@@ -648,7 +715,8 @@ export namespace Override {
     custom_rate?: Record<string, unknown>;
 
     /**
-     * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+     * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+     * set to true.
      */
     is_prorated?: boolean;
 
@@ -742,7 +810,7 @@ export interface ProService {
 export interface Rate {
   rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
 
-  credit_type?: CreditType;
+  credit_type?: CreditTypeData;
 
   /**
    * Only set for CUSTOM rate_type. This field is interpreted by custom rate
@@ -751,7 +819,8 @@ export interface Rate {
   custom_rate?: Record<string, unknown>;
 
   /**
-   * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+   * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+   * set to true.
    */
   is_prorated?: boolean;
 
@@ -816,7 +885,7 @@ export namespace ScheduledCharge {
 export interface ScheduleDuration {
   schedule_items: Array<ScheduleDuration.ScheduleItem>;
 
-  credit_type?: CreditType;
+  credit_type?: CreditTypeData;
 }
 
 export namespace ScheduleDuration {
@@ -832,7 +901,7 @@ export namespace ScheduleDuration {
 }
 
 export interface SchedulePointInTime {
-  credit_type?: CreditType;
+  credit_type?: CreditTypeData;
 
   schedule_items?: Array<SchedulePointInTime.ScheduleItem>;
 }

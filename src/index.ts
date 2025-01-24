@@ -1,12 +1,154 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Errors from './error';
-import * as Uploads from './uploads';
 import { type Agent } from './_shims/index';
 import * as qs from './internal/qs';
 import * as Core from './core';
+import * as Errors from './error';
 import * as Pagination from './pagination';
+import { type CursorPageParams, CursorPageResponse } from './pagination';
+import * as Uploads from './uploads';
 import * as API from './resources/index';
+import {
+  AlertArchiveParams,
+  AlertArchiveResponse,
+  AlertCreateParams,
+  AlertCreateResponse,
+  Alerts,
+} from './resources/alerts';
+import {
+  AuditLogListParams,
+  AuditLogListResponse,
+  AuditLogListResponsesCursorPage,
+  AuditLogs,
+} from './resources/audit-logs';
+import {
+  BillableMetricArchiveParams,
+  BillableMetricArchiveResponse,
+  BillableMetricCreateParams,
+  BillableMetricCreateResponse,
+  BillableMetricListParams,
+  BillableMetricListResponse,
+  BillableMetricListResponsesCursorPage,
+  BillableMetricRetrieveParams,
+  BillableMetricRetrieveResponse,
+  BillableMetrics,
+} from './resources/billable-metrics';
+import {
+  CreditGrantCreateParams,
+  CreditGrantCreateResponse,
+  CreditGrantEditParams,
+  CreditGrantEditResponse,
+  CreditGrantListCreditTypesParams,
+  CreditGrantListCreditTypesResponse,
+  CreditGrantListCreditTypesResponsesCursorPage,
+  CreditGrantListEntriesParams,
+  CreditGrantListEntriesResponse,
+  CreditGrantListParams,
+  CreditGrantListResponse,
+  CreditGrantListResponsesCursorPage,
+  CreditGrantVoidParams,
+  CreditGrantVoidResponse,
+  CreditGrants,
+  CreditLedgerEntry,
+  RolloverAmountMaxAmount,
+  RolloverAmountMaxPercentage,
+} from './resources/credit-grants';
+import {
+  CustomFieldAddKeyParams,
+  CustomFieldDeleteValuesParams,
+  CustomFieldListKeysParams,
+  CustomFieldListKeysResponse,
+  CustomFieldRemoveKeyParams,
+  CustomFieldSetValuesParams,
+  CustomFields,
+} from './resources/custom-fields';
+import {
+  DashboardGetEmbeddableURLParams,
+  DashboardGetEmbeddableURLResponse,
+  Dashboards,
+} from './resources/dashboards';
+import {
+  InvoiceRegenerateParams,
+  InvoiceRegenerateResponse,
+  InvoiceVoidParams,
+  InvoiceVoidResponse,
+  Invoices,
+} from './resources/invoices';
+import {
+  PlanDetail,
+  PlanGetDetailsParams,
+  PlanGetDetailsResponse,
+  PlanListChargesParams,
+  PlanListChargesResponse,
+  PlanListChargesResponsesCursorPage,
+  PlanListCustomersParams,
+  PlanListCustomersResponse,
+  PlanListCustomersResponsesCursorPage,
+  PlanListParams,
+  PlanListResponse,
+  PlanListResponsesCursorPage,
+  Plans,
+} from './resources/plans';
+import { ServiceListResponse, Services } from './resources/services';
+import {
+  Usage,
+  UsageIngestParams,
+  UsageListParams,
+  UsageListResponse,
+  UsageListWithGroupsParams,
+  UsageListWithGroupsResponse,
+  UsageListWithGroupsResponsesCursorPage,
+} from './resources/usage';
+import {
+  ContractAddManualBalanceEntryParams,
+  ContractAmendParams,
+  ContractAmendResponse,
+  ContractArchiveParams,
+  ContractArchiveResponse,
+  ContractCreateHistoricalInvoicesParams,
+  ContractCreateHistoricalInvoicesResponse,
+  ContractCreateParams,
+  ContractCreateResponse,
+  ContractListBalancesParams,
+  ContractListBalancesResponse,
+  ContractListParams,
+  ContractListResponse,
+  ContractRetrieveParams,
+  ContractRetrieveRateScheduleParams,
+  ContractRetrieveRateScheduleResponse,
+  ContractRetrieveResponse,
+  ContractScheduleProServicesInvoiceParams,
+  ContractScheduleProServicesInvoiceResponse,
+  ContractSetUsageFilterParams,
+  ContractUpdateEndDateParams,
+  ContractUpdateEndDateResponse,
+  Contracts,
+} from './resources/contracts/contracts';
+import {
+  Customer,
+  CustomerArchiveParams,
+  CustomerArchiveResponse,
+  CustomerCreateParams,
+  CustomerCreateResponse,
+  CustomerDetail,
+  CustomerDetailsCursorPage,
+  CustomerListBillableMetricsParams,
+  CustomerListBillableMetricsResponse,
+  CustomerListBillableMetricsResponsesCursorPage,
+  CustomerListCostsParams,
+  CustomerListCostsResponse,
+  CustomerListCostsResponsesCursorPage,
+  CustomerListParams,
+  CustomerRetrieveParams,
+  CustomerRetrieveResponse,
+  CustomerSetIngestAliasesParams,
+  CustomerSetNameParams,
+  CustomerSetNameResponse,
+  CustomerUpdateConfigParams,
+  Customers,
+} from './resources/customers/customers';
+
+import { Webhooks } from './resources/webhooks';
 
 export interface ClientOptions {
   /**
@@ -33,7 +175,7 @@ export interface ClientOptions {
    * Note that request timeouts are retried by default, so in a worst-case scenario you may wait
    * much longer than this timeout before the promise succeeds or fails.
    */
-  timeout?: number;
+  timeout?: number | undefined;
 
   /**
    * An HTTP agent used to manage HTTP(S) connections.
@@ -41,7 +183,7 @@ export interface ClientOptions {
    * If not provided, an agent will be constructed by default in the Node.js environment,
    * otherwise no agent is used.
    */
-  httpAgent?: Agent;
+  httpAgent?: Agent | undefined;
 
   /**
    * Specify a custom `fetch` function implementation.
@@ -57,7 +199,7 @@ export interface ClientOptions {
    *
    * @default 2
    */
-  maxRetries?: number;
+  maxRetries?: number | undefined;
 
   /**
    * Default headers to include with every request to the API.
@@ -65,7 +207,7 @@ export interface ClientOptions {
    * These can be removed in individual requests by explicitly setting the
    * header to `undefined` or `null` in request options.
    */
-  defaultHeaders?: Core.Headers;
+  defaultHeaders?: Core.Headers | undefined;
 
   /**
    * Default query parameters to include with every request to the API.
@@ -73,7 +215,7 @@ export interface ClientOptions {
    * These can be removed in individual requests by explicitly setting the
    * param to `undefined` in request options.
    */
-  defaultQuery?: Core.DefaultQuery;
+  defaultQuery?: Core.DefaultQuery | undefined;
 }
 
 /**
@@ -185,7 +327,208 @@ export class Metronome extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-export const {
+Metronome.Alerts = Alerts;
+Metronome.Plans = Plans;
+Metronome.PlanListResponsesCursorPage = PlanListResponsesCursorPage;
+Metronome.PlanListChargesResponsesCursorPage = PlanListChargesResponsesCursorPage;
+Metronome.PlanListCustomersResponsesCursorPage = PlanListCustomersResponsesCursorPage;
+Metronome.CreditGrants = CreditGrants;
+Metronome.CreditGrantListResponsesCursorPage = CreditGrantListResponsesCursorPage;
+Metronome.CreditGrantListCreditTypesResponsesCursorPage = CreditGrantListCreditTypesResponsesCursorPage;
+Metronome.Customers = Customers;
+Metronome.CustomerDetailsCursorPage = CustomerDetailsCursorPage;
+Metronome.CustomerListBillableMetricsResponsesCursorPage = CustomerListBillableMetricsResponsesCursorPage;
+Metronome.CustomerListCostsResponsesCursorPage = CustomerListCostsResponsesCursorPage;
+Metronome.Dashboards = Dashboards;
+Metronome.Usage = Usage;
+Metronome.UsageListWithGroupsResponsesCursorPage = UsageListWithGroupsResponsesCursorPage;
+Metronome.AuditLogs = AuditLogs;
+Metronome.AuditLogListResponsesCursorPage = AuditLogListResponsesCursorPage;
+Metronome.CustomFields = CustomFields;
+Metronome.BillableMetrics = BillableMetrics;
+Metronome.BillableMetricListResponsesCursorPage = BillableMetricListResponsesCursorPage;
+Metronome.Services = Services;
+Metronome.Invoices = Invoices;
+Metronome.Contracts = Contracts;
+export declare namespace Metronome {
+  export type RequestOptions = Core.RequestOptions;
+
+  export import CursorPage = Pagination.CursorPage;
+  export { type CursorPageParams as CursorPageParams, type CursorPageResponse as CursorPageResponse };
+
+  export {
+    Alerts as Alerts,
+    type AlertCreateResponse as AlertCreateResponse,
+    type AlertArchiveResponse as AlertArchiveResponse,
+    type AlertCreateParams as AlertCreateParams,
+    type AlertArchiveParams as AlertArchiveParams,
+  };
+
+  export {
+    Plans as Plans,
+    type PlanDetail as PlanDetail,
+    type PlanListResponse as PlanListResponse,
+    type PlanGetDetailsResponse as PlanGetDetailsResponse,
+    type PlanListChargesResponse as PlanListChargesResponse,
+    type PlanListCustomersResponse as PlanListCustomersResponse,
+    PlanListResponsesCursorPage as PlanListResponsesCursorPage,
+    PlanListChargesResponsesCursorPage as PlanListChargesResponsesCursorPage,
+    PlanListCustomersResponsesCursorPage as PlanListCustomersResponsesCursorPage,
+    type PlanListParams as PlanListParams,
+    type PlanGetDetailsParams as PlanGetDetailsParams,
+    type PlanListChargesParams as PlanListChargesParams,
+    type PlanListCustomersParams as PlanListCustomersParams,
+  };
+
+  export {
+    CreditGrants as CreditGrants,
+    type CreditLedgerEntry as CreditLedgerEntry,
+    type RolloverAmountMaxAmount as RolloverAmountMaxAmount,
+    type RolloverAmountMaxPercentage as RolloverAmountMaxPercentage,
+    type CreditGrantCreateResponse as CreditGrantCreateResponse,
+    type CreditGrantListResponse as CreditGrantListResponse,
+    type CreditGrantEditResponse as CreditGrantEditResponse,
+    type CreditGrantListCreditTypesResponse as CreditGrantListCreditTypesResponse,
+    type CreditGrantListEntriesResponse as CreditGrantListEntriesResponse,
+    type CreditGrantVoidResponse as CreditGrantVoidResponse,
+    CreditGrantListResponsesCursorPage as CreditGrantListResponsesCursorPage,
+    CreditGrantListCreditTypesResponsesCursorPage as CreditGrantListCreditTypesResponsesCursorPage,
+    type CreditGrantCreateParams as CreditGrantCreateParams,
+    type CreditGrantListParams as CreditGrantListParams,
+    type CreditGrantEditParams as CreditGrantEditParams,
+    type CreditGrantListCreditTypesParams as CreditGrantListCreditTypesParams,
+    type CreditGrantListEntriesParams as CreditGrantListEntriesParams,
+    type CreditGrantVoidParams as CreditGrantVoidParams,
+  };
+
+  export {
+    Customers as Customers,
+    type Customer as Customer,
+    type CustomerDetail as CustomerDetail,
+    type CustomerCreateResponse as CustomerCreateResponse,
+    type CustomerRetrieveResponse as CustomerRetrieveResponse,
+    type CustomerArchiveResponse as CustomerArchiveResponse,
+    type CustomerListBillableMetricsResponse as CustomerListBillableMetricsResponse,
+    type CustomerListCostsResponse as CustomerListCostsResponse,
+    type CustomerSetNameResponse as CustomerSetNameResponse,
+    CustomerDetailsCursorPage as CustomerDetailsCursorPage,
+    CustomerListBillableMetricsResponsesCursorPage as CustomerListBillableMetricsResponsesCursorPage,
+    CustomerListCostsResponsesCursorPage as CustomerListCostsResponsesCursorPage,
+    type CustomerCreateParams as CustomerCreateParams,
+    type CustomerRetrieveParams as CustomerRetrieveParams,
+    type CustomerListParams as CustomerListParams,
+    type CustomerArchiveParams as CustomerArchiveParams,
+    type CustomerListBillableMetricsParams as CustomerListBillableMetricsParams,
+    type CustomerListCostsParams as CustomerListCostsParams,
+    type CustomerSetIngestAliasesParams as CustomerSetIngestAliasesParams,
+    type CustomerSetNameParams as CustomerSetNameParams,
+    type CustomerUpdateConfigParams as CustomerUpdateConfigParams,
+  };
+
+  export {
+    Dashboards as Dashboards,
+    type DashboardGetEmbeddableURLResponse as DashboardGetEmbeddableURLResponse,
+    type DashboardGetEmbeddableURLParams as DashboardGetEmbeddableURLParams,
+  };
+
+  export { Webhooks as Webhooks };
+
+  export {
+    Usage as Usage,
+    type UsageListResponse as UsageListResponse,
+    type UsageListWithGroupsResponse as UsageListWithGroupsResponse,
+    UsageListWithGroupsResponsesCursorPage as UsageListWithGroupsResponsesCursorPage,
+    type UsageListParams as UsageListParams,
+    type UsageIngestParams as UsageIngestParams,
+    type UsageListWithGroupsParams as UsageListWithGroupsParams,
+  };
+
+  export {
+    AuditLogs as AuditLogs,
+    type AuditLogListResponse as AuditLogListResponse,
+    AuditLogListResponsesCursorPage as AuditLogListResponsesCursorPage,
+    type AuditLogListParams as AuditLogListParams,
+  };
+
+  export {
+    CustomFields as CustomFields,
+    type CustomFieldListKeysResponse as CustomFieldListKeysResponse,
+    type CustomFieldAddKeyParams as CustomFieldAddKeyParams,
+    type CustomFieldDeleteValuesParams as CustomFieldDeleteValuesParams,
+    type CustomFieldListKeysParams as CustomFieldListKeysParams,
+    type CustomFieldRemoveKeyParams as CustomFieldRemoveKeyParams,
+    type CustomFieldSetValuesParams as CustomFieldSetValuesParams,
+  };
+
+  export {
+    BillableMetrics as BillableMetrics,
+    type BillableMetricCreateResponse as BillableMetricCreateResponse,
+    type BillableMetricRetrieveResponse as BillableMetricRetrieveResponse,
+    type BillableMetricListResponse as BillableMetricListResponse,
+    type BillableMetricArchiveResponse as BillableMetricArchiveResponse,
+    BillableMetricListResponsesCursorPage as BillableMetricListResponsesCursorPage,
+    type BillableMetricCreateParams as BillableMetricCreateParams,
+    type BillableMetricRetrieveParams as BillableMetricRetrieveParams,
+    type BillableMetricListParams as BillableMetricListParams,
+    type BillableMetricArchiveParams as BillableMetricArchiveParams,
+  };
+
+  export { Services as Services, type ServiceListResponse as ServiceListResponse };
+
+  export {
+    Invoices as Invoices,
+    type InvoiceRegenerateResponse as InvoiceRegenerateResponse,
+    type InvoiceVoidResponse as InvoiceVoidResponse,
+    type InvoiceRegenerateParams as InvoiceRegenerateParams,
+    type InvoiceVoidParams as InvoiceVoidParams,
+  };
+
+  export {
+    Contracts as Contracts,
+    type ContractCreateResponse as ContractCreateResponse,
+    type ContractRetrieveResponse as ContractRetrieveResponse,
+    type ContractListResponse as ContractListResponse,
+    type ContractAmendResponse as ContractAmendResponse,
+    type ContractArchiveResponse as ContractArchiveResponse,
+    type ContractCreateHistoricalInvoicesResponse as ContractCreateHistoricalInvoicesResponse,
+    type ContractListBalancesResponse as ContractListBalancesResponse,
+    type ContractRetrieveRateScheduleResponse as ContractRetrieveRateScheduleResponse,
+    type ContractScheduleProServicesInvoiceResponse as ContractScheduleProServicesInvoiceResponse,
+    type ContractUpdateEndDateResponse as ContractUpdateEndDateResponse,
+    type ContractCreateParams as ContractCreateParams,
+    type ContractRetrieveParams as ContractRetrieveParams,
+    type ContractListParams as ContractListParams,
+    type ContractAddManualBalanceEntryParams as ContractAddManualBalanceEntryParams,
+    type ContractAmendParams as ContractAmendParams,
+    type ContractArchiveParams as ContractArchiveParams,
+    type ContractCreateHistoricalInvoicesParams as ContractCreateHistoricalInvoicesParams,
+    type ContractListBalancesParams as ContractListBalancesParams,
+    type ContractRetrieveRateScheduleParams as ContractRetrieveRateScheduleParams,
+    type ContractScheduleProServicesInvoiceParams as ContractScheduleProServicesInvoiceParams,
+    type ContractSetUsageFilterParams as ContractSetUsageFilterParams,
+    type ContractUpdateEndDateParams as ContractUpdateEndDateParams,
+  };
+
+  export type BaseUsageFilter = API.BaseUsageFilter;
+  export type Commit = API.Commit;
+  export type ContractWithoutAmendments = API.ContractWithoutAmendments;
+  export type Credit = API.Credit;
+  export type CreditTypeData = API.CreditTypeData;
+  export type Discount = API.Discount;
+  export type EventTypeFilter = API.EventTypeFilter;
+  export type ID = API.ID;
+  export type Override = API.Override;
+  export type PropertyFilter = API.PropertyFilter;
+  export type ProService = API.ProService;
+  export type Rate = API.Rate;
+  export type ScheduledCharge = API.ScheduledCharge;
+  export type ScheduleDuration = API.ScheduleDuration;
+  export type SchedulePointInTime = API.SchedulePointInTime;
+  export type Tier = API.Tier;
+}
+
+export { toFile, fileFromPath } from './uploads';
+export {
   MetronomeError,
   APIError,
   APIConnectionError,
@@ -199,163 +542,6 @@ export const {
   InternalServerError,
   PermissionDeniedError,
   UnprocessableEntityError,
-} = Errors;
-
-export import toFile = Uploads.toFile;
-export import fileFromPath = Uploads.fileFromPath;
-
-export namespace Metronome {
-  export import RequestOptions = Core.RequestOptions;
-
-  export import CursorPage = Pagination.CursorPage;
-  export import CursorPageParams = Pagination.CursorPageParams;
-  export import CursorPageResponse = Pagination.CursorPageResponse;
-
-  export import Alerts = API.Alerts;
-  export import AlertCreateResponse = API.AlertCreateResponse;
-  export import AlertArchiveResponse = API.AlertArchiveResponse;
-  export import AlertCreateParams = API.AlertCreateParams;
-  export import AlertArchiveParams = API.AlertArchiveParams;
-
-  export import Plans = API.Plans;
-  export import PlanDetail = API.PlanDetail;
-  export import PlanListResponse = API.PlanListResponse;
-  export import PlanGetDetailsResponse = API.PlanGetDetailsResponse;
-  export import PlanListChargesResponse = API.PlanListChargesResponse;
-  export import PlanListCustomersResponse = API.PlanListCustomersResponse;
-  export import PlanListResponsesCursorPage = API.PlanListResponsesCursorPage;
-  export import PlanListChargesResponsesCursorPage = API.PlanListChargesResponsesCursorPage;
-  export import PlanListCustomersResponsesCursorPage = API.PlanListCustomersResponsesCursorPage;
-  export import PlanListParams = API.PlanListParams;
-  export import PlanListChargesParams = API.PlanListChargesParams;
-  export import PlanListCustomersParams = API.PlanListCustomersParams;
-
-  export import CreditGrants = API.CreditGrants;
-  export import CreditLedgerEntry = API.CreditLedgerEntry;
-  export import RolloverAmountMaxAmount = API.RolloverAmountMaxAmount;
-  export import RolloverAmountMaxPercentage = API.RolloverAmountMaxPercentage;
-  export import CreditGrantCreateResponse = API.CreditGrantCreateResponse;
-  export import CreditGrantListResponse = API.CreditGrantListResponse;
-  export import CreditGrantEditResponse = API.CreditGrantEditResponse;
-  export import CreditGrantListCreditTypesResponse = API.CreditGrantListCreditTypesResponse;
-  export import CreditGrantListEntriesResponse = API.CreditGrantListEntriesResponse;
-  export import CreditGrantVoidResponse = API.CreditGrantVoidResponse;
-  export import CreditGrantListResponsesCursorPage = API.CreditGrantListResponsesCursorPage;
-  export import CreditGrantListCreditTypesResponsesCursorPage = API.CreditGrantListCreditTypesResponsesCursorPage;
-  export import CreditGrantCreateParams = API.CreditGrantCreateParams;
-  export import CreditGrantListParams = API.CreditGrantListParams;
-  export import CreditGrantEditParams = API.CreditGrantEditParams;
-  export import CreditGrantListCreditTypesParams = API.CreditGrantListCreditTypesParams;
-  export import CreditGrantListEntriesParams = API.CreditGrantListEntriesParams;
-  export import CreditGrantVoidParams = API.CreditGrantVoidParams;
-
-  export import Customers = API.Customers;
-  export import Customer = API.Customer;
-  export import CustomerDetail = API.CustomerDetail;
-  export import CustomerCreateResponse = API.CustomerCreateResponse;
-  export import CustomerRetrieveResponse = API.CustomerRetrieveResponse;
-  export import CustomerArchiveResponse = API.CustomerArchiveResponse;
-  export import CustomerListBillableMetricsResponse = API.CustomerListBillableMetricsResponse;
-  export import CustomerListCostsResponse = API.CustomerListCostsResponse;
-  export import CustomerSetNameResponse = API.CustomerSetNameResponse;
-  export import CustomerDetailsCursorPage = API.CustomerDetailsCursorPage;
-  export import CustomerListBillableMetricsResponsesCursorPage = API.CustomerListBillableMetricsResponsesCursorPage;
-  export import CustomerListCostsResponsesCursorPage = API.CustomerListCostsResponsesCursorPage;
-  export import CustomerCreateParams = API.CustomerCreateParams;
-  export import CustomerListParams = API.CustomerListParams;
-  export import CustomerArchiveParams = API.CustomerArchiveParams;
-  export import CustomerListBillableMetricsParams = API.CustomerListBillableMetricsParams;
-  export import CustomerListCostsParams = API.CustomerListCostsParams;
-  export import CustomerSetIngestAliasesParams = API.CustomerSetIngestAliasesParams;
-  export import CustomerSetNameParams = API.CustomerSetNameParams;
-  export import CustomerUpdateConfigParams = API.CustomerUpdateConfigParams;
-
-  export import Dashboards = API.Dashboards;
-  export import DashboardGetEmbeddableURLResponse = API.DashboardGetEmbeddableURLResponse;
-  export import DashboardGetEmbeddableURLParams = API.DashboardGetEmbeddableURLParams;
-
-  export import Webhooks = API.Webhooks;
-
-  export import Usage = API.Usage;
-  export import UsageListResponse = API.UsageListResponse;
-  export import UsageListWithGroupsResponse = API.UsageListWithGroupsResponse;
-  export import UsageListWithGroupsResponsesCursorPage = API.UsageListWithGroupsResponsesCursorPage;
-  export import UsageListParams = API.UsageListParams;
-  export import UsageIngestParams = API.UsageIngestParams;
-  export import UsageListWithGroupsParams = API.UsageListWithGroupsParams;
-
-  export import AuditLogs = API.AuditLogs;
-  export import AuditLogListResponse = API.AuditLogListResponse;
-  export import AuditLogListResponsesCursorPage = API.AuditLogListResponsesCursorPage;
-  export import AuditLogListParams = API.AuditLogListParams;
-
-  export import CustomFields = API.CustomFields;
-  export import CustomFieldListKeysResponse = API.CustomFieldListKeysResponse;
-  export import CustomFieldAddKeyParams = API.CustomFieldAddKeyParams;
-  export import CustomFieldDeleteValuesParams = API.CustomFieldDeleteValuesParams;
-  export import CustomFieldListKeysParams = API.CustomFieldListKeysParams;
-  export import CustomFieldRemoveKeyParams = API.CustomFieldRemoveKeyParams;
-  export import CustomFieldSetValuesParams = API.CustomFieldSetValuesParams;
-
-  export import BillableMetrics = API.BillableMetrics;
-  export import BillableMetricCreateResponse = API.BillableMetricCreateResponse;
-  export import BillableMetricRetrieveResponse = API.BillableMetricRetrieveResponse;
-  export import BillableMetricListResponse = API.BillableMetricListResponse;
-  export import BillableMetricArchiveResponse = API.BillableMetricArchiveResponse;
-  export import BillableMetricListResponsesCursorPage = API.BillableMetricListResponsesCursorPage;
-  export import BillableMetricCreateParams = API.BillableMetricCreateParams;
-  export import BillableMetricListParams = API.BillableMetricListParams;
-  export import BillableMetricArchiveParams = API.BillableMetricArchiveParams;
-
-  export import Services = API.Services;
-  export import ServiceListResponse = API.ServiceListResponse;
-
-  export import Invoices = API.Invoices;
-  export import InvoiceRegenerateResponse = API.InvoiceRegenerateResponse;
-  export import InvoiceVoidResponse = API.InvoiceVoidResponse;
-  export import InvoiceRegenerateParams = API.InvoiceRegenerateParams;
-  export import InvoiceVoidParams = API.InvoiceVoidParams;
-
-  export import Contracts = API.Contracts;
-  export import ContractCreateResponse = API.ContractCreateResponse;
-  export import ContractRetrieveResponse = API.ContractRetrieveResponse;
-  export import ContractListResponse = API.ContractListResponse;
-  export import ContractAmendResponse = API.ContractAmendResponse;
-  export import ContractArchiveResponse = API.ContractArchiveResponse;
-  export import ContractCreateHistoricalInvoicesResponse = API.ContractCreateHistoricalInvoicesResponse;
-  export import ContractListBalancesResponse = API.ContractListBalancesResponse;
-  export import ContractRetrieveRateScheduleResponse = API.ContractRetrieveRateScheduleResponse;
-  export import ContractScheduleProServicesInvoiceResponse = API.ContractScheduleProServicesInvoiceResponse;
-  export import ContractUpdateEndDateResponse = API.ContractUpdateEndDateResponse;
-  export import ContractCreateParams = API.ContractCreateParams;
-  export import ContractRetrieveParams = API.ContractRetrieveParams;
-  export import ContractListParams = API.ContractListParams;
-  export import ContractAddManualBalanceEntryParams = API.ContractAddManualBalanceEntryParams;
-  export import ContractAmendParams = API.ContractAmendParams;
-  export import ContractArchiveParams = API.ContractArchiveParams;
-  export import ContractCreateHistoricalInvoicesParams = API.ContractCreateHistoricalInvoicesParams;
-  export import ContractListBalancesParams = API.ContractListBalancesParams;
-  export import ContractRetrieveRateScheduleParams = API.ContractRetrieveRateScheduleParams;
-  export import ContractScheduleProServicesInvoiceParams = API.ContractScheduleProServicesInvoiceParams;
-  export import ContractSetUsageFilterParams = API.ContractSetUsageFilterParams;
-  export import ContractUpdateEndDateParams = API.ContractUpdateEndDateParams;
-
-  export import BaseUsageFilter = API.BaseUsageFilter;
-  export import Commit = API.Commit;
-  export import ContractWithoutAmendments = API.ContractWithoutAmendments;
-  export import Credit = API.Credit;
-  export import CreditType = API.CreditType;
-  export import Discount = API.Discount;
-  export import EventTypeFilter = API.EventTypeFilter;
-  export import ID = API.ID;
-  export import Override = API.Override;
-  export import PropertyFilter = API.PropertyFilter;
-  export import ProService = API.ProService;
-  export import Rate = API.Rate;
-  export import ScheduledCharge = API.ScheduledCharge;
-  export import ScheduleDuration = API.ScheduleDuration;
-  export import SchedulePointInTime = API.SchedulePointInTime;
-  export import Tier = API.Tier;
-}
+} from './error';
 
 export default Metronome;

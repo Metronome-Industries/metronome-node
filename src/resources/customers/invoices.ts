@@ -1,9 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
-import * as InvoicesAPI from './invoices';
 import * as Shared from '../shared';
 import { CursorPage, type CursorPageParams } from '../../pagination';
 
@@ -12,26 +10,11 @@ export class Invoices extends APIResource {
    * Fetch a specific invoice for a given customer.
    */
   retrieve(
-    customerId: string,
-    invoiceId: string,
-    query?: InvoiceRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<InvoiceRetrieveResponse>;
-  retrieve(
-    customerId: string,
-    invoiceId: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<InvoiceRetrieveResponse>;
-  retrieve(
-    customerId: string,
-    invoiceId: string,
-    query: InvoiceRetrieveParams | Core.RequestOptions = {},
+    params: InvoiceRetrieveParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<InvoiceRetrieveResponse> {
-    if (isRequestOptions(query)) {
-      return this.retrieve(customerId, invoiceId, {}, query);
-    }
-    return this._client.get(`/customers/${customerId}/invoices/${invoiceId}`, { query, ...options });
+    const { customer_id, invoice_id, ...query } = params;
+    return this._client.get(`/customers/${customer_id}/invoices/${invoice_id}`, { query, ...options });
   }
 
   /**
@@ -39,20 +22,11 @@ export class Invoices extends APIResource {
    * range, and/or credit type.
    */
   list(
-    customerId: string,
-    query?: InvoiceListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<InvoicesCursorPage, Invoice>;
-  list(customerId: string, options?: Core.RequestOptions): Core.PagePromise<InvoicesCursorPage, Invoice>;
-  list(
-    customerId: string,
-    query: InvoiceListParams | Core.RequestOptions = {},
+    params: InvoiceListParams,
     options?: Core.RequestOptions,
   ): Core.PagePromise<InvoicesCursorPage, Invoice> {
-    if (isRequestOptions(query)) {
-      return this.list(customerId, {}, query);
-    }
-    return this._client.getAPIList(`/customers/${customerId}/invoices`, InvoicesCursorPage, {
+    const { customer_id, ...query } = params;
+    return this._client.getAPIList(`/customers/${customer_id}/invoices`, InvoicesCursorPage, {
       query,
       ...options,
     });
@@ -62,24 +36,24 @@ export class Invoices extends APIResource {
    * Add a one time charge to the specified invoice
    */
   addCharge(
-    customerId: string,
-    body: InvoiceAddChargeParams,
+    params: InvoiceAddChargeParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<InvoiceAddChargeResponse> {
-    return this._client.post(`/customers/${customerId}/addCharge`, { body, ...options });
+    const { customer_id, ...body } = params;
+    return this._client.post(`/customers/${customer_id}/addCharge`, { body, ...options });
   }
 
   /**
-   * List daily or hourly breakdown invoices for a given customer, optionally
+   * List daily or hourly invoice breakdowns for a given customer, optionally
    * filtered by status, date range, and/or credit type.
    */
   listBreakdowns(
-    customerId: string,
-    query: InvoiceListBreakdownsParams,
+    params: InvoiceListBreakdownsParams,
     options?: Core.RequestOptions,
   ): Core.PagePromise<InvoiceListBreakdownsResponsesCursorPage, InvoiceListBreakdownsResponse> {
+    const { customer_id, ...query } = params;
     return this._client.getAPIList(
-      `/customers/${customerId}/invoices/breakdowns`,
+      `/customers/${customer_id}/invoices/breakdowns`,
       InvoiceListBreakdownsResponsesCursorPage,
       { query, ...options },
     );
@@ -93,7 +67,7 @@ export class InvoiceListBreakdownsResponsesCursorPage extends CursorPage<Invoice
 export interface Invoice {
   id: string;
 
-  credit_type: Shared.CreditType;
+  credit_type: Shared.CreditTypeData;
 
   customer_id: string;
 
@@ -175,12 +149,20 @@ export interface Invoice {
 
 export namespace Invoice {
   export interface LineItem {
-    credit_type: Shared.CreditType;
+    credit_type: Shared.CreditTypeData;
 
     name: string;
 
     total: number;
 
+    /**
+     * only present for beta contract invoices
+     */
+    applied_commit_or_credit?: LineItem.AppliedCommitOrCredit;
+
+    /**
+     * only present for beta contract invoices
+     */
     commit_custom_fields?: Record<string, string>;
 
     /**
@@ -227,7 +209,7 @@ export namespace Invoice {
     is_prorated?: boolean;
 
     /**
-     * only present for contract invoices and when the include_list_prices query
+     * Only present for contract invoices and when the include_list_prices query
      * parameter is set to true. This will include the list rate for the charge if
      * applicable. Only present for usage and subscription line items.
      */
@@ -274,6 +256,9 @@ export namespace Invoice {
 
     product_type?: string;
 
+    /**
+     * only present for beta contract invoices
+     */
     professional_service_custom_fields?: Record<string, string>;
 
     /**
@@ -299,6 +284,8 @@ export namespace Invoice {
 
     sub_line_items?: Array<LineItem.SubLineItem>;
 
+    tier?: LineItem.Tier;
+
     /**
      * only present for beta contract invoices
      */
@@ -306,6 +293,15 @@ export namespace Invoice {
   }
 
   export namespace LineItem {
+    /**
+     * only present for beta contract invoices
+     */
+    export interface AppliedCommitOrCredit {
+      id: string;
+
+      type: 'PREPAID' | 'POSTPAID' | 'CREDIT';
+    }
+
     /**
      * only present for beta contract invoices
      */
@@ -372,6 +368,14 @@ export namespace Invoice {
 
         subtotal: number;
       }
+    }
+
+    export interface Tier {
+      level: number;
+
+      starting_at: string;
+
+      size?: string | null;
     }
   }
 
@@ -446,7 +450,7 @@ export namespace Invoice {
   }
 
   export interface InvoiceAdjustment {
-    credit_type: Shared.CreditType;
+    credit_type: Shared.CreditTypeData;
 
     name: string;
 
@@ -503,124 +507,163 @@ export interface InvoiceListBreakdownsResponse extends Invoice {
 
 export interface InvoiceRetrieveParams {
   /**
-   * If set, all zero quantity line items will be filtered out of the response
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Path param:
+   */
+  invoice_id: string;
+
+  /**
+   * Query param: If set, all zero quantity line items will be filtered out of the
+   * response
    */
   skip_zero_qty_line_items?: boolean;
 }
 
 export interface InvoiceListParams extends CursorPageParams {
   /**
-   * Only return invoices for the specified credit type
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Query param: Only return invoices for the specified credit type
    */
   credit_type_id?: string;
 
   /**
-   * RFC 3339 timestamp (exclusive). Invoices will only be returned for billing
-   * periods that end before this time.
+   * Query param: RFC 3339 timestamp (exclusive). Invoices will only be returned for
+   * billing periods that end before this time.
    */
   ending_before?: string;
 
   /**
-   * If set, all zero quantity line items will be filtered out of the response
+   * Query param: If set, all zero quantity line items will be filtered out of the
+   * response
    */
   skip_zero_qty_line_items?: boolean;
 
   /**
-   * Invoice sort order by issued_at, e.g. date_asc or date_desc. Defaults to
-   * date_asc.
+   * Query param: Invoice sort order by issued_at, e.g. date_asc or date_desc.
+   * Defaults to date_asc.
    */
   sort?: 'date_asc' | 'date_desc';
 
   /**
-   * RFC 3339 timestamp (inclusive). Invoices will only be returned for billing
-   * periods that start at or after this time.
+   * Query param: RFC 3339 timestamp (inclusive). Invoices will only be returned for
+   * billing periods that start at or after this time.
    */
   starting_on?: string;
 
   /**
-   * Invoice status, e.g. DRAFT, FINALIZED, or VOID
+   * Query param: Invoice status, e.g. DRAFT, FINALIZED, or VOID
    */
   status?: string;
 }
 
 export interface InvoiceAddChargeParams {
   /**
-   * The Metronome ID of the charge to add to the invoice. Note that the charge must
-   * be on a product that is not on the current plan, and the product must have only
-   * fixed charges.
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Body param: The Metronome ID of the charge to add to the invoice. Note that the
+   * charge must be on a product that is not on the current plan, and the product
+   * must have only fixed charges.
    */
   charge_id: string;
 
   /**
-   * The Metronome ID of the customer plan to add the charge to.
+   * Body param: The Metronome ID of the customer plan to add the charge to.
    */
   customer_plan_id: string;
 
+  /**
+   * Body param:
+   */
   description: string;
 
   /**
-   * The start_timestamp of the invoice to add the charge to.
+   * Body param: The start_timestamp of the invoice to add the charge to.
    */
   invoice_start_timestamp: string;
 
   /**
-   * The price of the charge. This price will match the currency on the invoice, e.g.
-   * USD cents.
+   * Body param: The price of the charge. This price will match the currency on the
+   * invoice, e.g. USD cents.
    */
   price: number;
 
+  /**
+   * Body param:
+   */
   quantity: number;
 }
 
 export interface InvoiceListBreakdownsParams extends CursorPageParams {
   /**
-   * RFC 3339 timestamp. Breakdowns will only be returned for time windows that end
-   * on or before this time.
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Query param: RFC 3339 timestamp. Breakdowns will only be returned for time
+   * windows that end on or before this time.
    */
   ending_before: string;
 
   /**
-   * RFC 3339 timestamp. Breakdowns will only be returned for time windows that start
-   * on or after this time.
+   * Query param: RFC 3339 timestamp. Breakdowns will only be returned for time
+   * windows that start on or after this time.
    */
   starting_on: string;
 
   /**
-   * Only return invoices for the specified credit type
+   * Query param: Only return invoices for the specified credit type
    */
   credit_type_id?: string;
 
   /**
-   * If set, all zero quantity line items will be filtered out of the response
+   * Query param: If set, all zero quantity line items will be filtered out of the
+   * response
    */
   skip_zero_qty_line_items?: boolean;
 
   /**
-   * Invoice sort order by issued_at, e.g. date_asc or date_desc. Defaults to
-   * date_asc.
+   * Query param: Invoice sort order by issued_at, e.g. date_asc or date_desc.
+   * Defaults to date_asc.
    */
   sort?: 'date_asc' | 'date_desc';
 
   /**
-   * Invoice status, e.g. DRAFT or FINALIZED
+   * Query param: Invoice status, e.g. DRAFT or FINALIZED
    */
   status?: string;
 
   /**
-   * The granularity of the breakdowns to return. Defaults to day.
+   * Query param: The granularity of the breakdowns to return. Defaults to day.
    */
   window_size?: 'HOUR' | 'DAY';
 }
 
-export namespace Invoices {
-  export import Invoice = InvoicesAPI.Invoice;
-  export import InvoiceRetrieveResponse = InvoicesAPI.InvoiceRetrieveResponse;
-  export import InvoiceAddChargeResponse = InvoicesAPI.InvoiceAddChargeResponse;
-  export import InvoiceListBreakdownsResponse = InvoicesAPI.InvoiceListBreakdownsResponse;
-  export import InvoicesCursorPage = InvoicesAPI.InvoicesCursorPage;
-  export import InvoiceListBreakdownsResponsesCursorPage = InvoicesAPI.InvoiceListBreakdownsResponsesCursorPage;
-  export import InvoiceRetrieveParams = InvoicesAPI.InvoiceRetrieveParams;
-  export import InvoiceListParams = InvoicesAPI.InvoiceListParams;
-  export import InvoiceAddChargeParams = InvoicesAPI.InvoiceAddChargeParams;
-  export import InvoiceListBreakdownsParams = InvoicesAPI.InvoiceListBreakdownsParams;
+Invoices.InvoicesCursorPage = InvoicesCursorPage;
+Invoices.InvoiceListBreakdownsResponsesCursorPage = InvoiceListBreakdownsResponsesCursorPage;
+
+export declare namespace Invoices {
+  export {
+    type Invoice as Invoice,
+    type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
+    type InvoiceAddChargeResponse as InvoiceAddChargeResponse,
+    type InvoiceListBreakdownsResponse as InvoiceListBreakdownsResponse,
+    InvoicesCursorPage as InvoicesCursorPage,
+    InvoiceListBreakdownsResponsesCursorPage as InvoiceListBreakdownsResponsesCursorPage,
+    type InvoiceRetrieveParams as InvoiceRetrieveParams,
+    type InvoiceListParams as InvoiceListParams,
+    type InvoiceAddChargeParams as InvoiceAddChargeParams,
+    type InvoiceListBreakdownsParams as InvoiceListBreakdownsParams,
+  };
 }

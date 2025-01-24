@@ -1,15 +1,13 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../resource';
-import { isRequestOptions } from '../../../core';
 import * as Core from '../../../core';
-import * as RatesAPI from './rates';
 import * as Shared from '../../shared';
 import { CursorPage, type CursorPageParams } from '../../../pagination';
 
 export class Rates extends APIResource {
   /**
-   * Get rate card rates for a specific time.
+   * Get all rates for a rate card at a point in time
    */
   list(
     params: RateListParams,
@@ -34,15 +32,7 @@ export class Rates extends APIResource {
   /**
    * Add new rates
    */
-  addMany(body?: RateAddManyParams, options?: Core.RequestOptions): Core.APIPromise<RateAddManyResponse>;
-  addMany(options?: Core.RequestOptions): Core.APIPromise<RateAddManyResponse>;
-  addMany(
-    body: RateAddManyParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<RateAddManyResponse> {
-    if (isRequestOptions(body)) {
-      return this.addMany({}, body);
-    }
+  addMany(body: RateAddManyParams, options?: Core.RequestOptions): Core.APIPromise<RateAddManyResponse> {
     return this._client.post('/contract-pricing/rate-cards/addRates', { body, ...options });
   }
 }
@@ -51,6 +41,8 @@ export class RateListResponsesCursorPage extends CursorPage<RateListResponse> {}
 
 export interface RateListResponse {
   entitled: boolean;
+
+  product_custom_fields: Record<string, string>;
 
   product_id: string;
 
@@ -62,13 +54,144 @@ export interface RateListResponse {
 
   starting_at: string;
 
+  /**
+   * A distinct rate on the rate card. You can choose to use this rate rather than
+   * list rate when consuming a credit or commit.
+   */
+  commit_rate?: RateListResponse.CommitRate;
+
   ending_before?: string;
 
   pricing_group_values?: Record<string, string>;
 }
 
+export namespace RateListResponse {
+  /**
+   * A distinct rate on the rate card. You can choose to use this rate rather than
+   * list rate when consuming a credit or commit.
+   */
+  export interface CommitRate {
+    rate_type:
+      | 'FLAT'
+      | 'flat'
+      | 'PERCENTAGE'
+      | 'percentage'
+      | 'SUBSCRIPTION'
+      | 'subscription'
+      | 'TIERED'
+      | 'tiered'
+      | 'CUSTOM'
+      | 'custom';
+
+    /**
+     * Commit rate price. For FLAT rate_type, this must be >=0.
+     */
+    price?: number;
+
+    /**
+     * Only set for TIERED rate_type.
+     */
+    tiers?: Array<Shared.Tier>;
+  }
+}
+
 export interface RateAddResponse {
-  data: Shared.Rate;
+  data: RateAddResponse.Data;
+}
+
+export namespace RateAddResponse {
+  export interface Data {
+    rate_type:
+      | 'FLAT'
+      | 'flat'
+      | 'PERCENTAGE'
+      | 'percentage'
+      | 'SUBSCRIPTION'
+      | 'subscription'
+      | 'CUSTOM'
+      | 'custom'
+      | 'TIERED'
+      | 'tiered';
+
+    /**
+     * A distinct rate on the rate card. You can choose to use this rate rather than
+     * list rate when consuming a credit or commit.
+     */
+    commit_rate?: Data.CommitRate;
+
+    credit_type?: Shared.CreditTypeData;
+
+    /**
+     * Only set for CUSTOM rate_type. This field is interpreted by custom rate
+     * processors.
+     */
+    custom_rate?: Record<string, unknown>;
+
+    /**
+     * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+     * set to true.
+     */
+    is_prorated?: boolean;
+
+    /**
+     * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
+     * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
+     */
+    price?: number;
+
+    /**
+     * if pricing groups are used, this will contain the values used to calculate the
+     * price
+     */
+    pricing_group_values?: Record<string, string>;
+
+    /**
+     * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
+     */
+    quantity?: number;
+
+    /**
+     * Only set for TIERED rate_type.
+     */
+    tiers?: Array<Shared.Tier>;
+
+    /**
+     * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
+     * using list prices rather than the standard rates for this product on the
+     * contract.
+     */
+    use_list_prices?: boolean;
+  }
+
+  export namespace Data {
+    /**
+     * A distinct rate on the rate card. You can choose to use this rate rather than
+     * list rate when consuming a credit or commit.
+     */
+    export interface CommitRate {
+      rate_type:
+        | 'FLAT'
+        | 'flat'
+        | 'PERCENTAGE'
+        | 'percentage'
+        | 'SUBSCRIPTION'
+        | 'subscription'
+        | 'TIERED'
+        | 'tiered'
+        | 'CUSTOM'
+        | 'custom';
+
+      /**
+       * Commit rate price. For FLAT rate_type, this must be >=0.
+       */
+      price?: number;
+
+      /**
+       * Only set for TIERED rate_type.
+       */
+      tiers?: Array<Shared.Tier>;
+    }
+  }
 }
 
 export interface RateAddManyResponse {
@@ -145,9 +268,15 @@ export interface RateAddParams {
   starting_at: string;
 
   /**
-   * "The Metronome ID of the credit type to associate with price, defaults to USD
+   * A distinct rate on the rate card. You can choose to use this rate rather than
+   * list rate when consuming a credit or commit.
+   */
+  commit_rate?: RateAddParams.CommitRate;
+
+  /**
+   * The Metronome ID of the credit type to associate with price, defaults to USD
    * (cents) if not passed. Used by all rate_types except type PERCENTAGE. PERCENTAGE
-   * rates use the credit type of associated rates."
+   * rates use the credit type of associated rates.
    */
   credit_type_id?: string;
 
@@ -163,7 +292,8 @@ export interface RateAddParams {
   ending_before?: string;
 
   /**
-   * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+   * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+   * set to true.
    */
   is_prorated?: boolean;
 
@@ -198,10 +328,40 @@ export interface RateAddParams {
   use_list_prices?: boolean;
 }
 
-export interface RateAddManyParams {
-  rate_card_id?: string;
+export namespace RateAddParams {
+  /**
+   * A distinct rate on the rate card. You can choose to use this rate rather than
+   * list rate when consuming a credit or commit.
+   */
+  export interface CommitRate {
+    rate_type:
+      | 'FLAT'
+      | 'flat'
+      | 'PERCENTAGE'
+      | 'percentage'
+      | 'SUBSCRIPTION'
+      | 'subscription'
+      | 'TIERED'
+      | 'tiered'
+      | 'CUSTOM'
+      | 'custom';
 
-  rates?: Array<RateAddManyParams.Rate>;
+    /**
+     * Commit rate price. For FLAT rate_type, this must be >=0.
+     */
+    price?: number;
+
+    /**
+     * Only set for TIERED rate_type.
+     */
+    tiers?: Array<Shared.Tier>;
+  }
+}
+
+export interface RateAddManyParams {
+  rate_card_id: string;
+
+  rates: Array<RateAddManyParams.Rate>;
 }
 
 export namespace RateAddManyParams {
@@ -219,6 +379,12 @@ export namespace RateAddManyParams {
      * inclusive effective date
      */
     starting_at: string;
+
+    /**
+     * A distinct rate on the rate card. You can choose to use this rate rather than
+     * list rate when consuming a credit or commit.
+     */
+    commit_rate?: Rate.CommitRate;
 
     /**
      * "The Metronome ID of the credit type to associate with price, defaults to USD
@@ -239,7 +405,8 @@ export namespace RateAddManyParams {
     ending_before?: string;
 
     /**
-     * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+     * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+     * set to true.
      */
     is_prorated?: boolean;
 
@@ -273,14 +440,48 @@ export namespace RateAddManyParams {
      */
     use_list_prices?: boolean;
   }
+
+  export namespace Rate {
+    /**
+     * A distinct rate on the rate card. You can choose to use this rate rather than
+     * list rate when consuming a credit or commit.
+     */
+    export interface CommitRate {
+      rate_type:
+        | 'FLAT'
+        | 'flat'
+        | 'PERCENTAGE'
+        | 'percentage'
+        | 'SUBSCRIPTION'
+        | 'subscription'
+        | 'TIERED'
+        | 'tiered'
+        | 'CUSTOM'
+        | 'custom';
+
+      /**
+       * Commit rate price. For FLAT rate_type, this must be >=0.
+       */
+      price?: number;
+
+      /**
+       * Only set for TIERED rate_type.
+       */
+      tiers?: Array<Shared.Tier>;
+    }
+  }
 }
 
-export namespace Rates {
-  export import RateListResponse = RatesAPI.RateListResponse;
-  export import RateAddResponse = RatesAPI.RateAddResponse;
-  export import RateAddManyResponse = RatesAPI.RateAddManyResponse;
-  export import RateListResponsesCursorPage = RatesAPI.RateListResponsesCursorPage;
-  export import RateListParams = RatesAPI.RateListParams;
-  export import RateAddParams = RatesAPI.RateAddParams;
-  export import RateAddManyParams = RatesAPI.RateAddManyParams;
+Rates.RateListResponsesCursorPage = RateListResponsesCursorPage;
+
+export declare namespace Rates {
+  export {
+    type RateListResponse as RateListResponse,
+    type RateAddResponse as RateAddResponse,
+    type RateAddManyResponse as RateAddManyResponse,
+    RateListResponsesCursorPage as RateListResponsesCursorPage,
+    type RateListParams as RateListParams,
+    type RateAddParams as RateAddParams,
+    type RateAddManyParams as RateAddManyParams,
+  };
 }

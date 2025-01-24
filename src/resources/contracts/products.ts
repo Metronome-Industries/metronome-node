@@ -100,13 +100,17 @@ export interface ProductListItemState {
   netsuite_overage_item_id?: string;
 
   /**
-   * For USAGE products only. Groups usage line items on invoices.
+   * For USAGE products only. Groups usage line items on invoices. The superset of
+   * values in the pricing group key and presentation group key must be set as one
+   * compound group key on the billable metric.
    */
   presentation_group_key?: Array<string>;
 
   /**
    * For USAGE products only. If set, pricing for this product will be determined for
-   * each pricing_group_key value, as opposed to the product as a whole.
+   * each pricing_group_key value, as opposed to the product as a whole. The superset
+   * of values in the pricing group key and presentation group key must be set as one
+   * compound group key on the billable metric.
    */
   pricing_group_key?: Array<string>;
 
@@ -226,13 +230,17 @@ export namespace ProductRetrieveResponse {
       netsuite_overage_item_id?: string;
 
       /**
-       * For USAGE products only. Groups usage line items on invoices.
+       * For USAGE products only. Groups usage line items on invoices. The superset of
+       * values in the pricing group key and presentation group key must be set as one
+       * compound group key on the billable metric.
        */
       presentation_group_key?: Array<string>;
 
       /**
        * For USAGE products only. If set, pricing for this product will be determined for
-       * each pricing_group_key value, as opposed to the product as a whole.
+       * each pricing_group_key value, as opposed to the product as a whole. The superset
+       * of values in the pricing group key and presentation group key must be set as one
+       * compound group key on the billable metric.
        */
       pricing_group_key?: Array<string>;
 
@@ -311,13 +319,17 @@ export namespace ProductListResponse {
     netsuite_overage_item_id?: string;
 
     /**
-     * For USAGE products only. Groups usage line items on invoices.
+     * For USAGE products only. Groups usage line items on invoices. The superset of
+     * values in the pricing group key and presentation group key must be set as one
+     * compound group key on the billable metric.
      */
     presentation_group_key?: Array<string>;
 
     /**
      * For USAGE products only. If set, pricing for this product will be determined for
-     * each pricing_group_key value, as opposed to the product as a whole.
+     * each pricing_group_key value, as opposed to the product as a whole. The superset
+     * of values in the pricing group key and presentation group key must be set as one
+     * compound group key on the billable metric.
      */
     pricing_group_key?: Array<string>;
 
@@ -381,7 +393,7 @@ export interface ProductCreateParams {
 
   /**
    * This field's availability is dependent on your client's configuration. Defaults
-   * to true
+   * to true.
    */
   is_refundable?: boolean;
 
@@ -396,13 +408,17 @@ export interface ProductCreateParams {
   netsuite_overage_item_id?: string;
 
   /**
-   * For USAGE products only. Groups usage line items on invoices.
+   * For USAGE products only. Groups usage line items on invoices. The superset of
+   * values in the pricing group key and presentation group key must be set as one
+   * compound group key on the billable metric.
    */
   presentation_group_key?: Array<string>;
 
   /**
    * For USAGE products only. If set, pricing for this product will be determined for
-   * each pricing_group_key value, as opposed to the product as a whole.
+   * each pricing_group_key value, as opposed to the product as a whole. The superset
+   * of values in the pricing group key and presentation group key must be set as one
+   * compound group key on the billable metric.
    */
   pricing_group_key?: Array<string>;
 
@@ -493,13 +509,17 @@ export interface ProductUpdateParams {
   netsuite_overage_item_id?: string;
 
   /**
-   * For USAGE products only. Groups usage line items on invoices.
+   * For USAGE products only. Groups usage line items on invoices. The superset of
+   * values in the pricing group key and presentation group key must be set as one
+   * compound group key on the billable metric.
    */
   presentation_group_key?: Array<string>;
 
   /**
    * For USAGE products only. If set, pricing for this product will be determined for
-   * each pricing_group_key value, as opposed to the product as a whole.
+   * each pricing_group_key value, as opposed to the product as a whole. The superset
+   * of values in the pricing group key and presentation group key must be set as one
+   * compound group key on the billable metric.
    */
   pricing_group_key?: Array<string>;
 
@@ -542,19 +562,23 @@ export interface ProductArchiveParams {
   product_id: string;
 }
 
-export namespace Products {
-  export import ProductListItemState = ProductsAPI.ProductListItemState;
-  export import QuantityConversion = ProductsAPI.QuantityConversion;
-  export import QuantityRounding = ProductsAPI.QuantityRounding;
-  export import ProductCreateResponse = ProductsAPI.ProductCreateResponse;
-  export import ProductRetrieveResponse = ProductsAPI.ProductRetrieveResponse;
-  export import ProductUpdateResponse = ProductsAPI.ProductUpdateResponse;
-  export import ProductListResponse = ProductsAPI.ProductListResponse;
-  export import ProductArchiveResponse = ProductsAPI.ProductArchiveResponse;
-  export import ProductListResponsesCursorPage = ProductsAPI.ProductListResponsesCursorPage;
-  export import ProductCreateParams = ProductsAPI.ProductCreateParams;
-  export import ProductRetrieveParams = ProductsAPI.ProductRetrieveParams;
-  export import ProductUpdateParams = ProductsAPI.ProductUpdateParams;
-  export import ProductListParams = ProductsAPI.ProductListParams;
-  export import ProductArchiveParams = ProductsAPI.ProductArchiveParams;
+Products.ProductListResponsesCursorPage = ProductListResponsesCursorPage;
+
+export declare namespace Products {
+  export {
+    type ProductListItemState as ProductListItemState,
+    type QuantityConversion as QuantityConversion,
+    type QuantityRounding as QuantityRounding,
+    type ProductCreateResponse as ProductCreateResponse,
+    type ProductRetrieveResponse as ProductRetrieveResponse,
+    type ProductUpdateResponse as ProductUpdateResponse,
+    type ProductListResponse as ProductListResponse,
+    type ProductArchiveResponse as ProductArchiveResponse,
+    ProductListResponsesCursorPage as ProductListResponsesCursorPage,
+    type ProductCreateParams as ProductCreateParams,
+    type ProductRetrieveParams as ProductRetrieveParams,
+    type ProductUpdateParams as ProductUpdateParams,
+    type ProductListParams as ProductListParams,
+    type ProductArchiveParams as ProductArchiveParams,
+  };
 }

@@ -50,13 +50,9 @@ describe('resource commits', () => {
       priority: 100,
       product_id: 'f14d6729-6a44-4b13-9908-9387f1918790',
       type: 'PREPAID',
-      applicable_contract_ids: ['string', 'string', 'string'],
-      applicable_product_ids: [
-        '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-        '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-        '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      ],
-      applicable_product_tags: ['string', 'string', 'string'],
+      applicable_contract_ids: ['string'],
+      applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+      applicable_product_tags: ['string'],
       custom_fields: { foo: 'string' },
       description: 'description',
       invoice_contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -72,12 +68,14 @@ describe('resource commits', () => {
           unit_price: 0,
         },
         schedule_items: [
-          { timestamp: '2020-03-01T00:00:00.000Z', amount: 10000000, quantity: 1, unit_price: 10000000 },
+          { timestamp: '2020-03-01T00:00:00.000Z', amount: 0, quantity: 1, unit_price: 10000000 },
         ],
       },
       name: 'My Commit',
       netsuite_sales_order_id: 'netsuite_sales_order_id',
+      rate_type: 'COMMIT_RATE',
       salesforce_opportunity_id: 'salesforce_opportunity_id',
+      uniqueness_key: 'x',
     });
   });
 
@@ -101,6 +99,7 @@ describe('resource commits', () => {
       covering_date: '2019-12-27T18:11:19.117Z',
       effective_before: '2019-12-27T18:11:19.117Z',
       include_archived: true,
+      include_balance: true,
       include_contract_commits: true,
       include_ledgers: true,
       next_page: 'next_page',

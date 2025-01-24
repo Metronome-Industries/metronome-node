@@ -2,12 +2,48 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
-import * as ContractsAPI from './contracts';
 import * as Shared from '../shared';
 import * as NamedSchedulesAPI from './named-schedules';
+import {
+  NamedScheduleRetrieveParams,
+  NamedScheduleRetrieveResponse,
+  NamedScheduleUpdateParams,
+  NamedSchedules,
+} from './named-schedules';
 import * as ProductsAPI from './products';
+import {
+  ProductArchiveParams,
+  ProductArchiveResponse,
+  ProductCreateParams,
+  ProductCreateResponse,
+  ProductListItemState,
+  ProductListParams,
+  ProductListResponse,
+  ProductListResponsesCursorPage,
+  ProductRetrieveParams,
+  ProductRetrieveResponse,
+  ProductUpdateParams,
+  ProductUpdateResponse,
+  Products,
+  QuantityConversion,
+  QuantityRounding,
+} from './products';
 import * as InvoicesAPI from '../customers/invoices';
 import * as RateCardsAPI from './rate-cards/rate-cards';
+import {
+  RateCardCreateParams,
+  RateCardCreateResponse,
+  RateCardListParams,
+  RateCardListResponse,
+  RateCardListResponsesCursorPage,
+  RateCardRetrieveParams,
+  RateCardRetrieveRateScheduleParams,
+  RateCardRetrieveRateScheduleResponse,
+  RateCardRetrieveResponse,
+  RateCardUpdateParams,
+  RateCardUpdateResponse,
+  RateCards,
+} from './rate-cards/rate-cards';
 
 export class Contracts extends APIResource {
   products: ProductsAPI.Products = new ProductsAPI.Products(this._client);
@@ -105,7 +141,7 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Create a new, scheduled invoice for Professional Services terms on a contract.
+   * Create a new scheduled invoice for Professional Services terms on a contract.
    * This endpoint's availability is dependent on your client's configuration.
    */
   scheduleProServicesInvoice(
@@ -157,12 +193,27 @@ export namespace ContractRetrieveResponse {
 
     initial: Shared.ContractWithoutAmendments;
 
+    /**
+     * RFC 3339 timestamp indicating when the contract was archived. If not returned,
+     * the contract is not archived.
+     */
+    archived_at?: string;
+
     custom_fields?: Record<string, string>;
 
     /**
-     * This field's availability is dependent on your client's configuration.
+     * The billing provider configuration associated with a contract.
      */
     customer_billing_provider_configuration?: Data.CustomerBillingProviderConfiguration;
+
+    /**
+     * Determines which scheduled and commit charges to consolidate onto the Contract's
+     * usage invoice. The charge's `timestamp` must match the usage invoice's
+     * `ending_before` date for consolidation to occur. This field cannot be modified
+     * after a Contract has been created. If this field is omitted, charges will appear
+     * on a separate invoice from usage charges.
+     */
+    scheduled_charges_on_usage_invoices?: 'ALL';
 
     /**
      * Prevents the creation of duplicates. If a request to create a record is made
@@ -243,7 +294,7 @@ export namespace ContractRetrieveResponse {
     }
 
     /**
-     * This field's availability is dependent on your client's configuration.
+     * The billing provider configuration associated with a contract.
      */
     export interface CustomerBillingProviderConfiguration {
       billing_provider:
@@ -277,12 +328,27 @@ export namespace ContractListResponse {
 
     initial: Shared.ContractWithoutAmendments;
 
+    /**
+     * RFC 3339 timestamp indicating when the contract was archived. If not returned,
+     * the contract is not archived.
+     */
+    archived_at?: string;
+
     custom_fields?: Record<string, string>;
 
     /**
-     * This field's availability is dependent on your client's configuration.
+     * The billing provider configuration associated with a contract.
      */
     customer_billing_provider_configuration?: Data.CustomerBillingProviderConfiguration;
+
+    /**
+     * Determines which scheduled and commit charges to consolidate onto the Contract's
+     * usage invoice. The charge's `timestamp` must match the usage invoice's
+     * `ending_before` date for consolidation to occur. This field cannot be modified
+     * after a Contract has been created. If this field is omitted, charges will appear
+     * on a separate invoice from usage charges.
+     */
+    scheduled_charges_on_usage_invoices?: 'ALL';
 
     /**
      * Prevents the creation of duplicates. If a request to create a record is made
@@ -363,7 +429,7 @@ export namespace ContractListResponse {
     }
 
     /**
-     * This field's availability is dependent on your client's configuration.
+     * The billing provider configuration associated with a contract.
      */
     export interface CustomerBillingProviderConfiguration {
       billing_provider:
@@ -423,11 +489,47 @@ export namespace ContractRetrieveRateScheduleResponse {
 
     starting_at: string;
 
+    /**
+     * A distinct rate on the rate card. You can choose to use this rate rather than
+     * list rate when consuming a credit or commit.
+     */
+    commit_rate?: Data.CommitRate;
+
     ending_before?: string;
 
     override_rate?: Shared.Rate;
 
     pricing_group_values?: Record<string, string>;
+  }
+
+  export namespace Data {
+    /**
+     * A distinct rate on the rate card. You can choose to use this rate rather than
+     * list rate when consuming a credit or commit.
+     */
+    export interface CommitRate {
+      rate_type:
+        | 'FLAT'
+        | 'flat'
+        | 'PERCENTAGE'
+        | 'percentage'
+        | 'SUBSCRIPTION'
+        | 'subscription'
+        | 'TIERED'
+        | 'tiered'
+        | 'CUSTOM'
+        | 'custom';
+
+      /**
+       * Commit rate price. For FLAT rate_type, this must be >=0.
+       */
+      price?: number;
+
+      /**
+       * Only set for TIERED rate_type.
+       */
+      tiers?: Array<Shared.Tier>;
+    }
   }
 }
 
@@ -448,7 +550,7 @@ export interface ContractCreateParams {
   starting_at: string;
 
   /**
-   * This field's availability is dependent on your client's configuration.
+   * The billing provider configuration associated with a contract.
    */
   billing_provider_configuration?: ContractCreateParams.BillingProviderConfiguration;
 
@@ -513,6 +615,15 @@ export interface ContractCreateParams {
   scheduled_charges?: Array<ContractCreateParams.ScheduledCharge>;
 
   /**
+   * Determines which scheduled and commit charges to consolidate onto the Contract's
+   * usage invoice. The charge's `timestamp` must match the usage invoice's
+   * `ending_before` date for consolidation to occur. This field cannot be modified
+   * after a Contract has been created. If this field is omitted, charges will appear
+   * on a separate invoice from usage charges.
+   */
+  scheduled_charges_on_usage_invoices?: 'ALL';
+
+  /**
    * This field's availability is dependent on your client's configuration.
    */
   total_contract_value?: number;
@@ -533,7 +644,7 @@ export interface ContractCreateParams {
 
 export namespace ContractCreateParams {
   /**
-   * This field's availability is dependent on your client's configuration.
+   * The billing provider configuration associated with a contract.
    */
   export interface BillingProviderConfiguration {
     billing_provider?: 'aws_marketplace' | 'azure_marketplace' | 'gcp_marketplace' | 'stripe' | 'netsuite';
@@ -606,10 +717,18 @@ export namespace ContractCreateParams {
      */
     priority?: number;
 
+    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+
     /**
      * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
      */
     rollover_fraction?: number;
+
+    /**
+     * A temporary ID for the commit that can be used to reference the commit for
+     * commit specific overrides.
+     */
+    temporary_id?: string;
   }
 
   export namespace Commit {
@@ -621,6 +740,9 @@ export namespace ContractCreateParams {
     export interface AccessSchedule {
       schedule_items: Array<AccessSchedule.ScheduleItem>;
 
+      /**
+       * Defaults to USD (cents) if not passed
+       */
       credit_type_id?: string;
     }
 
@@ -648,7 +770,7 @@ export namespace ContractCreateParams {
      */
     export interface InvoiceSchedule {
       /**
-       * Defaults to USD if not passed. Only USD is supported at this time.
+       * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
 
@@ -780,6 +902,8 @@ export namespace ContractCreateParams {
      * first.
      */
     priority?: number;
+
+    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
   }
 
   export namespace Credit {
@@ -789,6 +913,9 @@ export namespace ContractCreateParams {
     export interface AccessSchedule {
       schedule_items: Array<AccessSchedule.ScheduleItem>;
 
+      /**
+       * Defaults to USD (cents) if not passed
+       */
       credit_type_id?: string;
     }
 
@@ -817,6 +944,8 @@ export namespace ContractCreateParams {
      */
     schedule: Discount.Schedule;
 
+    custom_fields?: Record<string, string>;
+
     /**
      * displayed on invoices
      */
@@ -834,7 +963,7 @@ export namespace ContractCreateParams {
      */
     export interface Schedule {
       /**
-       * Defaults to USD if not passed. Only USD is supported at this time.
+       * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
 
@@ -931,7 +1060,8 @@ export namespace ContractCreateParams {
     starting_at: string;
 
     /**
-     * tags identifying products whose rates are being overridden
+     * tags identifying products whose rates are being overridden. Cannot be used in
+     * conjunction with override_specifiers.
      */
     applicable_product_tags?: Array<string>;
 
@@ -941,6 +1071,14 @@ export namespace ContractCreateParams {
     ending_before?: string;
 
     entitled?: boolean;
+
+    /**
+     * Indicates whether the override should only apply to commits. Defaults to
+     * `false`. If `true`, you can specify relevant commits in `override_specifiers` by
+     * passing `commit_ids`. if you do not specify `commit_ids`, then the override will
+     * apply when consuming any prepaid or postpaid commit.
+     */
+    is_commit_specific?: boolean;
 
     /**
      * Required for MULTIPLIER type. Must be >=0.
@@ -967,9 +1105,17 @@ export namespace ContractCreateParams {
     priority?: number;
 
     /**
-     * ID of the product whose rate is being overridden
+     * ID of the product whose rate is being overridden. Cannot be used in conjunction
+     * with override_specifiers.
      */
     product_id?: string;
+
+    /**
+     * Indicates whether the override applies to commit rates or list rates. Can only
+     * be used for overrides that have `is_commit_specific` set to `true`. Defaults to
+     * `"LIST_RATE"`.
+     */
+    target?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
 
     /**
      * Required for TIERED type. Must have at least one tier.
@@ -984,6 +1130,14 @@ export namespace ContractCreateParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
+      /**
+       * Can only be used for commit specific overrides. Must be used in conjunction with
+       * one of product_id, product_tags, pricing_group_values, or
+       * presentation_group_values. If provided, the override will only apply to the
+       * specified commits. If not provided, the override will apply to all commits.
+       */
+      commit_ids?: Array<string>;
+
       /**
        * A map of group names to values. The override will only apply to line items with
        * the specified presentation group values. Can only be used for multiplier
@@ -1024,7 +1178,8 @@ export namespace ContractCreateParams {
       custom_rate?: Record<string, unknown>;
 
       /**
-       * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+       * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+       * set to true.
        */
       is_prorated?: boolean;
 
@@ -1151,7 +1306,7 @@ export namespace ContractCreateParams {
      */
     export interface Schedule {
       /**
-       * Defaults to USD if not passed. Only USD is supported at this time.
+       * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
 
@@ -1263,12 +1418,21 @@ export namespace ContractCreateParams {
   }
 
   export interface UsageStatementSchedule {
-    frequency: 'MONTHLY' | 'QUARTERLY';
+    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+
+    /**
+     * Required when using CUSTOM_DATE. This option lets you set a historical billing
+     * anchor date, aligning future billing cycles with a chosen cadence. For example,
+     * if a contract starts on 2024-09-15 and you set the anchor date to 2024-09-10
+     * with a MONTHLY frequency, the first usage statement will cover 09-15 to 10-10.
+     * Subsequent statements will follow the 10th of each month.
+     */
+    billing_anchor_date?: string;
 
     /**
      * If not provided, defaults to the first day of the month.
      */
-    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START';
+    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE' | 'custom_date';
 
     /**
      * The date Metronome should start generating usage invoices. If unspecified,
@@ -1284,6 +1448,12 @@ export interface ContractRetrieveParams {
   contract_id: string;
 
   customer_id: string;
+
+  /**
+   * Include the balance of credits and commits in the response. Setting this flag
+   * may cause the query to be slower.
+   */
+  include_balance?: boolean;
 
   /**
    * Include commit ledgers in the response. Setting this flag may cause the query to
@@ -1306,6 +1476,12 @@ export interface ContractListParams {
    * Include archived contracts in the response
    */
   include_archived?: boolean;
+
+  /**
+   * Include the balance of credits and commits in the response. Setting this flag
+   * may cause the query to be slower.
+   */
+  include_balance?: boolean;
 
   /**
    * Include commit ledgers in the response. Setting this flag may cause the query to
@@ -1477,10 +1653,18 @@ export namespace ContractAmendParams {
      */
     priority?: number;
 
+    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+
     /**
      * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
      */
     rollover_fraction?: number;
+
+    /**
+     * A temporary ID for the commit that can be used to reference the commit for
+     * commit specific overrides.
+     */
+    temporary_id?: string;
   }
 
   export namespace Commit {
@@ -1492,6 +1676,9 @@ export namespace ContractAmendParams {
     export interface AccessSchedule {
       schedule_items: Array<AccessSchedule.ScheduleItem>;
 
+      /**
+       * Defaults to USD (cents) if not passed
+       */
       credit_type_id?: string;
     }
 
@@ -1519,7 +1706,7 @@ export namespace ContractAmendParams {
      */
     export interface InvoiceSchedule {
       /**
-       * Defaults to USD if not passed. Only USD is supported at this time.
+       * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
 
@@ -1651,6 +1838,8 @@ export namespace ContractAmendParams {
      * first.
      */
     priority?: number;
+
+    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
   }
 
   export namespace Credit {
@@ -1660,6 +1849,9 @@ export namespace ContractAmendParams {
     export interface AccessSchedule {
       schedule_items: Array<AccessSchedule.ScheduleItem>;
 
+      /**
+       * Defaults to USD (cents) if not passed
+       */
       credit_type_id?: string;
     }
 
@@ -1688,6 +1880,8 @@ export namespace ContractAmendParams {
      */
     schedule: Discount.Schedule;
 
+    custom_fields?: Record<string, string>;
+
     /**
      * displayed on invoices
      */
@@ -1705,7 +1899,7 @@ export namespace ContractAmendParams {
      */
     export interface Schedule {
       /**
-       * Defaults to USD if not passed. Only USD is supported at this time.
+       * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
 
@@ -1802,7 +1996,8 @@ export namespace ContractAmendParams {
     starting_at: string;
 
     /**
-     * tags identifying products whose rates are being overridden
+     * tags identifying products whose rates are being overridden. Cannot be used in
+     * conjunction with override_specifiers.
      */
     applicable_product_tags?: Array<string>;
 
@@ -1812,6 +2007,14 @@ export namespace ContractAmendParams {
     ending_before?: string;
 
     entitled?: boolean;
+
+    /**
+     * Indicates whether the override should only apply to commits. Defaults to
+     * `false`. If `true`, you can specify relevant commits in `override_specifiers` by
+     * passing `commit_ids`. if you do not specify `commit_ids`, then the override will
+     * apply when consuming any prepaid or postpaid commit.
+     */
+    is_commit_specific?: boolean;
 
     /**
      * Required for MULTIPLIER type. Must be >=0.
@@ -1838,9 +2041,17 @@ export namespace ContractAmendParams {
     priority?: number;
 
     /**
-     * ID of the product whose rate is being overridden
+     * ID of the product whose rate is being overridden. Cannot be used in conjunction
+     * with override_specifiers.
      */
     product_id?: string;
+
+    /**
+     * Indicates whether the override applies to commit rates or list rates. Can only
+     * be used for overrides that have `is_commit_specific` set to `true`. Defaults to
+     * `"LIST_RATE"`.
+     */
+    target?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
 
     /**
      * Required for TIERED type. Must have at least one tier.
@@ -1855,6 +2066,14 @@ export namespace ContractAmendParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
+      /**
+       * Can only be used for commit specific overrides. Must be used in conjunction with
+       * one of product_id, product_tags, pricing_group_values, or
+       * presentation_group_values. If provided, the override will only apply to the
+       * specified commits. If not provided, the override will apply to all commits.
+       */
+      commit_ids?: Array<string>;
+
       /**
        * A map of group names to values. The override will only apply to line items with
        * the specified presentation group values. Can only be used for multiplier
@@ -1895,7 +2114,8 @@ export namespace ContractAmendParams {
       custom_rate?: Record<string, unknown>;
 
       /**
-       * Default proration configuration. Only valid for SUBSCRIPTION rate_type.
+       * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+       * set to true.
        */
       is_prorated?: boolean;
 
@@ -2025,7 +2245,7 @@ export namespace ContractAmendParams {
      */
     export interface Schedule {
       /**
-       * Defaults to USD if not passed. Only USD is supported at this time.
+       * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
 
@@ -2216,6 +2436,12 @@ export interface ContractListBalancesParams {
   include_archived?: boolean;
 
   /**
+   * Include the balance of credits and commits in the response. Setting this flag
+   * may cause the query to be slower.
+   */
+  include_balance?: boolean;
+
+  /**
    * Include balances on the contract level.
    */
   include_contract_balances?: boolean;
@@ -2395,64 +2621,89 @@ export interface ContractUpdateEndDateParams {
   customer_id: string;
 
   /**
+   * If true, allows setting the contract end date earlier than the end_timestamp of
+   * existing finalized invoices. Finalized invoices will be unchanged; if you want
+   * to incorporate the new end date, you can void and regenerate finalized usage
+   * invoices. Defaults to true.
+   */
+  allow_ending_before_finalized_invoice?: boolean;
+
+  /**
    * RFC 3339 timestamp indicating when the contract will end (exclusive). If not
    * provided, the contract will be updated to be open-ended.
    */
   ending_before?: string;
 }
 
-export namespace Contracts {
-  export import ContractCreateResponse = ContractsAPI.ContractCreateResponse;
-  export import ContractRetrieveResponse = ContractsAPI.ContractRetrieveResponse;
-  export import ContractListResponse = ContractsAPI.ContractListResponse;
-  export import ContractAmendResponse = ContractsAPI.ContractAmendResponse;
-  export import ContractArchiveResponse = ContractsAPI.ContractArchiveResponse;
-  export import ContractCreateHistoricalInvoicesResponse = ContractsAPI.ContractCreateHistoricalInvoicesResponse;
-  export import ContractListBalancesResponse = ContractsAPI.ContractListBalancesResponse;
-  export import ContractRetrieveRateScheduleResponse = ContractsAPI.ContractRetrieveRateScheduleResponse;
-  export import ContractScheduleProServicesInvoiceResponse = ContractsAPI.ContractScheduleProServicesInvoiceResponse;
-  export import ContractUpdateEndDateResponse = ContractsAPI.ContractUpdateEndDateResponse;
-  export import ContractCreateParams = ContractsAPI.ContractCreateParams;
-  export import ContractRetrieveParams = ContractsAPI.ContractRetrieveParams;
-  export import ContractListParams = ContractsAPI.ContractListParams;
-  export import ContractAddManualBalanceEntryParams = ContractsAPI.ContractAddManualBalanceEntryParams;
-  export import ContractAmendParams = ContractsAPI.ContractAmendParams;
-  export import ContractArchiveParams = ContractsAPI.ContractArchiveParams;
-  export import ContractCreateHistoricalInvoicesParams = ContractsAPI.ContractCreateHistoricalInvoicesParams;
-  export import ContractListBalancesParams = ContractsAPI.ContractListBalancesParams;
-  export import ContractRetrieveRateScheduleParams = ContractsAPI.ContractRetrieveRateScheduleParams;
-  export import ContractScheduleProServicesInvoiceParams = ContractsAPI.ContractScheduleProServicesInvoiceParams;
-  export import ContractSetUsageFilterParams = ContractsAPI.ContractSetUsageFilterParams;
-  export import ContractUpdateEndDateParams = ContractsAPI.ContractUpdateEndDateParams;
-  export import Products = ProductsAPI.Products;
-  export import ProductListItemState = ProductsAPI.ProductListItemState;
-  export import QuantityConversion = ProductsAPI.QuantityConversion;
-  export import QuantityRounding = ProductsAPI.QuantityRounding;
-  export import ProductCreateResponse = ProductsAPI.ProductCreateResponse;
-  export import ProductRetrieveResponse = ProductsAPI.ProductRetrieveResponse;
-  export import ProductUpdateResponse = ProductsAPI.ProductUpdateResponse;
-  export import ProductListResponse = ProductsAPI.ProductListResponse;
-  export import ProductArchiveResponse = ProductsAPI.ProductArchiveResponse;
-  export import ProductListResponsesCursorPage = ProductsAPI.ProductListResponsesCursorPage;
-  export import ProductCreateParams = ProductsAPI.ProductCreateParams;
-  export import ProductRetrieveParams = ProductsAPI.ProductRetrieveParams;
-  export import ProductUpdateParams = ProductsAPI.ProductUpdateParams;
-  export import ProductListParams = ProductsAPI.ProductListParams;
-  export import ProductArchiveParams = ProductsAPI.ProductArchiveParams;
-  export import RateCards = RateCardsAPI.RateCards;
-  export import RateCardCreateResponse = RateCardsAPI.RateCardCreateResponse;
-  export import RateCardRetrieveResponse = RateCardsAPI.RateCardRetrieveResponse;
-  export import RateCardUpdateResponse = RateCardsAPI.RateCardUpdateResponse;
-  export import RateCardListResponse = RateCardsAPI.RateCardListResponse;
-  export import RateCardRetrieveRateScheduleResponse = RateCardsAPI.RateCardRetrieveRateScheduleResponse;
-  export import RateCardListResponsesCursorPage = RateCardsAPI.RateCardListResponsesCursorPage;
-  export import RateCardCreateParams = RateCardsAPI.RateCardCreateParams;
-  export import RateCardRetrieveParams = RateCardsAPI.RateCardRetrieveParams;
-  export import RateCardUpdateParams = RateCardsAPI.RateCardUpdateParams;
-  export import RateCardListParams = RateCardsAPI.RateCardListParams;
-  export import RateCardRetrieveRateScheduleParams = RateCardsAPI.RateCardRetrieveRateScheduleParams;
-  export import NamedSchedules = NamedSchedulesAPI.NamedSchedules;
-  export import NamedScheduleRetrieveResponse = NamedSchedulesAPI.NamedScheduleRetrieveResponse;
-  export import NamedScheduleRetrieveParams = NamedSchedulesAPI.NamedScheduleRetrieveParams;
-  export import NamedScheduleUpdateParams = NamedSchedulesAPI.NamedScheduleUpdateParams;
+Contracts.Products = Products;
+Contracts.ProductListResponsesCursorPage = ProductListResponsesCursorPage;
+Contracts.RateCards = RateCards;
+Contracts.RateCardListResponsesCursorPage = RateCardListResponsesCursorPage;
+Contracts.NamedSchedules = NamedSchedules;
+
+export declare namespace Contracts {
+  export {
+    type ContractCreateResponse as ContractCreateResponse,
+    type ContractRetrieveResponse as ContractRetrieveResponse,
+    type ContractListResponse as ContractListResponse,
+    type ContractAmendResponse as ContractAmendResponse,
+    type ContractArchiveResponse as ContractArchiveResponse,
+    type ContractCreateHistoricalInvoicesResponse as ContractCreateHistoricalInvoicesResponse,
+    type ContractListBalancesResponse as ContractListBalancesResponse,
+    type ContractRetrieveRateScheduleResponse as ContractRetrieveRateScheduleResponse,
+    type ContractScheduleProServicesInvoiceResponse as ContractScheduleProServicesInvoiceResponse,
+    type ContractUpdateEndDateResponse as ContractUpdateEndDateResponse,
+    type ContractCreateParams as ContractCreateParams,
+    type ContractRetrieveParams as ContractRetrieveParams,
+    type ContractListParams as ContractListParams,
+    type ContractAddManualBalanceEntryParams as ContractAddManualBalanceEntryParams,
+    type ContractAmendParams as ContractAmendParams,
+    type ContractArchiveParams as ContractArchiveParams,
+    type ContractCreateHistoricalInvoicesParams as ContractCreateHistoricalInvoicesParams,
+    type ContractListBalancesParams as ContractListBalancesParams,
+    type ContractRetrieveRateScheduleParams as ContractRetrieveRateScheduleParams,
+    type ContractScheduleProServicesInvoiceParams as ContractScheduleProServicesInvoiceParams,
+    type ContractSetUsageFilterParams as ContractSetUsageFilterParams,
+    type ContractUpdateEndDateParams as ContractUpdateEndDateParams,
+  };
+
+  export {
+    Products as Products,
+    type ProductListItemState as ProductListItemState,
+    type QuantityConversion as QuantityConversion,
+    type QuantityRounding as QuantityRounding,
+    type ProductCreateResponse as ProductCreateResponse,
+    type ProductRetrieveResponse as ProductRetrieveResponse,
+    type ProductUpdateResponse as ProductUpdateResponse,
+    type ProductListResponse as ProductListResponse,
+    type ProductArchiveResponse as ProductArchiveResponse,
+    ProductListResponsesCursorPage as ProductListResponsesCursorPage,
+    type ProductCreateParams as ProductCreateParams,
+    type ProductRetrieveParams as ProductRetrieveParams,
+    type ProductUpdateParams as ProductUpdateParams,
+    type ProductListParams as ProductListParams,
+    type ProductArchiveParams as ProductArchiveParams,
+  };
+
+  export {
+    RateCards as RateCards,
+    type RateCardCreateResponse as RateCardCreateResponse,
+    type RateCardRetrieveResponse as RateCardRetrieveResponse,
+    type RateCardUpdateResponse as RateCardUpdateResponse,
+    type RateCardListResponse as RateCardListResponse,
+    type RateCardRetrieveRateScheduleResponse as RateCardRetrieveRateScheduleResponse,
+    RateCardListResponsesCursorPage as RateCardListResponsesCursorPage,
+    type RateCardCreateParams as RateCardCreateParams,
+    type RateCardRetrieveParams as RateCardRetrieveParams,
+    type RateCardUpdateParams as RateCardUpdateParams,
+    type RateCardListParams as RateCardListParams,
+    type RateCardRetrieveRateScheduleParams as RateCardRetrieveRateScheduleParams,
+  };
+
+  export {
+    NamedSchedules as NamedSchedules,
+    type NamedScheduleRetrieveResponse as NamedScheduleRetrieveResponse,
+    type NamedScheduleRetrieveParams as NamedScheduleRetrieveParams,
+    type NamedScheduleUpdateParams as NamedScheduleUpdateParams,
+  };
 }

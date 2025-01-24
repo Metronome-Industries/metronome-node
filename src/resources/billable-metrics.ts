@@ -3,7 +3,6 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as BillableMetricsAPI from './billable-metrics';
 import * as Shared from './shared';
 import { CursorPage, type CursorPageParams } from '../pagination';
 
@@ -22,10 +21,11 @@ export class BillableMetrics extends APIResource {
    * Get a billable metric.
    */
   retrieve(
-    billableMetricId: string,
+    params: BillableMetricRetrieveParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<BillableMetricRetrieveResponse> {
-    return this._client.get(`/billable-metrics/${billableMetricId}`, options);
+    const { billable_metric_id } = params;
+    return this._client.get(`/billable-metrics/${billable_metric_id}`, options);
   }
 
   /**
@@ -96,6 +96,12 @@ export namespace BillableMetricRetrieveResponse {
      */
     aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
 
+    /**
+     * RFC 3339 timestamp indicating when the billable metric was archived. If not
+     * provided, the billable metric is not archived.
+     */
+    archived_at?: string;
+
     custom_fields?: Record<string, string>;
 
     /**
@@ -146,6 +152,12 @@ export interface BillableMetricListResponse {
    */
   aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
 
+  /**
+   * RFC 3339 timestamp indicating when the billable metric was archived. If not
+   * provided, the billable metric is not archived.
+   */
+  archived_at?: string;
+
   custom_fields?: Record<string, string>;
 
   /**
@@ -178,21 +190,20 @@ export interface BillableMetricArchiveResponse {
 
 export interface BillableMetricCreateParams {
   /**
-   * Specifies the type of aggregation performed on matching events.
-   */
-  aggregation_type: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
-
-  /**
    * The display name of the billable metric.
    */
   name: string;
 
   /**
-   * A key that specifies which property of the event is used to aggregate data. This
-   * key must be one of the property filter names and is not applicable when the
-   * aggregation type is 'count'.
+   * Specifies the type of aggregation performed on matching events. Required if
+   * `sql` is not provided.
    */
   aggregation_key?: string;
+
+  /**
+   * Specifies the type of aggregation performed on matching events.
+   */
+  aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
 
   /**
    * Custom fields to attach to the billable metric.
@@ -216,21 +227,43 @@ export interface BillableMetricCreateParams {
    * billable metric.
    */
   property_filters?: Array<Shared.PropertyFilter>;
+
+  /**
+   * The SQL query associated with the billable metric. This field is mutually
+   * exclusive with aggregation_type, event_type_filter, property_filters,
+   * aggregation_key, and group_keys. If provided, these other fields must be
+   * omitted.
+   */
+  sql?: string;
 }
 
-export interface BillableMetricListParams extends CursorPageParams {}
+export interface BillableMetricRetrieveParams {
+  billable_metric_id: string;
+}
+
+export interface BillableMetricListParams extends CursorPageParams {
+  /**
+   * If true, the list of returned metrics will include archived metrics
+   */
+  include_archived?: boolean;
+}
 
 export interface BillableMetricArchiveParams {
   id: string;
 }
 
-export namespace BillableMetrics {
-  export import BillableMetricCreateResponse = BillableMetricsAPI.BillableMetricCreateResponse;
-  export import BillableMetricRetrieveResponse = BillableMetricsAPI.BillableMetricRetrieveResponse;
-  export import BillableMetricListResponse = BillableMetricsAPI.BillableMetricListResponse;
-  export import BillableMetricArchiveResponse = BillableMetricsAPI.BillableMetricArchiveResponse;
-  export import BillableMetricListResponsesCursorPage = BillableMetricsAPI.BillableMetricListResponsesCursorPage;
-  export import BillableMetricCreateParams = BillableMetricsAPI.BillableMetricCreateParams;
-  export import BillableMetricListParams = BillableMetricsAPI.BillableMetricListParams;
-  export import BillableMetricArchiveParams = BillableMetricsAPI.BillableMetricArchiveParams;
+BillableMetrics.BillableMetricListResponsesCursorPage = BillableMetricListResponsesCursorPage;
+
+export declare namespace BillableMetrics {
+  export {
+    type BillableMetricCreateResponse as BillableMetricCreateResponse,
+    type BillableMetricRetrieveResponse as BillableMetricRetrieveResponse,
+    type BillableMetricListResponse as BillableMetricListResponse,
+    type BillableMetricArchiveResponse as BillableMetricArchiveResponse,
+    BillableMetricListResponsesCursorPage as BillableMetricListResponsesCursorPage,
+    type BillableMetricCreateParams as BillableMetricCreateParams,
+    type BillableMetricRetrieveParams as BillableMetricRetrieveParams,
+    type BillableMetricListParams as BillableMetricListParams,
+    type BillableMetricArchiveParams as BillableMetricArchiveParams,
+  };
 }

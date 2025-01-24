@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as ServicesAPI from './services';
 
 export class Services extends APIResource {
   /**
@@ -30,6 +29,6 @@ export namespace ServiceListResponse {
   }
 }
 
-export namespace Services {
-  export import ServiceListResponse = ServicesAPI.ServiceListResponse;
+export declare namespace Services {
+  export { type ServiceListResponse as ServiceListResponse };
 }

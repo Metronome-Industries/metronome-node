@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as AlertsAPI from './alerts';
 import * as Shared from './shared';
 
 export class Alerts extends APIResource {
@@ -55,7 +54,8 @@ export interface AlertCreateParams {
   name: string;
 
   /**
-   * Threshold value of the alert policy
+   * Threshold value of the alert policy. Depending upon the alert type, this number
+   * may represent a financial amount, the days remaining, or a percentage reached.
    */
   threshold: number;
 
@@ -141,12 +141,22 @@ export namespace AlertCreateParams {
 }
 
 export interface AlertArchiveParams {
+  /**
+   * The Metronome ID of the alert
+   */
   id: string;
+
+  /**
+   * If true, resets the uniqueness key on this alert so it can be re-used
+   */
+  release_uniqueness_key?: boolean;
 }
 
-export namespace Alerts {
-  export import AlertCreateResponse = AlertsAPI.AlertCreateResponse;
-  export import AlertArchiveResponse = AlertsAPI.AlertArchiveResponse;
-  export import AlertCreateParams = AlertsAPI.AlertCreateParams;
-  export import AlertArchiveParams = AlertsAPI.AlertArchiveParams;
+export declare namespace Alerts {
+  export {
+    type AlertCreateResponse as AlertCreateResponse,
+    type AlertArchiveResponse as AlertArchiveResponse,
+    type AlertCreateParams as AlertCreateParams,
+    type AlertArchiveParams as AlertArchiveParams,
+  };
 }

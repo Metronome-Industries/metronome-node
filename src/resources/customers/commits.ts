@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
-import * as CommitsAPI from './commits';
 import * as Shared from '../shared';
 
 export class Commits extends APIResource {
@@ -60,6 +59,10 @@ export interface CommitCreateParams {
    */
   priority: number;
 
+  /**
+   * ID of the fixed product associated with the commit. This is required because
+   * products are used to invoice the commit amount.
+   */
   product_id: string;
 
   type: 'PREPAID' | 'POSTPAID';
@@ -114,10 +117,20 @@ export interface CommitCreateParams {
    */
   netsuite_sales_order_id?: string;
 
+  rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+
   /**
    * This field's availability is dependent on your client's configuration.
    */
   salesforce_opportunity_id?: string;
+
+  /**
+   * Prevents the creation of duplicates. If a request to create a commit or credit
+   * is made with a uniqueness key that was previously used to create a commit or
+   * credit, a new record will not be created and the request will fail with a 409
+   * error.
+   */
+  uniqueness_key?: string;
 }
 
 export namespace CommitCreateParams {
@@ -128,6 +141,9 @@ export namespace CommitCreateParams {
   export interface AccessSchedule {
     schedule_items: Array<AccessSchedule.ScheduleItem>;
 
+    /**
+     * Defaults to USD (cents) if not passed
+     */
     credit_type_id?: string;
   }
 
@@ -155,7 +171,7 @@ export namespace CommitCreateParams {
    */
   export interface InvoiceSchedule {
     /**
-     * Defaults to USD if not passed. Only USD is supported at this time.
+     * Defaults to USD (cents) if not passed.
      */
     credit_type_id?: string;
 
@@ -266,6 +282,12 @@ export interface CommitListParams {
   include_archived?: boolean;
 
   /**
+   * Include the balance in the response. Setting this flag may cause the query to be
+   * slower.
+   */
+  include_balance?: boolean;
+
+  /**
    * Include commits on the contract level.
    */
   include_contract_commits?: boolean;
@@ -312,11 +334,13 @@ export interface CommitUpdateEndDateParams {
   invoices_ending_before?: string;
 }
 
-export namespace Commits {
-  export import CommitCreateResponse = CommitsAPI.CommitCreateResponse;
-  export import CommitListResponse = CommitsAPI.CommitListResponse;
-  export import CommitUpdateEndDateResponse = CommitsAPI.CommitUpdateEndDateResponse;
-  export import CommitCreateParams = CommitsAPI.CommitCreateParams;
-  export import CommitListParams = CommitsAPI.CommitListParams;
-  export import CommitUpdateEndDateParams = CommitsAPI.CommitUpdateEndDateParams;
+export declare namespace Commits {
+  export {
+    type CommitCreateResponse as CommitCreateResponse,
+    type CommitListResponse as CommitListResponse,
+    type CommitUpdateEndDateResponse as CommitUpdateEndDateResponse,
+    type CommitCreateParams as CommitCreateParams,
+    type CommitListParams as CommitListParams,
+    type CommitUpdateEndDateParams as CommitUpdateEndDateParams,
+  };
 }

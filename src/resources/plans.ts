@@ -3,7 +3,6 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as PlansAPI from './plans';
 import * as Shared from './shared';
 import * as CustomersAPI from './customers/customers';
 import { CursorPage, type CursorPageParams } from '../pagination';
@@ -30,31 +29,23 @@ export class Plans extends APIResource {
   /**
    * Fetch high level details of a specific plan.
    */
-  getDetails(planId: string, options?: Core.RequestOptions): Core.APIPromise<PlanGetDetailsResponse> {
-    return this._client.get(`/planDetails/${planId}`, options);
+  getDetails(
+    params: PlanGetDetailsParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<PlanGetDetailsResponse> {
+    const { plan_id } = params;
+    return this._client.get(`/planDetails/${plan_id}`, options);
   }
 
   /**
    * Fetches a list of charges of a specific plan.
    */
   listCharges(
-    planId: string,
-    query?: PlanListChargesParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListChargesResponsesCursorPage, PlanListChargesResponse>;
-  listCharges(
-    planId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListChargesResponsesCursorPage, PlanListChargesResponse>;
-  listCharges(
-    planId: string,
-    query: PlanListChargesParams | Core.RequestOptions = {},
+    params: PlanListChargesParams,
     options?: Core.RequestOptions,
   ): Core.PagePromise<PlanListChargesResponsesCursorPage, PlanListChargesResponse> {
-    if (isRequestOptions(query)) {
-      return this.listCharges(planId, {}, query);
-    }
-    return this._client.getAPIList(`/planDetails/${planId}/charges`, PlanListChargesResponsesCursorPage, {
+    const { plan_id, ...query } = params;
+    return this._client.getAPIList(`/planDetails/${plan_id}/charges`, PlanListChargesResponsesCursorPage, {
       query,
       ...options,
     });
@@ -65,26 +56,15 @@ export class Plans extends APIResource {
    * active plans are included)
    */
   listCustomers(
-    planId: string,
-    query?: PlanListCustomersParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListCustomersResponsesCursorPage, PlanListCustomersResponse>;
-  listCustomers(
-    planId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListCustomersResponsesCursorPage, PlanListCustomersResponse>;
-  listCustomers(
-    planId: string,
-    query: PlanListCustomersParams | Core.RequestOptions = {},
+    params: PlanListCustomersParams,
     options?: Core.RequestOptions,
   ): Core.PagePromise<PlanListCustomersResponsesCursorPage, PlanListCustomersResponse> {
-    if (isRequestOptions(query)) {
-      return this.listCustomers(planId, {}, query);
-    }
-    return this._client.getAPIList(`/planDetails/${planId}/customers`, PlanListCustomersResponsesCursorPage, {
-      query,
-      ...options,
-    });
+    const { plan_id, ...query } = params;
+    return this._client.getAPIList(
+      `/planDetails/${plan_id}/customers`,
+      PlanListCustomersResponsesCursorPage,
+      { query, ...options },
+    );
   }
 }
 
@@ -114,11 +94,11 @@ export namespace PlanDetail {
   export interface CreditGrant {
     amount_granted: number;
 
-    amount_granted_credit_type: Shared.CreditType;
+    amount_granted_credit_type: Shared.CreditTypeData;
 
     amount_paid: number;
 
-    amount_paid_credit_type: Shared.CreditType;
+    amount_paid_credit_type: Shared.CreditTypeData;
 
     effective_duration: number;
 
@@ -136,7 +116,7 @@ export namespace PlanDetail {
   }
 
   export interface Minimum {
-    credit_type: Shared.CreditType;
+    credit_type: Shared.CreditTypeData;
 
     name: string;
 
@@ -150,9 +130,9 @@ export namespace PlanDetail {
   }
 
   export interface OverageRate {
-    credit_type: Shared.CreditType;
+    credit_type: Shared.CreditTypeData;
 
-    fiat_credit_type: Shared.CreditType;
+    fiat_credit_type: Shared.CreditTypeData;
 
     /**
      * Used in price ramps. Indicates how many billing periods pass before the charge
@@ -183,7 +163,7 @@ export interface PlanListChargesResponse {
 
   charge_type: 'usage' | 'fixed' | 'composite' | 'minimum' | 'seat';
 
-  credit_type: Shared.CreditType;
+  credit_type: Shared.CreditTypeData;
 
   custom_fields: Record<string, string>;
 
@@ -278,11 +258,25 @@ export namespace PlanListCustomersResponse {
 
 export interface PlanListParams extends CursorPageParams {}
 
-export interface PlanListChargesParams extends CursorPageParams {}
+export interface PlanGetDetailsParams {
+  plan_id: string;
+}
+
+export interface PlanListChargesParams extends CursorPageParams {
+  /**
+   * Path param:
+   */
+  plan_id: string;
+}
 
 export interface PlanListCustomersParams extends CursorPageParams {
   /**
-   * Status of customers on a given plan. Defaults to `active`.
+   * Path param:
+   */
+  plan_id: string;
+
+  /**
+   * Query param: Status of customers on a given plan. Defaults to `active`.
    *
    * - `all` - Return current, past, and upcoming customers of the plan.
    * - `active` - Return current customers of the plan.
@@ -295,16 +289,23 @@ export interface PlanListCustomersParams extends CursorPageParams {
   status?: 'all' | 'active' | 'ended' | 'upcoming';
 }
 
-export namespace Plans {
-  export import PlanDetail = PlansAPI.PlanDetail;
-  export import PlanListResponse = PlansAPI.PlanListResponse;
-  export import PlanGetDetailsResponse = PlansAPI.PlanGetDetailsResponse;
-  export import PlanListChargesResponse = PlansAPI.PlanListChargesResponse;
-  export import PlanListCustomersResponse = PlansAPI.PlanListCustomersResponse;
-  export import PlanListResponsesCursorPage = PlansAPI.PlanListResponsesCursorPage;
-  export import PlanListChargesResponsesCursorPage = PlansAPI.PlanListChargesResponsesCursorPage;
-  export import PlanListCustomersResponsesCursorPage = PlansAPI.PlanListCustomersResponsesCursorPage;
-  export import PlanListParams = PlansAPI.PlanListParams;
-  export import PlanListChargesParams = PlansAPI.PlanListChargesParams;
-  export import PlanListCustomersParams = PlansAPI.PlanListCustomersParams;
+Plans.PlanListResponsesCursorPage = PlanListResponsesCursorPage;
+Plans.PlanListChargesResponsesCursorPage = PlanListChargesResponsesCursorPage;
+Plans.PlanListCustomersResponsesCursorPage = PlanListCustomersResponsesCursorPage;
+
+export declare namespace Plans {
+  export {
+    type PlanDetail as PlanDetail,
+    type PlanListResponse as PlanListResponse,
+    type PlanGetDetailsResponse as PlanGetDetailsResponse,
+    type PlanListChargesResponse as PlanListChargesResponse,
+    type PlanListCustomersResponse as PlanListCustomersResponse,
+    PlanListResponsesCursorPage as PlanListResponsesCursorPage,
+    PlanListChargesResponsesCursorPage as PlanListChargesResponsesCursorPage,
+    PlanListCustomersResponsesCursorPage as PlanListCustomersResponsesCursorPage,
+    type PlanListParams as PlanListParams,
+    type PlanGetDetailsParams as PlanGetDetailsParams,
+    type PlanListChargesParams as PlanListChargesParams,
+    type PlanListCustomersParams as PlanListCustomersParams,
+  };
 }

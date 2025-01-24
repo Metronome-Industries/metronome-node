@@ -267,7 +267,7 @@ export namespace CreditGrantListResponse {
     /**
      * the credit type for the amount granted
      */
-    credit_type: Shared.CreditType;
+    credit_type: Shared.CreditTypeData;
   }
 
   /**
@@ -279,7 +279,7 @@ export namespace CreditGrantListResponse {
     /**
      * the credit type for the amount paid
      */
-    credit_type: Shared.CreditType;
+    credit_type: Shared.CreditTypeData;
   }
 
   export interface Product {
@@ -316,7 +316,7 @@ export namespace CreditGrantListEntriesResponse {
 
   export namespace Data {
     export interface Ledger {
-      credit_type: Shared.CreditType;
+      credit_type: Shared.CreditTypeData;
 
       /**
        * the effective balances at the end of the specified time window
@@ -389,8 +389,7 @@ export interface CreditGrantCreateParams {
   customer_id: string;
 
   /**
-   * The credit grant will only apply to billing periods that end before this
-   * timestamp.
+   * The credit grant will only apply to usage or charges dated before this timestamp
    */
   expires_at: string;
 
@@ -419,8 +418,8 @@ export interface CreditGrantCreateParams {
   custom_fields?: Record<string, string>;
 
   /**
-   * The credit grant will only apply to billing periods that end at or after this
-   * timestamp.
+   * The credit grant will only apply to usage or charges dated on or after this
+   * timestamp
    */
   effective_at?: string;
 
@@ -461,6 +460,9 @@ export namespace CreditGrantCreateParams {
   export interface GrantAmount {
     amount: number;
 
+    /**
+     * the ID of the pricing unit to be used. Defaults to USD (cents) if not passed.
+     */
     credit_type_id: string;
   }
 
@@ -470,6 +472,9 @@ export namespace CreditGrantCreateParams {
   export interface PaidAmount {
     amount: number;
 
+    /**
+     * the ID of the pricing unit to be used. Defaults to USD (cents) if not passed.
+     */
     credit_type_id: string;
   }
 
@@ -599,22 +604,27 @@ export interface CreditGrantVoidParams {
   void_credit_purchase_invoice?: boolean;
 }
 
-export namespace CreditGrants {
-  export import CreditLedgerEntry = CreditGrantsAPI.CreditLedgerEntry;
-  export import RolloverAmountMaxAmount = CreditGrantsAPI.RolloverAmountMaxAmount;
-  export import RolloverAmountMaxPercentage = CreditGrantsAPI.RolloverAmountMaxPercentage;
-  export import CreditGrantCreateResponse = CreditGrantsAPI.CreditGrantCreateResponse;
-  export import CreditGrantListResponse = CreditGrantsAPI.CreditGrantListResponse;
-  export import CreditGrantEditResponse = CreditGrantsAPI.CreditGrantEditResponse;
-  export import CreditGrantListCreditTypesResponse = CreditGrantsAPI.CreditGrantListCreditTypesResponse;
-  export import CreditGrantListEntriesResponse = CreditGrantsAPI.CreditGrantListEntriesResponse;
-  export import CreditGrantVoidResponse = CreditGrantsAPI.CreditGrantVoidResponse;
-  export import CreditGrantListResponsesCursorPage = CreditGrantsAPI.CreditGrantListResponsesCursorPage;
-  export import CreditGrantListCreditTypesResponsesCursorPage = CreditGrantsAPI.CreditGrantListCreditTypesResponsesCursorPage;
-  export import CreditGrantCreateParams = CreditGrantsAPI.CreditGrantCreateParams;
-  export import CreditGrantListParams = CreditGrantsAPI.CreditGrantListParams;
-  export import CreditGrantEditParams = CreditGrantsAPI.CreditGrantEditParams;
-  export import CreditGrantListCreditTypesParams = CreditGrantsAPI.CreditGrantListCreditTypesParams;
-  export import CreditGrantListEntriesParams = CreditGrantsAPI.CreditGrantListEntriesParams;
-  export import CreditGrantVoidParams = CreditGrantsAPI.CreditGrantVoidParams;
+CreditGrants.CreditGrantListResponsesCursorPage = CreditGrantListResponsesCursorPage;
+CreditGrants.CreditGrantListCreditTypesResponsesCursorPage = CreditGrantListCreditTypesResponsesCursorPage;
+
+export declare namespace CreditGrants {
+  export {
+    type CreditLedgerEntry as CreditLedgerEntry,
+    type RolloverAmountMaxAmount as RolloverAmountMaxAmount,
+    type RolloverAmountMaxPercentage as RolloverAmountMaxPercentage,
+    type CreditGrantCreateResponse as CreditGrantCreateResponse,
+    type CreditGrantListResponse as CreditGrantListResponse,
+    type CreditGrantEditResponse as CreditGrantEditResponse,
+    type CreditGrantListCreditTypesResponse as CreditGrantListCreditTypesResponse,
+    type CreditGrantListEntriesResponse as CreditGrantListEntriesResponse,
+    type CreditGrantVoidResponse as CreditGrantVoidResponse,
+    CreditGrantListResponsesCursorPage as CreditGrantListResponsesCursorPage,
+    CreditGrantListCreditTypesResponsesCursorPage as CreditGrantListCreditTypesResponsesCursorPage,
+    type CreditGrantCreateParams as CreditGrantCreateParams,
+    type CreditGrantListParams as CreditGrantListParams,
+    type CreditGrantEditParams as CreditGrantEditParams,
+    type CreditGrantListCreditTypesParams as CreditGrantListCreditTypesParams,
+    type CreditGrantListEntriesParams as CreditGrantListEntriesParams,
+    type CreditGrantVoidParams as CreditGrantVoidParams,
+  };
 }

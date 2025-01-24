@@ -32,19 +32,11 @@ describe('resource alerts', () => {
       billable_metric_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       credit_grant_type_filters: ['enterprise'],
       credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
-      custom_field_filters: [
-        { entity: 'Contract', key: 'key', value: 'value' },
-        { entity: 'Contract', key: 'key', value: 'value' },
-        { entity: 'Contract', key: 'key', value: 'value' },
-      ],
+      custom_field_filters: [{ entity: 'Contract', key: 'key', value: 'value' }],
       customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
       evaluate_on_create: true,
       group_key_filter: { key: 'key', value: 'value' },
-      invoice_types_filter: [
-        'PLAN_ARREARS, SCHEDULED, USAGE, CORRECTION, CREDIT_PURCHASE, or SEAT_PURCHASE',
-        'PLAN_ARREARS, SCHEDULED, USAGE, CORRECTION, CREDIT_PURCHASE, or SEAT_PURCHASE',
-        'PLAN_ARREARS, SCHEDULED, USAGE, CORRECTION, CREDIT_PURCHASE, or SEAT_PURCHASE',
-      ],
+      invoice_types_filter: ['PLAN_ARREARS, SCHEDULED, USAGE, CORRECTION, CREDIT_PURCHASE, or SEAT_PURCHASE'],
       plan_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       uniqueness_key: 'x',
     });
@@ -62,6 +54,9 @@ describe('resource alerts', () => {
   });
 
   test('archive: required and optional params', async () => {
-    const response = await client.alerts.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
+    const response = await client.alerts.archive({
+      id: '8deed800-1b7a-495d-a207-6c52bac54dc9',
+      release_uniqueness_key: true,
+    });
   });
 });

@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
-import * as CreditsAPI from './credits';
 import * as Shared from '../shared';
 
 export class Credits extends APIResource {
@@ -96,10 +95,20 @@ export interface CreditCreateParams {
    */
   netsuite_sales_order_id?: string;
 
+  rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+
   /**
    * This field's availability is dependent on your client's configuration.
    */
   salesforce_opportunity_id?: string;
+
+  /**
+   * Prevents the creation of duplicates. If a request to create a commit or credit
+   * is made with a uniqueness key that was previously used to create a commit or
+   * credit, a new record will not be created and the request will fail with a 409
+   * error.
+   */
+  uniqueness_key?: string;
 }
 
 export namespace CreditCreateParams {
@@ -109,6 +118,9 @@ export namespace CreditCreateParams {
   export interface AccessSchedule {
     schedule_items: Array<AccessSchedule.ScheduleItem>;
 
+    /**
+     * Defaults to USD (cents) if not passed
+     */
     credit_type_id?: string;
   }
 
@@ -150,6 +162,12 @@ export interface CreditListParams {
   include_archived?: boolean;
 
   /**
+   * Include the balance in the response. Setting this flag may cause the query to be
+   * slower.
+   */
+  include_balance?: boolean;
+
+  /**
    * Include credits on the contract level.
    */
   include_contract_credits?: boolean;
@@ -189,11 +207,13 @@ export interface CreditUpdateEndDateParams {
   customer_id: string;
 }
 
-export namespace Credits {
-  export import CreditCreateResponse = CreditsAPI.CreditCreateResponse;
-  export import CreditListResponse = CreditsAPI.CreditListResponse;
-  export import CreditUpdateEndDateResponse = CreditsAPI.CreditUpdateEndDateResponse;
-  export import CreditCreateParams = CreditsAPI.CreditCreateParams;
-  export import CreditListParams = CreditsAPI.CreditListParams;
-  export import CreditUpdateEndDateParams = CreditsAPI.CreditUpdateEndDateParams;
+export declare namespace Credits {
+  export {
+    type CreditCreateResponse as CreditCreateResponse,
+    type CreditListResponse as CreditListResponse,
+    type CreditUpdateEndDateResponse as CreditUpdateEndDateResponse,
+    type CreditCreateParams as CreditCreateParams,
+    type CreditListParams as CreditListParams,
+    type CreditUpdateEndDateParams as CreditUpdateEndDateParams,
+  };
 }

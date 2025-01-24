@@ -2,11 +2,33 @@
 
 import { APIResource } from '../../../resource';
 import * as Core from '../../../core';
-import * as RateCardsAPI from './rate-cards';
 import * as Shared from '../../shared';
 import * as NamedSchedulesAPI from './named-schedules';
+import {
+  NamedScheduleRetrieveParams,
+  NamedScheduleRetrieveResponse,
+  NamedScheduleUpdateParams,
+  NamedSchedules,
+} from './named-schedules';
 import * as ProductOrdersAPI from './product-orders';
+import {
+  ProductOrderSetParams,
+  ProductOrderSetResponse,
+  ProductOrderUpdateParams,
+  ProductOrderUpdateResponse,
+  ProductOrders,
+} from './product-orders';
 import * as RatesAPI from './rates';
+import {
+  RateAddManyParams,
+  RateAddManyResponse,
+  RateAddParams,
+  RateAddResponse,
+  RateListParams,
+  RateListResponse,
+  RateListResponsesCursorPage,
+  Rates,
+} from './rates';
 import { CursorPage, type CursorPageParams } from '../../../pagination';
 
 export class RateCards extends APIResource {
@@ -57,7 +79,8 @@ export class RateCards extends APIResource {
   }
 
   /**
-   * Get a specific rate schedule including all rate card entries
+   * Get all rates for a rate card from starting_at (either in perpetuity or until
+   * ending_before, if provided)
    */
   retrieveRateSchedule(
     params: RateCardRetrieveRateScheduleParams,
@@ -92,8 +115,6 @@ export namespace RateCardRetrieveResponse {
 
     name: string;
 
-    rate_card_entries: Record<string, Data.RateCardEntries>;
-
     aliases?: Array<Data.Alias>;
 
     credit_type_conversions?: Array<Data.CreditTypeConversion>;
@@ -102,74 +123,10 @@ export namespace RateCardRetrieveResponse {
 
     description?: string;
 
-    fiat_credit_type?: Shared.CreditType;
+    fiat_credit_type?: Shared.CreditTypeData;
   }
 
   export namespace Data {
-    export interface RateCardEntries {
-      current?: RateCardEntries.Current | null;
-
-      updates?: Array<RateCardEntries.Update>;
-    }
-
-    export namespace RateCardEntries {
-      export interface Current {
-        id?: string;
-
-        created_at?: string;
-
-        created_by?: string;
-
-        credit_type?: Shared.CreditType;
-
-        custom_rate?: Record<string, unknown>;
-
-        ending_before?: string;
-
-        entitled?: boolean;
-
-        price?: number;
-
-        product_id?: string;
-
-        rate_type?: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
-
-        starting_at?: string;
-
-        tiers?: Array<Shared.Tier>;
-      }
-
-      export interface Update {
-        id: string;
-
-        created_at: string;
-
-        created_by: string;
-
-        entitled: boolean;
-
-        product_id: string;
-
-        rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
-
-        starting_at: string;
-
-        credit_type?: Shared.CreditType;
-
-        custom_rate?: Record<string, unknown>;
-
-        ending_before?: string;
-
-        is_prorated?: boolean;
-
-        price?: number;
-
-        quantity?: number;
-
-        tiers?: Array<Shared.Tier>;
-      }
-    }
-
     export interface Alias {
       name: string;
 
@@ -179,7 +136,7 @@ export namespace RateCardRetrieveResponse {
     }
 
     export interface CreditTypeConversion {
-      custom_credit_type: Shared.CreditType;
+      custom_credit_type: Shared.CreditTypeData;
 
       fiat_per_custom_credit: string;
     }
@@ -199,8 +156,6 @@ export interface RateCardListResponse {
 
   name: string;
 
-  rate_card_entries: Record<string, RateCardListResponse.RateCardEntries>;
-
   aliases?: Array<RateCardListResponse.Alias>;
 
   credit_type_conversions?: Array<RateCardListResponse.CreditTypeConversion>;
@@ -209,74 +164,10 @@ export interface RateCardListResponse {
 
   description?: string;
 
-  fiat_credit_type?: Shared.CreditType;
+  fiat_credit_type?: Shared.CreditTypeData;
 }
 
 export namespace RateCardListResponse {
-  export interface RateCardEntries {
-    current?: RateCardEntries.Current | null;
-
-    updates?: Array<RateCardEntries.Update>;
-  }
-
-  export namespace RateCardEntries {
-    export interface Current {
-      id?: string;
-
-      created_at?: string;
-
-      created_by?: string;
-
-      credit_type?: Shared.CreditType;
-
-      custom_rate?: Record<string, unknown>;
-
-      ending_before?: string;
-
-      entitled?: boolean;
-
-      price?: number;
-
-      product_id?: string;
-
-      rate_type?: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
-
-      starting_at?: string;
-
-      tiers?: Array<Shared.Tier>;
-    }
-
-    export interface Update {
-      id: string;
-
-      created_at: string;
-
-      created_by: string;
-
-      entitled: boolean;
-
-      product_id: string;
-
-      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
-
-      starting_at: string;
-
-      credit_type?: Shared.CreditType;
-
-      custom_rate?: Record<string, unknown>;
-
-      ending_before?: string;
-
-      is_prorated?: boolean;
-
-      price?: number;
-
-      quantity?: number;
-
-      tiers?: Array<Shared.Tier>;
-    }
-  }
-
   export interface Alias {
     name: string;
 
@@ -286,7 +177,7 @@ export namespace RateCardListResponse {
   }
 
   export interface CreditTypeConversion {
-    custom_credit_type: Shared.CreditType;
+    custom_credit_type: Shared.CreditTypeData;
 
     fiat_per_custom_credit: string;
   }
@@ -302,6 +193,8 @@ export namespace RateCardRetrieveRateScheduleResponse {
   export interface Data {
     entitled: boolean;
 
+    product_custom_fields: Record<string, string>;
+
     product_id: string;
 
     product_name: string;
@@ -312,9 +205,45 @@ export namespace RateCardRetrieveRateScheduleResponse {
 
     starting_at: string;
 
+    /**
+     * A distinct rate on the rate card. You can choose to use this rate rather than
+     * list rate when consuming a credit or commit.
+     */
+    commit_rate?: Data.CommitRate;
+
     ending_before?: string;
 
     pricing_group_values?: Record<string, string>;
+  }
+
+  export namespace Data {
+    /**
+     * A distinct rate on the rate card. You can choose to use this rate rather than
+     * list rate when consuming a credit or commit.
+     */
+    export interface CommitRate {
+      rate_type:
+        | 'FLAT'
+        | 'flat'
+        | 'PERCENTAGE'
+        | 'percentage'
+        | 'SUBSCRIPTION'
+        | 'subscription'
+        | 'TIERED'
+        | 'tiered'
+        | 'CUSTOM'
+        | 'custom';
+
+      /**
+       * Commit rate price. For FLAT rate_type, this must be >=0.
+       */
+      price?: number;
+
+      /**
+       * Only set for TIERED rate_type.
+       */
+      tiers?: Array<Shared.Tier>;
+    }
   }
 }
 
@@ -341,8 +270,8 @@ export interface RateCardCreateParams {
   description?: string;
 
   /**
-   * "The Metronome ID of the credit type to associate with the rate card, defaults
-   * to USD (cents) if not passed."
+   * The Metronome ID of the credit type to associate with the rate card, defaults to
+   * USD (cents) if not passed.
    */
   fiat_credit_type_id?: string;
 }
@@ -379,8 +308,6 @@ export interface RateCardUpdateParams {
    * recently assigned. It is not exposed to end customers.
    */
   aliases?: Array<RateCardUpdateParams.Alias>;
-
-  custom_fields?: Record<string, string>;
 
   description?: string;
 
@@ -463,33 +390,50 @@ export namespace RateCardRetrieveRateScheduleParams {
   }
 }
 
-export namespace RateCards {
-  export import RateCardCreateResponse = RateCardsAPI.RateCardCreateResponse;
-  export import RateCardRetrieveResponse = RateCardsAPI.RateCardRetrieveResponse;
-  export import RateCardUpdateResponse = RateCardsAPI.RateCardUpdateResponse;
-  export import RateCardListResponse = RateCardsAPI.RateCardListResponse;
-  export import RateCardRetrieveRateScheduleResponse = RateCardsAPI.RateCardRetrieveRateScheduleResponse;
-  export import RateCardListResponsesCursorPage = RateCardsAPI.RateCardListResponsesCursorPage;
-  export import RateCardCreateParams = RateCardsAPI.RateCardCreateParams;
-  export import RateCardRetrieveParams = RateCardsAPI.RateCardRetrieveParams;
-  export import RateCardUpdateParams = RateCardsAPI.RateCardUpdateParams;
-  export import RateCardListParams = RateCardsAPI.RateCardListParams;
-  export import RateCardRetrieveRateScheduleParams = RateCardsAPI.RateCardRetrieveRateScheduleParams;
-  export import ProductOrders = ProductOrdersAPI.ProductOrders;
-  export import ProductOrderUpdateResponse = ProductOrdersAPI.ProductOrderUpdateResponse;
-  export import ProductOrderSetResponse = ProductOrdersAPI.ProductOrderSetResponse;
-  export import ProductOrderUpdateParams = ProductOrdersAPI.ProductOrderUpdateParams;
-  export import ProductOrderSetParams = ProductOrdersAPI.ProductOrderSetParams;
-  export import Rates = RatesAPI.Rates;
-  export import RateListResponse = RatesAPI.RateListResponse;
-  export import RateAddResponse = RatesAPI.RateAddResponse;
-  export import RateAddManyResponse = RatesAPI.RateAddManyResponse;
-  export import RateListResponsesCursorPage = RatesAPI.RateListResponsesCursorPage;
-  export import RateListParams = RatesAPI.RateListParams;
-  export import RateAddParams = RatesAPI.RateAddParams;
-  export import RateAddManyParams = RatesAPI.RateAddManyParams;
-  export import NamedSchedules = NamedSchedulesAPI.NamedSchedules;
-  export import NamedScheduleRetrieveResponse = NamedSchedulesAPI.NamedScheduleRetrieveResponse;
-  export import NamedScheduleRetrieveParams = NamedSchedulesAPI.NamedScheduleRetrieveParams;
-  export import NamedScheduleUpdateParams = NamedSchedulesAPI.NamedScheduleUpdateParams;
+RateCards.RateCardListResponsesCursorPage = RateCardListResponsesCursorPage;
+RateCards.ProductOrders = ProductOrders;
+RateCards.Rates = Rates;
+RateCards.RateListResponsesCursorPage = RateListResponsesCursorPage;
+RateCards.NamedSchedules = NamedSchedules;
+
+export declare namespace RateCards {
+  export {
+    type RateCardCreateResponse as RateCardCreateResponse,
+    type RateCardRetrieveResponse as RateCardRetrieveResponse,
+    type RateCardUpdateResponse as RateCardUpdateResponse,
+    type RateCardListResponse as RateCardListResponse,
+    type RateCardRetrieveRateScheduleResponse as RateCardRetrieveRateScheduleResponse,
+    RateCardListResponsesCursorPage as RateCardListResponsesCursorPage,
+    type RateCardCreateParams as RateCardCreateParams,
+    type RateCardRetrieveParams as RateCardRetrieveParams,
+    type RateCardUpdateParams as RateCardUpdateParams,
+    type RateCardListParams as RateCardListParams,
+    type RateCardRetrieveRateScheduleParams as RateCardRetrieveRateScheduleParams,
+  };
+
+  export {
+    ProductOrders as ProductOrders,
+    type ProductOrderUpdateResponse as ProductOrderUpdateResponse,
+    type ProductOrderSetResponse as ProductOrderSetResponse,
+    type ProductOrderUpdateParams as ProductOrderUpdateParams,
+    type ProductOrderSetParams as ProductOrderSetParams,
+  };
+
+  export {
+    Rates as Rates,
+    type RateListResponse as RateListResponse,
+    type RateAddResponse as RateAddResponse,
+    type RateAddManyResponse as RateAddManyResponse,
+    RateListResponsesCursorPage as RateListResponsesCursorPage,
+    type RateListParams as RateListParams,
+    type RateAddParams as RateAddParams,
+    type RateAddManyParams as RateAddManyParams,
+  };
+
+  export {
+    NamedSchedules as NamedSchedules,
+    type NamedScheduleRetrieveResponse as NamedScheduleRetrieveResponse,
+    type NamedScheduleRetrieveParams as NamedScheduleRetrieveParams,
+    type NamedScheduleUpdateParams as NamedScheduleUpdateParams,
+  };
 }
