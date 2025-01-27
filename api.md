@@ -58,7 +58,6 @@ Types:
 - <code><a href="./src/resources/credit-grants.ts">CreditGrantCreateResponse</a></code>
 - <code><a href="./src/resources/credit-grants.ts">CreditGrantListResponse</a></code>
 - <code><a href="./src/resources/credit-grants.ts">CreditGrantEditResponse</a></code>
-- <code><a href="./src/resources/credit-grants.ts">CreditGrantListCreditTypesResponse</a></code>
 - <code><a href="./src/resources/credit-grants.ts">CreditGrantListEntriesResponse</a></code>
 - <code><a href="./src/resources/credit-grants.ts">CreditGrantVoidResponse</a></code>
 
@@ -67,9 +66,18 @@ Methods:
 - <code title="post /credits/createGrant">client.creditGrants.<a href="./src/resources/credit-grants.ts">create</a>({ ...params }) -> CreditGrantCreateResponse</code>
 - <code title="post /credits/listGrants">client.creditGrants.<a href="./src/resources/credit-grants.ts">list</a>({ ...params }) -> CreditGrantListResponsesCursorPage</code>
 - <code title="post /credits/editGrant">client.creditGrants.<a href="./src/resources/credit-grants.ts">edit</a>({ ...params }) -> CreditGrantEditResponse</code>
-- <code title="get /credit-types/list">client.creditGrants.<a href="./src/resources/credit-grants.ts">listCreditTypes</a>({ ...params }) -> CreditGrantListCreditTypesResponsesCursorPage</code>
 - <code title="post /credits/listEntries">client.creditGrants.<a href="./src/resources/credit-grants.ts">listEntries</a>({ ...params }) -> CreditGrantListEntriesResponse</code>
 - <code title="post /credits/voidGrant">client.creditGrants.<a href="./src/resources/credit-grants.ts">void</a>({ ...params }) -> CreditGrantVoidResponse</code>
+
+# PricingUnits
+
+Types:
+
+- <code><a href="./src/resources/pricing-units.ts">PricingUnitListResponse</a></code>
+
+Methods:
+
+- <code title="get /credit-types/list">client.pricingUnits.<a href="./src/resources/pricing-units.ts">list</a>({ ...params }) -> PricingUnitListResponsesCursorPage</code>
 
 # Customers
 

@@ -38,9 +38,6 @@ import {
   CreditGrantCreateResponse,
   CreditGrantEditParams,
   CreditGrantEditResponse,
-  CreditGrantListCreditTypesParams,
-  CreditGrantListCreditTypesResponse,
-  CreditGrantListCreditTypesResponsesCursorPage,
   CreditGrantListEntriesParams,
   CreditGrantListEntriesResponse,
   CreditGrantListParams,
@@ -89,6 +86,12 @@ import {
   PlanListResponsesCursorPage,
   Plans,
 } from './resources/plans';
+import {
+  PricingUnitListParams,
+  PricingUnitListResponse,
+  PricingUnitListResponsesCursorPage,
+  PricingUnits,
+} from './resources/pricing-units';
 import { ServiceListResponse, Services } from './resources/services';
 import {
   Usage,
@@ -274,6 +277,7 @@ export class Metronome extends Core.APIClient {
   alerts: API.Alerts = new API.Alerts(this);
   plans: API.Plans = new API.Plans(this);
   creditGrants: API.CreditGrants = new API.CreditGrants(this);
+  pricingUnits: API.PricingUnits = new API.PricingUnits(this);
   customers: API.Customers = new API.Customers(this);
   dashboards: API.Dashboards = new API.Dashboards(this);
   usage: API.Usage = new API.Usage(this);
@@ -331,7 +335,8 @@ Metronome.PlanListChargesResponsesCursorPage = PlanListChargesResponsesCursorPag
 Metronome.PlanListCustomersResponsesCursorPage = PlanListCustomersResponsesCursorPage;
 Metronome.CreditGrants = CreditGrants;
 Metronome.CreditGrantListResponsesCursorPage = CreditGrantListResponsesCursorPage;
-Metronome.CreditGrantListCreditTypesResponsesCursorPage = CreditGrantListCreditTypesResponsesCursorPage;
+Metronome.PricingUnits = PricingUnits;
+Metronome.PricingUnitListResponsesCursorPage = PricingUnitListResponsesCursorPage;
 Metronome.Customers = Customers;
 Metronome.CustomerDetailsCursorPage = CustomerDetailsCursorPage;
 Metronome.CustomerListBillableMetricsResponsesCursorPage = CustomerListBillableMetricsResponsesCursorPage;
@@ -385,17 +390,21 @@ export declare namespace Metronome {
     type CreditGrantCreateResponse as CreditGrantCreateResponse,
     type CreditGrantListResponse as CreditGrantListResponse,
     type CreditGrantEditResponse as CreditGrantEditResponse,
-    type CreditGrantListCreditTypesResponse as CreditGrantListCreditTypesResponse,
     type CreditGrantListEntriesResponse as CreditGrantListEntriesResponse,
     type CreditGrantVoidResponse as CreditGrantVoidResponse,
     CreditGrantListResponsesCursorPage as CreditGrantListResponsesCursorPage,
-    CreditGrantListCreditTypesResponsesCursorPage as CreditGrantListCreditTypesResponsesCursorPage,
     type CreditGrantCreateParams as CreditGrantCreateParams,
     type CreditGrantListParams as CreditGrantListParams,
     type CreditGrantEditParams as CreditGrantEditParams,
-    type CreditGrantListCreditTypesParams as CreditGrantListCreditTypesParams,
     type CreditGrantListEntriesParams as CreditGrantListEntriesParams,
     type CreditGrantVoidParams as CreditGrantVoidParams,
+  };
+
+  export {
+    PricingUnits as PricingUnits,
+    type PricingUnitListResponse as PricingUnitListResponse,
+    PricingUnitListResponsesCursorPage as PricingUnitListResponsesCursorPage,
+    type PricingUnitListParams as PricingUnitListParams,
   };
 
   export {
