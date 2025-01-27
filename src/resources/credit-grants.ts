@@ -52,29 +52,6 @@ export class CreditGrants extends APIResource {
   }
 
   /**
-   * List all pricing units (known in the API by the legacy term "credit types").
-   */
-  listCreditTypes(
-    query?: CreditGrantListCreditTypesParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CreditGrantListCreditTypesResponsesCursorPage, CreditGrantListCreditTypesResponse>;
-  listCreditTypes(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CreditGrantListCreditTypesResponsesCursorPage, CreditGrantListCreditTypesResponse>;
-  listCreditTypes(
-    query: CreditGrantListCreditTypesParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CreditGrantListCreditTypesResponsesCursorPage, CreditGrantListCreditTypesResponse> {
-    if (isRequestOptions(query)) {
-      return this.listCreditTypes({}, query);
-    }
-    return this._client.getAPIList('/credit-types/list', CreditGrantListCreditTypesResponsesCursorPage, {
-      query,
-      ...options,
-    });
-  }
-
-  /**
    * Fetches a list of credit ledger entries. Returns lists of ledgers per customer.
    * Ledger entries are returned in chronological order. Ledger entries associated
    * with voided credit grants are not included.
@@ -104,8 +81,6 @@ export class CreditGrants extends APIResource {
 }
 
 export class CreditGrantListResponsesCursorPage extends CursorPage<CreditGrantListResponse> {}
-
-export class CreditGrantListCreditTypesResponsesCursorPage extends CursorPage<CreditGrantListCreditTypesResponse> {}
 
 export interface CreditLedgerEntry {
   /**
@@ -291,14 +266,6 @@ export namespace CreditGrantListResponse {
 
 export interface CreditGrantEditResponse {
   data: Shared.ID;
-}
-
-export interface CreditGrantListCreditTypesResponse {
-  id?: string;
-
-  is_currency?: boolean;
-
-  name?: string;
 }
 
 export interface CreditGrantListEntriesResponse {
@@ -555,8 +522,6 @@ export interface CreditGrantEditParams {
   name?: string;
 }
 
-export interface CreditGrantListCreditTypesParams extends CursorPageParams {}
-
 export interface CreditGrantListEntriesParams {
   /**
    * Query param: Cursor that indicates where the next page of results should start.
@@ -605,7 +570,6 @@ export interface CreditGrantVoidParams {
 }
 
 CreditGrants.CreditGrantListResponsesCursorPage = CreditGrantListResponsesCursorPage;
-CreditGrants.CreditGrantListCreditTypesResponsesCursorPage = CreditGrantListCreditTypesResponsesCursorPage;
 
 export declare namespace CreditGrants {
   export {
@@ -615,15 +579,12 @@ export declare namespace CreditGrants {
     type CreditGrantCreateResponse as CreditGrantCreateResponse,
     type CreditGrantListResponse as CreditGrantListResponse,
     type CreditGrantEditResponse as CreditGrantEditResponse,
-    type CreditGrantListCreditTypesResponse as CreditGrantListCreditTypesResponse,
     type CreditGrantListEntriesResponse as CreditGrantListEntriesResponse,
     type CreditGrantVoidResponse as CreditGrantVoidResponse,
     CreditGrantListResponsesCursorPage as CreditGrantListResponsesCursorPage,
-    CreditGrantListCreditTypesResponsesCursorPage as CreditGrantListCreditTypesResponsesCursorPage,
     type CreditGrantCreateParams as CreditGrantCreateParams,
     type CreditGrantListParams as CreditGrantListParams,
     type CreditGrantEditParams as CreditGrantEditParams,
-    type CreditGrantListCreditTypesParams as CreditGrantListCreditTypesParams,
     type CreditGrantListEntriesParams as CreditGrantListEntriesParams,
     type CreditGrantVoidParams as CreditGrantVoidParams,
   };
