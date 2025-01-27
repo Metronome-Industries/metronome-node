@@ -53,7 +53,6 @@ export {
 } from './contracts/contracts';
 export {
   CreditGrantListResponsesCursorPage,
-  CreditGrantListCreditTypesResponsesCursorPage,
   CreditGrants,
   type CreditLedgerEntry,
   type RolloverAmountMaxAmount,
@@ -61,13 +60,11 @@ export {
   type CreditGrantCreateResponse,
   type CreditGrantListResponse,
   type CreditGrantEditResponse,
-  type CreditGrantListCreditTypesResponse,
   type CreditGrantListEntriesResponse,
   type CreditGrantVoidResponse,
   type CreditGrantCreateParams,
   type CreditGrantListParams,
   type CreditGrantEditParams,
-  type CreditGrantListCreditTypesParams,
   type CreditGrantListEntriesParams,
   type CreditGrantVoidParams,
 } from './credit-grants';
@@ -130,6 +127,12 @@ export {
   type PlanListChargesParams,
   type PlanListCustomersParams,
 } from './plans';
+export {
+  PricingUnitListResponsesCursorPage,
+  PricingUnits,
+  type PricingUnitListResponse,
+  type PricingUnitListParams,
+} from './pricing-units';
 export { Services, type ServiceListResponse } from './services';
 export {
   UsageListWithGroupsResponsesCursorPage,
