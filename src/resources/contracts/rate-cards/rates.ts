@@ -71,17 +71,7 @@ export namespace RateListResponse {
    * list rate when consuming a credit or commit.
    */
   export interface CommitRate {
-    rate_type:
-      | 'FLAT'
-      | 'flat'
-      | 'PERCENTAGE'
-      | 'percentage'
-      | 'SUBSCRIPTION'
-      | 'subscription'
-      | 'TIERED'
-      | 'tiered'
-      | 'CUSTOM'
-      | 'custom';
+    rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
     /**
      * Commit rate price. For FLAT rate_type, this must be >=0.
@@ -101,17 +91,7 @@ export interface RateAddResponse {
 
 export namespace RateAddResponse {
   export interface Data {
-    rate_type:
-      | 'FLAT'
-      | 'flat'
-      | 'PERCENTAGE'
-      | 'percentage'
-      | 'SUBSCRIPTION'
-      | 'subscription'
-      | 'CUSTOM'
-      | 'custom'
-      | 'TIERED'
-      | 'tiered';
+    rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
 
     /**
      * A distinct rate on the rate card. You can choose to use this rate rather than
@@ -169,17 +149,7 @@ export namespace RateAddResponse {
      * list rate when consuming a credit or commit.
      */
     export interface CommitRate {
-      rate_type:
-        | 'FLAT'
-        | 'flat'
-        | 'PERCENTAGE'
-        | 'percentage'
-        | 'SUBSCRIPTION'
-        | 'subscription'
-        | 'TIERED'
-        | 'tiered'
-        | 'CUSTOM'
-        | 'custom';
+      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
       /**
        * Commit rate price. For FLAT rate_type, this must be >=0.
@@ -334,17 +304,7 @@ export namespace RateAddParams {
    * list rate when consuming a credit or commit.
    */
   export interface CommitRate {
-    rate_type:
-      | 'FLAT'
-      | 'flat'
-      | 'PERCENTAGE'
-      | 'percentage'
-      | 'SUBSCRIPTION'
-      | 'subscription'
-      | 'TIERED'
-      | 'tiered'
-      | 'CUSTOM'
-      | 'custom';
+    rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
     /**
      * Commit rate price. For FLAT rate_type, this must be >=0.
@@ -447,17 +407,7 @@ export namespace RateAddManyParams {
      * list rate when consuming a credit or commit.
      */
     export interface CommitRate {
-      rate_type:
-        | 'FLAT'
-        | 'flat'
-        | 'PERCENTAGE'
-        | 'percentage'
-        | 'SUBSCRIPTION'
-        | 'subscription'
-        | 'TIERED'
-        | 'tiered'
-        | 'CUSTOM'
-        | 'custom';
+      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
       /**
        * Commit rate price. For FLAT rate_type, this must be >=0.

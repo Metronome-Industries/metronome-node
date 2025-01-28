@@ -222,17 +222,7 @@ export namespace RateCardRetrieveRateScheduleResponse {
      * list rate when consuming a credit or commit.
      */
     export interface CommitRate {
-      rate_type:
-        | 'FLAT'
-        | 'flat'
-        | 'PERCENTAGE'
-        | 'percentage'
-        | 'SUBSCRIPTION'
-        | 'subscription'
-        | 'TIERED'
-        | 'tiered'
-        | 'CUSTOM'
-        | 'custom';
+      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
       /**
        * Commit rate price. For FLAT rate_type, this must be >=0.
