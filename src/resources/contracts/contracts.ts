@@ -508,17 +508,7 @@ export namespace ContractRetrieveRateScheduleResponse {
      * list rate when consuming a credit or commit.
      */
     export interface CommitRate {
-      rate_type:
-        | 'FLAT'
-        | 'flat'
-        | 'PERCENTAGE'
-        | 'percentage'
-        | 'SUBSCRIPTION'
-        | 'subscription'
-        | 'TIERED'
-        | 'tiered'
-        | 'CUSTOM'
-        | 'custom';
+      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
       /**
        * Commit rate price. For FLAT rate_type, this must be >=0.
@@ -717,7 +707,7 @@ export namespace ContractCreateParams {
      */
     priority?: number;
 
-    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+    rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
 
     /**
      * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
@@ -903,7 +893,7 @@ export namespace ContractCreateParams {
      */
     priority?: number;
 
-    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+    rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
   }
 
   export namespace Credit {
@@ -1115,7 +1105,7 @@ export namespace ContractCreateParams {
      * be used for overrides that have `is_commit_specific` set to `true`. Defaults to
      * `"LIST_RATE"`.
      */
-    target?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+    target?: 'COMMIT_RATE' | 'LIST_RATE';
 
     /**
      * Required for TIERED type. Must have at least one tier.
@@ -1432,7 +1422,7 @@ export namespace ContractCreateParams {
     /**
      * If not provided, defaults to the first day of the month.
      */
-    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE' | 'custom_date';
+    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE';
 
     /**
      * The date Metronome should start generating usage invoices. If unspecified,
@@ -1653,7 +1643,7 @@ export namespace ContractAmendParams {
      */
     priority?: number;
 
-    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+    rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
 
     /**
      * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
@@ -1839,7 +1829,7 @@ export namespace ContractAmendParams {
      */
     priority?: number;
 
-    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+    rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
   }
 
   export namespace Credit {
@@ -2051,7 +2041,7 @@ export namespace ContractAmendParams {
      * be used for overrides that have `is_commit_specific` set to `true`. Defaults to
      * `"LIST_RATE"`.
      */
-    target?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+    target?: 'COMMIT_RATE' | 'LIST_RATE';
 
     /**
      * Required for TIERED type. Must have at least one tier.
