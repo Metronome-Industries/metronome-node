@@ -141,6 +141,8 @@ describe('resource contracts', () => {
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string'],
+              recurring_commit_ids: ['string'],
+              recurring_credit_ids: ['string'],
             },
           ],
           overwrite_rate: {
@@ -172,6 +174,60 @@ describe('resource contracts', () => {
       ],
       rate_card_alias: 'rate_card_alias',
       rate_card_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      recurring_commits: [
+        {
+          access_amount: {
+            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            quantity: 0,
+            unit_price: 0,
+          },
+          commit_duration: { unit: 'PERIODS', value: 0 },
+          priority: 0,
+          product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          starting_at: '2019-12-27T18:11:19.117Z',
+          applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+          applicable_product_tags: ['string'],
+          description: 'description',
+          ending_before: '2019-12-27T18:11:19.117Z',
+          invoice_amount: {
+            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            quantity: 0,
+            unit_price: 0,
+          },
+          name: 'x',
+          netsuite_sales_order_id: 'netsuite_sales_order_id',
+          rate_type: 'COMMIT_RATE',
+          rollover_fraction: 0,
+          temporary_id: 'temporary_id',
+        },
+      ],
+      recurring_credits: [
+        {
+          access_amount: {
+            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            quantity: 0,
+            unit_price: 0,
+          },
+          commit_duration: { unit: 'PERIODS', value: 0 },
+          priority: 0,
+          product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          starting_at: '2019-12-27T18:11:19.117Z',
+          applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+          applicable_product_tags: ['string'],
+          description: 'description',
+          ending_before: '2019-12-27T18:11:19.117Z',
+          invoice_amount: {
+            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            quantity: 0,
+            unit_price: 0,
+          },
+          name: 'x',
+          netsuite_sales_order_id: 'netsuite_sales_order_id',
+          rate_type: 'COMMIT_RATE',
+          rollover_fraction: 0,
+          temporary_id: 'temporary_id',
+        },
+      ],
       reseller_royalties: [
         {
           fraction: 0,
@@ -434,6 +490,8 @@ describe('resource contracts', () => {
               pricing_group_values: { foo: 'string' },
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string'],
+              recurring_commit_ids: ['string'],
+              recurring_credit_ids: ['string'],
             },
           ],
           overwrite_rate: {
