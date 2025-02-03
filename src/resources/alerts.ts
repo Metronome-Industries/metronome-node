@@ -75,9 +75,8 @@ export interface AlertCreateParams {
   credit_type_id?: string;
 
   /**
-   * Only present for beta contract invoices. This field's availability is dependent
-   * on your client's configuration. A list of custom field filters for alert types
-   * that support advanced filtering
+   * A list of custom field filters for alert types that support advanced filtering.
+   * Only present for contract invoices.
    */
   custom_field_filters?: Array<AlertCreateParams.CustomFieldFilter>;
 
