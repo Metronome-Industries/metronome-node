@@ -1134,8 +1134,7 @@ export namespace ContractCreateParams {
 
       /**
        * A map of group names to values. The override will only apply to line items with
-       * the specified presentation group values. Can only be used for multiplier
-       * overrides.
+       * the specified presentation group values.
        */
       presentation_group_values?: Record<string, string>;
 
@@ -2304,8 +2303,7 @@ export namespace ContractAmendParams {
 
       /**
        * A map of group names to values. The override will only apply to line items with
-       * the specified presentation group values. Can only be used for multiplier
-       * overrides.
+       * the specified presentation group values.
        */
       presentation_group_values?: Record<string, string>;
 
