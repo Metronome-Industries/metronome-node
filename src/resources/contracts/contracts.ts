@@ -1285,7 +1285,7 @@ export namespace ContractCreateParams {
     description?: string;
 
     /**
-     * determines when the contract will stop creating recurring commits. optional
+     * Determines when the contract will stop creating recurring commits. optional
      */
     ending_before?: string;
 
@@ -1311,7 +1311,8 @@ export namespace ContractCreateParams {
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
-     * individual unexpired commit will roll over upon contract transition
+     * individual unexpired commit will roll over upon contract transition. Must be
+     * between 0 and 1.
      */
     rollover_fraction?: number;
 
@@ -1394,7 +1395,7 @@ export namespace ContractCreateParams {
     description?: string;
 
     /**
-     * determines when the contract will stop creating recurring commits. optional
+     * Determines when the contract will stop creating recurring commits. optional
      */
     ending_before?: string;
 
@@ -1420,7 +1421,8 @@ export namespace ContractCreateParams {
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
-     * individual unexpired commit will roll over upon contract transition
+     * individual unexpired commit will roll over upon contract transition. Must be
+     * between 0 and 1.
      */
     rollover_fraction?: number;
 
