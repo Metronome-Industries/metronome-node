@@ -95,7 +95,7 @@ export interface CreditCreateParams {
    */
   netsuite_sales_order_id?: string;
 
-  rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+  rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
 
   /**
    * This field's availability is dependent on your client's configuration.

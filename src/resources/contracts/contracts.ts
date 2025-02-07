@@ -508,17 +508,7 @@ export namespace ContractRetrieveRateScheduleResponse {
      * list rate when consuming a credit or commit.
      */
     export interface CommitRate {
-      rate_type:
-        | 'FLAT'
-        | 'flat'
-        | 'PERCENTAGE'
-        | 'percentage'
-        | 'SUBSCRIPTION'
-        | 'subscription'
-        | 'TIERED'
-        | 'tiered'
-        | 'CUSTOM'
-        | 'custom';
+      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
       /**
        * Commit rate price. For FLAT rate_type, this must be >=0.
@@ -601,6 +591,10 @@ export interface ContractCreateParams {
   rate_card_alias?: string;
 
   rate_card_id?: string;
+
+  recurring_commits?: Array<ContractCreateParams.RecurringCommit>;
+
+  recurring_credits?: Array<ContractCreateParams.RecurringCredit>;
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -717,7 +711,7 @@ export namespace ContractCreateParams {
      */
     priority?: number;
 
-    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+    rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
 
     /**
      * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
@@ -903,7 +897,7 @@ export namespace ContractCreateParams {
      */
     priority?: number;
 
-    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+    rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
   }
 
   export namespace Credit {
@@ -1115,7 +1109,7 @@ export namespace ContractCreateParams {
      * be used for overrides that have `is_commit_specific` set to `true`. Defaults to
      * `"LIST_RATE"`.
      */
-    target?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+    target?: 'COMMIT_RATE' | 'LIST_RATE';
 
     /**
      * Required for TIERED type. Must have at least one tier.
@@ -1140,8 +1134,7 @@ export namespace ContractCreateParams {
 
       /**
        * A map of group names to values. The override will only apply to line items with
-       * the specified presentation group values. Can only be used for multiplier
-       * overrides.
+       * the specified presentation group values.
        */
       presentation_group_values?: Record<string, string>;
 
@@ -1161,6 +1154,22 @@ export namespace ContractCreateParams {
        * tags.
        */
       product_tags?: Array<string>;
+
+      /**
+       * Can only be used for commit specific overrides. Must be used in conjunction with
+       * one of product_id, product_tags, pricing_group_values, or
+       * presentation_group_values. If provided, the override will only apply to commits
+       * created by the specified recurring commit ids.
+       */
+      recurring_commit_ids?: Array<string>;
+
+      /**
+       * Can only be used for commit specific overrides. Must be used in conjunction with
+       * one of product_id, product_tags, pricing_group_values, or
+       * presentation_group_values. If provided, the override will only apply to credits
+       * created by the specified recurring credit ids.
+       */
+      recurring_credit_ids?: Array<string>;
     }
 
     /**
@@ -1235,6 +1244,226 @@ export namespace ContractCreateParams {
      * This field's availability is dependent on your client's configuration.
      */
     netsuite_sales_order_id?: string;
+  }
+
+  export interface RecurringCommit {
+    /**
+     * The amount of commit to grant.
+     */
+    access_amount: RecurringCommit.AccessAmount;
+
+    /**
+     * The amount of time the created commits will be valid for.
+     */
+    commit_duration: RecurringCommit.CommitDuration;
+
+    /**
+     * Will be passed down to the individual commits
+     */
+    priority: number;
+
+    product_id: string;
+
+    /**
+     * determines the start time for the first commit
+     */
+    starting_at: string;
+
+    /**
+     * Will be passed down to the individual commits
+     */
+    applicable_product_ids?: Array<string>;
+
+    /**
+     * Will be passed down to the individual commits
+     */
+    applicable_product_tags?: Array<string>;
+
+    /**
+     * Will be passed down to the individual commits
+     */
+    description?: string;
+
+    /**
+     * Determines when the contract will stop creating recurring commits. optional
+     */
+    ending_before?: string;
+
+    /**
+     * The amount the customer should be billed for the commit. Not required.
+     */
+    invoice_amount?: RecurringCommit.InvoiceAmount;
+
+    /**
+     * displayed on invoices. will be passed through to the individual commits
+     */
+    name?: string;
+
+    /**
+     * Will be passed down to the individual commits
+     */
+    netsuite_sales_order_id?: string;
+
+    /**
+     * Whether the created commits will use the commit rate or list rate
+     */
+    rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
+    /**
+     * Will be passed down to the individual commits. This controls how much of an
+     * individual unexpired commit will roll over upon contract transition. Must be
+     * between 0 and 1.
+     */
+    rollover_fraction?: number;
+
+    /**
+     * A temporary ID that can be used to reference the recurring commit for commit
+     * specific overrides.
+     */
+    temporary_id?: string;
+  }
+
+  export namespace RecurringCommit {
+    /**
+     * The amount of commit to grant.
+     */
+    export interface AccessAmount {
+      credit_type_id: string;
+
+      quantity: number;
+
+      unit_price: number;
+    }
+
+    /**
+     * The amount of time the created commits will be valid for.
+     */
+    export interface CommitDuration {
+      unit: 'PERIODS';
+
+      value: number;
+    }
+
+    /**
+     * The amount the customer should be billed for the commit. Not required.
+     */
+    export interface InvoiceAmount {
+      credit_type_id: string;
+
+      quantity: number;
+
+      unit_price: number;
+    }
+  }
+
+  export interface RecurringCredit {
+    /**
+     * The amount of commit to grant.
+     */
+    access_amount: RecurringCredit.AccessAmount;
+
+    /**
+     * The amount of time the created commits will be valid for.
+     */
+    commit_duration: RecurringCredit.CommitDuration;
+
+    /**
+     * Will be passed down to the individual commits
+     */
+    priority: number;
+
+    product_id: string;
+
+    /**
+     * determines the start time for the first commit
+     */
+    starting_at: string;
+
+    /**
+     * Will be passed down to the individual commits
+     */
+    applicable_product_ids?: Array<string>;
+
+    /**
+     * Will be passed down to the individual commits
+     */
+    applicable_product_tags?: Array<string>;
+
+    /**
+     * Will be passed down to the individual commits
+     */
+    description?: string;
+
+    /**
+     * Determines when the contract will stop creating recurring commits. optional
+     */
+    ending_before?: string;
+
+    /**
+     * The amount the customer should be billed for the commit. Not required.
+     */
+    invoice_amount?: RecurringCredit.InvoiceAmount;
+
+    /**
+     * displayed on invoices. will be passed through to the individual commits
+     */
+    name?: string;
+
+    /**
+     * Will be passed down to the individual commits
+     */
+    netsuite_sales_order_id?: string;
+
+    /**
+     * Whether the created commits will use the commit rate or list rate
+     */
+    rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
+    /**
+     * Will be passed down to the individual commits. This controls how much of an
+     * individual unexpired commit will roll over upon contract transition. Must be
+     * between 0 and 1.
+     */
+    rollover_fraction?: number;
+
+    /**
+     * A temporary ID that can be used to reference the recurring commit for commit
+     * specific overrides.
+     */
+    temporary_id?: string;
+  }
+
+  export namespace RecurringCredit {
+    /**
+     * The amount of commit to grant.
+     */
+    export interface AccessAmount {
+      credit_type_id: string;
+
+      quantity: number;
+
+      unit_price: number;
+    }
+
+    /**
+     * The amount of time the created commits will be valid for.
+     */
+    export interface CommitDuration {
+      unit: 'PERIODS';
+
+      value: number;
+    }
+
+    /**
+     * The amount the customer should be billed for the commit. Not required.
+     */
+    export interface InvoiceAmount {
+      credit_type_id: string;
+
+      quantity: number;
+
+      unit_price: number;
+    }
   }
 
   export interface ResellerRoyalty {
@@ -1432,7 +1661,7 @@ export namespace ContractCreateParams {
     /**
      * If not provided, defaults to the first day of the month.
      */
-    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE' | 'custom_date';
+    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE';
 
     /**
      * The date Metronome should start generating usage invoices. If unspecified,
@@ -1653,7 +1882,7 @@ export namespace ContractAmendParams {
      */
     priority?: number;
 
-    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+    rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
 
     /**
      * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
@@ -1839,7 +2068,7 @@ export namespace ContractAmendParams {
      */
     priority?: number;
 
-    rate_type?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+    rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
   }
 
   export namespace Credit {
@@ -2051,7 +2280,7 @@ export namespace ContractAmendParams {
      * be used for overrides that have `is_commit_specific` set to `true`. Defaults to
      * `"LIST_RATE"`.
      */
-    target?: 'COMMIT_RATE' | 'commit_rate' | 'LIST_RATE' | 'list_rate';
+    target?: 'COMMIT_RATE' | 'LIST_RATE';
 
     /**
      * Required for TIERED type. Must have at least one tier.
@@ -2076,8 +2305,7 @@ export namespace ContractAmendParams {
 
       /**
        * A map of group names to values. The override will only apply to line items with
-       * the specified presentation group values. Can only be used for multiplier
-       * overrides.
+       * the specified presentation group values.
        */
       presentation_group_values?: Record<string, string>;
 
@@ -2097,6 +2325,22 @@ export namespace ContractAmendParams {
        * tags.
        */
       product_tags?: Array<string>;
+
+      /**
+       * Can only be used for commit specific overrides. Must be used in conjunction with
+       * one of product_id, product_tags, pricing_group_values, or
+       * presentation_group_values. If provided, the override will only apply to commits
+       * created by the specified recurring commit ids.
+       */
+      recurring_commit_ids?: Array<string>;
+
+      /**
+       * Can only be used for commit specific overrides. Must be used in conjunction with
+       * one of product_id, product_tags, pricing_group_values, or
+       * presentation_group_values. If provided, the override will only apply to credits
+       * created by the specified recurring credit ids.
+       */
+      recurring_credit_ids?: Array<string>;
     }
 
     /**
