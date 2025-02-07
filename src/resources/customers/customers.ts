@@ -260,6 +260,12 @@ export interface CustomerDetail {
   name: string;
 
   /**
+   * RFC 3339 timestamp indicating when the customer was archived. Null if the
+   * customer is active.
+   */
+  archived_at?: string | null;
+
+  /**
    * This field's availability is dependent on your client's configuration.
    */
   current_billable_status?: CustomerDetail.CurrentBillableStatus;
@@ -517,7 +523,8 @@ export interface CustomerListParams extends CursorPageParams {
   ingest_alias?: string;
 
   /**
-   * Filter the customer list by only archived customers.
+   * Filter the customer list to only return archived customers. By default, only
+   * active customers are returned.
    */
   only_archived?: boolean;
 
