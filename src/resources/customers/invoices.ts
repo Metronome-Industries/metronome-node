@@ -45,7 +45,10 @@ export class Invoices extends APIResource {
 
   /**
    * List daily or hourly invoice breakdowns for a given customer, optionally
-   * filtered by status, date range, and/or credit type.
+   * filtered by status, date range, and/or credit type. Important considerations:
+   *
+   * - If we receive backdated usage after an invoice has been finalized, the
+   *   backdated usage will be included in the response and usage numbers may differ.
    */
   listBreakdowns(
     params: InvoiceListBreakdownsParams,
