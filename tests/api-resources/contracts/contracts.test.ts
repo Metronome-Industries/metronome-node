@@ -216,11 +216,6 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string'],
           description: 'description',
           ending_before: '2019-12-27T18:11:19.117Z',
-          invoice_amount: {
-            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-            quantity: 0,
-            unit_price: 0,
-          },
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           rate_type: 'COMMIT_RATE',
