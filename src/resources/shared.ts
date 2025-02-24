@@ -540,11 +540,6 @@ export namespace ContractWithoutAmendments {
     ending_before?: string;
 
     /**
-     * The amount the customer should be billed for the commit. Not required.
-     */
-    invoice_amount?: RecurringCredit.InvoiceAmount;
-
-    /**
      * Displayed on invoices. Will be passed through to the individual commits
      */
     name?: string;
@@ -591,17 +586,6 @@ export namespace ContractWithoutAmendments {
 
     export interface Contract {
       id: string;
-    }
-
-    /**
-     * The amount the customer should be billed for the commit. Not required.
-     */
-    export interface InvoiceAmount {
-      credit_type_id: string;
-
-      quantity: number;
-
-      unit_price: number;
     }
   }
 
