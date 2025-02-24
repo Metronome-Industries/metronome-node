@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../resource';
+import { isRequestOptions } from '../../../core';
 import * as Core from '../../../core';
 import * as Shared from '../../shared';
 import * as NamedSchedulesAPI from './named-schedules';
@@ -66,10 +67,20 @@ export class RateCards extends APIResource {
    * rate card rates.
    */
   list(
-    params: RateCardListParams,
+    params?: RateCardListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<RateCardListResponsesCursorPage, RateCardListResponse>;
+  list(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<RateCardListResponsesCursorPage, RateCardListResponse>;
+  list(
+    params?: RateCardListParams | Core.RequestOptions,
     options?: Core.RequestOptions,
   ): Core.PagePromise<RateCardListResponsesCursorPage, RateCardListResponse> {
-    const { body, limit, next_page } = params;
+    if (isRequestOptions(params)) {
+      return this.list(undefined, params);
+    }
+    const { limit, next_page, body } = params ?? {};
     return this._client.getAPIList('/contract-pricing/rate-cards/list', RateCardListResponsesCursorPage, {
       query: { limit, next_page },
       body: body,
@@ -321,7 +332,7 @@ export interface RateCardListParams extends CursorPageParams {
   /**
    * Body param:
    */
-  body: unknown;
+  body?: unknown;
 }
 
 export interface RateCardRetrieveRateScheduleParams {

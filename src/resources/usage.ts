@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../resource';
+import { isRequestOptions } from '../core';
 import * as Core from '../core';
 import { CursorPage, type CursorPageParams } from '../pagination';
 
@@ -21,7 +22,15 @@ export class Usage extends APIResource {
    * [Getting usage into Metronome](https://docs.metronome.com/connect-metronome/) to
    * learn more about usage events.
    */
-  ingest(body: UsageIngestParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+  ingest(body?: UsageIngestParams, options?: Core.RequestOptions): Core.APIPromise<void>;
+  ingest(options?: Core.RequestOptions): Core.APIPromise<void>;
+  ingest(
+    body?: UsageIngestParams | Core.RequestOptions,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<void> {
+    if (isRequestOptions(body)) {
+      return this.ingest(undefined, body);
+    }
     return this._client.post('/ingest', {
       body,
       ...options,
