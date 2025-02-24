@@ -37,15 +37,8 @@ describe('resource usage', () => {
     });
   });
 
-  test('ingest: only required params', async () => {
-    const responsePromise = client.usage.ingest([
-      {
-        customer_id: 'team@example.com',
-        event_type: 'heartbeat',
-        timestamp: '2021-01-01T00:00:00Z',
-        transaction_id: '2021-01-01T00:00:00Z_cluster42',
-      },
-    ]);
+  test('ingest', async () => {
+    const responsePromise = client.usage.ingest();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -55,16 +48,29 @@ describe('resource usage', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('ingest: required and optional params', async () => {
-    const response = await client.usage.ingest([
-      {
-        customer_id: 'team@example.com',
-        event_type: 'heartbeat',
-        timestamp: '2021-01-01T00:00:00Z',
-        transaction_id: '2021-01-01T00:00:00Z_cluster42',
-        properties: { cluster_id: 'bar', cpu_seconds: 'bar', region: 'bar' },
-      },
-    ]);
+  test('ingest: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.usage.ingest({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Metronome.NotFoundError,
+    );
+  });
+
+  test('ingest: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.usage.ingest(
+        [
+          {
+            customer_id: 'team@example.com',
+            event_type: 'heartbeat',
+            timestamp: '2021-01-01T00:00:00Z',
+            transaction_id: '2021-01-01T00:00:00Z_cluster42',
+            properties: { cluster_id: 'bar', cpu_seconds: 'bar', region: 'bar' },
+          },
+        ],
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Metronome.NotFoundError);
   });
 
   test('listWithGroups: only required params', async () => {
