@@ -82,8 +82,8 @@ describe('resource rateCards', () => {
     });
   });
 
-  test('list: only required params', async () => {
-    const responsePromise = client.contracts.rateCards.list({ body: {} });
+  test('list', async () => {
+    const responsePromise = client.contracts.rateCards.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -93,8 +93,21 @@ describe('resource rateCards', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list: required and optional params', async () => {
-    const response = await client.contracts.rateCards.list({ body: {}, limit: 1, next_page: 'next_page' });
+  test('list: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.contracts.rateCards.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Metronome.NotFoundError,
+    );
+  });
+
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.contracts.rateCards.list(
+        { limit: 1, next_page: 'next_page', body: {} },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Metronome.NotFoundError);
   });
 
   test('retrieveRateSchedule: only required params', async () => {
