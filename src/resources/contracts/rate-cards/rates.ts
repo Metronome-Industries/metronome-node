@@ -238,6 +238,12 @@ export interface RateAddParams {
   starting_at: string;
 
   /**
+   * Optional. Frequency to bill subscriptions with. Required for subscription type
+   * products with Flat rate.
+   */
+  billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+
+  /**
    * A distinct rate on the rate card. You can choose to use this rate rather than
    * list rate when consuming a credit or commit.
    */
@@ -339,6 +345,12 @@ export namespace RateAddManyParams {
      * inclusive effective date
      */
     starting_at: string;
+
+    /**
+     * Optional. Frequency to bill subscriptions with. Required for subscription type
+     * products with Flat rate.
+     */
+    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
 
     /**
      * A distinct rate on the rate card. You can choose to use this rate rather than
