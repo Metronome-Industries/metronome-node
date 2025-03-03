@@ -54,6 +54,8 @@ export interface RateListResponse {
 
   starting_at: string;
 
+  billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+
   /**
    * A distinct rate on the rate card. You can choose to use this rate rather than
    * list rate when consuming a credit or commit.
@@ -192,6 +194,12 @@ export interface RateListParams extends CursorPageParams {
 
 export namespace RateListParams {
   export interface Selector {
+    /**
+     * Subscription rates matching the billing frequency will be included in the
+     * response.
+     */
+    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+
     /**
      * List of pricing group key value pairs, rates containing the matching key / value
      * pairs will be included in the response.
