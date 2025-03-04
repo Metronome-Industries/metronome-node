@@ -619,6 +619,8 @@ export interface ContractCreateParams {
    */
   scheduled_charges_on_usage_invoices?: 'ALL';
 
+  threshold_billing_configuration?: ContractCreateParams.ThresholdBillingConfiguration;
+
   /**
    * This field's availability is dependent on your client's configuration.
    */
@@ -1608,6 +1610,50 @@ export namespace ContractCreateParams {
          */
         unit_price?: number;
       }
+    }
+  }
+
+  export interface ThresholdBillingConfiguration {
+    commit: ThresholdBillingConfiguration.Commit;
+
+    /**
+     * When set to false, the contract will not be evaluated against the
+     * threshold_amount. Toggling to true will result an immediate evaluation,
+     * regardless of prior state
+     */
+    is_enabled: boolean;
+
+    /**
+     * Specify the threshold amount for the contract. Each time the contract's usage
+     * hits this amount, a threshold charge will be initiated.
+     */
+    threshold_amount: number;
+  }
+
+  export namespace ThresholdBillingConfiguration {
+    export interface Commit {
+      product_id: string;
+
+      /**
+       * Which products the threshold commit applies to. If both applicable_product_ids
+       * and applicable_product_tags are not provided, the commit applies to all
+       * products.
+       */
+      applicable_product_ids?: Array<string>;
+
+      /**
+       * Which tags the threshold commit applies to. If both applicable_product_ids and
+       * applicable_product_tags are not provided, the commit applies to all products.
+       */
+      applicable_product_tags?: Array<string>;
+
+      description?: string;
+
+      /**
+       * Specify the name of the line item for the threshold charge. If left blank, it
+       * will default to the commit product name.
+       */
+      name?: string;
     }
   }
 
