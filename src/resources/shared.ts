@@ -439,6 +439,21 @@ export namespace ContractWithoutAmendments {
     netsuite_sales_order_id?: string;
 
     /**
+     * Determines whether the first and last commit will be prorated. If not provided,
+     * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+     */
+    proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
+
+    /**
+     * The frequency at which the recurring commits will be created. If not provided: -
+     * The commits will be created on the usage invoice frequency. If provided: - The
+     * period defined in the duration will correspond to this frequency. - Commits will
+     * be created aligned with the recurring commit's start_date rather than the usage
+     * invoice dates.
+     */
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+
+    /**
      * Will be passed down to the individual commits. This controls how much of an
      * individual unexpired commit will roll over upon contract transition. Must be
      * between 0 and 1.
@@ -550,6 +565,21 @@ export namespace ContractWithoutAmendments {
      * Will be passed down to the individual commits
      */
     netsuite_sales_order_id?: string;
+
+    /**
+     * Determines whether the first and last commit will be prorated. If not provided,
+     * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+     */
+    proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
+
+    /**
+     * The frequency at which the recurring commits will be created. If not provided: -
+     * The commits will be created on the usage invoice frequency. If provided: - The
+     * period defined in the duration will correspond to this frequency. - Commits will
+     * be created aligned with the recurring commit's start_date rather than the usage
+     * invoice dates.
+     */
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
