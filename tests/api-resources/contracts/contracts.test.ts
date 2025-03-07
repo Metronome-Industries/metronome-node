@@ -136,6 +136,7 @@ describe('resource contracts', () => {
           multiplier: 0,
           override_specifiers: [
             {
+              billing_frequency: 'MONTHLY',
               commit_ids: ['string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
@@ -495,6 +496,7 @@ describe('resource contracts', () => {
           multiplier: 0,
           override_specifiers: [
             {
+              billing_frequency: 'MONTHLY',
               commit_ids: ['string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },

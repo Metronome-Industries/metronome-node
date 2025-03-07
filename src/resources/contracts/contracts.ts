@@ -1128,6 +1128,8 @@ export namespace ContractCreateParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
+      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+
       /**
        * Can only be used for commit specific overrides. Must be used in conjunction with
        * one of product_id, product_tags, pricing_group_values, or
@@ -2357,6 +2359,8 @@ export namespace ContractAmendParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
+      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+
       /**
        * Can only be used for commit specific overrides. Must be used in conjunction with
        * one of product_id, product_tags, pricing_group_values, or
