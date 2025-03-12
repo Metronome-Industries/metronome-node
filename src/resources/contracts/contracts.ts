@@ -619,6 +619,8 @@ export interface ContractCreateParams {
    */
   scheduled_charges_on_usage_invoices?: 'ALL';
 
+  subscriptions?: Array<ContractCreateParams.Subscription>;
+
   threshold_billing_configuration?: ContractCreateParams.ThresholdBillingConfiguration;
 
   /**
@@ -1642,6 +1644,62 @@ export namespace ContractCreateParams {
          */
         unit_price?: number;
       }
+    }
+  }
+
+  export interface Subscription {
+    collection_schedule: 'ADVANCE' | 'ARREARS';
+
+    initial_quantity: number;
+
+    proration: Subscription.Proration;
+
+    subscription_rate: Subscription.SubscriptionRate;
+
+    description?: string;
+
+    /**
+     * Exclusive end time for the subscription. If not provided, subscription inherits
+     * contract end date.
+     */
+    ending_before?: string;
+
+    name?: string;
+
+    /**
+     * Inclusive start time for the subscription. If not provided, defaults to contract
+     * start date
+     */
+    starting_at?: string;
+  }
+
+  export namespace Subscription {
+    export interface Proration {
+      /**
+       * Indicates how mid-period quantity adjustments are invoiced. If BILL_IMMEDIATELY
+       * is selected, the quantity increase will be billed on the scheduled date. If
+       * BILL_ON_NEXT_COLLECTION_DATE is selected, the quantity increase will be billed
+       * for in-arrears at the end of the period.
+       */
+      invoice_behavior?: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
+
+      /**
+       * Indicates if the partial period will be prorated or charged a full amount.
+       */
+      is_prorated?: boolean;
+    }
+
+    export interface SubscriptionRate {
+      /**
+       * Frequency to bill subscription with. Together with product_id, must match
+       * existing rate on the rate card.
+       */
+      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+
+      /**
+       * Must be subscription type product
+       */
+      product_id: string;
     }
   }
 
