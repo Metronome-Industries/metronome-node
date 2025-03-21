@@ -23,7 +23,7 @@ export class PricingUnits extends APIResource {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/credit-types/list', PricingUnitListResponsesCursorPage, {
+    return this._client.getAPIList('/v1/credit-types/list', PricingUnitListResponsesCursorPage, {
       query,
       ...options,
     });

@@ -9,14 +9,14 @@ export class Credits extends APIResource {
    * Create a new credit at the customer level.
    */
   create(body: CreditCreateParams, options?: Core.RequestOptions): Core.APIPromise<CreditCreateResponse> {
-    return this._client.post('/contracts/customerCredits/create', { body, ...options });
+    return this._client.post('/v1/contracts/customerCredits/create', { body, ...options });
   }
 
   /**
    * List credits.
    */
   list(body: CreditListParams, options?: Core.RequestOptions): Core.APIPromise<CreditListResponse> {
-    return this._client.post('/contracts/customerCredits/list', { body, ...options });
+    return this._client.post('/v1/contracts/customerCredits/list', { body, ...options });
   }
 
   /**
@@ -26,7 +26,7 @@ export class Credits extends APIResource {
     body: CreditUpdateEndDateParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<CreditUpdateEndDateResponse> {
-    return this._client.post('/contracts/customerCredits/updateEndDate', { body, ...options });
+    return this._client.post('/v1/contracts/customerCredits/updateEndDate', { body, ...options });
   }
 }
 

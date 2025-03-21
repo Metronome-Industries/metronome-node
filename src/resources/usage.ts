@@ -12,7 +12,7 @@ export class Usage extends APIResource {
    */
   list(params: UsageListParams, options?: Core.RequestOptions): Core.APIPromise<UsageListResponse> {
     const { next_page, ...body } = params;
-    return this._client.post('/usage', { query: { next_page }, body, ...options });
+    return this._client.post('/v1/usage', { query: { next_page }, body, ...options });
   }
 
   /**
@@ -31,7 +31,7 @@ export class Usage extends APIResource {
     if (isRequestOptions(body)) {
       return this.ingest(undefined, body);
     }
-    return this._client.post('/ingest', {
+    return this._client.post('/v1/ingest', {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -47,7 +47,7 @@ export class Usage extends APIResource {
     options?: Core.RequestOptions,
   ): Core.PagePromise<UsageListWithGroupsResponsesCursorPage, UsageListWithGroupsResponse> {
     const { limit, next_page, ...body } = params;
-    return this._client.getAPIList('/usage/groups', UsageListWithGroupsResponsesCursorPage, {
+    return this._client.getAPIList('/v1/usage/groups', UsageListWithGroupsResponsesCursorPage, {
       query: { limit, next_page },
       body,
       method: 'post',

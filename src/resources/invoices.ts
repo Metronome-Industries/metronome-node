@@ -11,14 +11,14 @@ export class Invoices extends APIResource {
     body: InvoiceRegenerateParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<InvoiceRegenerateResponse> {
-    return this._client.post('/invoices/regenerate', { body, ...options });
+    return this._client.post('/v1/invoices/regenerate', { body, ...options });
   }
 
   /**
    * Void an invoice
    */
   void(body: InvoiceVoidParams, options?: Core.RequestOptions): Core.APIPromise<InvoiceVoidResponse> {
-    return this._client.post('/invoices/void', { body, ...options });
+    return this._client.post('/v1/invoices/void', { body, ...options });
   }
 }
 

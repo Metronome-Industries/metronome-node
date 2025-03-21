@@ -11,7 +11,7 @@ export class Services extends APIResource {
    * first time.
    */
   list(options?: Core.RequestOptions): Core.APIPromise<ServiceListResponse> {
-    return this._client.get('/services', options);
+    return this._client.get('/v1/services', options);
   }
 }
 

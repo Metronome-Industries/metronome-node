@@ -9,14 +9,14 @@ export class Commits extends APIResource {
    * Create a new commit at the customer level.
    */
   create(body: CommitCreateParams, options?: Core.RequestOptions): Core.APIPromise<CommitCreateResponse> {
-    return this._client.post('/contracts/customerCommits/create', { body, ...options });
+    return this._client.post('/v1/contracts/customerCommits/create', { body, ...options });
   }
 
   /**
    * List commits.
    */
   list(body: CommitListParams, options?: Core.RequestOptions): Core.APIPromise<CommitListResponse> {
-    return this._client.post('/contracts/customerCommits/list', { body, ...options });
+    return this._client.post('/v1/contracts/customerCommits/list', { body, ...options });
   }
 
   /**
@@ -26,7 +26,7 @@ export class Commits extends APIResource {
     body: CommitUpdateEndDateParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<CommitUpdateEndDateResponse> {
-    return this._client.post('/contracts/customerCommits/updateEndDate', { body, ...options });
+    return this._client.post('/v1/contracts/customerCommits/updateEndDate', { body, ...options });
   }
 }
 

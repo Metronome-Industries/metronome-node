@@ -26,7 +26,7 @@ export class AuditLogs extends APIResource {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/auditLogs', AuditLogListResponsesCursorPage, { query, ...options });
+    return this._client.getAPIList('/v1/auditLogs', AuditLogListResponsesCursorPage, { query, ...options });
   }
 }
 

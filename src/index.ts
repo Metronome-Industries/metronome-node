@@ -233,7 +233,7 @@ export class Metronome extends Core.APIClient {
    *
    * @param {string | undefined} [opts.bearerToken=process.env['METRONOME_BEARER_TOKEN'] ?? undefined]
    * @param {string | null | undefined} [opts.webhookSecret=process.env['METRONOME_WEBHOOK_SECRET'] ?? null]
-   * @param {string} [opts.baseURL=process.env['METRONOME_BASE_URL'] ?? https://api.metronome.com/v1] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['METRONOME_BASE_URL'] ?? https://api.metronome.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
    * @param {Core.Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -257,7 +257,7 @@ export class Metronome extends Core.APIClient {
       bearerToken,
       webhookSecret,
       ...opts,
-      baseURL: baseURL || `https://api.metronome.com/v1`,
+      baseURL: baseURL || `https://api.metronome.com`,
     };
 
     super({

@@ -23,7 +23,7 @@ export class Plans extends APIResource {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/plans', PlanListResponsesCursorPage, { query, ...options });
+    return this._client.getAPIList('/v1/plans', PlanListResponsesCursorPage, { query, ...options });
   }
 
   /**
@@ -34,7 +34,7 @@ export class Plans extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<PlanGetDetailsResponse> {
     const { plan_id } = params;
-    return this._client.get(`/planDetails/${plan_id}`, options);
+    return this._client.get(`/v1/planDetails/${plan_id}`, options);
   }
 
   /**
@@ -45,7 +45,7 @@ export class Plans extends APIResource {
     options?: Core.RequestOptions,
   ): Core.PagePromise<PlanListChargesResponsesCursorPage, PlanListChargesResponse> {
     const { plan_id, ...query } = params;
-    return this._client.getAPIList(`/planDetails/${plan_id}/charges`, PlanListChargesResponsesCursorPage, {
+    return this._client.getAPIList(`/v1/planDetails/${plan_id}/charges`, PlanListChargesResponsesCursorPage, {
       query,
       ...options,
     });
@@ -61,7 +61,7 @@ export class Plans extends APIResource {
   ): Core.PagePromise<PlanListCustomersResponsesCursorPage, PlanListCustomersResponse> {
     const { plan_id, ...query } = params;
     return this._client.getAPIList(
-      `/planDetails/${plan_id}/customers`,
+      `/v1/planDetails/${plan_id}/customers`,
       PlanListCustomersResponsesCursorPage,
       { query, ...options },
     );

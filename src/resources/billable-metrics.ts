@@ -14,7 +14,7 @@ export class BillableMetrics extends APIResource {
     body: BillableMetricCreateParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<BillableMetricCreateResponse> {
-    return this._client.post('/billable-metrics/create', { body, ...options });
+    return this._client.post('/v1/billable-metrics/create', { body, ...options });
   }
 
   /**
@@ -25,7 +25,7 @@ export class BillableMetrics extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<BillableMetricRetrieveResponse> {
     const { billable_metric_id } = params;
-    return this._client.get(`/billable-metrics/${billable_metric_id}`, options);
+    return this._client.get(`/v1/billable-metrics/${billable_metric_id}`, options);
   }
 
   /**
@@ -45,7 +45,7 @@ export class BillableMetrics extends APIResource {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/billable-metrics', BillableMetricListResponsesCursorPage, {
+    return this._client.getAPIList('/v1/billable-metrics', BillableMetricListResponsesCursorPage, {
       query,
       ...options,
     });
@@ -58,7 +58,7 @@ export class BillableMetrics extends APIResource {
     body: BillableMetricArchiveParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<BillableMetricArchiveResponse> {
-    return this._client.post('/billable-metrics/archive', { body, ...options });
+    return this._client.post('/v1/billable-metrics/archive', { body, ...options });
   }
 }
 

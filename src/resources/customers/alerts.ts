@@ -10,7 +10,7 @@ export class Alerts extends APIResource {
    * and alert
    */
   retrieve(body: AlertRetrieveParams, options?: Core.RequestOptions): Core.APIPromise<AlertRetrieveResponse> {
-    return this._client.post('/customer-alerts/get', { body, ...options });
+    return this._client.post('/v1/customer-alerts/get', { body, ...options });
   }
 
   /**
@@ -18,14 +18,14 @@ export class Alerts extends APIResource {
    */
   list(params: AlertListParams, options?: Core.RequestOptions): Core.APIPromise<AlertListResponse> {
     const { next_page, ...body } = params;
-    return this._client.post('/customer-alerts/list', { query: { next_page }, body, ...options });
+    return this._client.post('/v1/customer-alerts/list', { query: { next_page }, body, ...options });
   }
 
   /**
    * Reset state for an alert by customer id and force re-evaluation
    */
   reset(body: AlertResetParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.post('/customer-alerts/reset', {
+    return this._client.post('/v1/customer-alerts/reset', {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
