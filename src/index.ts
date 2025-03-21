@@ -151,6 +151,8 @@ import {
   Customers,
 } from './resources/customers/customers';
 
+import { Webhooks } from './resources/webhooks';
+
 export interface ClientOptions {
   /**
    * Defaults to process.env['METRONOME_BEARER_TOKEN'].
@@ -280,6 +282,7 @@ export class Metronome extends Core.APIClient {
   pricingUnits: API.PricingUnits = new API.PricingUnits(this);
   customers: API.Customers = new API.Customers(this);
   dashboards: API.Dashboards = new API.Dashboards(this);
+  webhooks: API.Webhooks = new API.Webhooks(this);
   usage: API.Usage = new API.Usage(this);
   auditLogs: API.AuditLogs = new API.AuditLogs(this);
   customFields: API.CustomFields = new API.CustomFields(this);
@@ -436,6 +439,8 @@ export declare namespace Metronome {
     type DashboardGetEmbeddableURLResponse as DashboardGetEmbeddableURLResponse,
     type DashboardGetEmbeddableURLParams as DashboardGetEmbeddableURLParams,
   };
+
+  export { Webhooks as Webhooks };
 
   export {
     Usage as Usage,

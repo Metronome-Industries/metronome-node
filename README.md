@@ -1,12 +1,14 @@
 # Metronome Node API Library
 
+> [!WARNING]
+> This is prerelease software that is not ready for production use. There may be bugs and
+> there will be breaking changes version to version. Use at your own risk.
+
 [![NPM version](https://img.shields.io/npm/v/@metronome/sdk.svg)](https://npmjs.org/package/@metronome/sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@metronome/sdk)
 
 This library provides convenient access to the Metronome REST API from server-side TypeScript or JavaScript.
 
 The REST API documentation can be found on [docs.metronome.com](https://docs.metronome.com). The full API of this library can be found in [api.md](api.md).
-
-It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 

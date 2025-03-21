@@ -143,3 +143,4 @@ export {
   type UsageIngestParams,
   type UsageListWithGroupsParams,
 } from './usage';
+export { Webhooks } from './webhooks';
