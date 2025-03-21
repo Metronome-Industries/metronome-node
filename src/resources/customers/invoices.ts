@@ -14,7 +14,7 @@ export class Invoices extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<InvoiceRetrieveResponse> {
     const { customer_id, invoice_id, ...query } = params;
-    return this._client.get(`/customers/${customer_id}/invoices/${invoice_id}`, { query, ...options });
+    return this._client.get(`/v1/customers/${customer_id}/invoices/${invoice_id}`, { query, ...options });
   }
 
   /**
@@ -26,7 +26,7 @@ export class Invoices extends APIResource {
     options?: Core.RequestOptions,
   ): Core.PagePromise<InvoicesCursorPage, Invoice> {
     const { customer_id, ...query } = params;
-    return this._client.getAPIList(`/customers/${customer_id}/invoices`, InvoicesCursorPage, {
+    return this._client.getAPIList(`/v1/customers/${customer_id}/invoices`, InvoicesCursorPage, {
       query,
       ...options,
     });
@@ -40,7 +40,7 @@ export class Invoices extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<InvoiceAddChargeResponse> {
     const { customer_id, ...body } = params;
-    return this._client.post(`/customers/${customer_id}/addCharge`, { body, ...options });
+    return this._client.post(`/v1/customers/${customer_id}/addCharge`, { body, ...options });
   }
 
   /**
@@ -56,7 +56,7 @@ export class Invoices extends APIResource {
   ): Core.PagePromise<InvoiceListBreakdownsResponsesCursorPage, InvoiceListBreakdownsResponse> {
     const { customer_id, ...query } = params;
     return this._client.getAPIList(
-      `/customers/${customer_id}/invoices/breakdowns`,
+      `/v1/customers/${customer_id}/invoices/breakdowns`,
       InvoiceListBreakdownsResponsesCursorPage,
       { query, ...options },
     );

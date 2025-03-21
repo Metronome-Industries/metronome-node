@@ -10,7 +10,7 @@ export class CustomFields extends APIResource {
    * on custom field keys.
    */
   addKey(body: CustomFieldAddKeyParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.post('/customFields/addKey', {
+    return this._client.post('/v1/customFields/addKey', {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -21,7 +21,7 @@ export class CustomFields extends APIResource {
    * Deletes one or more custom fields on an instance of a Metronome entity.
    */
   deleteValues(body: CustomFieldDeleteValuesParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.post('/customFields/deleteValues', {
+    return this._client.post('/v1/customFields/deleteValues', {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -44,14 +44,14 @@ export class CustomFields extends APIResource {
       return this.listKeys({}, params);
     }
     const { next_page, ...body } = params;
-    return this._client.post('/customFields/listKeys', { query: { next_page }, body, ...options });
+    return this._client.post('/v1/customFields/listKeys', { query: { next_page }, body, ...options });
   }
 
   /**
    * Remove a key from the allow list for a given entity.
    */
   removeKey(body: CustomFieldRemoveKeyParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.post('/customFields/removeKey', {
+    return this._client.post('/v1/customFields/removeKey', {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -68,7 +68,7 @@ export class CustomFields extends APIResource {
    * values.
    */
   setValues(body: CustomFieldSetValuesParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.post('/customFields/setValues', {
+    return this._client.post('/v1/customFields/setValues', {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },

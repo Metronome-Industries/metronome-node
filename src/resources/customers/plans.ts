@@ -14,7 +14,7 @@ export class Plans extends APIResource {
     options?: Core.RequestOptions,
   ): Core.PagePromise<PlanListResponsesCursorPage, PlanListResponse> {
     const { customer_id, ...query } = params;
-    return this._client.getAPIList(`/customers/${customer_id}/plans`, PlanListResponsesCursorPage, {
+    return this._client.getAPIList(`/v1/customers/${customer_id}/plans`, PlanListResponsesCursorPage, {
       query,
       ...options,
     });
@@ -27,7 +27,7 @@ export class Plans extends APIResource {
    */
   add(params: PlanAddParams, options?: Core.RequestOptions): Core.APIPromise<PlanAddResponse> {
     const { customer_id, ...body } = params;
-    return this._client.post(`/customers/${customer_id}/plans/add`, { body, ...options });
+    return this._client.post(`/v1/customers/${customer_id}/plans/add`, { body, ...options });
   }
 
   /**
@@ -35,7 +35,10 @@ export class Plans extends APIResource {
    */
   end(params: PlanEndParams, options?: Core.RequestOptions): Core.APIPromise<PlanEndResponse> {
     const { customer_id, customer_plan_id, ...body } = params;
-    return this._client.post(`/customers/${customer_id}/plans/${customer_plan_id}/end`, { body, ...options });
+    return this._client.post(`/v1/customers/${customer_id}/plans/${customer_plan_id}/end`, {
+      body,
+      ...options,
+    });
   }
 
   /**
@@ -49,7 +52,7 @@ export class Plans extends APIResource {
   ): Core.PagePromise<PlanListPriceAdjustmentsResponsesCursorPage, PlanListPriceAdjustmentsResponse> {
     const { customer_id, customer_plan_id, ...query } = params;
     return this._client.getAPIList(
-      `/customers/${customer_id}/plans/${customer_plan_id}/priceAdjustments`,
+      `/v1/customers/${customer_id}/plans/${customer_plan_id}/priceAdjustments`,
       PlanListPriceAdjustmentsResponsesCursorPage,
       { query, ...options },
     );

@@ -92,7 +92,7 @@ export class Customers extends APIResource {
    * Create a new customer
    */
   create(body: CustomerCreateParams, options?: Core.RequestOptions): Core.APIPromise<CustomerCreateResponse> {
-    return this._client.post('/customers', { body, ...options });
+    return this._client.post('/v1/customers', { body, ...options });
   }
 
   /**
@@ -103,7 +103,7 @@ export class Customers extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<CustomerRetrieveResponse> {
     const { customer_id } = params;
-    return this._client.get(`/customers/${customer_id}`, options);
+    return this._client.get(`/v1/customers/${customer_id}`, options);
   }
 
   /**
@@ -121,7 +121,7 @@ export class Customers extends APIResource {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/customers', CustomerDetailsCursorPage, { query, ...options });
+    return this._client.getAPIList('/v1/customers', CustomerDetailsCursorPage, { query, ...options });
   }
 
   /**
@@ -131,7 +131,7 @@ export class Customers extends APIResource {
     body: CustomerArchiveParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<CustomerArchiveResponse> {
-    return this._client.post('/customers/archive', { body, ...options });
+    return this._client.post('/v1/customers/archive', { body, ...options });
   }
 
   /**
@@ -143,7 +143,7 @@ export class Customers extends APIResource {
   ): Core.PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse> {
     const { customer_id, ...query } = params;
     return this._client.getAPIList(
-      `/customers/${customer_id}/billable-metrics`,
+      `/v1/customers/${customer_id}/billable-metrics`,
       CustomerListBillableMetricsResponsesCursorPage,
       { query, ...options },
     );
@@ -159,10 +159,11 @@ export class Customers extends APIResource {
     options?: Core.RequestOptions,
   ): Core.PagePromise<CustomerListCostsResponsesCursorPage, CustomerListCostsResponse> {
     const { customer_id, ...query } = params;
-    return this._client.getAPIList(`/customers/${customer_id}/costs`, CustomerListCostsResponsesCursorPage, {
-      query,
-      ...options,
-    });
+    return this._client.getAPIList(
+      `/v1/customers/${customer_id}/costs`,
+      CustomerListCostsResponsesCursorPage,
+      { query, ...options },
+    );
   }
 
   /**
@@ -175,7 +176,7 @@ export class Customers extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<void> {
     const { customer_id, ...body } = params;
-    return this._client.post(`/customers/${customer_id}/setIngestAliases`, {
+    return this._client.post(`/v1/customers/${customer_id}/setIngestAliases`, {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -190,7 +191,7 @@ export class Customers extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<CustomerSetNameResponse> {
     const { customer_id, ...body } = params;
-    return this._client.post(`/customers/${customer_id}/setName`, { body, ...options });
+    return this._client.post(`/v1/customers/${customer_id}/setName`, { body, ...options });
   }
 
   /**
@@ -198,7 +199,7 @@ export class Customers extends APIResource {
    */
   updateConfig(params: CustomerUpdateConfigParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     const { customer_id, ...body } = params;
-    return this._client.post(`/customers/${customer_id}/updateConfig`, {
+    return this._client.post(`/v1/customers/${customer_id}/updateConfig`, {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },

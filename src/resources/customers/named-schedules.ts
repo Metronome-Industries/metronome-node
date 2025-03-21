@@ -12,7 +12,7 @@ export class NamedSchedules extends APIResource {
     body: NamedScheduleRetrieveParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<NamedScheduleRetrieveResponse> {
-    return this._client.post('/customers/getNamedSchedule', { body, ...options });
+    return this._client.post('/v1/customers/getNamedSchedule', { body, ...options });
   }
 
   /**
@@ -20,7 +20,7 @@ export class NamedSchedules extends APIResource {
    * dependent on your client's configuration.
    */
   update(body: NamedScheduleUpdateParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.post('/customers/updateNamedSchedule', {
+    return this._client.post('/v1/customers/updateNamedSchedule', {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },

@@ -12,7 +12,7 @@ export class Products extends APIResource {
    * Create a new product
    */
   create(body: ProductCreateParams, options?: Core.RequestOptions): Core.APIPromise<ProductCreateResponse> {
-    return this._client.post('/contract-pricing/products/create', { body, ...options });
+    return this._client.post('/v1/contract-pricing/products/create', { body, ...options });
   }
 
   /**
@@ -22,14 +22,14 @@ export class Products extends APIResource {
     body: ProductRetrieveParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<ProductRetrieveResponse> {
-    return this._client.post('/contract-pricing/products/get', { body, ...options });
+    return this._client.post('/v1/contract-pricing/products/get', { body, ...options });
   }
 
   /**
    * Update a product
    */
   update(body: ProductUpdateParams, options?: Core.RequestOptions): Core.APIPromise<ProductUpdateResponse> {
-    return this._client.post('/contract-pricing/products/update', { body, ...options });
+    return this._client.post('/v1/contract-pricing/products/update', { body, ...options });
   }
 
   /**
@@ -48,7 +48,7 @@ export class Products extends APIResource {
       return this.list({}, params);
     }
     const { limit, next_page, ...body } = params;
-    return this._client.getAPIList('/contract-pricing/products/list', ProductListResponsesCursorPage, {
+    return this._client.getAPIList('/v1/contract-pricing/products/list', ProductListResponsesCursorPage, {
       query: { limit, next_page },
       body,
       method: 'post',
@@ -63,7 +63,7 @@ export class Products extends APIResource {
     body: ProductArchiveParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<ProductArchiveResponse> {
-    return this._client.post('/contract-pricing/products/archive', { body, ...options });
+    return this._client.post('/v1/contract-pricing/products/archive', { body, ...options });
   }
 }
 

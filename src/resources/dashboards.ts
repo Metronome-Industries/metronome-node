@@ -13,7 +13,7 @@ export class Dashboards extends APIResource {
     body: DashboardGetEmbeddableURLParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<DashboardGetEmbeddableURLResponse> {
-    return this._client.post('/dashboards/getEmbeddableUrl', { body, ...options });
+    return this._client.post('/v1/dashboards/getEmbeddableUrl', { body, ...options });
   }
 }
 
