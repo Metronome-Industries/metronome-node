@@ -310,6 +310,14 @@ export namespace ContractRetrieveResponse {
         | 'gcp_marketplace';
 
       delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+
+      id?: string;
+
+      /**
+       * Configuration for the billing provider. The structure of this object is specific
+       * to the billing provider.
+       */
+      configuration?: Record<string, unknown>;
     }
 
     export interface Subscription {
@@ -495,6 +503,14 @@ export namespace ContractListResponse {
         | 'gcp_marketplace';
 
       delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+
+      id?: string;
+
+      /**
+       * Configuration for the billing provider. The structure of this object is specific
+       * to the billing provider.
+       */
+      configuration?: Record<string, unknown>;
     }
 
     export interface Subscription {
