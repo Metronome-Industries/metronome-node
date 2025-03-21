@@ -12,14 +12,17 @@ export class ProductOrders extends APIResource {
     body: ProductOrderUpdateParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<ProductOrderUpdateResponse> {
-    return this._client.post('/contract-pricing/rate-cards/moveRateCardProducts', { body, ...options });
+    return this._client.post('/v1/contract-pricing/rate-cards/moveRateCardProducts', { body, ...options });
   }
 
   /**
    * Sets the ordering of products within a rate card
    */
   set(body: ProductOrderSetParams, options?: Core.RequestOptions): Core.APIPromise<ProductOrderSetResponse> {
-    return this._client.post('/contract-pricing/rate-cards/setRateCardProductsOrder', { body, ...options });
+    return this._client.post('/v1/contract-pricing/rate-cards/setRateCardProductsOrder', {
+      body,
+      ...options,
+    });
   }
 }
 

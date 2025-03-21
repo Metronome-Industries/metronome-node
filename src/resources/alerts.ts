@@ -9,14 +9,14 @@ export class Alerts extends APIResource {
    * Create a new alert
    */
   create(body: AlertCreateParams, options?: Core.RequestOptions): Core.APIPromise<AlertCreateResponse> {
-    return this._client.post('/alerts/create', { body, ...options });
+    return this._client.post('/v1/alerts/create', { body, ...options });
   }
 
   /**
    * Archive an existing alert
    */
   archive(body: AlertArchiveParams, options?: Core.RequestOptions): Core.APIPromise<AlertArchiveResponse> {
-    return this._client.post('/alerts/archive', { body, ...options });
+    return this._client.post('/v1/alerts/archive', { body, ...options });
   }
 }
 

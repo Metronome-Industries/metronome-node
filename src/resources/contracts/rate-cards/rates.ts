@@ -14,7 +14,7 @@ export class Rates extends APIResource {
     options?: Core.RequestOptions,
   ): Core.PagePromise<RateListResponsesCursorPage, RateListResponse> {
     const { limit, next_page, ...body } = params;
-    return this._client.getAPIList('/contract-pricing/rate-cards/getRates', RateListResponsesCursorPage, {
+    return this._client.getAPIList('/v1/contract-pricing/rate-cards/getRates', RateListResponsesCursorPage, {
       query: { limit, next_page },
       body,
       method: 'post',
@@ -26,14 +26,14 @@ export class Rates extends APIResource {
    * Add a new rate
    */
   add(body: RateAddParams, options?: Core.RequestOptions): Core.APIPromise<RateAddResponse> {
-    return this._client.post('/contract-pricing/rate-cards/addRate', { body, ...options });
+    return this._client.post('/v1/contract-pricing/rate-cards/addRate', { body, ...options });
   }
 
   /**
    * Add new rates
    */
   addMany(body: RateAddManyParams, options?: Core.RequestOptions): Core.APIPromise<RateAddManyResponse> {
-    return this._client.post('/contract-pricing/rate-cards/addRates', { body, ...options });
+    return this._client.post('/v1/contract-pricing/rate-cards/addRates', { body, ...options });
   }
 }
 

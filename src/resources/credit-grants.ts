@@ -15,7 +15,7 @@ export class CreditGrants extends APIResource {
     body: CreditGrantCreateParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<CreditGrantCreateResponse> {
-    return this._client.post('/credits/createGrant', { body, ...options });
+    return this._client.post('/v1/credits/createGrant', { body, ...options });
   }
 
   /**
@@ -36,7 +36,7 @@ export class CreditGrants extends APIResource {
       return this.list({}, params);
     }
     const { limit, next_page, ...body } = params;
-    return this._client.getAPIList('/credits/listGrants', CreditGrantListResponsesCursorPage, {
+    return this._client.getAPIList('/v1/credits/listGrants', CreditGrantListResponsesCursorPage, {
       query: { limit, next_page },
       body,
       method: 'post',
@@ -48,7 +48,7 @@ export class CreditGrants extends APIResource {
    * Edit an existing credit grant
    */
   edit(body: CreditGrantEditParams, options?: Core.RequestOptions): Core.APIPromise<CreditGrantEditResponse> {
-    return this._client.post('/credits/editGrant', { body, ...options });
+    return this._client.post('/v1/credits/editGrant', { body, ...options });
   }
 
   /**
@@ -69,14 +69,14 @@ export class CreditGrants extends APIResource {
       return this.listEntries({}, params);
     }
     const { next_page, ...body } = params;
-    return this._client.post('/credits/listEntries', { query: { next_page }, body, ...options });
+    return this._client.post('/v1/credits/listEntries', { query: { next_page }, body, ...options });
   }
 
   /**
    * Void a credit grant
    */
   void(body: CreditGrantVoidParams, options?: Core.RequestOptions): Core.APIPromise<CreditGrantVoidResponse> {
-    return this._client.post('/credits/voidGrant', { body, ...options });
+    return this._client.post('/v1/credits/voidGrant', { body, ...options });
   }
 }
 

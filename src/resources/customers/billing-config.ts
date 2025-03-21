@@ -9,7 +9,7 @@ export class BillingConfig extends APIResource {
    */
   create(params: BillingConfigCreateParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     const { customer_id, billing_provider_type, ...body } = params;
-    return this._client.post(`/customers/${customer_id}/billing-config/${billing_provider_type}`, {
+    return this._client.post(`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -24,7 +24,7 @@ export class BillingConfig extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<BillingConfigRetrieveResponse> {
     const { customer_id, billing_provider_type } = params;
-    return this._client.get(`/customers/${customer_id}/billing-config/${billing_provider_type}`, options);
+    return this._client.get(`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, options);
   }
 
   /**
@@ -33,7 +33,7 @@ export class BillingConfig extends APIResource {
    */
   delete(params: BillingConfigDeleteParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     const { customer_id, billing_provider_type } = params;
-    return this._client.delete(`/customers/${customer_id}/billing-config/${billing_provider_type}`, {
+    return this._client.delete(`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, {
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
     });

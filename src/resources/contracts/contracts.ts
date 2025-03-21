@@ -54,7 +54,7 @@ export class Contracts extends APIResource {
    * Create a new contract
    */
   create(body: ContractCreateParams, options?: Core.RequestOptions): Core.APIPromise<ContractCreateResponse> {
-    return this._client.post('/contracts/create', { body, ...options });
+    return this._client.post('/v1/contracts/create', { body, ...options });
   }
 
   /**
@@ -64,14 +64,14 @@ export class Contracts extends APIResource {
     body: ContractRetrieveParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<ContractRetrieveResponse> {
-    return this._client.post('/contracts/get', { body, ...options });
+    return this._client.post('/v1/contracts/get', { body, ...options });
   }
 
   /**
    * List all contracts for a customer
    */
   list(body: ContractListParams, options?: Core.RequestOptions): Core.APIPromise<ContractListResponse> {
-    return this._client.post('/contracts/list', { body, ...options });
+    return this._client.post('/v1/contracts/list', { body, ...options });
   }
 
   /**
@@ -81,7 +81,7 @@ export class Contracts extends APIResource {
     body: ContractAddManualBalanceEntryParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<void> {
-    return this._client.post('/contracts/addManualBalanceLedgerEntry', {
+    return this._client.post('/v1/contracts/addManualBalanceLedgerEntry', {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -92,7 +92,7 @@ export class Contracts extends APIResource {
    * Amend a contract
    */
   amend(body: ContractAmendParams, options?: Core.RequestOptions): Core.APIPromise<ContractAmendResponse> {
-    return this._client.post('/contracts/amend', { body, ...options });
+    return this._client.post('/v1/contracts/amend', { body, ...options });
   }
 
   /**
@@ -102,7 +102,7 @@ export class Contracts extends APIResource {
     body: ContractArchiveParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<ContractArchiveResponse> {
-    return this._client.post('/contracts/archive', { body, ...options });
+    return this._client.post('/v1/contracts/archive', { body, ...options });
   }
 
   /**
@@ -112,7 +112,7 @@ export class Contracts extends APIResource {
     body: ContractCreateHistoricalInvoicesParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<ContractCreateHistoricalInvoicesResponse> {
-    return this._client.post('/contracts/createHistoricalInvoices', { body, ...options });
+    return this._client.post('/v1/contracts/createHistoricalInvoices', { body, ...options });
   }
 
   /**
@@ -122,7 +122,7 @@ export class Contracts extends APIResource {
     body: ContractListBalancesParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<ContractListBalancesResponse> {
-    return this._client.post('/contracts/customerBalances/list', { body, ...options });
+    return this._client.post('/v1/contracts/customerBalances/list', { body, ...options });
   }
 
   /**
@@ -133,7 +133,7 @@ export class Contracts extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<ContractRetrieveRateScheduleResponse> {
     const { limit, next_page, ...body } = params;
-    return this._client.post('/contracts/getContractRateSchedule', {
+    return this._client.post('/v1/contracts/getContractRateSchedule', {
       query: { limit, next_page },
       body,
       ...options,
@@ -148,14 +148,14 @@ export class Contracts extends APIResource {
     body: ContractScheduleProServicesInvoiceParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<ContractScheduleProServicesInvoiceResponse> {
-    return this._client.post('/contracts/scheduleProServicesInvoice', { body, ...options });
+    return this._client.post('/v1/contracts/scheduleProServicesInvoice', { body, ...options });
   }
 
   /**
    * Set usage filter for a contract
    */
   setUsageFilter(body: ContractSetUsageFilterParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.post('/contracts/setUsageFilter', {
+    return this._client.post('/v1/contracts/setUsageFilter', {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -169,7 +169,7 @@ export class Contracts extends APIResource {
     body: ContractUpdateEndDateParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<ContractUpdateEndDateResponse> {
-    return this._client.post('/contracts/updateEndDate', { body, ...options });
+    return this._client.post('/v1/contracts/updateEndDate', { body, ...options });
   }
 }
 

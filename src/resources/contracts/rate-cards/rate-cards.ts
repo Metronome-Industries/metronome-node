@@ -41,7 +41,7 @@ export class RateCards extends APIResource {
    * Create a new rate card
    */
   create(body: RateCardCreateParams, options?: Core.RequestOptions): Core.APIPromise<RateCardCreateResponse> {
-    return this._client.post('/contract-pricing/rate-cards/create', { body, ...options });
+    return this._client.post('/v1/contract-pricing/rate-cards/create', { body, ...options });
   }
 
   /**
@@ -52,14 +52,14 @@ export class RateCards extends APIResource {
     body: RateCardRetrieveParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<RateCardRetrieveResponse> {
-    return this._client.post('/contract-pricing/rate-cards/get', { body, ...options });
+    return this._client.post('/v1/contract-pricing/rate-cards/get', { body, ...options });
   }
 
   /**
    * Update a rate card
    */
   update(body: RateCardUpdateParams, options?: Core.RequestOptions): Core.APIPromise<RateCardUpdateResponse> {
-    return this._client.post('/contract-pricing/rate-cards/update', { body, ...options });
+    return this._client.post('/v1/contract-pricing/rate-cards/update', { body, ...options });
   }
 
   /**
@@ -81,7 +81,7 @@ export class RateCards extends APIResource {
       return this.list(undefined, params);
     }
     const { limit, next_page, body } = params ?? {};
-    return this._client.getAPIList('/contract-pricing/rate-cards/list', RateCardListResponsesCursorPage, {
+    return this._client.getAPIList('/v1/contract-pricing/rate-cards/list', RateCardListResponsesCursorPage, {
       query: { limit, next_page },
       body: body,
       method: 'post',
@@ -98,7 +98,7 @@ export class RateCards extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<RateCardRetrieveRateScheduleResponse> {
     const { limit, next_page, ...body } = params;
-    return this._client.post('/contract-pricing/rate-cards/getRateSchedule', {
+    return this._client.post('/v1/contract-pricing/rate-cards/getRateSchedule', {
       query: { limit, next_page },
       body,
       ...options,

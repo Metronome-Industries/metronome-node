@@ -183,13 +183,13 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['METRONOME_BASE_URL'] = ''; // empty
       const client = new Metronome({ bearerToken: 'My Bearer Token' });
-      expect(client.baseURL).toEqual('https://api.metronome.com/v1');
+      expect(client.baseURL).toEqual('https://api.metronome.com');
     });
 
     test('blank env variable', () => {
       process.env['METRONOME_BASE_URL'] = '  '; // blank
       const client = new Metronome({ bearerToken: 'My Bearer Token' });
-      expect(client.baseURL).toEqual('https://api.metronome.com/v1');
+      expect(client.baseURL).toEqual('https://api.metronome.com');
     });
   });
 
