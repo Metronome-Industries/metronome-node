@@ -11,6 +11,8 @@ import * as API from './resources/index';
 import { V1 } from './resources/v1/v1';
 import { V2 } from './resources/v2/v2';
 
+import { Webhooks } from './resources/webhooks';
+
 export interface ClientOptions {
   /**
    * Defaults to process.env['METRONOME_BEARER_TOKEN'].
@@ -136,6 +138,7 @@ export class Metronome extends Core.APIClient {
 
   v2: API.V2 = new API.V2(this);
   v1: API.V1 = new API.V1(this);
+  webhooks: API.Webhooks = new API.Webhooks(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -188,6 +191,8 @@ export declare namespace Metronome {
   export { V2 as V2 };
 
   export { V1 as V1 };
+  
+  export { Webhooks as Webhooks };
 
   export type BaseUsageFilter = API.BaseUsageFilter;
   export type Commit = API.Commit;

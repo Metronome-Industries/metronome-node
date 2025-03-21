@@ -426,3 +426,10 @@ Methods:
 
 - <code title="post /v1/contract-pricing/rate-cards/getNamedSchedule">client.v1.contracts.namedSchedules.<a href="./src/resources/v1/contracts/named-schedules.ts">retrieve</a>({ ...params }) -> NamedScheduleRetrieveResponse</code>
 - <code title="post /v1/contract-pricing/rate-cards/updateNamedSchedule">client.v1.contracts.namedSchedules.<a href="./src/resources/v1/contracts/named-schedules.ts">update</a>({ ...params }) -> void</code>
+
+# Webhooks
+
+Methods:
+
+- <code>client.webhooks.<a href="./src/resources/webhooks.ts">unwrap</a>(payload, headers, secret) -> Object</code>
+- <code>client.webhooks.<a href="./src/resources/webhooks.ts">verifySignature</a>(body, headers, secret) -> void</code>
