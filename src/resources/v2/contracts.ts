@@ -6,7 +6,8 @@ import * as Shared from '../shared';
 
 export class Contracts extends APIResource {
   /**
-   * Get a specific contract
+   * Get a specific contract. New clients should use this endpoint rather than the v1
+   * endpoint.
    */
   retrieve(
     body: ContractRetrieveParams,
@@ -23,15 +24,15 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Edit a contract. Contracts can only be edited if contract editing is enabled.
+   * Edit a contract. Contract editing must be enabled to use this endpoint.
    */
   edit(body: ContractEditParams, options?: Core.RequestOptions): Core.APIPromise<ContractEditResponse> {
     return this._client.post('/v2/contracts/edit', { body, ...options });
   }
 
   /**
-   * Edit a customer or contract commit. Contract commits can only be edited if
-   * contract editing is enabled.
+   * Edit a customer or contract commit. Contract commits can only be edited using
+   * this endpoint if contract editing is enabled.
    */
   editCommit(
     body: ContractEditCommitParams,
@@ -41,8 +42,8 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Edit a customer or contract credit. Contract credits can only be edited if
-   * contract editing is enabled.
+   * Edit a customer or contract credit. Contract credits can only be edited using
+   * this endpoint if contract editing is enabled.
    */
   editCredit(
     body: ContractEditCreditParams,
