@@ -29,7 +29,7 @@ const client = new Metronome({
 });
 
 async function main() {
-  await client.usage.ingest([
+  await client.v1.usage.ingest([
     {
       customer_id: 'team@example.com',
       event_type: 'heartbeat',
@@ -55,11 +55,11 @@ const client = new Metronome({
 });
 
 async function main() {
-  const params: Metronome.ContractCreateParams = {
+  const params: Metronome.V1.ContractCreateParams = {
     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
     starting_at: '2020-01-01T00:00:00.000Z',
   };
-  const contract: Metronome.ContractCreateResponse = await client.contracts.create(params);
+  const contract: Metronome.V1.ContractCreateResponse = await client.v1.contracts.create(params);
 }
 
 main();
@@ -76,7 +76,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const contract = await client.contracts
+  const contract = await client.v1.contracts
     .create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' })
     .catch(async (err) => {
       if (err instanceof Metronome.APIError) {
@@ -121,7 +121,7 @@ const client = new Metronome({
 });
 
 // Or, configure per-request:
-await client.contracts.create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' }, {
+await client.v1.contracts.create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' }, {
   maxRetries: 5,
 });
 ```
@@ -138,7 +138,7 @@ const client = new Metronome({
 });
 
 // Override per-request:
-await client.contracts.create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' }, {
+await client.v1.contracts.create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -153,20 +153,20 @@ List methods in the Metronome API are paginated.
 You can use the `for await … of` syntax to iterate through items across all pages:
 
 ```ts
-async function fetchAllContractsProducts(params) {
-  const allContractsProducts = [];
+async function fetchAllV1ContractsProducts(params) {
+  const allV1ContractsProducts = [];
   // Automatically fetches more pages as needed.
-  for await (const productListResponse of client.contracts.products.list()) {
-    allContractsProducts.push(productListResponse);
+  for await (const productListResponse of client.v1.contracts.products.list()) {
+    allV1ContractsProducts.push(productListResponse);
   }
-  return allContractsProducts;
+  return allV1ContractsProducts;
 }
 ```
 
 Alternatively, you can request a single page at a time:
 
 ```ts
-let page = await client.contracts.products.list();
+let page = await client.v1.contracts.products.list();
 for (const productListResponse of page.data) {
   console.log(productListResponse);
 }
@@ -190,13 +190,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Metronome();
 
-const response = await client.contracts
+const response = await client.v1.contracts
   .create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: contract, response: raw } = await client.contracts
+const { data: contract, response: raw } = await client.v1.contracts
   .create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
@@ -304,7 +304,7 @@ const client = new Metronome({
 });
 
 // Override per-request:
-await client.contracts.create(
+await client.v1.contracts.create(
   { customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
