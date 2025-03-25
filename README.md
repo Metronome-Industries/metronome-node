@@ -29,10 +29,11 @@ const client = new Metronome({
 async function main() {
   await client.v1.usage.ingest([
     {
+      transaction_id: '90e9401f-0f8c-4cd3-9a9f-d6beb56d8d72',
       customer_id: 'team@example.com',
       event_type: 'heartbeat',
-      timestamp: '2021-01-01T00:00:00Z',
-      transaction_id: '2021-01-01T00:00:00Z_cluster42',
+      timestamp: '2024-01-01T00:00:00Z',
+      properties: { cluster_id: '42', cpu_seconds: 60, region: 'Europe' },
     },
   ]);
 }
