@@ -343,6 +343,8 @@ export interface ContractWithoutAmendments {
    */
   scheduled_charges_on_usage_invoices?: 'ALL';
 
+  threshold_billing_configuration?: ContractWithoutAmendments.ThresholdBillingConfiguration;
+
   /**
    * This field's availability is dependent on your client's configuration.
    */
@@ -435,6 +437,21 @@ export namespace ContractWithoutAmendments {
      * Will be passed down to the individual commits
      */
     netsuite_sales_order_id?: string;
+
+    /**
+     * Determines whether the first and last commit will be prorated. If not provided,
+     * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+     */
+    proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
+
+    /**
+     * The frequency at which the recurring commits will be created. If not provided: -
+     * The commits will be created on the usage invoice frequency. If provided: - The
+     * period defined in the duration will correspond to this frequency. - Commits will
+     * be created aligned with the recurring commit's start_date rather than the usage
+     * invoice dates.
+     */
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -540,11 +557,6 @@ export namespace ContractWithoutAmendments {
     ending_before?: string;
 
     /**
-     * The amount the customer should be billed for the commit. Not required.
-     */
-    invoice_amount?: RecurringCredit.InvoiceAmount;
-
-    /**
      * Displayed on invoices. Will be passed through to the individual commits
      */
     name?: string;
@@ -553,6 +565,21 @@ export namespace ContractWithoutAmendments {
      * Will be passed down to the individual commits
      */
     netsuite_sales_order_id?: string;
+
+    /**
+     * Determines whether the first and last commit will be prorated. If not provided,
+     * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+     */
+    proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
+
+    /**
+     * The frequency at which the recurring commits will be created. If not provided: -
+     * The commits will be created on the usage invoice frequency. If provided: - The
+     * period defined in the duration will correspond to this frequency. - Commits will
+     * be created aligned with the recurring commit's start_date rather than the usage
+     * invoice dates.
+     */
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -592,17 +619,6 @@ export namespace ContractWithoutAmendments {
     export interface Contract {
       id: string;
     }
-
-    /**
-     * The amount the customer should be billed for the commit. Not required.
-     */
-    export interface InvoiceAmount {
-      credit_type_id: string;
-
-      quantity: number;
-
-      unit_price: number;
-    }
   }
 
   export interface ResellerRoyalty {
@@ -631,6 +647,50 @@ export namespace ContractWithoutAmendments {
     gcp_offer_id?: string;
 
     reseller_contract_value?: number;
+  }
+
+  export interface ThresholdBillingConfiguration {
+    commit: ThresholdBillingConfiguration.Commit;
+
+    /**
+     * When set to false, the contract will not be evaluated against the
+     * threshold_amount. Toggling to true will result an immediate evaluation,
+     * regardless of prior state
+     */
+    is_enabled: boolean;
+
+    /**
+     * Specify the threshold amount for the contract. Each time the contract's usage
+     * hits this amount, a threshold charge will be initiated.
+     */
+    threshold_amount: number;
+  }
+
+  export namespace ThresholdBillingConfiguration {
+    export interface Commit {
+      product_id: string;
+
+      /**
+       * Which products the threshold commit applies to. If both applicable_product_ids
+       * and applicable_product_tags are not provided, the commit applies to all
+       * products.
+       */
+      applicable_product_ids?: Array<string>;
+
+      /**
+       * Which tags the threshold commit applies to. If both applicable_product_ids and
+       * applicable_product_tags are not provided, the commit applies to all products.
+       */
+      applicable_product_tags?: Array<string>;
+
+      description?: string;
+
+      /**
+       * Specify the name of the line item for the threshold charge. If left blank, it
+       * will default to the commit product name.
+       */
+      name?: string;
+    }
   }
 
   export interface UsageFilter {
@@ -926,6 +986,8 @@ export interface Override {
 
 export namespace Override {
   export interface OverrideSpecifier {
+    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+
     commit_ids?: Array<string>;
 
     presentation_group_values?: Record<string, string | null>;
