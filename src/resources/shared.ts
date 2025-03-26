@@ -986,8 +986,6 @@ export interface Override {
 
 export namespace Override {
   export interface OverrideSpecifier {
-    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
     commit_ids?: Array<string>;
 
     presentation_group_values?: Record<string, string | null>;
