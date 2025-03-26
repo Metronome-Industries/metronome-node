@@ -17,7 +17,8 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * List all contracts for a customer
+   * List all contracts for a customer. New clients should use this endpoint rather
+   * than the v1 endpoint.
    */
   list(body: ContractListParams, options?: Core.RequestOptions): Core.APIPromise<ContractListResponse> {
     return this._client.post('/v2/contracts/list', { body, ...options });
@@ -53,7 +54,8 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Get the edit history of a specific contract
+   * Get the edit history of a specific contract. Contract editing must be enabled to
+   * use this endpoint.
    */
   getEditHistory(
     body: ContractGetEditHistoryParams,
@@ -155,8 +157,6 @@ export namespace ContractRetrieveResponse {
      * on a separate invoice from usage charges.
      */
     scheduled_charges_on_usage_invoices?: 'ALL';
-
-    subscriptions?: Array<Data.Subscription>;
 
     threshold_billing_configuration?: Data.ThresholdBillingConfiguration;
 
@@ -1003,54 +1003,6 @@ export namespace ContractRetrieveResponse {
         gcp_offer_id?: string;
 
         reseller_contract_value?: number;
-      }
-    }
-
-    export interface Subscription {
-      collection_schedule: 'ADVANCE' | 'ARREARS';
-
-      proration: Subscription.Proration;
-
-      quantity_schedule: Array<Subscription.QuantitySchedule>;
-
-      starting_at: string;
-
-      subscription_rate: Subscription.SubscriptionRate;
-
-      description?: string;
-
-      ending_before?: string;
-
-      name?: string;
-    }
-
-    export namespace Subscription {
-      export interface Proration {
-        invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
-
-        is_prorated: boolean;
-      }
-
-      export interface QuantitySchedule {
-        quantity: number;
-
-        starting_at: string;
-
-        ending_before?: string;
-      }
-
-      export interface SubscriptionRate {
-        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
-        product: SubscriptionRate.Product;
-      }
-
-      export namespace SubscriptionRate {
-        export interface Product {
-          id: string;
-
-          name: string;
-        }
       }
     }
 
@@ -1193,8 +1145,6 @@ export namespace ContractListResponse {
      */
     scheduled_charges_on_usage_invoices?: 'ALL';
 
-    subscriptions?: Array<Data.Subscription>;
-
     threshold_billing_configuration?: Data.ThresholdBillingConfiguration;
 
     total_contract_value?: number;
@@ -2040,54 +1990,6 @@ export namespace ContractListResponse {
         gcp_offer_id?: string;
 
         reseller_contract_value?: number;
-      }
-    }
-
-    export interface Subscription {
-      collection_schedule: 'ADVANCE' | 'ARREARS';
-
-      proration: Subscription.Proration;
-
-      quantity_schedule: Array<Subscription.QuantitySchedule>;
-
-      starting_at: string;
-
-      subscription_rate: Subscription.SubscriptionRate;
-
-      description?: string;
-
-      ending_before?: string;
-
-      name?: string;
-    }
-
-    export namespace Subscription {
-      export interface Proration {
-        invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
-
-        is_prorated: boolean;
-      }
-
-      export interface QuantitySchedule {
-        quantity: number;
-
-        starting_at: string;
-
-        ending_before?: string;
-      }
-
-      export interface SubscriptionRate {
-        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
-        product: SubscriptionRate.Product;
-      }
-
-      export namespace SubscriptionRate {
-        export interface Product {
-          id: string;
-
-          name: string;
-        }
       }
     }
 
