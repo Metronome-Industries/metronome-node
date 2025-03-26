@@ -58,7 +58,8 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Get a specific contract
+   * This is the v1 endpoint to get a contract. New clients should implement using
+   * the v2 endpoint.
    */
   retrieve(
     body: ContractRetrieveParams,
@@ -68,7 +69,8 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * List all contracts for a customer
+   * This is the v1 endpoint to list all contracts for a customer. New clients should
+   * implement using the v2 endpoint.
    */
   list(body: ContractListParams, options?: Core.RequestOptions): Core.APIPromise<ContractListResponse> {
     return this._client.post('/v1/contracts/list', { body, ...options });
@@ -89,7 +91,11 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Amend a contract
+   * Amendments will be replaced by Contract editing. New clients should implement
+   * using the editContract endpoint. Read more about the migration to contract
+   * editing [here](https://docs.metronome.com/migrate-amendments-to-edits/) and
+   * reach out to your Metronome representative for more details. Once contract
+   * editing is enabled, access to this endpoint will be removed.
    */
   amend(body: ContractAmendParams, options?: Core.RequestOptions): Core.APIPromise<ContractAmendResponse> {
     return this._client.post('/v1/contracts/amend', { body, ...options });
