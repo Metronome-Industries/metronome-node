@@ -20,7 +20,8 @@ export class Credits extends APIResource {
   }
 
   /**
-   * Update the end date of a credit
+   * Pull forward the end date of a credit. Use the "edit a credit" endpoint to
+   * extend the end date of a credit, or to make other edits to the credit.
    */
   updateEndDate(
     body: CreditUpdateEndDateParams,
