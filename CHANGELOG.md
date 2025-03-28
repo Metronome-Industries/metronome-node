@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.1.0-beta.10 (2025-03-28)
+
+Full Changelog: [v0.1.0-beta.9...v0.1.0-beta.10](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.9...v0.1.0-beta.10)
+
+### Features
+
+* **api:** api update ([8da8f8d](https://github.com/Metronome-Industries/metronome-node/commit/8da8f8d25fe43a2d3a46659d25a6097c9622ff9b))
+* **api:** api update ([#214](https://github.com/Metronome-Industries/metronome-node/issues/214)) ([b16892d](https://github.com/Metronome-Industries/metronome-node/commit/b16892d4f0b0b52cd9fe072cb252ba67bb85bda3))
+* **api:** api update ([#216](https://github.com/Metronome-Industries/metronome-node/issues/216)) ([d0f310d](https://github.com/Metronome-Industries/metronome-node/commit/d0f310dff119b2edb7bd5d7ab11a53f0114a645e))
+* **api:** api update ([#218](https://github.com/Metronome-Industries/metronome-node/issues/218)) ([f8760db](https://github.com/Metronome-Industries/metronome-node/commit/f8760dbbbba80d8bf65d508d04e110832c436fa8))
+
+
+### Bug Fixes
+
+* **internal:** work around https://github.com/vercel/next.js/issues/76881 ([#217](https://github.com/Metronome-Industries/metronome-node/issues/217)) ([1c4ce6b](https://github.com/Metronome-Industries/metronome-node/commit/1c4ce6b4a74c46895a577c6a6c3c07c0d8320f55))
+
+
+### Chores
+
+* add hash of OpenAPI spec/config inputs to .stats.yml ([484bf7f](https://github.com/Metronome-Industries/metronome-node/commit/484bf7f74772ddbf6786b948571e8a2109c0cac2))
+
 ## 0.1.0-beta.9 (2025-03-25)
 
 Full Changelog: [v0.1.0-beta.8...v0.1.0-beta.9](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.8...v0.1.0-beta.9)
