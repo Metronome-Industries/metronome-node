@@ -17,7 +17,8 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * List all contracts for a customer
+   * List all contracts for a customer. New clients should use this endpoint rather
+   * than the v1 endpoint.
    */
   list(body: ContractListParams, options?: Core.RequestOptions): Core.APIPromise<ContractListResponse> {
     return this._client.post('/v2/contracts/list', { body, ...options });
@@ -53,7 +54,8 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Get the edit history of a specific contract
+   * Get the edit history of a specific contract. Contract editing must be enabled to
+   * use this endpoint.
    */
   getEditHistory(
     body: ContractGetEditHistoryParams,
@@ -155,8 +157,6 @@ export namespace ContractRetrieveResponse {
      * on a separate invoice from usage charges.
      */
     scheduled_charges_on_usage_invoices?: 'ALL';
-
-    subscriptions?: Array<Data.Subscription>;
 
     threshold_billing_configuration?: Data.ThresholdBillingConfiguration;
 
@@ -458,7 +458,7 @@ export namespace ContractRetrieveResponse {
 
     export namespace Override {
       export interface OverrideSpecifier {
-        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
         commit_ids?: Array<string>;
 
@@ -554,7 +554,7 @@ export namespace ContractRetrieveResponse {
        */
       billing_anchor_date: string;
 
-      frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
     }
 
     export interface Credit {
@@ -800,7 +800,7 @@ export namespace ContractRetrieveResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -928,7 +928,7 @@ export namespace ContractRetrieveResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -1003,54 +1003,6 @@ export namespace ContractRetrieveResponse {
         gcp_offer_id?: string;
 
         reseller_contract_value?: number;
-      }
-    }
-
-    export interface Subscription {
-      collection_schedule: 'ADVANCE' | 'ARREARS';
-
-      proration: Subscription.Proration;
-
-      quantity_schedule: Array<Subscription.QuantitySchedule>;
-
-      starting_at: string;
-
-      subscription_rate: Subscription.SubscriptionRate;
-
-      description?: string;
-
-      ending_before?: string;
-
-      name?: string;
-    }
-
-    export namespace Subscription {
-      export interface Proration {
-        invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
-
-        is_prorated: boolean;
-      }
-
-      export interface QuantitySchedule {
-        quantity: number;
-
-        starting_at: string;
-
-        ending_before?: string;
-      }
-
-      export interface SubscriptionRate {
-        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
-        product: SubscriptionRate.Product;
-      }
-
-      export namespace SubscriptionRate {
-        export interface Product {
-          id: string;
-
-          name: string;
-        }
       }
     }
 
@@ -1193,8 +1145,6 @@ export namespace ContractListResponse {
      */
     scheduled_charges_on_usage_invoices?: 'ALL';
 
-    subscriptions?: Array<Data.Subscription>;
-
     threshold_billing_configuration?: Data.ThresholdBillingConfiguration;
 
     total_contract_value?: number;
@@ -1495,7 +1445,7 @@ export namespace ContractListResponse {
 
     export namespace Override {
       export interface OverrideSpecifier {
-        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
         commit_ids?: Array<string>;
 
@@ -1591,7 +1541,7 @@ export namespace ContractListResponse {
        */
       billing_anchor_date: string;
 
-      frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
     }
 
     export interface Credit {
@@ -1837,7 +1787,7 @@ export namespace ContractListResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -1965,7 +1915,7 @@ export namespace ContractListResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -2040,54 +1990,6 @@ export namespace ContractListResponse {
         gcp_offer_id?: string;
 
         reseller_contract_value?: number;
-      }
-    }
-
-    export interface Subscription {
-      collection_schedule: 'ADVANCE' | 'ARREARS';
-
-      proration: Subscription.Proration;
-
-      quantity_schedule: Array<Subscription.QuantitySchedule>;
-
-      starting_at: string;
-
-      subscription_rate: Subscription.SubscriptionRate;
-
-      description?: string;
-
-      ending_before?: string;
-
-      name?: string;
-    }
-
-    export namespace Subscription {
-      export interface Proration {
-        invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
-
-        is_prorated: boolean;
-      }
-
-      export interface QuantitySchedule {
-        quantity: number;
-
-        starting_at: string;
-
-        ending_before?: string;
-      }
-
-      export interface SubscriptionRate {
-        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
-        product: SubscriptionRate.Product;
-      }
-
-      export namespace SubscriptionRate {
-        export interface Product {
-          id: string;
-
-          name: string;
-        }
       }
     }
 
@@ -2325,7 +2227,7 @@ export namespace ContractGetEditHistoryResponse {
 
     export namespace AddOverride {
       export interface OverrideSpecifier {
-        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
         commit_ids?: Array<string>;
 
@@ -2469,7 +2371,7 @@ export namespace ContractGetEditHistoryResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -2597,7 +2499,7 @@ export namespace ContractGetEditHistoryResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -2931,7 +2833,7 @@ export namespace ContractGetEditHistoryResponse {
            */
           ending_before: string;
 
-          frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+          frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
           /**
            * RFC 3339 timestamp (inclusive).
@@ -3284,7 +3186,7 @@ export namespace ContractEditParams {
          */
         ending_before: string;
 
-        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
         /**
          * RFC 3339 timestamp (inclusive).
@@ -3474,7 +3376,7 @@ export namespace ContractEditParams {
          */
         ending_before: string;
 
-        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
         /**
          * RFC 3339 timestamp (inclusive).
@@ -3805,7 +3707,7 @@ export namespace ContractEditParams {
      * be created aligned with the recurring commit's start_date rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -3925,7 +3827,7 @@ export namespace ContractEditParams {
      * be created aligned with the recurring commit's start_date rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -4066,7 +3968,7 @@ export namespace ContractEditParams {
          */
         ending_before: string;
 
-        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
         /**
          * RFC 3339 timestamp (inclusive).

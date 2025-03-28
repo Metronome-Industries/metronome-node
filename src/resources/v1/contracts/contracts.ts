@@ -58,7 +58,8 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Get a specific contract
+   * This is the v1 endpoint to get a contract. New clients should implement using
+   * the v2 endpoint.
    */
   retrieve(
     body: ContractRetrieveParams,
@@ -68,7 +69,8 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * List all contracts for a customer
+   * This is the v1 endpoint to list all contracts for a customer. New clients should
+   * implement using the v2 endpoint.
    */
   list(body: ContractListParams, options?: Core.RequestOptions): Core.APIPromise<ContractListResponse> {
     return this._client.post('/v1/contracts/list', { body, ...options });
@@ -89,7 +91,11 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Amend a contract
+   * Amendments will be replaced by Contract editing. New clients should implement
+   * using the editContract endpoint. Read more about the migration to contract
+   * editing [here](https://docs.metronome.com/migrate-amendments-to-edits/) and
+   * reach out to your Metronome representative for more details. Once contract
+   * editing is enabled, access to this endpoint will be removed.
    */
   amend(body: ContractAmendParams, options?: Core.RequestOptions): Core.APIPromise<ContractAmendResponse> {
     return this._client.post('/v1/contracts/amend', { body, ...options });
@@ -215,8 +221,6 @@ export namespace ContractRetrieveResponse {
      */
     scheduled_charges_on_usage_invoices?: 'ALL';
 
-    subscriptions?: Array<Data.Subscription>;
-
     /**
      * Prevents the creation of duplicates. If a request to create a record is made
      * with a previously used uniqueness key, a new record will not be created and the
@@ -318,54 +322,6 @@ export namespace ContractRetrieveResponse {
        * to the billing provider.
        */
       configuration?: Record<string, unknown>;
-    }
-
-    export interface Subscription {
-      collection_schedule: 'ADVANCE' | 'ARREARS';
-
-      proration: Subscription.Proration;
-
-      quantity_schedule: Array<Subscription.QuantitySchedule>;
-
-      starting_at: string;
-
-      subscription_rate: Subscription.SubscriptionRate;
-
-      description?: string;
-
-      ending_before?: string;
-
-      name?: string;
-    }
-
-    export namespace Subscription {
-      export interface Proration {
-        invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
-
-        is_prorated: boolean;
-      }
-
-      export interface QuantitySchedule {
-        quantity: number;
-
-        starting_at: string;
-
-        ending_before?: string;
-      }
-
-      export interface SubscriptionRate {
-        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
-        product: SubscriptionRate.Product;
-      }
-
-      export namespace SubscriptionRate {
-        export interface Product {
-          id: string;
-
-          name: string;
-        }
-      }
     }
   }
 }
@@ -408,8 +364,6 @@ export namespace ContractListResponse {
      */
     scheduled_charges_on_usage_invoices?: 'ALL';
 
-    subscriptions?: Array<Data.Subscription>;
-
     /**
      * Prevents the creation of duplicates. If a request to create a record is made
      * with a previously used uniqueness key, a new record will not be created and the
@@ -511,54 +465,6 @@ export namespace ContractListResponse {
        * to the billing provider.
        */
       configuration?: Record<string, unknown>;
-    }
-
-    export interface Subscription {
-      collection_schedule: 'ADVANCE' | 'ARREARS';
-
-      proration: Subscription.Proration;
-
-      quantity_schedule: Array<Subscription.QuantitySchedule>;
-
-      starting_at: string;
-
-      subscription_rate: Subscription.SubscriptionRate;
-
-      description?: string;
-
-      ending_before?: string;
-
-      name?: string;
-    }
-
-    export namespace Subscription {
-      export interface Proration {
-        invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
-
-        is_prorated: boolean;
-      }
-
-      export interface QuantitySchedule {
-        quantity: number;
-
-        starting_at: string;
-
-        ending_before?: string;
-      }
-
-      export interface SubscriptionRate {
-        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
-        product: SubscriptionRate.Product;
-      }
-
-      export namespace SubscriptionRate {
-        export interface Product {
-          id: string;
-
-          name: string;
-        }
-      }
     }
   }
 }
@@ -604,8 +510,6 @@ export namespace ContractRetrieveRateScheduleResponse {
     rate_card_id: string;
 
     starting_at: string;
-
-    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
 
     /**
      * A distinct rate on the rate card. You can choose to use this rate rather than
@@ -734,8 +638,6 @@ export interface ContractCreateParams {
    * on a separate invoice from usage charges.
    */
   scheduled_charges_on_usage_invoices?: 'ALL';
-
-  subscriptions?: Array<ContractCreateParams.Subscription>;
 
   threshold_billing_configuration?: ContractCreateParams.ThresholdBillingConfiguration;
 
@@ -1246,8 +1148,6 @@ export namespace ContractCreateParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
-      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
       /**
        * Can only be used for commit specific overrides. Must be used in conjunction with
        * one of product_id, product_tags, pricing_group_values, or
@@ -1446,7 +1346,7 @@ export namespace ContractCreateParams {
      * be created aligned with the recurring commit's start_date rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -1566,7 +1466,7 @@ export namespace ContractCreateParams {
      * be created aligned with the recurring commit's start_date rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -1763,62 +1663,6 @@ export namespace ContractCreateParams {
     }
   }
 
-  export interface Subscription {
-    collection_schedule: 'ADVANCE' | 'ARREARS';
-
-    initial_quantity: number;
-
-    proration: Subscription.Proration;
-
-    subscription_rate: Subscription.SubscriptionRate;
-
-    description?: string;
-
-    /**
-     * Exclusive end time for the subscription. If not provided, subscription inherits
-     * contract end date.
-     */
-    ending_before?: string;
-
-    name?: string;
-
-    /**
-     * Inclusive start time for the subscription. If not provided, defaults to contract
-     * start date
-     */
-    starting_at?: string;
-  }
-
-  export namespace Subscription {
-    export interface Proration {
-      /**
-       * Indicates how mid-period quantity adjustments are invoiced. If BILL_IMMEDIATELY
-       * is selected, the quantity increase will be billed on the scheduled date. If
-       * BILL_ON_NEXT_COLLECTION_DATE is selected, the quantity increase will be billed
-       * for in-arrears at the end of the period.
-       */
-      invoice_behavior?: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
-
-      /**
-       * Indicates if the partial period will be prorated or charged a full amount.
-       */
-      is_prorated?: boolean;
-    }
-
-    export interface SubscriptionRate {
-      /**
-       * Frequency to bill subscription with. Together with product_id, must match
-       * existing rate on the rate card.
-       */
-      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
-      /**
-       * Must be subscription type product
-       */
-      product_id: string;
-    }
-  }
-
   export interface ThresholdBillingConfiguration {
     commit: ThresholdBillingConfiguration.Commit;
 
@@ -1885,7 +1729,7 @@ export namespace ContractCreateParams {
   }
 
   export interface UsageStatementSchedule {
-    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Required when using CUSTOM_DATE. This option lets you set a historical billing
@@ -2533,8 +2377,6 @@ export namespace ContractAmendParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
-      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
       /**
        * Can only be used for commit specific overrides. Must be used in conjunction with
        * one of product_id, product_tags, pricing_group_values, or
@@ -2984,12 +2826,6 @@ export interface ContractRetrieveRateScheduleParams {
 
 export namespace ContractRetrieveRateScheduleParams {
   export interface Selector {
-    /**
-     * Subscription rates matching the billing frequency will be included in the
-     * response.
-     */
-    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
     /**
      * List of pricing group key value pairs, rates containing the matching key / value
      * pairs will be included in the response.
