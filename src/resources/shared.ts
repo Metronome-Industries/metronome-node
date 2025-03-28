@@ -368,7 +368,7 @@ export namespace ContractWithoutAmendments {
      */
     billing_anchor_date: string;
 
-    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
   }
 
   export interface RecurringCommit {
@@ -451,7 +451,7 @@ export namespace ContractWithoutAmendments {
      * be created aligned with the recurring commit's start_date rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -579,7 +579,7 @@ export namespace ContractWithoutAmendments {
      * be created aligned with the recurring commit's start_date rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
