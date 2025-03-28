@@ -458,7 +458,7 @@ export namespace ContractRetrieveResponse {
 
     export namespace Override {
       export interface OverrideSpecifier {
-        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
         commit_ids?: Array<string>;
 
@@ -554,7 +554,7 @@ export namespace ContractRetrieveResponse {
        */
       billing_anchor_date: string;
 
-      frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
     }
 
     export interface Credit {
@@ -800,7 +800,7 @@ export namespace ContractRetrieveResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -928,7 +928,7 @@ export namespace ContractRetrieveResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -1445,7 +1445,7 @@ export namespace ContractListResponse {
 
     export namespace Override {
       export interface OverrideSpecifier {
-        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
         commit_ids?: Array<string>;
 
@@ -1541,7 +1541,7 @@ export namespace ContractListResponse {
        */
       billing_anchor_date: string;
 
-      frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
     }
 
     export interface Credit {
@@ -1787,7 +1787,7 @@ export namespace ContractListResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -1915,7 +1915,7 @@ export namespace ContractListResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -2227,7 +2227,7 @@ export namespace ContractGetEditHistoryResponse {
 
     export namespace AddOverride {
       export interface OverrideSpecifier {
-        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
         commit_ids?: Array<string>;
 
@@ -2371,7 +2371,7 @@ export namespace ContractGetEditHistoryResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -2499,7 +2499,7 @@ export namespace ContractGetEditHistoryResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -2833,7 +2833,7 @@ export namespace ContractGetEditHistoryResponse {
            */
           ending_before: string;
 
-          frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+          frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
           /**
            * RFC 3339 timestamp (inclusive).
@@ -3186,7 +3186,7 @@ export namespace ContractEditParams {
          */
         ending_before: string;
 
-        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
         /**
          * RFC 3339 timestamp (inclusive).
@@ -3376,7 +3376,7 @@ export namespace ContractEditParams {
          */
         ending_before: string;
 
-        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
         /**
          * RFC 3339 timestamp (inclusive).
@@ -3707,7 +3707,7 @@ export namespace ContractEditParams {
      * be created aligned with the recurring commit's start_date rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -3827,7 +3827,7 @@ export namespace ContractEditParams {
      * be created aligned with the recurring commit's start_date rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -3968,7 +3968,7 @@ export namespace ContractEditParams {
          */
         ending_before: string;
 
-        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
         /**
          * RFC 3339 timestamp (inclusive).
