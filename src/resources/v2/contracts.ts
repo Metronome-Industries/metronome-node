@@ -3037,6 +3037,26 @@ export interface ContractEditParams {
 
   add_scheduled_charges?: Array<ContractEditParams.AddScheduledCharge>;
 
+  /**
+   * IDs of commits to archive
+   */
+  archive_commits?: Array<string>;
+
+  /**
+   * IDs of credits to archive
+   */
+  archive_credits?: Array<string>;
+
+  /**
+   * IDs of scheduled charges to archive
+   */
+  archive_scheduled_charges?: Array<string>;
+
+  /**
+   * IDs of overrides to remove
+   */
+  remove_overrides?: Array<string>;
+
   update_commits?: Array<ContractEditParams.UpdateCommit>;
 
   update_credits?: Array<ContractEditParams.UpdateCredit>;
