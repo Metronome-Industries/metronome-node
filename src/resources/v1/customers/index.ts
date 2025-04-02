@@ -2,7 +2,6 @@
 
 export {
   Alerts,
-  type CustomerAlert,
   type AlertRetrieveResponse,
   type AlertListResponse,
   type AlertRetrieveParams,
@@ -35,14 +34,13 @@ export {
   type CreditUpdateEndDateParams,
 } from './credits';
 export {
-  CustomerDetailsCursorPage,
+  CustomerListResponsesCursorPage,
   CustomerListBillableMetricsResponsesCursorPage,
   CustomerListCostsResponsesCursorPage,
   Customers,
-  type Customer,
-  type CustomerDetail,
   type CustomerCreateResponse,
   type CustomerRetrieveResponse,
+  type CustomerListResponse,
   type CustomerArchiveResponse,
   type CustomerListBillableMetricsResponse,
   type CustomerListCostsResponse,
@@ -58,11 +56,11 @@ export {
   type CustomerUpdateConfigParams,
 } from './customers';
 export {
-  InvoicesCursorPage,
+  InvoiceListResponsesCursorPage,
   InvoiceListBreakdownsResponsesCursorPage,
   Invoices,
-  type Invoice,
   type InvoiceRetrieveResponse,
+  type InvoiceListResponse,
   type InvoiceAddChargeResponse,
   type InvoiceListBreakdownsResponse,
   type InvoiceRetrieveParams,
