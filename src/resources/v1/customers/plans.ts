@@ -2,6 +2,7 @@
 
 import { APIResource } from '../../../resource';
 import * as Core from '../../../core';
+import * as Shared from '../../shared';
 import { CursorPage, type CursorPageParams } from '../../../pagination';
 
 export class Plans extends APIResource {
@@ -101,27 +102,13 @@ export namespace PlanListResponse {
 
       amount_remaining: number;
 
-      credit_type: SpendingCap.CreditType;
-    }
-
-    export namespace SpendingCap {
-      export interface CreditType {
-        id: string;
-
-        name: string;
-      }
+      credit_type: Shared.CreditTypeData;
     }
   }
 }
 
 export interface PlanAddResponse {
-  data: PlanAddResponse.Data;
-}
-
-export namespace PlanAddResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface PlanEndResponse {}
