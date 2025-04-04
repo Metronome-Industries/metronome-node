@@ -35,6 +35,12 @@ export interface Commit {
   applicable_product_tags?: Array<string>;
 
   /**
+   * RFC 3339 timestamp indicating when the commit was archived. If not provided, the
+   * commit is not archived.
+   */
+  archived_at?: string;
+
+  /**
    * The current balance of the credit or commit. This balance reflects the amount of
    * credit or commit that the customer has access to use at this moment - thus,
    * expired and upcoming credit or commit segments contribute 0 to the balance. The
@@ -1164,6 +1170,8 @@ export interface ScheduledCharge {
   product: ScheduledCharge.Product;
 
   schedule: SchedulePointInTime;
+
+  archived_at?: string;
 
   custom_fields?: Record<string, string>;
 

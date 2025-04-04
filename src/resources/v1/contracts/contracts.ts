@@ -2757,7 +2757,7 @@ export interface ContractListBalancesParams {
   effective_before?: string;
 
   /**
-   * Include credits from archived contracts.
+   * Include archived credits and credits from archived contracts.
    */
   include_archived?: boolean;
 

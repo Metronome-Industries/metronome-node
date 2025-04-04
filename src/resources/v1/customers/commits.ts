@@ -279,7 +279,7 @@ export interface CommitListParams {
   effective_before?: string;
 
   /**
-   * Include commits from archived contracts.
+   * Include archived commits and commits from archived contracts.
    */
   include_archived?: boolean;
 
