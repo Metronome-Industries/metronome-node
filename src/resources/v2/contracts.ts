@@ -190,6 +190,8 @@ export namespace ContractRetrieveResponse {
 
       applicable_product_tags?: Array<string>;
 
+      archived_at?: string;
+
       /**
        * The current balance of the credit or commit. This balance reflects the amount of
        * credit or commit that the customer has access to use at this moment - thus,
@@ -1177,6 +1179,8 @@ export namespace ContractListResponse {
 
       applicable_product_tags?: Array<string>;
 
+      archived_at?: string;
+
       /**
        * The current balance of the credit or commit. This balance reflects the amount of
        * credit or commit that the customer has access to use at this moment - thus,
@@ -2079,6 +2083,14 @@ export namespace ContractGetEditHistoryResponse {
 
     add_usage_filters?: Array<Data.AddUsageFilter>;
 
+    archive_commits?: Array<Data.ArchiveCommit>;
+
+    archive_credits?: Array<Data.ArchiveCredit>;
+
+    archive_scheduled_charges?: Array<Data.ArchiveScheduledCharge>;
+
+    remove_overrides?: Array<Data.RemoveOverride>;
+
     timestamp?: string;
 
     update_commits?: Array<Data.UpdateCommit>;
@@ -2613,6 +2625,22 @@ export namespace ContractGetEditHistoryResponse {
       ending_before?: string;
     }
 
+    export interface ArchiveCommit {
+      id: string;
+    }
+
+    export interface ArchiveCredit {
+      id: string;
+    }
+
+    export interface ArchiveScheduledCharge {
+      id: string;
+    }
+
+    export interface RemoveOverride {
+      id: string;
+    }
+
     export interface UpdateCommit {
       id: string;
 
@@ -3040,22 +3068,22 @@ export interface ContractEditParams {
   /**
    * IDs of commits to archive
    */
-  archive_commits?: Array<string>;
+  archive_commits?: Array<ContractEditParams.ArchiveCommit>;
 
   /**
    * IDs of credits to archive
    */
-  archive_credits?: Array<string>;
+  archive_credits?: Array<ContractEditParams.ArchiveCredit>;
 
   /**
    * IDs of scheduled charges to archive
    */
-  archive_scheduled_charges?: Array<string>;
+  archive_scheduled_charges?: Array<ContractEditParams.ArchiveScheduledCharge>;
 
   /**
    * IDs of overrides to remove
    */
-  remove_overrides?: Array<string>;
+  remove_overrides?: Array<ContractEditParams.RemoveOverride>;
 
   update_commits?: Array<ContractEditParams.UpdateCommit>;
 
@@ -4045,6 +4073,22 @@ export namespace ContractEditParams {
         unit_price?: number;
       }
     }
+  }
+
+  export interface ArchiveCommit {
+    id: string;
+  }
+
+  export interface ArchiveCredit {
+    id: string;
+  }
+
+  export interface ArchiveScheduledCharge {
+    id: string;
+  }
+
+  export interface RemoveOverride {
+    id: string;
   }
 
   export interface UpdateCommit {
