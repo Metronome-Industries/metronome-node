@@ -1664,46 +1664,103 @@ export namespace ContractCreateParams {
   }
 
   export interface ThresholdBillingConfiguration {
-    commit: ThresholdBillingConfiguration.Commit;
+    credit_balance_threshold_configuration?: ThresholdBillingConfiguration.CreditBalanceThresholdConfiguration;
 
-    /**
-     * When set to false, the contract will not be evaluated against the
-     * threshold_amount. Toggling to true will result an immediate evaluation,
-     * regardless of prior state
-     */
-    is_enabled: boolean;
-
-    /**
-     * Specify the threshold amount for the contract. Each time the contract's usage
-     * hits this amount, a threshold charge will be initiated.
-     */
-    threshold_amount: number;
+    spend_threshold_configuration?: ThresholdBillingConfiguration.SpendThresholdConfiguration;
   }
 
   export namespace ThresholdBillingConfiguration {
-    export interface Commit {
-      product_id: string;
+    export interface CreditBalanceThresholdConfiguration {
+      commit: CreditBalanceThresholdConfiguration.Commit;
 
       /**
-       * Which products the threshold commit applies to. If both applicable_product_ids
-       * and applicable_product_tags are not provided, the commit applies to all
-       * products.
+       * When set to false, the contract will not be evaluated against the
+       * threshold_amount. Toggling to true will result an immediate evaluation,
+       * regardless of prior state
        */
-      applicable_product_ids?: Array<string>;
+      is_enabled: boolean;
 
       /**
-       * Which tags the threshold commit applies to. If both applicable_product_ids and
-       * applicable_product_tags are not provided, the commit applies to all products.
+       * Specify the amount the balance should be recharged to.
        */
-      applicable_product_tags?: Array<string>;
-
-      description?: string;
+      recharge_to_amount: number;
 
       /**
-       * Specify the name of the line item for the threshold charge. If left blank, it
-       * will default to the commit product name.
+       * Specify the threshold amount for the contract. Each time the contract's balance
+       * lowers to this amount, a threshold charge will be initiated.
        */
-      name?: string;
+      threshold_amount: number;
+    }
+
+    export namespace CreditBalanceThresholdConfiguration {
+      export interface Commit {
+        product_id: string;
+
+        /**
+         * Which products the threshold commit applies to. If both applicable_product_ids
+         * and applicable_product_tags are not provided, the commit applies to all
+         * products.
+         */
+        applicable_product_ids?: Array<string>;
+
+        /**
+         * Which tags the threshold commit applies to. If both applicable_product_ids and
+         * applicable_product_tags are not provided, the commit applies to all products.
+         */
+        applicable_product_tags?: Array<string>;
+
+        description?: string;
+
+        /**
+         * Specify the name of the line item for the threshold charge. If left blank, it
+         * will default to the commit product name.
+         */
+        name?: string;
+      }
+    }
+
+    export interface SpendThresholdConfiguration {
+      commit: SpendThresholdConfiguration.Commit;
+
+      /**
+       * When set to false, the contract will not be evaluated against the
+       * threshold_amount. Toggling to true will result an immediate evaluation,
+       * regardless of prior state
+       */
+      is_enabled: boolean;
+
+      /**
+       * Specify the threshold amount for the contract. Each time the contract's usage
+       * hits this amount, a threshold charge will be initiated.
+       */
+      threshold_amount: number;
+    }
+
+    export namespace SpendThresholdConfiguration {
+      export interface Commit {
+        product_id: string;
+
+        /**
+         * Which products the threshold commit applies to. If both applicable_product_ids
+         * and applicable_product_tags are not provided, the commit applies to all
+         * products.
+         */
+        applicable_product_ids?: Array<string>;
+
+        /**
+         * Which tags the threshold commit applies to. If both applicable_product_ids and
+         * applicable_product_tags are not provided, the commit applies to all products.
+         */
+        applicable_product_tags?: Array<string>;
+
+        description?: string;
+
+        /**
+         * Specify the name of the line item for the threshold charge. If left blank, it
+         * will default to the commit product name.
+         */
+        name?: string;
+      }
     }
   }
 
