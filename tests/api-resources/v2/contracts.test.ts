@@ -193,7 +193,7 @@ describe('resource contracts', () => {
           product_id: 'd4fc086c-d8e5-4091-a235-fbba5da4ec14',
           target: 'COMMIT_RATE',
           tiers: [{ multiplier: 0, size: 0 }],
-          type: 'OVERWRITE',
+          type: 'MULTIPLIER',
         },
       ],
       add_professional_services: [
