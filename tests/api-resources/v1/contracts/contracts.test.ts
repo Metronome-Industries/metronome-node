@@ -28,7 +28,7 @@ describe('resource contracts', () => {
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
       starting_at: '2020-01-01T00:00:00.000Z',
       billing_provider_configuration: {
-        billing_provider: 'aws_marketplace',
+        billing_provider: 'stripe',
         billing_provider_configuration_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
         delivery_method: 'direct_to_billing_provider',
       },

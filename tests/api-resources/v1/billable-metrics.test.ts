@@ -24,7 +24,7 @@ describe('resource billableMetrics', () => {
     const response = await client.v1.billableMetrics.create({
       name: 'CPU Hours',
       aggregation_key: 'cpu_hours',
-      aggregation_type: 'COUNT',
+      aggregation_type: 'SUM',
       custom_fields: { foo: 'string' },
       event_type_filter: { in_values: ['cpu_usage'], not_in_values: ['string'] },
       group_keys: [['region'], ['machine_type']],
