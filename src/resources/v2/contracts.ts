@@ -2195,6 +2195,8 @@ export namespace ContractGetEditHistoryResponse {
 
     add_scheduled_charges?: Array<Data.AddScheduledCharge>;
 
+    add_subscriptions?: Array<Data.AddSubscription>;
+
     add_usage_filters?: Array<Data.AddUsageFilter>;
 
     archive_commits?: Array<Data.ArchiveCommit>;
@@ -2218,6 +2220,8 @@ export namespace ContractGetEditHistoryResponse {
     update_refund_invoices?: Array<Data.UpdateRefundInvoice>;
 
     update_scheduled_charges?: Array<Data.UpdateScheduledCharge>;
+
+    update_subscriptions?: Array<Data.UpdateSubscription>;
   }
 
   export namespace Data {
@@ -2721,6 +2725,58 @@ export namespace ContractGetEditHistoryResponse {
       }
     }
 
+    export interface AddSubscription {
+      collection_schedule: 'ADVANCE' | 'ARREARS';
+
+      proration: AddSubscription.Proration;
+
+      quantity_schedule: Array<AddSubscription.QuantitySchedule>;
+
+      starting_at: string;
+
+      subscription_rate: AddSubscription.SubscriptionRate;
+
+      id?: string;
+
+      description?: string;
+
+      ending_before?: string;
+
+      fiat_credit_type_id?: string;
+
+      name?: string;
+    }
+
+    export namespace AddSubscription {
+      export interface Proration {
+        invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
+
+        is_prorated: boolean;
+      }
+
+      export interface QuantitySchedule {
+        quantity: number;
+
+        starting_at: string;
+
+        ending_before?: string;
+      }
+
+      export interface SubscriptionRate {
+        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+
+        product: SubscriptionRate.Product;
+      }
+
+      export namespace SubscriptionRate {
+        export interface Product {
+          id: string;
+
+          name: string;
+        }
+      }
+    }
+
     export interface AddUsageFilter {
       group_key: string;
 
@@ -3085,6 +3141,22 @@ export namespace ContractGetEditHistoryResponse {
 
           unit_price?: number;
         }
+      }
+    }
+
+    export interface UpdateSubscription {
+      id: string;
+
+      ending_before?: string;
+
+      quantity_updates?: Array<UpdateSubscription.QuantityUpdate>;
+    }
+
+    export namespace UpdateSubscription {
+      export interface QuantityUpdate {
+        quantity: number;
+
+        starting_at: string;
       }
     }
   }
