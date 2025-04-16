@@ -2,6 +2,7 @@
 
 import { APIResource } from '../../../../resource';
 import * as Core from '../../../../core';
+import * as Shared from '../../../shared';
 
 export class ProductOrders extends APIResource {
   /**
@@ -26,23 +27,11 @@ export class ProductOrders extends APIResource {
 }
 
 export interface ProductOrderUpdateResponse {
-  data: ProductOrderUpdateResponse.Data;
-}
-
-export namespace ProductOrderUpdateResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface ProductOrderSetResponse {
-  data: ProductOrderSetResponse.Data;
-}
-
-export namespace ProductOrderSetResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface ProductOrderUpdateParams {
