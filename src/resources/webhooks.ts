@@ -98,12 +98,12 @@ export class Webhooks extends APIResource {
       );
     }
 
-    const webhook_tolerance_in_seconds = 5 * 60 * 1000; // 5 minutes
-    if (now - timestampSeconds > webhook_tolerance_in_seconds) {
+    const webhook_tolerance_in_ms = 5 * 60 * 1000; // 5 minutes
+    if (now - timestampSeconds > webhook_tolerance_in_ms) {
       throw new Error('Webhook timestamp is too old');
     }
 
-    if (timestampSeconds > now + webhook_tolerance_in_seconds) {
+    if (timestampSeconds > now + webhook_tolerance_in_ms) {
       throw new Error('Webhook timestamp is too new');
     }
 
