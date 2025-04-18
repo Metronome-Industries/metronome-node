@@ -46,6 +46,12 @@ describe('resource webhooks', () => {
   });
 
   it('should throw for timestamp outside threshold', () => {
+    jest.spyOn(global.Date, 'now').mockImplementation(() => fakeNow + 240000); // 4 minutes
+    expect(() => metronome.webhooks.verifySignature(payload, headers, secret)).not.toThrow();
+
+    jest.spyOn(global.Date, 'now').mockImplementation(() => fakeNow - 240000); // 4 minutes
+    expect(() => metronome.webhooks.verifySignature(payload, headers, secret)).not.toThrow();
+
     jest.spyOn(global.Date, 'now').mockImplementation(() => fakeNow + 360000); // 6 minutes
     expect(() =>
       metronome.webhooks.verifySignature(payload, headers, secret),
