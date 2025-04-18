@@ -242,6 +242,11 @@ export interface CustomerDetail {
    */
   id: string;
 
+  /**
+   * RFC 3339 timestamp indicating when the customer was created.
+   */
+  created_at: string;
+
   custom_fields: Record<string, string>;
 
   customer_config: CustomerDetail.CustomerConfig;

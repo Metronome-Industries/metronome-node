@@ -35,6 +35,12 @@ export interface Commit {
   applicable_product_tags?: Array<string>;
 
   /**
+   * RFC 3339 timestamp indicating when the commit was archived. If not provided, the
+   * commit is not archived.
+   */
+  archived_at?: string;
+
+  /**
    * The current balance of the credit or commit. This balance reflects the amount of
    * credit or commit that the customer has access to use at this moment - thus,
    * expired and upcoming credit or commit segments contribute 0 to the balance. The
@@ -368,7 +374,7 @@ export namespace ContractWithoutAmendments {
      */
     billing_anchor_date: string;
 
-    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
   }
 
   export interface RecurringCommit {
@@ -451,7 +457,7 @@ export namespace ContractWithoutAmendments {
      * be created aligned with the recurring commit's start_date rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -579,7 +585,7 @@ export namespace ContractWithoutAmendments {
      * be created aligned with the recurring commit's start_date rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -650,46 +656,103 @@ export namespace ContractWithoutAmendments {
   }
 
   export interface ThresholdBillingConfiguration {
-    commit: ThresholdBillingConfiguration.Commit;
+    credit_balance_threshold_configuration?: ThresholdBillingConfiguration.CreditBalanceThresholdConfiguration;
 
-    /**
-     * When set to false, the contract will not be evaluated against the
-     * threshold_amount. Toggling to true will result an immediate evaluation,
-     * regardless of prior state
-     */
-    is_enabled: boolean;
-
-    /**
-     * Specify the threshold amount for the contract. Each time the contract's usage
-     * hits this amount, a threshold charge will be initiated.
-     */
-    threshold_amount: number;
+    spend_threshold_configuration?: ThresholdBillingConfiguration.SpendThresholdConfiguration;
   }
 
   export namespace ThresholdBillingConfiguration {
-    export interface Commit {
-      product_id: string;
+    export interface CreditBalanceThresholdConfiguration {
+      commit: CreditBalanceThresholdConfiguration.Commit;
 
       /**
-       * Which products the threshold commit applies to. If both applicable_product_ids
-       * and applicable_product_tags are not provided, the commit applies to all
-       * products.
+       * When set to false, the contract will not be evaluated against the
+       * threshold_amount. Toggling to true will result an immediate evaluation,
+       * regardless of prior state
        */
-      applicable_product_ids?: Array<string>;
+      is_enabled: boolean;
 
       /**
-       * Which tags the threshold commit applies to. If both applicable_product_ids and
-       * applicable_product_tags are not provided, the commit applies to all products.
+       * Specify the amount the balance should be recharged to.
        */
-      applicable_product_tags?: Array<string>;
-
-      description?: string;
+      recharge_to_amount: number;
 
       /**
-       * Specify the name of the line item for the threshold charge. If left blank, it
-       * will default to the commit product name.
+       * Specify the threshold amount for the contract. Each time the contract's balance
+       * lowers to this amount, a threshold charge will be initiated.
        */
-      name?: string;
+      threshold_amount: number;
+    }
+
+    export namespace CreditBalanceThresholdConfiguration {
+      export interface Commit {
+        product_id: string;
+
+        /**
+         * Which products the threshold commit applies to. If both applicable_product_ids
+         * and applicable_product_tags are not provided, the commit applies to all
+         * products.
+         */
+        applicable_product_ids?: Array<string>;
+
+        /**
+         * Which tags the threshold commit applies to. If both applicable_product_ids and
+         * applicable_product_tags are not provided, the commit applies to all products.
+         */
+        applicable_product_tags?: Array<string>;
+
+        description?: string;
+
+        /**
+         * Specify the name of the line item for the threshold charge. If left blank, it
+         * will default to the commit product name.
+         */
+        name?: string;
+      }
+    }
+
+    export interface SpendThresholdConfiguration {
+      commit: SpendThresholdConfiguration.Commit;
+
+      /**
+       * When set to false, the contract will not be evaluated against the
+       * threshold_amount. Toggling to true will result an immediate evaluation,
+       * regardless of prior state
+       */
+      is_enabled: boolean;
+
+      /**
+       * Specify the threshold amount for the contract. Each time the contract's usage
+       * hits this amount, a threshold charge will be initiated.
+       */
+      threshold_amount: number;
+    }
+
+    export namespace SpendThresholdConfiguration {
+      export interface Commit {
+        product_id: string;
+
+        /**
+         * Which products the threshold commit applies to. If both applicable_product_ids
+         * and applicable_product_tags are not provided, the commit applies to all
+         * products.
+         */
+        applicable_product_ids?: Array<string>;
+
+        /**
+         * Which tags the threshold commit applies to. If both applicable_product_ids and
+         * applicable_product_tags are not provided, the commit applies to all products.
+         */
+        applicable_product_tags?: Array<string>;
+
+        description?: string;
+
+        /**
+         * Specify the name of the line item for the threshold charge. If left blank, it
+         * will default to the commit product name.
+         */
+        name?: string;
+      }
     }
   }
 
@@ -986,8 +1049,6 @@ export interface Override {
 
 export namespace Override {
   export interface OverrideSpecifier {
-    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
     commit_ids?: Array<string>;
 
     presentation_group_values?: Record<string, string | null>;
@@ -1166,6 +1227,8 @@ export interface ScheduledCharge {
   product: ScheduledCharge.Product;
 
   schedule: SchedulePointInTime;
+
+  archived_at?: string;
 
   custom_fields?: Record<string, string>;
 

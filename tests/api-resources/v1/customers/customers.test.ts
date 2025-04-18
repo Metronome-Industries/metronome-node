@@ -34,7 +34,7 @@ describe('resource customers', () => {
       custom_fields: { foo: 'string' },
       customer_billing_provider_configurations: [
         {
-          billing_provider: 'aws_marketplace',
+          billing_provider: 'stripe',
           configuration: { stripe_customer_id: 'bar', stripe_collection_method: 'bar' },
           delivery_method: 'direct_to_billing_provider',
           delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',

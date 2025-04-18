@@ -20,7 +20,8 @@ export class Credits extends APIResource {
   }
 
   /**
-   * Update the end date of a credit
+   * Pull forward the end date of a credit. Use the "edit a credit" endpoint to
+   * extend the end date of a credit, or to make other edits to the credit.
    */
   updateEndDate(
     body: CreditUpdateEndDateParams,
@@ -157,7 +158,7 @@ export interface CreditListParams {
   effective_before?: string;
 
   /**
-   * Include credits from archived contracts.
+   * Include archived credits and credits from archived contracts.
    */
   include_archived?: boolean;
 

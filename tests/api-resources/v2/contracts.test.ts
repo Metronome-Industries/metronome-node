@@ -193,7 +193,7 @@ describe('resource contracts', () => {
           product_id: 'd4fc086c-d8e5-4091-a235-fbba5da4ec14',
           target: 'COMMIT_RATE',
           tiers: [{ multiplier: 0, size: 0 }],
-          type: 'OVERWRITE',
+          type: 'MULTIPLIER',
         },
       ],
       add_professional_services: [
@@ -300,6 +300,10 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
         },
       ],
+      archive_commits: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
+      archive_credits: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
+      archive_scheduled_charges: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
+      remove_overrides: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
       update_commits: [
         {
           commit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',

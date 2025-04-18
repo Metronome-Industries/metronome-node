@@ -20,7 +20,9 @@ export class Commits extends APIResource {
   }
 
   /**
-   * Update the end date of a PREPAID commit
+   * Pull forward the end date of a prepaid commit. Use the "edit a commit" endpoint
+   * to extend the end date of a prepaid commit, or to make other edits to the
+   * commit.
    */
   updateEndDate(
     body: CommitUpdateEndDateParams,
@@ -277,7 +279,7 @@ export interface CommitListParams {
   effective_before?: string;
 
   /**
-   * Include commits from archived contracts.
+   * Include archived commits and commits from archived contracts.
    */
   include_archived?: boolean;
 

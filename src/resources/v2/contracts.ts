@@ -17,7 +17,8 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * List all contracts for a customer
+   * List all contracts for a customer. New clients should use this endpoint rather
+   * than the v1 endpoint.
    */
   list(body: ContractListParams, options?: Core.RequestOptions): Core.APIPromise<ContractListResponse> {
     return this._client.post('/v2/contracts/list', { body, ...options });
@@ -53,7 +54,8 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Get the edit history of a specific contract
+   * Get the edit history of a specific contract. Contract editing must be enabled to
+   * use this endpoint.
    */
   getEditHistory(
     body: ContractGetEditHistoryParams,
@@ -156,8 +158,6 @@ export namespace ContractRetrieveResponse {
      */
     scheduled_charges_on_usage_invoices?: 'ALL';
 
-    subscriptions?: Array<Data.Subscription>;
-
     threshold_billing_configuration?: Data.ThresholdBillingConfiguration;
 
     total_contract_value?: number;
@@ -189,6 +189,8 @@ export namespace ContractRetrieveResponse {
       applicable_product_ids?: Array<string>;
 
       applicable_product_tags?: Array<string>;
+
+      archived_at?: string;
 
       /**
        * The current balance of the credit or commit. This balance reflects the amount of
@@ -458,7 +460,7 @@ export namespace ContractRetrieveResponse {
 
     export namespace Override {
       export interface OverrideSpecifier {
-        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
         commit_ids?: Array<string>;
 
@@ -554,7 +556,7 @@ export namespace ContractRetrieveResponse {
        */
       billing_anchor_date: string;
 
-      frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
     }
 
     export interface Credit {
@@ -800,7 +802,7 @@ export namespace ContractRetrieveResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -928,7 +930,7 @@ export namespace ContractRetrieveResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -1006,95 +1008,104 @@ export namespace ContractRetrieveResponse {
       }
     }
 
-    export interface Subscription {
-      collection_schedule: 'ADVANCE' | 'ARREARS';
-
-      proration: Subscription.Proration;
-
-      quantity_schedule: Array<Subscription.QuantitySchedule>;
-
-      starting_at: string;
-
-      subscription_rate: Subscription.SubscriptionRate;
-
-      description?: string;
-
-      ending_before?: string;
-
-      name?: string;
-    }
-
-    export namespace Subscription {
-      export interface Proration {
-        invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
-
-        is_prorated: boolean;
-      }
-
-      export interface QuantitySchedule {
-        quantity: number;
-
-        starting_at: string;
-
-        ending_before?: string;
-      }
-
-      export interface SubscriptionRate {
-        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
-        product: SubscriptionRate.Product;
-      }
-
-      export namespace SubscriptionRate {
-        export interface Product {
-          id: string;
-
-          name: string;
-        }
-      }
-    }
-
     export interface ThresholdBillingConfiguration {
-      commit: ThresholdBillingConfiguration.Commit;
+      credit_balance_threshold_configuration?: ThresholdBillingConfiguration.CreditBalanceThresholdConfiguration;
 
-      /**
-       * When set to false, the contract will not be evaluated against the
-       * threshold_amount. Toggling to true will result an immediate evaluation,
-       * regardless of prior state
-       */
-      is_enabled: boolean;
-
-      /**
-       * Specify the threshold amount for the contract. Each time the contract's usage
-       * hits this amount, a threshold charge will be initiated.
-       */
-      threshold_amount: number;
+      spend_threshold_configuration?: ThresholdBillingConfiguration.SpendThresholdConfiguration;
     }
 
     export namespace ThresholdBillingConfiguration {
-      export interface Commit {
-        product_id: string;
+      export interface CreditBalanceThresholdConfiguration {
+        commit: CreditBalanceThresholdConfiguration.Commit;
 
         /**
-         * Which products the threshold commit applies to. If both applicable_product_ids
-         * and applicable_product_tags are not provided, the commit applies to all
-         * products.
+         * When set to false, the contract will not be evaluated against the
+         * threshold_amount. Toggling to true will result an immediate evaluation,
+         * regardless of prior state
          */
-        applicable_product_ids?: Array<string>;
+        is_enabled: boolean;
 
         /**
-         * Which tags the threshold commit applies to. If both applicable_product_ids and
-         * applicable_product_tags are not provided, the commit applies to all products.
+         * Specify the amount the balance should be recharged to.
          */
-        applicable_product_tags?: Array<string>;
-
-        description?: string;
+        recharge_to_amount: number;
 
         /**
-         * Specify the name of the line item for the threshold charge. If left blank, it
-         * will default to the commit product name.
+         * Specify the threshold amount for the contract. Each time the contract's balance
+         * lowers to this amount, a threshold charge will be initiated.
          */
-        name?: string;
+        threshold_amount: number;
+      }
+
+      export namespace CreditBalanceThresholdConfiguration {
+        export interface Commit {
+          product_id: string;
+
+          /**
+           * Which products the threshold commit applies to. If both applicable_product_ids
+           * and applicable_product_tags are not provided, the commit applies to all
+           * products.
+           */
+          applicable_product_ids?: Array<string>;
+
+          /**
+           * Which tags the threshold commit applies to. If both applicable_product_ids and
+           * applicable_product_tags are not provided, the commit applies to all products.
+           */
+          applicable_product_tags?: Array<string>;
+
+          description?: string;
+
+          /**
+           * Specify the name of the line item for the threshold charge. If left blank, it
+           * will default to the commit product name.
+           */
+          name?: string;
+        }
+      }
+
+      export interface SpendThresholdConfiguration {
+        commit: SpendThresholdConfiguration.Commit;
+
+        /**
+         * When set to false, the contract will not be evaluated against the
+         * threshold_amount. Toggling to true will result an immediate evaluation,
+         * regardless of prior state
+         */
+        is_enabled: boolean;
+
+        /**
+         * Specify the threshold amount for the contract. Each time the contract's usage
+         * hits this amount, a threshold charge will be initiated.
+         */
+        threshold_amount: number;
+      }
+
+      export namespace SpendThresholdConfiguration {
+        export interface Commit {
+          product_id: string;
+
+          /**
+           * Which products the threshold commit applies to. If both applicable_product_ids
+           * and applicable_product_tags are not provided, the commit applies to all
+           * products.
+           */
+          applicable_product_ids?: Array<string>;
+
+          /**
+           * Which tags the threshold commit applies to. If both applicable_product_ids and
+           * applicable_product_tags are not provided, the commit applies to all products.
+           */
+          applicable_product_tags?: Array<string>;
+
+          description?: string;
+
+          /**
+           * Specify the name of the line item for the threshold charge. If left blank, it
+           * will default to the commit product name.
+           */
+          name?: string;
+        }
       }
     }
   }
@@ -1193,8 +1204,6 @@ export namespace ContractListResponse {
      */
     scheduled_charges_on_usage_invoices?: 'ALL';
 
-    subscriptions?: Array<Data.Subscription>;
-
     threshold_billing_configuration?: Data.ThresholdBillingConfiguration;
 
     total_contract_value?: number;
@@ -1226,6 +1235,8 @@ export namespace ContractListResponse {
       applicable_product_ids?: Array<string>;
 
       applicable_product_tags?: Array<string>;
+
+      archived_at?: string;
 
       /**
        * The current balance of the credit or commit. This balance reflects the amount of
@@ -1495,7 +1506,7 @@ export namespace ContractListResponse {
 
     export namespace Override {
       export interface OverrideSpecifier {
-        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
         commit_ids?: Array<string>;
 
@@ -1591,7 +1602,7 @@ export namespace ContractListResponse {
        */
       billing_anchor_date: string;
 
-      frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
     }
 
     export interface Credit {
@@ -1837,7 +1848,7 @@ export namespace ContractListResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -1965,7 +1976,7 @@ export namespace ContractListResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -2043,95 +2054,104 @@ export namespace ContractListResponse {
       }
     }
 
-    export interface Subscription {
-      collection_schedule: 'ADVANCE' | 'ARREARS';
-
-      proration: Subscription.Proration;
-
-      quantity_schedule: Array<Subscription.QuantitySchedule>;
-
-      starting_at: string;
-
-      subscription_rate: Subscription.SubscriptionRate;
-
-      description?: string;
-
-      ending_before?: string;
-
-      name?: string;
-    }
-
-    export namespace Subscription {
-      export interface Proration {
-        invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
-
-        is_prorated: boolean;
-      }
-
-      export interface QuantitySchedule {
-        quantity: number;
-
-        starting_at: string;
-
-        ending_before?: string;
-      }
-
-      export interface SubscriptionRate {
-        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
-        product: SubscriptionRate.Product;
-      }
-
-      export namespace SubscriptionRate {
-        export interface Product {
-          id: string;
-
-          name: string;
-        }
-      }
-    }
-
     export interface ThresholdBillingConfiguration {
-      commit: ThresholdBillingConfiguration.Commit;
+      credit_balance_threshold_configuration?: ThresholdBillingConfiguration.CreditBalanceThresholdConfiguration;
 
-      /**
-       * When set to false, the contract will not be evaluated against the
-       * threshold_amount. Toggling to true will result an immediate evaluation,
-       * regardless of prior state
-       */
-      is_enabled: boolean;
-
-      /**
-       * Specify the threshold amount for the contract. Each time the contract's usage
-       * hits this amount, a threshold charge will be initiated.
-       */
-      threshold_amount: number;
+      spend_threshold_configuration?: ThresholdBillingConfiguration.SpendThresholdConfiguration;
     }
 
     export namespace ThresholdBillingConfiguration {
-      export interface Commit {
-        product_id: string;
+      export interface CreditBalanceThresholdConfiguration {
+        commit: CreditBalanceThresholdConfiguration.Commit;
 
         /**
-         * Which products the threshold commit applies to. If both applicable_product_ids
-         * and applicable_product_tags are not provided, the commit applies to all
-         * products.
+         * When set to false, the contract will not be evaluated against the
+         * threshold_amount. Toggling to true will result an immediate evaluation,
+         * regardless of prior state
          */
-        applicable_product_ids?: Array<string>;
+        is_enabled: boolean;
 
         /**
-         * Which tags the threshold commit applies to. If both applicable_product_ids and
-         * applicable_product_tags are not provided, the commit applies to all products.
+         * Specify the amount the balance should be recharged to.
          */
-        applicable_product_tags?: Array<string>;
-
-        description?: string;
+        recharge_to_amount: number;
 
         /**
-         * Specify the name of the line item for the threshold charge. If left blank, it
-         * will default to the commit product name.
+         * Specify the threshold amount for the contract. Each time the contract's balance
+         * lowers to this amount, a threshold charge will be initiated.
          */
-        name?: string;
+        threshold_amount: number;
+      }
+
+      export namespace CreditBalanceThresholdConfiguration {
+        export interface Commit {
+          product_id: string;
+
+          /**
+           * Which products the threshold commit applies to. If both applicable_product_ids
+           * and applicable_product_tags are not provided, the commit applies to all
+           * products.
+           */
+          applicable_product_ids?: Array<string>;
+
+          /**
+           * Which tags the threshold commit applies to. If both applicable_product_ids and
+           * applicable_product_tags are not provided, the commit applies to all products.
+           */
+          applicable_product_tags?: Array<string>;
+
+          description?: string;
+
+          /**
+           * Specify the name of the line item for the threshold charge. If left blank, it
+           * will default to the commit product name.
+           */
+          name?: string;
+        }
+      }
+
+      export interface SpendThresholdConfiguration {
+        commit: SpendThresholdConfiguration.Commit;
+
+        /**
+         * When set to false, the contract will not be evaluated against the
+         * threshold_amount. Toggling to true will result an immediate evaluation,
+         * regardless of prior state
+         */
+        is_enabled: boolean;
+
+        /**
+         * Specify the threshold amount for the contract. Each time the contract's usage
+         * hits this amount, a threshold charge will be initiated.
+         */
+        threshold_amount: number;
+      }
+
+      export namespace SpendThresholdConfiguration {
+        export interface Commit {
+          product_id: string;
+
+          /**
+           * Which products the threshold commit applies to. If both applicable_product_ids
+           * and applicable_product_tags are not provided, the commit applies to all
+           * products.
+           */
+          applicable_product_ids?: Array<string>;
+
+          /**
+           * Which tags the threshold commit applies to. If both applicable_product_ids and
+           * applicable_product_tags are not provided, the commit applies to all products.
+           */
+          applicable_product_tags?: Array<string>;
+
+          description?: string;
+
+          /**
+           * Specify the name of the line item for the threshold charge. If left blank, it
+           * will default to the commit product name.
+           */
+          name?: string;
+        }
       }
     }
   }
@@ -2175,7 +2195,17 @@ export namespace ContractGetEditHistoryResponse {
 
     add_scheduled_charges?: Array<Data.AddScheduledCharge>;
 
+    add_subscriptions?: Array<Data.AddSubscription>;
+
     add_usage_filters?: Array<Data.AddUsageFilter>;
+
+    archive_commits?: Array<Data.ArchiveCommit>;
+
+    archive_credits?: Array<Data.ArchiveCredit>;
+
+    archive_scheduled_charges?: Array<Data.ArchiveScheduledCharge>;
+
+    remove_overrides?: Array<Data.RemoveOverride>;
 
     timestamp?: string;
 
@@ -2190,6 +2220,8 @@ export namespace ContractGetEditHistoryResponse {
     update_refund_invoices?: Array<Data.UpdateRefundInvoice>;
 
     update_scheduled_charges?: Array<Data.UpdateScheduledCharge>;
+
+    update_subscriptions?: Array<Data.UpdateSubscription>;
   }
 
   export namespace Data {
@@ -2325,7 +2357,7 @@ export namespace ContractGetEditHistoryResponse {
 
     export namespace AddOverride {
       export interface OverrideSpecifier {
-        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
         commit_ids?: Array<string>;
 
@@ -2469,7 +2501,7 @@ export namespace ContractGetEditHistoryResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -2597,7 +2629,7 @@ export namespace ContractGetEditHistoryResponse {
        * be created aligned with the recurring commit's start_date rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -2693,6 +2725,58 @@ export namespace ContractGetEditHistoryResponse {
       }
     }
 
+    export interface AddSubscription {
+      collection_schedule: 'ADVANCE' | 'ARREARS';
+
+      proration: AddSubscription.Proration;
+
+      quantity_schedule: Array<AddSubscription.QuantitySchedule>;
+
+      starting_at: string;
+
+      subscription_rate: AddSubscription.SubscriptionRate;
+
+      id?: string;
+
+      description?: string;
+
+      ending_before?: string;
+
+      fiat_credit_type_id?: string;
+
+      name?: string;
+    }
+
+    export namespace AddSubscription {
+      export interface Proration {
+        invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
+
+        is_prorated: boolean;
+      }
+
+      export interface QuantitySchedule {
+        quantity: number;
+
+        starting_at: string;
+
+        ending_before?: string;
+      }
+
+      export interface SubscriptionRate {
+        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+
+        product: SubscriptionRate.Product;
+      }
+
+      export namespace SubscriptionRate {
+        export interface Product {
+          id: string;
+
+          name: string;
+        }
+      }
+    }
+
     export interface AddUsageFilter {
       group_key: string;
 
@@ -2709,6 +2793,22 @@ export namespace ContractGetEditHistoryResponse {
        * end of the contract. It will be undefined if the contract is open-ended.
        */
       ending_before?: string;
+    }
+
+    export interface ArchiveCommit {
+      id: string;
+    }
+
+    export interface ArchiveCredit {
+      id: string;
+    }
+
+    export interface ArchiveScheduledCharge {
+      id: string;
+    }
+
+    export interface RemoveOverride {
+      id: string;
     }
 
     export interface UpdateCommit {
@@ -2931,7 +3031,7 @@ export namespace ContractGetEditHistoryResponse {
            */
           ending_before: string;
 
-          frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+          frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
           /**
            * RFC 3339 timestamp (inclusive).
@@ -3043,6 +3143,22 @@ export namespace ContractGetEditHistoryResponse {
         }
       }
     }
+
+    export interface UpdateSubscription {
+      id: string;
+
+      ending_before?: string;
+
+      quantity_updates?: Array<UpdateSubscription.QuantityUpdate>;
+    }
+
+    export namespace UpdateSubscription {
+      export interface QuantityUpdate {
+        quantity: number;
+
+        starting_at: string;
+      }
+    }
   }
 }
 
@@ -3134,6 +3250,26 @@ export interface ContractEditParams {
   add_reseller_royalties?: Array<ContractEditParams.AddResellerRoyalty>;
 
   add_scheduled_charges?: Array<ContractEditParams.AddScheduledCharge>;
+
+  /**
+   * IDs of commits to archive
+   */
+  archive_commits?: Array<ContractEditParams.ArchiveCommit>;
+
+  /**
+   * IDs of credits to archive
+   */
+  archive_credits?: Array<ContractEditParams.ArchiveCredit>;
+
+  /**
+   * IDs of scheduled charges to archive
+   */
+  archive_scheduled_charges?: Array<ContractEditParams.ArchiveScheduledCharge>;
+
+  /**
+   * IDs of overrides to remove
+   */
+  remove_overrides?: Array<ContractEditParams.RemoveOverride>;
 
   update_commits?: Array<ContractEditParams.UpdateCommit>;
 
@@ -3284,7 +3420,7 @@ export namespace ContractEditParams {
          */
         ending_before: string;
 
-        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
         /**
          * RFC 3339 timestamp (inclusive).
@@ -3474,7 +3610,7 @@ export namespace ContractEditParams {
          */
         ending_before: string;
 
-        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
         /**
          * RFC 3339 timestamp (inclusive).
@@ -3805,7 +3941,7 @@ export namespace ContractEditParams {
      * be created aligned with the recurring commit's start_date rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -3925,7 +4061,7 @@ export namespace ContractEditParams {
      * be created aligned with the recurring commit's start_date rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -4066,7 +4202,7 @@ export namespace ContractEditParams {
          */
         ending_before: string;
 
-        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
         /**
          * RFC 3339 timestamp (inclusive).
@@ -4123,6 +4259,22 @@ export namespace ContractEditParams {
         unit_price?: number;
       }
     }
+  }
+
+  export interface ArchiveCommit {
+    id: string;
+  }
+
+  export interface ArchiveCredit {
+    id: string;
+  }
+
+  export interface ArchiveScheduledCharge {
+    id: string;
+  }
+
+  export interface RemoveOverride {
+    id: string;
   }
 
   export interface UpdateCommit {

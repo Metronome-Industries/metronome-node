@@ -12,7 +12,7 @@ describe('resource billingConfig', () => {
   test('create: only required params', async () => {
     const responsePromise = client.v1.customers.billingConfig.create({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      billing_provider_type: 'aws_marketplace',
+      billing_provider_type: 'stripe',
       billing_provider_customer_id: 'cus_AJ6y20bjkOOayM',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -27,7 +27,7 @@ describe('resource billingConfig', () => {
   test('create: required and optional params', async () => {
     const response = await client.v1.customers.billingConfig.create({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      billing_provider_type: 'aws_marketplace',
+      billing_provider_type: 'stripe',
       billing_provider_customer_id: 'cus_AJ6y20bjkOOayM',
       aws_product_code: 'aws_product_code',
       aws_region: 'af-south-1',
@@ -38,7 +38,7 @@ describe('resource billingConfig', () => {
   test('retrieve: only required params', async () => {
     const responsePromise = client.v1.customers.billingConfig.retrieve({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      billing_provider_type: 'aws_marketplace',
+      billing_provider_type: 'stripe',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -52,14 +52,14 @@ describe('resource billingConfig', () => {
   test('retrieve: required and optional params', async () => {
     const response = await client.v1.customers.billingConfig.retrieve({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      billing_provider_type: 'aws_marketplace',
+      billing_provider_type: 'stripe',
     });
   });
 
   test('delete: only required params', async () => {
     const responsePromise = client.v1.customers.billingConfig.delete({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      billing_provider_type: 'aws_marketplace',
+      billing_provider_type: 'stripe',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -73,7 +73,7 @@ describe('resource billingConfig', () => {
   test('delete: required and optional params', async () => {
     const response = await client.v1.customers.billingConfig.delete({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      billing_provider_type: 'aws_marketplace',
+      billing_provider_type: 'stripe',
     });
   });
 });
