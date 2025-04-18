@@ -86,9 +86,9 @@ export class Webhooks extends APIResource {
     const msgSignature = getRequiredHeader(headers, 'Metronome-Webhook-Signature');
 
     const now = Date.now();
-    const timestampSeconds = Math.floor(new Date(msgDate).valueOf());
+    const timestampMs = Math.floor(new Date(msgDate).valueOf());
 
-    if (isNaN(timestampSeconds)) {
+    if (isNaN(timestampMs)) {
       throw new Error(`Invalid timestamp header: ${msgDate}`);
     }
 
@@ -99,11 +99,11 @@ export class Webhooks extends APIResource {
     }
 
     const webhook_tolerance_in_ms = 5 * 60 * 1000; // 5 minutes
-    if (now - timestampSeconds > webhook_tolerance_in_ms) {
+    if (now - timestampMs > webhook_tolerance_in_ms) {
       throw new Error('Webhook timestamp is too old');
     }
 
-    if (timestampSeconds > now + webhook_tolerance_in_ms) {
+    if (timestampMs > now + webhook_tolerance_in_ms) {
       throw new Error('Webhook timestamp is too new');
     }
 
