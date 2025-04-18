@@ -2774,6 +2774,8 @@ export namespace ContractGetEditHistoryResponse {
 
       id?: string;
 
+      custom_fields?: Record<string, string>;
+
       description?: string;
 
       ending_before?: string;

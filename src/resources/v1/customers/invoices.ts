@@ -287,6 +287,8 @@ export namespace Invoice {
 
     sub_line_items?: Array<LineItem.SubLineItem>;
 
+    subscription_custom_fields?: Record<string, string>;
+
     tier?: LineItem.Tier;
 
     /**

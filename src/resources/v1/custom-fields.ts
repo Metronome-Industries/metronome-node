@@ -103,7 +103,8 @@ export namespace CustomFieldListKeysResponse {
       | 'professional_service'
       | 'product'
       | 'rate_card'
-      | 'scheduled_charge';
+      | 'scheduled_charge'
+      | 'subscription';
 
     key: string;
   }
@@ -129,7 +130,8 @@ export interface CustomFieldAddKeyParams {
     | 'professional_service'
     | 'product'
     | 'rate_card'
-    | 'scheduled_charge';
+    | 'scheduled_charge'
+    | 'subscription';
 
   key: string;
 }
@@ -152,7 +154,8 @@ export interface CustomFieldDeleteValuesParams {
     | 'professional_service'
     | 'product'
     | 'rate_card'
-    | 'scheduled_charge';
+    | 'scheduled_charge'
+    | 'subscription';
 
   entity_id: string;
 
@@ -186,6 +189,7 @@ export interface CustomFieldListKeysParams {
     | 'product'
     | 'rate_card'
     | 'scheduled_charge'
+    | 'subscription'
   >;
 }
 
@@ -207,7 +211,8 @@ export interface CustomFieldRemoveKeyParams {
     | 'professional_service'
     | 'product'
     | 'rate_card'
-    | 'scheduled_charge';
+    | 'scheduled_charge'
+    | 'subscription';
 
   key: string;
 }
@@ -232,7 +237,8 @@ export interface CustomFieldSetValuesParams {
     | 'professional_service'
     | 'product'
     | 'rate_card'
-    | 'scheduled_charge';
+    | 'scheduled_charge'
+    | 'subscription';
 
   entity_id: string;
 }
