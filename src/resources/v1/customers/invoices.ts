@@ -257,6 +257,8 @@ export namespace Invoice {
 
     product_id?: string;
 
+    product_tags?: Array<string>;
+
     product_type?: string;
 
     /**
