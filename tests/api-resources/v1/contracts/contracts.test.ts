@@ -68,12 +68,26 @@ describe('resource contracts', () => {
           },
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
+          payment_gate_config: { payment_gate_type: 'NONE', stripe_config: { payment_type: 'INVOICE' } },
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
           temporary_id: 'temporary_id',
         },
       ],
+      credit_balance_threshold_configuration: {
+        commit: {
+          product_id: 'product_id',
+          applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+          applicable_product_tags: ['string'],
+          description: 'description',
+          name: 'name',
+        },
+        is_enabled: true,
+        payment_gate_config: { payment_gate_type: 'NONE', stripe_config: { payment_type: 'INVOICE' } },
+        recharge_to_amount: 0,
+        threshold_amount: 0,
+      },
       credits: [
         {
           access_schedule: {
@@ -269,30 +283,11 @@ describe('resource contracts', () => {
         },
       ],
       scheduled_charges_on_usage_invoices: 'ALL',
-      threshold_billing_configuration: {
-        credit_balance_threshold_configuration: {
-          commit: {
-            product_id: 'product_id',
-            applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
-            applicable_product_tags: ['string'],
-            description: 'description',
-            name: 'name',
-          },
-          is_enabled: true,
-          recharge_to_amount: 0,
-          threshold_amount: 0,
-        },
-        spend_threshold_configuration: {
-          commit: {
-            product_id: 'product_id',
-            applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
-            applicable_product_tags: ['string'],
-            description: 'description',
-            name: 'name',
-          },
-          is_enabled: true,
-          threshold_amount: 0,
-        },
+      spend_threshold_configuration: {
+        commit: { product_id: 'product_id', description: 'description', name: 'name' },
+        is_enabled: true,
+        payment_gate_config: { payment_gate_type: 'NONE', stripe_config: { payment_type: 'INVOICE' } },
+        threshold_amount: 0,
       },
       total_contract_value: 0,
       transition: {
@@ -445,6 +440,7 @@ describe('resource contracts', () => {
           },
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
+          payment_gate_config: { payment_gate_type: 'NONE', stripe_config: { payment_type: 'INVOICE' } },
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
