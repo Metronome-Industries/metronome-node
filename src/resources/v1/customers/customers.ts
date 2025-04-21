@@ -3,7 +3,6 @@
 import { APIResource } from '../../../resource';
 import { isRequestOptions } from '../../../core';
 import * as Core from '../../../core';
-import * as Shared from '../../shared';
 import * as AlertsAPI from './alerts';
 import {
   AlertListParams,
@@ -12,7 +11,6 @@ import {
   AlertRetrieveParams,
   AlertRetrieveResponse,
   Alerts,
-  CustomerAlert,
 } from './alerts';
 import * as BillingConfigAPI from './billing-config';
 import {
@@ -44,17 +42,17 @@ import {
 } from './credits';
 import * as InvoicesAPI from './invoices';
 import {
-  Invoice,
   InvoiceAddChargeParams,
   InvoiceAddChargeResponse,
   InvoiceListBreakdownsParams,
   InvoiceListBreakdownsResponse,
   InvoiceListBreakdownsResponsesCursorPage,
   InvoiceListParams,
+  InvoiceListResponse,
+  InvoiceListResponsesCursorPage,
   InvoiceRetrieveParams,
   InvoiceRetrieveResponse,
   Invoices,
-  InvoicesCursorPage,
 } from './invoices';
 import * as NamedSchedulesAPI from './named-schedules';
 import {
@@ -112,16 +110,18 @@ export class Customers extends APIResource {
   list(
     query?: CustomerListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerDetailsCursorPage, CustomerDetail>;
-  list(options?: Core.RequestOptions): Core.PagePromise<CustomerDetailsCursorPage, CustomerDetail>;
+  ): Core.PagePromise<CustomerListResponsesCursorPage, CustomerListResponse>;
+  list(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CustomerListResponsesCursorPage, CustomerListResponse>;
   list(
     query: CustomerListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerDetailsCursorPage, CustomerDetail> {
+  ): Core.PagePromise<CustomerListResponsesCursorPage, CustomerListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/v1/customers', CustomerDetailsCursorPage, { query, ...options });
+    return this._client.getAPIList('/v1/customers', CustomerListResponsesCursorPage, { query, ...options });
   }
 
   /**
@@ -207,36 +207,107 @@ export class Customers extends APIResource {
   }
 }
 
-export class CustomerDetailsCursorPage extends CursorPage<CustomerDetail> {}
+export class CustomerListResponsesCursorPage extends CursorPage<CustomerListResponse> {}
 
 export class CustomerListBillableMetricsResponsesCursorPage extends CursorPage<CustomerListBillableMetricsResponse> {}
 
 export class CustomerListCostsResponsesCursorPage extends CursorPage<CustomerListCostsResponse> {}
 
-export interface Customer {
-  /**
-   * the Metronome ID of the customer
-   */
-  id: string;
-
-  /**
-   * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
-   * alias) that can be used in usage events
-   */
-  external_id: string;
-
-  /**
-   * aliases for this customer that can be used instead of the Metronome customer ID
-   * in usage events
-   */
-  ingest_aliases: Array<string>;
-
-  name: string;
-
-  custom_fields?: Record<string, string>;
+export interface CustomerCreateResponse {
+  data: CustomerCreateResponse.Data;
 }
 
-export interface CustomerDetail {
+export namespace CustomerCreateResponse {
+  export interface Data {
+    /**
+     * the Metronome ID of the customer
+     */
+    id: string;
+
+    /**
+     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
+     * alias) that can be used in usage events
+     */
+    external_id: string;
+
+    /**
+     * aliases for this customer that can be used instead of the Metronome customer ID
+     * in usage events
+     */
+    ingest_aliases: Array<string>;
+
+    name: string;
+
+    custom_fields?: Record<string, string>;
+  }
+}
+
+export interface CustomerRetrieveResponse {
+  data: CustomerRetrieveResponse.Data;
+}
+
+export namespace CustomerRetrieveResponse {
+  export interface Data {
+    /**
+     * the Metronome ID of the customer
+     */
+    id: string;
+
+    /**
+     * RFC 3339 timestamp indicating when the customer was created.
+     */
+    created_at: string;
+
+    custom_fields: Record<string, string>;
+
+    customer_config: Data.CustomerConfig;
+
+    /**
+     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
+     * alias) that can be used in usage events
+     */
+    external_id: string;
+
+    /**
+     * aliases for this customer that can be used instead of the Metronome customer ID
+     * in usage events
+     */
+    ingest_aliases: Array<string>;
+
+    name: string;
+
+    /**
+     * RFC 3339 timestamp indicating when the customer was archived. Null if the
+     * customer is active.
+     */
+    archived_at?: string | null;
+
+    /**
+     * This field's availability is dependent on your client's configuration.
+     */
+    current_billable_status?: Data.CurrentBillableStatus;
+  }
+
+  export namespace Data {
+    export interface CustomerConfig {
+      /**
+       * The Salesforce account ID for the customer
+       */
+      salesforce_account_id: string | null;
+    }
+
+    /**
+     * This field's availability is dependent on your client's configuration.
+     */
+    export interface CurrentBillableStatus {
+      value: 'billable' | 'unbillable';
+
+      effective_at?: string | null;
+    }
+  }
+}
+
+export interface CustomerListResponse {
   /**
    * the Metronome ID of the customer
    */
@@ -249,7 +320,7 @@ export interface CustomerDetail {
 
   custom_fields: Record<string, string>;
 
-  customer_config: CustomerDetail.CustomerConfig;
+  customer_config: CustomerListResponse.CustomerConfig;
 
   /**
    * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
@@ -274,10 +345,10 @@ export interface CustomerDetail {
   /**
    * This field's availability is dependent on your client's configuration.
    */
-  current_billable_status?: CustomerDetail.CurrentBillableStatus;
+  current_billable_status?: CustomerListResponse.CurrentBillableStatus;
 }
 
-export namespace CustomerDetail {
+export namespace CustomerListResponse {
   export interface CustomerConfig {
     /**
      * The Salesforce account ID for the customer
@@ -295,16 +366,14 @@ export namespace CustomerDetail {
   }
 }
 
-export interface CustomerCreateResponse {
-  data: Customer;
-}
-
-export interface CustomerRetrieveResponse {
-  data: CustomerDetail;
-}
-
 export interface CustomerArchiveResponse {
-  data: Shared.ID;
+  data: CustomerArchiveResponse.Data;
+}
+
+export namespace CustomerArchiveResponse {
+  export interface Data {
+    id: string;
+  }
 }
 
 export interface CustomerListBillableMetricsResponse {
@@ -345,7 +414,7 @@ export interface CustomerListBillableMetricsResponse {
   /**
    * An optional filtering rule to match the 'event_type' property of an event.
    */
-  event_type_filter?: Shared.EventTypeFilter;
+  event_type_filter?: CustomerListBillableMetricsResponse.EventTypeFilter;
 
   /**
    * (DEPRECATED) use property_filters & event_type_filter instead
@@ -368,12 +437,64 @@ export interface CustomerListBillableMetricsResponse {
    * rule on an event property. All rules must pass for the event to match the
    * billable metric.
    */
-  property_filters?: Array<Shared.PropertyFilter>;
+  property_filters?: Array<CustomerListBillableMetricsResponse.PropertyFilter>;
 
   /**
    * The SQL query associated with the billable metric
    */
   sql?: string;
+}
+
+export namespace CustomerListBillableMetricsResponse {
+  /**
+   * An optional filtering rule to match the 'event_type' property of an event.
+   */
+  export interface EventTypeFilter {
+    /**
+     * A list of event types that are explicitly included in the billable metric. If
+     * specified, only events of these types will match the billable metric. Must be
+     * non-empty if present.
+     */
+    in_values?: Array<string>;
+
+    /**
+     * A list of event types that are explicitly excluded from the billable metric. If
+     * specified, events of these types will not match the billable metric. Must be
+     * non-empty if present.
+     */
+    not_in_values?: Array<string>;
+  }
+
+  export interface PropertyFilter {
+    /**
+     * The name of the event property.
+     */
+    name: string;
+
+    /**
+     * Determines whether the property must exist in the event. If true, only events
+     * with this property will pass the filter. If false, only events without this
+     * property will pass the filter. If null or omitted, the existence of the property
+     * is optional.
+     */
+    exists?: boolean;
+
+    /**
+     * Specifies the allowed values for the property to match an event. An event will
+     * pass the filter only if its property value is included in this list. If
+     * undefined, all property values will pass the filter. Must be non-empty if
+     * present.
+     */
+    in_values?: Array<string>;
+
+    /**
+     * Specifies the values that prevent an event from matching the filter. An event
+     * will not pass the filter if its property value is included in this list. If null
+     * or empty, all property values will pass the filter. Must be non-empty if
+     * present.
+     */
+    not_in_values?: Array<string>;
+  }
 }
 
 export interface CustomerListCostsResponse {
@@ -407,7 +528,32 @@ export namespace CustomerListCostsResponse {
 }
 
 export interface CustomerSetNameResponse {
-  data: Customer;
+  data: CustomerSetNameResponse.Data;
+}
+
+export namespace CustomerSetNameResponse {
+  export interface Data {
+    /**
+     * the Metronome ID of the customer
+     */
+    id: string;
+
+    /**
+     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
+     * alias) that can be used in usage events
+     */
+    external_id: string;
+
+    /**
+     * aliases for this customer that can be used instead of the Metronome customer ID
+     * in usage events
+     */
+    ingest_aliases: Array<string>;
+
+    name: string;
+
+    custom_fields?: Record<string, string>;
+  }
 }
 
 export interface CustomerCreateParams {
@@ -623,7 +769,7 @@ export interface CustomerUpdateConfigParams {
   salesforce_account_id?: string | null;
 }
 
-Customers.CustomerDetailsCursorPage = CustomerDetailsCursorPage;
+Customers.CustomerListResponsesCursorPage = CustomerListResponsesCursorPage;
 Customers.CustomerListBillableMetricsResponsesCursorPage = CustomerListBillableMetricsResponsesCursorPage;
 Customers.CustomerListCostsResponsesCursorPage = CustomerListCostsResponsesCursorPage;
 Customers.Alerts = Alerts;
@@ -631,7 +777,7 @@ Customers.Plans = Plans;
 Customers.PlanListResponsesCursorPage = PlanListResponsesCursorPage;
 Customers.PlanListPriceAdjustmentsResponsesCursorPage = PlanListPriceAdjustmentsResponsesCursorPage;
 Customers.Invoices = Invoices;
-Customers.InvoicesCursorPage = InvoicesCursorPage;
+Customers.InvoiceListResponsesCursorPage = InvoiceListResponsesCursorPage;
 Customers.InvoiceListBreakdownsResponsesCursorPage = InvoiceListBreakdownsResponsesCursorPage;
 Customers.BillingConfig = BillingConfigAPIBillingConfig;
 Customers.Commits = Commits;
@@ -640,15 +786,14 @@ Customers.NamedSchedules = NamedSchedules;
 
 export declare namespace Customers {
   export {
-    type Customer as Customer,
-    type CustomerDetail as CustomerDetail,
     type CustomerCreateResponse as CustomerCreateResponse,
     type CustomerRetrieveResponse as CustomerRetrieveResponse,
+    type CustomerListResponse as CustomerListResponse,
     type CustomerArchiveResponse as CustomerArchiveResponse,
     type CustomerListBillableMetricsResponse as CustomerListBillableMetricsResponse,
     type CustomerListCostsResponse as CustomerListCostsResponse,
     type CustomerSetNameResponse as CustomerSetNameResponse,
-    CustomerDetailsCursorPage as CustomerDetailsCursorPage,
+    CustomerListResponsesCursorPage as CustomerListResponsesCursorPage,
     CustomerListBillableMetricsResponsesCursorPage as CustomerListBillableMetricsResponsesCursorPage,
     CustomerListCostsResponsesCursorPage as CustomerListCostsResponsesCursorPage,
     type CustomerCreateParams as CustomerCreateParams,
@@ -664,7 +809,6 @@ export declare namespace Customers {
 
   export {
     Alerts as Alerts,
-    type CustomerAlert as CustomerAlert,
     type AlertRetrieveResponse as AlertRetrieveResponse,
     type AlertListResponse as AlertListResponse,
     type AlertRetrieveParams as AlertRetrieveParams,
@@ -688,11 +832,11 @@ export declare namespace Customers {
 
   export {
     Invoices as Invoices,
-    type Invoice as Invoice,
     type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
+    type InvoiceListResponse as InvoiceListResponse,
     type InvoiceAddChargeResponse as InvoiceAddChargeResponse,
     type InvoiceListBreakdownsResponse as InvoiceListBreakdownsResponse,
-    InvoicesCursorPage as InvoicesCursorPage,
+    InvoiceListResponsesCursorPage as InvoiceListResponsesCursorPage,
     InvoiceListBreakdownsResponsesCursorPage as InvoiceListBreakdownsResponsesCursorPage,
     type InvoiceRetrieveParams as InvoiceRetrieveParams,
     type InvoiceListParams as InvoiceListParams,
