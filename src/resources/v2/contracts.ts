@@ -462,7 +462,7 @@ export namespace ContractRetrieveResponse {
 
     export namespace Override {
       export interface OverrideSpecifier {
-        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
 
         commit_ids?: Array<string>;
 
@@ -1526,7 +1526,7 @@ export namespace ContractListResponse {
 
     export namespace Override {
       export interface OverrideSpecifier {
-        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
 
         commit_ids?: Array<string>;
 
@@ -2393,7 +2393,7 @@ export namespace ContractGetEditHistoryResponse {
 
     export namespace AddOverride {
       export interface OverrideSpecifier {
-        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
 
         commit_ids?: Array<string>;
 
