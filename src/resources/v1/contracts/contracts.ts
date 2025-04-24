@@ -900,6 +900,13 @@ export namespace ContractCreateParams {
        * Only applicable if using Stripe as your payment gateway through Metronome.
        */
       stripe_config?: PaymentGateConfig.StripeConfig;
+
+      /**
+       * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+       * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+       * will default to NONE.
+       */
+      tax_type?: 'NONE' | 'STRIPE';
     }
 
     export namespace PaymentGateConfig {
@@ -982,6 +989,13 @@ export namespace ContractCreateParams {
        * Only applicable if using Stripe as your payment gateway through Metronome.
        */
       stripe_config?: PaymentGateConfig.StripeConfig;
+
+      /**
+       * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+       * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+       * will default to NONE.
+       */
+      tax_type?: 'NONE' | 'STRIPE';
     }
 
     export namespace PaymentGateConfig {
@@ -1831,6 +1845,13 @@ export namespace ContractCreateParams {
        * Only applicable if using Stripe as your payment gateway through Metronome.
        */
       stripe_config?: PaymentGateConfig.StripeConfig;
+
+      /**
+       * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+       * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+       * will default to NONE.
+       */
+      tax_type?: 'NONE' | 'STRIPE';
     }
 
     export namespace PaymentGateConfig {
@@ -2266,6 +2287,13 @@ export namespace ContractAmendParams {
        * Only applicable if using Stripe as your payment gateway through Metronome.
        */
       stripe_config?: PaymentGateConfig.StripeConfig;
+
+      /**
+       * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+       * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+       * will default to NONE.
+       */
+      tax_type?: 'NONE' | 'STRIPE';
     }
 
     export namespace PaymentGateConfig {
