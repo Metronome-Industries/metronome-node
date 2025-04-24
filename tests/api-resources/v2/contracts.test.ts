@@ -109,7 +109,11 @@ describe('resource contracts', () => {
           },
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
-          payment_gate_config: { payment_gate_type: 'NONE', stripe_config: { payment_type: 'INVOICE' } },
+          payment_gate_config: {
+            payment_gate_type: 'NONE',
+            stripe_config: { payment_type: 'INVOICE' },
+            tax_type: 'NONE',
+          },
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
@@ -304,7 +308,11 @@ describe('resource contracts', () => {
       add_spend_threshold_configuration: {
         commit: { product_id: 'product_id', description: 'description', name: 'name' },
         is_enabled: true,
-        payment_gate_config: { payment_gate_type: 'NONE', stripe_config: { payment_type: 'INVOICE' } },
+        payment_gate_config: {
+          payment_gate_type: 'NONE',
+          stripe_config: { payment_type: 'INVOICE' },
+          tax_type: 'NONE',
+        },
         threshold_amount: 0,
       },
       archive_commits: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
@@ -405,7 +413,11 @@ describe('resource contracts', () => {
       update_spend_threshold_configuration: {
         commit: { description: 'description', name: 'name', product_id: 'product_id' },
         is_enabled: true,
-        payment_gate_config: { payment_gate_type: 'NONE', stripe_config: { payment_type: 'INVOICE' } },
+        payment_gate_config: {
+          payment_gate_type: 'NONE',
+          stripe_config: { payment_type: 'INVOICE' },
+          tax_type: 'NONE',
+        },
         threshold_amount: 0,
       },
     });
