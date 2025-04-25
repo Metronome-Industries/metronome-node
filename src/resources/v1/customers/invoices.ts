@@ -133,7 +133,7 @@ export interface Invoice {
   plan_name?: string;
 
   /**
-   * only present for beta contract invoices with reseller royalties
+   * Only present for contract invoices with reseller royalties.
    */
   reseller_royalty?: Invoice.ResellerRoyalty;
 
@@ -159,46 +159,38 @@ export namespace Invoice {
     total: number;
 
     /**
-     * only present for beta contract invoices
+     * Details about the credit or commit that was applied to this line item. Only
+     * present on line items with product of `USAGE`, `SUBSCRIPTION` or `COMPOSITE`
+     * types.
      */
     applied_commit_or_credit?: LineItem.AppliedCommitOrCredit;
 
-    /**
-     * only present for beta contract invoices
-     */
     commit_custom_fields?: Record<string, string>;
 
     /**
-     * only present for beta contract invoices
+     * For line items with product of `USAGE`, `SUBSCRIPTION`, or `COMPOSITE` types,
+     * the ID of the credit or commit that was applied to this line item. For line
+     * items with product type of `FIXED`, the ID of the prepaid or postpaid commit
+     * that is being paid for.
      */
     commit_id?: string;
 
-    /**
-     * only present for beta contract invoices. This field's availability is dependent
-     * on your client's configuration.
-     */
     commit_netsuite_item_id?: string;
 
-    /**
-     * only present for beta contract invoices. This field's availability is dependent
-     * on your client's configuration.
-     */
     commit_netsuite_sales_order_id?: string;
 
-    /**
-     * only present for beta contract invoices
-     */
     commit_segment_id?: string;
 
     /**
-     * only present for beta contract invoices
+     * `PrepaidCommit` (for commit types `PREPAID` and `CREDIT`) or `PostpaidCommit`
+     * (for commit type `POSTPAID`).
      */
     commit_type?: string;
 
     custom_fields?: Record<string, string>;
 
     /**
-     * only present for beta contract invoices
+     * The line item's end date (exclusive).
      */
     ending_before?: string;
 
@@ -207,12 +199,12 @@ export namespace Invoice {
     group_value?: string | null;
 
     /**
-     * only present for beta contract invoices
+     * Indicates whether the line item is prorated for `SUBSCRIPTION` type product.
      */
     is_prorated?: boolean;
 
     /**
-     * Only present for contract invoices and when the include_list_prices query
+     * Only present for contract invoices and when the `include_list_prices` query
      * parameter is set to true. This will include the list rate for the charge if
      * applicable. Only present for usage and subscription line items.
      */
@@ -230,35 +222,44 @@ export namespace Invoice {
      */
     netsuite_invoice_billing_start?: string;
 
-    /**
-     * only present for beta contract invoices. This field's availability is dependent
-     * on your client's configuration.
-     */
     netsuite_item_id?: string;
 
     /**
-     * only present for beta contract invoices
+     * Only present for line items paying for a postpaid commit true-up.
      */
     postpaid_commit?: LineItem.PostpaidCommit;
 
     /**
-     * if presentation groups are used, this will contain the values used to break down
-     * the line item
+     * Includes the presentation group values associated with this line item if
+     * presentation group keys are used.
      */
     presentation_group_values?: Record<string, string | null>;
 
     /**
-     * if pricing groups are used, this will contain the values used to calculate the
-     * price
+     * Includes the pricing group values associated with this line item if dimensional
+     * pricing is used.
      */
     pricing_group_values?: Record<string, string>;
 
     product_custom_fields?: Record<string, string>;
 
+    /**
+     * ID of the product associated with the line item.
+     */
     product_id?: string;
 
+    /**
+     * The current product tags associated with the line item's `product_id`.
+     */
     product_tags?: Array<string>;
 
+    /**
+     * The type of the line item's product. Possible values are `FixedProductListItem`
+     * (for `FIXED` type products), `UsageProductListItem` (for `USAGE` type products),
+     * `SubscriptionProductListItem` (for `SUBSCRIPTION` type products) or
+     * `CompositeProductListItem` (for `COMPOSITE` type products). For scheduled
+     * charges, commit and credit payments, the value is `FixedProductListItem`.
+     */
     product_type?: string;
 
     /**
@@ -271,6 +272,9 @@ export namespace Invoice {
      */
     professional_service_id?: string;
 
+    /**
+     * The quantity associated with the line item.
+     */
     quantity?: number;
 
     reseller_type?: 'AWS' | 'AWS_PRO_SERVICE' | 'GCP' | 'GCP_PRO_SERVICE';
@@ -283,7 +287,7 @@ export namespace Invoice {
     scheduled_charge_id?: string;
 
     /**
-     * only present for beta contract invoices
+     * The line item's start date (inclusive).
      */
     starting_at?: string;
 
@@ -291,17 +295,22 @@ export namespace Invoice {
 
     subscription_custom_fields?: Record<string, string>;
 
+    /**
+     * Populated if the line item has a tiered price.
+     */
     tier?: LineItem.Tier;
 
     /**
-     * only present for beta contract invoices
+     * The unit price associated with the line item.
      */
     unit_price?: number;
   }
 
   export namespace LineItem {
     /**
-     * only present for beta contract invoices
+     * Details about the credit or commit that was applied to this line item. Only
+     * present on line items with product of `USAGE`, `SUBSCRIPTION` or `COMPOSITE`
+     * types.
      */
     export interface AppliedCommitOrCredit {
       id: string;
@@ -310,7 +319,7 @@ export namespace Invoice {
     }
 
     /**
-     * only present for beta contract invoices
+     * Only present for line items paying for a postpaid commit true-up.
      */
     export interface PostpaidCommit {
       id: string;
@@ -377,6 +386,9 @@ export namespace Invoice {
       }
     }
 
+    /**
+     * Populated if the line item has a tiered price.
+     */
     export interface Tier {
       level: number;
 
@@ -469,7 +481,7 @@ export namespace Invoice {
   }
 
   /**
-   * only present for beta contract invoices with reseller royalties
+   * Only present for contract invoices with reseller royalties.
    */
   export interface ResellerRoyalty {
     fraction: string;
