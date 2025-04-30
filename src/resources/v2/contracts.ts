@@ -3226,6 +3226,14 @@ export interface ContractEditParams {
   add_spend_threshold_configuration?: ContractEditParams.AddSpendThresholdConfiguration;
 
   /**
+   * If true, allows setting the contract end date earlier than the end_timestamp of
+   * existing finalized invoices. Finalized invoices will be unchanged; if you want
+   * to incorporate the new end date, you can void and regenerate finalized usage
+   * invoices. Defaults to true.
+   */
+  allow_contract_ending_before_finalized_invoice?: boolean;
+
+  /**
    * IDs of commits to archive
    */
   archive_commits?: Array<ContractEditParams.ArchiveCommit>;
@@ -3246,6 +3254,11 @@ export interface ContractEditParams {
   remove_overrides?: Array<ContractEditParams.RemoveOverride>;
 
   update_commits?: Array<ContractEditParams.UpdateCommit>;
+
+  /**
+   * RFC 3339 timestamp indicating when the contract will end (exclusive).
+   */
+  update_contract_end_date?: string;
 
   update_credits?: Array<ContractEditParams.UpdateCredit>;
 
