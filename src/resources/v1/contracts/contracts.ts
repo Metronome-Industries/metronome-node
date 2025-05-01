@@ -31,6 +31,8 @@ import {
 import * as InvoicesAPI from '../customers/invoices';
 import * as RateCardsAPI from './rate-cards/rate-cards';
 import {
+  RateCardArchiveParams,
+  RateCardArchiveResponse,
   RateCardCreateParams,
   RateCardCreateResponse,
   RateCardListParams,
@@ -205,6 +207,8 @@ export namespace ContractRetrieveResponse {
      */
     archived_at?: string;
 
+    credit_balance_threshold_configuration?: Data.CreditBalanceThresholdConfiguration;
+
     custom_fields?: Record<string, string>;
 
     /**
@@ -220,6 +224,8 @@ export namespace ContractRetrieveResponse {
      * on a separate invoice from usage charges.
      */
     scheduled_charges_on_usage_invoices?: 'ALL';
+
+    spend_threshold_configuration?: Data.SpendThresholdConfiguration;
 
     /**
      * Prevents the creation of duplicates. If a request to create a record is made
@@ -299,6 +305,95 @@ export namespace ContractRetrieveResponse {
       }
     }
 
+    export interface CreditBalanceThresholdConfiguration {
+      commit: CreditBalanceThresholdConfiguration.Commit;
+
+      /**
+       * When set to false, the contract will not be evaluated against the
+       * threshold_amount. Toggling to true will result an immediate evaluation,
+       * regardless of prior state.
+       */
+      is_enabled: boolean;
+
+      payment_gate_config: CreditBalanceThresholdConfiguration.PaymentGateConfig;
+
+      /**
+       * Specify the amount the balance should be recharged to.
+       */
+      recharge_to_amount: number;
+
+      /**
+       * Specify the threshold amount for the contract. Each time the contract's balance
+       * lowers to this amount, a threshold charge will be initiated.
+       */
+      threshold_amount: number;
+    }
+
+    export namespace CreditBalanceThresholdConfiguration {
+      export interface Commit {
+        /**
+         * The commit product that will be used to generate the line item for commit
+         * payment.
+         */
+        product_id: string;
+
+        /**
+         * Which products the threshold commit applies to. If both applicable_product_ids
+         * and applicable_product_tags are not provided, the commit applies to all
+         * products.
+         */
+        applicable_product_ids?: Array<string>;
+
+        /**
+         * Which tags the threshold commit applies to. If both applicable_product_ids and
+         * applicable_product_tags are not provided, the commit applies to all products.
+         */
+        applicable_product_tags?: Array<string>;
+
+        description?: string;
+
+        /**
+         * Specify the name of the line item for the threshold charge. If left blank, it
+         * will default to the commit product name.
+         */
+        name?: string;
+      }
+
+      export interface PaymentGateConfig {
+        /**
+         * Gate access to the commit balance based on successful collection of payment.
+         * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
+         * facilitate payment using your own payment integration. Select NONE if you do not
+         * wish to payment gate the commit balance.
+         */
+        payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
+
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        stripe_config?: PaymentGateConfig.StripeConfig;
+
+        /**
+         * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+         * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+         * will default to NONE.
+         */
+        tax_type?: 'NONE' | 'STRIPE';
+      }
+
+      export namespace PaymentGateConfig {
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        export interface StripeConfig {
+          /**
+           * If left blank, will default to INVOICE
+           */
+          payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+        }
+      }
+    }
+
     /**
      * The billing provider configuration associated with a contract.
      */
@@ -322,6 +417,77 @@ export namespace ContractRetrieveResponse {
        * to the billing provider.
        */
       configuration?: Record<string, unknown>;
+    }
+
+    export interface SpendThresholdConfiguration {
+      commit: SpendThresholdConfiguration.Commit;
+
+      /**
+       * When set to false, the contract will not be evaluated against the
+       * threshold_amount. Toggling to true will result an immediate evaluation,
+       * regardless of prior state.
+       */
+      is_enabled: boolean;
+
+      payment_gate_config: SpendThresholdConfiguration.PaymentGateConfig;
+
+      /**
+       * Specify the threshold amount for the contract. Each time the contract's usage
+       * hits this amount, a threshold charge will be initiated.
+       */
+      threshold_amount: number;
+    }
+
+    export namespace SpendThresholdConfiguration {
+      export interface Commit {
+        /**
+         * The commit product that will be used to generate the line item for commit
+         * payment.
+         */
+        product_id: string;
+
+        description?: string;
+
+        /**
+         * Specify the name of the line item for the threshold charge. If left blank, it
+         * will default to the commit product name.
+         */
+        name?: string;
+      }
+
+      export interface PaymentGateConfig {
+        /**
+         * Gate access to the commit balance based on successful collection of payment.
+         * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
+         * facilitate payment using your own payment integration. Select NONE if you do not
+         * wish to payment gate the commit balance.
+         */
+        payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
+
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        stripe_config?: PaymentGateConfig.StripeConfig;
+
+        /**
+         * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+         * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+         * will default to NONE.
+         */
+        tax_type?: 'NONE' | 'STRIPE';
+      }
+
+      export namespace PaymentGateConfig {
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        export interface StripeConfig {
+          /**
+           * If left blank, will default to INVOICE
+           */
+          payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+        }
+      }
     }
   }
 }
@@ -348,6 +514,8 @@ export namespace ContractListResponse {
      */
     archived_at?: string;
 
+    credit_balance_threshold_configuration?: Data.CreditBalanceThresholdConfiguration;
+
     custom_fields?: Record<string, string>;
 
     /**
@@ -363,6 +531,8 @@ export namespace ContractListResponse {
      * on a separate invoice from usage charges.
      */
     scheduled_charges_on_usage_invoices?: 'ALL';
+
+    spend_threshold_configuration?: Data.SpendThresholdConfiguration;
 
     /**
      * Prevents the creation of duplicates. If a request to create a record is made
@@ -442,6 +612,95 @@ export namespace ContractListResponse {
       }
     }
 
+    export interface CreditBalanceThresholdConfiguration {
+      commit: CreditBalanceThresholdConfiguration.Commit;
+
+      /**
+       * When set to false, the contract will not be evaluated against the
+       * threshold_amount. Toggling to true will result an immediate evaluation,
+       * regardless of prior state.
+       */
+      is_enabled: boolean;
+
+      payment_gate_config: CreditBalanceThresholdConfiguration.PaymentGateConfig;
+
+      /**
+       * Specify the amount the balance should be recharged to.
+       */
+      recharge_to_amount: number;
+
+      /**
+       * Specify the threshold amount for the contract. Each time the contract's balance
+       * lowers to this amount, a threshold charge will be initiated.
+       */
+      threshold_amount: number;
+    }
+
+    export namespace CreditBalanceThresholdConfiguration {
+      export interface Commit {
+        /**
+         * The commit product that will be used to generate the line item for commit
+         * payment.
+         */
+        product_id: string;
+
+        /**
+         * Which products the threshold commit applies to. If both applicable_product_ids
+         * and applicable_product_tags are not provided, the commit applies to all
+         * products.
+         */
+        applicable_product_ids?: Array<string>;
+
+        /**
+         * Which tags the threshold commit applies to. If both applicable_product_ids and
+         * applicable_product_tags are not provided, the commit applies to all products.
+         */
+        applicable_product_tags?: Array<string>;
+
+        description?: string;
+
+        /**
+         * Specify the name of the line item for the threshold charge. If left blank, it
+         * will default to the commit product name.
+         */
+        name?: string;
+      }
+
+      export interface PaymentGateConfig {
+        /**
+         * Gate access to the commit balance based on successful collection of payment.
+         * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
+         * facilitate payment using your own payment integration. Select NONE if you do not
+         * wish to payment gate the commit balance.
+         */
+        payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
+
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        stripe_config?: PaymentGateConfig.StripeConfig;
+
+        /**
+         * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+         * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+         * will default to NONE.
+         */
+        tax_type?: 'NONE' | 'STRIPE';
+      }
+
+      export namespace PaymentGateConfig {
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        export interface StripeConfig {
+          /**
+           * If left blank, will default to INVOICE
+           */
+          payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+        }
+      }
+    }
+
     /**
      * The billing provider configuration associated with a contract.
      */
@@ -465,6 +724,77 @@ export namespace ContractListResponse {
        * to the billing provider.
        */
       configuration?: Record<string, unknown>;
+    }
+
+    export interface SpendThresholdConfiguration {
+      commit: SpendThresholdConfiguration.Commit;
+
+      /**
+       * When set to false, the contract will not be evaluated against the
+       * threshold_amount. Toggling to true will result an immediate evaluation,
+       * regardless of prior state.
+       */
+      is_enabled: boolean;
+
+      payment_gate_config: SpendThresholdConfiguration.PaymentGateConfig;
+
+      /**
+       * Specify the threshold amount for the contract. Each time the contract's usage
+       * hits this amount, a threshold charge will be initiated.
+       */
+      threshold_amount: number;
+    }
+
+    export namespace SpendThresholdConfiguration {
+      export interface Commit {
+        /**
+         * The commit product that will be used to generate the line item for commit
+         * payment.
+         */
+        product_id: string;
+
+        description?: string;
+
+        /**
+         * Specify the name of the line item for the threshold charge. If left blank, it
+         * will default to the commit product name.
+         */
+        name?: string;
+      }
+
+      export interface PaymentGateConfig {
+        /**
+         * Gate access to the commit balance based on successful collection of payment.
+         * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
+         * facilitate payment using your own payment integration. Select NONE if you do not
+         * wish to payment gate the commit balance.
+         */
+        payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
+
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        stripe_config?: PaymentGateConfig.StripeConfig;
+
+        /**
+         * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+         * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+         * will default to NONE.
+         */
+        tax_type?: 'NONE' | 'STRIPE';
+      }
+
+      export namespace PaymentGateConfig {
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        export interface StripeConfig {
+          /**
+           * If left blank, will default to INVOICE
+           */
+          payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+        }
+      }
     }
   }
 }
@@ -3219,12 +3549,14 @@ export declare namespace Contracts {
     type RateCardRetrieveResponse as RateCardRetrieveResponse,
     type RateCardUpdateResponse as RateCardUpdateResponse,
     type RateCardListResponse as RateCardListResponse,
+    type RateCardArchiveResponse as RateCardArchiveResponse,
     type RateCardRetrieveRateScheduleResponse as RateCardRetrieveRateScheduleResponse,
     RateCardListResponsesCursorPage as RateCardListResponsesCursorPage,
     type RateCardCreateParams as RateCardCreateParams,
     type RateCardRetrieveParams as RateCardRetrieveParams,
     type RateCardUpdateParams as RateCardUpdateParams,
     type RateCardListParams as RateCardListParams,
+    type RateCardArchiveParams as RateCardArchiveParams,
     type RateCardRetrieveRateScheduleParams as RateCardRetrieveRateScheduleParams,
   };
 
