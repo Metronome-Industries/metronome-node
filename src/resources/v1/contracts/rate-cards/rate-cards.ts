@@ -90,6 +90,16 @@ export class RateCards extends APIResource {
   }
 
   /**
+   * Archive a rate card
+   */
+  archive(
+    body: RateCardArchiveParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<RateCardArchiveResponse> {
+    return this._client.post('/v1/contract-pricing/rate-cards/archive', { body, ...options });
+  }
+
+  /**
    * Get all rates for a rate card from starting_at (either in perpetuity or until
    * ending_before, if provided)
    */
@@ -192,6 +202,10 @@ export namespace RateCardListResponse {
 
     fiat_per_custom_credit: string;
   }
+}
+
+export interface RateCardArchiveResponse {
+  data: Shared.ID;
 }
 
 export interface RateCardRetrieveRateScheduleResponse {
@@ -335,6 +349,10 @@ export interface RateCardListParams extends CursorPageParams {
   body?: unknown;
 }
 
+export interface RateCardArchiveParams {
+  id: string;
+}
+
 export interface RateCardRetrieveRateScheduleParams {
   /**
    * Body param: ID of the rate card to get the schedule for
@@ -403,12 +421,14 @@ export declare namespace RateCards {
     type RateCardRetrieveResponse as RateCardRetrieveResponse,
     type RateCardUpdateResponse as RateCardUpdateResponse,
     type RateCardListResponse as RateCardListResponse,
+    type RateCardArchiveResponse as RateCardArchiveResponse,
     type RateCardRetrieveRateScheduleResponse as RateCardRetrieveRateScheduleResponse,
     RateCardListResponsesCursorPage as RateCardListResponsesCursorPage,
     type RateCardCreateParams as RateCardCreateParams,
     type RateCardRetrieveParams as RateCardRetrieveParams,
     type RateCardUpdateParams as RateCardUpdateParams,
     type RateCardListParams as RateCardListParams,
+    type RateCardArchiveParams as RateCardArchiveParams,
     type RateCardRetrieveRateScheduleParams as RateCardRetrieveRateScheduleParams,
   };
 
