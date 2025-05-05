@@ -262,14 +262,8 @@ export namespace Invoice {
      */
     product_type?: string;
 
-    /**
-     * only present for beta contract invoices
-     */
     professional_service_custom_fields?: Record<string, string>;
 
-    /**
-     * only present for beta contract invoices
-     */
     professional_service_id?: string;
 
     /**
@@ -282,7 +276,7 @@ export namespace Invoice {
     scheduled_charge_custom_fields?: Record<string, string>;
 
     /**
-     * only present for beta contract invoices
+     * ID of scheduled charge.
      */
     scheduled_charge_id?: string;
 
