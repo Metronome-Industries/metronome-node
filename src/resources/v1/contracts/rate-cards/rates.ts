@@ -8,6 +8,28 @@ import { CursorPage, type CursorPageParams } from '../../../../pagination';
 export class Rates extends APIResource {
   /**
    * Get all rates for a rate card at a point in time
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const rateListResponse of client.v1.contracts.rateCards.rates.list(
+   *   {
+   *     at: '2024-01-01T00:00:00.000Z',
+   *     rate_card_id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
+   *     selectors: [
+   *       {
+   *         product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
+   *         partial_pricing_group_values: {
+   *           region: 'us-west-2',
+   *           cloud: 'aws',
+   *         },
+   *       },
+   *     ],
+   *   },
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params: RateListParams,
@@ -24,6 +46,20 @@ export class Rates extends APIResource {
 
   /**
    * Add a new rate
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.rateCards.rates.add({
+   *     entitled: true,
+   *     product_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *     rate_card_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     rate_type: 'FLAT',
+   *     starting_at: '2020-01-01T00:00:00.000Z',
+   *     credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+   *     price: 100,
+   *   });
+   * ```
    */
   add(body: RateAddParams, options?: Core.RequestOptions): Core.APIPromise<RateAddResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/addRate', { body, ...options });
@@ -31,6 +67,38 @@ export class Rates extends APIResource {
 
   /**
    * Add new rates
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.rateCards.rates.addMany({
+   *     rate_card_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     rates: [
+   *       {
+   *         product_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *         starting_at: '2020-01-01T00:00:00.000Z',
+   *         entitled: true,
+   *         rate_type: 'FLAT',
+   *         price: 100,
+   *         pricing_group_values: {
+   *           region: 'us-west-2',
+   *           cloud: 'aws',
+   *         },
+   *       },
+   *       {
+   *         product_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *         starting_at: '2020-01-01T00:00:00.000Z',
+   *         entitled: true,
+   *         rate_type: 'FLAT',
+   *         price: 120,
+   *         pricing_group_values: {
+   *           region: 'us-east-2',
+   *           cloud: 'aws',
+   *         },
+   *       },
+   *     ],
+   *   });
+   * ```
    */
   addMany(body: RateAddManyParams, options?: Core.RequestOptions): Core.APIPromise<RateAddManyResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/addRates', { body, ...options });

@@ -9,6 +9,31 @@ import { CursorPage, type CursorPageParams } from '../../pagination';
 export class BillableMetrics extends APIResource {
   /**
    * Creates a new Billable Metric.
+   *
+   * @example
+   * ```ts
+   * const billableMetric =
+   *   await client.v1.billableMetrics.create({
+   *     name: 'CPU Hours',
+   *     aggregation_key: 'cpu_hours',
+   *     aggregation_type: 'SUM',
+   *     event_type_filter: { in_values: ['cpu_usage'] },
+   *     group_keys: [['region'], ['machine_type']],
+   *     property_filters: [
+   *       { name: 'cpu_hours', exists: true },
+   *       {
+   *         name: 'region',
+   *         exists: true,
+   *         in_values: ['EU', 'NA'],
+   *       },
+   *       {
+   *         name: 'machine_type',
+   *         exists: true,
+   *         in_values: ['slow', 'fast'],
+   *       },
+   *     ],
+   *   });
+   * ```
    */
   create(
     body: BillableMetricCreateParams,
@@ -19,6 +44,15 @@ export class BillableMetrics extends APIResource {
 
   /**
    * Get a billable metric.
+   *
+   * @example
+   * ```ts
+   * const billableMetric =
+   *   await client.v1.billableMetrics.retrieve({
+   *     billable_metric_id:
+   *       '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   });
+   * ```
    */
   retrieve(
     params: BillableMetricRetrieveParams,
@@ -30,6 +64,14 @@ export class BillableMetrics extends APIResource {
 
   /**
    * List all billable metrics.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const billableMetricListResponse of client.v1.billableMetrics.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query?: BillableMetricListParams,
@@ -53,6 +95,13 @@ export class BillableMetrics extends APIResource {
 
   /**
    * Archive an existing billable metric.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.billableMetrics.archive({
+   *   id: '8deed800-1b7a-495d-a207-6c52bac54dc9',
+   * });
+   * ```
    */
   archive(
     body: BillableMetricArchiveParams,

@@ -54,6 +54,19 @@ export class Contracts extends APIResource {
 
   /**
    * Create a new contract
+   *
+   * @example
+   * ```ts
+   * const contract = await client.v1.contracts.create({
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   starting_at: '2020-01-01T00:00:00.000Z',
+   *   billing_provider_configuration: {
+   *     billing_provider: 'stripe',
+   *     delivery_method: 'direct_to_billing_provider',
+   *   },
+   *   rate_card_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   * });
+   * ```
    */
   create(body: ContractCreateParams, options?: Core.RequestOptions): Core.APIPromise<ContractCreateResponse> {
     return this._client.post('/v1/contracts/create', { body, ...options });
@@ -62,6 +75,14 @@ export class Contracts extends APIResource {
   /**
    * This is the v1 endpoint to get a contract. New clients should implement using
    * the v2 endpoint.
+   *
+   * @example
+   * ```ts
+   * const contract = await client.v1.contracts.retrieve({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   * });
+   * ```
    */
   retrieve(
     body: ContractRetrieveParams,
@@ -73,6 +94,13 @@ export class Contracts extends APIResource {
   /**
    * This is the v1 endpoint to list all contracts for a customer. New clients should
    * implement using the v2 endpoint.
+   *
+   * @example
+   * ```ts
+   * const contracts = await client.v1.contracts.list({
+   *   customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+   * });
+   * ```
    */
   list(body: ContractListParams, options?: Core.RequestOptions): Core.APIPromise<ContractListResponse> {
     return this._client.post('/v1/contracts/list', { body, ...options });
@@ -80,6 +108,18 @@ export class Contracts extends APIResource {
 
   /**
    * Add a manual balance entry
+   *
+   * @example
+   * ```ts
+   * await client.v1.contracts.addManualBalanceEntry({
+   *   id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+   *   amount: -1000,
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   reason: 'Reason for entry',
+   *   segment_id: '66368e29-3f97-4d15-a6e9-120897f0070a',
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   * });
+   * ```
    */
   addManualBalanceEntry(
     body: ContractAddManualBalanceEntryParams,
@@ -98,6 +138,15 @@ export class Contracts extends APIResource {
    * editing [here](https://docs.metronome.com/migrate-amendments-to-edits/) and
    * reach out to your Metronome representative for more details. Once contract
    * editing is enabled, access to this endpoint will be removed.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.contracts.amend({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   starting_at: '2020-01-01T00:00:00.000Z',
+   * });
+   * ```
    */
   amend(body: ContractAmendParams, options?: Core.RequestOptions): Core.APIPromise<ContractAmendResponse> {
     return this._client.post('/v1/contracts/amend', { body, ...options });
@@ -105,6 +154,15 @@ export class Contracts extends APIResource {
 
   /**
    * Archive a contract
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.contracts.archive({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   void_invoices: true,
+   * });
+   * ```
    */
   archive(
     body: ContractArchiveParams,
@@ -115,6 +173,35 @@ export class Contracts extends APIResource {
 
   /**
    * Creates historical usage invoices for a contract
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.createHistoricalInvoices({
+   *     invoices: [
+   *       {
+   *         customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *         contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *         credit_type_id:
+   *           '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+   *         inclusive_start_date: '2020-01-01T00:00:00.000Z',
+   *         exclusive_end_date: '2020-02-01T00:00:00.000Z',
+   *         issue_date: '2020-02-01T00:00:00.000Z',
+   *         usage_line_items: [
+   *           {
+   *             product_id:
+   *               'f14d6729-6a44-4b13-9908-9387f1918790',
+   *             inclusive_start_date:
+   *               '2020-01-01T00:00:00.000Z',
+   *             exclusive_end_date: '2020-02-01T00:00:00.000Z',
+   *             quantity: 100,
+   *           },
+   *         ],
+   *       },
+   *     ],
+   *     preview: false,
+   *   });
+   * ```
    */
   createHistoricalInvoices(
     body: ContractCreateHistoricalInvoicesParams,
@@ -125,6 +212,15 @@ export class Contracts extends APIResource {
 
   /**
    * List balances (commits and credits).
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.contracts.listBalances({
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+   *   include_ledgers: true,
+   * });
+   * ```
    */
   listBalances(
     body: ContractListBalancesParams,
@@ -135,6 +231,25 @@ export class Contracts extends APIResource {
 
   /**
    * Get the rate schedule for the rate card on a given contract.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.retrieveRateSchedule({
+   *     contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *     at: '2020-01-01T00:00:00.000Z',
+   *     selectors: [
+   *       {
+   *         product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
+   *         partial_pricing_group_values: {
+   *           region: 'us-west-2',
+   *           cloud: 'aws',
+   *         },
+   *       },
+   *     ],
+   *   });
+   * ```
    */
   retrieveRateSchedule(
     params: ContractRetrieveRateScheduleParams,
@@ -151,6 +266,22 @@ export class Contracts extends APIResource {
   /**
    * Create a new scheduled invoice for Professional Services terms on a contract.
    * This endpoint's availability is dependent on your client's configuration.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.scheduleProServicesInvoice({
+   *     contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   *     customer_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   *     issued_at: '2019-12-27T18:11:19.117Z',
+   *     line_items: [
+   *       {
+   *         professional_service_id:
+   *           '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   *       },
+   *     ],
+   *   });
+   * ```
    */
   scheduleProServicesInvoice(
     body: ContractScheduleProServicesInvoiceParams,
@@ -161,6 +292,17 @@ export class Contracts extends APIResource {
 
   /**
    * Set usage filter for a contract
+   *
+   * @example
+   * ```ts
+   * await client.v1.contracts.setUsageFilter({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   group_key: 'business_subscription_id',
+   *   group_values: ['ID-1', 'ID-2'],
+   *   starting_at: '2020-01-01T00:00:00.000Z',
+   * });
+   * ```
    */
   setUsageFilter(body: ContractSetUsageFilterParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/v1/contracts/setUsageFilter', {
@@ -172,6 +314,15 @@ export class Contracts extends APIResource {
 
   /**
    * Update the end date of a contract
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.contracts.updateEndDate({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   ending_before: '2020-01-01T00:00:00.000Z',
+   * });
+   * ```
    */
   updateEndDate(
     body: ContractUpdateEndDateParams,

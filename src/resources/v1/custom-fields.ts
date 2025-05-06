@@ -8,6 +8,15 @@ export class CustomFields extends APIResource {
   /**
    * Add a key to the allow list for a given entity. There is a 100 character limit
    * on custom field keys.
+   *
+   * @example
+   * ```ts
+   * await client.v1.customFields.addKey({
+   *   enforce_uniqueness: true,
+   *   entity: 'customer',
+   *   key: 'x_account_id',
+   * });
+   * ```
    */
   addKey(body: CustomFieldAddKeyParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/v1/customFields/addKey', {
@@ -19,6 +28,15 @@ export class CustomFields extends APIResource {
 
   /**
    * Deletes one or more custom fields on an instance of a Metronome entity.
+   *
+   * @example
+   * ```ts
+   * await client.v1.customFields.deleteValues({
+   *   entity: 'customer',
+   *   entity_id: '99594816-e8a5-4bca-be21-8d1de0f45120',
+   *   keys: ['x_account_id'],
+   * });
+   * ```
    */
   deleteValues(body: CustomFieldDeleteValuesParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/v1/customFields/deleteValues', {
@@ -30,6 +48,13 @@ export class CustomFields extends APIResource {
 
   /**
    * List all active custom field keys, optionally filtered by entity type.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.customFields.listKeys({
+   *   entities: ['customer'],
+   * });
+   * ```
    */
   listKeys(
     params?: CustomFieldListKeysParams,
@@ -49,6 +74,14 @@ export class CustomFields extends APIResource {
 
   /**
    * Remove a key from the allow list for a given entity.
+   *
+   * @example
+   * ```ts
+   * await client.v1.customFields.removeKey({
+   *   entity: 'customer',
+   *   key: 'x_account_id',
+   * });
+   * ```
    */
   removeKey(body: CustomFieldRemoveKeyParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/v1/customFields/removeKey', {
@@ -66,6 +99,15 @@ export class CustomFields extends APIResource {
    * transactional and will update all key/value pairs or no key/value pairs. Partial
    * updates are not supported. There is a 200 character limit on custom field
    * values.
+   *
+   * @example
+   * ```ts
+   * await client.v1.customFields.setValues({
+   *   custom_fields: { x_account_id: 'KyVnHhSBWl7eY2bl' },
+   *   entity: 'customer',
+   *   entity_id: '99594816-e8a5-4bca-be21-8d1de0f45120',
+   * });
+   * ```
    */
   setValues(body: CustomFieldSetValuesParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/v1/customFields/setValues', {

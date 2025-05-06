@@ -8,6 +8,16 @@ import { CursorPage, type CursorPageParams } from '../../../pagination';
 export class Invoices extends APIResource {
   /**
    * Fetch a specific invoice for a given customer.
+   *
+   * @example
+   * ```ts
+   * const invoice = await client.v1.customers.invoices.retrieve(
+   *   {
+   *     customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     invoice_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+   *   },
+   * );
+   * ```
    */
   retrieve(
     params: InvoiceRetrieveParams,
@@ -20,6 +30,16 @@ export class Invoices extends APIResource {
   /**
    * List all invoices for a given customer, optionally filtered by status, date
    * range, and/or credit type.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const invoice of client.v1.customers.invoices.list(
+   *   { customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' },
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params: InvoiceListParams,
@@ -34,6 +54,21 @@ export class Invoices extends APIResource {
 
   /**
    * Add a one time charge to the specified invoice
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.customers.invoices.addCharge({
+   *     customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     charge_id: '5ae4b726-1ebe-439c-9190-9831760ba195',
+   *     customer_plan_id:
+   *       'a23b3cf4-47fb-4c3f-bb3d-9e64f7704015',
+   *     description: 'One time charge',
+   *     invoice_start_timestamp: '2024-01-01T00:00:00Z',
+   *     price: 250,
+   *     quantity: 1,
+   *   });
+   * ```
    */
   addCharge(
     params: InvoiceAddChargeParams,
@@ -49,6 +84,20 @@ export class Invoices extends APIResource {
    *
    * - If we receive backdated usage after an invoice has been finalized, the
    *   backdated usage will be included in the response and usage numbers may differ.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const invoiceListBreakdownsResponse of client.v1.customers.invoices.listBreakdowns(
+   *   {
+   *     customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     ending_before: '2019-12-27T18:11:19.117Z',
+   *     starting_on: '2019-12-27T18:11:19.117Z',
+   *   },
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   listBreakdowns(
     params: InvoiceListBreakdownsParams,

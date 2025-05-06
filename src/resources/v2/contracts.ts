@@ -8,6 +8,14 @@ export class Contracts extends APIResource {
   /**
    * Get a specific contract. New clients should use this endpoint rather than the v1
    * endpoint.
+   *
+   * @example
+   * ```ts
+   * const contract = await client.v2.contracts.retrieve({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   * });
+   * ```
    */
   retrieve(
     body: ContractRetrieveParams,
@@ -19,6 +27,13 @@ export class Contracts extends APIResource {
   /**
    * List all contracts for a customer. New clients should use this endpoint rather
    * than the v1 endpoint.
+   *
+   * @example
+   * ```ts
+   * const contracts = await client.v2.contracts.list({
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   * });
+   * ```
    */
   list(body: ContractListParams, options?: Core.RequestOptions): Core.APIPromise<ContractListResponse> {
     return this._client.post('/v2/contracts/list', { body, ...options });
@@ -26,6 +41,37 @@ export class Contracts extends APIResource {
 
   /**
    * Edit a contract. Contract editing must be enabled to use this endpoint.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v2.contracts.edit({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   add_overrides: [
+   *     {
+   *       type: 'MULTIPLIER',
+   *       starting_at: '2024-11-02T00:00:00Z',
+   *       product_id: 'd4fc086c-d8e5-4091-a235-fbba5da4ec14',
+   *       multiplier: 2,
+   *       priority: 100,
+   *     },
+   *   ],
+   *   add_scheduled_charges: [
+   *     {
+   *       product_id: '2e30f074-d04c-412e-a134-851ebfa5ceb2',
+   *       schedule: {
+   *         schedule_items: [
+   *           {
+   *             timestamp: '2020-02-15T00:00:00.000Z',
+   *             unit_price: 1000000,
+   *             quantity: 1,
+   *           },
+   *         ],
+   *       },
+   *     },
+   *   ],
+   * });
+   * ```
    */
   edit(body: ContractEditParams, options?: Core.RequestOptions): Core.APIPromise<ContractEditResponse> {
     return this._client.post('/v2/contracts/edit', { body, ...options });
@@ -34,6 +80,22 @@ export class Contracts extends APIResource {
   /**
    * Edit a customer or contract commit. Contract commits can only be edited using
    * this endpoint if contract editing is enabled.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v2.contracts.editCommit({
+   *   commit_id: '5e7e82cf-ccb7-428c-a96f-a8e4f67af822',
+   *   customer_id: '4c91c473-fc12-445a-9c38-40421d47023f',
+   *   access_schedule: {
+   *     update_schedule_items: [
+   *       {
+   *         id: 'd5edbd32-c744-48cb-9475-a9bca0e6fa39',
+   *         ending_before: '2025-03-12T00:00:00Z',
+   *       },
+   *     ],
+   *   },
+   * });
+   * ```
    */
   editCommit(
     body: ContractEditCommitParams,
@@ -45,6 +107,22 @@ export class Contracts extends APIResource {
   /**
    * Edit a customer or contract credit. Contract credits can only be edited using
    * this endpoint if contract editing is enabled.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v2.contracts.editCredit({
+   *   credit_id: '5e7e82cf-ccb7-428c-a96f-a8e4f67af822',
+   *   customer_id: '4c91c473-fc12-445a-9c38-40421d47023f',
+   *   access_schedule: {
+   *     update_schedule_items: [
+   *       {
+   *         id: 'd5edbd32-c744-48cb-9475-a9bca0e6fa39',
+   *         ending_before: '2025-03-12T00:00:00Z',
+   *       },
+   *     ],
+   *   },
+   * });
+   * ```
    */
   editCredit(
     body: ContractEditCreditParams,
@@ -56,6 +134,14 @@ export class Contracts extends APIResource {
   /**
    * Get the edit history of a specific contract. Contract editing must be enabled to
    * use this endpoint.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v2.contracts.getEditHistory({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   * });
+   * ```
    */
   getEditHistory(
     body: ContractGetEditHistoryParams,

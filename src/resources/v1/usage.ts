@@ -9,6 +9,15 @@ export class Usage extends APIResource {
   /**
    * Fetch aggregated usage data for multiple customers and billable-metrics, broken
    * into intervals of the specified length.
+   *
+   * @example
+   * ```ts
+   * const usages = await client.v1.usage.list({
+   *   ending_before: '2021-01-03T00:00:00Z',
+   *   starting_on: '2021-01-01T00:00:00Z',
+   *   window_size: 'day',
+   * });
+   * ```
    */
   list(params: UsageListParams, options?: Core.RequestOptions): Core.APIPromise<UsageListResponse> {
     const { next_page, ...body } = params;
@@ -21,6 +30,18 @@ export class Usage extends APIResource {
    * supported with a `Content-Encoding: gzip` header. See
    * [Getting usage into Metronome](https://docs.metronome.com/connect-metronome/) to
    * learn more about usage events.
+   *
+   * @example
+   * ```ts
+   * await client.v1.usage.ingest([
+   *   {
+   *     customer_id: 'team@example.com',
+   *     event_type: 'heartbeat',
+   *     timestamp: '2021-01-01T00:00:00Z',
+   *     transaction_id: '2021-01-01T00:00:00Z_cluster42',
+   *   },
+   * ]);
+   * ```
    */
   ingest(body?: UsageIngestParams, options?: Core.RequestOptions): Core.APIPromise<void>;
   ingest(options?: Core.RequestOptions): Core.APIPromise<void>;
@@ -41,6 +62,27 @@ export class Usage extends APIResource {
   /**
    * Fetch aggregated usage data for the specified customer, billable-metric, and
    * optional group, broken into intervals of the specified length.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const usageListWithGroupsResponse of client.v1.usage.listWithGroups(
+   *   {
+   *     billable_metric_id:
+   *       '222796fd-d29c-429e-89b2-549fabda4ed6',
+   *     customer_id: '04ca7e72-4229-4a6e-ab11-9f7376fccbcb',
+   *     window_size: 'day',
+   *     ending_before: '2021-01-03T00:00:00Z',
+   *     group_by: {
+   *       key: 'region',
+   *       values: ['US-East', 'US-West', 'EU-Central'],
+   *     },
+   *     starting_on: '2021-01-01T00:00:00Z',
+   *   },
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   listWithGroups(
     params: UsageListWithGroupsParams,

@@ -6,6 +6,13 @@ import * as Core from '../../core';
 export class Invoices extends APIResource {
   /**
    * Regenerate a voided contract invoice
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.invoices.regenerate({
+   *   id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+   * });
+   * ```
    */
   regenerate(
     body: InvoiceRegenerateParams,
@@ -16,6 +23,13 @@ export class Invoices extends APIResource {
 
   /**
    * Void an invoice
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.invoices.void({
+   *   id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+   * });
+   * ```
    */
   void(body: InvoiceVoidParams, options?: Core.RequestOptions): Core.APIPromise<InvoiceVoidResponse> {
     return this._client.post('/v1/invoices/void', { body, ...options });

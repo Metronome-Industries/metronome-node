@@ -7,6 +7,37 @@ import * as Shared from '../../shared';
 export class Commits extends APIResource {
   /**
    * Create a new commit at the customer level.
+   *
+   * @example
+   * ```ts
+   * const commit = await client.v1.customers.commits.create({
+   *   access_schedule: {
+   *     credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+   *     schedule_items: [
+   *       {
+   *         amount: 1000,
+   *         starting_at: '2020-01-01T00:00:00.000Z',
+   *         ending_before: '2020-02-01T00:00:00.000Z',
+   *       },
+   *     ],
+   *   },
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   priority: 100,
+   *   product_id: 'f14d6729-6a44-4b13-9908-9387f1918790',
+   *   type: 'prepaid',
+   *   invoice_schedule: {
+   *     credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+   *     schedule_items: [
+   *       {
+   *         unit_price: 10000000,
+   *         quantity: 1,
+   *         timestamp: '2020-03-01T00:00:00.000Z',
+   *       },
+   *     ],
+   *   },
+   *   name: 'My Commit',
+   * });
+   * ```
    */
   create(body: CommitCreateParams, options?: Core.RequestOptions): Core.APIPromise<CommitCreateResponse> {
     return this._client.post('/v1/contracts/customerCommits/create', { body, ...options });
@@ -14,6 +45,15 @@ export class Commits extends APIResource {
 
   /**
    * List commits.
+   *
+   * @example
+   * ```ts
+   * const commits = await client.v1.customers.commits.list({
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   commit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+   *   include_ledgers: true,
+   * });
+   * ```
    */
   list(body: CommitListParams, options?: Core.RequestOptions): Core.APIPromise<CommitListResponse> {
     return this._client.post('/v1/contracts/customerCommits/list', { body, ...options });
@@ -23,6 +63,17 @@ export class Commits extends APIResource {
    * Pull forward the end date of a prepaid commit. Use the "edit a commit" endpoint
    * to extend the end date of a prepaid commit, or to make other edits to the
    * commit.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.customers.commits.updateEndDate({
+   *     commit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *     access_ending_before: '2020-01-01T00:00:00.000Z',
+   *     invoices_ending_before: '2020-01-01T00:00:00.000Z',
+   *   });
+   * ```
    */
   updateEndDate(
     body: CommitUpdateEndDateParams,

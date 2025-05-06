@@ -8,6 +8,14 @@ import { CursorPage, type CursorPageParams } from '../../pagination';
 export class PricingUnits extends APIResource {
   /**
    * List all pricing units (known in the API by the legacy term "credit types").
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const pricingUnitListResponse of client.v1.pricingUnits.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query?: PricingUnitListParams,
