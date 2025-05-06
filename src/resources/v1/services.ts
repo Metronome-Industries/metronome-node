@@ -9,6 +9,11 @@ export class Services extends APIResource {
    * addresses are not necessarily unique between services. In most cases, IP
    * addresses will appear in the list at least 30 days before they are used for the
    * first time.
+   *
+   * @example
+   * ```ts
+   * const services = await client.v1.services.list();
+   * ```
    */
   list(options?: Core.RequestOptions): Core.APIPromise<ServiceListResponse> {
     return this._client.get('/v1/services', options);

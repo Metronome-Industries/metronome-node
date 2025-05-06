@@ -39,6 +39,26 @@ export class RateCards extends APIResource {
 
   /**
    * Create a new rate card
+   *
+   * @example
+   * ```ts
+   * const rateCard = await client.v1.contracts.rateCards.create(
+   *   {
+   *     name: 'My Rate Card',
+   *     aliases: [{ name: 'my-rate-card' }],
+   *     credit_type_conversions: [
+   *       {
+   *         custom_credit_type_id:
+   *           '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+   *         fiat_per_custom_credit: 2,
+   *       },
+   *     ],
+   *     description: 'My Rate Card Description',
+   *     fiat_credit_type_id:
+   *       '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+   *   },
+   * );
+   * ```
    */
   create(body: RateCardCreateParams, options?: Core.RequestOptions): Core.APIPromise<RateCardCreateResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/create', { body, ...options });
@@ -47,6 +67,14 @@ export class RateCards extends APIResource {
   /**
    * Get a specific rate card NOTE: Use `/contract-pricing/rate-cards/getRates` to
    * retrieve rate card rates.
+   *
+   * @example
+   * ```ts
+   * const rateCard =
+   *   await client.v1.contracts.rateCards.retrieve({
+   *     id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
+   *   });
+   * ```
    */
   retrieve(
     body: RateCardRetrieveParams,
@@ -57,6 +85,17 @@ export class RateCards extends APIResource {
 
   /**
    * Update a rate card
+   *
+   * @example
+   * ```ts
+   * const rateCard = await client.v1.contracts.rateCards.update(
+   *   {
+   *     rate_card_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     description: 'My Updated Rate Card Description',
+   *     name: 'My Updated Rate Card',
+   *   },
+   * );
+   * ```
    */
   update(body: RateCardUpdateParams, options?: Core.RequestOptions): Core.APIPromise<RateCardUpdateResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/update', { body, ...options });
@@ -65,6 +104,14 @@ export class RateCards extends APIResource {
   /**
    * List rate cards NOTE: Use `/contract-pricing/rate-cards/getRates` to retrieve
    * rate card rates.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const rateCardListResponse of client.v1.contracts.rateCards.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: RateCardListParams,
@@ -91,6 +138,14 @@ export class RateCards extends APIResource {
 
   /**
    * Archive a rate card
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.rateCards.archive({
+   *     id: '12b21470-4570-40df-8998-449d0b0bc52f',
+   *   });
+   * ```
    */
   archive(
     body: RateCardArchiveParams,
@@ -102,6 +157,24 @@ export class RateCards extends APIResource {
   /**
    * Get all rates for a rate card from starting_at (either in perpetuity or until
    * ending_before, if provided)
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.rateCards.retrieveRateSchedule({
+   *     rate_card_id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
+   *     starting_at: '2024-01-01T00:00:00.000Z',
+   *     selectors: [
+   *       {
+   *         product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
+   *         partial_pricing_group_values: {
+   *           region: 'us-west-2',
+   *           cloud: 'aws',
+   *         },
+   *       },
+   *     ],
+   *   });
+   * ```
    */
   retrieveRateSchedule(
     params: RateCardRetrieveRateScheduleParams,

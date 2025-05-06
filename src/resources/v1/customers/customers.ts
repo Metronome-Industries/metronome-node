@@ -90,6 +90,24 @@ export class Customers extends APIResource {
 
   /**
    * Create a new customer
+   *
+   * @example
+   * ```ts
+   * const customer = await client.v1.customers.create({
+   *   name: 'Example, Inc.',
+   *   customer_billing_provider_configurations: [
+   *     {
+   *       billing_provider: 'stripe',
+   *       delivery_method: 'direct_to_billing_provider',
+   *       configuration: {
+   *         stripe_customer_id: 'cus_123',
+   *         stripe_collection_method: 'charge_automatically',
+   *       },
+   *     },
+   *   ],
+   *   ingest_aliases: ['team@example.com'],
+   * });
+   * ```
    */
   create(body: CustomerCreateParams, options?: Core.RequestOptions): Core.APIPromise<CustomerCreateResponse> {
     return this._client.post('/v1/customers', { body, ...options });
@@ -97,6 +115,13 @@ export class Customers extends APIResource {
 
   /**
    * Get a customer by Metronome ID.
+   *
+   * @example
+   * ```ts
+   * const customer = await client.v1.customers.retrieve({
+   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   * });
+   * ```
    */
   retrieve(
     params: CustomerRetrieveParams,
@@ -108,6 +133,14 @@ export class Customers extends APIResource {
 
   /**
    * List all customers.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const customerDetail of client.v1.customers.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query?: CustomerListParams,
@@ -126,6 +159,13 @@ export class Customers extends APIResource {
 
   /**
    * Archive a customer
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.customers.archive({
+   *   id: '8deed800-1b7a-495d-a207-6c52bac54dc9',
+   * });
+   * ```
    */
   archive(
     body: CustomerArchiveParams,
@@ -136,6 +176,16 @@ export class Customers extends APIResource {
 
   /**
    * Get all billable metrics for a given customer.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const customerListBillableMetricsResponse of client.v1.customers.listBillableMetrics(
+   *   { customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' },
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   listBillableMetrics(
     params: CustomerListBillableMetricsParams,
@@ -153,6 +203,20 @@ export class Customers extends APIResource {
    * Fetch daily pending costs for the specified customer, broken down by credit type
    * and line items. Note: this is not supported for customers whose plan includes a
    * UNIQUE-type billable metric.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const customerListCostsResponse of client.v1.customers.listCosts(
+   *   {
+   *     customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     ending_before: '2019-12-27T18:11:19.117Z',
+   *     starting_on: '2019-12-27T18:11:19.117Z',
+   *   },
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   listCosts(
     params: CustomerListCostsParams,
@@ -170,6 +234,14 @@ export class Customers extends APIResource {
    * Sets the ingest aliases for a customer. Ingest aliases can be used in the
    * `customer_id` field when sending usage events to Metronome. This call is
    * idempotent. It fully replaces the set of ingest aliases for the given customer.
+   *
+   * @example
+   * ```ts
+   * await client.v1.customers.setIngestAliases({
+   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   ingest_aliases: ['team@example.com'],
+   * });
+   * ```
    */
   setIngestAliases(
     params: CustomerSetIngestAliasesParams,
@@ -185,6 +257,14 @@ export class Customers extends APIResource {
 
   /**
    * Updates the specified customer's name.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.customers.setName({
+   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   name: 'Example, Inc.',
+   * });
+   * ```
    */
   setName(
     params: CustomerSetNameParams,
@@ -196,6 +276,14 @@ export class Customers extends APIResource {
 
   /**
    * Updates the specified customer's config.
+   *
+   * @example
+   * ```ts
+   * await client.v1.customers.updateConfig({
+   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   salesforce_account_id: '0015500001WO1ZiABL',
+   * });
+   * ```
    */
   updateConfig(params: CustomerUpdateConfigParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     const { customer_id, ...body } = params;
