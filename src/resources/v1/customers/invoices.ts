@@ -238,6 +238,13 @@ export namespace Invoice {
 
     custom_fields?: Record<string, string>;
 
+    discount_custom_fields?: Record<string, string>;
+
+    /**
+     * ID of the discount applied to this line item.
+     */
+    discount_id?: string;
+
     /**
      * The line item's end date (exclusive).
      */
