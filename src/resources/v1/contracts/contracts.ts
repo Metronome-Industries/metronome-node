@@ -358,14 +358,14 @@ export namespace ContractRetrieveResponse {
      */
     archived_at?: string;
 
-    credit_balance_threshold_configuration?: Data.CreditBalanceThresholdConfiguration;
-
     custom_fields?: Record<string, string>;
 
     /**
      * The billing provider configuration associated with a contract.
      */
     customer_billing_provider_configuration?: Data.CustomerBillingProviderConfiguration;
+
+    prepaid_balance_threshold_configuration?: Data.PrepaidBalanceThresholdConfiguration;
 
     /**
      * Determines which scheduled and commit charges to consolidate onto the Contract's
@@ -456,8 +456,33 @@ export namespace ContractRetrieveResponse {
       }
     }
 
-    export interface CreditBalanceThresholdConfiguration {
-      commit: CreditBalanceThresholdConfiguration.Commit;
+    /**
+     * The billing provider configuration associated with a contract.
+     */
+    export interface CustomerBillingProviderConfiguration {
+      billing_provider:
+        | 'aws_marketplace'
+        | 'stripe'
+        | 'netsuite'
+        | 'custom'
+        | 'azure_marketplace'
+        | 'quickbooks_online'
+        | 'workday'
+        | 'gcp_marketplace';
+
+      delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+
+      id?: string;
+
+      /**
+       * Configuration for the billing provider. The structure of this object is specific
+       * to the billing provider.
+       */
+      configuration?: Record<string, unknown>;
+    }
+
+    export interface PrepaidBalanceThresholdConfiguration {
+      commit: PrepaidBalanceThresholdConfiguration.Commit;
 
       /**
        * When set to false, the contract will not be evaluated against the
@@ -466,7 +491,7 @@ export namespace ContractRetrieveResponse {
        */
       is_enabled: boolean;
 
-      payment_gate_config: CreditBalanceThresholdConfiguration.PaymentGateConfig;
+      payment_gate_config: PrepaidBalanceThresholdConfiguration.PaymentGateConfig;
 
       /**
        * Specify the amount the balance should be recharged to.
@@ -474,13 +499,13 @@ export namespace ContractRetrieveResponse {
       recharge_to_amount: number;
 
       /**
-       * Specify the threshold amount for the contract. Each time the contract's balance
-       * lowers to this amount, a threshold charge will be initiated.
+       * Specify the threshold amount for the contract. Each time the contract's prepaid
+       * balance lowers to this amount, a threshold charge will be initiated.
        */
       threshold_amount: number;
     }
 
-    export namespace CreditBalanceThresholdConfiguration {
+    export namespace PrepaidBalanceThresholdConfiguration {
       export interface Commit {
         /**
          * The commit product that will be used to generate the line item for commit
@@ -543,31 +568,6 @@ export namespace ContractRetrieveResponse {
           payment_type: 'INVOICE' | 'PAYMENT_INTENT';
         }
       }
-    }
-
-    /**
-     * The billing provider configuration associated with a contract.
-     */
-    export interface CustomerBillingProviderConfiguration {
-      billing_provider:
-        | 'aws_marketplace'
-        | 'stripe'
-        | 'netsuite'
-        | 'custom'
-        | 'azure_marketplace'
-        | 'quickbooks_online'
-        | 'workday'
-        | 'gcp_marketplace';
-
-      delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
-
-      id?: string;
-
-      /**
-       * Configuration for the billing provider. The structure of this object is specific
-       * to the billing provider.
-       */
-      configuration?: Record<string, unknown>;
     }
 
     export interface SpendThresholdConfiguration {
@@ -665,14 +665,14 @@ export namespace ContractListResponse {
      */
     archived_at?: string;
 
-    credit_balance_threshold_configuration?: Data.CreditBalanceThresholdConfiguration;
-
     custom_fields?: Record<string, string>;
 
     /**
      * The billing provider configuration associated with a contract.
      */
     customer_billing_provider_configuration?: Data.CustomerBillingProviderConfiguration;
+
+    prepaid_balance_threshold_configuration?: Data.PrepaidBalanceThresholdConfiguration;
 
     /**
      * Determines which scheduled and commit charges to consolidate onto the Contract's
@@ -763,8 +763,33 @@ export namespace ContractListResponse {
       }
     }
 
-    export interface CreditBalanceThresholdConfiguration {
-      commit: CreditBalanceThresholdConfiguration.Commit;
+    /**
+     * The billing provider configuration associated with a contract.
+     */
+    export interface CustomerBillingProviderConfiguration {
+      billing_provider:
+        | 'aws_marketplace'
+        | 'stripe'
+        | 'netsuite'
+        | 'custom'
+        | 'azure_marketplace'
+        | 'quickbooks_online'
+        | 'workday'
+        | 'gcp_marketplace';
+
+      delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+
+      id?: string;
+
+      /**
+       * Configuration for the billing provider. The structure of this object is specific
+       * to the billing provider.
+       */
+      configuration?: Record<string, unknown>;
+    }
+
+    export interface PrepaidBalanceThresholdConfiguration {
+      commit: PrepaidBalanceThresholdConfiguration.Commit;
 
       /**
        * When set to false, the contract will not be evaluated against the
@@ -773,7 +798,7 @@ export namespace ContractListResponse {
        */
       is_enabled: boolean;
 
-      payment_gate_config: CreditBalanceThresholdConfiguration.PaymentGateConfig;
+      payment_gate_config: PrepaidBalanceThresholdConfiguration.PaymentGateConfig;
 
       /**
        * Specify the amount the balance should be recharged to.
@@ -781,13 +806,13 @@ export namespace ContractListResponse {
       recharge_to_amount: number;
 
       /**
-       * Specify the threshold amount for the contract. Each time the contract's balance
-       * lowers to this amount, a threshold charge will be initiated.
+       * Specify the threshold amount for the contract. Each time the contract's prepaid
+       * balance lowers to this amount, a threshold charge will be initiated.
        */
       threshold_amount: number;
     }
 
-    export namespace CreditBalanceThresholdConfiguration {
+    export namespace PrepaidBalanceThresholdConfiguration {
       export interface Commit {
         /**
          * The commit product that will be used to generate the line item for commit
@@ -850,31 +875,6 @@ export namespace ContractListResponse {
           payment_type: 'INVOICE' | 'PAYMENT_INTENT';
         }
       }
-    }
-
-    /**
-     * The billing provider configuration associated with a contract.
-     */
-    export interface CustomerBillingProviderConfiguration {
-      billing_provider:
-        | 'aws_marketplace'
-        | 'stripe'
-        | 'netsuite'
-        | 'custom'
-        | 'azure_marketplace'
-        | 'quickbooks_online'
-        | 'workday'
-        | 'gcp_marketplace';
-
-      delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
-
-      id?: string;
-
-      /**
-       * Configuration for the billing provider. The structure of this object is specific
-       * to the billing provider.
-       */
-      configuration?: Record<string, unknown>;
     }
 
     export interface SpendThresholdConfiguration {
@@ -1049,8 +1049,6 @@ export interface ContractCreateParams {
 
   commits?: Array<ContractCreateParams.Commit>;
 
-  credit_balance_threshold_configuration?: ContractCreateParams.CreditBalanceThresholdConfiguration;
-
   credits?: Array<ContractCreateParams.Credit>;
 
   custom_fields?: Record<string, string>;
@@ -1083,6 +1081,8 @@ export interface ContractCreateParams {
   netsuite_sales_order_id?: string;
 
   overrides?: Array<ContractCreateParams.Override>;
+
+  prepaid_balance_threshold_configuration?: ContractCreateParams.PrepaidBalanceThresholdConfiguration;
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -1368,95 +1368,6 @@ export namespace ContractCreateParams {
     /**
      * optionally payment gate this commit
      */
-    export interface PaymentGateConfig {
-      /**
-       * Gate access to the commit balance based on successful collection of payment.
-       * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
-       * facilitate payment using your own payment integration. Select NONE if you do not
-       * wish to payment gate the commit balance.
-       */
-      payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
-
-      /**
-       * Only applicable if using Stripe as your payment gateway through Metronome.
-       */
-      stripe_config?: PaymentGateConfig.StripeConfig;
-
-      /**
-       * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
-       * not wish Metronome to calculate tax on your behalf. Leaving this field blank
-       * will default to NONE.
-       */
-      tax_type?: 'NONE' | 'STRIPE';
-    }
-
-    export namespace PaymentGateConfig {
-      /**
-       * Only applicable if using Stripe as your payment gateway through Metronome.
-       */
-      export interface StripeConfig {
-        /**
-         * If left blank, will default to INVOICE
-         */
-        payment_type: 'INVOICE' | 'PAYMENT_INTENT';
-      }
-    }
-  }
-
-  export interface CreditBalanceThresholdConfiguration {
-    commit: CreditBalanceThresholdConfiguration.Commit;
-
-    /**
-     * When set to false, the contract will not be evaluated against the
-     * threshold_amount. Toggling to true will result an immediate evaluation,
-     * regardless of prior state.
-     */
-    is_enabled: boolean;
-
-    payment_gate_config: CreditBalanceThresholdConfiguration.PaymentGateConfig;
-
-    /**
-     * Specify the amount the balance should be recharged to.
-     */
-    recharge_to_amount: number;
-
-    /**
-     * Specify the threshold amount for the contract. Each time the contract's balance
-     * lowers to this amount, a threshold charge will be initiated.
-     */
-    threshold_amount: number;
-  }
-
-  export namespace CreditBalanceThresholdConfiguration {
-    export interface Commit {
-      /**
-       * The commit product that will be used to generate the line item for commit
-       * payment.
-       */
-      product_id: string;
-
-      /**
-       * Which products the threshold commit applies to. If both applicable_product_ids
-       * and applicable_product_tags are not provided, the commit applies to all
-       * products.
-       */
-      applicable_product_ids?: Array<string>;
-
-      /**
-       * Which tags the threshold commit applies to. If both applicable_product_ids and
-       * applicable_product_tags are not provided, the commit applies to all products.
-       */
-      applicable_product_tags?: Array<string>;
-
-      description?: string;
-
-      /**
-       * Specify the name of the line item for the threshold charge. If left blank, it
-       * will default to the commit product name.
-       */
-      name?: string;
-    }
-
     export interface PaymentGateConfig {
       /**
        * Gate access to the commit balance based on successful collection of payment.
@@ -1851,6 +1762,95 @@ export namespace ContractCreateParams {
       multiplier: number;
 
       size?: number;
+    }
+  }
+
+  export interface PrepaidBalanceThresholdConfiguration {
+    commit: PrepaidBalanceThresholdConfiguration.Commit;
+
+    /**
+     * When set to false, the contract will not be evaluated against the
+     * threshold_amount. Toggling to true will result an immediate evaluation,
+     * regardless of prior state.
+     */
+    is_enabled: boolean;
+
+    payment_gate_config: PrepaidBalanceThresholdConfiguration.PaymentGateConfig;
+
+    /**
+     * Specify the amount the balance should be recharged to.
+     */
+    recharge_to_amount: number;
+
+    /**
+     * Specify the threshold amount for the contract. Each time the contract's prepaid
+     * balance lowers to this amount, a threshold charge will be initiated.
+     */
+    threshold_amount: number;
+  }
+
+  export namespace PrepaidBalanceThresholdConfiguration {
+    export interface Commit {
+      /**
+       * The commit product that will be used to generate the line item for commit
+       * payment.
+       */
+      product_id: string;
+
+      /**
+       * Which products the threshold commit applies to. If both applicable_product_ids
+       * and applicable_product_tags are not provided, the commit applies to all
+       * products.
+       */
+      applicable_product_ids?: Array<string>;
+
+      /**
+       * Which tags the threshold commit applies to. If both applicable_product_ids and
+       * applicable_product_tags are not provided, the commit applies to all products.
+       */
+      applicable_product_tags?: Array<string>;
+
+      description?: string;
+
+      /**
+       * Specify the name of the line item for the threshold charge. If left blank, it
+       * will default to the commit product name.
+       */
+      name?: string;
+    }
+
+    export interface PaymentGateConfig {
+      /**
+       * Gate access to the commit balance based on successful collection of payment.
+       * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
+       * facilitate payment using your own payment integration. Select NONE if you do not
+       * wish to payment gate the commit balance.
+       */
+      payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
+
+      /**
+       * Only applicable if using Stripe as your payment gateway through Metronome.
+       */
+      stripe_config?: PaymentGateConfig.StripeConfig;
+
+      /**
+       * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+       * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+       * will default to NONE.
+       */
+      tax_type?: 'NONE' | 'STRIPE';
+    }
+
+    export namespace PaymentGateConfig {
+      /**
+       * Only applicable if using Stripe as your payment gateway through Metronome.
+       */
+      export interface StripeConfig {
+        /**
+         * If left blank, will default to INVOICE
+         */
+        payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+      }
     }
   }
 

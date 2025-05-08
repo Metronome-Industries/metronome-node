@@ -301,8 +301,6 @@ export interface ContractWithoutAmendments {
 
   usage_statement_schedule: ContractWithoutAmendments.UsageStatementSchedule;
 
-  credit_balance_threshold_configuration?: ContractWithoutAmendments.CreditBalanceThresholdConfiguration;
-
   credits?: Array<Credit>;
 
   /**
@@ -320,6 +318,8 @@ export interface ContractWithoutAmendments {
    * This field's availability is dependent on your client's configuration.
    */
   netsuite_sales_order_id?: string;
+
+  prepaid_balance_threshold_configuration?: ContractWithoutAmendments.PrepaidBalanceThresholdConfiguration;
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -379,8 +379,8 @@ export namespace ContractWithoutAmendments {
     frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
   }
 
-  export interface CreditBalanceThresholdConfiguration {
-    commit: CreditBalanceThresholdConfiguration.Commit;
+  export interface PrepaidBalanceThresholdConfiguration {
+    commit: PrepaidBalanceThresholdConfiguration.Commit;
 
     /**
      * When set to false, the contract will not be evaluated against the
@@ -389,7 +389,7 @@ export namespace ContractWithoutAmendments {
      */
     is_enabled: boolean;
 
-    payment_gate_config: CreditBalanceThresholdConfiguration.PaymentGateConfig;
+    payment_gate_config: PrepaidBalanceThresholdConfiguration.PaymentGateConfig;
 
     /**
      * Specify the amount the balance should be recharged to.
@@ -397,13 +397,13 @@ export namespace ContractWithoutAmendments {
     recharge_to_amount: number;
 
     /**
-     * Specify the threshold amount for the contract. Each time the contract's balance
-     * lowers to this amount, a threshold charge will be initiated.
+     * Specify the threshold amount for the contract. Each time the contract's prepaid
+     * balance lowers to this amount, a threshold charge will be initiated.
      */
     threshold_amount: number;
   }
 
-  export namespace CreditBalanceThresholdConfiguration {
+  export namespace PrepaidBalanceThresholdConfiguration {
     export interface Commit {
       /**
        * The commit product that will be used to generate the line item for commit

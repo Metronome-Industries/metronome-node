@@ -181,8 +181,6 @@ export namespace ContractRetrieveResponse {
 
     archived_at?: string;
 
-    credit_balance_threshold_configuration?: Data.CreditBalanceThresholdConfiguration;
-
     credits?: Array<Data.Credit>;
 
     custom_fields?: Record<string, string>;
@@ -215,6 +213,8 @@ export namespace ContractRetrieveResponse {
      * This field's availability is dependent on your client's configuration.
      */
     netsuite_sales_order_id?: string;
+
+    prepaid_balance_threshold_configuration?: Data.PrepaidBalanceThresholdConfiguration;
 
     /**
      * This field's availability is dependent on your client's configuration.
@@ -645,59 +645,6 @@ export namespace ContractRetrieveResponse {
       frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
     }
 
-    export interface CreditBalanceThresholdConfiguration {
-      commit: CreditBalanceThresholdConfiguration.Commit;
-
-      /**
-       * When set to false, the contract will not be evaluated against the
-       * threshold_amount. Toggling to true will result an immediate evaluation,
-       * regardless of prior state.
-       */
-      is_enabled: boolean;
-
-      /**
-       * Specify the amount the balance should be recharged to.
-       */
-      recharge_to_amount: number;
-
-      /**
-       * Specify the threshold amount for the contract. Each time the contract's balance
-       * lowers to this amount, a threshold charge will be initiated.
-       */
-      threshold_amount: number;
-    }
-
-    export namespace CreditBalanceThresholdConfiguration {
-      export interface Commit {
-        /**
-         * The commit product that will be used to generate the line item for commit
-         * payment.
-         */
-        product_id: string;
-
-        /**
-         * Which products the threshold commit applies to. If both applicable_product_ids
-         * and applicable_product_tags are not provided, the commit applies to all
-         * products.
-         */
-        applicable_product_ids?: Array<string>;
-
-        /**
-         * Which tags the threshold commit applies to. If both applicable_product_ids and
-         * applicable_product_tags are not provided, the commit applies to all products.
-         */
-        applicable_product_tags?: Array<string>;
-
-        description?: string;
-
-        /**
-         * Specify the name of the line item for the threshold charge. If left blank, it
-         * will default to the commit product name.
-         */
-        name?: string;
-      }
-    }
-
     export interface Credit {
       id: string;
 
@@ -859,6 +806,59 @@ export namespace ContractRetrieveResponse {
         | 'gcp_marketplace';
 
       delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+    }
+
+    export interface PrepaidBalanceThresholdConfiguration {
+      commit: PrepaidBalanceThresholdConfiguration.Commit;
+
+      /**
+       * When set to false, the contract will not be evaluated against the
+       * threshold_amount. Toggling to true will result an immediate evaluation,
+       * regardless of prior state.
+       */
+      is_enabled: boolean;
+
+      /**
+       * Specify the amount the balance should be recharged to.
+       */
+      recharge_to_amount: number;
+
+      /**
+       * Specify the threshold amount for the contract. Each time the contract's balance
+       * lowers to this amount, a threshold charge will be initiated.
+       */
+      threshold_amount: number;
+    }
+
+    export namespace PrepaidBalanceThresholdConfiguration {
+      export interface Commit {
+        /**
+         * The commit product that will be used to generate the line item for commit
+         * payment.
+         */
+        product_id: string;
+
+        /**
+         * Which products the threshold commit applies to. If both applicable_product_ids
+         * and applicable_product_tags are not provided, the commit applies to all
+         * products.
+         */
+        applicable_product_ids?: Array<string>;
+
+        /**
+         * Which tags the threshold commit applies to. If both applicable_product_ids and
+         * applicable_product_tags are not provided, the commit applies to all products.
+         */
+        applicable_product_tags?: Array<string>;
+
+        description?: string;
+
+        /**
+         * Specify the name of the line item for the threshold charge. If left blank, it
+         * will default to the commit product name.
+         */
+        name?: string;
+      }
     }
 
     export interface RecurringCommit {
@@ -1250,8 +1250,6 @@ export namespace ContractListResponse {
 
     archived_at?: string;
 
-    credit_balance_threshold_configuration?: Data.CreditBalanceThresholdConfiguration;
-
     credits?: Array<Data.Credit>;
 
     custom_fields?: Record<string, string>;
@@ -1284,6 +1282,8 @@ export namespace ContractListResponse {
      * This field's availability is dependent on your client's configuration.
      */
     netsuite_sales_order_id?: string;
+
+    prepaid_balance_threshold_configuration?: Data.PrepaidBalanceThresholdConfiguration;
 
     /**
      * This field's availability is dependent on your client's configuration.
@@ -1714,59 +1714,6 @@ export namespace ContractListResponse {
       frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
     }
 
-    export interface CreditBalanceThresholdConfiguration {
-      commit: CreditBalanceThresholdConfiguration.Commit;
-
-      /**
-       * When set to false, the contract will not be evaluated against the
-       * threshold_amount. Toggling to true will result an immediate evaluation,
-       * regardless of prior state.
-       */
-      is_enabled: boolean;
-
-      /**
-       * Specify the amount the balance should be recharged to.
-       */
-      recharge_to_amount: number;
-
-      /**
-       * Specify the threshold amount for the contract. Each time the contract's balance
-       * lowers to this amount, a threshold charge will be initiated.
-       */
-      threshold_amount: number;
-    }
-
-    export namespace CreditBalanceThresholdConfiguration {
-      export interface Commit {
-        /**
-         * The commit product that will be used to generate the line item for commit
-         * payment.
-         */
-        product_id: string;
-
-        /**
-         * Which products the threshold commit applies to. If both applicable_product_ids
-         * and applicable_product_tags are not provided, the commit applies to all
-         * products.
-         */
-        applicable_product_ids?: Array<string>;
-
-        /**
-         * Which tags the threshold commit applies to. If both applicable_product_ids and
-         * applicable_product_tags are not provided, the commit applies to all products.
-         */
-        applicable_product_tags?: Array<string>;
-
-        description?: string;
-
-        /**
-         * Specify the name of the line item for the threshold charge. If left blank, it
-         * will default to the commit product name.
-         */
-        name?: string;
-      }
-    }
-
     export interface Credit {
       id: string;
 
@@ -1928,6 +1875,59 @@ export namespace ContractListResponse {
         | 'gcp_marketplace';
 
       delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+    }
+
+    export interface PrepaidBalanceThresholdConfiguration {
+      commit: PrepaidBalanceThresholdConfiguration.Commit;
+
+      /**
+       * When set to false, the contract will not be evaluated against the
+       * threshold_amount. Toggling to true will result an immediate evaluation,
+       * regardless of prior state.
+       */
+      is_enabled: boolean;
+
+      /**
+       * Specify the amount the balance should be recharged to.
+       */
+      recharge_to_amount: number;
+
+      /**
+       * Specify the threshold amount for the contract. Each time the contract's balance
+       * lowers to this amount, a threshold charge will be initiated.
+       */
+      threshold_amount: number;
+    }
+
+    export namespace PrepaidBalanceThresholdConfiguration {
+      export interface Commit {
+        /**
+         * The commit product that will be used to generate the line item for commit
+         * payment.
+         */
+        product_id: string;
+
+        /**
+         * Which products the threshold commit applies to. If both applicable_product_ids
+         * and applicable_product_tags are not provided, the commit applies to all
+         * products.
+         */
+        applicable_product_ids?: Array<string>;
+
+        /**
+         * Which tags the threshold commit applies to. If both applicable_product_ids and
+         * applicable_product_tags are not provided, the commit applies to all products.
+         */
+        applicable_product_tags?: Array<string>;
+
+        description?: string;
+
+        /**
+         * Specify the name of the line item for the threshold charge. If left blank, it
+         * will default to the commit product name.
+         */
+        name?: string;
+      }
     }
 
     export interface RecurringCommit {
