@@ -192,6 +192,12 @@ export interface AlertRetrieveParams {
    * The Metronome ID of the customer
    */
   customer_id: string;
+
+  /**
+   * When parallel alerts are enabled during migration, this flag denotes whether to
+   * fetch alerts for plans or contracts.
+   */
+  plans_or_contracts?: 'PLANS' | 'CONTRACTS';
 }
 
 export interface AlertListParams {
