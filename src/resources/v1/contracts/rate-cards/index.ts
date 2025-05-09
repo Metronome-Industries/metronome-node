@@ -20,11 +20,13 @@ export {
   type RateCardRetrieveResponse,
   type RateCardUpdateResponse,
   type RateCardListResponse,
+  type RateCardArchiveResponse,
   type RateCardRetrieveRateScheduleResponse,
   type RateCardCreateParams,
   type RateCardRetrieveParams,
   type RateCardUpdateParams,
   type RateCardListParams,
+  type RateCardArchiveParams,
   type RateCardRetrieveRateScheduleParams,
 } from './rate-cards';
 export {

@@ -6,6 +6,16 @@ import * as Core from '../../../core';
 export class BillingConfig extends APIResource {
   /**
    * Set the billing configuration for a given customer.
+   *
+   * @example
+   * ```ts
+   * await client.v1.customers.billingConfig.create({
+   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   billing_provider_type: 'stripe',
+   *   billing_provider_customer_id: 'cus_AJ6y20bjkOOayM',
+   *   stripe_collection_method: 'charge_automatically',
+   * });
+   * ```
    */
   create(params: BillingConfigCreateParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     const { customer_id, billing_provider_type, ...body } = params;
@@ -18,6 +28,15 @@ export class BillingConfig extends APIResource {
 
   /**
    * Fetch the billing configuration for the given customer.
+   *
+   * @example
+   * ```ts
+   * const billingConfig =
+   *   await client.v1.customers.billingConfig.retrieve({
+   *     customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     billing_provider_type: 'stripe',
+   *   });
+   * ```
    */
   retrieve(
     params: BillingConfigRetrieveParams,
@@ -30,6 +49,14 @@ export class BillingConfig extends APIResource {
   /**
    * Delete the billing configuration for a given customer. Note: this is unsupported
    * for Azure and AWS Marketplace customers.
+   *
+   * @example
+   * ```ts
+   * await client.v1.customers.billingConfig.delete({
+   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   billing_provider_type: 'stripe',
+   * });
+   * ```
    */
   delete(params: BillingConfigDeleteParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     const { customer_id, billing_provider_type } = params;

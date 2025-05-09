@@ -10,6 +10,27 @@ import { CursorPage, type CursorPageParams } from '../../pagination';
 export class CreditGrants extends APIResource {
   /**
    * Create a new credit grant
+   *
+   * @example
+   * ```ts
+   * const creditGrant = await client.v1.creditGrants.create({
+   *   customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+   *   expires_at: '2022-04-01T00:00:00Z',
+   *   grant_amount: {
+   *     amount: 1000,
+   *     credit_type_id: '5ae401dc-a648-4b49-9ac3-391bb5bc4d7b',
+   *   },
+   *   name: 'Acme Corp Promotional Credit Grant',
+   *   paid_amount: {
+   *     amount: 5000,
+   *     credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+   *   },
+   *   priority: 0.5,
+   *   credit_grant_type: 'trial',
+   *   effective_at: '2022-02-01T00:00:00Z',
+   *   reason: 'Incentivize new customer',
+   * });
+   * ```
    */
   create(
     body: CreditGrantCreateParams,
@@ -20,6 +41,26 @@ export class CreditGrants extends APIResource {
 
   /**
    * List credit grants. This list does not included voided grants.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const creditGrantListResponse of client.v1.creditGrants.list(
+   *   {
+   *     credit_type_ids: [
+   *       '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+   *     ],
+   *     customer_ids: [
+   *       'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *       '0e5b8609-d901-4992-b394-c3c2e3f37b1c',
+   *     ],
+   *     effective_before: '2022-02-01T00:00:00Z',
+   *     not_expiring_before: '2022-02-01T00:00:00Z',
+   *   },
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: CreditGrantListParams,
@@ -46,6 +87,15 @@ export class CreditGrants extends APIResource {
 
   /**
    * Edit an existing credit grant
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.creditGrants.edit({
+   *   id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+   *   expires_at: '2022-04-01T00:00:00Z',
+   *   name: 'Acme Corp Promotional Credit Grant',
+   * });
+   * ```
    */
   edit(body: CreditGrantEditParams, options?: Core.RequestOptions): Core.APIPromise<CreditGrantEditResponse> {
     return this._client.post('/v1/credits/editGrant', { body, ...options });
@@ -55,6 +105,16 @@ export class CreditGrants extends APIResource {
    * Fetches a list of credit ledger entries. Returns lists of ledgers per customer.
    * Ledger entries are returned in chronological order. Ledger entries associated
    * with voided credit grants are not included.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.creditGrants.listEntries({
+   *   credit_type_ids: ['2714e483-4ff1-48e4-9e25-ac732e8f24f2'],
+   *   customer_ids: ['6a37bb88-8538-48c5-b37b-a41c836328bd'],
+   *   ending_before: '2021-02-01T00:00:00Z',
+   *   starting_on: '2021-01-01T00:00:00Z',
+   * });
+   * ```
    */
   listEntries(
     params?: CreditGrantListEntriesParams,
@@ -74,6 +134,13 @@ export class CreditGrants extends APIResource {
 
   /**
    * Void a credit grant
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.creditGrants.void({
+   *   id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+   * });
+   * ```
    */
   void(body: CreditGrantVoidParams, options?: Core.RequestOptions): Core.APIPromise<CreditGrantVoidResponse> {
     return this._client.post('/v1/credits/voidGrant', { body, ...options });

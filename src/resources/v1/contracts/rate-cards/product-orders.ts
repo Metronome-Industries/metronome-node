@@ -7,6 +7,24 @@ import * as Shared from '../../../shared';
 export class ProductOrders extends APIResource {
   /**
    * Updates ordering of specified products
+   *
+   * @example
+   * ```ts
+   * const productOrder =
+   *   await client.v1.contracts.rateCards.productOrders.update({
+   *     product_moves: [
+   *       {
+   *         product_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *         position: 0,
+   *       },
+   *       {
+   *         product_id: 'b086f2f4-9851-4466-9ca0-30d53e6a42ac',
+   *         position: 1,
+   *       },
+   *     ],
+   *     rate_card_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   });
+   * ```
    */
   update(
     body: ProductOrderUpdateParams,
@@ -17,6 +35,18 @@ export class ProductOrders extends APIResource {
 
   /**
    * Sets the ordering of products within a rate card
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.rateCards.productOrders.set({
+   *     product_order: [
+   *       '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *       'b086f2f4-9851-4466-9ca0-30d53e6a42ac',
+   *     ],
+   *     rate_card_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   });
+   * ```
    */
   set(body: ProductOrderSetParams, options?: Core.RequestOptions): Core.APIPromise<ProductOrderSetResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/setRateCardProductsOrder', {

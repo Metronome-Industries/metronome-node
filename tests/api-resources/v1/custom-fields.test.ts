@@ -12,7 +12,7 @@ describe('resource customFields', () => {
   test('addKey: only required params', async () => {
     const responsePromise = client.v1.customFields.addKey({
       enforce_uniqueness: true,
-      entity: 'alert',
+      entity: 'customer',
       key: 'x_account_id',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -27,14 +27,14 @@ describe('resource customFields', () => {
   test('addKey: required and optional params', async () => {
     const response = await client.v1.customFields.addKey({
       enforce_uniqueness: true,
-      entity: 'alert',
+      entity: 'customer',
       key: 'x_account_id',
     });
   });
 
   test('deleteValues: only required params', async () => {
     const responsePromise = client.v1.customFields.deleteValues({
-      entity: 'alert',
+      entity: 'customer',
       entity_id: '99594816-e8a5-4bca-be21-8d1de0f45120',
       keys: ['x_account_id'],
     });
@@ -49,7 +49,7 @@ describe('resource customFields', () => {
 
   test('deleteValues: required and optional params', async () => {
     const response = await client.v1.customFields.deleteValues({
-      entity: 'alert',
+      entity: 'customer',
       entity_id: '99594816-e8a5-4bca-be21-8d1de0f45120',
       keys: ['x_account_id'],
     });
@@ -77,14 +77,14 @@ describe('resource customFields', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.v1.customFields.listKeys(
-        { next_page: 'next_page', entities: ['alert'] },
+        { next_page: 'next_page', entities: ['customer'] },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
   });
 
   test('removeKey: only required params', async () => {
-    const responsePromise = client.v1.customFields.removeKey({ entity: 'alert', key: 'x_account_id' });
+    const responsePromise = client.v1.customFields.removeKey({ entity: 'customer', key: 'x_account_id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -95,13 +95,13 @@ describe('resource customFields', () => {
   });
 
   test('removeKey: required and optional params', async () => {
-    const response = await client.v1.customFields.removeKey({ entity: 'alert', key: 'x_account_id' });
+    const response = await client.v1.customFields.removeKey({ entity: 'customer', key: 'x_account_id' });
   });
 
   test('setValues: only required params', async () => {
     const responsePromise = client.v1.customFields.setValues({
       custom_fields: { x_account_id: 'KyVnHhSBWl7eY2bl' },
-      entity: 'alert',
+      entity: 'customer',
       entity_id: '99594816-e8a5-4bca-be21-8d1de0f45120',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -116,7 +116,7 @@ describe('resource customFields', () => {
   test('setValues: required and optional params', async () => {
     const response = await client.v1.customFields.setValues({
       custom_fields: { x_account_id: 'KyVnHhSBWl7eY2bl' },
-      entity: 'alert',
+      entity: 'customer',
       entity_id: '99594816-e8a5-4bca-be21-8d1de0f45120',
     });
   });

@@ -369,6 +369,7 @@ Types:
 - <code><a href="./src/resources/v1/contracts/rate-cards/rate-cards.ts">RateCardRetrieveResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/rate-cards/rate-cards.ts">RateCardUpdateResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/rate-cards/rate-cards.ts">RateCardListResponse</a></code>
+- <code><a href="./src/resources/v1/contracts/rate-cards/rate-cards.ts">RateCardArchiveResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/rate-cards/rate-cards.ts">RateCardRetrieveRateScheduleResponse</a></code>
 
 Methods:
@@ -377,6 +378,7 @@ Methods:
 - <code title="post /v1/contract-pricing/rate-cards/get">client.v1.contracts.rateCards.<a href="./src/resources/v1/contracts/rate-cards/rate-cards.ts">retrieve</a>({ ...params }) -> RateCardRetrieveResponse</code>
 - <code title="post /v1/contract-pricing/rate-cards/update">client.v1.contracts.rateCards.<a href="./src/resources/v1/contracts/rate-cards/rate-cards.ts">update</a>({ ...params }) -> RateCardUpdateResponse</code>
 - <code title="post /v1/contract-pricing/rate-cards/list">client.v1.contracts.rateCards.<a href="./src/resources/v1/contracts/rate-cards/rate-cards.ts">list</a>({ ...params }) -> RateCardListResponsesCursorPage</code>
+- <code title="post /v1/contract-pricing/rate-cards/archive">client.v1.contracts.rateCards.<a href="./src/resources/v1/contracts/rate-cards/rate-cards.ts">archive</a>({ ...params }) -> RateCardArchiveResponse</code>
 - <code title="post /v1/contract-pricing/rate-cards/getRateSchedule">client.v1.contracts.rateCards.<a href="./src/resources/v1/contracts/rate-cards/rate-cards.ts">retrieveRateSchedule</a>({ ...params }) -> RateCardRetrieveRateScheduleResponse</code>
 
 #### ProductOrders

@@ -8,6 +8,16 @@ import { CursorPage, type CursorPageParams } from '../../../pagination';
 export class Plans extends APIResource {
   /**
    * List the given customer's plans in reverse-chronological order.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const planListResponse of client.v1.customers.plans.list(
+   *   { customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' },
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params: PlanListParams,
@@ -24,6 +34,16 @@ export class Plans extends APIResource {
    * Associate an existing customer with a plan for a specified date range. See the
    * [price adjustments documentation](https://plans-docs.metronome.com/pricing/managing-plans/#price-adjustments)
    * for details on the price adjustments.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.customers.plans.add({
+   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   plan_id: 'd2c06dae-9549-4d7d-bc04-b78dd3d241b8',
+   *   starting_on: '2021-02-01T00:00:00Z',
+   *   ending_before: '2022-02-01T00:00:00Z',
+   * });
+   * ```
    */
   add(params: PlanAddParams, options?: Core.RequestOptions): Core.APIPromise<PlanAddResponse> {
     const { customer_id, ...body } = params;
@@ -32,6 +52,15 @@ export class Plans extends APIResource {
 
   /**
    * Change the end date of a customer's plan.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.customers.plans.end({
+   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_plan_id: '7aa11640-0703-4600-8eb9-293f535a6b74',
+   *   ending_before: '2021-02-01T00:00:00Z',
+   * });
+   * ```
    */
   end(params: PlanEndParams, options?: Core.RequestOptions): Core.APIPromise<PlanEndResponse> {
     const { customer_id, customer_plan_id, ...body } = params;
@@ -45,6 +74,20 @@ export class Plans extends APIResource {
    * Lists a customer plans adjustments. See the
    * [price adjustments documentation](https://plans-docs.metronome.com/pricing/managing-plans/#price-adjustments)
    * for details.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const planListPriceAdjustmentsResponse of client.v1.customers.plans.listPriceAdjustments(
+   *   {
+   *     customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     customer_plan_id:
+   *       '7aa11640-0703-4600-8eb9-293f535a6b74',
+   *   },
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   listPriceAdjustments(
     params: PlanListPriceAdjustmentsParams,

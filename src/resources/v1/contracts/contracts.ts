@@ -31,6 +31,8 @@ import {
 import * as InvoicesAPI from '../customers/invoices';
 import * as RateCardsAPI from './rate-cards/rate-cards';
 import {
+  RateCardArchiveParams,
+  RateCardArchiveResponse,
   RateCardCreateParams,
   RateCardCreateResponse,
   RateCardListParams,
@@ -52,13 +54,35 @@ export class Contracts extends APIResource {
 
   /**
    * Create a new contract
+   *
+   * @example
+   * ```ts
+   * const contract = await client.v1.contracts.create({
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   starting_at: '2020-01-01T00:00:00.000Z',
+   *   billing_provider_configuration: {
+   *     billing_provider: 'stripe',
+   *     delivery_method: 'direct_to_billing_provider',
+   *   },
+   *   rate_card_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   * });
+   * ```
    */
   create(body: ContractCreateParams, options?: Core.RequestOptions): Core.APIPromise<ContractCreateResponse> {
     return this._client.post('/v1/contracts/create', { body, ...options });
   }
 
   /**
-   * Get a specific contract
+   * This is the v1 endpoint to get a contract. New clients should implement using
+   * the v2 endpoint.
+   *
+   * @example
+   * ```ts
+   * const contract = await client.v1.contracts.retrieve({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   * });
+   * ```
    */
   retrieve(
     body: ContractRetrieveParams,
@@ -68,7 +92,15 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * List all contracts for a customer
+   * This is the v1 endpoint to list all contracts for a customer. New clients should
+   * implement using the v2 endpoint.
+   *
+   * @example
+   * ```ts
+   * const contracts = await client.v1.contracts.list({
+   *   customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+   * });
+   * ```
    */
   list(body: ContractListParams, options?: Core.RequestOptions): Core.APIPromise<ContractListResponse> {
     return this._client.post('/v1/contracts/list', { body, ...options });
@@ -76,6 +108,18 @@ export class Contracts extends APIResource {
 
   /**
    * Add a manual balance entry
+   *
+   * @example
+   * ```ts
+   * await client.v1.contracts.addManualBalanceEntry({
+   *   id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+   *   amount: -1000,
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   reason: 'Reason for entry',
+   *   segment_id: '66368e29-3f97-4d15-a6e9-120897f0070a',
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   * });
+   * ```
    */
   addManualBalanceEntry(
     body: ContractAddManualBalanceEntryParams,
@@ -89,7 +133,20 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Amend a contract
+   * Amendments will be replaced by Contract editing. New clients should implement
+   * using the editContract endpoint. Read more about the migration to contract
+   * editing [here](https://docs.metronome.com/migrate-amendments-to-edits/) and
+   * reach out to your Metronome representative for more details. Once contract
+   * editing is enabled, access to this endpoint will be removed.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.contracts.amend({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   starting_at: '2020-01-01T00:00:00.000Z',
+   * });
+   * ```
    */
   amend(body: ContractAmendParams, options?: Core.RequestOptions): Core.APIPromise<ContractAmendResponse> {
     return this._client.post('/v1/contracts/amend', { body, ...options });
@@ -97,6 +154,15 @@ export class Contracts extends APIResource {
 
   /**
    * Archive a contract
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.contracts.archive({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   void_invoices: true,
+   * });
+   * ```
    */
   archive(
     body: ContractArchiveParams,
@@ -107,6 +173,35 @@ export class Contracts extends APIResource {
 
   /**
    * Creates historical usage invoices for a contract
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.createHistoricalInvoices({
+   *     invoices: [
+   *       {
+   *         customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *         contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *         credit_type_id:
+   *           '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+   *         inclusive_start_date: '2020-01-01T00:00:00.000Z',
+   *         exclusive_end_date: '2020-02-01T00:00:00.000Z',
+   *         issue_date: '2020-02-01T00:00:00.000Z',
+   *         usage_line_items: [
+   *           {
+   *             product_id:
+   *               'f14d6729-6a44-4b13-9908-9387f1918790',
+   *             inclusive_start_date:
+   *               '2020-01-01T00:00:00.000Z',
+   *             exclusive_end_date: '2020-02-01T00:00:00.000Z',
+   *             quantity: 100,
+   *           },
+   *         ],
+   *       },
+   *     ],
+   *     preview: false,
+   *   });
+   * ```
    */
   createHistoricalInvoices(
     body: ContractCreateHistoricalInvoicesParams,
@@ -117,6 +212,15 @@ export class Contracts extends APIResource {
 
   /**
    * List balances (commits and credits).
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.contracts.listBalances({
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+   *   include_ledgers: true,
+   * });
+   * ```
    */
   listBalances(
     body: ContractListBalancesParams,
@@ -127,6 +231,25 @@ export class Contracts extends APIResource {
 
   /**
    * Get the rate schedule for the rate card on a given contract.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.retrieveRateSchedule({
+   *     contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *     at: '2020-01-01T00:00:00.000Z',
+   *     selectors: [
+   *       {
+   *         product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
+   *         partial_pricing_group_values: {
+   *           region: 'us-west-2',
+   *           cloud: 'aws',
+   *         },
+   *       },
+   *     ],
+   *   });
+   * ```
    */
   retrieveRateSchedule(
     params: ContractRetrieveRateScheduleParams,
@@ -143,6 +266,22 @@ export class Contracts extends APIResource {
   /**
    * Create a new scheduled invoice for Professional Services terms on a contract.
    * This endpoint's availability is dependent on your client's configuration.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.scheduleProServicesInvoice({
+   *     contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   *     customer_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   *     issued_at: '2019-12-27T18:11:19.117Z',
+   *     line_items: [
+   *       {
+   *         professional_service_id:
+   *           '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   *       },
+   *     ],
+   *   });
+   * ```
    */
   scheduleProServicesInvoice(
     body: ContractScheduleProServicesInvoiceParams,
@@ -153,6 +292,17 @@ export class Contracts extends APIResource {
 
   /**
    * Set usage filter for a contract
+   *
+   * @example
+   * ```ts
+   * await client.v1.contracts.setUsageFilter({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   group_key: 'business_subscription_id',
+   *   group_values: ['ID-1', 'ID-2'],
+   *   starting_at: '2020-01-01T00:00:00.000Z',
+   * });
+   * ```
    */
   setUsageFilter(body: ContractSetUsageFilterParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/v1/contracts/setUsageFilter', {
@@ -164,6 +314,15 @@ export class Contracts extends APIResource {
 
   /**
    * Update the end date of a contract
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.contracts.updateEndDate({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   ending_before: '2020-01-01T00:00:00.000Z',
+   * });
+   * ```
    */
   updateEndDate(
     body: ContractUpdateEndDateParams,
@@ -206,6 +365,8 @@ export namespace ContractRetrieveResponse {
      */
     customer_billing_provider_configuration?: Data.CustomerBillingProviderConfiguration;
 
+    prepaid_balance_threshold_configuration?: Data.PrepaidBalanceThresholdConfiguration;
+
     /**
      * Determines which scheduled and commit charges to consolidate onto the Contract's
      * usage invoice. The charge's `timestamp` must match the usage invoice's
@@ -215,7 +376,7 @@ export namespace ContractRetrieveResponse {
      */
     scheduled_charges_on_usage_invoices?: 'ALL';
 
-    subscriptions?: Array<Data.Subscription>;
+    spend_threshold_configuration?: Data.SpendThresholdConfiguration;
 
     /**
      * Prevents the creation of duplicates. If a request to create a record is made
@@ -320,50 +481,162 @@ export namespace ContractRetrieveResponse {
       configuration?: Record<string, unknown>;
     }
 
-    export interface Subscription {
-      collection_schedule: 'ADVANCE' | 'ARREARS';
+    export interface PrepaidBalanceThresholdConfiguration {
+      commit: PrepaidBalanceThresholdConfiguration.Commit;
 
-      proration: Subscription.Proration;
+      /**
+       * When set to false, the contract will not be evaluated against the
+       * threshold_amount. Toggling to true will result an immediate evaluation,
+       * regardless of prior state.
+       */
+      is_enabled: boolean;
 
-      quantity_schedule: Array<Subscription.QuantitySchedule>;
+      payment_gate_config: PrepaidBalanceThresholdConfiguration.PaymentGateConfig;
 
-      starting_at: string;
+      /**
+       * Specify the amount the balance should be recharged to.
+       */
+      recharge_to_amount: number;
 
-      subscription_rate: Subscription.SubscriptionRate;
-
-      description?: string;
-
-      ending_before?: string;
-
-      name?: string;
+      /**
+       * Specify the threshold amount for the contract. Each time the contract's prepaid
+       * balance lowers to this amount, a threshold charge will be initiated.
+       */
+      threshold_amount: number;
     }
 
-    export namespace Subscription {
-      export interface Proration {
-        invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
+    export namespace PrepaidBalanceThresholdConfiguration {
+      export interface Commit {
+        /**
+         * The commit product that will be used to generate the line item for commit
+         * payment.
+         */
+        product_id: string;
 
-        is_prorated: boolean;
+        /**
+         * Which products the threshold commit applies to. If both applicable_product_ids
+         * and applicable_product_tags are not provided, the commit applies to all
+         * products.
+         */
+        applicable_product_ids?: Array<string>;
+
+        /**
+         * Which tags the threshold commit applies to. If both applicable_product_ids and
+         * applicable_product_tags are not provided, the commit applies to all products.
+         */
+        applicable_product_tags?: Array<string>;
+
+        description?: string;
+
+        /**
+         * Specify the name of the line item for the threshold charge. If left blank, it
+         * will default to the commit product name.
+         */
+        name?: string;
       }
 
-      export interface QuantitySchedule {
-        quantity: number;
+      export interface PaymentGateConfig {
+        /**
+         * Gate access to the commit balance based on successful collection of payment.
+         * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
+         * facilitate payment using your own payment integration. Select NONE if you do not
+         * wish to payment gate the commit balance.
+         */
+        payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
 
-        starting_at: string;
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        stripe_config?: PaymentGateConfig.StripeConfig;
 
-        ending_before?: string;
+        /**
+         * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+         * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+         * will default to NONE.
+         */
+        tax_type?: 'NONE' | 'STRIPE';
       }
 
-      export interface SubscriptionRate {
-        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      export namespace PaymentGateConfig {
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        export interface StripeConfig {
+          /**
+           * If left blank, will default to INVOICE
+           */
+          payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+        }
+      }
+    }
 
-        product: SubscriptionRate.Product;
+    export interface SpendThresholdConfiguration {
+      commit: SpendThresholdConfiguration.Commit;
+
+      /**
+       * When set to false, the contract will not be evaluated against the
+       * threshold_amount. Toggling to true will result an immediate evaluation,
+       * regardless of prior state.
+       */
+      is_enabled: boolean;
+
+      payment_gate_config: SpendThresholdConfiguration.PaymentGateConfig;
+
+      /**
+       * Specify the threshold amount for the contract. Each time the contract's usage
+       * hits this amount, a threshold charge will be initiated.
+       */
+      threshold_amount: number;
+    }
+
+    export namespace SpendThresholdConfiguration {
+      export interface Commit {
+        /**
+         * The commit product that will be used to generate the line item for commit
+         * payment.
+         */
+        product_id: string;
+
+        description?: string;
+
+        /**
+         * Specify the name of the line item for the threshold charge. If left blank, it
+         * will default to the commit product name.
+         */
+        name?: string;
       }
 
-      export namespace SubscriptionRate {
-        export interface Product {
-          id: string;
+      export interface PaymentGateConfig {
+        /**
+         * Gate access to the commit balance based on successful collection of payment.
+         * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
+         * facilitate payment using your own payment integration. Select NONE if you do not
+         * wish to payment gate the commit balance.
+         */
+        payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
 
-          name: string;
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        stripe_config?: PaymentGateConfig.StripeConfig;
+
+        /**
+         * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+         * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+         * will default to NONE.
+         */
+        tax_type?: 'NONE' | 'STRIPE';
+      }
+
+      export namespace PaymentGateConfig {
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        export interface StripeConfig {
+          /**
+           * If left blank, will default to INVOICE
+           */
+          payment_type: 'INVOICE' | 'PAYMENT_INTENT';
         }
       }
     }
@@ -399,6 +672,8 @@ export namespace ContractListResponse {
      */
     customer_billing_provider_configuration?: Data.CustomerBillingProviderConfiguration;
 
+    prepaid_balance_threshold_configuration?: Data.PrepaidBalanceThresholdConfiguration;
+
     /**
      * Determines which scheduled and commit charges to consolidate onto the Contract's
      * usage invoice. The charge's `timestamp` must match the usage invoice's
@@ -408,7 +683,7 @@ export namespace ContractListResponse {
      */
     scheduled_charges_on_usage_invoices?: 'ALL';
 
-    subscriptions?: Array<Data.Subscription>;
+    spend_threshold_configuration?: Data.SpendThresholdConfiguration;
 
     /**
      * Prevents the creation of duplicates. If a request to create a record is made
@@ -513,50 +788,162 @@ export namespace ContractListResponse {
       configuration?: Record<string, unknown>;
     }
 
-    export interface Subscription {
-      collection_schedule: 'ADVANCE' | 'ARREARS';
+    export interface PrepaidBalanceThresholdConfiguration {
+      commit: PrepaidBalanceThresholdConfiguration.Commit;
 
-      proration: Subscription.Proration;
+      /**
+       * When set to false, the contract will not be evaluated against the
+       * threshold_amount. Toggling to true will result an immediate evaluation,
+       * regardless of prior state.
+       */
+      is_enabled: boolean;
 
-      quantity_schedule: Array<Subscription.QuantitySchedule>;
+      payment_gate_config: PrepaidBalanceThresholdConfiguration.PaymentGateConfig;
 
-      starting_at: string;
+      /**
+       * Specify the amount the balance should be recharged to.
+       */
+      recharge_to_amount: number;
 
-      subscription_rate: Subscription.SubscriptionRate;
-
-      description?: string;
-
-      ending_before?: string;
-
-      name?: string;
+      /**
+       * Specify the threshold amount for the contract. Each time the contract's prepaid
+       * balance lowers to this amount, a threshold charge will be initiated.
+       */
+      threshold_amount: number;
     }
 
-    export namespace Subscription {
-      export interface Proration {
-        invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
+    export namespace PrepaidBalanceThresholdConfiguration {
+      export interface Commit {
+        /**
+         * The commit product that will be used to generate the line item for commit
+         * payment.
+         */
+        product_id: string;
 
-        is_prorated: boolean;
+        /**
+         * Which products the threshold commit applies to. If both applicable_product_ids
+         * and applicable_product_tags are not provided, the commit applies to all
+         * products.
+         */
+        applicable_product_ids?: Array<string>;
+
+        /**
+         * Which tags the threshold commit applies to. If both applicable_product_ids and
+         * applicable_product_tags are not provided, the commit applies to all products.
+         */
+        applicable_product_tags?: Array<string>;
+
+        description?: string;
+
+        /**
+         * Specify the name of the line item for the threshold charge. If left blank, it
+         * will default to the commit product name.
+         */
+        name?: string;
       }
 
-      export interface QuantitySchedule {
-        quantity: number;
+      export interface PaymentGateConfig {
+        /**
+         * Gate access to the commit balance based on successful collection of payment.
+         * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
+         * facilitate payment using your own payment integration. Select NONE if you do not
+         * wish to payment gate the commit balance.
+         */
+        payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
 
-        starting_at: string;
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        stripe_config?: PaymentGateConfig.StripeConfig;
 
-        ending_before?: string;
+        /**
+         * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+         * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+         * will default to NONE.
+         */
+        tax_type?: 'NONE' | 'STRIPE';
       }
 
-      export interface SubscriptionRate {
-        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+      export namespace PaymentGateConfig {
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        export interface StripeConfig {
+          /**
+           * If left blank, will default to INVOICE
+           */
+          payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+        }
+      }
+    }
 
-        product: SubscriptionRate.Product;
+    export interface SpendThresholdConfiguration {
+      commit: SpendThresholdConfiguration.Commit;
+
+      /**
+       * When set to false, the contract will not be evaluated against the
+       * threshold_amount. Toggling to true will result an immediate evaluation,
+       * regardless of prior state.
+       */
+      is_enabled: boolean;
+
+      payment_gate_config: SpendThresholdConfiguration.PaymentGateConfig;
+
+      /**
+       * Specify the threshold amount for the contract. Each time the contract's usage
+       * hits this amount, a threshold charge will be initiated.
+       */
+      threshold_amount: number;
+    }
+
+    export namespace SpendThresholdConfiguration {
+      export interface Commit {
+        /**
+         * The commit product that will be used to generate the line item for commit
+         * payment.
+         */
+        product_id: string;
+
+        description?: string;
+
+        /**
+         * Specify the name of the line item for the threshold charge. If left blank, it
+         * will default to the commit product name.
+         */
+        name?: string;
       }
 
-      export namespace SubscriptionRate {
-        export interface Product {
-          id: string;
+      export interface PaymentGateConfig {
+        /**
+         * Gate access to the commit balance based on successful collection of payment.
+         * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
+         * facilitate payment using your own payment integration. Select NONE if you do not
+         * wish to payment gate the commit balance.
+         */
+        payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
 
-          name: string;
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        stripe_config?: PaymentGateConfig.StripeConfig;
+
+        /**
+         * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+         * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+         * will default to NONE.
+         */
+        tax_type?: 'NONE' | 'STRIPE';
+      }
+
+      export namespace PaymentGateConfig {
+        /**
+         * Only applicable if using Stripe as your payment gateway through Metronome.
+         */
+        export interface StripeConfig {
+          /**
+           * If left blank, will default to INVOICE
+           */
+          payment_type: 'INVOICE' | 'PAYMENT_INTENT';
         }
       }
     }
@@ -604,8 +991,6 @@ export namespace ContractRetrieveRateScheduleResponse {
     rate_card_id: string;
 
     starting_at: string;
-
-    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
 
     /**
      * A distinct rate on the rate card. You can choose to use this rate rather than
@@ -697,6 +1082,8 @@ export interface ContractCreateParams {
 
   overrides?: Array<ContractCreateParams.Override>;
 
+  prepaid_balance_threshold_configuration?: ContractCreateParams.PrepaidBalanceThresholdConfiguration;
+
   /**
    * This field's availability is dependent on your client's configuration.
    */
@@ -735,9 +1122,7 @@ export interface ContractCreateParams {
    */
   scheduled_charges_on_usage_invoices?: 'ALL';
 
-  subscriptions?: Array<ContractCreateParams.Subscription>;
-
-  threshold_billing_configuration?: ContractCreateParams.ThresholdBillingConfiguration;
+  spend_threshold_configuration?: ContractCreateParams.SpendThresholdConfiguration;
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -826,6 +1211,11 @@ export namespace ContractCreateParams {
      * This field's availability is dependent on your client's configuration.
      */
     netsuite_sales_order_id?: string;
+
+    /**
+     * optionally payment gate this commit
+     */
+    payment_gate_config?: Commit.PaymentGateConfig;
 
     /**
      * If multiple commits are applicable, the one with the lower priority will apply
@@ -972,6 +1362,43 @@ export namespace ContractCreateParams {
          * provided.
          */
         unit_price?: number;
+      }
+    }
+
+    /**
+     * optionally payment gate this commit
+     */
+    export interface PaymentGateConfig {
+      /**
+       * Gate access to the commit balance based on successful collection of payment.
+       * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
+       * facilitate payment using your own payment integration. Select NONE if you do not
+       * wish to payment gate the commit balance.
+       */
+      payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
+
+      /**
+       * Only applicable if using Stripe as your payment gateway through Metronome.
+       */
+      stripe_config?: PaymentGateConfig.StripeConfig;
+
+      /**
+       * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+       * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+       * will default to NONE.
+       */
+      tax_type?: 'NONE' | 'STRIPE';
+    }
+
+    export namespace PaymentGateConfig {
+      /**
+       * Only applicable if using Stripe as your payment gateway through Metronome.
+       */
+      export interface StripeConfig {
+        /**
+         * If left blank, will default to INVOICE
+         */
+        payment_type: 'INVOICE' | 'PAYMENT_INTENT';
       }
     }
   }
@@ -1246,8 +1673,6 @@ export namespace ContractCreateParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
-      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
       /**
        * Can only be used for commit specific overrides. Must be used in conjunction with
        * one of product_id, product_tags, pricing_group_values, or
@@ -1337,6 +1762,95 @@ export namespace ContractCreateParams {
       multiplier: number;
 
       size?: number;
+    }
+  }
+
+  export interface PrepaidBalanceThresholdConfiguration {
+    commit: PrepaidBalanceThresholdConfiguration.Commit;
+
+    /**
+     * When set to false, the contract will not be evaluated against the
+     * threshold_amount. Toggling to true will result an immediate evaluation,
+     * regardless of prior state.
+     */
+    is_enabled: boolean;
+
+    payment_gate_config: PrepaidBalanceThresholdConfiguration.PaymentGateConfig;
+
+    /**
+     * Specify the amount the balance should be recharged to.
+     */
+    recharge_to_amount: number;
+
+    /**
+     * Specify the threshold amount for the contract. Each time the contract's prepaid
+     * balance lowers to this amount, a threshold charge will be initiated.
+     */
+    threshold_amount: number;
+  }
+
+  export namespace PrepaidBalanceThresholdConfiguration {
+    export interface Commit {
+      /**
+       * The commit product that will be used to generate the line item for commit
+       * payment.
+       */
+      product_id: string;
+
+      /**
+       * Which products the threshold commit applies to. If both applicable_product_ids
+       * and applicable_product_tags are not provided, the commit applies to all
+       * products.
+       */
+      applicable_product_ids?: Array<string>;
+
+      /**
+       * Which tags the threshold commit applies to. If both applicable_product_ids and
+       * applicable_product_tags are not provided, the commit applies to all products.
+       */
+      applicable_product_tags?: Array<string>;
+
+      description?: string;
+
+      /**
+       * Specify the name of the line item for the threshold charge. If left blank, it
+       * will default to the commit product name.
+       */
+      name?: string;
+    }
+
+    export interface PaymentGateConfig {
+      /**
+       * Gate access to the commit balance based on successful collection of payment.
+       * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
+       * facilitate payment using your own payment integration. Select NONE if you do not
+       * wish to payment gate the commit balance.
+       */
+      payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
+
+      /**
+       * Only applicable if using Stripe as your payment gateway through Metronome.
+       */
+      stripe_config?: PaymentGateConfig.StripeConfig;
+
+      /**
+       * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+       * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+       * will default to NONE.
+       */
+      tax_type?: 'NONE' | 'STRIPE';
+    }
+
+    export namespace PaymentGateConfig {
+      /**
+       * Only applicable if using Stripe as your payment gateway through Metronome.
+       */
+      export interface StripeConfig {
+        /**
+         * If left blank, will default to INVOICE
+         */
+        payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+      }
     }
   }
 
@@ -1446,7 +1960,7 @@ export namespace ContractCreateParams {
      * be created aligned with the recurring commit's start_date rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -1566,7 +2080,7 @@ export namespace ContractCreateParams {
      * be created aligned with the recurring commit's start_date rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -1763,71 +2277,17 @@ export namespace ContractCreateParams {
     }
   }
 
-  export interface Subscription {
-    collection_schedule: 'ADVANCE' | 'ARREARS';
-
-    initial_quantity: number;
-
-    proration: Subscription.Proration;
-
-    subscription_rate: Subscription.SubscriptionRate;
-
-    description?: string;
-
-    /**
-     * Exclusive end time for the subscription. If not provided, subscription inherits
-     * contract end date.
-     */
-    ending_before?: string;
-
-    name?: string;
-
-    /**
-     * Inclusive start time for the subscription. If not provided, defaults to contract
-     * start date
-     */
-    starting_at?: string;
-  }
-
-  export namespace Subscription {
-    export interface Proration {
-      /**
-       * Indicates how mid-period quantity adjustments are invoiced. If BILL_IMMEDIATELY
-       * is selected, the quantity increase will be billed on the scheduled date. If
-       * BILL_ON_NEXT_COLLECTION_DATE is selected, the quantity increase will be billed
-       * for in-arrears at the end of the period.
-       */
-      invoice_behavior?: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
-
-      /**
-       * Indicates if the partial period will be prorated or charged a full amount.
-       */
-      is_prorated?: boolean;
-    }
-
-    export interface SubscriptionRate {
-      /**
-       * Frequency to bill subscription with. Together with product_id, must match
-       * existing rate on the rate card.
-       */
-      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
-      /**
-       * Must be subscription type product
-       */
-      product_id: string;
-    }
-  }
-
-  export interface ThresholdBillingConfiguration {
-    commit: ThresholdBillingConfiguration.Commit;
+  export interface SpendThresholdConfiguration {
+    commit: SpendThresholdConfiguration.Commit;
 
     /**
      * When set to false, the contract will not be evaluated against the
      * threshold_amount. Toggling to true will result an immediate evaluation,
-     * regardless of prior state
+     * regardless of prior state.
      */
     is_enabled: boolean;
+
+    payment_gate_config: SpendThresholdConfiguration.PaymentGateConfig;
 
     /**
      * Specify the threshold amount for the contract. Each time the contract's usage
@@ -1836,22 +2296,13 @@ export namespace ContractCreateParams {
     threshold_amount: number;
   }
 
-  export namespace ThresholdBillingConfiguration {
+  export namespace SpendThresholdConfiguration {
     export interface Commit {
+      /**
+       * The commit product that will be used to generate the line item for commit
+       * payment.
+       */
       product_id: string;
-
-      /**
-       * Which products the threshold commit applies to. If both applicable_product_ids
-       * and applicable_product_tags are not provided, the commit applies to all
-       * products.
-       */
-      applicable_product_ids?: Array<string>;
-
-      /**
-       * Which tags the threshold commit applies to. If both applicable_product_ids and
-       * applicable_product_tags are not provided, the commit applies to all products.
-       */
-      applicable_product_tags?: Array<string>;
 
       description?: string;
 
@@ -1860,6 +2311,40 @@ export namespace ContractCreateParams {
        * will default to the commit product name.
        */
       name?: string;
+    }
+
+    export interface PaymentGateConfig {
+      /**
+       * Gate access to the commit balance based on successful collection of payment.
+       * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
+       * facilitate payment using your own payment integration. Select NONE if you do not
+       * wish to payment gate the commit balance.
+       */
+      payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
+
+      /**
+       * Only applicable if using Stripe as your payment gateway through Metronome.
+       */
+      stripe_config?: PaymentGateConfig.StripeConfig;
+
+      /**
+       * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+       * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+       * will default to NONE.
+       */
+      tax_type?: 'NONE' | 'STRIPE';
+    }
+
+    export namespace PaymentGateConfig {
+      /**
+       * Only applicable if using Stripe as your payment gateway through Metronome.
+       */
+      export interface StripeConfig {
+        /**
+         * If left blank, will default to INVOICE
+         */
+        payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+      }
     }
   }
 
@@ -1885,7 +2370,7 @@ export namespace ContractCreateParams {
   }
 
   export interface UsageStatementSchedule {
-    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
+    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Required when using CUSTOM_DATE. This option lets you set a historical billing
@@ -2115,6 +2600,11 @@ export namespace ContractAmendParams {
     netsuite_sales_order_id?: string;
 
     /**
+     * optionally payment gate this commit
+     */
+    payment_gate_config?: Commit.PaymentGateConfig;
+
+    /**
      * If multiple commits are applicable, the one with the lower priority will apply
      * first.
      */
@@ -2259,6 +2749,43 @@ export namespace ContractAmendParams {
          * provided.
          */
         unit_price?: number;
+      }
+    }
+
+    /**
+     * optionally payment gate this commit
+     */
+    export interface PaymentGateConfig {
+      /**
+       * Gate access to the commit balance based on successful collection of payment.
+       * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
+       * facilitate payment using your own payment integration. Select NONE if you do not
+       * wish to payment gate the commit balance.
+       */
+      payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
+
+      /**
+       * Only applicable if using Stripe as your payment gateway through Metronome.
+       */
+      stripe_config?: PaymentGateConfig.StripeConfig;
+
+      /**
+       * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
+       * not wish Metronome to calculate tax on your behalf. Leaving this field blank
+       * will default to NONE.
+       */
+      tax_type?: 'NONE' | 'STRIPE';
+    }
+
+    export namespace PaymentGateConfig {
+      /**
+       * Only applicable if using Stripe as your payment gateway through Metronome.
+       */
+      export interface StripeConfig {
+        /**
+         * If left blank, will default to INVOICE
+         */
+        payment_type: 'INVOICE' | 'PAYMENT_INTENT';
       }
     }
   }
@@ -2533,8 +3060,6 @@ export namespace ContractAmendParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
-      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
       /**
        * Can only be used for commit specific overrides. Must be used in conjunction with
        * one of product_id, product_tags, pricing_group_values, or
@@ -2915,7 +3440,7 @@ export interface ContractListBalancesParams {
   effective_before?: string;
 
   /**
-   * Include credits from archived contracts.
+   * Include archived credits and credits from archived contracts.
    */
   include_archived?: boolean;
 
@@ -2984,12 +3509,6 @@ export interface ContractRetrieveRateScheduleParams {
 
 export namespace ContractRetrieveRateScheduleParams {
   export interface Selector {
-    /**
-     * Subscription rates matching the billing frequency will be included in the
-     * response.
-     */
-    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL';
-
     /**
      * List of pricing group key value pairs, rates containing the matching key / value
      * pairs will be included in the response.
@@ -3181,12 +3700,14 @@ export declare namespace Contracts {
     type RateCardRetrieveResponse as RateCardRetrieveResponse,
     type RateCardUpdateResponse as RateCardUpdateResponse,
     type RateCardListResponse as RateCardListResponse,
+    type RateCardArchiveResponse as RateCardArchiveResponse,
     type RateCardRetrieveRateScheduleResponse as RateCardRetrieveRateScheduleResponse,
     RateCardListResponsesCursorPage as RateCardListResponsesCursorPage,
     type RateCardCreateParams as RateCardCreateParams,
     type RateCardRetrieveParams as RateCardRetrieveParams,
     type RateCardUpdateParams as RateCardUpdateParams,
     type RateCardListParams as RateCardListParams,
+    type RateCardArchiveParams as RateCardArchiveParams,
     type RateCardRetrieveRateScheduleParams as RateCardRetrieveRateScheduleParams,
   };
 

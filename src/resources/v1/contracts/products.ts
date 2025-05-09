@@ -10,6 +10,16 @@ import { CursorPage, type CursorPageParams } from '../../../pagination';
 export class Products extends APIResource {
   /**
    * Create a new product
+   *
+   * @example
+   * ```ts
+   * const product = await client.v1.contracts.products.create({
+   *   name: 'My Product',
+   *   type: 'USAGE',
+   *   billable_metric_id:
+   *     '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   * });
+   * ```
    */
   create(body: ProductCreateParams, options?: Core.RequestOptions): Core.APIPromise<ProductCreateResponse> {
     return this._client.post('/v1/contract-pricing/products/create', { body, ...options });
@@ -17,6 +27,13 @@ export class Products extends APIResource {
 
   /**
    * Get a specific product
+   *
+   * @example
+   * ```ts
+   * const product = await client.v1.contracts.products.retrieve(
+   *   { id: 'd84e7f4e-7a70-4fe4-be02-7a5027beffcc' },
+   * );
+   * ```
    */
   retrieve(
     body: ProductRetrieveParams,
@@ -27,6 +44,15 @@ export class Products extends APIResource {
 
   /**
    * Update a product
+   *
+   * @example
+   * ```ts
+   * const product = await client.v1.contracts.products.update({
+   *   product_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   starting_at: '2020-01-01T00:00:00.000Z',
+   *   name: 'My Updated Product',
+   * });
+   * ```
    */
   update(body: ProductUpdateParams, options?: Core.RequestOptions): Core.APIPromise<ProductUpdateResponse> {
     return this._client.post('/v1/contract-pricing/products/update', { body, ...options });
@@ -34,6 +60,16 @@ export class Products extends APIResource {
 
   /**
    * List products
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const productListResponse of client.v1.contracts.products.list(
+   *   { archive_filter: 'NOT_ARCHIVED' },
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: ProductListParams,
@@ -58,6 +94,13 @@ export class Products extends APIResource {
 
   /**
    * Archive a product
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.contracts.products.archive(
+   *   { product_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' },
+   * );
+   * ```
    */
   archive(
     body: ProductArchiveParams,

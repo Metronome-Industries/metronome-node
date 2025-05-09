@@ -10,6 +10,14 @@ import { CursorPage, type CursorPageParams } from '../../pagination';
 export class Plans extends APIResource {
   /**
    * List all available plans.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const planListResponse of client.v1.plans.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query?: PlanListParams,
@@ -28,6 +36,13 @@ export class Plans extends APIResource {
 
   /**
    * Fetch high level details of a specific plan.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.plans.getDetails({
+   *   plan_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   * });
+   * ```
    */
   getDetails(
     params: PlanGetDetailsParams,
@@ -39,6 +54,16 @@ export class Plans extends APIResource {
 
   /**
    * Fetches a list of charges of a specific plan.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const planListChargesResponse of client.v1.plans.listCharges(
+   *   { plan_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' },
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   listCharges(
     params: PlanListChargesParams,
@@ -54,6 +79,16 @@ export class Plans extends APIResource {
   /**
    * Fetches a list of customers on a specific plan (by default, only currently
    * active plans are included)
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const planListCustomersResponse of client.v1.plans.listCustomers(
+   *   { plan_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' },
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   listCustomers(
     params: PlanListCustomersParams,
