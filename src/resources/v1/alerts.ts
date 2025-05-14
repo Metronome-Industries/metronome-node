@@ -7,6 +7,18 @@ import * as Shared from '../shared';
 export class Alerts extends APIResource {
   /**
    * Create a new alert
+   *
+   * @example
+   * ```ts
+   * const alert = await client.v1.alerts.create({
+   *   alert_type: 'spend_threshold_reached',
+   *   name: '$100 spend threshold reached',
+   *   threshold: 10000,
+   *   credit_grant_type_filters: ['enterprise'],
+   *   credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+   *   customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
+   * });
+   * ```
    */
   create(body: AlertCreateParams, options?: Core.RequestOptions): Core.APIPromise<AlertCreateResponse> {
     return this._client.post('/v1/alerts/create', { body, ...options });
@@ -14,6 +26,13 @@ export class Alerts extends APIResource {
 
   /**
    * Archive an existing alert
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.alerts.archive({
+   *   id: '8deed800-1b7a-495d-a207-6c52bac54dc9',
+   * });
+   * ```
    */
   archive(body: AlertArchiveParams, options?: Core.RequestOptions): Core.APIPromise<AlertArchiveResponse> {
     return this._client.post('/v1/alerts/archive', { body, ...options });

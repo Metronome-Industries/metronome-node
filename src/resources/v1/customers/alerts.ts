@@ -8,6 +8,14 @@ export class Alerts extends APIResource {
   /**
    * Get the customer alert status and alert information for the specified customer
    * and alert
+   *
+   * @example
+   * ```ts
+   * const alert = await client.v1.customers.alerts.retrieve({
+   *   alert_id: '8deed800-1b7a-495d-a207-6c52bac54dc9',
+   *   customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+   * });
+   * ```
    */
   retrieve(body: AlertRetrieveParams, options?: Core.RequestOptions): Core.APIPromise<AlertRetrieveResponse> {
     return this._client.post('/v1/customer-alerts/get', { body, ...options });
@@ -15,6 +23,13 @@ export class Alerts extends APIResource {
 
   /**
    * Fetch all customer alert statuses and alert information for a customer
+   *
+   * @example
+   * ```ts
+   * const alerts = await client.v1.customers.alerts.list({
+   *   customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+   * });
+   * ```
    */
   list(params: AlertListParams, options?: Core.RequestOptions): Core.APIPromise<AlertListResponse> {
     const { next_page, ...body } = params;
@@ -23,6 +38,14 @@ export class Alerts extends APIResource {
 
   /**
    * Reset state for an alert by customer id and force re-evaluation
+   *
+   * @example
+   * ```ts
+   * await client.v1.customers.alerts.reset({
+   *   alert_id: '5e8691bf-b22a-4672-922d-f80eee940f01',
+   *   customer_id: '4c83caf3-8af4-44e2-9aeb-e290531726d9',
+   * });
+   * ```
    */
   reset(body: AlertResetParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/v1/customer-alerts/reset', {
@@ -169,6 +192,12 @@ export interface AlertRetrieveParams {
    * The Metronome ID of the customer
    */
   customer_id: string;
+
+  /**
+   * When parallel alerts are enabled during migration, this flag denotes whether to
+   * fetch alerts for plans or contracts.
+   */
+  plans_or_contracts?: 'PLANS' | 'CONTRACTS';
 }
 
 export interface AlertListParams {

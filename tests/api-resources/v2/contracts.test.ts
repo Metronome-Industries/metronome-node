@@ -109,6 +109,11 @@ describe('resource contracts', () => {
           },
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
+          payment_gate_config: {
+            payment_gate_type: 'NONE',
+            stripe_config: { payment_type: 'INVOICE' },
+            tax_type: 'NONE',
+          },
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
@@ -193,9 +198,26 @@ describe('resource contracts', () => {
           product_id: 'd4fc086c-d8e5-4091-a235-fbba5da4ec14',
           target: 'COMMIT_RATE',
           tiers: [{ multiplier: 0, size: 0 }],
-          type: 'OVERWRITE',
+          type: 'MULTIPLIER',
         },
       ],
+      add_prepaid_balance_threshold_configuration: {
+        commit: {
+          product_id: 'product_id',
+          applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+          applicable_product_tags: ['string'],
+          description: 'description',
+          name: 'name',
+        },
+        is_enabled: true,
+        payment_gate_config: {
+          payment_gate_type: 'NONE',
+          stripe_config: { payment_type: 'INVOICE' },
+          tax_type: 'NONE',
+        },
+        recharge_to_amount: 0,
+        threshold_amount: 0,
+      },
       add_professional_services: [
         {
           max_amount: 0,
@@ -300,6 +322,21 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
         },
       ],
+      add_spend_threshold_configuration: {
+        commit: { product_id: 'product_id', description: 'description', name: 'name' },
+        is_enabled: true,
+        payment_gate_config: {
+          payment_gate_type: 'NONE',
+          stripe_config: { payment_type: 'INVOICE' },
+          tax_type: 'NONE',
+        },
+        threshold_amount: 0,
+      },
+      allow_contract_ending_before_finalized_invoice: true,
+      archive_commits: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
+      archive_credits: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
+      archive_scheduled_charges: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
+      remove_overrides: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
       update_commits: [
         {
           commit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -343,6 +380,7 @@ describe('resource contracts', () => {
           rollover_fraction: 0,
         },
       ],
+      update_contract_end_date: '2019-12-27T18:11:19.117Z',
       update_credits: [
         {
           credit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -370,6 +408,23 @@ describe('resource contracts', () => {
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
         },
       ],
+      update_prepaid_balance_threshold_configuration: {
+        commit: {
+          product_id: 'product_id',
+          applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+          applicable_product_tags: ['string'],
+          description: 'description',
+          name: 'name',
+        },
+        is_enabled: true,
+        payment_gate_config: {
+          payment_gate_type: 'NONE',
+          stripe_config: { payment_type: 'INVOICE' },
+          tax_type: 'NONE',
+        },
+        recharge_to_amount: 0,
+        threshold_amount: 0,
+      },
       update_scheduled_charges: [
         {
           scheduled_charge_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -391,6 +446,16 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
         },
       ],
+      update_spend_threshold_configuration: {
+        commit: { description: 'description', name: 'name', product_id: 'product_id' },
+        is_enabled: true,
+        payment_gate_config: {
+          payment_gate_type: 'NONE',
+          stripe_config: { payment_type: 'INVOICE' },
+          tax_type: 'NONE',
+        },
+        threshold_amount: 0,
+      },
     });
   });
 

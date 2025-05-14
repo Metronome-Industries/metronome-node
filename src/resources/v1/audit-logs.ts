@@ -11,6 +11,14 @@ export class AuditLogs extends APIResource {
    * available, the data array will be empty. As new audit logs are created,
    * subsequent requests using the same next_page value will be in the returned data
    * array, ensuring a continuous and uninterrupted reading of audit logs.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const auditLogListResponse of client.v1.auditLogs.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query?: AuditLogListParams,

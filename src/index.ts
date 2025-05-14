@@ -10,7 +10,6 @@ import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { V1 } from './resources/v1/v1';
 import { V2 } from './resources/v2/v2';
-
 import { Webhooks } from './resources/webhooks';
 
 export interface ClientOptions {

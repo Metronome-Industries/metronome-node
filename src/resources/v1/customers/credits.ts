@@ -7,6 +7,26 @@ import * as Shared from '../../shared';
 export class Credits extends APIResource {
   /**
    * Create a new credit at the customer level.
+   *
+   * @example
+   * ```ts
+   * const credit = await client.v1.customers.credits.create({
+   *   access_schedule: {
+   *     credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+   *     schedule_items: [
+   *       {
+   *         amount: 1000,
+   *         starting_at: '2020-01-01T00:00:00.000Z',
+   *         ending_before: '2020-02-01T00:00:00.000Z',
+   *       },
+   *     ],
+   *   },
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   priority: 100,
+   *   product_id: 'f14d6729-6a44-4b13-9908-9387f1918790',
+   *   name: 'My Credit',
+   * });
+   * ```
    */
   create(body: CreditCreateParams, options?: Core.RequestOptions): Core.APIPromise<CreditCreateResponse> {
     return this._client.post('/v1/contracts/customerCredits/create', { body, ...options });
@@ -14,13 +34,33 @@ export class Credits extends APIResource {
 
   /**
    * List credits.
+   *
+   * @example
+   * ```ts
+   * const credits = await client.v1.customers.credits.list({
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   credit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+   *   include_ledgers: true,
+   * });
+   * ```
    */
   list(body: CreditListParams, options?: Core.RequestOptions): Core.APIPromise<CreditListResponse> {
     return this._client.post('/v1/contracts/customerCredits/list', { body, ...options });
   }
 
   /**
-   * Update the end date of a credit
+   * Pull forward the end date of a credit. Use the "edit a credit" endpoint to
+   * extend the end date of a credit, or to make other edits to the credit.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.customers.credits.updateEndDate({
+   *     access_ending_before: '2020-01-01T00:00:00.000Z',
+   *     credit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   });
+   * ```
    */
   updateEndDate(
     body: CreditUpdateEndDateParams,
@@ -157,7 +197,7 @@ export interface CreditListParams {
   effective_before?: string;
 
   /**
-   * Include credits from archived contracts.
+   * Include archived credits and credits from archived contracts.
    */
   include_archived?: boolean;
 

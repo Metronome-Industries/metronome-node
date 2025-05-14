@@ -7,6 +7,19 @@ export class NamedSchedules extends APIResource {
   /**
    * Get a named schedule for the given contract. This endpoint's availability is
    * dependent on your client's configuration.
+   *
+   * @example
+   * ```ts
+   * const namedSchedule =
+   *   await client.v1.contracts.rateCards.namedSchedules.retrieve(
+   *     {
+   *       contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *       customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+   *       schedule_name: 'my-schedule',
+   *       covering_date: '2022-02-15T00:00:00Z',
+   *     },
+   *   );
+   * ```
    */
   retrieve(
     body: NamedScheduleRetrieveParams,
@@ -18,6 +31,18 @@ export class NamedSchedules extends APIResource {
   /**
    * Update a named schedule for the given contract. This endpoint's availability is
    * dependent on your client's configuration.
+   *
+   * @example
+   * ```ts
+   * await client.v1.contracts.rateCards.namedSchedules.update({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+   *   schedule_name: 'my-schedule',
+   *   starting_at: '2022-02-01T00:00:00Z',
+   *   value: { my_key: 'my_value' },
+   *   ending_before: '2022-02-15T00:00:00Z',
+   * });
+   * ```
    */
   update(body: NamedScheduleUpdateParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/v1/contracts/updateNamedSchedule', {
