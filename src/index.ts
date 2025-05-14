@@ -192,7 +192,7 @@ export declare namespace Metronome {
   export { V1 as V1 };
 
   export { Webhooks as Webhooks };
-  
+
   export type BaseUsageFilter = API.BaseUsageFilter;
   export type Commit = API.Commit;
   export type ContractWithoutAmendments = API.ContractWithoutAmendments;
