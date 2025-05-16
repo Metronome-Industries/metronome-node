@@ -3418,7 +3418,7 @@ export interface ContractEditParams {
   /**
    * RFC 3339 timestamp indicating when the contract will end (exclusive).
    */
-  update_contract_end_date?: string;
+  update_contract_end_date?: string | null;
 
   update_credits?: Array<ContractEditParams.UpdateCredit>;
 
