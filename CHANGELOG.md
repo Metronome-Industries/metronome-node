@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-beta.11 (2025-05-16)
+
+Full Changelog: [v0.1.0-beta.10...v0.1.0-beta.11](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.10...v0.1.0-beta.11)
+
+### Chores
+
+* configure new SDK language ([9f9be53](https://github.com/Metronome-Industries/metronome-node/commit/9f9be5311ee3cbd15e67ea4fdbfd7d1354cf7437))
+
 ## 0.1.0-beta.10 (2025-05-14)
 
 Full Changelog: [v0.1.0-beta.9...v0.1.0-beta.10](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.9...v0.1.0-beta.10)
