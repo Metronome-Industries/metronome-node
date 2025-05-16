@@ -2,6 +2,7 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
+import * as Shared from '../shared';
 
 export class Alerts extends APIResource {
   /**
@@ -39,23 +40,11 @@ export class Alerts extends APIResource {
 }
 
 export interface AlertCreateResponse {
-  data: AlertCreateResponse.Data;
-}
-
-export namespace AlertCreateResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface AlertArchiveResponse {
-  data: AlertArchiveResponse.Data;
-}
-
-export namespace AlertArchiveResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface AlertCreateParams {

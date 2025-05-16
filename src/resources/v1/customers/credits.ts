@@ -2,6 +2,7 @@
 
 import { APIResource } from '../../../resource';
 import * as Core from '../../../core';
+import * as Shared from '../../shared';
 
 export class Credits extends APIResource {
   /**
@@ -70,214 +71,17 @@ export class Credits extends APIResource {
 }
 
 export interface CreditCreateResponse {
-  data: CreditCreateResponse.Data;
-}
-
-export namespace CreditCreateResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface CreditListResponse {
-  data: Array<CreditListResponse.Data>;
+  data: Array<Shared.Credit>;
 
   next_page: string | null;
 }
 
-export namespace CreditListResponse {
-  export interface Data {
-    id: string;
-
-    product: Data.Product;
-
-    type: 'CREDIT';
-
-    /**
-     * The schedule that the customer will gain access to the credits.
-     */
-    access_schedule?: Data.AccessSchedule;
-
-    applicable_contract_ids?: Array<string>;
-
-    applicable_product_ids?: Array<string>;
-
-    applicable_product_tags?: Array<string>;
-
-    /**
-     * The current balance of the credit or commit. This balance reflects the amount of
-     * credit or commit that the customer has access to use at this moment - thus,
-     * expired and upcoming credit or commit segments contribute 0 to the balance. The
-     * balance will match the sum of all ledger entries with the exception of the case
-     * where the sum of negative manual ledger entries exceeds the positive amount
-     * remaining on the credit or commit - in that case, the balance will be 0. All
-     * manual ledger entries associated with active credit or commit segments are
-     * included in the balance, including future-dated manual ledger entries.
-     */
-    balance?: number;
-
-    contract?: Data.Contract;
-
-    custom_fields?: Record<string, string>;
-
-    description?: string;
-
-    /**
-     * A list of ordered events that impact the balance of a credit. For example, an
-     * invoice deduction or an expiration.
-     */
-    ledger?: Array<
-      | Data.UnionMember0
-      | Data.UnionMember1
-      | Data.UnionMember2
-      | Data.UnionMember3
-      | Data.UnionMember4
-      | Data.UnionMember5
-    >;
-
-    name?: string;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    netsuite_sales_order_id?: string;
-
-    /**
-     * If multiple credits or commits are applicable, the one with the lower priority
-     * will apply first.
-     */
-    priority?: number;
-
-    rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    salesforce_opportunity_id?: string;
-
-    /**
-     * Prevents the creation of duplicates. If a request to create a commit or credit
-     * is made with a uniqueness key that was previously used to create a commit or
-     * credit, a new record will not be created and the request will fail with a 409
-     * error.
-     */
-    uniqueness_key?: string;
-  }
-
-  export namespace Data {
-    export interface Product {
-      id: string;
-
-      name: string;
-    }
-
-    /**
-     * The schedule that the customer will gain access to the credits.
-     */
-    export interface AccessSchedule {
-      schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-      credit_type?: AccessSchedule.CreditType;
-    }
-
-    export namespace AccessSchedule {
-      export interface ScheduleItem {
-        id: string;
-
-        amount: number;
-
-        ending_before: string;
-
-        starting_at: string;
-      }
-
-      export interface CreditType {
-        id: string;
-
-        name: string;
-      }
-    }
-
-    export interface Contract {
-      id: string;
-    }
-
-    export interface UnionMember0 {
-      amount: number;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_SEGMENT_START';
-    }
-
-    export interface UnionMember1 {
-      amount: number;
-
-      invoice_id: string;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_AUTOMATED_INVOICE_DEDUCTION';
-    }
-
-    export interface UnionMember2 {
-      amount: number;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_EXPIRATION';
-    }
-
-    export interface UnionMember3 {
-      amount: number;
-
-      invoice_id: string;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_CANCELED';
-    }
-
-    export interface UnionMember4 {
-      amount: number;
-
-      invoice_id: string;
-
-      segment_id: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_CREDITED';
-    }
-
-    export interface UnionMember5 {
-      amount: number;
-
-      reason: string;
-
-      timestamp: string;
-
-      type: 'CREDIT_MANUAL';
-    }
-  }
-}
-
 export interface CreditUpdateEndDateResponse {
-  data: CreditUpdateEndDateResponse.Data;
-}
-
-export namespace CreditUpdateEndDateResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface CreditCreateParams {
