@@ -76,6 +76,14 @@ describe('resource contracts', () => {
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
           temporary_id: 'temporary_id',
         },
       ],
@@ -100,6 +108,14 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
           rate_type: 'COMMIT_RATE',
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
         },
       ],
       custom_fields: { foo: 'string' },
@@ -222,6 +238,14 @@ describe('resource contracts', () => {
           rate_type: 'COMMIT_RATE',
           recurrence_frequency: 'MONTHLY',
           rollover_fraction: 0,
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
           temporary_id: 'temporary_id',
         },
       ],
@@ -246,6 +270,14 @@ describe('resource contracts', () => {
           rate_type: 'COMMIT_RATE',
           recurrence_frequency: 'MONTHLY',
           rollover_fraction: 0,
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
           temporary_id: 'temporary_id',
         },
       ],
@@ -460,6 +492,14 @@ describe('resource contracts', () => {
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
           temporary_id: 'temporary_id',
         },
       ],
@@ -484,6 +524,14 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
           rate_type: 'COMMIT_RATE',
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
         },
       ],
       custom_fields: { foo: 'string' },
