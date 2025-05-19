@@ -75,6 +75,14 @@ describe('resource commits', () => {
       netsuite_sales_order_id: 'netsuite_sales_order_id',
       rate_type: 'COMMIT_RATE',
       salesforce_opportunity_id: 'salesforce_opportunity_id',
+      specifiers: [
+        {
+          presentation_group_values: { foo: 'string' },
+          pricing_group_values: { foo: 'string' },
+          product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          product_tags: ['string'],
+        },
+      ],
       uniqueness_key: 'x',
     });
   });

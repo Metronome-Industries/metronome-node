@@ -113,6 +113,13 @@ export interface Commit {
   salesforce_opportunity_id?: string;
 
   /**
+   * List of filters that determine what kind of customer usage draws down a commit
+   * or credit. A customer's usage needs to meet the condition of at least one of the
+   * specifiers to contribute to a commit's or credit's drawdown.
+   */
+  specifiers?: Array<Commit.Specifier>;
+
+  /**
    * Prevents the creation of duplicates. If a request to create a commit or credit
    * is made with a uniqueness key that was previously used to create a commit or
    * credit, a new record will not be created and the request will fail with a 409
@@ -281,6 +288,23 @@ export namespace Commit {
     commit_id: string;
 
     contract_id: string;
+  }
+
+  export interface Specifier {
+    presentation_group_values?: Record<string, string>;
+
+    pricing_group_values?: Record<string, string>;
+
+    /**
+     * If provided, the specifier will only apply to the product with the specified ID.
+     */
+    product_id?: string;
+
+    /**
+     * If provided, the specifier will only apply to products with all the specified
+     * tags.
+     */
+    product_tags?: Array<string>;
   }
 }
 
@@ -556,6 +580,13 @@ export namespace ContractWithoutAmendments {
      * between 0 and 1.
      */
     rollover_fraction?: number;
+
+    /**
+     * List of filters that determine what kind of customer usage draws down a commit
+     * or credit. A customer's usage needs to meet the condition of at least one of the
+     * specifiers to contribute to a commit's or credit's drawdown.
+     */
+    specifiers?: Array<RecurringCommit.Specifier>;
   }
 
   export namespace RecurringCommit {
@@ -598,6 +629,23 @@ export namespace ContractWithoutAmendments {
       quantity: number;
 
       unit_price: number;
+    }
+
+    export interface Specifier {
+      presentation_group_values?: Record<string, string>;
+
+      pricing_group_values?: Record<string, string>;
+
+      /**
+       * If provided, the specifier will only apply to the product with the specified ID.
+       */
+      product_id?: string;
+
+      /**
+       * If provided, the specifier will only apply to products with all the specified
+       * tags.
+       */
+      product_tags?: Array<string>;
     }
   }
 
@@ -684,6 +732,13 @@ export namespace ContractWithoutAmendments {
      * between 0 and 1.
      */
     rollover_fraction?: number;
+
+    /**
+     * List of filters that determine what kind of customer usage draws down a commit
+     * or credit. A customer's usage needs to meet the condition of at least one of the
+     * specifiers to contribute to a commit's or credit's drawdown.
+     */
+    specifiers?: Array<RecurringCredit.Specifier>;
   }
 
   export namespace RecurringCredit {
@@ -715,6 +770,23 @@ export namespace ContractWithoutAmendments {
 
     export interface Contract {
       id: string;
+    }
+
+    export interface Specifier {
+      presentation_group_values?: Record<string, string>;
+
+      pricing_group_values?: Record<string, string>;
+
+      /**
+       * If provided, the specifier will only apply to the product with the specified ID.
+       */
+      product_id?: string;
+
+      /**
+       * If provided, the specifier will only apply to products with all the specified
+       * tags.
+       */
+      product_tags?: Array<string>;
     }
   }
 
@@ -906,6 +978,13 @@ export interface Credit {
   salesforce_opportunity_id?: string;
 
   /**
+   * List of filters that determine what kind of customer usage draws down a commit
+   * or credit. A customer's usage needs to meet the condition of at least one of the
+   * specifiers to contribute to a commit's or credit's drawdown.
+   */
+  specifiers?: Array<Credit.Specifier>;
+
+  /**
    * Prevents the creation of duplicates. If a request to create a commit or credit
    * is made with a uniqueness key that was previously used to create a commit or
    * credit, a new record will not be created and the request will fail with a 409
@@ -989,6 +1068,23 @@ export namespace Credit {
     timestamp: string;
 
     type: 'CREDIT_MANUAL';
+  }
+
+  export interface Specifier {
+    presentation_group_values?: Record<string, string>;
+
+    pricing_group_values?: Record<string, string>;
+
+    /**
+     * If provided, the specifier will only apply to the product with the specified ID.
+     */
+    product_id?: string;
+
+    /**
+     * If provided, the specifier will only apply to products with all the specified
+     * tags.
+     */
+    product_tags?: Array<string>;
   }
 }
 
