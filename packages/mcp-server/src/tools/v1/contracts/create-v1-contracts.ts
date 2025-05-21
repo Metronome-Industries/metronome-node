@@ -744,6 +744,36 @@ export const tool: Tool = {
                 description:
                   'Specify the name of the line item for the threshold charge. If left blank, it will default to the commit product name.',
               },
+              specifiers: {
+                type: 'array',
+                description:
+                  "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`.",
+                items: {
+                  type: 'object',
+                  properties: {
+                    presentation_group_values: {
+                      type: 'object',
+                    },
+                    pricing_group_values: {
+                      type: 'object',
+                    },
+                    product_id: {
+                      type: 'string',
+                      description:
+                        'If provided, the specifier will only apply to the product with the specified ID.',
+                    },
+                    product_tags: {
+                      type: 'array',
+                      description:
+                        'If provided, the specifier will only apply to products with all the specified tags.',
+                      items: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                  required: [],
+                },
+              },
             },
             required: ['product_id'],
           },
@@ -946,7 +976,7 @@ export const tool: Tool = {
             recurrence_frequency: {
               type: 'string',
               description:
-                "The frequency at which the recurring commits will be created.  If not provided: - The commits will be created on the usage invoice frequency. If provided: - The period defined in the duration will correspond to this frequency. - Commits will be created aligned with the recurring commit's start_date rather than the usage invoice dates.",
+                "The frequency at which the recurring commits will be created.  If not provided: - The commits will be created on the usage invoice frequency. If provided: - The period defined in the duration will correspond to this frequency. - Commits will be created aligned with the recurring commit's starting_at rather than the usage invoice dates.",
               enum: ['MONTHLY', 'QUARTERLY', 'ANNUAL', 'WEEKLY'],
             },
             rollover_fraction: {
@@ -1085,7 +1115,7 @@ export const tool: Tool = {
             recurrence_frequency: {
               type: 'string',
               description:
-                "The frequency at which the recurring commits will be created.  If not provided: - The commits will be created on the usage invoice frequency. If provided: - The period defined in the duration will correspond to this frequency. - Commits will be created aligned with the recurring commit's start_date rather than the usage invoice dates.",
+                "The frequency at which the recurring commits will be created.  If not provided: - The commits will be created on the usage invoice frequency. If provided: - The period defined in the duration will correspond to this frequency. - Commits will be created aligned with the recurring commit's starting_at rather than the usage invoice dates.",
               enum: ['MONTHLY', 'QUARTERLY', 'ANNUAL', 'WEEKLY'],
             },
             rollover_fraction: {
