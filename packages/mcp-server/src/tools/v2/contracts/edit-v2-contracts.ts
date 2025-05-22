@@ -1781,6 +1781,74 @@ export const tool: Tool = {
         },
         required: [],
       },
+      update_recurring_commits: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            recurring_commit_id: {
+              type: 'string',
+            },
+            access_amount: {
+              type: 'object',
+              properties: {
+                quantity: {
+                  type: 'number',
+                },
+                unit_price: {
+                  type: 'number',
+                },
+              },
+              required: [],
+            },
+            ending_before: {
+              type: 'string',
+              format: 'date-time',
+            },
+            invoice_amount: {
+              type: 'object',
+              properties: {
+                quantity: {
+                  type: 'number',
+                },
+                unit_price: {
+                  type: 'number',
+                },
+              },
+              required: [],
+            },
+          },
+          required: ['recurring_commit_id'],
+        },
+      },
+      update_recurring_credits: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            recurring_credit_id: {
+              type: 'string',
+            },
+            access_amount: {
+              type: 'object',
+              properties: {
+                quantity: {
+                  type: 'number',
+                },
+                unit_price: {
+                  type: 'number',
+                },
+              },
+              required: [],
+            },
+            ending_before: {
+              type: 'string',
+              format: 'date-time',
+            },
+          },
+          required: ['recurring_credit_id'],
+        },
+      },
       update_scheduled_charges: {
         type: 'array',
         items: {

@@ -2665,6 +2665,10 @@ export namespace ContractGetEditHistoryResponse {
 
     update_discounts?: Array<Data.UpdateDiscount>;
 
+    update_recurring_commits?: Array<Data.UpdateRecurringCommit>;
+
+    update_recurring_credits?: Array<Data.UpdateRecurringCredit>;
+
     update_refund_invoices?: Array<Data.UpdateRefundInvoice>;
 
     update_scheduled_charges?: Array<Data.UpdateScheduledCharge>;
@@ -3605,6 +3609,46 @@ export namespace ContractGetEditHistoryResponse {
       }
     }
 
+    export interface UpdateRecurringCommit {
+      id: string;
+
+      access_amount?: UpdateRecurringCommit.AccessAmount;
+
+      ending_before?: string;
+
+      invoice_amount?: UpdateRecurringCommit.InvoiceAmount;
+    }
+
+    export namespace UpdateRecurringCommit {
+      export interface AccessAmount {
+        quantity?: number;
+
+        unit_price?: number;
+      }
+
+      export interface InvoiceAmount {
+        quantity?: number;
+
+        unit_price?: number;
+      }
+    }
+
+    export interface UpdateRecurringCredit {
+      id: string;
+
+      access_amount?: UpdateRecurringCredit.AccessAmount;
+
+      ending_before?: string;
+    }
+
+    export namespace UpdateRecurringCredit {
+      export interface AccessAmount {
+        quantity?: number;
+
+        unit_price?: number;
+      }
+    }
+
     export interface UpdateRefundInvoice {
       date: string;
 
@@ -3792,6 +3836,10 @@ export interface ContractEditParams {
   update_credits?: Array<ContractEditParams.UpdateCredit>;
 
   update_prepaid_balance_threshold_configuration?: ContractEditParams.UpdatePrepaidBalanceThresholdConfiguration;
+
+  update_recurring_commits?: Array<ContractEditParams.UpdateRecurringCommit>;
+
+  update_recurring_credits?: Array<ContractEditParams.UpdateRecurringCredit>;
 
   update_scheduled_charges?: Array<ContractEditParams.UpdateScheduledCharge>;
 
@@ -5391,6 +5439,46 @@ export namespace ContractEditParams {
          */
         payment_type: 'INVOICE' | 'PAYMENT_INTENT';
       }
+    }
+  }
+
+  export interface UpdateRecurringCommit {
+    recurring_commit_id: string;
+
+    access_amount?: UpdateRecurringCommit.AccessAmount;
+
+    ending_before?: string | null;
+
+    invoice_amount?: UpdateRecurringCommit.InvoiceAmount;
+  }
+
+  export namespace UpdateRecurringCommit {
+    export interface AccessAmount {
+      quantity?: number;
+
+      unit_price?: number;
+    }
+
+    export interface InvoiceAmount {
+      quantity?: number;
+
+      unit_price?: number;
+    }
+  }
+
+  export interface UpdateRecurringCredit {
+    recurring_credit_id: string;
+
+    access_amount?: UpdateRecurringCredit.AccessAmount;
+
+    ending_before?: string | null;
+  }
+
+  export namespace UpdateRecurringCredit {
+    export interface AccessAmount {
+      quantity?: number;
+
+      unit_price?: number;
     }
   }
 
