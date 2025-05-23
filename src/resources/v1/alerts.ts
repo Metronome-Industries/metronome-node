@@ -101,7 +101,7 @@ export interface AlertCreateParams {
 
   /**
    * If provided, will create this alert for this specific customer. To create an
-   * alert for all customers, do not specify `customer_id` or `plan_id`.
+   * alert for all customers, do not specify a `customer_id`.
    */
   customer_id?: string;
 
@@ -126,7 +126,7 @@ export interface AlertCreateParams {
 
   /**
    * If provided, will create this alert for this specific plan. To create an alert
-   * for all customers, do not specify `customer_id` or `plan_id`.
+   * for all customers, do not specify a `plan_id`.
    */
   plan_id?: string;
 

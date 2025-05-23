@@ -593,7 +593,8 @@ export interface ProductUpdateParams {
 
 export interface ProductListParams extends CursorPageParams {
   /**
-   * Body param: Filter options for the product list
+   * Body param: Filter options for the product list. If not provided, defaults to
+   * not archived.
    */
   archive_filter?: 'ARCHIVED' | 'NOT_ARCHIVED' | 'ALL';
 }

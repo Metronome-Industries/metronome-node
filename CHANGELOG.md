@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.1.0-beta.11 (2025-05-23)
+
+Full Changelog: [v0.1.0-beta.10...v0.1.0-beta.11](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.10...v0.1.0-beta.11)
+
+### Features
+
+* **api:** api update ([81d3f3d](https://github.com/Metronome-Industries/metronome-node/commit/81d3f3d2be3ecfb033a6c9aeac2939b2ba0adf5a))
+* **api:** api update ([18b541e](https://github.com/Metronome-Industries/metronome-node/commit/18b541eb177314ca299572a7053389701cea18a8))
+* **api:** api update ([a9ddbe3](https://github.com/Metronome-Industries/metronome-node/commit/a9ddbe3c8a26df141f5ad41acaf8c2fc28bf1dd8))
+* **api:** api update ([2da7274](https://github.com/Metronome-Industries/metronome-node/commit/2da7274efe1a758fbabf5ca4b54107fd33a3c069))
+* **api:** api update ([31bbcc9](https://github.com/Metronome-Industries/metronome-node/commit/31bbcc96c9ae847939a2877475d14e094d06ecf1))
+* **api:** api update ([7aecbf6](https://github.com/Metronome-Industries/metronome-node/commit/7aecbf620e2bb02afe1d3ee5cf6dbc6b4e6c5988))
+* **api:** api update ([56bf37d](https://github.com/Metronome-Industries/metronome-node/commit/56bf37d8aa13c9f55f6ec75dcaf17adaadf2fb69))
+
+
+### Chores
+
+* configure new SDK language ([f579630](https://github.com/Metronome-Industries/metronome-node/commit/f5796305b442d41d73cbc4bc6a713894f7aae190))
+* configure new SDK language ([9f9be53](https://github.com/Metronome-Industries/metronome-node/commit/9f9be5311ee3cbd15e67ea4fdbfd7d1354cf7437))
+* **docs:** grammar improvements ([a205060](https://github.com/Metronome-Industries/metronome-node/commit/a2050605f798ce57798f61135753ca489c6c99b2))
+* improve docs for MCP servers ([8d769fc](https://github.com/Metronome-Industries/metronome-node/commit/8d769fc5714bddfa2094d8b31c4181c7aacb0661))
+
 ## 0.1.0-beta.10 (2025-05-14)
 
 Full Changelog: [v0.1.0-beta.9...v0.1.0-beta.10](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.9...v0.1.0-beta.10)

@@ -117,6 +117,14 @@ describe('resource contracts', () => {
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
           temporary_id: 'temporary_id',
         },
       ],
@@ -141,6 +149,14 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
           rate_type: 'COMMIT_RATE',
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
         },
       ],
       add_discounts: [
@@ -208,6 +224,14 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string'],
           description: 'description',
           name: 'name',
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
         },
         is_enabled: true,
         payment_gate_config: {
@@ -255,6 +279,14 @@ describe('resource contracts', () => {
           rate_type: 'COMMIT_RATE',
           recurrence_frequency: 'MONTHLY',
           rollover_fraction: 0,
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
           temporary_id: 'temporary_id',
         },
       ],
@@ -279,6 +311,14 @@ describe('resource contracts', () => {
           rate_type: 'COMMIT_RATE',
           recurrence_frequency: 'MONTHLY',
           rollover_fraction: 0,
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
           temporary_id: 'temporary_id',
         },
       ],
@@ -415,6 +455,14 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string'],
           description: 'description',
           name: 'name',
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
         },
         is_enabled: true,
         payment_gate_config: {
@@ -425,6 +473,21 @@ describe('resource contracts', () => {
         recharge_to_amount: 0,
         threshold_amount: 0,
       },
+      update_recurring_commits: [
+        {
+          recurring_commit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          access_amount: { quantity: 0, unit_price: 0 },
+          ending_before: '2019-12-27T18:11:19.117Z',
+          invoice_amount: { quantity: 0, unit_price: 0 },
+        },
+      ],
+      update_recurring_credits: [
+        {
+          recurring_credit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          access_amount: { quantity: 0, unit_price: 0 },
+          ending_before: '2019-12-27T18:11:19.117Z',
+        },
+      ],
       update_scheduled_charges: [
         {
           scheduled_charge_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -510,6 +573,14 @@ describe('resource contracts', () => {
         ],
       },
       product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      specifiers: [
+        {
+          presentation_group_values: { foo: 'string' },
+          pricing_group_values: { foo: 'string' },
+          product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          product_tags: ['string'],
+        },
+      ],
     });
   });
 
@@ -548,6 +619,14 @@ describe('resource contracts', () => {
       applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
       applicable_product_tags: ['string'],
       product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      specifiers: [
+        {
+          presentation_group_values: { foo: 'string' },
+          pricing_group_values: { foo: 'string' },
+          product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          product_tags: ['string'],
+        },
+      ],
     });
   });
 

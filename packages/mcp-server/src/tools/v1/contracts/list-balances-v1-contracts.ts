@@ -1,0 +1,70 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import { Tool } from '@modelcontextprotocol/sdk/types.js';
+import type { Metadata } from '../../';
+import Metronome from '@metronome/sdk';
+
+export const metadata: Metadata = {
+  resource: 'v1.contracts',
+  operation: 'write',
+  tags: [],
+};
+
+export const tool: Tool = {
+  name: 'list_balances_v1_contracts',
+  description: 'List balances (commits and credits).\n',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      customer_id: {
+        type: 'string',
+      },
+      id: {
+        type: 'string',
+      },
+      covering_date: {
+        type: 'string',
+        description: 'Return only balances that have access schedules that "cover" the provided date',
+        format: 'date-time',
+      },
+      effective_before: {
+        type: 'string',
+        description: 'Include only balances that have any access before the provided date (exclusive)',
+        format: 'date-time',
+      },
+      include_archived: {
+        type: 'boolean',
+        description: 'Include archived credits and credits from archived contracts.',
+      },
+      include_balance: {
+        type: 'boolean',
+        description:
+          'Include the balance of credits and commits in the response. Setting this flag may cause the query to be slower.',
+      },
+      include_contract_balances: {
+        type: 'boolean',
+        description: 'Include balances on the contract level.',
+      },
+      include_ledgers: {
+        type: 'boolean',
+        description: 'Include ledgers in the response. Setting this flag may cause the query to be slower.',
+      },
+      next_page: {
+        type: 'string',
+        description: 'The next page token from a previous response.',
+      },
+      starting_at: {
+        type: 'string',
+        description: 'Include only balances that have any access on or after the provided date',
+        format: 'date-time',
+      },
+    },
+  },
+};
+
+export const handler = (client: Metronome, args: Record<string, unknown> | undefined) => {
+  const body = args as any;
+  return client.v1.contracts.listBalances(body);
+};
+
+export default { metadata, tool, handler };

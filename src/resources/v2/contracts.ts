@@ -351,6 +351,13 @@ export namespace ContractRetrieveResponse {
        * This field's availability is dependent on your client's configuration.
        */
       salesforce_opportunity_id?: string;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown.
+       */
+      specifiers?: Array<Commit.Specifier>;
     }
 
     export namespace Commit {
@@ -513,6 +520,23 @@ export namespace ContractRetrieveResponse {
         commit_id: string;
 
         contract_id: string;
+      }
+
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
       }
     }
 
@@ -711,6 +735,13 @@ export namespace ContractRetrieveResponse {
        * This field's availability is dependent on your client's configuration.
        */
       salesforce_opportunity_id?: string;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown.
+       */
+      specifiers?: Array<Credit.Specifier>;
     }
 
     export namespace Credit {
@@ -789,6 +820,23 @@ export namespace ContractRetrieveResponse {
 
         type: 'CREDIT_MANUAL';
       }
+
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
+      }
     }
 
     /**
@@ -860,6 +908,33 @@ export namespace ContractRetrieveResponse {
          * will default to the commit product name.
          */
         name?: string;
+
+        /**
+         * List of filters that determine what kind of customer usage draws down a commit
+         * or credit. A customer's usage needs to meet the condition of at least one of the
+         * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+         * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         */
+        specifiers?: Array<Commit.Specifier>;
+      }
+
+      export namespace Commit {
+        export interface Specifier {
+          presentation_group_values?: Record<string, string>;
+
+          pricing_group_values?: Record<string, string>;
+
+          /**
+           * If provided, the specifier will only apply to the product with the specified ID.
+           */
+          product_id?: string;
+
+          /**
+           * If provided, the specifier will only apply to products with all the specified
+           * tags.
+           */
+          product_tags?: Array<string>;
+        }
       }
 
       export interface PaymentGateConfig {
@@ -974,7 +1049,7 @@ export namespace ContractRetrieveResponse {
        * The frequency at which the recurring commits will be created. If not provided: -
        * The commits will be created on the usage invoice frequency. If provided: - The
        * period defined in the duration will correspond to this frequency. - Commits will
-       * be created aligned with the recurring commit's start_date rather than the usage
+       * be created aligned with the recurring commit's starting_at rather than the usage
        * invoice dates.
        */
       recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
@@ -985,6 +1060,13 @@ export namespace ContractRetrieveResponse {
        * between 0 and 1.
        */
       rollover_fraction?: number;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown.
+       */
+      specifiers?: Array<RecurringCommit.Specifier>;
     }
 
     export namespace RecurringCommit {
@@ -1027,6 +1109,23 @@ export namespace ContractRetrieveResponse {
         quantity: number;
 
         unit_price: number;
+      }
+
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
       }
     }
 
@@ -1102,7 +1201,7 @@ export namespace ContractRetrieveResponse {
        * The frequency at which the recurring commits will be created. If not provided: -
        * The commits will be created on the usage invoice frequency. If provided: - The
        * period defined in the duration will correspond to this frequency. - Commits will
-       * be created aligned with the recurring commit's start_date rather than the usage
+       * be created aligned with the recurring commit's starting_at rather than the usage
        * invoice dates.
        */
       recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
@@ -1113,6 +1212,13 @@ export namespace ContractRetrieveResponse {
        * between 0 and 1.
        */
       rollover_fraction?: number;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown.
+       */
+      specifiers?: Array<RecurringCredit.Specifier>;
     }
 
     export namespace RecurringCredit {
@@ -1144,6 +1250,23 @@ export namespace ContractRetrieveResponse {
 
       export interface Contract {
         id: string;
+      }
+
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
       }
     }
 
@@ -1456,6 +1579,13 @@ export namespace ContractListResponse {
        * This field's availability is dependent on your client's configuration.
        */
       salesforce_opportunity_id?: string;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown.
+       */
+      specifiers?: Array<Commit.Specifier>;
     }
 
     export namespace Commit {
@@ -1618,6 +1748,23 @@ export namespace ContractListResponse {
         commit_id: string;
 
         contract_id: string;
+      }
+
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
       }
     }
 
@@ -1816,6 +1963,13 @@ export namespace ContractListResponse {
        * This field's availability is dependent on your client's configuration.
        */
       salesforce_opportunity_id?: string;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown.
+       */
+      specifiers?: Array<Credit.Specifier>;
     }
 
     export namespace Credit {
@@ -1894,6 +2048,23 @@ export namespace ContractListResponse {
 
         type: 'CREDIT_MANUAL';
       }
+
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
+      }
     }
 
     /**
@@ -1965,6 +2136,33 @@ export namespace ContractListResponse {
          * will default to the commit product name.
          */
         name?: string;
+
+        /**
+         * List of filters that determine what kind of customer usage draws down a commit
+         * or credit. A customer's usage needs to meet the condition of at least one of the
+         * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+         * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         */
+        specifiers?: Array<Commit.Specifier>;
+      }
+
+      export namespace Commit {
+        export interface Specifier {
+          presentation_group_values?: Record<string, string>;
+
+          pricing_group_values?: Record<string, string>;
+
+          /**
+           * If provided, the specifier will only apply to the product with the specified ID.
+           */
+          product_id?: string;
+
+          /**
+           * If provided, the specifier will only apply to products with all the specified
+           * tags.
+           */
+          product_tags?: Array<string>;
+        }
       }
 
       export interface PaymentGateConfig {
@@ -2079,7 +2277,7 @@ export namespace ContractListResponse {
        * The frequency at which the recurring commits will be created. If not provided: -
        * The commits will be created on the usage invoice frequency. If provided: - The
        * period defined in the duration will correspond to this frequency. - Commits will
-       * be created aligned with the recurring commit's start_date rather than the usage
+       * be created aligned with the recurring commit's starting_at rather than the usage
        * invoice dates.
        */
       recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
@@ -2090,6 +2288,13 @@ export namespace ContractListResponse {
        * between 0 and 1.
        */
       rollover_fraction?: number;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown.
+       */
+      specifiers?: Array<RecurringCommit.Specifier>;
     }
 
     export namespace RecurringCommit {
@@ -2132,6 +2337,23 @@ export namespace ContractListResponse {
         quantity: number;
 
         unit_price: number;
+      }
+
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
       }
     }
 
@@ -2207,7 +2429,7 @@ export namespace ContractListResponse {
        * The frequency at which the recurring commits will be created. If not provided: -
        * The commits will be created on the usage invoice frequency. If provided: - The
        * period defined in the duration will correspond to this frequency. - Commits will
-       * be created aligned with the recurring commit's start_date rather than the usage
+       * be created aligned with the recurring commit's starting_at rather than the usage
        * invoice dates.
        */
       recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
@@ -2218,6 +2440,13 @@ export namespace ContractListResponse {
        * between 0 and 1.
        */
       rollover_fraction?: number;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown.
+       */
+      specifiers?: Array<RecurringCredit.Specifier>;
     }
 
     export namespace RecurringCredit {
@@ -2249,6 +2478,23 @@ export namespace ContractListResponse {
 
       export interface Contract {
         id: string;
+      }
+
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
       }
     }
 
@@ -2419,6 +2665,10 @@ export namespace ContractGetEditHistoryResponse {
 
     update_discounts?: Array<Data.UpdateDiscount>;
 
+    update_recurring_commits?: Array<Data.UpdateRecurringCommit>;
+
+    update_recurring_credits?: Array<Data.UpdateRecurringCredit>;
+
     update_refund_invoices?: Array<Data.UpdateRefundInvoice>;
 
     update_scheduled_charges?: Array<Data.UpdateScheduledCharge>;
@@ -2470,6 +2720,14 @@ export namespace ContractGetEditHistoryResponse {
        * This field's availability is dependent on your client's configuration.
        */
       salesforce_opportunity_id?: string;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+       * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       */
+      specifiers?: Array<AddCommit.Specifier>;
     }
 
     export namespace AddCommit {
@@ -2477,6 +2735,23 @@ export namespace ContractGetEditHistoryResponse {
         id: string;
 
         name: string;
+      }
+
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
       }
     }
 
@@ -2515,6 +2790,14 @@ export namespace ContractGetEditHistoryResponse {
        * This field's availability is dependent on your client's configuration.
        */
       salesforce_opportunity_id?: string;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+       * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       */
+      specifiers?: Array<AddCredit.Specifier>;
     }
 
     export namespace AddCredit {
@@ -2522,6 +2805,23 @@ export namespace ContractGetEditHistoryResponse {
         id: string;
 
         name: string;
+      }
+
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
       }
     }
 
@@ -2696,7 +2996,7 @@ export namespace ContractGetEditHistoryResponse {
        * The frequency at which the recurring commits will be created. If not provided: -
        * The commits will be created on the usage invoice frequency. If provided: - The
        * period defined in the duration will correspond to this frequency. - Commits will
-       * be created aligned with the recurring commit's start_date rather than the usage
+       * be created aligned with the recurring commit's starting_at rather than the usage
        * invoice dates.
        */
       recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
@@ -2707,6 +3007,13 @@ export namespace ContractGetEditHistoryResponse {
        * between 0 and 1.
        */
       rollover_fraction?: number;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown.
+       */
+      specifiers?: Array<AddRecurringCommit.Specifier>;
     }
 
     export namespace AddRecurringCommit {
@@ -2749,6 +3056,23 @@ export namespace ContractGetEditHistoryResponse {
         quantity: number;
 
         unit_price: number;
+      }
+
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
       }
     }
 
@@ -2824,7 +3148,7 @@ export namespace ContractGetEditHistoryResponse {
        * The frequency at which the recurring commits will be created. If not provided: -
        * The commits will be created on the usage invoice frequency. If provided: - The
        * period defined in the duration will correspond to this frequency. - Commits will
-       * be created aligned with the recurring commit's start_date rather than the usage
+       * be created aligned with the recurring commit's starting_at rather than the usage
        * invoice dates.
        */
       recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
@@ -2835,6 +3159,13 @@ export namespace ContractGetEditHistoryResponse {
        * between 0 and 1.
        */
       rollover_fraction?: number;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown.
+       */
+      specifiers?: Array<AddRecurringCredit.Specifier>;
     }
 
     export namespace AddRecurringCredit {
@@ -2866,6 +3197,23 @@ export namespace ContractGetEditHistoryResponse {
 
       export interface Contract {
         id: string;
+      }
+
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
       }
     }
 
@@ -2983,6 +3331,14 @@ export namespace ContractGetEditHistoryResponse {
       product_id?: string;
 
       rollover_fraction?: number | null;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+       * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       */
+      specifiers?: Array<UpdateCommit.Specifier>;
     }
 
     export namespace UpdateCommit {
@@ -3064,6 +3420,23 @@ export namespace ContractGetEditHistoryResponse {
 
           unit_price?: number;
         }
+      }
+
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
       }
     }
 
@@ -3233,6 +3606,46 @@ export namespace ContractGetEditHistoryResponse {
            */
           unit_price?: number;
         }
+      }
+    }
+
+    export interface UpdateRecurringCommit {
+      id: string;
+
+      access_amount?: UpdateRecurringCommit.AccessAmount;
+
+      ending_before?: string;
+
+      invoice_amount?: UpdateRecurringCommit.InvoiceAmount;
+    }
+
+    export namespace UpdateRecurringCommit {
+      export interface AccessAmount {
+        quantity?: number;
+
+        unit_price?: number;
+      }
+
+      export interface InvoiceAmount {
+        quantity?: number;
+
+        unit_price?: number;
+      }
+    }
+
+    export interface UpdateRecurringCredit {
+      id: string;
+
+      access_amount?: UpdateRecurringCredit.AccessAmount;
+
+      ending_before?: string;
+    }
+
+    export namespace UpdateRecurringCredit {
+      export interface AccessAmount {
+        quantity?: number;
+
+        unit_price?: number;
       }
     }
 
@@ -3418,11 +3831,15 @@ export interface ContractEditParams {
   /**
    * RFC 3339 timestamp indicating when the contract will end (exclusive).
    */
-  update_contract_end_date?: string;
+  update_contract_end_date?: string | null;
 
   update_credits?: Array<ContractEditParams.UpdateCredit>;
 
   update_prepaid_balance_threshold_configuration?: ContractEditParams.UpdatePrepaidBalanceThresholdConfiguration;
+
+  update_recurring_commits?: Array<ContractEditParams.UpdateRecurringCommit>;
+
+  update_recurring_credits?: Array<ContractEditParams.UpdateRecurringCredit>;
 
   update_scheduled_charges?: Array<ContractEditParams.UpdateScheduledCharge>;
 
@@ -3501,6 +3918,14 @@ export namespace ContractEditParams {
      * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
      */
     rollover_fraction?: number;
+
+    /**
+     * List of filters that determine what kind of customer usage draws down a commit
+     * or credit. A customer's usage needs to meet the condition of at least one of the
+     * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+     * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     */
+    specifiers?: Array<AddCommit.Specifier>;
 
     /**
      * A temporary ID for the commit that can be used to reference the commit for
@@ -3670,6 +4095,23 @@ export namespace ContractEditParams {
         payment_type: 'INVOICE' | 'PAYMENT_INTENT';
       }
     }
+
+    export interface Specifier {
+      presentation_group_values?: Record<string, string>;
+
+      pricing_group_values?: Record<string, string>;
+
+      /**
+       * If provided, the specifier will only apply to the product with the specified ID.
+       */
+      product_id?: string;
+
+      /**
+       * If provided, the specifier will only apply to products with all the specified
+       * tags.
+       */
+      product_tags?: Array<string>;
+    }
   }
 
   export interface AddCredit {
@@ -3716,6 +4158,14 @@ export namespace ContractEditParams {
     priority?: number;
 
     rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
+    /**
+     * List of filters that determine what kind of customer usage draws down a commit
+     * or credit. A customer's usage needs to meet the condition of at least one of the
+     * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+     * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     */
+    specifiers?: Array<AddCredit.Specifier>;
   }
 
   export namespace AddCredit {
@@ -3742,6 +4192,23 @@ export namespace ContractEditParams {
          */
         starting_at: string;
       }
+    }
+
+    export interface Specifier {
+      presentation_group_values?: Record<string, string>;
+
+      pricing_group_values?: Record<string, string>;
+
+      /**
+       * If provided, the specifier will only apply to the product with the specified ID.
+       */
+      product_id?: string;
+
+      /**
+       * If provided, the specifier will only apply to products with all the specified
+       * tags.
+       */
+      product_tags?: Array<string>;
     }
   }
 
@@ -4080,6 +4547,33 @@ export namespace ContractEditParams {
        * will default to the commit product name.
        */
       name?: string;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+       * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       */
+      specifiers?: Array<Commit.Specifier>;
+    }
+
+    export namespace Commit {
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
+      }
     }
 
     export interface PaymentGateConfig {
@@ -4220,7 +4714,7 @@ export namespace ContractEditParams {
      * The frequency at which the recurring commits will be created. If not provided: -
      * The commits will be created on the usage invoice frequency. If provided: - The
      * period defined in the duration will correspond to this frequency. - Commits will
-     * be created aligned with the recurring commit's start_date rather than the usage
+     * be created aligned with the recurring commit's starting_at rather than the usage
      * invoice dates.
      */
     recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
@@ -4231,6 +4725,14 @@ export namespace ContractEditParams {
      * between 0 and 1.
      */
     rollover_fraction?: number;
+
+    /**
+     * List of filters that determine what kind of customer usage draws down a commit
+     * or credit. A customer's usage needs to meet the condition of at least one of the
+     * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+     * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     */
+    specifiers?: Array<AddRecurringCommit.Specifier>;
 
     /**
      * A temporary ID that can be used to reference the recurring commit for commit
@@ -4269,6 +4771,23 @@ export namespace ContractEditParams {
       quantity: number;
 
       unit_price: number;
+    }
+
+    export interface Specifier {
+      presentation_group_values?: Record<string, string>;
+
+      pricing_group_values?: Record<string, string>;
+
+      /**
+       * If provided, the specifier will only apply to the product with the specified ID.
+       */
+      product_id?: string;
+
+      /**
+       * If provided, the specifier will only apply to products with all the specified
+       * tags.
+       */
+      product_tags?: Array<string>;
     }
   }
 
@@ -4340,7 +4859,7 @@ export namespace ContractEditParams {
      * The frequency at which the recurring commits will be created. If not provided: -
      * The commits will be created on the usage invoice frequency. If provided: - The
      * period defined in the duration will correspond to this frequency. - Commits will
-     * be created aligned with the recurring commit's start_date rather than the usage
+     * be created aligned with the recurring commit's starting_at rather than the usage
      * invoice dates.
      */
     recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
@@ -4351,6 +4870,14 @@ export namespace ContractEditParams {
      * between 0 and 1.
      */
     rollover_fraction?: number;
+
+    /**
+     * List of filters that determine what kind of customer usage draws down a commit
+     * or credit. A customer's usage needs to meet the condition of at least one of the
+     * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+     * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     */
+    specifiers?: Array<AddRecurringCredit.Specifier>;
 
     /**
      * A temporary ID that can be used to reference the recurring commit for commit
@@ -4378,6 +4905,23 @@ export namespace ContractEditParams {
       unit: 'PERIODS';
 
       value: number;
+    }
+
+    export interface Specifier {
+      presentation_group_values?: Record<string, string>;
+
+      pricing_group_values?: Record<string, string>;
+
+      /**
+       * If provided, the specifier will only apply to the product with the specified ID.
+       */
+      product_id?: string;
+
+      /**
+       * If provided, the specifier will only apply to products with all the specified
+       * tags.
+       */
+      product_tags?: Array<string>;
     }
   }
 
@@ -4834,6 +5378,33 @@ export namespace ContractEditParams {
        * will default to the commit product name.
        */
       name?: string;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+       * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       */
+      specifiers?: Array<Commit.Specifier>;
+    }
+
+    export namespace Commit {
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
+      }
     }
 
     export interface PaymentGateConfig {
@@ -4868,6 +5439,46 @@ export namespace ContractEditParams {
          */
         payment_type: 'INVOICE' | 'PAYMENT_INTENT';
       }
+    }
+  }
+
+  export interface UpdateRecurringCommit {
+    recurring_commit_id: string;
+
+    access_amount?: UpdateRecurringCommit.AccessAmount;
+
+    ending_before?: string | null;
+
+    invoice_amount?: UpdateRecurringCommit.InvoiceAmount;
+  }
+
+  export namespace UpdateRecurringCommit {
+    export interface AccessAmount {
+      quantity?: number;
+
+      unit_price?: number;
+    }
+
+    export interface InvoiceAmount {
+      quantity?: number;
+
+      unit_price?: number;
+    }
+  }
+
+  export interface UpdateRecurringCredit {
+    recurring_credit_id: string;
+
+    access_amount?: UpdateRecurringCredit.AccessAmount;
+
+    ending_before?: string | null;
+  }
+
+  export namespace UpdateRecurringCredit {
+    export interface AccessAmount {
+      quantity?: number;
+
+      unit_price?: number;
     }
   }
 
@@ -5018,6 +5629,14 @@ export interface ContractEditCommitParams {
   invoice_schedule?: ContractEditCommitParams.InvoiceSchedule;
 
   product_id?: string;
+
+  /**
+   * List of filters that determine what kind of customer usage draws down a commit
+   * or credit. A customer's usage needs to meet the condition of at least one of the
+   * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+   * be used together with `applicable_product_ids` or `applicable_product_tags`.
+   */
+  specifiers?: Array<ContractEditCommitParams.Specifier>;
 }
 
 export namespace ContractEditCommitParams {
@@ -5088,6 +5707,23 @@ export namespace ContractEditCommitParams {
       unit_price?: number;
     }
   }
+
+  export interface Specifier {
+    presentation_group_values?: Record<string, string>;
+
+    pricing_group_values?: Record<string, string>;
+
+    /**
+     * If provided, the specifier will only apply to the product with the specified ID.
+     */
+    product_id?: string;
+
+    /**
+     * If provided, the specifier will only apply to products with all the specified
+     * tags.
+     */
+    product_tags?: Array<string>;
+  }
 }
 
 export interface ContractEditCreditParams {
@@ -5116,6 +5752,14 @@ export interface ContractEditCreditParams {
   applicable_product_tags?: Array<string> | null;
 
   product_id?: string;
+
+  /**
+   * List of filters that determine what kind of customer usage draws down a commit
+   * or credit. A customer's usage needs to meet the condition of at least one of the
+   * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+   * be used together with `applicable_product_ids` or `applicable_product_tags`.
+   */
+  specifiers?: Array<ContractEditCreditParams.Specifier>;
 }
 
 export namespace ContractEditCreditParams {
@@ -5149,6 +5793,23 @@ export namespace ContractEditCreditParams {
 
       starting_at?: string;
     }
+  }
+
+  export interface Specifier {
+    presentation_group_values?: Record<string, string>;
+
+    pricing_group_values?: Record<string, string>;
+
+    /**
+     * If provided, the specifier will only apply to the product with the specified ID.
+     */
+    product_id?: string;
+
+    /**
+     * If provided, the specifier will only apply to products with all the specified
+     * tags.
+     */
+    product_tags?: Array<string>;
   }
 }
 
