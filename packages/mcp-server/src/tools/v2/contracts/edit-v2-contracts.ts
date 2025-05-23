@@ -615,7 +615,16 @@ export const tool: Tool = {
                   type: 'array',
                   description: 'Only set for TIERED rate_type.',
                   items: {
-                    $ref: '#/$defs/tier',
+                    type: 'object',
+                    properties: {
+                      price: {
+                        type: 'number',
+                      },
+                      size: {
+                        type: 'number',
+                      },
+                    },
+                    required: ['price'],
                   },
                 },
               },
@@ -1672,11 +1681,6 @@ export const tool: Tool = {
           commit: {
             type: 'object',
             properties: {
-              product_id: {
-                type: 'string',
-                description:
-                  'The commit product that will be used to generate the line item for commit payment.',
-              },
               applicable_product_ids: {
                 type: 'array',
                 description:
@@ -1700,6 +1704,11 @@ export const tool: Tool = {
                 type: 'string',
                 description:
                   'Specify the name of the line item for the threshold charge. If left blank, it will default to the commit product name.',
+              },
+              product_id: {
+                type: 'string',
+                description:
+                  'The commit product that will be used to generate the line item for commit payment.',
               },
               specifiers: {
                 type: 'array',
@@ -1732,7 +1741,7 @@ export const tool: Tool = {
                 },
               },
             },
-            required: ['product_id'],
+            required: [],
           },
           is_enabled: {
             type: 'boolean',
@@ -1945,6 +1954,8 @@ export const tool: Tool = {
               },
               product_id: {
                 type: 'string',
+                description:
+                  'The commit product that will be used to generate the line item for commit payment.',
               },
             },
             required: [],
@@ -1991,20 +2002,6 @@ export const tool: Tool = {
           },
         },
         required: [],
-      },
-    },
-    $defs: {
-      tier: {
-        type: 'object',
-        properties: {
-          price: {
-            type: 'number',
-          },
-          size: {
-            type: 'number',
-          },
-        },
-        required: ['price'],
       },
     },
   },

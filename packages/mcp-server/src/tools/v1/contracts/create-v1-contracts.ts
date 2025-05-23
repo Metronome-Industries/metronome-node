@@ -662,7 +662,16 @@ export const tool: Tool = {
                   type: 'array',
                   description: 'Only set for TIERED rate_type.',
                   items: {
-                    $ref: '#/$defs/tier',
+                    type: 'object',
+                    properties: {
+                      price: {
+                        type: 'number',
+                      },
+                      size: {
+                        type: 'number',
+                      },
+                    },
+                    required: ['price'],
                   },
                 },
               },
@@ -1447,7 +1456,23 @@ export const tool: Tool = {
           'Prevents the creation of duplicates. If a request to create a record is made with a previously used uniqueness key, a new record will not be created and the request will fail with a 409 error.',
       },
       usage_filter: {
-        $ref: '#/$defs/base_usage_filter',
+        type: 'object',
+        properties: {
+          group_key: {
+            type: 'string',
+          },
+          group_values: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+          starting_at: {
+            type: 'string',
+            format: 'date-time',
+          },
+        },
+        required: ['group_key', 'group_values'],
       },
       usage_statement_schedule: {
         type: 'object',
@@ -1475,39 +1500,6 @@ export const tool: Tool = {
           },
         },
         required: ['frequency'],
-      },
-    },
-    $defs: {
-      tier: {
-        type: 'object',
-        properties: {
-          price: {
-            type: 'number',
-          },
-          size: {
-            type: 'number',
-          },
-        },
-        required: ['price'],
-      },
-      base_usage_filter: {
-        type: 'object',
-        properties: {
-          group_key: {
-            type: 'string',
-          },
-          group_values: {
-            type: 'array',
-            items: {
-              type: 'string',
-            },
-          },
-          starting_at: {
-            type: 'string',
-            format: 'date-time',
-          },
-        },
-        required: ['group_key', 'group_values'],
       },
     },
   },
