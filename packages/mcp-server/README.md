@@ -232,8 +232,7 @@ The following tools are available in this MCP server.
 - `add_charge_customers_v1_invoices` (`write`): Add a one time charge to the specified invoice
 - `list_breakdowns_customers_v1_invoices` (`read`): List daily or hourly invoice breakdowns for a given customer, optionally filtered by status, date range, and/or credit type.
   Important considerations:
-
-* If we receive backdated usage after an invoice has been finalized, the backdated usage will be included in the response and usage numbers may differ.
+  - If we receive backdated usage after an invoice has been finalized, the backdated usage will be included in the response and usage numbers may differ.
 
 ### Resource `v1.customers.billing_config`:
 
