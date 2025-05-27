@@ -47,6 +47,12 @@ export const tool: Tool = {
         items: {
           type: 'object',
           properties: {
+            billing_frequency: {
+              type: 'string',
+              description:
+                'Subscription rates matching the billing frequency will be included in the response.',
+              enum: ['MONTHLY', 'QUARTERLY', 'ANNUAL', 'WEEKLY'],
+            },
             partial_pricing_group_values: {
               type: 'object',
               description:

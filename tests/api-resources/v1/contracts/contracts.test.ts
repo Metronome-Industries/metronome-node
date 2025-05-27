@@ -157,6 +157,7 @@ describe('resource contracts', () => {
           multiplier: 0,
           override_specifiers: [
             {
+              billing_frequency: 'MONTHLY',
               commit_ids: ['string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
@@ -341,6 +342,22 @@ describe('resource contracts', () => {
         },
         threshold_amount: 0,
       },
+      subscriptions: [
+        {
+          collection_schedule: 'ADVANCE',
+          initial_quantity: 0,
+          proration: { invoice_behavior: 'BILL_IMMEDIATELY', is_prorated: true },
+          subscription_rate: {
+            billing_frequency: 'MONTHLY',
+            product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          },
+          custom_fields: { foo: 'string' },
+          description: 'description',
+          ending_before: '2019-12-27T18:11:19.117Z',
+          name: 'name',
+          starting_at: '2019-12-27T18:11:19.117Z',
+        },
+      ],
       total_contract_value: 0,
       transition: {
         from_contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -577,6 +594,7 @@ describe('resource contracts', () => {
           multiplier: 0,
           override_specifiers: [
             {
+              billing_frequency: 'MONTHLY',
               commit_ids: ['string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
@@ -798,6 +816,7 @@ describe('resource contracts', () => {
       at: '2020-01-01T00:00:00.000Z',
       selectors: [
         {
+          billing_frequency: 'MONTHLY',
           partial_pricing_group_values: { region: 'us-west-2', cloud: 'aws' },
           pricing_group_values: { foo: 'string' },
           product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
