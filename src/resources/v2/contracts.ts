@@ -4430,8 +4430,18 @@ export interface ContractEditParams {
 
   update_prepaid_balance_threshold_configuration?: ContractEditParams.UpdatePrepaidBalanceThresholdConfiguration;
 
+  /**
+   * Edits to these recurring commits will only affect commits whose access schedules
+   * has not started. Expired commits, and commits with an active access schedule
+   * will remain unchanged.
+   */
   update_recurring_commits?: Array<ContractEditParams.UpdateRecurringCommit>;
 
+  /**
+   * Edits to these recurring credits will only affect credits whose access schedules
+   * has not started. Expired credits, and credits with an active access schedule
+   * will remain unchanged.
+   */
   update_recurring_credits?: Array<ContractEditParams.UpdateRecurringCredit>;
 
   update_scheduled_charges?: Array<ContractEditParams.UpdateScheduledCharge>;
