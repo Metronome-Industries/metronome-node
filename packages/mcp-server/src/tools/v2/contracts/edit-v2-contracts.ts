@@ -530,6 +530,10 @@ export const tool: Tool = {
               items: {
                 type: 'object',
                 properties: {
+                  billing_frequency: {
+                    type: 'string',
+                    enum: ['MONTHLY', 'QUARTERLY', 'ANNUAL', 'WEEKLY'],
+                  },
                   commit_ids: {
                     type: 'array',
                     description:
@@ -615,16 +619,7 @@ export const tool: Tool = {
                   type: 'array',
                   description: 'Only set for TIERED rate_type.',
                   items: {
-                    type: 'object',
-                    properties: {
-                      price: {
-                        type: 'number',
-                      },
-                      size: {
-                        type: 'number',
-                      },
-                    },
-                    required: ['price'],
+                    $ref: '#/$defs/tier',
                   },
                 },
               },
@@ -1355,6 +1350,76 @@ export const tool: Tool = {
         },
         required: ['commit', 'is_enabled', 'payment_gate_config', 'threshold_amount'],
       },
+      add_subscriptions: {
+        type: 'array',
+        description: '(beta) Optional list of subscriptions to add to the contract.',
+        items: {
+          type: 'object',
+          properties: {
+            collection_schedule: {
+              type: 'string',
+              enum: ['ADVANCE', 'ARREARS'],
+            },
+            initial_quantity: {
+              type: 'number',
+            },
+            proration: {
+              type: 'object',
+              properties: {
+                invoice_behavior: {
+                  type: 'string',
+                  description:
+                    'Indicates how mid-period quantity adjustments are invoiced. If BILL_IMMEDIATELY is selected, the quantity increase will be billed on the scheduled date. If BILL_ON_NEXT_COLLECTION_DATE is selected, the quantity increase will be billed for in-arrears at the end of the period.',
+                  enum: ['BILL_IMMEDIATELY', 'BILL_ON_NEXT_COLLECTION_DATE'],
+                },
+                is_prorated: {
+                  type: 'boolean',
+                  description: 'Indicates if the partial period will be prorated or charged a full amount.',
+                },
+              },
+              required: [],
+            },
+            subscription_rate: {
+              type: 'object',
+              properties: {
+                billing_frequency: {
+                  type: 'string',
+                  description:
+                    'Frequency to bill subscription with. Together with product_id, must match existing rate on the rate card.',
+                  enum: ['MONTHLY', 'QUARTERLY', 'ANNUAL', 'WEEKLY'],
+                },
+                product_id: {
+                  type: 'string',
+                  description: 'Must be subscription type product',
+                },
+              },
+              required: ['billing_frequency', 'product_id'],
+            },
+            custom_fields: {
+              type: 'object',
+            },
+            description: {
+              type: 'string',
+            },
+            ending_before: {
+              type: 'string',
+              description:
+                'Exclusive end time for the subscription. If not provided, subscription inherits contract end date.',
+              format: 'date-time',
+            },
+            name: {
+              type: 'string',
+            },
+            starting_at: {
+              type: 'string',
+              description:
+                'Inclusive start time for the subscription. If not provided, defaults to contract start date',
+              format: 'date-time',
+            },
+          },
+          required: ['collection_schedule', 'initial_quantity', 'proration', 'subscription_rate'],
+        },
+      },
       allow_contract_ending_before_finalized_invoice: {
         type: 'boolean',
         description:
@@ -2002,6 +2067,62 @@ export const tool: Tool = {
           },
         },
         required: [],
+      },
+      update_subscriptions: {
+        type: 'array',
+        description: '(beta) Optional list of subscriptions to update.',
+        items: {
+          type: 'object',
+          properties: {
+            subscription_id: {
+              type: 'string',
+            },
+            ending_before: {
+              type: 'string',
+              format: 'date-time',
+            },
+            quantity_updates: {
+              type: 'array',
+              description:
+                'Quantity changes are applied on the effective date based on the order which they are sent. For example, if I scheduled the quantity to be 12 on May 21 and then scheduled a quantity delta change of -1, the result from that day would be 11.',
+              items: {
+                type: 'object',
+                properties: {
+                  starting_at: {
+                    type: 'string',
+                    format: 'date-time',
+                  },
+                  quantity: {
+                    type: 'number',
+                    description:
+                      'The new quantity for the subscription. Must be provided if quantity_delta is not provided. Must be non-negative.',
+                  },
+                  quantity_delta: {
+                    type: 'number',
+                    description:
+                      "The delta to add to the subscription's quantity. Must be provided if quantity is not provided. Can't be zero. It also can't result in a negative quantity on the subscription.",
+                  },
+                },
+                required: ['starting_at'],
+              },
+            },
+          },
+          required: ['subscription_id'],
+        },
+      },
+    },
+    $defs: {
+      tier: {
+        type: 'object',
+        properties: {
+          price: {
+            type: 'number',
+          },
+          size: {
+            type: 'number',
+          },
+        },
+        required: ['price'],
       },
     },
   },

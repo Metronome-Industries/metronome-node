@@ -547,6 +547,10 @@ export const tool: Tool = {
               items: {
                 type: 'object',
                 properties: {
+                  billing_frequency: {
+                    type: 'string',
+                    enum: ['MONTHLY', 'QUARTERLY', 'ANNUAL', 'WEEKLY'],
+                  },
                   commit_ids: {
                     type: 'array',
                     description:
@@ -632,16 +636,7 @@ export const tool: Tool = {
                   type: 'array',
                   description: 'Only set for TIERED rate_type.',
                   items: {
-                    type: 'object',
-                    properties: {
-                      price: {
-                        type: 'number',
-                      },
-                      size: {
-                        type: 'number',
-                      },
-                    },
-                    required: ['price'],
+                    $ref: '#/$defs/tier',
                   },
                 },
               },
@@ -907,6 +902,20 @@ export const tool: Tool = {
       total_contract_value: {
         type: 'number',
         description: "This field's availability is dependent on your client's configuration.",
+      },
+    },
+    $defs: {
+      tier: {
+        type: 'object',
+        properties: {
+          price: {
+            type: 'number',
+          },
+          size: {
+            type: 'number',
+          },
+        },
+        required: ['price'],
       },
     },
   },
