@@ -1857,6 +1857,8 @@ export const tool: Tool = {
       },
       update_recurring_commits: {
         type: 'array',
+        description:
+          'Edits to these recurring commits will only affect commits whose access schedules has not started. Expired commits, and commits with an active access schedule will remain unchanged.',
         items: {
           type: 'object',
           properties: {
@@ -1897,6 +1899,8 @@ export const tool: Tool = {
       },
       update_recurring_credits: {
         type: 'array',
+        description:
+          'Edits to these recurring credits will only affect credits whose access schedules has not started. Expired credits, and credits with an active access schedule will remain unchanged.',
         items: {
           type: 'object',
           properties: {
