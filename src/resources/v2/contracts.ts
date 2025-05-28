@@ -4387,7 +4387,9 @@ export interface ContractEditParams {
   add_spend_threshold_configuration?: ContractEditParams.AddSpendThresholdConfiguration;
 
   /**
-   * (beta) Optional list of subscriptions to add to the contract.
+   * (beta) Optional list of
+   * [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/)
+   * to add to the contract.
    */
   add_subscriptions?: Array<ContractEditParams.AddSubscription>;
 
