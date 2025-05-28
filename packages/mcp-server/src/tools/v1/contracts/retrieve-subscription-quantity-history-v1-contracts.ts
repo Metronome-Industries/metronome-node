@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export const tool: Tool = {
-  name: 'get_subscription_quantity_history_v1_contracts',
+  name: 'retrieve_subscription_quantity_history_v1_contracts',
   description:
     'Fetch the quantity and price for a subscription over time. End-point does not return future scheduled changes.',
   inputSchema: {
@@ -35,7 +35,7 @@ export const tool: Tool = {
 
 export const handler = (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return client.v1.contracts.getSubscriptionQuantityHistory(body);
+  return client.v1.contracts.retrieveSubscriptionQuantityHistory(body);
 };
 
 export default { metadata, tool, handler };

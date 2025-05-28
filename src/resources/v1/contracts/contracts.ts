@@ -211,27 +211,6 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Fetch the quantity and price for a subscription over time. End-point does not
-   * return future scheduled changes.
-   *
-   * @example
-   * ```ts
-   * const response =
-   *   await client.v1.contracts.getSubscriptionQuantityHistory({
-   *     contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-   *     subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
-   *   });
-   * ```
-   */
-  getSubscriptionQuantityHistory(
-    body: ContractGetSubscriptionQuantityHistoryParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ContractGetSubscriptionQuantityHistoryResponse> {
-    return this._client.post('/v1/contracts/getSubscriptionQuantityHistory', { body, ...options });
-  }
-
-  /**
    * List balances (commits and credits).
    *
    * @example
@@ -282,6 +261,30 @@ export class Contracts extends APIResource {
       body,
       ...options,
     });
+  }
+
+  /**
+   * Fetch the quantity and price for a subscription over time. End-point does not
+   * return future scheduled changes.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.retrieveSubscriptionQuantityHistory(
+   *     {
+   *       contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *       subscription_id:
+   *         '1a824d53-bde6-4d82-96d7-6347ff227d5c',
+   *     },
+   *   );
+   * ```
+   */
+  retrieveSubscriptionQuantityHistory(
+    body: ContractRetrieveSubscriptionQuantityHistoryParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<ContractRetrieveSubscriptionQuantityHistoryResponse> {
+    return this._client.post('/v1/contracts/getSubscriptionQuantityHistory', { body, ...options });
   }
 
   /**
@@ -1155,38 +1158,6 @@ export interface ContractCreateHistoricalInvoicesResponse {
   data: Array<InvoicesAPI.Invoice>;
 }
 
-export interface ContractGetSubscriptionQuantityHistoryResponse {
-  data: ContractGetSubscriptionQuantityHistoryResponse.Data;
-}
-
-export namespace ContractGetSubscriptionQuantityHistoryResponse {
-  export interface Data {
-    fiat_credit_type_id?: string;
-
-    history?: Array<Data.History>;
-
-    subscription_id?: string;
-  }
-
-  export namespace Data {
-    export interface History {
-      data: Array<History.Data>;
-
-      starting_at: string;
-    }
-
-    export namespace History {
-      export interface Data {
-        quantity: number;
-
-        total: number;
-
-        unit_price: number;
-      }
-    }
-  }
-}
-
 export interface ContractListBalancesResponse {
   data: Array<Shared.Commit | Shared.Credit>;
 
@@ -1249,6 +1220,38 @@ export namespace ContractRetrieveRateScheduleResponse {
        * Only set for TIERED rate_type.
        */
       tiers?: Array<Shared.Tier>;
+    }
+  }
+}
+
+export interface ContractRetrieveSubscriptionQuantityHistoryResponse {
+  data: ContractRetrieveSubscriptionQuantityHistoryResponse.Data;
+}
+
+export namespace ContractRetrieveSubscriptionQuantityHistoryResponse {
+  export interface Data {
+    fiat_credit_type_id?: string;
+
+    history?: Array<Data.History>;
+
+    subscription_id?: string;
+  }
+
+  export namespace Data {
+    export interface History {
+      data: Array<History.Data>;
+
+      starting_at: string;
+    }
+
+    export namespace History {
+      export interface Data {
+        quantity: number;
+
+        total: number;
+
+        unit_price: number;
+      }
     }
   }
 }
@@ -3898,14 +3901,6 @@ export namespace ContractCreateHistoricalInvoicesParams {
   }
 }
 
-export interface ContractGetSubscriptionQuantityHistoryParams {
-  contract_id: string;
-
-  customer_id: string;
-
-  subscription_id: string;
-}
-
 export interface ContractListBalancesParams {
   customer_id: string;
 
@@ -4020,6 +4015,14 @@ export namespace ContractRetrieveRateScheduleParams {
      */
     product_tags?: Array<string>;
   }
+}
+
+export interface ContractRetrieveSubscriptionQuantityHistoryParams {
+  contract_id: string;
+
+  customer_id: string;
+
+  subscription_id: string;
 }
 
 export interface ContractScheduleProServicesInvoiceParams {
@@ -4146,9 +4149,9 @@ export declare namespace Contracts {
     type ContractAmendResponse as ContractAmendResponse,
     type ContractArchiveResponse as ContractArchiveResponse,
     type ContractCreateHistoricalInvoicesResponse as ContractCreateHistoricalInvoicesResponse,
-    type ContractGetSubscriptionQuantityHistoryResponse as ContractGetSubscriptionQuantityHistoryResponse,
     type ContractListBalancesResponse as ContractListBalancesResponse,
     type ContractRetrieveRateScheduleResponse as ContractRetrieveRateScheduleResponse,
+    type ContractRetrieveSubscriptionQuantityHistoryResponse as ContractRetrieveSubscriptionQuantityHistoryResponse,
     type ContractScheduleProServicesInvoiceResponse as ContractScheduleProServicesInvoiceResponse,
     type ContractUpdateEndDateResponse as ContractUpdateEndDateResponse,
     type ContractCreateParams as ContractCreateParams,
@@ -4158,9 +4161,9 @@ export declare namespace Contracts {
     type ContractAmendParams as ContractAmendParams,
     type ContractArchiveParams as ContractArchiveParams,
     type ContractCreateHistoricalInvoicesParams as ContractCreateHistoricalInvoicesParams,
-    type ContractGetSubscriptionQuantityHistoryParams as ContractGetSubscriptionQuantityHistoryParams,
     type ContractListBalancesParams as ContractListBalancesParams,
     type ContractRetrieveRateScheduleParams as ContractRetrieveRateScheduleParams,
+    type ContractRetrieveSubscriptionQuantityHistoryParams as ContractRetrieveSubscriptionQuantityHistoryParams,
     type ContractScheduleProServicesInvoiceParams as ContractScheduleProServicesInvoiceParams,
     type ContractSetUsageFilterParams as ContractSetUsageFilterParams,
     type ContractUpdateEndDateParams as ContractUpdateEndDateParams,
