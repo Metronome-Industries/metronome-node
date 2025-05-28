@@ -10,7 +10,6 @@ import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { V1 } from './resources/v1/v1';
 import { V2 } from './resources/v2/v2';
-import { Webhooks } from './resources/webhooks';
 
 export interface ClientOptions {
   /**
@@ -190,25 +189,6 @@ export declare namespace Metronome {
   export { V2 as V2 };
 
   export { V1 as V1 };
-
-  export { Webhooks as Webhooks };
-
-  export type BaseUsageFilter = API.BaseUsageFilter;
-  export type Commit = API.Commit;
-  export type ContractWithoutAmendments = API.ContractWithoutAmendments;
-  export type Credit = API.Credit;
-  export type CreditTypeData = API.CreditTypeData;
-  export type Discount = API.Discount;
-  export type EventTypeFilter = API.EventTypeFilter;
-  export type ID = API.ID;
-  export type Override = API.Override;
-  export type PropertyFilter = API.PropertyFilter;
-  export type ProService = API.ProService;
-  export type Rate = API.Rate;
-  export type ScheduledCharge = API.ScheduledCharge;
-  export type ScheduleDuration = API.ScheduleDuration;
-  export type SchedulePointInTime = API.SchedulePointInTime;
-  export type Tier = API.Tier;
 }
 
 export { toFile, fileFromPath } from './uploads';
