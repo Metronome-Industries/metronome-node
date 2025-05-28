@@ -76,6 +76,7 @@ import add_manual_balance_entry_v1_contracts from './v1/contracts/add-manual-bal
 import amend_v1_contracts from './v1/contracts/amend-v1-contracts';
 import archive_v1_contracts from './v1/contracts/archive-v1-contracts';
 import create_historical_invoices_v1_contracts from './v1/contracts/create-historical-invoices-v1-contracts';
+import get_subscription_quantity_history_v1_contracts from './v1/contracts/get-subscription-quantity-history-v1-contracts';
 import list_balances_v1_contracts from './v1/contracts/list-balances-v1-contracts';
 import retrieve_rate_schedule_v1_contracts from './v1/contracts/retrieve-rate-schedule-v1-contracts';
 import schedule_pro_services_invoice_v1_contracts from './v1/contracts/schedule-pro-services-invoice-v1-contracts';
@@ -195,6 +196,7 @@ addEndpoint(add_manual_balance_entry_v1_contracts);
 addEndpoint(amend_v1_contracts);
 addEndpoint(archive_v1_contracts);
 addEndpoint(create_historical_invoices_v1_contracts);
+addEndpoint(get_subscription_quantity_history_v1_contracts);
 addEndpoint(list_balances_v1_contracts);
 addEndpoint(retrieve_rate_schedule_v1_contracts);
 addEndpoint(schedule_pro_services_invoice_v1_contracts);

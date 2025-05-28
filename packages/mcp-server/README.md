@@ -304,6 +304,7 @@ The following tools are available in this MCP server.
 - `amend_v1_contracts` (`write`): Amendments will be replaced by Contract editing. New clients should implement using the editContract endpoint. Read more about the migration to contract editing [here](https://docs.metronome.com/migrate-amendments-to-edits/) and reach out to your Metronome representative for more details. Once contract editing is enabled, access to this endpoint will be removed.
 - `archive_v1_contracts` (`write`): Archive a contract
 - `create_historical_invoices_v1_contracts` (`write`): Creates historical usage invoices for a contract
+- `get_subscription_quantity_history_v1_contracts` (`write`): Fetch the quantity and price for a subscription over time. End-point does not return future scheduled changes.
 - `list_balances_v1_contracts` (`write`): List balances (commits and credits).
 - `retrieve_rate_schedule_v1_contracts` (`write`): Get the rate schedule for the rate card on a given contract.
 - `schedule_pro_services_invoice_v1_contracts` (`write`): Create a new scheduled invoice for Professional Services terms on a contract. This endpoint's availability is dependent on your client's configuration.
