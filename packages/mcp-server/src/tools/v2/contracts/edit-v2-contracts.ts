@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v2.contracts',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v2/contracts/edit',
+  operationId: 'editContract-v2',
 };
 
 export const tool: Tool = {

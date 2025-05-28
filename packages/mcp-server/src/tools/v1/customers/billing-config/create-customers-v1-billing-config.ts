@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.customers.billing_config',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/customers/{customer_id}/billing-config/{billing_provider_type}',
+  operationId: 'setBillingConfigForCustomer-v1',
 };
 
 export const tool: Tool = {

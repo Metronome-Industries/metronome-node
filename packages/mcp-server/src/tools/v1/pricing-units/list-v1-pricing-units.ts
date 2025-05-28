@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.pricing_units',
   operation: 'read',
   tags: [],
+  httpMethod: 'get',
+  httpPath: '/v1/credit-types/list',
+  operationId: 'listCreditTypes-v1',
 };
 
 export const tool: Tool = {

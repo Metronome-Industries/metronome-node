@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.plans',
   operation: 'read',
   tags: [],
+  httpMethod: 'get',
+  httpPath: '/v1/planDetails/{plan_id}/customers',
+  operationId: 'getPlanCustomers-v1',
 };
 
 export const tool: Tool = {

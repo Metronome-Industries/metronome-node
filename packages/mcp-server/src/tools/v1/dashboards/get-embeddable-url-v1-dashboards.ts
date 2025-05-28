@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.dashboards',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/dashboards/getEmbeddableUrl',
+  operationId: 'embeddableDashboard-v1',
 };
 
 export const tool: Tool = {

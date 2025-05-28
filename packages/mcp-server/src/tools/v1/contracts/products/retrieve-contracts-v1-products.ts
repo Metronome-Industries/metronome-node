@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.contracts.products',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/contract-pricing/products/get',
+  operationId: 'getProduct-v1',
 };
 
 export const tool: Tool = {

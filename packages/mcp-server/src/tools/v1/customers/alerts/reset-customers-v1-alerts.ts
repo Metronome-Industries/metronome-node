@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.customers.alerts',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/customer-alerts/reset',
+  operationId: 'resetCustomerAlerts-v1',
 };
 
 export const tool: Tool = {

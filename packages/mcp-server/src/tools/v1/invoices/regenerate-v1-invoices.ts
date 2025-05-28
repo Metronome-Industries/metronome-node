@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.invoices',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/invoices/regenerate',
+  operationId: 'regenerateInvoice-v1',
 };
 
 export const tool: Tool = {
