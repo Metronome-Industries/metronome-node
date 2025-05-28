@@ -765,29 +765,6 @@ describe('resource contracts', () => {
     });
   });
 
-  test('getSubscriptionQuantityHistory: only required params', async () => {
-    const responsePromise = client.v1.contracts.getSubscriptionQuantityHistory({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('getSubscriptionQuantityHistory: required and optional params', async () => {
-    const response = await client.v1.contracts.getSubscriptionQuantityHistory({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
-    });
-  });
-
   test('listBalances: only required params', async () => {
     const responsePromise = client.v1.contracts.listBalances({
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
@@ -846,6 +823,29 @@ describe('resource contracts', () => {
           product_tags: ['string'],
         },
       ],
+    });
+  });
+
+  test('retrieveSubscriptionQuantityHistory: only required params', async () => {
+    const responsePromise = client.v1.contracts.retrieveSubscriptionQuantityHistory({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieveSubscriptionQuantityHistory: required and optional params', async () => {
+    const response = await client.v1.contracts.retrieveSubscriptionQuantityHistory({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
     });
   });
 
