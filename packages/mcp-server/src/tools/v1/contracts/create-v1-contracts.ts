@@ -1420,7 +1420,8 @@ export const tool: Tool = {
       },
       subscriptions: {
         type: 'array',
-        description: '(beta) Optional list of subscriptions to add to the contract.',
+        description:
+          '(beta) Optional list of [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/) to add to the contract.',
         items: {
           type: 'object',
           properties: {
