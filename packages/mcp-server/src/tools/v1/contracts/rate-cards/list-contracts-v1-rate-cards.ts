@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.contracts.rateCards',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/contract-pricing/rate-cards/list',
+  operationId: 'listRateCards-v1',
 };
 
 export const tool: Tool = {

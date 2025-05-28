@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.contracts.named_schedules',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/contract-pricing/rate-cards/updateNamedSchedule',
+  operationId: 'updateRateCardNamedSchedule-v1',
 };
 
 export const tool: Tool = {

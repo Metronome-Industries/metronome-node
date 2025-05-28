@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.usage',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/usage/groups',
+  operationId: 'getPagedUsage-v1',
 };
 
 export const tool: Tool = {

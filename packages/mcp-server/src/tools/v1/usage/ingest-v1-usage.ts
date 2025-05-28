@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.usage',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/ingest',
+  operationId: 'ingest-v1',
 };
 
 export const tool: Tool = {

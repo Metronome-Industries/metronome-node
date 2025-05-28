@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.custom_fields',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/customFields/listKeys',
+  operationId: 'listCustomFieldKeys-v1',
 };
 
 export const tool: Tool = {

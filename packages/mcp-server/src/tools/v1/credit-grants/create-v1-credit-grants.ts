@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.credit_grants',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/credits/createGrant',
+  operationId: 'createGrant-v1',
 };
 
 export const tool: Tool = {

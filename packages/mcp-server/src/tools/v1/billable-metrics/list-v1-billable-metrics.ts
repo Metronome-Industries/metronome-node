@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.billable_metrics',
   operation: 'read',
   tags: [],
+  httpMethod: 'get',
+  httpPath: '/v1/billable-metrics',
+  operationId: 'listAllBillableMetrics-v1',
 };
 
 export const tool: Tool = {

@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.customers.commits',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/contracts/customerCommits/list',
+  operationId: 'listCustomerCommits-v1',
 };
 
 export const tool: Tool = {

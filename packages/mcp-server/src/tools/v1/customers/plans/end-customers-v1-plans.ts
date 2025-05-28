@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'v1.customers.plans',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/customers/{customer_id}/plans/{customer_plan_id}/end',
+  operationId: 'endCustomerPlan-v1',
 };
 
 export const tool: Tool = {
