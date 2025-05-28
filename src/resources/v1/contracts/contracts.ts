@@ -211,6 +211,27 @@ export class Contracts extends APIResource {
   }
 
   /**
+   * Fetch the quantity and price for a subscription over time. End-point does not
+   * return future scheduled changes.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.getSubscriptionQuantityHistory({
+   *     contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *     subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
+   *   });
+   * ```
+   */
+  getSubscriptionQuantityHistory(
+    body: ContractGetSubscriptionQuantityHistoryParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<ContractGetSubscriptionQuantityHistoryResponse> {
+    return this._client.post('/v1/contracts/getSubscriptionQuantityHistory', { body, ...options });
+  }
+
+  /**
    * List balances (commits and credits).
    *
    * @example
@@ -1132,6 +1153,38 @@ export interface ContractArchiveResponse {
 
 export interface ContractCreateHistoricalInvoicesResponse {
   data: Array<InvoicesAPI.Invoice>;
+}
+
+export interface ContractGetSubscriptionQuantityHistoryResponse {
+  data: ContractGetSubscriptionQuantityHistoryResponse.Data;
+}
+
+export namespace ContractGetSubscriptionQuantityHistoryResponse {
+  export interface Data {
+    fiat_credit_type_id?: string;
+
+    history?: Array<Data.History>;
+
+    subscription_id?: string;
+  }
+
+  export namespace Data {
+    export interface History {
+      data: Array<History.Data>;
+
+      starting_at: string;
+    }
+
+    export namespace History {
+      export interface Data {
+        quantity: number;
+
+        total: number;
+
+        unit_price: number;
+      }
+    }
+  }
 }
 
 export interface ContractListBalancesResponse {
@@ -3845,6 +3898,14 @@ export namespace ContractCreateHistoricalInvoicesParams {
   }
 }
 
+export interface ContractGetSubscriptionQuantityHistoryParams {
+  contract_id: string;
+
+  customer_id: string;
+
+  subscription_id: string;
+}
+
 export interface ContractListBalancesParams {
   customer_id: string;
 
@@ -4085,6 +4146,7 @@ export declare namespace Contracts {
     type ContractAmendResponse as ContractAmendResponse,
     type ContractArchiveResponse as ContractArchiveResponse,
     type ContractCreateHistoricalInvoicesResponse as ContractCreateHistoricalInvoicesResponse,
+    type ContractGetSubscriptionQuantityHistoryResponse as ContractGetSubscriptionQuantityHistoryResponse,
     type ContractListBalancesResponse as ContractListBalancesResponse,
     type ContractRetrieveRateScheduleResponse as ContractRetrieveRateScheduleResponse,
     type ContractScheduleProServicesInvoiceResponse as ContractScheduleProServicesInvoiceResponse,
@@ -4096,6 +4158,7 @@ export declare namespace Contracts {
     type ContractAmendParams as ContractAmendParams,
     type ContractArchiveParams as ContractArchiveParams,
     type ContractCreateHistoricalInvoicesParams as ContractCreateHistoricalInvoicesParams,
+    type ContractGetSubscriptionQuantityHistoryParams as ContractGetSubscriptionQuantityHistoryParams,
     type ContractListBalancesParams as ContractListBalancesParams,
     type ContractRetrieveRateScheduleParams as ContractRetrieveRateScheduleParams,
     type ContractScheduleProServicesInvoiceParams as ContractScheduleProServicesInvoiceParams,
