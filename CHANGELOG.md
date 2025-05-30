@@ -1,5 +1,48 @@
 # Changelog
 
+## 0.1.0-beta.11 (2025-05-30)
+
+Full Changelog: [v0.1.0-beta.10...v0.1.0-beta.11](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.10...v0.1.0-beta.11)
+
+### Features
+
+* **api:** add subscription quantity history endpoint ([e9b4bbe](https://github.com/Metronome-Industries/metronome-node/commit/e9b4bbef3d7435fd9d35a9938426b59f91e03ad4))
+* **api:** api update ([d1052dc](https://github.com/Metronome-Industries/metronome-node/commit/d1052dce85e4a5497f457bd2168118f9cbb6dde3))
+* **api:** api update ([9ef4660](https://github.com/Metronome-Industries/metronome-node/commit/9ef4660419a21dfcd3f060c93a372fbe010ea843))
+* **api:** api update ([7a4ca29](https://github.com/Metronome-Industries/metronome-node/commit/7a4ca29be180fd7d06ae0b6d4598e708fa538281))
+* **api:** api update ([1f75a2f](https://github.com/Metronome-Industries/metronome-node/commit/1f75a2fe161f762465ee072de1806bf4a510c2ce))
+* **api:** api update ([81d3f3d](https://github.com/Metronome-Industries/metronome-node/commit/81d3f3d2be3ecfb033a6c9aeac2939b2ba0adf5a))
+* **api:** api update ([18b541e](https://github.com/Metronome-Industries/metronome-node/commit/18b541eb177314ca299572a7053389701cea18a8))
+* **api:** api update ([a9ddbe3](https://github.com/Metronome-Industries/metronome-node/commit/a9ddbe3c8a26df141f5ad41acaf8c2fc28bf1dd8))
+* **api:** api update ([2da7274](https://github.com/Metronome-Industries/metronome-node/commit/2da7274efe1a758fbabf5ca4b54107fd33a3c069))
+* **api:** api update ([31bbcc9](https://github.com/Metronome-Industries/metronome-node/commit/31bbcc96c9ae847939a2877475d14e094d06ecf1))
+* **api:** api update ([7aecbf6](https://github.com/Metronome-Industries/metronome-node/commit/7aecbf620e2bb02afe1d3ee5cf6dbc6b4e6c5988))
+* **api:** api update ([56bf37d](https://github.com/Metronome-Industries/metronome-node/commit/56bf37d8aa13c9f55f6ec75dcaf17adaadf2fb69))
+* **api:** rename get subscription quantity history to retrieve ([e8fba34](https://github.com/Metronome-Industries/metronome-node/commit/e8fba347a4de50f939292a263c75ce8407bc33d2))
+* **mcp:** include http information in tools ([726c5e8](https://github.com/Metronome-Industries/metronome-node/commit/726c5e8f508b4f106e753315f045eff3b66ad33f))
+
+
+### Bug Fixes
+
+* **mcp:** fix cursor schema transformation issue with recursive references ([5f170a7](https://github.com/Metronome-Industries/metronome-node/commit/5f170a7dc19dc1fdfd52f1da2e77bcbe4d421d22))
+* **mcp:** include description in dynamic tool search ([aa45634](https://github.com/Metronome-Industries/metronome-node/commit/aa456341222b425c6c76ca8db767bbbfa6117721))
+
+
+### Chores
+
+* **api:** mark some methods as deprecated ([964f311](https://github.com/Metronome-Industries/metronome-node/commit/964f31117ebd10c9a340ffcda002761871d6c194))
+* configure new SDK language ([f579630](https://github.com/Metronome-Industries/metronome-node/commit/f5796305b442d41d73cbc4bc6a713894f7aae190))
+* configure new SDK language ([9f9be53](https://github.com/Metronome-Industries/metronome-node/commit/9f9be5311ee3cbd15e67ea4fdbfd7d1354cf7437))
+* **docs:** grammar improvements ([a205060](https://github.com/Metronome-Industries/metronome-node/commit/a2050605f798ce57798f61135753ca489c6c99b2))
+* improve docs for MCP servers ([8d769fc](https://github.com/Metronome-Industries/metronome-node/commit/8d769fc5714bddfa2094d8b31c4181c7aacb0661))
+* improve publish-npm script --latest tag logic ([51cf030](https://github.com/Metronome-Industries/metronome-node/commit/51cf030151865adfc17dbf30392d92eaee780819))
+* **mcp:** remove duplicate assignment ([3aee147](https://github.com/Metronome-Industries/metronome-node/commit/3aee1475476e8dc7b0672b3295358b498781bb93))
+
+
+### Documentation
+
+* **pagination:** improve naming ([3861f31](https://github.com/Metronome-Industries/metronome-node/commit/3861f31fbe55cfd3d976d1a7794f7c7eb82b5fb7))
+
 ## 0.1.0-beta.10 (2025-05-14)
 
 Full Changelog: [v0.1.0-beta.9...v0.1.0-beta.10](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.9...v0.1.0-beta.10)
