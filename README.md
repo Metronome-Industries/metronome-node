@@ -152,13 +152,13 @@ List methods in the Metronome API are paginated.
 You can use the `for await … of` syntax to iterate through items across all pages:
 
 ```ts
-async function fetchAllV1ContractsProducts(params) {
-  const allV1ContractsProducts = [];
+async function fetchAllProductListResponses(params) {
+  const allProductListResponses = [];
   // Automatically fetches more pages as needed.
   for await (const productListResponse of client.v1.contracts.products.list()) {
-    allV1ContractsProducts.push(productListResponse);
+    allProductListResponses.push(productListResponse);
   }
-  return allV1ContractsProducts;
+  return allProductListResponses;
 }
 ```
 
