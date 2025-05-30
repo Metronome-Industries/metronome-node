@@ -205,7 +205,7 @@ The following tools are available in this MCP server.
 - `create_v1_customers` (`write`): Create a new customer
 - `retrieve_v1_customers` (`read`): Get a customer by Metronome ID.
 - `list_v1_customers` (`read`): List all customers.
-- `archive_v1_customers` (`write`): Archive a customer
+- `archive_v1_customers` (`write`): Archive a customer Note: any alerts associated with the customer will not be triggered.
 - `list_billable_metrics_v1_customers` (`read`): Get all billable metrics for a given customer.
 - `list_costs_v1_customers` (`read`): Fetch daily pending costs for the specified customer, broken down by credit type and line items. Note: this is not supported for customers whose plan includes a UNIQUE-type billable metric.
 - `set_ingest_aliases_v1_customers` (`write`): Sets the ingest aliases for a customer. Ingest aliases can be used in the `customer_id` field when sending usage events to Metronome. This call is idempotent. It fully replaces the set of ingest aliases for the given customer.

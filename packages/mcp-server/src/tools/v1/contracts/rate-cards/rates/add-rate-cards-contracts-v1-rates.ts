@@ -62,7 +62,16 @@ export const tool: Tool = {
             type: 'array',
             description: 'Only set for TIERED rate_type.',
             items: {
-              $ref: '#/$defs/tier',
+              type: 'object',
+              properties: {
+                price: {
+                  type: 'number',
+                },
+                size: {
+                  type: 'number',
+                },
+              },
+              required: ['price'],
             },
           },
         },
@@ -105,27 +114,22 @@ export const tool: Tool = {
         type: 'array',
         description: 'Only set for TIERED rate_type.',
         items: {
-          $ref: '#/$defs/tier',
+          type: 'object',
+          properties: {
+            price: {
+              type: 'number',
+            },
+            size: {
+              type: 'number',
+            },
+          },
+          required: ['price'],
         },
       },
       use_list_prices: {
         type: 'boolean',
         description:
           'Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed using list prices rather than the standard rates for this product on the contract.',
-      },
-    },
-    $defs: {
-      tier: {
-        type: 'object',
-        properties: {
-          price: {
-            type: 'number',
-          },
-          size: {
-            type: 'number',
-          },
-        },
-        required: ['price'],
       },
     },
   },
