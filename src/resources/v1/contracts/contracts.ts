@@ -264,6 +264,30 @@ export class Contracts extends APIResource {
   }
 
   /**
+   * Fetch the quantity and price for a subscription over time. End-point does not
+   * return future scheduled changes.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.retrieveSubscriptionQuantityHistory(
+   *     {
+   *       contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *       subscription_id:
+   *         '1a824d53-bde6-4d82-96d7-6347ff227d5c',
+   *     },
+   *   );
+   * ```
+   */
+  retrieveSubscriptionQuantityHistory(
+    body: ContractRetrieveSubscriptionQuantityHistoryParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<ContractRetrieveSubscriptionQuantityHistoryResponse> {
+    return this._client.post('/v1/contracts/getSubscriptionQuantityHistory', { body, ...options });
+  }
+
+  /**
    * Create a new scheduled invoice for Professional Services terms on a contract.
    * This endpoint's availability is dependent on your client's configuration.
    *
@@ -379,6 +403,11 @@ export namespace ContractRetrieveResponse {
     spend_threshold_configuration?: Data.SpendThresholdConfiguration;
 
     /**
+     * (beta) List of subscriptions on the contract.
+     */
+    subscriptions?: Array<Data.Subscription>;
+
+    /**
      * Prevents the creation of duplicates. If a request to create a record is made
      * with a previously used uniqueness key, a new record will not be created and the
      * request will fail with a 409 error.
@@ -533,6 +562,33 @@ export namespace ContractRetrieveResponse {
          * will default to the commit product name.
          */
         name?: string;
+
+        /**
+         * List of filters that determine what kind of customer usage draws down a commit
+         * or credit. A customer's usage needs to meet the condition of at least one of the
+         * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+         * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         */
+        specifiers?: Array<Commit.Specifier>;
+      }
+
+      export namespace Commit {
+        export interface Specifier {
+          presentation_group_values?: Record<string, string>;
+
+          pricing_group_values?: Record<string, string>;
+
+          /**
+           * If provided, the specifier will only apply to the product with the specified ID.
+           */
+          product_id?: string;
+
+          /**
+           * If provided, the specifier will only apply to products with all the specified
+           * tags.
+           */
+          product_tags?: Array<string>;
+        }
       }
 
       export interface PaymentGateConfig {
@@ -637,6 +693,60 @@ export namespace ContractRetrieveResponse {
            * If left blank, will default to INVOICE
            */
           payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+        }
+      }
+    }
+
+    export interface Subscription {
+      collection_schedule: 'ADVANCE' | 'ARREARS';
+
+      proration: Subscription.Proration;
+
+      quantity_schedule: Array<Subscription.QuantitySchedule>;
+
+      starting_at: string;
+
+      subscription_rate: Subscription.SubscriptionRate;
+
+      id?: string;
+
+      custom_fields?: Record<string, string>;
+
+      description?: string;
+
+      ending_before?: string;
+
+      fiat_credit_type_id?: string;
+
+      name?: string;
+    }
+
+    export namespace Subscription {
+      export interface Proration {
+        invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
+
+        is_prorated: boolean;
+      }
+
+      export interface QuantitySchedule {
+        quantity: number;
+
+        starting_at: string;
+
+        ending_before?: string;
+      }
+
+      export interface SubscriptionRate {
+        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+
+        product: SubscriptionRate.Product;
+      }
+
+      export namespace SubscriptionRate {
+        export interface Product {
+          id: string;
+
+          name: string;
         }
       }
     }
@@ -686,6 +796,11 @@ export namespace ContractListResponse {
     spend_threshold_configuration?: Data.SpendThresholdConfiguration;
 
     /**
+     * (beta) List of subscriptions on the contract.
+     */
+    subscriptions?: Array<Data.Subscription>;
+
+    /**
      * Prevents the creation of duplicates. If a request to create a record is made
      * with a previously used uniqueness key, a new record will not be created and the
      * request will fail with a 409 error.
@@ -840,6 +955,33 @@ export namespace ContractListResponse {
          * will default to the commit product name.
          */
         name?: string;
+
+        /**
+         * List of filters that determine what kind of customer usage draws down a commit
+         * or credit. A customer's usage needs to meet the condition of at least one of the
+         * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+         * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         */
+        specifiers?: Array<Commit.Specifier>;
+      }
+
+      export namespace Commit {
+        export interface Specifier {
+          presentation_group_values?: Record<string, string>;
+
+          pricing_group_values?: Record<string, string>;
+
+          /**
+           * If provided, the specifier will only apply to the product with the specified ID.
+           */
+          product_id?: string;
+
+          /**
+           * If provided, the specifier will only apply to products with all the specified
+           * tags.
+           */
+          product_tags?: Array<string>;
+        }
       }
 
       export interface PaymentGateConfig {
@@ -947,6 +1089,60 @@ export namespace ContractListResponse {
         }
       }
     }
+
+    export interface Subscription {
+      collection_schedule: 'ADVANCE' | 'ARREARS';
+
+      proration: Subscription.Proration;
+
+      quantity_schedule: Array<Subscription.QuantitySchedule>;
+
+      starting_at: string;
+
+      subscription_rate: Subscription.SubscriptionRate;
+
+      id?: string;
+
+      custom_fields?: Record<string, string>;
+
+      description?: string;
+
+      ending_before?: string;
+
+      fiat_credit_type_id?: string;
+
+      name?: string;
+    }
+
+    export namespace Subscription {
+      export interface Proration {
+        invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
+
+        is_prorated: boolean;
+      }
+
+      export interface QuantitySchedule {
+        quantity: number;
+
+        starting_at: string;
+
+        ending_before?: string;
+      }
+
+      export interface SubscriptionRate {
+        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+
+        product: SubscriptionRate.Product;
+      }
+
+      export namespace SubscriptionRate {
+        export interface Product {
+          id: string;
+
+          name: string;
+        }
+      }
+    }
   }
 }
 
@@ -992,6 +1188,8 @@ export namespace ContractRetrieveRateScheduleResponse {
 
     starting_at: string;
 
+    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+
     /**
      * A distinct rate on the rate card. You can choose to use this rate rather than
      * list rate when consuming a credit or commit.
@@ -1022,6 +1220,38 @@ export namespace ContractRetrieveRateScheduleResponse {
        * Only set for TIERED rate_type.
        */
       tiers?: Array<Shared.Tier>;
+    }
+  }
+}
+
+export interface ContractRetrieveSubscriptionQuantityHistoryResponse {
+  data: ContractRetrieveSubscriptionQuantityHistoryResponse.Data;
+}
+
+export namespace ContractRetrieveSubscriptionQuantityHistoryResponse {
+  export interface Data {
+    fiat_credit_type_id?: string;
+
+    history?: Array<Data.History>;
+
+    subscription_id?: string;
+  }
+
+  export namespace Data {
+    export interface History {
+      data: Array<History.Data>;
+
+      starting_at: string;
+    }
+
+    export namespace History {
+      export interface Data {
+        quantity: number;
+
+        total: number;
+
+        unit_price: number;
+      }
     }
   }
 }
@@ -1123,6 +1353,13 @@ export interface ContractCreateParams {
   scheduled_charges_on_usage_invoices?: 'ALL';
 
   spend_threshold_configuration?: ContractCreateParams.SpendThresholdConfiguration;
+
+  /**
+   * (beta) Optional list of
+   * [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/)
+   * to add to the contract.
+   */
+  subscriptions?: Array<ContractCreateParams.Subscription>;
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -1229,6 +1466,14 @@ export namespace ContractCreateParams {
      * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
      */
     rollover_fraction?: number;
+
+    /**
+     * List of filters that determine what kind of customer usage draws down a commit
+     * or credit. A customer's usage needs to meet the condition of at least one of the
+     * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+     * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     */
+    specifiers?: Array<Commit.Specifier>;
 
     /**
      * A temporary ID for the commit that can be used to reference the commit for
@@ -1401,6 +1646,23 @@ export namespace ContractCreateParams {
         payment_type: 'INVOICE' | 'PAYMENT_INTENT';
       }
     }
+
+    export interface Specifier {
+      presentation_group_values?: Record<string, string>;
+
+      pricing_group_values?: Record<string, string>;
+
+      /**
+       * If provided, the specifier will only apply to the product with the specified ID.
+       */
+      product_id?: string;
+
+      /**
+       * If provided, the specifier will only apply to products with all the specified
+       * tags.
+       */
+      product_tags?: Array<string>;
+    }
   }
 
   export interface Credit {
@@ -1447,6 +1709,14 @@ export namespace ContractCreateParams {
     priority?: number;
 
     rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
+    /**
+     * List of filters that determine what kind of customer usage draws down a commit
+     * or credit. A customer's usage needs to meet the condition of at least one of the
+     * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+     * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     */
+    specifiers?: Array<Credit.Specifier>;
   }
 
   export namespace Credit {
@@ -1476,6 +1746,23 @@ export namespace ContractCreateParams {
          */
         starting_at: string;
       }
+    }
+
+    export interface Specifier {
+      presentation_group_values?: Record<string, string>;
+
+      pricing_group_values?: Record<string, string>;
+
+      /**
+       * If provided, the specifier will only apply to the product with the specified ID.
+       */
+      product_id?: string;
+
+      /**
+       * If provided, the specifier will only apply to products with all the specified
+       * tags.
+       */
+      product_tags?: Array<string>;
     }
   }
 
@@ -1673,6 +1960,8 @@ export namespace ContractCreateParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
+      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+
       /**
        * Can only be used for commit specific overrides. Must be used in conjunction with
        * one of product_id, product_tags, pricing_group_values, or
@@ -1817,6 +2106,33 @@ export namespace ContractCreateParams {
        * will default to the commit product name.
        */
       name?: string;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+       * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       */
+      specifiers?: Array<Commit.Specifier>;
+    }
+
+    export namespace Commit {
+      export interface Specifier {
+        presentation_group_values?: Record<string, string>;
+
+        pricing_group_values?: Record<string, string>;
+
+        /**
+         * If provided, the specifier will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the specifier will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
+      }
     }
 
     export interface PaymentGateConfig {
@@ -1957,7 +2273,7 @@ export namespace ContractCreateParams {
      * The frequency at which the recurring commits will be created. If not provided: -
      * The commits will be created on the usage invoice frequency. If provided: - The
      * period defined in the duration will correspond to this frequency. - Commits will
-     * be created aligned with the recurring commit's start_date rather than the usage
+     * be created aligned with the recurring commit's starting_at rather than the usage
      * invoice dates.
      */
     recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
@@ -1968,6 +2284,14 @@ export namespace ContractCreateParams {
      * between 0 and 1.
      */
     rollover_fraction?: number;
+
+    /**
+     * List of filters that determine what kind of customer usage draws down a commit
+     * or credit. A customer's usage needs to meet the condition of at least one of the
+     * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+     * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     */
+    specifiers?: Array<RecurringCommit.Specifier>;
 
     /**
      * A temporary ID that can be used to reference the recurring commit for commit
@@ -2006,6 +2330,23 @@ export namespace ContractCreateParams {
       quantity: number;
 
       unit_price: number;
+    }
+
+    export interface Specifier {
+      presentation_group_values?: Record<string, string>;
+
+      pricing_group_values?: Record<string, string>;
+
+      /**
+       * If provided, the specifier will only apply to the product with the specified ID.
+       */
+      product_id?: string;
+
+      /**
+       * If provided, the specifier will only apply to products with all the specified
+       * tags.
+       */
+      product_tags?: Array<string>;
     }
   }
 
@@ -2077,7 +2418,7 @@ export namespace ContractCreateParams {
      * The frequency at which the recurring commits will be created. If not provided: -
      * The commits will be created on the usage invoice frequency. If provided: - The
      * period defined in the duration will correspond to this frequency. - Commits will
-     * be created aligned with the recurring commit's start_date rather than the usage
+     * be created aligned with the recurring commit's starting_at rather than the usage
      * invoice dates.
      */
     recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
@@ -2088,6 +2429,14 @@ export namespace ContractCreateParams {
      * between 0 and 1.
      */
     rollover_fraction?: number;
+
+    /**
+     * List of filters that determine what kind of customer usage draws down a commit
+     * or credit. A customer's usage needs to meet the condition of at least one of the
+     * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+     * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     */
+    specifiers?: Array<RecurringCredit.Specifier>;
 
     /**
      * A temporary ID that can be used to reference the recurring commit for commit
@@ -2115,6 +2464,23 @@ export namespace ContractCreateParams {
       unit: 'PERIODS';
 
       value: number;
+    }
+
+    export interface Specifier {
+      presentation_group_values?: Record<string, string>;
+
+      pricing_group_values?: Record<string, string>;
+
+      /**
+       * If provided, the specifier will only apply to the product with the specified ID.
+       */
+      product_id?: string;
+
+      /**
+       * If provided, the specifier will only apply to products with all the specified
+       * tags.
+       */
+      product_tags?: Array<string>;
     }
   }
 
@@ -2345,6 +2711,67 @@ export namespace ContractCreateParams {
          */
         payment_type: 'INVOICE' | 'PAYMENT_INTENT';
       }
+    }
+  }
+
+  export interface Subscription {
+    collection_schedule: 'ADVANCE' | 'ARREARS';
+
+    /**
+     * The initial quantity for the subscription. It must be non-negative value.
+     */
+    initial_quantity: number;
+
+    proration: Subscription.Proration;
+
+    subscription_rate: Subscription.SubscriptionRate;
+
+    custom_fields?: Record<string, string>;
+
+    description?: string;
+
+    /**
+     * Exclusive end time for the subscription. If not provided, subscription inherits
+     * contract end date.
+     */
+    ending_before?: string;
+
+    name?: string;
+
+    /**
+     * Inclusive start time for the subscription. If not provided, defaults to contract
+     * start date
+     */
+    starting_at?: string;
+  }
+
+  export namespace Subscription {
+    export interface Proration {
+      /**
+       * Indicates how mid-period quantity adjustments are invoiced. If BILL_IMMEDIATELY
+       * is selected, the quantity increase will be billed on the scheduled date. If
+       * BILL_ON_NEXT_COLLECTION_DATE is selected, the quantity increase will be billed
+       * for in-arrears at the end of the period.
+       */
+      invoice_behavior?: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
+
+      /**
+       * Indicates if the partial period will be prorated or charged a full amount.
+       */
+      is_prorated?: boolean;
+    }
+
+    export interface SubscriptionRate {
+      /**
+       * Frequency to bill subscription with. Together with product_id, must match
+       * existing rate on the rate card.
+       */
+      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+
+      /**
+       * Must be subscription type product
+       */
+      product_id: string;
     }
   }
 
@@ -2618,6 +3045,14 @@ export namespace ContractAmendParams {
     rollover_fraction?: number;
 
     /**
+     * List of filters that determine what kind of customer usage draws down a commit
+     * or credit. A customer's usage needs to meet the condition of at least one of the
+     * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+     * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     */
+    specifiers?: Array<Commit.Specifier>;
+
+    /**
      * A temporary ID for the commit that can be used to reference the commit for
      * commit specific overrides.
      */
@@ -2788,6 +3223,23 @@ export namespace ContractAmendParams {
         payment_type: 'INVOICE' | 'PAYMENT_INTENT';
       }
     }
+
+    export interface Specifier {
+      presentation_group_values?: Record<string, string>;
+
+      pricing_group_values?: Record<string, string>;
+
+      /**
+       * If provided, the specifier will only apply to the product with the specified ID.
+       */
+      product_id?: string;
+
+      /**
+       * If provided, the specifier will only apply to products with all the specified
+       * tags.
+       */
+      product_tags?: Array<string>;
+    }
   }
 
   export interface Credit {
@@ -2834,6 +3286,14 @@ export namespace ContractAmendParams {
     priority?: number;
 
     rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
+    /**
+     * List of filters that determine what kind of customer usage draws down a commit
+     * or credit. A customer's usage needs to meet the condition of at least one of the
+     * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+     * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     */
+    specifiers?: Array<Credit.Specifier>;
   }
 
   export namespace Credit {
@@ -2863,6 +3323,23 @@ export namespace ContractAmendParams {
          */
         starting_at: string;
       }
+    }
+
+    export interface Specifier {
+      presentation_group_values?: Record<string, string>;
+
+      pricing_group_values?: Record<string, string>;
+
+      /**
+       * If provided, the specifier will only apply to the product with the specified ID.
+       */
+      product_id?: string;
+
+      /**
+       * If provided, the specifier will only apply to products with all the specified
+       * tags.
+       */
+      product_tags?: Array<string>;
     }
   }
 
@@ -3060,6 +3537,8 @@ export namespace ContractAmendParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
+      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+
       /**
        * Can only be used for commit specific overrides. Must be used in conjunction with
        * one of product_id, product_tags, pricing_group_values, or
@@ -3510,6 +3989,12 @@ export interface ContractRetrieveRateScheduleParams {
 export namespace ContractRetrieveRateScheduleParams {
   export interface Selector {
     /**
+     * Subscription rates matching the billing frequency will be included in the
+     * response.
+     */
+    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+
+    /**
      * List of pricing group key value pairs, rates containing the matching key / value
      * pairs will be included in the response.
      */
@@ -3532,6 +4017,14 @@ export namespace ContractRetrieveRateScheduleParams {
      */
     product_tags?: Array<string>;
   }
+}
+
+export interface ContractRetrieveSubscriptionQuantityHistoryParams {
+  contract_id: string;
+
+  customer_id: string;
+
+  subscription_id: string;
 }
 
 export interface ContractScheduleProServicesInvoiceParams {
@@ -3660,6 +4153,7 @@ export declare namespace Contracts {
     type ContractCreateHistoricalInvoicesResponse as ContractCreateHistoricalInvoicesResponse,
     type ContractListBalancesResponse as ContractListBalancesResponse,
     type ContractRetrieveRateScheduleResponse as ContractRetrieveRateScheduleResponse,
+    type ContractRetrieveSubscriptionQuantityHistoryResponse as ContractRetrieveSubscriptionQuantityHistoryResponse,
     type ContractScheduleProServicesInvoiceResponse as ContractScheduleProServicesInvoiceResponse,
     type ContractUpdateEndDateResponse as ContractUpdateEndDateResponse,
     type ContractCreateParams as ContractCreateParams,
@@ -3671,6 +4165,7 @@ export declare namespace Contracts {
     type ContractCreateHistoricalInvoicesParams as ContractCreateHistoricalInvoicesParams,
     type ContractListBalancesParams as ContractListBalancesParams,
     type ContractRetrieveRateScheduleParams as ContractRetrieveRateScheduleParams,
+    type ContractRetrieveSubscriptionQuantityHistoryParams as ContractRetrieveSubscriptionQuantityHistoryParams,
     type ContractScheduleProServicesInvoiceParams as ContractScheduleProServicesInvoiceParams,
     type ContractSetUsageFilterParams as ContractSetUsageFilterParams,
     type ContractUpdateEndDateParams as ContractUpdateEndDateParams,

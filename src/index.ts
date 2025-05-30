@@ -10,7 +10,6 @@ import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { V1 } from './resources/v1/v1';
 import { V2 } from './resources/v2/v2';
-import { Webhooks } from './resources/webhooks';
 
 export interface ClientOptions {
   /**
@@ -190,8 +189,6 @@ export declare namespace Metronome {
   export { V2 as V2 };
 
   export { V1 as V1 };
-
-  export { Webhooks as Webhooks };
 
   export type BaseUsageFilter = API.BaseUsageFilter;
   export type Commit = API.Commit;

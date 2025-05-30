@@ -76,6 +76,14 @@ describe('resource contracts', () => {
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
           temporary_id: 'temporary_id',
         },
       ],
@@ -100,6 +108,14 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
           rate_type: 'COMMIT_RATE',
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
         },
       ],
       custom_fields: { foo: 'string' },
@@ -141,6 +157,7 @@ describe('resource contracts', () => {
           multiplier: 0,
           override_specifiers: [
             {
+              billing_frequency: 'MONTHLY',
               commit_ids: ['string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
@@ -173,6 +190,14 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string'],
           description: 'description',
           name: 'name',
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
         },
         is_enabled: true,
         payment_gate_config: {
@@ -222,6 +247,14 @@ describe('resource contracts', () => {
           rate_type: 'COMMIT_RATE',
           recurrence_frequency: 'MONTHLY',
           rollover_fraction: 0,
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
           temporary_id: 'temporary_id',
         },
       ],
@@ -246,6 +279,14 @@ describe('resource contracts', () => {
           rate_type: 'COMMIT_RATE',
           recurrence_frequency: 'MONTHLY',
           rollover_fraction: 0,
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
           temporary_id: 'temporary_id',
         },
       ],
@@ -301,6 +342,22 @@ describe('resource contracts', () => {
         },
         threshold_amount: 0,
       },
+      subscriptions: [
+        {
+          collection_schedule: 'ADVANCE',
+          initial_quantity: 0,
+          proration: { invoice_behavior: 'BILL_IMMEDIATELY', is_prorated: true },
+          subscription_rate: {
+            billing_frequency: 'MONTHLY',
+            product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          },
+          custom_fields: { foo: 'string' },
+          description: 'description',
+          ending_before: '2019-12-27T18:11:19.117Z',
+          name: 'name',
+          starting_at: '2019-12-27T18:11:19.117Z',
+        },
+      ],
       total_contract_value: 0,
       transition: {
         from_contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -460,6 +517,14 @@ describe('resource contracts', () => {
           priority: 0,
           rate_type: 'COMMIT_RATE',
           rollover_fraction: 0,
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
           temporary_id: 'temporary_id',
         },
       ],
@@ -484,6 +549,14 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
           rate_type: 'COMMIT_RATE',
+          specifiers: [
+            {
+              presentation_group_values: { foo: 'string' },
+              pricing_group_values: { foo: 'string' },
+              product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+              product_tags: ['string'],
+            },
+          ],
         },
       ],
       custom_fields: { foo: 'string' },
@@ -521,6 +594,7 @@ describe('resource contracts', () => {
           multiplier: 0,
           override_specifiers: [
             {
+              billing_frequency: 'MONTHLY',
               commit_ids: ['string'],
               presentation_group_values: { foo: 'string' },
               pricing_group_values: { foo: 'string' },
@@ -742,12 +816,36 @@ describe('resource contracts', () => {
       at: '2020-01-01T00:00:00.000Z',
       selectors: [
         {
+          billing_frequency: 'MONTHLY',
           partial_pricing_group_values: { region: 'us-west-2', cloud: 'aws' },
           pricing_group_values: { foo: 'string' },
           product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
           product_tags: ['string'],
         },
       ],
+    });
+  });
+
+  test('retrieveSubscriptionQuantityHistory: only required params', async () => {
+    const responsePromise = client.v1.contracts.retrieveSubscriptionQuantityHistory({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieveSubscriptionQuantityHistory: required and optional params', async () => {
+    const response = await client.v1.contracts.retrieveSubscriptionQuantityHistory({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
     });
   });
 

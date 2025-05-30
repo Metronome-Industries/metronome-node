@@ -1,0 +1,41 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import { Tool } from '@modelcontextprotocol/sdk/types.js';
+import type { Metadata } from '../../';
+import Metronome from '@metronome/sdk';
+
+export const metadata: Metadata = {
+  resource: 'v1.customers',
+  operation: 'write',
+  tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/customers/{customer_id}/setIngestAliases',
+  operationId: 'setIngestAliases-v1',
+};
+
+export const tool: Tool = {
+  name: 'set_ingest_aliases_v1_customers',
+  description:
+    'Sets the ingest aliases for a customer. Ingest aliases can be used in the `customer_id` field when sending usage events to Metronome. This call is idempotent. It fully replaces the set of ingest aliases for the given customer.\n',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      customer_id: {
+        type: 'string',
+      },
+      ingest_aliases: {
+        type: 'array',
+        items: {
+          type: 'string',
+        },
+      },
+    },
+  },
+};
+
+export const handler = (client: Metronome, args: Record<string, unknown> | undefined) => {
+  const body = args as any;
+  return client.v1.customers.setIngestAliases(body);
+};
+
+export default { metadata, tool, handler };
