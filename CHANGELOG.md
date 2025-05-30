@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-beta.12 (2025-05-30)
+
+Full Changelog: [v0.1.0-beta.11...v0.1.0-beta.12](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.11...v0.1.0-beta.12)
+
+### Features
+
+* **api:** api update ([3f4c5ec](https://github.com/Metronome-Industries/metronome-node/commit/3f4c5ecb07551443c8003edd9fd9d32bfa8cfab8))
+
 ## 0.1.0-beta.11 (2025-05-30)
 
 Full Changelog: [v0.1.0-beta.10...v0.1.0-beta.11](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.10...v0.1.0-beta.11)
