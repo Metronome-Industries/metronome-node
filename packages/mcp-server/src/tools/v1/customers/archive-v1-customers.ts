@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'archive_v1_customers',
-  description: 'Archive a customer',
+  description: 'Archive a customer Note: any alerts associated with the customer will not be triggered.\n',
   inputSchema: {
     type: 'object',
     properties: {

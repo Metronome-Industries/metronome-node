@@ -622,7 +622,16 @@ export const tool: Tool = {
                   type: 'array',
                   description: 'Only set for TIERED rate_type.',
                   items: {
-                    $ref: '#/$defs/tier',
+                    type: 'object',
+                    properties: {
+                      price: {
+                        type: 'number',
+                      },
+                      size: {
+                        type: 'number',
+                      },
+                    },
+                    required: ['price'],
                   },
                 },
               },
@@ -843,17 +852,18 @@ export const tool: Tool = {
             },
             commit_duration: {
               type: 'object',
-              description: 'The amount of time the created commits will be valid for.',
+              description:
+                'Defines the length of the access schedule for each created commit/credit. The value represents the number of units. Unit defaults to "PERIODS", where the length of a period is determined by the recurrence_frequency.',
               properties: {
+                value: {
+                  type: 'number',
+                },
                 unit: {
                   type: 'string',
                   enum: ['PERIODS'],
                 },
-                value: {
-                  type: 'number',
-                },
               },
-              required: ['unit', 'value'],
+              required: ['value'],
             },
             priority: {
               type: 'number',
@@ -998,17 +1008,18 @@ export const tool: Tool = {
             },
             commit_duration: {
               type: 'object',
-              description: 'The amount of time the created commits will be valid for.',
+              description:
+                'Defines the length of the access schedule for each created commit/credit. The value represents the number of units. Unit defaults to "PERIODS", where the length of a period is determined by the recurrence_frequency.',
               properties: {
+                value: {
+                  type: 'number',
+                },
                 unit: {
                   type: 'string',
                   enum: ['PERIODS'],
                 },
-                value: {
-                  type: 'number',
-                },
               },
-              required: ['unit', 'value'],
+              required: ['value'],
             },
             priority: {
               type: 'number',
@@ -2117,20 +2128,6 @@ export const tool: Tool = {
           },
           required: ['subscription_id'],
         },
-      },
-    },
-    $defs: {
-      tier: {
-        type: 'object',
-        properties: {
-          price: {
-            type: 'number',
-          },
-          size: {
-            type: 'number',
-          },
-        },
-        required: ['price'],
       },
     },
   },

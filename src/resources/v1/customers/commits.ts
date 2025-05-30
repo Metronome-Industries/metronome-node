@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../../resource';
 import * as Core from '../../../core';
-import * as Shared from '../../shared';
 
 export class Commits extends APIResource {
   /**
@@ -84,17 +83,388 @@ export class Commits extends APIResource {
 }
 
 export interface CommitCreateResponse {
-  data: Shared.ID;
+  data: CommitCreateResponse.Data;
+}
+
+export namespace CommitCreateResponse {
+  export interface Data {
+    id: string;
+  }
 }
 
 export interface CommitListResponse {
-  data: Array<Shared.Commit>;
+  data: Array<CommitListResponse.Data>;
 
   next_page: string | null;
 }
 
+export namespace CommitListResponse {
+  export interface Data {
+    id: string;
+
+    product: Data.Product;
+
+    type: 'PREPAID' | 'POSTPAID';
+
+    /**
+     * The schedule that the customer will gain access to the credits purposed with
+     * this commit.
+     */
+    access_schedule?: Data.AccessSchedule;
+
+    /**
+     * (DEPRECATED) Use access_schedule + invoice_schedule instead.
+     */
+    amount?: number;
+
+    applicable_contract_ids?: Array<string>;
+
+    applicable_product_ids?: Array<string>;
+
+    applicable_product_tags?: Array<string>;
+
+    /**
+     * RFC 3339 timestamp indicating when the commit was archived. If not provided, the
+     * commit is not archived.
+     */
+    archived_at?: string;
+
+    /**
+     * The current balance of the credit or commit. This balance reflects the amount of
+     * credit or commit that the customer has access to use at this moment - thus,
+     * expired and upcoming credit or commit segments contribute 0 to the balance. The
+     * balance will match the sum of all ledger entries with the exception of the case
+     * where the sum of negative manual ledger entries exceeds the positive amount
+     * remaining on the credit or commit - in that case, the balance will be 0. All
+     * manual ledger entries associated with active credit or commit segments are
+     * included in the balance, including future-dated manual ledger entries.
+     */
+    balance?: number;
+
+    contract?: Data.Contract;
+
+    custom_fields?: Record<string, string>;
+
+    description?: string;
+
+    /**
+     * The contract that this commit will be billed on.
+     */
+    invoice_contract?: Data.InvoiceContract;
+
+    /**
+     * The schedule that the customer will be invoiced for this commit.
+     */
+    invoice_schedule?: Data.InvoiceSchedule;
+
+    /**
+     * A list of ordered events that impact the balance of a commit. For example, an
+     * invoice deduction or a rollover.
+     */
+    ledger?: Array<
+      | Data.UnionMember0
+      | Data.UnionMember1
+      | Data.UnionMember2
+      | Data.UnionMember3
+      | Data.UnionMember4
+      | Data.UnionMember5
+      | Data.UnionMember6
+      | Data.UnionMember7
+      | Data.UnionMember8
+      | Data.UnionMember9
+      | Data.UnionMember10
+      | Data.UnionMember11
+      | Data.UnionMember12
+    >;
+
+    name?: string;
+
+    /**
+     * This field's availability is dependent on your client's configuration.
+     */
+    netsuite_sales_order_id?: string;
+
+    /**
+     * If multiple credits or commits are applicable, the one with the lower priority
+     * will apply first.
+     */
+    priority?: number;
+
+    rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
+    rolled_over_from?: Data.RolledOverFrom;
+
+    rollover_fraction?: number;
+
+    /**
+     * This field's availability is dependent on your client's configuration.
+     */
+    salesforce_opportunity_id?: string;
+
+    /**
+     * List of filters that determine what kind of customer usage draws down a commit
+     * or credit. A customer's usage needs to meet the condition of at least one of the
+     * specifiers to contribute to a commit's or credit's drawdown.
+     */
+    specifiers?: Array<Data.Specifier>;
+
+    /**
+     * Prevents the creation of duplicates. If a request to create a commit or credit
+     * is made with a uniqueness key that was previously used to create a commit or
+     * credit, a new record will not be created and the request will fail with a 409
+     * error.
+     */
+    uniqueness_key?: string;
+  }
+
+  export namespace Data {
+    export interface Product {
+      id: string;
+
+      name: string;
+    }
+
+    /**
+     * The schedule that the customer will gain access to the credits purposed with
+     * this commit.
+     */
+    export interface AccessSchedule {
+      schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+      credit_type?: AccessSchedule.CreditType;
+    }
+
+    export namespace AccessSchedule {
+      export interface ScheduleItem {
+        id: string;
+
+        amount: number;
+
+        ending_before: string;
+
+        starting_at: string;
+      }
+
+      export interface CreditType {
+        id: string;
+
+        name: string;
+      }
+    }
+
+    export interface Contract {
+      id: string;
+    }
+
+    /**
+     * The contract that this commit will be billed on.
+     */
+    export interface InvoiceContract {
+      id: string;
+    }
+
+    /**
+     * The schedule that the customer will be invoiced for this commit.
+     */
+    export interface InvoiceSchedule {
+      credit_type?: InvoiceSchedule.CreditType;
+
+      schedule_items?: Array<InvoiceSchedule.ScheduleItem>;
+    }
+
+    export namespace InvoiceSchedule {
+      export interface CreditType {
+        id: string;
+
+        name: string;
+      }
+
+      export interface ScheduleItem {
+        id: string;
+
+        amount: number;
+
+        invoice_id: string;
+
+        quantity: number;
+
+        timestamp: string;
+
+        unit_price: number;
+      }
+    }
+
+    export interface UnionMember0 {
+      amount: number;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'PREPAID_COMMIT_SEGMENT_START';
+    }
+
+    export interface UnionMember1 {
+      amount: number;
+
+      invoice_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'PREPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION';
+    }
+
+    export interface UnionMember2 {
+      amount: number;
+
+      new_contract_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'PREPAID_COMMIT_ROLLOVER';
+    }
+
+    export interface UnionMember3 {
+      amount: number;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'PREPAID_COMMIT_EXPIRATION';
+    }
+
+    export interface UnionMember4 {
+      amount: number;
+
+      invoice_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'PREPAID_COMMIT_CANCELED';
+    }
+
+    export interface UnionMember5 {
+      amount: number;
+
+      invoice_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'PREPAID_COMMIT_CREDITED';
+    }
+
+    export interface UnionMember6 {
+      amount: number;
+
+      timestamp: string;
+
+      type: 'POSTPAID_COMMIT_INITIAL_BALANCE';
+    }
+
+    export interface UnionMember7 {
+      amount: number;
+
+      invoice_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'POSTPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION';
+    }
+
+    export interface UnionMember8 {
+      amount: number;
+
+      new_contract_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'POSTPAID_COMMIT_ROLLOVER';
+    }
+
+    export interface UnionMember9 {
+      amount: number;
+
+      invoice_id: string;
+
+      timestamp: string;
+
+      type: 'POSTPAID_COMMIT_TRUEUP';
+    }
+
+    export interface UnionMember10 {
+      amount: number;
+
+      reason: string;
+
+      timestamp: string;
+
+      type: 'PREPAID_COMMIT_MANUAL';
+    }
+
+    export interface UnionMember11 {
+      amount: number;
+
+      reason: string;
+
+      timestamp: string;
+
+      type: 'POSTPAID_COMMIT_MANUAL';
+    }
+
+    export interface UnionMember12 {
+      amount: number;
+
+      timestamp: string;
+
+      type: 'POSTPAID_COMMIT_EXPIRATION';
+    }
+
+    export interface RolledOverFrom {
+      commit_id: string;
+
+      contract_id: string;
+    }
+
+    export interface Specifier {
+      presentation_group_values?: Record<string, string>;
+
+      pricing_group_values?: Record<string, string>;
+
+      /**
+       * If provided, the specifier will only apply to the product with the specified ID.
+       */
+      product_id?: string;
+
+      /**
+       * If provided, the specifier will only apply to products with all the specified
+       * tags.
+       */
+      product_tags?: Array<string>;
+    }
+  }
+}
+
 export interface CommitUpdateEndDateResponse {
-  data: Shared.ID;
+  data: CommitUpdateEndDateResponse.Data;
+}
+
+export namespace CommitUpdateEndDateResponse {
+  export interface Data {
+    id: string;
+  }
 }
 
 export interface CommitCreateParams {
