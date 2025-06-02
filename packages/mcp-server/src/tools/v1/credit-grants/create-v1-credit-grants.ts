@@ -109,34 +109,10 @@ export const tool: Tool = {
           rollover_amount: {
             anyOf: [
               {
-                type: 'object',
-                properties: {
-                  type: {
-                    type: 'string',
-                    description: 'Rollover up to a percentage of the original credit grant amount.',
-                    enum: ['MAX_PERCENTAGE'],
-                  },
-                  value: {
-                    type: 'number',
-                    description: 'The maximum percentage (0-1) of the original credit grant to rollover.',
-                  },
-                },
-                required: ['type', 'value'],
+                $ref: '#/$defs/rollover_amount_max_percentage',
               },
               {
-                type: 'object',
-                properties: {
-                  type: {
-                    type: 'string',
-                    description: 'Rollover up to a fixed amount of the original credit grant amount.',
-                    enum: ['MAX_AMOUNT'],
-                  },
-                  value: {
-                    type: 'number',
-                    description: 'The maximum amount to rollover.',
-                  },
-                },
-                required: ['type', 'value'],
+                $ref: '#/$defs/rollover_amount_max_amount',
               },
             ],
             description: 'Specify how much to rollover to the rollover credit grant',
@@ -148,6 +124,38 @@ export const tool: Tool = {
         type: 'string',
         description:
           'Prevents the creation of duplicates. If a request to create a record is made with a previously used uniqueness key, a new record will not be created and the request will fail with a 409 error.',
+      },
+    },
+    $defs: {
+      rollover_amount_max_percentage: {
+        type: 'object',
+        properties: {
+          type: {
+            type: 'string',
+            description: 'Rollover up to a percentage of the original credit grant amount.',
+            enum: ['MAX_PERCENTAGE'],
+          },
+          value: {
+            type: 'number',
+            description: 'The maximum percentage (0-1) of the original credit grant to rollover.',
+          },
+        },
+        required: ['type', 'value'],
+      },
+      rollover_amount_max_amount: {
+        type: 'object',
+        properties: {
+          type: {
+            type: 'string',
+            description: 'Rollover up to a fixed amount of the original credit grant amount.',
+            enum: ['MAX_AMOUNT'],
+          },
+          value: {
+            type: 'number',
+            description: 'The maximum amount to rollover.',
+          },
+        },
+        required: ['type', 'value'],
       },
     },
   },
