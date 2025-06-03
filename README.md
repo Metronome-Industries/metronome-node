@@ -26,19 +26,15 @@ const client = new Metronome({
   bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
-async function main() {
-  await client.v1.usage.ingest([
-    {
-      transaction_id: '90e9401f-0f8c-4cd3-9a9f-d6beb56d8d72',
-      customer_id: 'team@example.com',
-      event_type: 'heartbeat',
-      timestamp: '2024-01-01T00:00:00Z',
-      properties: { cluster_id: '42', cpu_seconds: 60, region: 'Europe' },
-    },
-  ]);
-}
-
-main();
+await client.v1.usage.ingest([
+  {
+    transaction_id: '90e9401f-0f8c-4cd3-9a9f-d6beb56d8d72',
+    customer_id: 'team@example.com',
+    event_type: 'heartbeat',
+    timestamp: '2024-01-01T00:00:00Z',
+    properties: { cluster_id: '42', cpu_seconds: 60, region: 'Europe' },
+  },
+]);
 ```
 
 ### Request & Response types
@@ -53,15 +49,11 @@ const client = new Metronome({
   bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
-async function main() {
-  const params: Metronome.V1.ContractCreateParams = {
-    customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-    starting_at: '2020-01-01T00:00:00.000Z',
-  };
-  const contract: Metronome.V1.ContractCreateResponse = await client.v1.contracts.create(params);
-}
-
-main();
+const params: Metronome.V1.ContractCreateParams = {
+  customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+  starting_at: '2020-01-01T00:00:00.000Z',
+};
+const contract: Metronome.V1.ContractCreateResponse = await client.v1.contracts.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -74,21 +66,17 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-async function main() {
-  const contract = await client.v1.contracts
-    .create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' })
-    .catch(async (err) => {
-      if (err instanceof Metronome.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
-}
-
-main();
+const contract = await client.v1.contracts
+  .create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' })
+  .catch(async (err) => {
+    if (err instanceof Metronome.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 ```
 
 Error codes are as follows:
