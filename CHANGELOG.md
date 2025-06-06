@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.0-beta.12 (2025-06-06)
+
+Full Changelog: [v0.1.0-beta.11...v0.1.0-beta.12](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.11...v0.1.0-beta.12)
+
+### Features
+
+* **api:** api update ([6c4c0b4](https://github.com/Metronome-Industries/metronome-node/commit/6c4c0b43d1876325a9ebbbfbb82af42f88b20916))
+* **api:** api update ([8d0b011](https://github.com/Metronome-Industries/metronome-node/commit/8d0b0113a320cacd65b2ae26bd7f33e88dccb665))
+* **api:** api update ([3f4c5ec](https://github.com/Metronome-Industries/metronome-node/commit/3f4c5ecb07551443c8003edd9fd9d32bfa8cfab8))
+* **mcp:** implement support for binary responses ([4cbe51d](https://github.com/Metronome-Industries/metronome-node/commit/4cbe51df7fba1a011a6aa2fb3174ca2a2f69ef11))
+
+
+### Chores
+
+* **docs:** use top-level-await in example snippets ([b3010ef](https://github.com/Metronome-Industries/metronome-node/commit/b3010ef72fb05f33c3382354bc297e8a8fd4a175))
+
 ## 0.1.0-beta.11 (2025-05-30)
 
 Full Changelog: [v0.1.0-beta.10...v0.1.0-beta.11](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.10...v0.1.0-beta.11)
