@@ -2207,7 +2207,9 @@ export namespace ContractCreateParams {
     access_amount: RecurringCommit.AccessAmount;
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     commit_duration: RecurringCommit.CommitDuration;
 
@@ -2313,12 +2315,14 @@ export namespace ContractCreateParams {
     }
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     export interface CommitDuration {
-      unit: 'PERIODS';
-
       value: number;
+
+      unit?: 'PERIODS';
     }
 
     /**
@@ -2357,7 +2361,9 @@ export namespace ContractCreateParams {
     access_amount: RecurringCredit.AccessAmount;
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     commit_duration: RecurringCredit.CommitDuration;
 
@@ -2458,12 +2464,14 @@ export namespace ContractCreateParams {
     }
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     export interface CommitDuration {
-      unit: 'PERIODS';
-
       value: number;
+
+      unit?: 'PERIODS';
     }
 
     export interface Specifier {

@@ -5260,7 +5260,9 @@ export namespace ContractEditParams {
     access_amount: AddRecurringCommit.AccessAmount;
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     commit_duration: AddRecurringCommit.CommitDuration;
 
@@ -5366,12 +5368,14 @@ export namespace ContractEditParams {
     }
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     export interface CommitDuration {
-      unit: 'PERIODS';
-
       value: number;
+
+      unit?: 'PERIODS';
     }
 
     /**
@@ -5410,7 +5414,9 @@ export namespace ContractEditParams {
     access_amount: AddRecurringCredit.AccessAmount;
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     commit_duration: AddRecurringCredit.CommitDuration;
 
@@ -5511,12 +5517,14 @@ export namespace ContractEditParams {
     }
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     export interface CommitDuration {
-      unit: 'PERIODS';
-
       value: number;
+
+      unit?: 'PERIODS';
     }
 
     export interface Specifier {

@@ -130,6 +130,7 @@ describe('resource creditGrants', () => {
       client.v1.creditGrants.listEntries(
         {
           next_page: 'next_page',
+          sort: 'asc',
           credit_type_ids: ['2714e483-4ff1-48e4-9e25-ac732e8f24f2'],
           customer_ids: ['6a37bb88-8538-48c5-b37b-a41c836328bd'],
           ending_before: '2021-02-01T00:00:00Z',

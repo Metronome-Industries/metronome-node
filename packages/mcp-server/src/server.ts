@@ -19,7 +19,7 @@ export { endpoints } from './tools';
 export const server = new McpServer(
   {
     name: 'metronome_sdk_api',
-    version: '0.1.0-beta.11',
+    version: '0.1.0-beta.12',
   },
   {
     capabilities: {
@@ -99,15 +99,7 @@ export async function executeHandler(
   if (options.validJson && args) {
     args = parseEmbeddedJSON(args, tool.inputSchema);
   }
-  const result = await handler(client, args || {});
-  return {
-    content: [
-      {
-        type: 'text',
-        text: JSON.stringify(result, null, 2),
-      },
-    ],
-  };
+  return await handler(client, args || {});
 }
 
 export const readEnv = (env: string): string | undefined => {

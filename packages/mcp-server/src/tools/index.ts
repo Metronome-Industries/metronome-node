@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from '@metronome/sdk';
-import { Tool } from '@modelcontextprotocol/sdk/types.js';
+import { Metadata, Endpoint, HandlerFunction } from './types';
+
+export { Metadata, Endpoint, HandlerFunction };
 
 import retrieve_v2_contracts from './v2/contracts/retrieve-v2-contracts';
 import list_v2_contracts from './v2/contracts/list-v2-contracts';
@@ -102,24 +103,6 @@ import retrieve_rate_cards_contracts_v1_named_schedules from './v1/contracts/rat
 import update_rate_cards_contracts_v1_named_schedules from './v1/contracts/rate-cards/named-schedules/update-rate-cards-contracts-v1-named-schedules';
 import retrieve_contracts_v1_named_schedules from './v1/contracts/named-schedules/retrieve-contracts-v1-named-schedules';
 import update_contracts_v1_named_schedules from './v1/contracts/named-schedules/update-contracts-v1-named-schedules';
-
-export type HandlerFunction = (client: Metronome, args: Record<string, unknown> | undefined) => Promise<any>;
-
-export type Metadata = {
-  resource: string;
-  operation: 'read' | 'write';
-  tags: string[];
-
-  httpMethod?: string;
-  httpPath?: string;
-  operationId?: string;
-};
-
-export type Endpoint = {
-  metadata: Metadata;
-  tool: Tool;
-  handler: HandlerFunction;
-};
 
 export const endpoints: Endpoint[] = [];
 
