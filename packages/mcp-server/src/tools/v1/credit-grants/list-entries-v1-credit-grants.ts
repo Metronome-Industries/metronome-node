@@ -26,6 +26,11 @@ export const tool: Tool = {
         type: 'string',
         description: 'Cursor that indicates where the next page of results should start.',
       },
+      sort: {
+        type: 'string',
+        description: 'Ledgers sort order by date, asc or desc. Defaults to asc.',
+        enum: ['asc', 'desc'],
+      },
       credit_type_ids: {
         type: 'array',
         description:
