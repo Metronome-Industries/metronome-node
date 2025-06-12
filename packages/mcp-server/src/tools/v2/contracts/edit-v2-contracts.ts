@@ -834,14 +834,16 @@ export const tool: Tool = {
                 credit_type_id: {
                   type: 'string',
                 },
-                quantity: {
-                  type: 'number',
-                },
                 unit_price: {
                   type: 'number',
                 },
+                quantity: {
+                  type: 'number',
+                  description:
+                    'This field is currently required. Upcoming recurring commit/credit configuration options will allow it to be optional.',
+                },
               },
-              required: ['credit_type_id', 'quantity', 'unit_price'],
+              required: ['credit_type_id', 'unit_price'],
             },
             commit_duration: {
               type: 'object',
@@ -990,14 +992,16 @@ export const tool: Tool = {
                 credit_type_id: {
                   type: 'string',
                 },
-                quantity: {
-                  type: 'number',
-                },
                 unit_price: {
                   type: 'number',
                 },
+                quantity: {
+                  type: 'number',
+                  description:
+                    'This field is currently required. Upcoming recurring commit/credit configuration options will allow it to be optional.',
+                },
               },
-              required: ['credit_type_id', 'quantity', 'unit_price'],
+              required: ['credit_type_id', 'unit_price'],
             },
             commit_duration: {
               type: 'object',

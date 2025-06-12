@@ -1049,6 +1049,7 @@ export namespace ContractRetrieveResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -1083,9 +1084,9 @@ export namespace ContractRetrieveResponse {
       export interface AccessAmount {
         credit_type_id: string;
 
-        quantity: number;
-
         unit_price: number;
+
+        quantity?: number;
       }
 
       /**
@@ -1201,6 +1202,7 @@ export namespace ContractRetrieveResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -1235,9 +1237,9 @@ export namespace ContractRetrieveResponse {
       export interface AccessAmount {
         credit_type_id: string;
 
-        quantity: number;
-
         unit_price: number;
+
+        quantity?: number;
       }
 
       /**
@@ -2338,6 +2340,7 @@ export namespace ContractListResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -2372,9 +2375,9 @@ export namespace ContractListResponse {
       export interface AccessAmount {
         credit_type_id: string;
 
-        quantity: number;
-
         unit_price: number;
+
+        quantity?: number;
       }
 
       /**
@@ -2490,6 +2493,7 @@ export namespace ContractListResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -2524,9 +2528,9 @@ export namespace ContractListResponse {
       export interface AccessAmount {
         credit_type_id: string;
 
-        quantity: number;
-
         unit_price: number;
+
+        quantity?: number;
       }
 
       /**
@@ -3247,6 +3251,7 @@ export namespace ContractGetEditHistoryResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -3281,9 +3286,9 @@ export namespace ContractGetEditHistoryResponse {
       export interface AccessAmount {
         credit_type_id: string;
 
-        quantity: number;
-
         unit_price: number;
+
+        quantity?: number;
       }
 
       /**
@@ -3399,6 +3404,7 @@ export namespace ContractGetEditHistoryResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -3433,9 +3439,9 @@ export namespace ContractGetEditHistoryResponse {
       export interface AccessAmount {
         credit_type_id: string;
 
-        quantity: number;
-
         unit_price: number;
+
+        quantity?: number;
       }
 
       /**
@@ -5362,9 +5368,13 @@ export namespace ContractEditParams {
     export interface AccessAmount {
       credit_type_id: string;
 
-      quantity: number;
-
       unit_price: number;
+
+      /**
+       * This field is currently required. Upcoming recurring commit/credit configuration
+       * options will allow it to be optional.
+       */
+      quantity?: number;
     }
 
     /**
@@ -5511,9 +5521,13 @@ export namespace ContractEditParams {
     export interface AccessAmount {
       credit_type_id: string;
 
-      quantity: number;
-
       unit_price: number;
+
+      /**
+       * This field is currently required. Upcoming recurring commit/credit configuration
+       * options will allow it to be optional.
+       */
+      quantity?: number;
     }
 
     /**

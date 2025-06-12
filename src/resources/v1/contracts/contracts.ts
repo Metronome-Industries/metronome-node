@@ -2309,9 +2309,13 @@ export namespace ContractCreateParams {
     export interface AccessAmount {
       credit_type_id: string;
 
-      quantity: number;
-
       unit_price: number;
+
+      /**
+       * This field is currently required. Upcoming recurring commit/credit configuration
+       * options will allow it to be optional.
+       */
+      quantity?: number;
     }
 
     /**
@@ -2458,9 +2462,13 @@ export namespace ContractCreateParams {
     export interface AccessAmount {
       credit_type_id: string;
 
-      quantity: number;
-
       unit_price: number;
+
+      /**
+       * This field is currently required. Upcoming recurring commit/credit configuration
+       * options will allow it to be optional.
+       */
+      quantity?: number;
     }
 
     /**
