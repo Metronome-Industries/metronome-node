@@ -623,9 +623,9 @@ export namespace ContractWithoutAmendments {
     export interface AccessAmount {
       credit_type_id: string;
 
-      quantity: number;
-
       unit_price: number;
+
+      quantity?: number;
     }
 
     /**
@@ -775,9 +775,9 @@ export namespace ContractWithoutAmendments {
     export interface AccessAmount {
       credit_type_id: string;
 
-      quantity: number;
-
       unit_price: number;
+
+      quantity?: number;
     }
 
     /**
