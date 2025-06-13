@@ -1364,7 +1364,7 @@ export const tool: Tool = {
       add_subscriptions: {
         type: 'array',
         description:
-          '(beta) Optional list of [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/) to add to the contract.',
+          'Optional list of [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/) to add to the contract.',
         items: {
           type: 'object',
           properties: {
@@ -2086,7 +2086,7 @@ export const tool: Tool = {
       },
       update_subscriptions: {
         type: 'array',
-        description: '(beta) Optional list of subscriptions to update.',
+        description: 'Optional list of subscriptions to update.',
         items: {
           type: 'object',
           properties: {

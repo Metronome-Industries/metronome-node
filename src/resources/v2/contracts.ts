@@ -249,7 +249,7 @@ export namespace ContractRetrieveResponse {
     spend_threshold_configuration?: Data.SpendThresholdConfiguration;
 
     /**
-     * (beta) List of subscriptions on the contract.
+     * List of subscriptions on the contract.
      */
     subscriptions?: Array<Data.Subscription>;
 
@@ -1391,6 +1391,10 @@ export namespace ContractRetrieveResponse {
 
       proration: Subscription.Proration;
 
+      /**
+       * List of quantity schedule items for the subscription. Only includes the current
+       * quantity and future quantity changes.
+       */
       quantity_schedule: Array<Subscription.QuantitySchedule>;
 
       starting_at: string;
@@ -1540,7 +1544,7 @@ export namespace ContractListResponse {
     spend_threshold_configuration?: Data.SpendThresholdConfiguration;
 
     /**
-     * (beta) List of subscriptions on the contract.
+     * List of subscriptions on the contract.
      */
     subscriptions?: Array<Data.Subscription>;
 
@@ -2682,6 +2686,10 @@ export namespace ContractListResponse {
 
       proration: Subscription.Proration;
 
+      /**
+       * List of quantity schedule items for the subscription. Only includes the current
+       * quantity and future quantity changes.
+       */
       quantity_schedule: Array<Subscription.QuantitySchedule>;
 
       starting_at: string;
@@ -2776,7 +2784,7 @@ export namespace ContractGetEditHistoryResponse {
     add_spend_threshold_configuration?: Data.AddSpendThresholdConfiguration;
 
     /**
-     * (beta) List of subscriptions on the contract.
+     * List of subscriptions on the contract.
      */
     add_subscriptions?: Array<Data.AddSubscription>;
 
@@ -2813,7 +2821,7 @@ export namespace ContractGetEditHistoryResponse {
     update_spend_threshold_configuration?: Data.UpdateSpendThresholdConfiguration;
 
     /**
-     * (beta) Optional list of subscriptions to update.
+     * Optional list of subscriptions to update.
      */
     update_subscriptions?: Array<Data.UpdateSubscription>;
   }
@@ -3611,6 +3619,10 @@ export namespace ContractGetEditHistoryResponse {
 
       proration: AddSubscription.Proration;
 
+      /**
+       * List of quantity schedule items for the subscription. Only includes the current
+       * quantity and future quantity changes.
+       */
       quantity_schedule: Array<AddSubscription.QuantitySchedule>;
 
       starting_at: string;
@@ -4393,7 +4405,7 @@ export interface ContractEditParams {
   add_spend_threshold_configuration?: ContractEditParams.AddSpendThresholdConfiguration;
 
   /**
-   * (beta) Optional list of
+   * Optional list of
    * [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/)
    * to add to the contract.
    */
@@ -4457,7 +4469,7 @@ export interface ContractEditParams {
   update_spend_threshold_configuration?: ContractEditParams.UpdateSpendThresholdConfiguration;
 
   /**
-   * (beta) Optional list of subscriptions to update.
+   * Optional list of subscriptions to update.
    */
   update_subscriptions?: Array<ContractEditParams.UpdateSubscription>;
 }

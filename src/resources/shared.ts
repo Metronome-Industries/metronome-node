@@ -334,6 +334,14 @@ export interface ContractWithoutAmendments {
 
   ending_before?: string;
 
+  /**
+   * Either a **parent** configuration with a list of children or a **child**
+   * configuration with a single parent.
+   */
+  hierarchy_configuration?:
+    | ContractWithoutAmendments.ParentHierarchyConfiguration
+    | ContractWithoutAmendments.ChildHierarchyConfiguration;
+
   name?: string;
 
   net_payment_terms_days?: number;
@@ -401,6 +409,39 @@ export namespace ContractWithoutAmendments {
     billing_anchor_date: string;
 
     frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+  }
+
+  export interface ParentHierarchyConfiguration {
+    /**
+     * List of contracts that belong to this parent.
+     */
+    children: Array<ParentHierarchyConfiguration.Child>;
+  }
+
+  export namespace ParentHierarchyConfiguration {
+    export interface Child {
+      contract_id: string;
+
+      customer_id: string;
+    }
+  }
+
+  export interface ChildHierarchyConfiguration {
+    /**
+     * The single parent contract/customer for this child.
+     */
+    parent: ChildHierarchyConfiguration.Parent;
+  }
+
+  export namespace ChildHierarchyConfiguration {
+    /**
+     * The single parent contract/customer for this child.
+     */
+    export interface Parent {
+      contract_id: string;
+
+      customer_id: string;
+    }
   }
 
   export interface PrepaidBalanceThresholdConfiguration {
