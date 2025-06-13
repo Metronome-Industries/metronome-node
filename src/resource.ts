@@ -2,7 +2,7 @@
 
 import type { Metronome } from './index';
 
-export class APIResource {
+export abstract class APIResource {
   protected _client: Metronome;
 
   constructor(client: Metronome) {

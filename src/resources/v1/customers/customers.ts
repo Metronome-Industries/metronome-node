@@ -158,7 +158,8 @@ export class Customers extends APIResource {
   }
 
   /**
-   * Archive a customer
+   * Archive a customer Note: any alerts associated with the customer will not be
+   * triggered.
    *
    * @example
    * ```ts

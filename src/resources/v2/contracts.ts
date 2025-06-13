@@ -249,7 +249,7 @@ export namespace ContractRetrieveResponse {
     spend_threshold_configuration?: Data.SpendThresholdConfiguration;
 
     /**
-     * (beta) List of subscriptions on the contract.
+     * List of subscriptions on the contract.
      */
     subscriptions?: Array<Data.Subscription>;
 
@@ -1049,6 +1049,7 @@ export namespace ContractRetrieveResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -1083,9 +1084,9 @@ export namespace ContractRetrieveResponse {
       export interface AccessAmount {
         credit_type_id: string;
 
-        quantity: number;
-
         unit_price: number;
+
+        quantity?: number;
       }
 
       /**
@@ -1201,6 +1202,7 @@ export namespace ContractRetrieveResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -1235,9 +1237,9 @@ export namespace ContractRetrieveResponse {
       export interface AccessAmount {
         credit_type_id: string;
 
-        quantity: number;
-
         unit_price: number;
+
+        quantity?: number;
       }
 
       /**
@@ -1389,6 +1391,10 @@ export namespace ContractRetrieveResponse {
 
       proration: Subscription.Proration;
 
+      /**
+       * List of quantity schedule items for the subscription. Only includes the current
+       * quantity and future quantity changes.
+       */
       quantity_schedule: Array<Subscription.QuantitySchedule>;
 
       starting_at: string;
@@ -1538,7 +1544,7 @@ export namespace ContractListResponse {
     spend_threshold_configuration?: Data.SpendThresholdConfiguration;
 
     /**
-     * (beta) List of subscriptions on the contract.
+     * List of subscriptions on the contract.
      */
     subscriptions?: Array<Data.Subscription>;
 
@@ -2338,6 +2344,7 @@ export namespace ContractListResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -2372,9 +2379,9 @@ export namespace ContractListResponse {
       export interface AccessAmount {
         credit_type_id: string;
 
-        quantity: number;
-
         unit_price: number;
+
+        quantity?: number;
       }
 
       /**
@@ -2490,6 +2497,7 @@ export namespace ContractListResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -2524,9 +2532,9 @@ export namespace ContractListResponse {
       export interface AccessAmount {
         credit_type_id: string;
 
-        quantity: number;
-
         unit_price: number;
+
+        quantity?: number;
       }
 
       /**
@@ -2678,6 +2686,10 @@ export namespace ContractListResponse {
 
       proration: Subscription.Proration;
 
+      /**
+       * List of quantity schedule items for the subscription. Only includes the current
+       * quantity and future quantity changes.
+       */
       quantity_schedule: Array<Subscription.QuantitySchedule>;
 
       starting_at: string;
@@ -2772,7 +2784,7 @@ export namespace ContractGetEditHistoryResponse {
     add_spend_threshold_configuration?: Data.AddSpendThresholdConfiguration;
 
     /**
-     * (beta) List of subscriptions on the contract.
+     * List of subscriptions on the contract.
      */
     add_subscriptions?: Array<Data.AddSubscription>;
 
@@ -2809,7 +2821,7 @@ export namespace ContractGetEditHistoryResponse {
     update_spend_threshold_configuration?: Data.UpdateSpendThresholdConfiguration;
 
     /**
-     * (beta) Optional list of subscriptions to update.
+     * Optional list of subscriptions to update.
      */
     update_subscriptions?: Array<Data.UpdateSubscription>;
   }
@@ -3247,6 +3259,7 @@ export namespace ContractGetEditHistoryResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -3281,9 +3294,9 @@ export namespace ContractGetEditHistoryResponse {
       export interface AccessAmount {
         credit_type_id: string;
 
-        quantity: number;
-
         unit_price: number;
+
+        quantity?: number;
       }
 
       /**
@@ -3399,6 +3412,7 @@ export namespace ContractGetEditHistoryResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -3433,9 +3447,9 @@ export namespace ContractGetEditHistoryResponse {
       export interface AccessAmount {
         credit_type_id: string;
 
-        quantity: number;
-
         unit_price: number;
+
+        quantity?: number;
       }
 
       /**
@@ -3605,6 +3619,10 @@ export namespace ContractGetEditHistoryResponse {
 
       proration: AddSubscription.Proration;
 
+      /**
+       * List of quantity schedule items for the subscription. Only includes the current
+       * quantity and future quantity changes.
+       */
       quantity_schedule: Array<AddSubscription.QuantitySchedule>;
 
       starting_at: string;
@@ -4387,7 +4405,7 @@ export interface ContractEditParams {
   add_spend_threshold_configuration?: ContractEditParams.AddSpendThresholdConfiguration;
 
   /**
-   * (beta) Optional list of
+   * Optional list of
    * [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/)
    * to add to the contract.
    */
@@ -4451,7 +4469,7 @@ export interface ContractEditParams {
   update_spend_threshold_configuration?: ContractEditParams.UpdateSpendThresholdConfiguration;
 
   /**
-   * (beta) Optional list of subscriptions to update.
+   * Optional list of subscriptions to update.
    */
   update_subscriptions?: Array<ContractEditParams.UpdateSubscription>;
 }
@@ -5260,7 +5278,9 @@ export namespace ContractEditParams {
     access_amount: AddRecurringCommit.AccessAmount;
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     commit_duration: AddRecurringCommit.CommitDuration;
 
@@ -5360,18 +5380,24 @@ export namespace ContractEditParams {
     export interface AccessAmount {
       credit_type_id: string;
 
-      quantity: number;
-
       unit_price: number;
+
+      /**
+       * This field is currently required. Upcoming recurring commit/credit configuration
+       * options will allow it to be optional.
+       */
+      quantity?: number;
     }
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     export interface CommitDuration {
-      unit: 'PERIODS';
-
       value: number;
+
+      unit?: 'PERIODS';
     }
 
     /**
@@ -5410,7 +5436,9 @@ export namespace ContractEditParams {
     access_amount: AddRecurringCredit.AccessAmount;
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     commit_duration: AddRecurringCredit.CommitDuration;
 
@@ -5505,18 +5533,24 @@ export namespace ContractEditParams {
     export interface AccessAmount {
       credit_type_id: string;
 
-      quantity: number;
-
       unit_price: number;
+
+      /**
+       * This field is currently required. Upcoming recurring commit/credit configuration
+       * options will allow it to be optional.
+       */
+      quantity?: number;
     }
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     export interface CommitDuration {
-      unit: 'PERIODS';
-
       value: number;
+
+      unit?: 'PERIODS';
     }
 
     export interface Specifier {

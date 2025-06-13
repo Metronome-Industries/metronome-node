@@ -403,7 +403,7 @@ export namespace ContractRetrieveResponse {
     spend_threshold_configuration?: Data.SpendThresholdConfiguration;
 
     /**
-     * (beta) List of subscriptions on the contract.
+     * List of subscriptions on the contract.
      */
     subscriptions?: Array<Data.Subscription>;
 
@@ -702,6 +702,10 @@ export namespace ContractRetrieveResponse {
 
       proration: Subscription.Proration;
 
+      /**
+       * List of quantity schedule items for the subscription. Only includes the current
+       * quantity and future quantity changes.
+       */
       quantity_schedule: Array<Subscription.QuantitySchedule>;
 
       starting_at: string;
@@ -796,7 +800,7 @@ export namespace ContractListResponse {
     spend_threshold_configuration?: Data.SpendThresholdConfiguration;
 
     /**
-     * (beta) List of subscriptions on the contract.
+     * List of subscriptions on the contract.
      */
     subscriptions?: Array<Data.Subscription>;
 
@@ -1095,6 +1099,10 @@ export namespace ContractListResponse {
 
       proration: Subscription.Proration;
 
+      /**
+       * List of quantity schedule items for the subscription. Only includes the current
+       * quantity and future quantity changes.
+       */
       quantity_schedule: Array<Subscription.QuantitySchedule>;
 
       starting_at: string;
@@ -1355,7 +1363,7 @@ export interface ContractCreateParams {
   spend_threshold_configuration?: ContractCreateParams.SpendThresholdConfiguration;
 
   /**
-   * (beta) Optional list of
+   * Optional list of
    * [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/)
    * to add to the contract.
    */
@@ -2207,7 +2215,9 @@ export namespace ContractCreateParams {
     access_amount: RecurringCommit.AccessAmount;
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     commit_duration: RecurringCommit.CommitDuration;
 
@@ -2307,18 +2317,24 @@ export namespace ContractCreateParams {
     export interface AccessAmount {
       credit_type_id: string;
 
-      quantity: number;
-
       unit_price: number;
+
+      /**
+       * This field is currently required. Upcoming recurring commit/credit configuration
+       * options will allow it to be optional.
+       */
+      quantity?: number;
     }
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     export interface CommitDuration {
-      unit: 'PERIODS';
-
       value: number;
+
+      unit?: 'PERIODS';
     }
 
     /**
@@ -2357,7 +2373,9 @@ export namespace ContractCreateParams {
     access_amount: RecurringCredit.AccessAmount;
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     commit_duration: RecurringCredit.CommitDuration;
 
@@ -2452,18 +2470,24 @@ export namespace ContractCreateParams {
     export interface AccessAmount {
       credit_type_id: string;
 
-      quantity: number;
-
       unit_price: number;
+
+      /**
+       * This field is currently required. Upcoming recurring commit/credit configuration
+       * options will allow it to be optional.
+       */
+      quantity?: number;
     }
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     export interface CommitDuration {
-      unit: 'PERIODS';
-
       value: number;
+
+      unit?: 'PERIODS';
     }
 
     export interface Specifier {

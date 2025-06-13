@@ -1,5 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { asTextContentResult } from '@metronome/mcp/tools/types';
+
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import type { Metadata } from '../../';
 import Metronome from '@metronome/sdk';
@@ -832,28 +834,31 @@ export const tool: Tool = {
                 credit_type_id: {
                   type: 'string',
                 },
-                quantity: {
-                  type: 'number',
-                },
                 unit_price: {
                   type: 'number',
                 },
+                quantity: {
+                  type: 'number',
+                  description:
+                    'This field is currently required. Upcoming recurring commit/credit configuration options will allow it to be optional.',
+                },
               },
-              required: ['credit_type_id', 'quantity', 'unit_price'],
+              required: ['credit_type_id', 'unit_price'],
             },
             commit_duration: {
               type: 'object',
-              description: 'The amount of time the created commits will be valid for.',
+              description:
+                'Defines the length of the access schedule for each created commit/credit. The value represents the number of units. Unit defaults to "PERIODS", where the length of a period is determined by the recurrence_frequency.',
               properties: {
+                value: {
+                  type: 'number',
+                },
                 unit: {
                   type: 'string',
                   enum: ['PERIODS'],
                 },
-                value: {
-                  type: 'number',
-                },
               },
-              required: ['unit', 'value'],
+              required: ['value'],
             },
             priority: {
               type: 'number',
@@ -987,28 +992,31 @@ export const tool: Tool = {
                 credit_type_id: {
                   type: 'string',
                 },
-                quantity: {
-                  type: 'number',
-                },
                 unit_price: {
                   type: 'number',
                 },
+                quantity: {
+                  type: 'number',
+                  description:
+                    'This field is currently required. Upcoming recurring commit/credit configuration options will allow it to be optional.',
+                },
               },
-              required: ['credit_type_id', 'quantity', 'unit_price'],
+              required: ['credit_type_id', 'unit_price'],
             },
             commit_duration: {
               type: 'object',
-              description: 'The amount of time the created commits will be valid for.',
+              description:
+                'Defines the length of the access schedule for each created commit/credit. The value represents the number of units. Unit defaults to "PERIODS", where the length of a period is determined by the recurrence_frequency.',
               properties: {
+                value: {
+                  type: 'number',
+                },
                 unit: {
                   type: 'string',
                   enum: ['PERIODS'],
                 },
-                value: {
-                  type: 'number',
-                },
               },
-              required: ['unit', 'value'],
+              required: ['value'],
             },
             priority: {
               type: 'number',
@@ -1356,7 +1364,7 @@ export const tool: Tool = {
       add_subscriptions: {
         type: 'array',
         description:
-          '(beta) Optional list of [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/) to add to the contract.',
+          'Optional list of [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/) to add to the contract.',
         items: {
           type: 'object',
           properties: {
@@ -2078,7 +2086,7 @@ export const tool: Tool = {
       },
       update_subscriptions: {
         type: 'array',
-        description: '(beta) Optional list of subscriptions to update.',
+        description: 'Optional list of subscriptions to update.',
         items: {
           type: 'object',
           properties: {
@@ -2136,9 +2144,9 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: Metronome, args: Record<string, unknown> | undefined) => {
+export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return client.v2.contracts.edit(body);
+  return asTextContentResult(await client.v2.contracts.edit(body));
 };
 
 export default { metadata, tool, handler };

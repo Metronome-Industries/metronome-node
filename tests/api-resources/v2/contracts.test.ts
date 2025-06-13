@@ -258,10 +258,10 @@ describe('resource contracts', () => {
         {
           access_amount: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-            quantity: 0,
             unit_price: 0,
+            quantity: 0,
           },
-          commit_duration: { unit: 'PERIODS', value: 0 },
+          commit_duration: { value: 0, unit: 'PERIODS' },
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           starting_at: '2019-12-27T18:11:19.117Z',
@@ -295,10 +295,10 @@ describe('resource contracts', () => {
         {
           access_amount: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-            quantity: 0,
             unit_price: 0,
+            quantity: 0,
           },
-          commit_duration: { unit: 'PERIODS', value: 0 },
+          commit_duration: { value: 0, unit: 'PERIODS' },
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           starting_at: '2019-12-27T18:11:19.117Z',

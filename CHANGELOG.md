@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.1.0-beta.12 (2025-06-13)
+
+Full Changelog: [v0.1.0-beta.11...v0.1.0-beta.12](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.11...v0.1.0-beta.12)
+
+### Features
+
+* **api:** api update ([d3ad49c](https://github.com/Metronome-Industries/metronome-node/commit/d3ad49c672f525d98e3bcb8f6868479dd14b6796))
+* **api:** api update ([79b7094](https://github.com/Metronome-Industries/metronome-node/commit/79b709418218f4c5efc1c2f1da18a0b0539d66ab))
+* **api:** api update ([6c4c0b4](https://github.com/Metronome-Industries/metronome-node/commit/6c4c0b43d1876325a9ebbbfbb82af42f88b20916))
+* **api:** api update ([8d0b011](https://github.com/Metronome-Industries/metronome-node/commit/8d0b0113a320cacd65b2ae26bd7f33e88dccb665))
+* **api:** api update ([3f4c5ec](https://github.com/Metronome-Industries/metronome-node/commit/3f4c5ecb07551443c8003edd9fd9d32bfa8cfab8))
+* **mcp:** implement support for binary responses ([4cbe51d](https://github.com/Metronome-Industries/metronome-node/commit/4cbe51df7fba1a011a6aa2fb3174ca2a2f69ef11))
+* **mcp:** set X-Stainless-MCP header ([e175ec9](https://github.com/Metronome-Industries/metronome-node/commit/e175ec9b72a2196c0ed9dade64e60d307b3ce9e5))
+
+
+### Bug Fixes
+
+* publish script — handle NPM errors correctly ([59bc726](https://github.com/Metronome-Industries/metronome-node/commit/59bc726367965dac5877d900d81bec32b71c395d))
+
+
+### Chores
+
+* **docs:** use top-level-await in example snippets ([b3010ef](https://github.com/Metronome-Industries/metronome-node/commit/b3010ef72fb05f33c3382354bc297e8a8fd4a175))
+* **internal:** make base APIResource abstract ([128bf66](https://github.com/Metronome-Industries/metronome-node/commit/128bf662fd0437cdcbd771d006e20b9a0f26f333))
+* **mcp:** provides high-level initMcpServer function and exports known clients ([7f82ab5](https://github.com/Metronome-Industries/metronome-node/commit/7f82ab5960c2bc474063395fd4c7af6e14964bbf))
+
 ## 0.1.0-beta.11 (2025-05-30)
 
 Full Changelog: [v0.1.0-beta.10...v0.1.0-beta.11](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.10...v0.1.0-beta.11)
