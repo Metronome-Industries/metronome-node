@@ -382,7 +382,7 @@ export namespace ContractRetrieveResponse {
      */
     archived_at?: string;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * The billing provider configuration associated with a contract.
@@ -507,7 +507,7 @@ export namespace ContractRetrieveResponse {
        * Configuration for the billing provider. The structure of this object is specific
        * to the billing provider.
        */
-      configuration?: Record<string, unknown>;
+      configuration?: { [key: string]: unknown };
     }
 
     export interface PrepaidBalanceThresholdConfiguration {
@@ -574,9 +574,9 @@ export namespace ContractRetrieveResponse {
 
       export namespace Commit {
         export interface Specifier {
-          presentation_group_values?: Record<string, string>;
+          presentation_group_values?: { [key: string]: string };
 
-          pricing_group_values?: Record<string, string>;
+          pricing_group_values?: { [key: string]: string };
 
           /**
            * If provided, the specifier will only apply to the product with the specified ID.
@@ -714,7 +714,7 @@ export namespace ContractRetrieveResponse {
 
       id?: string;
 
-      custom_fields?: Record<string, string>;
+      custom_fields?: { [key: string]: string };
 
       description?: string;
 
@@ -779,7 +779,7 @@ export namespace ContractListResponse {
      */
     archived_at?: string;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * The billing provider configuration associated with a contract.
@@ -904,7 +904,7 @@ export namespace ContractListResponse {
        * Configuration for the billing provider. The structure of this object is specific
        * to the billing provider.
        */
-      configuration?: Record<string, unknown>;
+      configuration?: { [key: string]: unknown };
     }
 
     export interface PrepaidBalanceThresholdConfiguration {
@@ -971,9 +971,9 @@ export namespace ContractListResponse {
 
       export namespace Commit {
         export interface Specifier {
-          presentation_group_values?: Record<string, string>;
+          presentation_group_values?: { [key: string]: string };
 
-          pricing_group_values?: Record<string, string>;
+          pricing_group_values?: { [key: string]: string };
 
           /**
            * If provided, the specifier will only apply to the product with the specified ID.
@@ -1111,7 +1111,7 @@ export namespace ContractListResponse {
 
       id?: string;
 
-      custom_fields?: Record<string, string>;
+      custom_fields?: { [key: string]: string };
 
       description?: string;
 
@@ -1184,7 +1184,7 @@ export namespace ContractRetrieveRateScheduleResponse {
 
     list_rate: Shared.Rate;
 
-    product_custom_fields: Record<string, string>;
+    product_custom_fields: { [key: string]: string };
 
     product_id: string;
 
@@ -1208,7 +1208,7 @@ export namespace ContractRetrieveRateScheduleResponse {
 
     override_rate?: Shared.Rate;
 
-    pricing_group_values?: Record<string, string>;
+    pricing_group_values?: { [key: string]: string };
   }
 
   export namespace Data {
@@ -1289,7 +1289,7 @@ export interface ContractCreateParams {
 
   credits?: Array<ContractCreateParams.Credit>;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -1432,7 +1432,7 @@ export namespace ContractCreateParams {
      */
     applicable_product_tags?: Array<string>;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * Used only in UI/API. It is not exposed to end customers.
@@ -1656,9 +1656,9 @@ export namespace ContractCreateParams {
     }
 
     export interface Specifier {
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the specifier will only apply to the product with the specified ID.
@@ -1693,7 +1693,7 @@ export namespace ContractCreateParams {
      */
     applicable_product_tags?: Array<string>;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * Used only in UI/API. It is not exposed to end customers.
@@ -1757,9 +1757,9 @@ export namespace ContractCreateParams {
     }
 
     export interface Specifier {
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the specifier will only apply to the product with the specified ID.
@@ -1782,7 +1782,7 @@ export namespace ContractCreateParams {
      */
     schedule: Discount.Schedule;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * displayed on invoices
@@ -1982,13 +1982,13 @@ export namespace ContractCreateParams {
        * A map of group names to values. The override will only apply to line items with
        * the specified presentation group values.
        */
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
       /**
        * A map of pricing group names to values. The override will only apply to products
        * with the specified pricing group values.
        */
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the override will only apply to the product with the specified ID.
@@ -2030,7 +2030,7 @@ export namespace ContractCreateParams {
        * Only set for CUSTOM rate_type. This field is interpreted by custom rate
        * processors.
        */
-      custom_rate?: Record<string, unknown>;
+      custom_rate?: { [key: string]: unknown };
 
       /**
        * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
@@ -2126,9 +2126,9 @@ export namespace ContractCreateParams {
 
     export namespace Commit {
       export interface Specifier {
-        presentation_group_values?: Record<string, string>;
+        presentation_group_values?: { [key: string]: string };
 
-        pricing_group_values?: Record<string, string>;
+        pricing_group_values?: { [key: string]: string };
 
         /**
          * If provided, the specifier will only apply to the product with the specified ID.
@@ -2198,7 +2198,7 @@ export namespace ContractCreateParams {
      */
     unit_price: number;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     description?: string;
 
@@ -2349,9 +2349,9 @@ export namespace ContractCreateParams {
     }
 
     export interface Specifier {
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the specifier will only apply to the product with the specified ID.
@@ -2491,9 +2491,9 @@ export namespace ContractCreateParams {
     }
 
     export interface Specifier {
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the specifier will only apply to the product with the specified ID.
@@ -2750,7 +2750,7 @@ export namespace ContractCreateParams {
 
     subscription_rate: Subscription.SubscriptionRate;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     description?: string;
 
@@ -2958,7 +2958,7 @@ export interface ContractAmendParams {
 
   credits?: Array<ContractAmendParams.Credit>;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -3025,7 +3025,7 @@ export namespace ContractAmendParams {
      */
     applicable_product_tags?: Array<string>;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * Used only in UI/API. It is not exposed to end customers.
@@ -3249,9 +3249,9 @@ export namespace ContractAmendParams {
     }
 
     export interface Specifier {
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the specifier will only apply to the product with the specified ID.
@@ -3286,7 +3286,7 @@ export namespace ContractAmendParams {
      */
     applicable_product_tags?: Array<string>;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * Used only in UI/API. It is not exposed to end customers.
@@ -3350,9 +3350,9 @@ export namespace ContractAmendParams {
     }
 
     export interface Specifier {
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the specifier will only apply to the product with the specified ID.
@@ -3375,7 +3375,7 @@ export namespace ContractAmendParams {
      */
     schedule: Discount.Schedule;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * displayed on invoices
@@ -3575,13 +3575,13 @@ export namespace ContractAmendParams {
        * A map of group names to values. The override will only apply to line items with
        * the specified presentation group values.
        */
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
       /**
        * A map of pricing group names to values. The override will only apply to products
        * with the specified pricing group values.
        */
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the override will only apply to the product with the specified ID.
@@ -3623,7 +3623,7 @@ export namespace ContractAmendParams {
        * Only set for CUSTOM rate_type. This field is interpreted by custom rate
        * processors.
        */
-      custom_rate?: Record<string, unknown>;
+      custom_rate?: { [key: string]: unknown };
 
       /**
        * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
@@ -3675,7 +3675,7 @@ export namespace ContractAmendParams {
      */
     unit_price: number;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     description?: string;
 
@@ -3895,7 +3895,7 @@ export namespace ContractCreateHistoricalInvoicesParams {
 
     breakdown_granularity?: 'HOUR' | 'DAY';
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
   }
 
   export namespace Invoice {
@@ -3906,9 +3906,9 @@ export namespace ContractCreateHistoricalInvoicesParams {
 
       product_id: string;
 
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       quantity?: number;
 
@@ -4022,13 +4022,13 @@ export namespace ContractRetrieveRateScheduleParams {
      * List of pricing group key value pairs, rates containing the matching key / value
      * pairs will be included in the response.
      */
-    partial_pricing_group_values?: Record<string, string>;
+    partial_pricing_group_values?: { [key: string]: string };
 
     /**
      * List of pricing group key value pairs, rates matching all of the key / value
      * pairs will be included in the response.
      */
-    pricing_group_values?: Record<string, string>;
+    pricing_group_values?: { [key: string]: string };
 
     /**
      * Rates matching the product id will be included in the response.

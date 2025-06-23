@@ -124,7 +124,7 @@ export namespace UsageListResponse {
      * Values will be either a number or null. Null indicates that there were no
      * matches for the group_by value.
      */
-    groups?: Record<string, number | null>;
+    groups?: { [key: string]: number | null };
   }
 }
 
@@ -215,7 +215,7 @@ export namespace UsageIngestParams {
 
     transaction_id: string;
 
-    properties?: Record<string, unknown>;
+    properties?: { [key: string]: unknown };
   }
 }
 

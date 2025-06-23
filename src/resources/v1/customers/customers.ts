@@ -322,7 +322,7 @@ export interface Customer {
 
   name: string;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 }
 
 export interface CustomerDetail {
@@ -336,7 +336,7 @@ export interface CustomerDetail {
    */
   created_at: string;
 
-  custom_fields: Record<string, string>;
+  custom_fields: { [key: string]: string };
 
   customer_config: CustomerDetail.CustomerConfig;
 
@@ -429,7 +429,7 @@ export interface CustomerListBillableMetricsResponse {
    */
   archived_at?: string;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   /**
    * An optional filtering rule to match the 'event_type' property of an event.
@@ -439,7 +439,7 @@ export interface CustomerListBillableMetricsResponse {
   /**
    * (DEPRECATED) use property_filters & event_type_filter instead
    */
-  filter?: Record<string, unknown>;
+  filter?: { [key: string]: unknown };
 
   /**
    * (DEPRECATED) use group_keys instead
@@ -466,7 +466,7 @@ export interface CustomerListBillableMetricsResponse {
 }
 
 export interface CustomerListCostsResponse {
-  credit_types: Record<string, CustomerListCostsResponse.CreditTypes>;
+  credit_types: { [key: string]: CustomerListCostsResponse.CreditTypes };
 
   end_timestamp: string;
 
@@ -507,7 +507,7 @@ export interface CustomerCreateParams {
 
   billing_config?: CustomerCreateParams.BillingConfig;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   customer_billing_provider_configurations?: Array<CustomerCreateParams.CustomerBillingProviderConfiguration>;
 
@@ -586,7 +586,7 @@ export namespace CustomerCreateParams {
      * object, however, for most billing provider + delivery method combinations, it
      * will not be a valid configuration.
      */
-    configuration?: Record<string, unknown>;
+    configuration?: { [key: string]: unknown };
 
     /**
      * The method to use for delivering invoices to this customer. If not provided, the
