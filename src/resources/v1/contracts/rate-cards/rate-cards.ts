@@ -213,7 +213,7 @@ export namespace RateCardRetrieveResponse {
 
     credit_type_conversions?: Array<Data.CreditTypeConversion>;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     description?: string;
 
@@ -254,7 +254,7 @@ export interface RateCardListResponse {
 
   credit_type_conversions?: Array<RateCardListResponse.CreditTypeConversion>;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   description?: string;
 
@@ -291,7 +291,7 @@ export namespace RateCardRetrieveRateScheduleResponse {
   export interface Data {
     entitled: boolean;
 
-    product_custom_fields: Record<string, string>;
+    product_custom_fields: { [key: string]: string };
 
     product_id: string;
 
@@ -313,7 +313,7 @@ export namespace RateCardRetrieveRateScheduleResponse {
 
     ending_before?: string;
 
-    pricing_group_values?: Record<string, string>;
+    pricing_group_values?: { [key: string]: string };
   }
 
   export namespace Data {
@@ -355,7 +355,7 @@ export interface RateCardCreateParams {
    */
   credit_type_conversions?: Array<RateCardCreateParams.CreditTypeConversion>;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   description?: string;
 
@@ -475,13 +475,13 @@ export namespace RateCardRetrieveRateScheduleParams {
      * List of pricing group key value pairs, rates containing the matching key / value
      * pairs will be included in the response.
      */
-    partial_pricing_group_values?: Record<string, string>;
+    partial_pricing_group_values?: { [key: string]: string };
 
     /**
      * List of pricing group key value pairs, rates matching all of the key / value
      * pairs will be included in the response.
      */
-    pricing_group_values?: Record<string, string>;
+    pricing_group_values?: { [key: string]: string };
 
     /**
      * Rates matching the product id will be included in the response.

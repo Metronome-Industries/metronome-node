@@ -221,7 +221,7 @@ export interface CreditGrantListResponse {
    */
   balance: CreditGrantListResponse.Balance;
 
-  custom_fields: Record<string, string>;
+  custom_fields: { [key: string]: string };
 
   /**
    * the Metronome ID of the customer
@@ -449,7 +449,7 @@ export interface CreditGrantCreateParams {
   /**
    * Custom fields to attach to the credit grant.
    */
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   /**
    * The credit grant will only apply to usage or charges dated on or after this

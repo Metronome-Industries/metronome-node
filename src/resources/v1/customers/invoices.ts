@@ -138,7 +138,7 @@ export interface Invoice {
    */
   billable_status?: 'billable' | 'unbillable';
 
-  contract_custom_fields?: Record<string, string>;
+  contract_custom_fields?: { [key: string]: string };
 
   contract_id?: string;
 
@@ -150,9 +150,9 @@ export interface Invoice {
    */
   created_at?: string;
 
-  custom_fields?: Record<string, unknown>;
+  custom_fields?: { [key: string]: unknown };
 
-  customer_custom_fields?: Record<string, string>;
+  customer_custom_fields?: { [key: string]: string };
 
   /**
    * End of the usage period this invoice covers (UTC)
@@ -175,7 +175,7 @@ export interface Invoice {
    */
   netsuite_sales_order_id?: string;
 
-  plan_custom_fields?: Record<string, string>;
+  plan_custom_fields?: { [key: string]: string };
 
   plan_id?: string;
 
@@ -214,7 +214,7 @@ export namespace Invoice {
      */
     applied_commit_or_credit?: LineItem.AppliedCommitOrCredit;
 
-    commit_custom_fields?: Record<string, string>;
+    commit_custom_fields?: { [key: string]: string };
 
     /**
      * For line items with product of `USAGE`, `SUBSCRIPTION`, or `COMPOSITE` types,
@@ -236,9 +236,9 @@ export namespace Invoice {
      */
     commit_type?: string;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
-    discount_custom_fields?: Record<string, string>;
+    discount_custom_fields?: { [key: string]: string };
 
     /**
      * ID of the discount applied to this line item.
@@ -289,15 +289,15 @@ export namespace Invoice {
      * Includes the presentation group values associated with this line item if
      * presentation group keys are used.
      */
-    presentation_group_values?: Record<string, string | null>;
+    presentation_group_values?: { [key: string]: string | null };
 
     /**
      * Includes the pricing group values associated with this line item if dimensional
      * pricing is used.
      */
-    pricing_group_values?: Record<string, string>;
+    pricing_group_values?: { [key: string]: string };
 
-    product_custom_fields?: Record<string, string>;
+    product_custom_fields?: { [key: string]: string };
 
     /**
      * ID of the product associated with the line item.
@@ -318,7 +318,7 @@ export namespace Invoice {
      */
     product_type?: string;
 
-    professional_service_custom_fields?: Record<string, string>;
+    professional_service_custom_fields?: { [key: string]: string };
 
     professional_service_id?: string;
 
@@ -329,7 +329,7 @@ export namespace Invoice {
 
     reseller_type?: 'AWS' | 'AWS_PRO_SERVICE' | 'GCP' | 'GCP_PRO_SERVICE';
 
-    scheduled_charge_custom_fields?: Record<string, string>;
+    scheduled_charge_custom_fields?: { [key: string]: string };
 
     /**
      * ID of scheduled charge.
@@ -343,7 +343,7 @@ export namespace Invoice {
 
     sub_line_items?: Array<LineItem.SubLineItem>;
 
-    subscription_custom_fields?: Record<string, string>;
+    subscription_custom_fields?: { [key: string]: string };
 
     /**
      * Populated if the line item has a tiered price.
@@ -376,7 +376,7 @@ export namespace Invoice {
     }
 
     export interface SubLineItem {
-      custom_fields: Record<string, string>;
+      custom_fields: { [key: string]: string };
 
       name: string;
 
@@ -525,7 +525,7 @@ export namespace Invoice {
 
     total: number;
 
-    credit_grant_custom_fields?: Record<string, string>;
+    credit_grant_custom_fields?: { [key: string]: string };
 
     credit_grant_id?: string;
   }

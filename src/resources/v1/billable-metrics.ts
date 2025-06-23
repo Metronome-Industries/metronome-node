@@ -151,7 +151,7 @@ export namespace BillableMetricRetrieveResponse {
      */
     archived_at?: string;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * An optional filtering rule to match the 'event_type' property of an event.
@@ -207,7 +207,7 @@ export interface BillableMetricListResponse {
    */
   archived_at?: string;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   /**
    * An optional filtering rule to match the 'event_type' property of an event.
@@ -257,7 +257,7 @@ export interface BillableMetricCreateParams {
   /**
    * Custom fields to attach to the billable metric.
    */
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   /**
    * An optional filtering rule to match the 'event_type' property of an event.

@@ -260,7 +260,7 @@ export interface CustomFieldRemoveKeyParams {
 }
 
 export interface CustomFieldSetValuesParams {
-  custom_fields: Record<string, string>;
+  custom_fields: { [key: string]: string };
 
   entity:
     | 'alert'

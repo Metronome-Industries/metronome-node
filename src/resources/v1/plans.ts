@@ -112,7 +112,7 @@ export class PlanListCustomersResponsesCursorPage extends CursorPage<PlanListCus
 export interface PlanDetail {
   id: string;
 
-  custom_fields: Record<string, string>;
+  custom_fields: { [key: string]: string };
 
   name: string;
 
@@ -186,7 +186,7 @@ export interface PlanListResponse {
 
   name: string;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 }
 
 export interface PlanGetDetailsResponse {
@@ -200,7 +200,7 @@ export interface PlanListChargesResponse {
 
   credit_type: Shared.CreditTypeData;
 
-  custom_fields: Record<string, string>;
+  custom_fields: { [key: string]: string };
 
   name: string;
 
@@ -273,7 +273,7 @@ export namespace PlanListCustomersResponse {
   export interface PlanDetails {
     id: string;
 
-    custom_fields: Record<string, string>;
+    custom_fields: { [key: string]: string };
 
     customer_plan_id: string;
 

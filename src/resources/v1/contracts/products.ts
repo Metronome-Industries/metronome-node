@@ -241,7 +241,7 @@ export namespace ProductRetrieveResponse {
 
     archived_at?: string | null;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
   }
 
   export namespace Data {
@@ -330,7 +330,7 @@ export interface ProductListResponse {
 
   archived_at?: string | null;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 }
 
 export namespace ProductListResponse {

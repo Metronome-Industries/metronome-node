@@ -112,7 +112,7 @@ export interface PlanListResponse {
    */
   id: string;
 
-  custom_fields: Record<string, string>;
+  custom_fields: { [key: string]: string };
 
   plan_description: string;
 

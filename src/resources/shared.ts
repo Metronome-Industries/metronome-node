@@ -54,7 +54,7 @@ export interface Commit {
 
   contract?: Commit.Contract;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   description?: string;
 
@@ -291,9 +291,9 @@ export namespace Commit {
   }
 
   export interface Specifier {
-    presentation_group_values?: Record<string, string>;
+    presentation_group_values?: { [key: string]: string };
 
-    pricing_group_values?: Record<string, string>;
+    pricing_group_values?: { [key: string]: string };
 
     /**
      * If provided, the specifier will only apply to the product with the specified ID.
@@ -508,9 +508,9 @@ export namespace ContractWithoutAmendments {
 
     export namespace Commit {
       export interface Specifier {
-        presentation_group_values?: Record<string, string>;
+        presentation_group_values?: { [key: string]: string };
 
-        pricing_group_values?: Record<string, string>;
+        pricing_group_values?: { [key: string]: string };
 
         /**
          * If provided, the specifier will only apply to the product with the specified ID.
@@ -700,9 +700,9 @@ export namespace ContractWithoutAmendments {
     }
 
     export interface Specifier {
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the specifier will only apply to the product with the specified ID.
@@ -841,9 +841,9 @@ export namespace ContractWithoutAmendments {
     }
 
     export interface Specifier {
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the specifier will only apply to the product with the specified ID.
@@ -1008,7 +1008,7 @@ export interface Credit {
 
   contract?: Credit.Contract;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   description?: string;
 
@@ -1139,9 +1139,9 @@ export namespace Credit {
   }
 
   export interface Specifier {
-    presentation_group_values?: Record<string, string>;
+    presentation_group_values?: { [key: string]: string };
 
-    pricing_group_values?: Record<string, string>;
+    pricing_group_values?: { [key: string]: string };
 
     /**
      * If provided, the specifier will only apply to the product with the specified ID.
@@ -1169,7 +1169,7 @@ export interface Discount {
 
   schedule: SchedulePointInTime;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   name?: string;
 
@@ -1269,7 +1269,7 @@ export interface Override {
    * Only set for CUSTOM rate_type. This field is interpreted by custom rate
    * processors.
    */
-  value?: Record<string, unknown>;
+  value?: { [key: string]: unknown };
 }
 
 export namespace Override {
@@ -1278,9 +1278,9 @@ export namespace Override {
 
     commit_ids?: Array<string>;
 
-    presentation_group_values?: Record<string, string | null>;
+    presentation_group_values?: { [key: string]: string | null };
 
-    pricing_group_values?: Record<string, string>;
+    pricing_group_values?: { [key: string]: string };
 
     product_id?: string;
 
@@ -1306,7 +1306,7 @@ export namespace Override {
      * Only set for CUSTOM rate_type. This field is interpreted by custom rate
      * processors.
      */
-    custom_rate?: Record<string, unknown>;
+    custom_rate?: { [key: string]: unknown };
 
     /**
      * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
@@ -1391,7 +1391,7 @@ export interface ProService {
    */
   unit_price: number;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   description?: string;
 
@@ -1410,7 +1410,7 @@ export interface Rate {
    * Only set for CUSTOM rate_type. This field is interpreted by custom rate
    * processors.
    */
-  custom_rate?: Record<string, unknown>;
+  custom_rate?: { [key: string]: unknown };
 
   /**
    * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
@@ -1428,7 +1428,7 @@ export interface Rate {
    * if pricing groups are used, this will contain the values used to calculate the
    * price
    */
-  pricing_group_values?: Record<string, string>;
+  pricing_group_values?: { [key: string]: string };
 
   /**
    * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
@@ -1457,7 +1457,7 @@ export interface ScheduledCharge {
 
   archived_at?: string;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   /**
    * displayed on invoices

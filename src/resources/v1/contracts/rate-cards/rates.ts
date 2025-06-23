@@ -110,7 +110,7 @@ export class RateListResponsesCursorPage extends CursorPage<RateListResponse> {}
 export interface RateListResponse {
   entitled: boolean;
 
-  product_custom_fields: Record<string, string>;
+  product_custom_fields: { [key: string]: string };
 
   product_id: string;
 
@@ -132,7 +132,7 @@ export interface RateListResponse {
 
   ending_before?: string;
 
-  pricing_group_values?: Record<string, string>;
+  pricing_group_values?: { [key: string]: string };
 }
 
 export namespace RateListResponse {
@@ -175,7 +175,7 @@ export namespace RateAddResponse {
      * Only set for CUSTOM rate_type. This field is interpreted by custom rate
      * processors.
      */
-    custom_rate?: Record<string, unknown>;
+    custom_rate?: { [key: string]: unknown };
 
     /**
      * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
@@ -193,7 +193,7 @@ export namespace RateAddResponse {
      * if pricing groups are used, this will contain the values used to calculate the
      * price
      */
-    pricing_group_values?: Record<string, string>;
+    pricing_group_values?: { [key: string]: string };
 
     /**
      * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
@@ -272,13 +272,13 @@ export namespace RateListParams {
      * List of pricing group key value pairs, rates containing the matching key / value
      * pairs will be included in the response.
      */
-    partial_pricing_group_values?: Record<string, string>;
+    partial_pricing_group_values?: { [key: string]: string };
 
     /**
      * List of pricing group key value pairs, rates matching all of the key / value
      * pairs will be included in the response.
      */
-    pricing_group_values?: Record<string, string>;
+    pricing_group_values?: { [key: string]: string };
 
     /**
      * Rates matching the product id will be included in the response.
@@ -336,7 +336,7 @@ export interface RateAddParams {
    * Only set for CUSTOM rate_type. This field is interpreted by custom rate
    * processors.
    */
-  custom_rate?: Record<string, unknown>;
+  custom_rate?: { [key: string]: unknown };
 
   /**
    * exclusive end date
@@ -360,7 +360,7 @@ export interface RateAddParams {
    * Optional. List of pricing group key value pairs which will be used to calculate
    * the price.
    */
-  pricing_group_values?: Record<string, string>;
+  pricing_group_values?: { [key: string]: string };
 
   /**
    * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
@@ -445,7 +445,7 @@ export namespace RateAddManyParams {
      * Only set for CUSTOM rate_type. This field is interpreted by custom rate
      * processors.
      */
-    custom_rate?: Record<string, unknown>;
+    custom_rate?: { [key: string]: unknown };
 
     /**
      * exclusive end date
@@ -469,7 +469,7 @@ export namespace RateAddManyParams {
      * Optional. List of pricing group key value pairs which will be used to calculate
      * the price.
      */
-    pricing_group_values?: Record<string, string>;
+    pricing_group_values?: { [key: string]: string };
 
     /**
      * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
