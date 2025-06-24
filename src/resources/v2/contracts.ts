@@ -2,6 +2,7 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
+import * as Shared from '../shared';
 
 export class Contracts extends APIResource {
   /**
@@ -168,7 +169,7 @@ export namespace ContractRetrieveResponse {
 
     overrides: Array<Data.Override>;
 
-    scheduled_charges: Array<Data.ScheduledCharge>;
+    scheduled_charges: Array<Shared.ScheduledCharge>;
 
     starting_at: string;
 
@@ -192,7 +193,7 @@ export namespace ContractRetrieveResponse {
     /**
      * This field's availability is dependent on your client's configuration.
      */
-    discounts?: Array<Data.Discount>;
+    discounts?: Array<Shared.Discount>;
 
     ending_before?: string;
 
@@ -218,7 +219,7 @@ export namespace ContractRetrieveResponse {
     /**
      * This field's availability is dependent on your client's configuration.
      */
-    professional_services?: Array<Data.ProfessionalService>;
+    professional_services?: Array<Shared.ProService>;
 
     rate_card_id?: string;
 
@@ -274,7 +275,7 @@ export namespace ContractRetrieveResponse {
        * The schedule that the customer will gain access to the credits purposed with
        * this commit.
        */
-      access_schedule?: Commit.AccessSchedule;
+      access_schedule?: Shared.ScheduleDuration;
 
       applicable_contract_ids?: Array<string>;
 
@@ -310,26 +311,26 @@ export namespace ContractRetrieveResponse {
       /**
        * The schedule that the customer will be invoiced for this commit.
        */
-      invoice_schedule?: Commit.InvoiceSchedule;
+      invoice_schedule?: Shared.SchedulePointInTime;
 
       /**
        * A list of ordered events that impact the balance of a commit. For example, an
        * invoice deduction or a rollover.
        */
       ledger?: Array<
-        | Commit.UnionMember0
-        | Commit.UnionMember1
-        | Commit.UnionMember2
-        | Commit.UnionMember3
-        | Commit.UnionMember4
-        | Commit.UnionMember5
-        | Commit.UnionMember6
-        | Commit.UnionMember7
-        | Commit.UnionMember8
-        | Commit.UnionMember9
-        | Commit.UnionMember10
-        | Commit.UnionMember11
-        | Commit.UnionMember12
+        | Commit.PrepaidCommitSegmentStartLedgerEntry
+        | Commit.PrepaidCommitAutomatedInvoiceDeductionLedgerEntry
+        | Commit.PrepaidCommitRolloverLedgerEntry
+        | Commit.PrepaidCommitExpirationLedgerEntry
+        | Commit.PrepaidCommitCanceledLedgerEntry
+        | Commit.PrepaidCommitCreditedLedgerEntry
+        | Commit.PostpaidCommitInitialBalanceLedgerEntry
+        | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry
+        | Commit.PostpaidCommitRolloverLedgerEntry
+        | Commit.PostpaidCommitTrueupLedgerEntry
+        | Commit.PrepaidCommitManualLedgerEntry
+        | Commit.PostpaidCommitManualLedgerEntry
+        | Commit.PostpaidCommitExpirationLedgerEntry
       >;
 
       name?: string;
@@ -371,34 +372,6 @@ export namespace ContractRetrieveResponse {
         name: string;
       }
 
-      /**
-       * The schedule that the customer will gain access to the credits purposed with
-       * this commit.
-       */
-      export interface AccessSchedule {
-        schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-        credit_type?: AccessSchedule.CreditType;
-      }
-
-      export namespace AccessSchedule {
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          ending_before: string;
-
-          starting_at: string;
-        }
-
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-      }
-
       export interface Contract {
         id: string;
       }
@@ -410,38 +383,7 @@ export namespace ContractRetrieveResponse {
         id: string;
       }
 
-      /**
-       * The schedule that the customer will be invoiced for this commit.
-       */
-      export interface InvoiceSchedule {
-        credit_type?: InvoiceSchedule.CreditType;
-
-        schedule_items?: Array<InvoiceSchedule.ScheduleItem>;
-      }
-
-      export namespace InvoiceSchedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          invoice_id: string;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-        }
-      }
-
-      export interface UnionMember0 {
+      export interface PrepaidCommitSegmentStartLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -451,7 +393,7 @@ export namespace ContractRetrieveResponse {
         type: 'PREPAID_COMMIT_SEGMENT_START';
       }
 
-      export interface UnionMember1 {
+      export interface PrepaidCommitAutomatedInvoiceDeductionLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -463,7 +405,7 @@ export namespace ContractRetrieveResponse {
         type: 'PREPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION';
       }
 
-      export interface UnionMember2 {
+      export interface PrepaidCommitRolloverLedgerEntry {
         amount: number;
 
         new_contract_id: string;
@@ -475,7 +417,7 @@ export namespace ContractRetrieveResponse {
         type: 'PREPAID_COMMIT_ROLLOVER';
       }
 
-      export interface UnionMember3 {
+      export interface PrepaidCommitExpirationLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -485,7 +427,7 @@ export namespace ContractRetrieveResponse {
         type: 'PREPAID_COMMIT_EXPIRATION';
       }
 
-      export interface UnionMember4 {
+      export interface PrepaidCommitCanceledLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -497,7 +439,7 @@ export namespace ContractRetrieveResponse {
         type: 'PREPAID_COMMIT_CANCELED';
       }
 
-      export interface UnionMember5 {
+      export interface PrepaidCommitCreditedLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -509,7 +451,7 @@ export namespace ContractRetrieveResponse {
         type: 'PREPAID_COMMIT_CREDITED';
       }
 
-      export interface UnionMember6 {
+      export interface PostpaidCommitInitialBalanceLedgerEntry {
         amount: number;
 
         timestamp: string;
@@ -517,7 +459,7 @@ export namespace ContractRetrieveResponse {
         type: 'POSTPAID_COMMIT_INITIAL_BALANCE';
       }
 
-      export interface UnionMember7 {
+      export interface PostpaidCommitAutomatedInvoiceDeductionLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -529,7 +471,7 @@ export namespace ContractRetrieveResponse {
         type: 'POSTPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION';
       }
 
-      export interface UnionMember8 {
+      export interface PostpaidCommitRolloverLedgerEntry {
         amount: number;
 
         new_contract_id: string;
@@ -541,7 +483,7 @@ export namespace ContractRetrieveResponse {
         type: 'POSTPAID_COMMIT_ROLLOVER';
       }
 
-      export interface UnionMember9 {
+      export interface PostpaidCommitTrueupLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -551,7 +493,7 @@ export namespace ContractRetrieveResponse {
         type: 'POSTPAID_COMMIT_TRUEUP';
       }
 
-      export interface UnionMember10 {
+      export interface PrepaidCommitManualLedgerEntry {
         amount: number;
 
         reason: string;
@@ -561,7 +503,7 @@ export namespace ContractRetrieveResponse {
         type: 'PREPAID_COMMIT_MANUAL';
       }
 
-      export interface UnionMember11 {
+      export interface PostpaidCommitManualLedgerEntry {
         amount: number;
 
         reason: string;
@@ -571,7 +513,7 @@ export namespace ContractRetrieveResponse {
         type: 'POSTPAID_COMMIT_MANUAL';
       }
 
-      export interface UnionMember12 {
+      export interface PostpaidCommitExpirationLedgerEntry {
         amount: number;
 
         timestamp: string;
@@ -661,7 +603,7 @@ export namespace ContractRetrieveResponse {
       export interface OverwriteRate {
         rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
-        credit_type?: OverwriteRate.CreditType;
+        credit_type?: Shared.CreditTypeData;
 
         /**
          * Only set for CUSTOM rate_type. This field is interpreted by custom rate
@@ -689,85 +631,13 @@ export namespace ContractRetrieveResponse {
         /**
          * Only set for TIERED rate_type.
          */
-        tiers?: Array<OverwriteRate.Tier>;
-      }
-
-      export namespace OverwriteRate {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface Tier {
-          price: number;
-
-          size?: number;
-        }
+        tiers?: Array<Shared.Tier>;
       }
 
       export interface Product {
         id: string;
 
         name: string;
-      }
-    }
-
-    export interface ScheduledCharge {
-      id: string;
-
-      product: ScheduledCharge.Product;
-
-      schedule: ScheduledCharge.Schedule;
-
-      archived_at?: string;
-
-      custom_fields?: { [key: string]: string };
-
-      /**
-       * displayed on invoices
-       */
-      name?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
-    }
-
-    export namespace ScheduledCharge {
-      export interface Product {
-        id: string;
-
-        name: string;
-      }
-
-      export interface Schedule {
-        credit_type?: Schedule.CreditType;
-
-        schedule_items?: Array<Schedule.ScheduleItem>;
-      }
-
-      export namespace Schedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          invoice_id: string;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-        }
       }
     }
 
@@ -816,7 +686,7 @@ export namespace ContractRetrieveResponse {
       /**
        * The schedule that the customer will gain access to the credits.
        */
-      access_schedule?: Credit.AccessSchedule;
+      access_schedule?: Shared.ScheduleDuration;
 
       applicable_contract_ids?: Array<string>;
 
@@ -847,12 +717,12 @@ export namespace ContractRetrieveResponse {
        * invoice deduction or an expiration.
        */
       ledger?: Array<
-        | Credit.UnionMember0
-        | Credit.UnionMember1
-        | Credit.UnionMember2
-        | Credit.UnionMember3
-        | Credit.UnionMember4
-        | Credit.UnionMember5
+        | Credit.CreditSegmentStartLedgerEntry
+        | Credit.CreditAutomatedInvoiceDeductionLedgerEntry
+        | Credit.CreditExpirationLedgerEntry
+        | Credit.CreditCanceledLedgerEntry
+        | Credit.CreditCreditedLedgerEntry
+        | Credit.CreditManualLedgerEntry
       >;
 
       name?: string;
@@ -888,38 +758,11 @@ export namespace ContractRetrieveResponse {
         name: string;
       }
 
-      /**
-       * The schedule that the customer will gain access to the credits.
-       */
-      export interface AccessSchedule {
-        schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-        credit_type?: AccessSchedule.CreditType;
-      }
-
-      export namespace AccessSchedule {
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          ending_before: string;
-
-          starting_at: string;
-        }
-
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-      }
-
       export interface Contract {
         id: string;
       }
 
-      export interface UnionMember0 {
+      export interface CreditSegmentStartLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -929,7 +772,7 @@ export namespace ContractRetrieveResponse {
         type: 'CREDIT_SEGMENT_START';
       }
 
-      export interface UnionMember1 {
+      export interface CreditAutomatedInvoiceDeductionLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -941,7 +784,7 @@ export namespace ContractRetrieveResponse {
         type: 'CREDIT_AUTOMATED_INVOICE_DEDUCTION';
       }
 
-      export interface UnionMember2 {
+      export interface CreditExpirationLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -951,7 +794,7 @@ export namespace ContractRetrieveResponse {
         type: 'CREDIT_EXPIRATION';
       }
 
-      export interface UnionMember3 {
+      export interface CreditCanceledLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -963,7 +806,7 @@ export namespace ContractRetrieveResponse {
         type: 'CREDIT_CANCELED';
       }
 
-      export interface UnionMember4 {
+      export interface CreditCreditedLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -975,7 +818,7 @@ export namespace ContractRetrieveResponse {
         type: 'CREDIT_CREDITED';
       }
 
-      export interface UnionMember5 {
+      export interface CreditManualLedgerEntry {
         amount: number;
 
         reason: string;
@@ -1018,59 +861,6 @@ export namespace ContractRetrieveResponse {
         | 'gcp_marketplace';
 
       delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
-    }
-
-    export interface Discount {
-      id: string;
-
-      product: Discount.Product;
-
-      schedule: Discount.Schedule;
-
-      custom_fields?: { [key: string]: string };
-
-      name?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
-    }
-
-    export namespace Discount {
-      export interface Product {
-        id: string;
-
-        name: string;
-      }
-
-      export interface Schedule {
-        credit_type?: Schedule.CreditType;
-
-        schedule_items?: Array<Schedule.ScheduleItem>;
-      }
-
-      export namespace Schedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          invoice_id: string;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-        }
-      }
     }
 
     export interface PrepaidBalanceThresholdConfiguration {
@@ -1187,38 +977,6 @@ export namespace ContractRetrieveResponse {
           payment_type: 'INVOICE' | 'PAYMENT_INTENT';
         }
       }
-    }
-
-    export interface ProfessionalService {
-      id: string;
-
-      /**
-       * Maximum amount for the term.
-       */
-      max_amount: number;
-
-      product_id: string;
-
-      /**
-       * Quantity for the charge. Will be multiplied by unit_price to determine the
-       * amount.
-       */
-      quantity: number;
-
-      /**
-       * Unit price for the charge. Will be multiplied by quantity to determine the
-       * amount and must be specified.
-       */
-      unit_price: number;
-
-      custom_fields?: { [key: string]: string };
-
-      description?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
     }
 
     export interface RecurringCommit {
@@ -1706,7 +1464,7 @@ export namespace ContractListResponse {
 
     overrides: Array<Data.Override>;
 
-    scheduled_charges: Array<Data.ScheduledCharge>;
+    scheduled_charges: Array<Shared.ScheduledCharge>;
 
     starting_at: string;
 
@@ -1730,7 +1488,7 @@ export namespace ContractListResponse {
     /**
      * This field's availability is dependent on your client's configuration.
      */
-    discounts?: Array<Data.Discount>;
+    discounts?: Array<Shared.Discount>;
 
     ending_before?: string;
 
@@ -1756,7 +1514,7 @@ export namespace ContractListResponse {
     /**
      * This field's availability is dependent on your client's configuration.
      */
-    professional_services?: Array<Data.ProfessionalService>;
+    professional_services?: Array<Shared.ProService>;
 
     rate_card_id?: string;
 
@@ -1812,7 +1570,7 @@ export namespace ContractListResponse {
        * The schedule that the customer will gain access to the credits purposed with
        * this commit.
        */
-      access_schedule?: Commit.AccessSchedule;
+      access_schedule?: Shared.ScheduleDuration;
 
       applicable_contract_ids?: Array<string>;
 
@@ -1848,26 +1606,26 @@ export namespace ContractListResponse {
       /**
        * The schedule that the customer will be invoiced for this commit.
        */
-      invoice_schedule?: Commit.InvoiceSchedule;
+      invoice_schedule?: Shared.SchedulePointInTime;
 
       /**
        * A list of ordered events that impact the balance of a commit. For example, an
        * invoice deduction or a rollover.
        */
       ledger?: Array<
-        | Commit.UnionMember0
-        | Commit.UnionMember1
-        | Commit.UnionMember2
-        | Commit.UnionMember3
-        | Commit.UnionMember4
-        | Commit.UnionMember5
-        | Commit.UnionMember6
-        | Commit.UnionMember7
-        | Commit.UnionMember8
-        | Commit.UnionMember9
-        | Commit.UnionMember10
-        | Commit.UnionMember11
-        | Commit.UnionMember12
+        | Commit.PrepaidCommitSegmentStartLedgerEntry
+        | Commit.PrepaidCommitAutomatedInvoiceDeductionLedgerEntry
+        | Commit.PrepaidCommitRolloverLedgerEntry
+        | Commit.PrepaidCommitExpirationLedgerEntry
+        | Commit.PrepaidCommitCanceledLedgerEntry
+        | Commit.PrepaidCommitCreditedLedgerEntry
+        | Commit.PostpaidCommitInitialBalanceLedgerEntry
+        | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry
+        | Commit.PostpaidCommitRolloverLedgerEntry
+        | Commit.PostpaidCommitTrueupLedgerEntry
+        | Commit.PrepaidCommitManualLedgerEntry
+        | Commit.PostpaidCommitManualLedgerEntry
+        | Commit.PostpaidCommitExpirationLedgerEntry
       >;
 
       name?: string;
@@ -1909,34 +1667,6 @@ export namespace ContractListResponse {
         name: string;
       }
 
-      /**
-       * The schedule that the customer will gain access to the credits purposed with
-       * this commit.
-       */
-      export interface AccessSchedule {
-        schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-        credit_type?: AccessSchedule.CreditType;
-      }
-
-      export namespace AccessSchedule {
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          ending_before: string;
-
-          starting_at: string;
-        }
-
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-      }
-
       export interface Contract {
         id: string;
       }
@@ -1948,38 +1678,7 @@ export namespace ContractListResponse {
         id: string;
       }
 
-      /**
-       * The schedule that the customer will be invoiced for this commit.
-       */
-      export interface InvoiceSchedule {
-        credit_type?: InvoiceSchedule.CreditType;
-
-        schedule_items?: Array<InvoiceSchedule.ScheduleItem>;
-      }
-
-      export namespace InvoiceSchedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          invoice_id: string;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-        }
-      }
-
-      export interface UnionMember0 {
+      export interface PrepaidCommitSegmentStartLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -1989,7 +1688,7 @@ export namespace ContractListResponse {
         type: 'PREPAID_COMMIT_SEGMENT_START';
       }
 
-      export interface UnionMember1 {
+      export interface PrepaidCommitAutomatedInvoiceDeductionLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2001,7 +1700,7 @@ export namespace ContractListResponse {
         type: 'PREPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION';
       }
 
-      export interface UnionMember2 {
+      export interface PrepaidCommitRolloverLedgerEntry {
         amount: number;
 
         new_contract_id: string;
@@ -2013,7 +1712,7 @@ export namespace ContractListResponse {
         type: 'PREPAID_COMMIT_ROLLOVER';
       }
 
-      export interface UnionMember3 {
+      export interface PrepaidCommitExpirationLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -2023,7 +1722,7 @@ export namespace ContractListResponse {
         type: 'PREPAID_COMMIT_EXPIRATION';
       }
 
-      export interface UnionMember4 {
+      export interface PrepaidCommitCanceledLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2035,7 +1734,7 @@ export namespace ContractListResponse {
         type: 'PREPAID_COMMIT_CANCELED';
       }
 
-      export interface UnionMember5 {
+      export interface PrepaidCommitCreditedLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2047,7 +1746,7 @@ export namespace ContractListResponse {
         type: 'PREPAID_COMMIT_CREDITED';
       }
 
-      export interface UnionMember6 {
+      export interface PostpaidCommitInitialBalanceLedgerEntry {
         amount: number;
 
         timestamp: string;
@@ -2055,7 +1754,7 @@ export namespace ContractListResponse {
         type: 'POSTPAID_COMMIT_INITIAL_BALANCE';
       }
 
-      export interface UnionMember7 {
+      export interface PostpaidCommitAutomatedInvoiceDeductionLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2067,7 +1766,7 @@ export namespace ContractListResponse {
         type: 'POSTPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION';
       }
 
-      export interface UnionMember8 {
+      export interface PostpaidCommitRolloverLedgerEntry {
         amount: number;
 
         new_contract_id: string;
@@ -2079,7 +1778,7 @@ export namespace ContractListResponse {
         type: 'POSTPAID_COMMIT_ROLLOVER';
       }
 
-      export interface UnionMember9 {
+      export interface PostpaidCommitTrueupLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2089,7 +1788,7 @@ export namespace ContractListResponse {
         type: 'POSTPAID_COMMIT_TRUEUP';
       }
 
-      export interface UnionMember10 {
+      export interface PrepaidCommitManualLedgerEntry {
         amount: number;
 
         reason: string;
@@ -2099,7 +1798,7 @@ export namespace ContractListResponse {
         type: 'PREPAID_COMMIT_MANUAL';
       }
 
-      export interface UnionMember11 {
+      export interface PostpaidCommitManualLedgerEntry {
         amount: number;
 
         reason: string;
@@ -2109,7 +1808,7 @@ export namespace ContractListResponse {
         type: 'POSTPAID_COMMIT_MANUAL';
       }
 
-      export interface UnionMember12 {
+      export interface PostpaidCommitExpirationLedgerEntry {
         amount: number;
 
         timestamp: string;
@@ -2199,7 +1898,7 @@ export namespace ContractListResponse {
       export interface OverwriteRate {
         rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
-        credit_type?: OverwriteRate.CreditType;
+        credit_type?: Shared.CreditTypeData;
 
         /**
          * Only set for CUSTOM rate_type. This field is interpreted by custom rate
@@ -2227,85 +1926,13 @@ export namespace ContractListResponse {
         /**
          * Only set for TIERED rate_type.
          */
-        tiers?: Array<OverwriteRate.Tier>;
-      }
-
-      export namespace OverwriteRate {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface Tier {
-          price: number;
-
-          size?: number;
-        }
+        tiers?: Array<Shared.Tier>;
       }
 
       export interface Product {
         id: string;
 
         name: string;
-      }
-    }
-
-    export interface ScheduledCharge {
-      id: string;
-
-      product: ScheduledCharge.Product;
-
-      schedule: ScheduledCharge.Schedule;
-
-      archived_at?: string;
-
-      custom_fields?: { [key: string]: string };
-
-      /**
-       * displayed on invoices
-       */
-      name?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
-    }
-
-    export namespace ScheduledCharge {
-      export interface Product {
-        id: string;
-
-        name: string;
-      }
-
-      export interface Schedule {
-        credit_type?: Schedule.CreditType;
-
-        schedule_items?: Array<Schedule.ScheduleItem>;
-      }
-
-      export namespace Schedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          invoice_id: string;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-        }
       }
     }
 
@@ -2354,7 +1981,7 @@ export namespace ContractListResponse {
       /**
        * The schedule that the customer will gain access to the credits.
        */
-      access_schedule?: Credit.AccessSchedule;
+      access_schedule?: Shared.ScheduleDuration;
 
       applicable_contract_ids?: Array<string>;
 
@@ -2385,12 +2012,12 @@ export namespace ContractListResponse {
        * invoice deduction or an expiration.
        */
       ledger?: Array<
-        | Credit.UnionMember0
-        | Credit.UnionMember1
-        | Credit.UnionMember2
-        | Credit.UnionMember3
-        | Credit.UnionMember4
-        | Credit.UnionMember5
+        | Credit.CreditSegmentStartLedgerEntry
+        | Credit.CreditAutomatedInvoiceDeductionLedgerEntry
+        | Credit.CreditExpirationLedgerEntry
+        | Credit.CreditCanceledLedgerEntry
+        | Credit.CreditCreditedLedgerEntry
+        | Credit.CreditManualLedgerEntry
       >;
 
       name?: string;
@@ -2426,38 +2053,11 @@ export namespace ContractListResponse {
         name: string;
       }
 
-      /**
-       * The schedule that the customer will gain access to the credits.
-       */
-      export interface AccessSchedule {
-        schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-        credit_type?: AccessSchedule.CreditType;
-      }
-
-      export namespace AccessSchedule {
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          ending_before: string;
-
-          starting_at: string;
-        }
-
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-      }
-
       export interface Contract {
         id: string;
       }
 
-      export interface UnionMember0 {
+      export interface CreditSegmentStartLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -2467,7 +2067,7 @@ export namespace ContractListResponse {
         type: 'CREDIT_SEGMENT_START';
       }
 
-      export interface UnionMember1 {
+      export interface CreditAutomatedInvoiceDeductionLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2479,7 +2079,7 @@ export namespace ContractListResponse {
         type: 'CREDIT_AUTOMATED_INVOICE_DEDUCTION';
       }
 
-      export interface UnionMember2 {
+      export interface CreditExpirationLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -2489,7 +2089,7 @@ export namespace ContractListResponse {
         type: 'CREDIT_EXPIRATION';
       }
 
-      export interface UnionMember3 {
+      export interface CreditCanceledLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2501,7 +2101,7 @@ export namespace ContractListResponse {
         type: 'CREDIT_CANCELED';
       }
 
-      export interface UnionMember4 {
+      export interface CreditCreditedLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2513,7 +2113,7 @@ export namespace ContractListResponse {
         type: 'CREDIT_CREDITED';
       }
 
-      export interface UnionMember5 {
+      export interface CreditManualLedgerEntry {
         amount: number;
 
         reason: string;
@@ -2556,59 +2156,6 @@ export namespace ContractListResponse {
         | 'gcp_marketplace';
 
       delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
-    }
-
-    export interface Discount {
-      id: string;
-
-      product: Discount.Product;
-
-      schedule: Discount.Schedule;
-
-      custom_fields?: { [key: string]: string };
-
-      name?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
-    }
-
-    export namespace Discount {
-      export interface Product {
-        id: string;
-
-        name: string;
-      }
-
-      export interface Schedule {
-        credit_type?: Schedule.CreditType;
-
-        schedule_items?: Array<Schedule.ScheduleItem>;
-      }
-
-      export namespace Schedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          invoice_id: string;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-        }
-      }
     }
 
     export interface PrepaidBalanceThresholdConfiguration {
@@ -2725,38 +2272,6 @@ export namespace ContractListResponse {
           payment_type: 'INVOICE' | 'PAYMENT_INTENT';
         }
       }
-    }
-
-    export interface ProfessionalService {
-      id: string;
-
-      /**
-       * Maximum amount for the term.
-       */
-      max_amount: number;
-
-      product_id: string;
-
-      /**
-       * Quantity for the charge. Will be multiplied by unit_price to determine the
-       * amount.
-       */
-      quantity: number;
-
-      /**
-       * Unit price for the charge. Will be multiplied by quantity to determine the
-       * amount and must be specified.
-       */
-      unit_price: number;
-
-      custom_fields?: { [key: string]: string };
-
-      description?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
     }
 
     export interface RecurringCommit {
@@ -3227,33 +2742,15 @@ export namespace ContractListResponse {
 }
 
 export interface ContractEditResponse {
-  data: ContractEditResponse.Data;
-}
-
-export namespace ContractEditResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface ContractEditCommitResponse {
-  data: ContractEditCommitResponse.Data;
-}
-
-export namespace ContractEditCommitResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface ContractEditCreditResponse {
-  data: ContractEditCreditResponse.Data;
-}
-
-export namespace ContractEditCreditResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface ContractGetEditHistoryResponse {
@@ -3268,13 +2765,13 @@ export namespace ContractGetEditHistoryResponse {
 
     add_credits?: Array<Data.AddCredit>;
 
-    add_discounts?: Array<Data.AddDiscount>;
+    add_discounts?: Array<Shared.Discount>;
 
     add_overrides?: Array<Data.AddOverride>;
 
     add_prepaid_balance_threshold_configuration?: Data.AddPrepaidBalanceThresholdConfiguration;
 
-    add_pro_services?: Array<Data.AddProService>;
+    add_pro_services?: Array<Shared.ProService>;
 
     add_recurring_commits?: Array<Data.AddRecurringCommit>;
 
@@ -3341,7 +2838,7 @@ export namespace ContractGetEditHistoryResponse {
        * The schedule that the customer will gain access to the credits purposed with
        * this commit.
        */
-      access_schedule?: AddCommit.AccessSchedule;
+      access_schedule?: Shared.ScheduleDuration;
 
       applicable_product_ids?: Array<string>;
 
@@ -3352,7 +2849,7 @@ export namespace ContractGetEditHistoryResponse {
       /**
        * The schedule that the customer will be invoiced for this commit.
        */
-      invoice_schedule?: AddCommit.InvoiceSchedule;
+      invoice_schedule?: Shared.SchedulePointInTime;
 
       name?: string;
 
@@ -3392,65 +2889,6 @@ export namespace ContractGetEditHistoryResponse {
         name: string;
       }
 
-      /**
-       * The schedule that the customer will gain access to the credits purposed with
-       * this commit.
-       */
-      export interface AccessSchedule {
-        schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-        credit_type?: AccessSchedule.CreditType;
-      }
-
-      export namespace AccessSchedule {
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          ending_before: string;
-
-          starting_at: string;
-        }
-
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-      }
-
-      /**
-       * The schedule that the customer will be invoiced for this commit.
-       */
-      export interface InvoiceSchedule {
-        credit_type?: InvoiceSchedule.CreditType;
-
-        schedule_items?: Array<InvoiceSchedule.ScheduleItem>;
-      }
-
-      export namespace InvoiceSchedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          invoice_id: string;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-        }
-      }
-
       export interface Specifier {
         presentation_group_values?: { [key: string]: string };
 
@@ -3479,7 +2917,7 @@ export namespace ContractGetEditHistoryResponse {
       /**
        * The schedule that the customer will gain access to the credits.
        */
-      access_schedule?: AddCredit.AccessSchedule;
+      access_schedule?: Shared.ScheduleDuration;
 
       applicable_product_ids?: Array<string>;
 
@@ -3521,33 +2959,6 @@ export namespace ContractGetEditHistoryResponse {
         name: string;
       }
 
-      /**
-       * The schedule that the customer will gain access to the credits.
-       */
-      export interface AccessSchedule {
-        schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-        credit_type?: AccessSchedule.CreditType;
-      }
-
-      export namespace AccessSchedule {
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          ending_before: string;
-
-          starting_at: string;
-        }
-
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-      }
-
       export interface Specifier {
         presentation_group_values?: { [key: string]: string };
 
@@ -3563,59 +2974,6 @@ export namespace ContractGetEditHistoryResponse {
          * tags.
          */
         product_tags?: Array<string>;
-      }
-    }
-
-    export interface AddDiscount {
-      id: string;
-
-      product: AddDiscount.Product;
-
-      schedule: AddDiscount.Schedule;
-
-      custom_fields?: { [key: string]: string };
-
-      name?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
-    }
-
-    export namespace AddDiscount {
-      export interface Product {
-        id: string;
-
-        name: string;
-      }
-
-      export interface Schedule {
-        credit_type?: Schedule.CreditType;
-
-        schedule_items?: Array<Schedule.ScheduleItem>;
-      }
-
-      export namespace Schedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          invoice_id: string;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-        }
       }
     }
 
@@ -3677,7 +3035,7 @@ export namespace ContractGetEditHistoryResponse {
       export interface OverwriteRate {
         rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
-        credit_type?: OverwriteRate.CreditType;
+        credit_type?: Shared.CreditTypeData;
 
         /**
          * Only set for CUSTOM rate_type. This field is interpreted by custom rate
@@ -3705,21 +3063,7 @@ export namespace ContractGetEditHistoryResponse {
         /**
          * Only set for TIERED rate_type.
          */
-        tiers?: Array<OverwriteRate.Tier>;
-      }
-
-      export namespace OverwriteRate {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface Tier {
-          price: number;
-
-          size?: number;
-        }
+        tiers?: Array<Shared.Tier>;
       }
 
       export interface Product {
@@ -3843,38 +3187,6 @@ export namespace ContractGetEditHistoryResponse {
           payment_type: 'INVOICE' | 'PAYMENT_INTENT';
         }
       }
-    }
-
-    export interface AddProService {
-      id: string;
-
-      /**
-       * Maximum amount for the term.
-       */
-      max_amount: number;
-
-      product_id: string;
-
-      /**
-       * Quantity for the charge. Will be multiplied by unit_price to determine the
-       * amount.
-       */
-      quantity: number;
-
-      /**
-       * Unit price for the charge. Will be multiplied by quantity to determine the
-       * amount and must be specified.
-       */
-      unit_price: number;
-
-      custom_fields?: { [key: string]: string };
-
-      description?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
     }
 
     export interface AddRecurringCommit {
@@ -4210,7 +3522,7 @@ export namespace ContractGetEditHistoryResponse {
 
       product: AddScheduledCharge.Product;
 
-      schedule: AddScheduledCharge.Schedule;
+      schedule: Shared.SchedulePointInTime;
 
       /**
        * displayed on invoices
@@ -4228,34 +3540,6 @@ export namespace ContractGetEditHistoryResponse {
         id: string;
 
         name: string;
-      }
-
-      export interface Schedule {
-        credit_type?: Schedule.CreditType;
-
-        schedule_items?: Array<Schedule.ScheduleItem>;
-      }
-
-      export namespace Schedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          invoice_id: string;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-        }
       }
     }
 
@@ -4455,7 +3739,7 @@ export namespace ContractGetEditHistoryResponse {
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
        */
-      specifiers?: Array<UpdateCommit.Specifier>;
+      specifiers?: Array<UpdateCommit.Specifier> | null;
     }
 
     export namespace UpdateCommit {
@@ -4757,13 +4041,13 @@ export namespace ContractGetEditHistoryResponse {
          * and applicable_product_tags are not provided, the commit applies to all
          * products.
          */
-        applicable_product_ids?: Array<string>;
+        applicable_product_ids?: Array<string> | null;
 
         /**
          * Which tags the threshold commit applies to. If both applicable_product_ids and
          * applicable_product_tags are not provided, the commit applies to all products.
          */
-        applicable_product_tags?: Array<string>;
+        applicable_product_tags?: Array<string> | null;
 
         description?: string;
 
@@ -4785,7 +4069,7 @@ export namespace ContractGetEditHistoryResponse {
          * specifiers to contribute to a commit's or credit's drawdown. This field cannot
          * be used together with `applicable_product_ids` or `applicable_product_tags`.
          */
-        specifiers?: Array<Commit.Specifier>;
+        specifiers?: Array<Commit.Specifier> | null;
       }
 
       export namespace Commit {
@@ -5831,15 +5115,7 @@ export namespace ContractEditParams {
       /**
        * Only set for TIERED rate_type.
        */
-      tiers?: Array<OverwriteRate.Tier>;
-    }
-
-    export namespace OverwriteRate {
-      export interface Tier {
-        price: number;
-
-        size?: number;
-      }
+      tiers?: Array<Shared.Tier>;
     }
 
     export interface Tier {
@@ -6785,13 +6061,13 @@ export namespace ContractEditParams {
        * and applicable_product_tags are not provided, the commit applies to all
        * products.
        */
-      applicable_product_ids?: Array<string>;
+      applicable_product_ids?: Array<string> | null;
 
       /**
        * Which tags the threshold commit applies to. If both applicable_product_ids and
        * applicable_product_tags are not provided, the commit applies to all products.
        */
-      applicable_product_tags?: Array<string>;
+      applicable_product_tags?: Array<string> | null;
 
       description?: string;
 
@@ -6813,7 +6089,7 @@ export namespace ContractEditParams {
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
        */
-      specifiers?: Array<Commit.Specifier>;
+      specifiers?: Array<Commit.Specifier> | null;
     }
 
     export namespace Commit {
@@ -7100,7 +6376,7 @@ export interface ContractEditCommitParams {
    * specifiers to contribute to a commit's or credit's drawdown. This field cannot
    * be used together with `applicable_product_ids` or `applicable_product_tags`.
    */
-  specifiers?: Array<ContractEditCommitParams.Specifier>;
+  specifiers?: Array<ContractEditCommitParams.Specifier> | null;
 }
 
 export namespace ContractEditCommitParams {
@@ -7223,7 +6499,7 @@ export interface ContractEditCreditParams {
    * specifiers to contribute to a commit's or credit's drawdown. This field cannot
    * be used together with `applicable_product_ids` or `applicable_product_tags`.
    */
-  specifiers?: Array<ContractEditCreditParams.Specifier>;
+  specifiers?: Array<ContractEditCreditParams.Specifier> | null;
 }
 
 export namespace ContractEditCreditParams {
