@@ -83,7 +83,7 @@ export const tool: Tool = {
       applicable_product_ids: {
         type: 'array',
         description:
-          'Which products the commit applies to. If both applicable_product_ids and applicable_product_tags are not provided, the commit applies to all products.',
+          'Which products the commit applies to. If applicable_product_ids, applicable_product_tags or specifiers are not provided, the commit applies to all products.',
         items: {
           type: 'string',
         },
@@ -91,7 +91,7 @@ export const tool: Tool = {
       applicable_product_tags: {
         type: 'array',
         description:
-          'Which tags the commit applies to. If both applicable_product_ids and applicable_product_tags are not provided, the commit applies to all products.',
+          'Which tags the commit applies to. If applicable_product_ids, applicable_product_tags or specifiers are not provided, the commit applies to all products.',
         items: {
           type: 'string',
         },
