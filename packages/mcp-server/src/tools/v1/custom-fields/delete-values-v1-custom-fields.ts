@@ -59,8 +59,8 @@ export const tool: Tool = {
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  await client.v1.customFields.deleteValues(body);
-  return asTextContentResult('Successful tool call');
+  const response = await client.v1.customFields.deleteValues(body).asResponse();
+  return asTextContentResult(await response.text());
 };
 
 export default { metadata, tool, handler };
