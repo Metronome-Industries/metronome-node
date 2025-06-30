@@ -198,6 +198,12 @@ export namespace ContractRetrieveResponse {
     ending_before?: string;
 
     /**
+     * Either a **parent** configuration with a list of children or a **child**
+     * configuration with a single parent.
+     */
+    hierarchy_configuration?: Data.ParentHierarchyConfiguration | Data.ChildHierarchyConfiguration;
+
+    /**
      * Defaults to LOWEST_MULTIPLIER, which applies the greatest discount to list
      * prices automatically. EXPLICIT prioritization requires specifying priorities for
      * each multiplier; the one with the lowest priority value will be prioritized
@@ -861,6 +867,39 @@ export namespace ContractRetrieveResponse {
         | 'gcp_marketplace';
 
       delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+    }
+
+    export interface ParentHierarchyConfiguration {
+      /**
+       * List of contracts that belong to this parent.
+       */
+      children: Array<ParentHierarchyConfiguration.Child>;
+    }
+
+    export namespace ParentHierarchyConfiguration {
+      export interface Child {
+        contract_id: string;
+
+        customer_id: string;
+      }
+    }
+
+    export interface ChildHierarchyConfiguration {
+      /**
+       * The single parent contract/customer for this child.
+       */
+      parent: ChildHierarchyConfiguration.Parent;
+    }
+
+    export namespace ChildHierarchyConfiguration {
+      /**
+       * The single parent contract/customer for this child.
+       */
+      export interface Parent {
+        contract_id: string;
+
+        customer_id: string;
+      }
     }
 
     export interface PrepaidBalanceThresholdConfiguration {
@@ -1494,6 +1533,12 @@ export namespace ContractListResponse {
     ending_before?: string;
 
     /**
+     * Either a **parent** configuration with a list of children or a **child**
+     * configuration with a single parent.
+     */
+    hierarchy_configuration?: Data.ParentHierarchyConfiguration | Data.ChildHierarchyConfiguration;
+
+    /**
      * Defaults to LOWEST_MULTIPLIER, which applies the greatest discount to list
      * prices automatically. EXPLICIT prioritization requires specifying priorities for
      * each multiplier; the one with the lowest priority value will be prioritized
@@ -2157,6 +2202,39 @@ export namespace ContractListResponse {
         | 'gcp_marketplace';
 
       delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+    }
+
+    export interface ParentHierarchyConfiguration {
+      /**
+       * List of contracts that belong to this parent.
+       */
+      children: Array<ParentHierarchyConfiguration.Child>;
+    }
+
+    export namespace ParentHierarchyConfiguration {
+      export interface Child {
+        contract_id: string;
+
+        customer_id: string;
+      }
+    }
+
+    export interface ChildHierarchyConfiguration {
+      /**
+       * The single parent contract/customer for this child.
+       */
+      parent: ChildHierarchyConfiguration.Parent;
+    }
+
+    export namespace ChildHierarchyConfiguration {
+      /**
+       * The single parent contract/customer for this child.
+       */
+      export interface Parent {
+        contract_id: string;
+
+        customer_id: string;
+      }
     }
 
     export interface PrepaidBalanceThresholdConfiguration {
