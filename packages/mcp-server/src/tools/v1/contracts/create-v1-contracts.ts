@@ -524,6 +524,24 @@ export const tool: Tool = {
         description: 'exclusive contract end time',
         format: 'date-time',
       },
+      hierarchy_configuration: {
+        type: 'object',
+        properties: {
+          parent: {
+            type: 'object',
+            properties: {
+              contract_id: {
+                type: 'string',
+              },
+              customer_id: {
+                type: 'string',
+              },
+            },
+            required: ['contract_id', 'customer_id'],
+          },
+        },
+        required: ['parent'],
+      },
       multiplier_override_prioritization: {
         type: 'string',
         description:
