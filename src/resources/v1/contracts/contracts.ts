@@ -1303,6 +1303,8 @@ export interface ContractCreateParams {
    */
   ending_before?: string;
 
+  hierarchy_configuration?: ContractCreateParams.HierarchyConfiguration;
+
   /**
    * Defaults to LOWEST_MULTIPLIER, which applies the greatest discount to list
    * prices automatically. EXPLICIT prioritization requires specifying priorities for
@@ -1892,6 +1894,18 @@ export namespace ContractCreateParams {
          */
         unit_price?: number;
       }
+    }
+  }
+
+  export interface HierarchyConfiguration {
+    parent: HierarchyConfiguration.Parent;
+  }
+
+  export namespace HierarchyConfiguration {
+    export interface Parent {
+      contract_id: string;
+
+      customer_id: string;
     }
   }
 
