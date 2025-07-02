@@ -1657,6 +1657,11 @@ export const tool: Tool = {
         description: 'RFC 3339 timestamp indicating when the contract will end (exclusive).',
         format: 'date-time',
       },
+      update_contract_name: {
+        type: 'string',
+        description:
+          'Value to update the contract name to. If not provided, the contract name will remain unchanged.',
+      },
       update_credits: {
         type: 'array',
         items: {

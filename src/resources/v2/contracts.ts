@@ -2884,6 +2884,12 @@ export namespace ContractGetEditHistoryResponse {
 
     update_contract_end_date?: string;
 
+    /**
+     * Value to update the contract name to. If not provided, the contract name will
+     * remain unchanged.
+     */
+    update_contract_name?: string | null;
+
     update_credits?: Array<Data.UpdateCredit>;
 
     update_discounts?: Array<Data.UpdateDiscount>;
@@ -4528,6 +4534,12 @@ export interface ContractEditParams {
    * RFC 3339 timestamp indicating when the contract will end (exclusive).
    */
   update_contract_end_date?: string | null;
+
+  /**
+   * Value to update the contract name to. If not provided, the contract name will
+   * remain unchanged.
+   */
+  update_contract_name?: string | null;
 
   update_credits?: Array<ContractEditParams.UpdateCredit>;
 
