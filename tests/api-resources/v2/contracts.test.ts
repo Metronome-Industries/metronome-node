@@ -438,6 +438,7 @@ describe('resource contracts', () => {
         },
       ],
       update_contract_end_date: '2019-12-27T18:11:19.117Z',
+      update_contract_name: 'update_contract_name',
       update_credits: [
         {
           credit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
