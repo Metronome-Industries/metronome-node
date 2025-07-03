@@ -223,6 +223,11 @@ export namespace ContractRetrieveResponse {
     prepaid_balance_threshold_configuration?: Data.PrepaidBalanceThresholdConfiguration;
 
     /**
+     * Priority of the contract.
+     */
+    priority?: number;
+
+    /**
      * This field's availability is dependent on your client's configuration.
      */
     professional_services?: Array<Shared.ProService>;
@@ -1556,6 +1561,11 @@ export namespace ContractListResponse {
     netsuite_sales_order_id?: string;
 
     prepaid_balance_threshold_configuration?: Data.PrepaidBalanceThresholdConfiguration;
+
+    /**
+     * Priority of the contract.
+     */
+    priority?: number;
 
     /**
      * This field's availability is dependent on your client's configuration.

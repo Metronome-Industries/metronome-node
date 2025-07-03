@@ -392,6 +392,11 @@ export namespace ContractRetrieveResponse {
     prepaid_balance_threshold_configuration?: Data.PrepaidBalanceThresholdConfiguration;
 
     /**
+     * Priority of the contract.
+     */
+    priority?: number;
+
+    /**
      * Determines which scheduled and commit charges to consolidate onto the Contract's
      * usage invoice. The charge's `timestamp` must match the usage invoice's
      * `ending_before` date for consolidation to occur. This field cannot be modified
@@ -788,6 +793,11 @@ export namespace ContractListResponse {
     customer_billing_provider_configuration?: Data.CustomerBillingProviderConfiguration;
 
     prepaid_balance_threshold_configuration?: Data.PrepaidBalanceThresholdConfiguration;
+
+    /**
+     * Priority of the contract.
+     */
+    priority?: number;
 
     /**
      * Determines which scheduled and commit charges to consolidate onto the Contract's
