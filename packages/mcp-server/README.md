@@ -208,6 +208,7 @@ The following tools are available in this MCP server.
 - `archive_v1_customers` (`write`): Archive a customer Note: any alerts associated with the customer will not be triggered.
 - `list_billable_metrics_v1_customers` (`read`): Get all billable metrics for a given customer.
 - `list_costs_v1_customers` (`read`): Fetch daily pending costs for the specified customer, broken down by credit type and line items. Note: this is not supported for customers whose plan includes a UNIQUE-type billable metric.
+- `preview_events_v1_customers` (`write`): Generates a draft invoice for a customer using their current contract configuration and the provided events. This is useful for testing how new events will affect the customer's invoice before they are actually processed.
 - `set_ingest_aliases_v1_customers` (`write`): Sets the ingest aliases for a customer. Ingest aliases can be used in the `customer_id` field when sending usage events to Metronome. This call is idempotent. It fully replaces the set of ingest aliases for the given customer.
 - `set_name_v1_customers` (`write`): Updates the specified customer's name.
 - `update_config_v1_customers` (`write`): Updates the specified customer's config.
