@@ -142,10 +142,8 @@ export {
   Usage,
   type UsageListResponse,
   type UsageListWithGroupsResponse,
-  type UsageSearchResponse,
   type UsageListParams,
   type UsageIngestParams,
   type UsageListWithGroupsParams,
-  type UsageSearchParams,
 } from './usage';
 export { V1 } from './v1';

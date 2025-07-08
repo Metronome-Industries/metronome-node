@@ -101,8 +101,6 @@ import {
   UsageListWithGroupsParams,
   UsageListWithGroupsResponse,
   UsageListWithGroupsResponsesCursorPage,
-  UsageSearchParams,
-  UsageSearchResponse,
 } from './usage';
 import * as ContractsAPI from './contracts/contracts';
 import {
@@ -286,12 +284,10 @@ export declare namespace V1 {
     Usage as Usage,
     type UsageListResponse as UsageListResponse,
     type UsageListWithGroupsResponse as UsageListWithGroupsResponse,
-    type UsageSearchResponse as UsageSearchResponse,
     UsageListWithGroupsResponsesCursorPage as UsageListWithGroupsResponsesCursorPage,
     type UsageListParams as UsageListParams,
     type UsageIngestParams as UsageIngestParams,
     type UsageListWithGroupsParams as UsageListWithGroupsParams,
-    type UsageSearchParams as UsageSearchParams,
   };
 
   export {

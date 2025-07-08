@@ -267,7 +267,6 @@ The following tools are available in this MCP server.
 - `list_v1_usage` (`write`): Fetch aggregated usage data for multiple customers and billable-metrics, broken into intervals of the specified length.
 - `ingest_v1_usage` (`write`): Send usage events to Metronome. The body of this request is expected to be a JSON array of between 1 and 100 usage events. Compressed request bodies are supported with a `Content-Encoding: gzip` header. See [Getting usage into Metronome](https://docs.metronome.com/connect-metronome/) to learn more about usage events.
 - `list_with_groups_v1_usage` (`write`): Fetch aggregated usage data for the specified customer, billable-metric, and optional group, broken into intervals of the specified length.
-- `search_v1_usage` (`write`): Find events to match to customers, billable metrics, etc. We only look for transactions that occurred in the last 34 days.
 
 ### Resource `v1.audit_logs`:
 

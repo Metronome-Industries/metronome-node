@@ -214,6 +214,7 @@ describe('resource contracts', () => {
         recharge_to_amount: 0,
         threshold_amount: 0,
       },
+      priority: 0,
       professional_services: [
         {
           max_amount: 0,
