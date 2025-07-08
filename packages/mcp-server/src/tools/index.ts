@@ -58,6 +58,7 @@ import get_embeddable_url_v1_dashboards from './v1/dashboards/get-embeddable-url
 import list_v1_usage from './v1/usage/list-v1-usage';
 import ingest_v1_usage from './v1/usage/ingest-v1-usage';
 import list_with_groups_v1_usage from './v1/usage/list-with-groups-v1-usage';
+import search_v1_usage from './v1/usage/search-v1-usage';
 import list_v1_audit_logs from './v1/audit-logs/list-v1-audit-logs';
 import add_key_v1_custom_fields from './v1/custom-fields/add-key-v1-custom-fields';
 import delete_values_v1_custom_fields from './v1/custom-fields/delete-values-v1-custom-fields';
@@ -165,6 +166,7 @@ addEndpoint(get_embeddable_url_v1_dashboards);
 addEndpoint(list_v1_usage);
 addEndpoint(ingest_v1_usage);
 addEndpoint(list_with_groups_v1_usage);
+addEndpoint(search_v1_usage);
 addEndpoint(list_v1_audit_logs);
 addEndpoint(add_key_v1_custom_fields);
 addEndpoint(delete_values_v1_custom_fields);

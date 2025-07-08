@@ -101,4 +101,19 @@ describe('resource usage', () => {
       starting_on: '2021-01-01T00:00:00Z',
     });
   });
+
+  test('search: only required params', async () => {
+    const responsePromise = client.v1.usage.search({ transactionIds: ['2021-01-01T00:00:00Z_cluster42'] });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('search: required and optional params', async () => {
+    const response = await client.v1.usage.search({ transactionIds: ['2021-01-01T00:00:00Z_cluster42'] });
+  });
 });
