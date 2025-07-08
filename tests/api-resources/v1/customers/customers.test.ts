@@ -162,6 +162,37 @@ describe('resource customers', () => {
     });
   });
 
+  test('previewEvents: only required params', async () => {
+    const responsePromise = client.v1.customers.previewEvents({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      events: [{ event_type: 'heartbeat' }],
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('previewEvents: required and optional params', async () => {
+    const response = await client.v1.customers.previewEvents({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      events: [
+        {
+          event_type: 'heartbeat',
+          customer_id: 'x',
+          properties: { cpu_hours: 'bar', memory_gb_hours: 'bar' },
+          timestamp: '2021-01-01T00:00:00Z',
+          transaction_id: 'x',
+        },
+      ],
+      mode: 'replace',
+      skip_zero_qty_line_items: true,
+    });
+  });
+
   test('setIngestAliases: only required params', async () => {
     const responsePromise = client.v1.customers.setIngestAliases({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
