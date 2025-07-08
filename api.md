@@ -243,12 +243,14 @@ Types:
 
 - <code><a href="./src/resources/v1/usage.ts">UsageListResponse</a></code>
 - <code><a href="./src/resources/v1/usage.ts">UsageListWithGroupsResponse</a></code>
+- <code><a href="./src/resources/v1/usage.ts">UsageSearchResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/usage">client.v1.usage.<a href="./src/resources/v1/usage.ts">list</a>({ ...params }) -> UsageListResponse</code>
 - <code title="post /v1/ingest">client.v1.usage.<a href="./src/resources/v1/usage.ts">ingest</a>([ ...usage ]) -> void</code>
 - <code title="post /v1/usage/groups">client.v1.usage.<a href="./src/resources/v1/usage.ts">listWithGroups</a>({ ...params }) -> UsageListWithGroupsResponsesCursorPage</code>
+- <code title="post /v1/events/search">client.v1.usage.<a href="./src/resources/v1/usage.ts">search</a>({ ...params }) -> UsageSearchResponse</code>
 
 ## AuditLogs
 
