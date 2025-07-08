@@ -851,6 +851,10 @@ export const tool: Tool = {
         },
         required: ['commit', 'is_enabled', 'payment_gate_config', 'recharge_to_amount', 'threshold_amount'],
       },
+      priority: {
+        type: 'number',
+        description: 'Priority of the contract.',
+      },
       professional_services: {
         type: 'array',
         description: "This field's availability is dependent on your client's configuration.",
