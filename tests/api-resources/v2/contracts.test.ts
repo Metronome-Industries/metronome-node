@@ -242,6 +242,7 @@ describe('resource contracts', () => {
         },
         recharge_to_amount: 0,
         threshold_amount: 0,
+        custom_credit_type_id: 'custom_credit_type_id',
       },
       add_professional_services: [
         {
@@ -482,6 +483,7 @@ describe('resource contracts', () => {
             },
           ],
         },
+        custom_credit_type_id: 'custom_credit_type_id',
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',

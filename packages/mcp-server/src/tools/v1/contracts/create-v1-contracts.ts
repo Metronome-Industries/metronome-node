@@ -848,6 +848,11 @@ export const tool: Tool = {
             description:
               "Specify the threshold amount for the contract. Each time the contract's prepaid balance lowers to this amount, a threshold charge will be initiated.",
           },
+          custom_credit_type_id: {
+            type: 'string',
+            description:
+              'If provided, the threshold, recharge-to amount, and the resulting threshold commit amount will be in terms of this credit type instead of the fiat currency.',
+          },
         },
         required: ['commit', 'is_enabled', 'payment_gate_config', 'recharge_to_amount', 'threshold_amount'],
       },

@@ -213,6 +213,7 @@ describe('resource contracts', () => {
         },
         recharge_to_amount: 0,
         threshold_amount: 0,
+        custom_credit_type_id: 'custom_credit_type_id',
       },
       priority: 0,
       professional_services: [
