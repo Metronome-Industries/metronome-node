@@ -466,6 +466,12 @@ export namespace ContractWithoutAmendments {
      * balance lowers to this amount, a threshold charge will be initiated.
      */
     threshold_amount: number;
+
+    /**
+     * If provided, the threshold, recharge-to amount, and the resulting threshold
+     * commit amount will be in terms of this credit type instead of the fiat currency.
+     */
+    custom_credit_type_id?: string;
   }
 
   export namespace PrepaidBalanceThresholdConfiguration {
