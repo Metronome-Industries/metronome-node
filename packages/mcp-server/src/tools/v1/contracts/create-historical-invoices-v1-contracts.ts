@@ -17,7 +17,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'create_historical_invoices_v1_contracts',
-  description: 'Creates historical usage invoices for a contract',
+  description:
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nCreates historical usage invoices for a contract",
   inputSchema: {
     type: 'object',
     properties: {

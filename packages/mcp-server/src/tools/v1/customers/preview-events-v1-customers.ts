@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'preview_events_v1_customers',
   description:
-    "Generates a draft invoice for a customer using their current contract configuration and the provided events. This is useful for testing how new events will affect the customer's invoice before they are actually processed.",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nGenerates a draft invoice for a customer using their current contract configuration and the provided events. This is useful for testing how new events will affect the customer's invoice before they are actually processed.",
   inputSchema: {
     type: 'object',
     properties: {
