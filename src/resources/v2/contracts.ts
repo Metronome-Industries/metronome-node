@@ -4134,7 +4134,7 @@ export namespace ContractGetEditHistoryResponse {
        * If provided, the threshold, recharge-to amount, and the resulting threshold
        * commit amount will be in terms of this credit type instead of the fiat currency.
        */
-      custom_credit_type_id?: string;
+      custom_credit_type_id?: string | null;
 
       /**
        * When set to false, the contract will not be evaluated against the
@@ -6179,7 +6179,7 @@ export namespace ContractEditParams {
      * If provided, the threshold, recharge-to amount, and the resulting threshold
      * commit amount will be in terms of this credit type instead of the fiat currency.
      */
-    custom_credit_type_id?: string;
+    custom_credit_type_id?: string | null;
 
     /**
      * When set to false, the contract will not be evaluated against the
