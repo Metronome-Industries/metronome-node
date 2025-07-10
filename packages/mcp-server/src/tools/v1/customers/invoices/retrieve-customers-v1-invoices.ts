@@ -17,7 +17,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'retrieve_customers_v1_invoices',
-  description: 'Fetch a specific invoice for a given customer.',
+  description:
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nFetch a specific invoice for a given customer.",
   inputSchema: {
     type: 'object',
     properties: {

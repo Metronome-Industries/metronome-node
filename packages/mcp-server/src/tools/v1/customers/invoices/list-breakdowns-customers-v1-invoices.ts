@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'list_breakdowns_customers_v1_invoices',
   description:
-    'List daily or hourly invoice breakdowns for a given customer, optionally filtered by status, date range, and/or credit type.\nImportant considerations:\n- If we receive backdated usage after an invoice has been finalized, the backdated usage will be included in the response and usage numbers may differ.',
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nList daily or hourly invoice breakdowns for a given customer, optionally filtered by status, date range, and/or credit type.\nImportant considerations:\n- If we receive backdated usage after an invoice has been finalized, the backdated usage will be included in the response and usage numbers may differ.",
   inputSchema: {
     type: 'object',
     properties: {
@@ -74,7 +74,8 @@ export const tool: Tool = {
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return asTextContentResult(await client.v1.customers.invoices.listBreakdowns(body));
+  const response = await client.v1.customers.invoices.listBreakdowns(body).asResponse();
+  return asTextContentResult(await response.json());
 };
 
 export default { metadata, tool, handler };
