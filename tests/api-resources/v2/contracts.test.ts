@@ -242,7 +242,7 @@ describe('resource contracts', () => {
         },
         recharge_to_amount: 0,
         threshold_amount: 0,
-        custom_credit_type_id: 'custom_credit_type_id',
+        custom_credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       },
       add_professional_services: [
         {
@@ -483,7 +483,7 @@ describe('resource contracts', () => {
             },
           ],
         },
-        custom_credit_type_id: 'custom_credit_type_id',
+        custom_credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',
