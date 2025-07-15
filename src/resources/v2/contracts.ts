@@ -25,8 +25,8 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * List all contracts for a customer. New clients should use this endpoint rather
-   * than the v1 endpoint.
+   * List all contracts for a customer in chronological order. New clients should use
+   * this endpoint rather than the v1 endpoint.
    *
    * @example
    * ```ts

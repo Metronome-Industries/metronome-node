@@ -170,7 +170,7 @@ The following tools are available in this MCP server.
 ### Resource `v2.contracts`:
 
 - `retrieve_v2_contracts` (`write`): Get a specific contract. New clients should use this endpoint rather than the v1 endpoint.
-- `list_v2_contracts` (`write`): List all contracts for a customer. New clients should use this endpoint rather than the v1 endpoint.
+- `list_v2_contracts` (`write`): List all contracts for a customer in chronological order. New clients should use this endpoint rather than the v1 endpoint.
 - `edit_v2_contracts` (`write`): Edit a contract. Contract editing must be enabled to use this endpoint.
 - `edit_commit_v2_contracts` (`write`): Edit a customer or contract commit. Contract commits can only be edited using this endpoint if contract editing is enabled.
 - `edit_credit_v2_contracts` (`write`): Edit a customer or contract credit. Contract credits can only be edited using this endpoint if contract editing is enabled.
