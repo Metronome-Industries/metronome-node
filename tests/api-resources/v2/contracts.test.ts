@@ -92,6 +92,7 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string'],
           custom_fields: { foo: 'string' },
           description: 'description',
+          hierarchy_configuration: { child_access: { type: 'ALL' } },
           invoice_schedule: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             recurring_schedule: {
@@ -145,6 +146,7 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string'],
           custom_fields: { foo: 'string' },
           description: 'description',
+          hierarchy_configuration: { child_access: { type: 'ALL' } },
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
@@ -418,6 +420,7 @@ describe('resource contracts', () => {
           },
           applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
           applicable_product_tags: ['string'],
+          hierarchy_configuration: { child_access: { type: 'ALL' } },
           invoice_schedule: {
             add_schedule_items: [
               { timestamp: '2019-12-27T18:11:19.117Z', amount: 0, quantity: 0, unit_price: 0 },
@@ -463,6 +466,7 @@ describe('resource contracts', () => {
           },
           applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
           applicable_product_tags: ['string'],
+          hierarchy_configuration: { child_access: { type: 'ALL' } },
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
         },

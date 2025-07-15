@@ -4643,6 +4643,11 @@ export namespace ContractEditParams {
     description?: string;
 
     /**
+     * Optional configuration for commit hierarchy access control
+     */
+    hierarchy_configuration?: AddCommit.HierarchyConfiguration;
+
+    /**
      * Required for "POSTPAID" commits: the true up invoice will be generated at this
      * time and only one schedule item is allowed; the total must match access_schedule
      * amount. Optional for "PREPAID" commits: if not provided, this will be a
@@ -4718,6 +4723,32 @@ export namespace ContractEditParams {
          * RFC 3339 timestamp (inclusive)
          */
         starting_at: string;
+      }
+    }
+
+    /**
+     * Optional configuration for commit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
       }
     }
 
@@ -4901,6 +4932,11 @@ export namespace ContractEditParams {
     description?: string;
 
     /**
+     * Optional configuration for credit hierarchy access control
+     */
+    hierarchy_configuration?: AddCredit.HierarchyConfiguration;
+
+    /**
      * displayed on invoices
      */
     name?: string;
@@ -4950,6 +4986,32 @@ export namespace ContractEditParams {
          * RFC 3339 timestamp (inclusive)
          */
         starting_at: string;
+      }
+    }
+
+    /**
+     * Optional configuration for credit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
       }
     }
 
@@ -6035,6 +6097,11 @@ export namespace ContractEditParams {
      */
     applicable_product_tags?: Array<string> | null;
 
+    /**
+     * Optional configuration for commit hierarchy access control
+     */
+    hierarchy_configuration?: UpdateCommit.HierarchyConfiguration;
+
     invoice_schedule?: UpdateCommit.InvoiceSchedule;
 
     netsuite_sales_order_id?: string | null;
@@ -6074,6 +6141,32 @@ export namespace ContractEditParams {
         ending_before?: string;
 
         starting_at?: string;
+      }
+    }
+
+    /**
+     * Optional configuration for commit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
       }
     }
 
@@ -6133,6 +6226,11 @@ export namespace ContractEditParams {
      */
     applicable_product_tags?: Array<string> | null;
 
+    /**
+     * Optional configuration for commit hierarchy access control
+     */
+    hierarchy_configuration?: UpdateCredit.HierarchyConfiguration;
+
     netsuite_sales_order_id?: string | null;
 
     product_id?: string;
@@ -6168,6 +6266,32 @@ export namespace ContractEditParams {
         ending_before?: string;
 
         starting_at?: string;
+      }
+    }
+
+    /**
+     * Optional configuration for commit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
       }
     }
   }

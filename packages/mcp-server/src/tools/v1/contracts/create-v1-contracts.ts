@@ -122,6 +122,53 @@ export const tool: Tool = {
               type: 'string',
               description: 'Used only in UI/API. It is not exposed to end customers.',
             },
+            hierarchy_configuration: {
+              type: 'object',
+              description: 'Optional configuration for commit hierarchy access control',
+              properties: {
+                child_access: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      properties: {
+                        type: {
+                          type: 'string',
+                          enum: ['ALL'],
+                        },
+                      },
+                      required: ['type'],
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        type: {
+                          type: 'string',
+                          enum: ['NONE'],
+                        },
+                      },
+                      required: ['type'],
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        contract_ids: {
+                          type: 'array',
+                          items: {
+                            type: 'string',
+                          },
+                        },
+                        type: {
+                          type: 'string',
+                          enum: ['CONTRACT_IDS'],
+                        },
+                      },
+                      required: ['contract_ids', 'type'],
+                    },
+                  ],
+                },
+              },
+              required: ['child_access'],
+            },
             invoice_schedule: {
               type: 'object',
               description:
@@ -359,6 +406,53 @@ export const tool: Tool = {
             description: {
               type: 'string',
               description: 'Used only in UI/API. It is not exposed to end customers.',
+            },
+            hierarchy_configuration: {
+              type: 'object',
+              description: 'Optional configuration for credit hierarchy access control',
+              properties: {
+                child_access: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      properties: {
+                        type: {
+                          type: 'string',
+                          enum: ['ALL'],
+                        },
+                      },
+                      required: ['type'],
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        type: {
+                          type: 'string',
+                          enum: ['NONE'],
+                        },
+                      },
+                      required: ['type'],
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        contract_ids: {
+                          type: 'array',
+                          items: {
+                            type: 'string',
+                          },
+                        },
+                        type: {
+                          type: 'string',
+                          enum: ['CONTRACT_IDS'],
+                        },
+                      },
+                      required: ['contract_ids', 'type'],
+                    },
+                  ],
+                },
+              },
+              required: ['child_access'],
             },
             name: {
               type: 'string',
