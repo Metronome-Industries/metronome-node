@@ -249,14 +249,36 @@ export const tool: Tool = {
                     'Gate access to the commit balance based on successful collection of payment. Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to facilitate payment using your own payment integration. Select NONE if you do not wish to payment gate the commit balance.',
                   enum: ['NONE', 'STRIPE', 'EXTERNAL'],
                 },
+                precalculated_tax_config: {
+                  type: 'object',
+                  description: 'Only applicable if using PRECALCULATED as your tax type.',
+                  properties: {
+                    tax_amount: {
+                      type: 'number',
+                      description:
+                        "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
+                    },
+                    tax_name: {
+                      type: 'string',
+                      description:
+                        'Name of the tax to be applied. This may be used in an invoice line item description.',
+                    },
+                  },
+                  required: ['tax_amount'],
+                },
                 stripe_config: {
                   type: 'object',
-                  description: 'Only applicable if using Stripe as your payment gateway through Metronome.',
+                  description: 'Only applicable if using STRIPE as your payment gateway type.',
                   properties: {
                     payment_type: {
                       type: 'string',
                       description: 'If left blank, will default to INVOICE',
                       enum: ['INVOICE', 'PAYMENT_INTENT'],
+                    },
+                    invoice_metadata: {
+                      type: 'object',
+                      description:
+                        'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
                     },
                   },
                   required: ['payment_type'],
@@ -264,8 +286,8 @@ export const tool: Tool = {
                 tax_type: {
                   type: 'string',
                   description:
-                    'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                  enum: ['NONE', 'STRIPE'],
+                    'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish  Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
+                  enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
                 },
               },
               required: ['payment_gate_type'],
@@ -846,14 +868,36 @@ export const tool: Tool = {
                   'Gate access to the commit balance based on successful collection of payment. Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to facilitate payment using your own payment integration. Select NONE if you do not wish to payment gate the commit balance.',
                 enum: ['NONE', 'STRIPE', 'EXTERNAL'],
               },
+              precalculated_tax_config: {
+                type: 'object',
+                description: 'Only applicable if using PRECALCULATED as your tax type.',
+                properties: {
+                  tax_amount: {
+                    type: 'number',
+                    description:
+                      "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
+                  },
+                  tax_name: {
+                    type: 'string',
+                    description:
+                      'Name of the tax to be applied. This may be used in an invoice line item description.',
+                  },
+                },
+                required: ['tax_amount'],
+              },
               stripe_config: {
                 type: 'object',
-                description: 'Only applicable if using Stripe as your payment gateway through Metronome.',
+                description: 'Only applicable if using STRIPE as your payment gateway type.',
                 properties: {
                   payment_type: {
                     type: 'string',
                     description: 'If left blank, will default to INVOICE',
                     enum: ['INVOICE', 'PAYMENT_INTENT'],
+                  },
+                  invoice_metadata: {
+                    type: 'object',
+                    description:
+                      'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
                   },
                 },
                 required: ['payment_type'],
@@ -861,8 +905,8 @@ export const tool: Tool = {
               tax_type: {
                 type: 'string',
                 description:
-                  'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                enum: ['NONE', 'STRIPE'],
+                  'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish  Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
+                enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
               },
             },
             required: ['payment_gate_type'],
@@ -1431,14 +1475,36 @@ export const tool: Tool = {
                   'Gate access to the commit balance based on successful collection of payment. Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to facilitate payment using your own payment integration. Select NONE if you do not wish to payment gate the commit balance.',
                 enum: ['NONE', 'STRIPE', 'EXTERNAL'],
               },
+              precalculated_tax_config: {
+                type: 'object',
+                description: 'Only applicable if using PRECALCULATED as your tax type.',
+                properties: {
+                  tax_amount: {
+                    type: 'number',
+                    description:
+                      "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
+                  },
+                  tax_name: {
+                    type: 'string',
+                    description:
+                      'Name of the tax to be applied. This may be used in an invoice line item description.',
+                  },
+                },
+                required: ['tax_amount'],
+              },
               stripe_config: {
                 type: 'object',
-                description: 'Only applicable if using Stripe as your payment gateway through Metronome.',
+                description: 'Only applicable if using STRIPE as your payment gateway type.',
                 properties: {
                   payment_type: {
                     type: 'string',
                     description: 'If left blank, will default to INVOICE',
                     enum: ['INVOICE', 'PAYMENT_INTENT'],
+                  },
+                  invoice_metadata: {
+                    type: 'object',
+                    description:
+                      'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
                   },
                 },
                 required: ['payment_type'],
@@ -1446,8 +1512,8 @@ export const tool: Tool = {
               tax_type: {
                 type: 'string',
                 description:
-                  'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                enum: ['NONE', 'STRIPE'],
+                  'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish  Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
+                enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
               },
             },
             required: ['payment_gate_type'],
@@ -2037,14 +2103,36 @@ export const tool: Tool = {
                   'Gate access to the commit balance based on successful collection of payment. Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to facilitate payment using your own payment integration. Select NONE if you do not wish to payment gate the commit balance.',
                 enum: ['NONE', 'STRIPE', 'EXTERNAL'],
               },
+              precalculated_tax_config: {
+                type: 'object',
+                description: 'Only applicable if using PRECALCULATED as your tax type.',
+                properties: {
+                  tax_amount: {
+                    type: 'number',
+                    description:
+                      "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
+                  },
+                  tax_name: {
+                    type: 'string',
+                    description:
+                      'Name of the tax to be applied. This may be used in an invoice line item description.',
+                  },
+                },
+                required: ['tax_amount'],
+              },
               stripe_config: {
                 type: 'object',
-                description: 'Only applicable if using Stripe as your payment gateway through Metronome.',
+                description: 'Only applicable if using STRIPE as your payment gateway type.',
                 properties: {
                   payment_type: {
                     type: 'string',
                     description: 'If left blank, will default to INVOICE',
                     enum: ['INVOICE', 'PAYMENT_INTENT'],
+                  },
+                  invoice_metadata: {
+                    type: 'object',
+                    description:
+                      'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
                   },
                 },
                 required: ['payment_type'],
@@ -2052,8 +2140,8 @@ export const tool: Tool = {
               tax_type: {
                 type: 'string',
                 description:
-                  'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                enum: ['NONE', 'STRIPE'],
+                  'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish  Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
+                enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
               },
             },
             required: ['payment_gate_type'],
@@ -2258,14 +2346,36 @@ export const tool: Tool = {
                   'Gate access to the commit balance based on successful collection of payment. Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to facilitate payment using your own payment integration. Select NONE if you do not wish to payment gate the commit balance.',
                 enum: ['NONE', 'STRIPE', 'EXTERNAL'],
               },
+              precalculated_tax_config: {
+                type: 'object',
+                description: 'Only applicable if using PRECALCULATED as your tax type.',
+                properties: {
+                  tax_amount: {
+                    type: 'number',
+                    description:
+                      "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
+                  },
+                  tax_name: {
+                    type: 'string',
+                    description:
+                      'Name of the tax to be applied. This may be used in an invoice line item description.',
+                  },
+                },
+                required: ['tax_amount'],
+              },
               stripe_config: {
                 type: 'object',
-                description: 'Only applicable if using Stripe as your payment gateway through Metronome.',
+                description: 'Only applicable if using STRIPE as your payment gateway type.',
                 properties: {
                   payment_type: {
                     type: 'string',
                     description: 'If left blank, will default to INVOICE',
                     enum: ['INVOICE', 'PAYMENT_INTENT'],
+                  },
+                  invoice_metadata: {
+                    type: 'object',
+                    description:
+                      'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
                   },
                 },
                 required: ['payment_type'],
@@ -2273,8 +2383,8 @@ export const tool: Tool = {
               tax_type: {
                 type: 'string',
                 description:
-                  'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                enum: ['NONE', 'STRIPE'],
+                  'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish  Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
+                enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
               },
             },
             required: ['payment_gate_type'],

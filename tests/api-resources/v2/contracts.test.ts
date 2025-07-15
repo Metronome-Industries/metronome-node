@@ -112,7 +112,8 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           payment_gate_config: {
             payment_gate_type: 'NONE',
-            stripe_config: { payment_type: 'INVOICE' },
+            precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
+            stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
             tax_type: 'NONE',
           },
           priority: 0,
@@ -239,7 +240,8 @@ describe('resource contracts', () => {
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',
-          stripe_config: { payment_type: 'INVOICE' },
+          precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
+          stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
           tax_type: 'NONE',
         },
         recharge_to_amount: 0,
@@ -371,7 +373,8 @@ describe('resource contracts', () => {
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',
-          stripe_config: { payment_type: 'INVOICE' },
+          precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
+          stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
           tax_type: 'NONE',
         },
         threshold_amount: 0,
@@ -491,7 +494,8 @@ describe('resource contracts', () => {
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',
-          stripe_config: { payment_type: 'INVOICE' },
+          precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
+          stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
           tax_type: 'NONE',
         },
         recharge_to_amount: 0,
@@ -538,7 +542,8 @@ describe('resource contracts', () => {
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',
-          stripe_config: { payment_type: 'INVOICE' },
+          precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
+          stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
           tax_type: 'NONE',
         },
         threshold_amount: 0,

@@ -542,7 +542,12 @@ export namespace ContractWithoutAmendments {
       payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
 
       /**
-       * Only applicable if using Stripe as your payment gateway through Metronome.
+       * Only applicable if using PRECALCULATED as your tax type.
+       */
+      precalculated_tax_config?: PaymentGateConfig.PrecalculatedTaxConfig;
+
+      /**
+       * Only applicable if using STRIPE as your payment gate type.
        */
       stripe_config?: PaymentGateConfig.StripeConfig;
 
@@ -551,18 +556,41 @@ export namespace ContractWithoutAmendments {
        * not wish Metronome to calculate tax on your behalf. Leaving this field blank
        * will default to NONE.
        */
-      tax_type?: 'NONE' | 'STRIPE';
+      tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
     }
 
     export namespace PaymentGateConfig {
       /**
-       * Only applicable if using Stripe as your payment gateway through Metronome.
+       * Only applicable if using PRECALCULATED as your tax type.
+       */
+      export interface PrecalculatedTaxConfig {
+        /**
+         * Amount of tax to be applied. This should be in the same currency and
+         * denomination as the commit's invoice schedule
+         */
+        tax_amount: number;
+
+        /**
+         * Name of the tax to be applied. This may be used in an invoice line item
+         * description.
+         */
+        tax_name?: string;
+      }
+
+      /**
+       * Only applicable if using STRIPE as your payment gate type.
        */
       export interface StripeConfig {
         /**
          * If left blank, will default to INVOICE
          */
         payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+
+        /**
+         * Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as
+         * your payment type.
+         */
+        invoice_metadata?: { [key: string]: string };
       }
     }
   }
@@ -939,7 +967,12 @@ export namespace ContractWithoutAmendments {
       payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
 
       /**
-       * Only applicable if using Stripe as your payment gateway through Metronome.
+       * Only applicable if using PRECALCULATED as your tax type.
+       */
+      precalculated_tax_config?: PaymentGateConfig.PrecalculatedTaxConfig;
+
+      /**
+       * Only applicable if using STRIPE as your payment gate type.
        */
       stripe_config?: PaymentGateConfig.StripeConfig;
 
@@ -948,18 +981,41 @@ export namespace ContractWithoutAmendments {
        * not wish Metronome to calculate tax on your behalf. Leaving this field blank
        * will default to NONE.
        */
-      tax_type?: 'NONE' | 'STRIPE';
+      tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
     }
 
     export namespace PaymentGateConfig {
       /**
-       * Only applicable if using Stripe as your payment gateway through Metronome.
+       * Only applicable if using PRECALCULATED as your tax type.
+       */
+      export interface PrecalculatedTaxConfig {
+        /**
+         * Amount of tax to be applied. This should be in the same currency and
+         * denomination as the commit's invoice schedule
+         */
+        tax_amount: number;
+
+        /**
+         * Name of the tax to be applied. This may be used in an invoice line item
+         * description.
+         */
+        tax_name?: string;
+      }
+
+      /**
+       * Only applicable if using STRIPE as your payment gate type.
        */
       export interface StripeConfig {
         /**
          * If left blank, will default to INVOICE
          */
         payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+
+        /**
+         * Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as
+         * your payment type.
+         */
+        invoice_metadata?: { [key: string]: string };
       }
     }
   }
