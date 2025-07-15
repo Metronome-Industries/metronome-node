@@ -1473,6 +1473,11 @@ export namespace ContractCreateParams {
     description?: string;
 
     /**
+     * Optional configuration for commit hierarchy access control
+     */
+    hierarchy_configuration?: Commit.HierarchyConfiguration;
+
+    /**
      * Required for "POSTPAID" commits: the true up invoice will be generated at this
      * time and only one schedule item is allowed; the total must match access_schedule
      * amount. Optional for "PREPAID" commits: if not provided, this will be a
@@ -1551,6 +1556,32 @@ export namespace ContractCreateParams {
          * RFC 3339 timestamp (inclusive)
          */
         starting_at: string;
+      }
+    }
+
+    /**
+     * Optional configuration for commit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
       }
     }
 
@@ -1734,6 +1765,11 @@ export namespace ContractCreateParams {
     description?: string;
 
     /**
+     * Optional configuration for credit hierarchy access control
+     */
+    hierarchy_configuration?: Credit.HierarchyConfiguration;
+
+    /**
      * displayed on invoices
      */
     name?: string;
@@ -1786,6 +1822,32 @@ export namespace ContractCreateParams {
          * RFC 3339 timestamp (inclusive)
          */
         starting_at: string;
+      }
+    }
+
+    /**
+     * Optional configuration for credit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
       }
     }
 
@@ -3087,6 +3149,11 @@ export namespace ContractAmendParams {
     description?: string;
 
     /**
+     * Optional configuration for commit hierarchy access control
+     */
+    hierarchy_configuration?: Commit.HierarchyConfiguration;
+
+    /**
      * Required for "POSTPAID" commits: the true up invoice will be generated at this
      * time and only one schedule item is allowed; the total must match access_schedule
      * amount. Optional for "PREPAID" commits: if not provided, this will be a
@@ -3165,6 +3232,32 @@ export namespace ContractAmendParams {
          * RFC 3339 timestamp (inclusive)
          */
         starting_at: string;
+      }
+    }
+
+    /**
+     * Optional configuration for commit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
       }
     }
 
@@ -3348,6 +3441,11 @@ export namespace ContractAmendParams {
     description?: string;
 
     /**
+     * Optional configuration for credit hierarchy access control
+     */
+    hierarchy_configuration?: Credit.HierarchyConfiguration;
+
+    /**
      * displayed on invoices
      */
     name?: string;
@@ -3400,6 +3498,32 @@ export namespace ContractAmendParams {
          * RFC 3339 timestamp (inclusive)
          */
         starting_at: string;
+      }
+    }
+
+    /**
+     * Optional configuration for credit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
       }
     }
 
