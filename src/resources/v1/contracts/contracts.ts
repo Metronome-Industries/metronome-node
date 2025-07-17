@@ -1417,7 +1417,8 @@ export interface ContractCreateParams {
   starting_at: string;
 
   /**
-   * The billing provider configuration associated with a contract.
+   * The billing provider configuration associated with a contract. Provide either an
+   * ID or the provider and delivery method.
    */
   billing_provider_configuration?: ContractCreateParams.BillingProviderConfiguration;
 
@@ -1533,16 +1534,25 @@ export interface ContractCreateParams {
 
 export namespace ContractCreateParams {
   /**
-   * The billing provider configuration associated with a contract.
+   * The billing provider configuration associated with a contract. Provide either an
+   * ID or the provider and delivery method.
    */
   export interface BillingProviderConfiguration {
+    /**
+     * Do not specify if using billing_provider_configuration_id.
+     */
     billing_provider?: 'aws_marketplace' | 'azure_marketplace' | 'gcp_marketplace' | 'stripe' | 'netsuite';
 
     /**
-     * The Metronome ID of the billing provider configuration
+     * The Metronome ID of the billing provider configuration. Use when a customer has
+     * multiple configurations with the same billing provider and delivery method.
+     * Otherwise, specify the billing_provider and delivery_method.
      */
     billing_provider_configuration_id?: string;
 
+    /**
+     * Do not specify if using billing_provider_configuration_id.
+     */
     delivery_method?: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
   }
 

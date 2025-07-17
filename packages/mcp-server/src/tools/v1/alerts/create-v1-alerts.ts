@@ -66,6 +66,8 @@ export const tool: Tool = {
       },
       credit_type_id: {
         type: 'string',
+        description:
+          "ID of the credit's currency, defaults to USD. If the specific alert type requires a pricing unit/currency, find the ID in the [Metronome app](https://app.metronome.com/offering/pricing-units).",
       },
       custom_field_filters: {
         type: 'array',
