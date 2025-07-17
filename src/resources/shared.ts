@@ -1633,13 +1633,13 @@ export namespace SchedulePointInTime {
 
     amount: number;
 
-    invoice_id: string;
-
     quantity: number;
 
     timestamp: string;
 
     unit_price: number;
+
+    invoice_id?: string | null;
   }
 }
 
