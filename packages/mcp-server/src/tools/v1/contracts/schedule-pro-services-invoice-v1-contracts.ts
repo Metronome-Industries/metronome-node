@@ -89,6 +89,7 @@ export const tool: Tool = {
         format: 'date-time',
       },
     },
+    required: ['contract_id', 'customer_id', 'issued_at', 'line_items'],
   },
 };
 

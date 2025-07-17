@@ -68,6 +68,7 @@ export const tool: Tool = {
         enum: ['HOUR', 'DAY'],
       },
     },
+    required: ['customer_id', 'ending_before', 'starting_on'],
   },
 };
 

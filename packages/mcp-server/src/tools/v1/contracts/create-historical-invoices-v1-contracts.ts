@@ -124,6 +124,7 @@ export const tool: Tool = {
         type: 'boolean',
       },
     },
+    required: ['invoices', 'preview'],
   },
 };
 

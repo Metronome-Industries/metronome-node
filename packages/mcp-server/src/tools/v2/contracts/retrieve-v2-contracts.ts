@@ -44,6 +44,7 @@ export const tool: Tool = {
           'Include commit/credit ledgers in the response. Setting this flag may cause the query to be slower. Cannot be used with as_of_date parameter.',
       },
     },
+    required: ['contract_id', 'customer_id'],
   },
 };
 
