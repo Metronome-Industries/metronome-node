@@ -91,6 +91,11 @@ export interface AlertCreateParams {
    */
   credit_grant_type_filters?: Array<string>;
 
+  /**
+   * ID of the credit's currency, defaults to USD. If the specific alert type
+   * requires a pricing unit/currency, find the ID in the
+   * [Metronome app](https://app.metronome.com/offering/pricing-units).
+   */
   credit_type_id?: string;
 
   /**

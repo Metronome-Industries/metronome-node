@@ -31,18 +31,22 @@ export const tool: Tool = {
       },
       billing_provider_configuration: {
         type: 'object',
-        description: 'The billing provider configuration associated with a contract.',
+        description:
+          'The billing provider configuration associated with a contract. Provide either an ID or the provider and delivery method.',
         properties: {
           billing_provider: {
             type: 'string',
+            description: 'Do not specify if using billing_provider_configuration_id.',
             enum: ['aws_marketplace', 'azure_marketplace', 'gcp_marketplace', 'stripe', 'netsuite'],
           },
           billing_provider_configuration_id: {
             type: 'string',
-            description: 'The Metronome ID of the billing provider configuration',
+            description:
+              'The Metronome ID of the billing provider configuration. Use when a customer has multiple configurations with the same billing provider and delivery method. Otherwise, specify the billing_provider and delivery_method.',
           },
           delivery_method: {
             type: 'string',
+            description: 'Do not specify if using billing_provider_configuration_id.',
             enum: ['direct_to_billing_provider', 'aws_sqs', 'tackle', 'aws_sns'],
           },
         },
