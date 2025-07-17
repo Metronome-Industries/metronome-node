@@ -32,6 +32,7 @@ export const tool: Tool = {
         description: 'If set, all zero quantity line items will be filtered out of the response',
       },
     },
+    required: ['customer_id', 'invoice_id'],
   },
 };
 

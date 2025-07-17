@@ -28,6 +28,7 @@ export const tool: Tool = {
         type: 'string',
       },
     },
+    required: ['contract_id', 'customer_id'],
   },
 };
 

@@ -235,7 +235,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             name: {
               type: 'string',
@@ -338,7 +337,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             temporary_id: {
@@ -505,7 +503,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
           },
@@ -604,7 +601,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             custom_fields: {
               type: 'object',
@@ -719,7 +715,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             overwrite_rate: {
@@ -877,7 +872,6 @@ export const tool: Tool = {
                   type: 'string',
                 },
               },
-              required: [],
             },
             ending_before: {
               type: 'string',
@@ -897,7 +891,6 @@ export const tool: Tool = {
                   type: 'string',
                 },
               },
-              required: [],
             },
             netsuite_reseller_id: {
               type: 'string',
@@ -1005,7 +998,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             name: {
               type: 'string',
@@ -1024,6 +1016,7 @@ export const tool: Tool = {
         description: "This field's availability is dependent on your client's configuration.",
       },
     },
+    required: ['contract_id', 'customer_id', 'starting_at'],
     $defs: {
       tier: {
         type: 'object',

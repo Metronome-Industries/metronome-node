@@ -38,6 +38,7 @@ export const tool: Tool = {
           'Include commit ledgers in the response. Setting this flag may cause the query to be slower.',
       },
     },
+    required: ['contract_id', 'customer_id'],
   },
 };
 

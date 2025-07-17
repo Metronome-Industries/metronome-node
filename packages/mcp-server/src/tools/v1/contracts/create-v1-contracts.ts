@@ -46,7 +46,6 @@ export const tool: Tool = {
             enum: ['direct_to_billing_provider', 'aws_sqs', 'tackle', 'aws_sns'],
           },
         },
-        required: [],
       },
       commits: {
         type: 'array',
@@ -249,7 +248,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             name: {
               type: 'string',
@@ -352,7 +350,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             temporary_id: {
@@ -519,7 +516,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
           },
@@ -618,7 +614,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             custom_fields: {
               type: 'object',
@@ -768,7 +763,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             overwrite_rate: {
@@ -914,7 +908,6 @@ export const tool: Tool = {
                       },
                     },
                   },
-                  required: [],
                 },
               },
             },
@@ -1188,7 +1181,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             temporary_id: {
@@ -1330,7 +1322,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             temporary_id: {
@@ -1389,7 +1380,6 @@ export const tool: Tool = {
                   type: 'string',
                 },
               },
-              required: [],
             },
             ending_before: {
               type: 'string',
@@ -1405,7 +1395,6 @@ export const tool: Tool = {
                   type: 'string',
                 },
               },
-              required: [],
             },
             reseller_contract_value: {
               type: 'number',
@@ -1506,7 +1495,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             name: {
               type: 'string',
@@ -1642,7 +1630,6 @@ export const tool: Tool = {
                   description: 'Indicates if the partial period will be prorated or charged a full amount.',
                 },
               },
-              required: [],
             },
             subscription_rate: {
               type: 'object',
@@ -1710,7 +1697,6 @@ export const tool: Tool = {
                 enum: ['REMOVE', 'AS_IS'],
               },
             },
-            required: [],
           },
         },
         required: ['from_contract_id', 'type'],
@@ -1751,6 +1737,7 @@ export const tool: Tool = {
         required: ['frequency'],
       },
     },
+    required: ['customer_id', 'starting_at'],
     $defs: {
       tier: {
         type: 'object',

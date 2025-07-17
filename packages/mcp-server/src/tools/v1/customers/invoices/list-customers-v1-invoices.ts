@@ -62,6 +62,7 @@ export const tool: Tool = {
         description: 'Invoice status, e.g. DRAFT, FINALIZED, or VOID',
       },
     },
+    required: ['customer_id'],
   },
 };
 
