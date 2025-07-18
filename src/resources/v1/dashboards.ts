@@ -59,7 +59,7 @@ export interface DashboardGetEmbeddableURLParams {
   /**
    * The type of dashboard to retrieve.
    */
-  dashboard: 'invoices' | 'usage' | 'credits';
+  dashboard: 'invoices' | 'usage' | 'credits' | 'commits_and_credits';
 
   /**
    * Optional list of billable metric group key overrides
