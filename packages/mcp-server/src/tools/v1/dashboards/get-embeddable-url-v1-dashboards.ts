@@ -28,7 +28,7 @@ export const tool: Tool = {
       dashboard: {
         type: 'string',
         description: 'The type of dashboard to retrieve.',
-        enum: ['invoices', 'usage', 'credits'],
+        enum: ['invoices', 'usage', 'credits', 'commits_and_credits'],
       },
       bm_group_key_overrides: {
         type: 'array',
