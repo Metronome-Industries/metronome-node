@@ -80,6 +80,11 @@ export namespace BillingConfigRetrieveResponse {
      */
     aws_expiration_date?: string;
 
+    /**
+     * True if the aws_product_code is a SAAS subscription product, false otherwise.
+     */
+    aws_is_subscription_product?: boolean;
+
     aws_product_code?: string;
 
     aws_region?:

@@ -158,7 +158,8 @@ export class Customers extends APIResource {
   }
 
   /**
-   * Archive a customer
+   * Archive a customer Note: any alerts associated with the customer will not be
+   * triggered.
    *
    * @example
    * ```ts
@@ -228,6 +229,34 @@ export class Customers extends APIResource {
       CustomerListCostsResponsesCursorPage,
       { query, ...options },
     );
+  }
+
+  /**
+   * Preview how a set of events will affect a customer's invoice. Generates a draft
+   * invoice for a customer using their current contract configuration and the
+   * provided events. This is useful for testing how new events will affect the
+   * customer's invoice before they are actually processed.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.customers.previewEvents({
+   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   events: [
+   *     {
+   *       event_type: 'heartbeat',
+   *       timestamp: '2021-01-01T00:00:00Z',
+   *       properties: { cpu_hours: 100, memory_gb_hours: 200 },
+   *     },
+   *   ],
+   * });
+   * ```
+   */
+  previewEvents(
+    params: CustomerPreviewEventsParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<CustomerPreviewEventsResponse> {
+    const { customer_id, ...body } = params;
+    return this._client.post(`/v1/customers/${customer_id}/previewEvents`, { body, ...options });
   }
 
   /**
@@ -321,7 +350,7 @@ export interface Customer {
 
   name: string;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 }
 
 export interface CustomerDetail {
@@ -335,7 +364,7 @@ export interface CustomerDetail {
    */
   created_at: string;
 
-  custom_fields: Record<string, string>;
+  custom_fields: { [key: string]: string };
 
   customer_config: CustomerDetail.CustomerConfig;
 
@@ -428,7 +457,7 @@ export interface CustomerListBillableMetricsResponse {
    */
   archived_at?: string;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   /**
    * An optional filtering rule to match the 'event_type' property of an event.
@@ -438,7 +467,7 @@ export interface CustomerListBillableMetricsResponse {
   /**
    * (DEPRECATED) use property_filters & event_type_filter instead
    */
-  filter?: Record<string, unknown>;
+  filter?: { [key: string]: unknown };
 
   /**
    * (DEPRECATED) use group_keys instead
@@ -465,7 +494,7 @@ export interface CustomerListBillableMetricsResponse {
 }
 
 export interface CustomerListCostsResponse {
-  credit_types: Record<string, CustomerListCostsResponse.CreditTypes>;
+  credit_types: { [key: string]: CustomerListCostsResponse.CreditTypes };
 
   end_timestamp: string;
 
@@ -494,6 +523,10 @@ export namespace CustomerListCostsResponse {
   }
 }
 
+export interface CustomerPreviewEventsResponse {
+  data: InvoicesAPI.Invoice;
+}
+
 export interface CustomerSetNameResponse {
   data: Customer;
 }
@@ -506,7 +539,7 @@ export interface CustomerCreateParams {
 
   billing_config?: CustomerCreateParams.BillingConfig;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   customer_billing_provider_configurations?: Array<CustomerCreateParams.CustomerBillingProviderConfiguration>;
 
@@ -585,7 +618,7 @@ export namespace CustomerCreateParams {
      * object, however, for most billing provider + delivery method combinations, it
      * will not be a valid configuration.
      */
-    configuration?: Record<string, unknown>;
+    configuration?: { [key: string]: unknown };
 
     /**
      * The method to use for delivering invoices to this customer. If not provided, the
@@ -668,6 +701,59 @@ export interface CustomerListCostsParams extends CursorPageParams {
   starting_on: string;
 }
 
+export interface CustomerPreviewEventsParams {
+  /**
+   * Path param:
+   */
+  customer_id: string;
+
+  /**
+   * Body param:
+   */
+  events: Array<CustomerPreviewEventsParams.Event>;
+
+  /**
+   * Body param: If set to "replace", the preview will be generated as if those were
+   * the only events for the specified customer. If set to "merge", the events will
+   * be merged with any existing events for the specified customer. Defaults to
+   * "replace".
+   */
+  mode?: 'replace' | 'merge';
+
+  /**
+   * Body param: If set, all zero quantity line items will be filtered out of the
+   * response.
+   */
+  skip_zero_qty_line_items?: boolean;
+}
+
+export namespace CustomerPreviewEventsParams {
+  export interface Event {
+    event_type: string;
+
+    /**
+     * This has no effect for preview events, but may be set for consistency with Event
+     * objects. They will be processed even if they do not match the customer's ID or
+     * ingest aliases.
+     */
+    customer_id?: string;
+
+    properties?: { [key: string]: unknown };
+
+    /**
+     * RFC 3339 formatted. If not provided, the current time will be used.
+     */
+    timestamp?: string;
+
+    /**
+     * This has no effect for preview events, but may be set for consistency with Event
+     * objects. Duplicate transaction_ids are NOT filtered out, even within the same
+     * request.
+     */
+    transaction_id?: string;
+  }
+}
+
 export interface CustomerSetIngestAliasesParams {
   /**
    * Path param:
@@ -735,6 +821,7 @@ export declare namespace Customers {
     type CustomerArchiveResponse as CustomerArchiveResponse,
     type CustomerListBillableMetricsResponse as CustomerListBillableMetricsResponse,
     type CustomerListCostsResponse as CustomerListCostsResponse,
+    type CustomerPreviewEventsResponse as CustomerPreviewEventsResponse,
     type CustomerSetNameResponse as CustomerSetNameResponse,
     CustomerDetailsCursorPage as CustomerDetailsCursorPage,
     CustomerListBillableMetricsResponsesCursorPage as CustomerListBillableMetricsResponsesCursorPage,
@@ -745,6 +832,7 @@ export declare namespace Customers {
     type CustomerArchiveParams as CustomerArchiveParams,
     type CustomerListBillableMetricsParams as CustomerListBillableMetricsParams,
     type CustomerListCostsParams as CustomerListCostsParams,
+    type CustomerPreviewEventsParams as CustomerPreviewEventsParams,
     type CustomerSetIngestAliasesParams as CustomerSetIngestAliasesParams,
     type CustomerSetNameParams as CustomerSetNameParams,
     type CustomerUpdateConfigParams as CustomerUpdateConfigParams,

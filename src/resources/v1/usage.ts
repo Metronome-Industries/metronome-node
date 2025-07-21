@@ -3,6 +3,7 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
+import * as Shared from '../shared';
 import { CursorPage, type CursorPageParams } from '../../pagination';
 
 export class Usage extends APIResource {
@@ -96,6 +97,23 @@ export class Usage extends APIResource {
       ...options,
     });
   }
+
+  /**
+   * For a set of events, look up matched billable metrics and customers by
+   * transaction id. This endpoint looks at transactions that occurred in the last 34
+   * days, and is intended for sampling-based testing workflows. It is heavily rate
+   * limited.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.usage.search({
+   *   transactionIds: ['2021-01-01T00:00:00Z_cluster42'],
+   * });
+   * ```
+   */
+  search(body: UsageSearchParams, options?: Core.RequestOptions): Core.APIPromise<UsageSearchResponse> {
+    return this._client.post('/v1/events/search', { body, ...options });
+  }
 }
 
 export class UsageListWithGroupsResponsesCursorPage extends CursorPage<UsageListWithGroupsResponse> {}
@@ -124,7 +142,7 @@ export namespace UsageListResponse {
      * Values will be either a number or null. Null indicates that there were no
      * matches for the group_by value.
      */
-    groups?: Record<string, number | null>;
+    groups?: { [key: string]: number | null };
   }
 }
 
@@ -138,6 +156,118 @@ export interface UsageListWithGroupsResponse {
   starting_on: string;
 
   value: number | null;
+}
+
+export type UsageSearchResponse = Array<UsageSearchResponse.UsageSearchResponseItem>;
+
+export namespace UsageSearchResponse {
+  export interface UsageSearchResponseItem {
+    id: string;
+
+    /**
+     * The ID of the customer in the ingest event body
+     */
+    customer_id: string;
+
+    event_type: string;
+
+    timestamp: string;
+
+    transaction_id: string;
+
+    is_duplicate?: boolean;
+
+    matched_billable_metrics?: Array<UsageSearchResponseItem.MatchedBillableMetric>;
+
+    /**
+     * The customer the event was matched to if a match was found
+     */
+    matched_customer?: UsageSearchResponseItem.MatchedCustomer;
+
+    processed_at?: string;
+
+    properties?: { [key: string]: unknown };
+  }
+
+  export namespace UsageSearchResponseItem {
+    export interface MatchedBillableMetric {
+      id: string;
+
+      name: string;
+
+      /**
+       * (DEPRECATED) use aggregation_type instead
+       */
+      aggregate?: string;
+
+      /**
+       * (DEPRECATED) use aggregation_key instead
+       */
+      aggregate_keys?: Array<string>;
+
+      /**
+       * A key that specifies which property of the event is used to aggregate data. This
+       * key must be one of the property filter names and is not applicable when the
+       * aggregation type is 'count'.
+       */
+      aggregation_key?: string;
+
+      /**
+       * Specifies the type of aggregation performed on matching events.
+       */
+      aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
+
+      /**
+       * RFC 3339 timestamp indicating when the billable metric was archived. If not
+       * provided, the billable metric is not archived.
+       */
+      archived_at?: string;
+
+      custom_fields?: { [key: string]: string };
+
+      /**
+       * An optional filtering rule to match the 'event_type' property of an event.
+       */
+      event_type_filter?: Shared.EventTypeFilter;
+
+      /**
+       * (DEPRECATED) use property_filters & event_type_filter instead
+       */
+      filter?: { [key: string]: unknown };
+
+      /**
+       * (DEPRECATED) use group_keys instead
+       */
+      group_by?: Array<string>;
+
+      /**
+       * Property names that are used to group usage costs on an invoice. Each entry
+       * represents a set of properties used to slice events into distinct buckets.
+       */
+      group_keys?: Array<Array<string>>;
+
+      /**
+       * A list of filters to match events to this billable metric. Each filter defines a
+       * rule on an event property. All rules must pass for the event to match the
+       * billable metric.
+       */
+      property_filters?: Array<Shared.PropertyFilter>;
+
+      /**
+       * The SQL query associated with the billable metric
+       */
+      sql?: string;
+    }
+
+    /**
+     * The customer the event was matched to if a match was found
+     */
+    export interface MatchedCustomer {
+      id?: string;
+
+      name?: string;
+    }
+  }
 }
 
 export interface UsageListParams {
@@ -215,7 +345,7 @@ export namespace UsageIngestParams {
 
     transaction_id: string;
 
-    properties?: Record<string, unknown>;
+    properties?: { [key: string]: unknown };
   }
 }
 
@@ -276,15 +406,24 @@ export namespace UsageListWithGroupsParams {
   }
 }
 
+export interface UsageSearchParams {
+  /**
+   * The transaction IDs of the events to retrieve
+   */
+  transactionIds: Array<string>;
+}
+
 Usage.UsageListWithGroupsResponsesCursorPage = UsageListWithGroupsResponsesCursorPage;
 
 export declare namespace Usage {
   export {
     type UsageListResponse as UsageListResponse,
     type UsageListWithGroupsResponse as UsageListWithGroupsResponse,
+    type UsageSearchResponse as UsageSearchResponse,
     UsageListWithGroupsResponsesCursorPage as UsageListWithGroupsResponsesCursorPage,
     type UsageListParams as UsageListParams,
     type UsageIngestParams as UsageIngestParams,
     type UsageListWithGroupsParams as UsageListWithGroupsParams,
+    type UsageSearchParams as UsageSearchParams,
   };
 }

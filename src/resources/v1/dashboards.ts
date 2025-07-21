@@ -59,7 +59,7 @@ export interface DashboardGetEmbeddableURLParams {
   /**
    * The type of dashboard to retrieve.
    */
-  dashboard: 'invoices' | 'usage' | 'credits';
+  dashboard: 'invoices' | 'usage' | 'credits' | 'commits_and_credits';
 
   /**
    * Optional list of billable metric group key overrides
@@ -93,7 +93,7 @@ export namespace DashboardGetEmbeddableURLParams {
      * <key, value> pairs of the billable metric group key values and their display
      * names. e.g. {"a": "Asia", "b": "Euro"}
      */
-    value_display_names?: Record<string, unknown>;
+    value_display_names?: { [key: string]: unknown };
   }
 
   export interface ColorOverride {

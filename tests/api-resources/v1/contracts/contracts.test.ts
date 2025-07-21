@@ -51,6 +51,7 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string'],
           custom_fields: { foo: 'string' },
           description: 'description',
+          hierarchy_configuration: { child_access: { type: 'ALL' } },
           invoice_schedule: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             recurring_schedule: {
@@ -70,7 +71,8 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           payment_gate_config: {
             payment_gate_type: 'NONE',
-            stripe_config: { payment_type: 'INVOICE' },
+            precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
+            stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
             tax_type: 'NONE',
           },
           priority: 0,
@@ -104,6 +106,7 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string'],
           custom_fields: { foo: 'string' },
           description: 'description',
+          hierarchy_configuration: { child_access: { type: 'ALL' } },
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
@@ -143,6 +146,12 @@ describe('resource contracts', () => {
         },
       ],
       ending_before: '2019-12-27T18:11:19.117Z',
+      hierarchy_configuration: {
+        parent: {
+          contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          customer_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        },
+      },
       multiplier_override_prioritization: 'LOWEST_MULTIPLIER',
       name: 'name',
       net_payment_terms_days: 0,
@@ -202,12 +211,15 @@ describe('resource contracts', () => {
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',
-          stripe_config: { payment_type: 'INVOICE' },
+          precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
+          stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
           tax_type: 'NONE',
         },
         recharge_to_amount: 0,
         threshold_amount: 0,
+        custom_credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       },
+      priority: 0,
       professional_services: [
         {
           max_amount: 0,
@@ -225,10 +237,10 @@ describe('resource contracts', () => {
         {
           access_amount: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-            quantity: 0,
             unit_price: 0,
+            quantity: 0,
           },
-          commit_duration: { unit: 'PERIODS', value: 0 },
+          commit_duration: { value: 0, unit: 'PERIODS' },
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           starting_at: '2019-12-27T18:11:19.117Z',
@@ -262,10 +274,10 @@ describe('resource contracts', () => {
         {
           access_amount: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-            quantity: 0,
             unit_price: 0,
+            quantity: 0,
           },
-          commit_duration: { unit: 'PERIODS', value: 0 },
+          commit_duration: { value: 0, unit: 'PERIODS' },
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           starting_at: '2019-12-27T18:11:19.117Z',
@@ -337,7 +349,8 @@ describe('resource contracts', () => {
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',
-          stripe_config: { payment_type: 'INVOICE' },
+          precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
+          stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
           tax_type: 'NONE',
         },
         threshold_amount: 0,
@@ -492,6 +505,7 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string'],
           custom_fields: { foo: 'string' },
           description: 'description',
+          hierarchy_configuration: { child_access: { type: 'ALL' } },
           invoice_schedule: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             recurring_schedule: {
@@ -511,7 +525,8 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           payment_gate_config: {
             payment_gate_type: 'NONE',
-            stripe_config: { payment_type: 'INVOICE' },
+            precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
+            stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
             tax_type: 'NONE',
           },
           priority: 0,
@@ -545,6 +560,7 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string'],
           custom_fields: { foo: 'string' },
           description: 'description',
+          hierarchy_configuration: { child_access: { type: 'ALL' } },
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,

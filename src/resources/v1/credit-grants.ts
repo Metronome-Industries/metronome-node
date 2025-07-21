@@ -128,8 +128,8 @@ export class CreditGrants extends APIResource {
     if (isRequestOptions(params)) {
       return this.listEntries({}, params);
     }
-    const { next_page, ...body } = params;
-    return this._client.post('/v1/credits/listEntries', { query: { next_page }, body, ...options });
+    const { next_page, sort, ...body } = params;
+    return this._client.post('/v1/credits/listEntries', { query: { next_page, sort }, body, ...options });
   }
 
   /**
@@ -221,7 +221,7 @@ export interface CreditGrantListResponse {
    */
   balance: CreditGrantListResponse.Balance;
 
-  custom_fields: Record<string, string>;
+  custom_fields: { [key: string]: string };
 
   /**
    * the Metronome ID of the customer
@@ -449,7 +449,7 @@ export interface CreditGrantCreateParams {
   /**
    * Custom fields to attach to the credit grant.
    */
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   /**
    * The credit grant will only apply to usage or charges dated on or after this
@@ -594,6 +594,11 @@ export interface CreditGrantListEntriesParams {
    * Query param: Cursor that indicates where the next page of results should start.
    */
   next_page?: string;
+
+  /**
+   * Query param: Ledgers sort order by date, asc or desc. Defaults to asc.
+   */
+  sort?: 'asc' | 'desc';
 
   /**
    * Body param: A list of Metronome credit type IDs to fetch ledger entries for. If

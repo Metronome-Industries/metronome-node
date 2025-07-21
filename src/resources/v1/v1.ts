@@ -101,6 +101,8 @@ import {
   UsageListWithGroupsParams,
   UsageListWithGroupsResponse,
   UsageListWithGroupsResponsesCursorPage,
+  UsageSearchParams,
+  UsageSearchResponse,
 } from './usage';
 import * as ContractsAPI from './contracts/contracts';
 import {
@@ -146,6 +148,8 @@ import {
   CustomerListCostsResponse,
   CustomerListCostsResponsesCursorPage,
   CustomerListParams,
+  CustomerPreviewEventsParams,
+  CustomerPreviewEventsResponse,
   CustomerRetrieveParams,
   CustomerRetrieveResponse,
   CustomerSetIngestAliasesParams,
@@ -255,6 +259,7 @@ export declare namespace V1 {
     type CustomerArchiveResponse as CustomerArchiveResponse,
     type CustomerListBillableMetricsResponse as CustomerListBillableMetricsResponse,
     type CustomerListCostsResponse as CustomerListCostsResponse,
+    type CustomerPreviewEventsResponse as CustomerPreviewEventsResponse,
     type CustomerSetNameResponse as CustomerSetNameResponse,
     CustomerDetailsCursorPage as CustomerDetailsCursorPage,
     CustomerListBillableMetricsResponsesCursorPage as CustomerListBillableMetricsResponsesCursorPage,
@@ -265,6 +270,7 @@ export declare namespace V1 {
     type CustomerArchiveParams as CustomerArchiveParams,
     type CustomerListBillableMetricsParams as CustomerListBillableMetricsParams,
     type CustomerListCostsParams as CustomerListCostsParams,
+    type CustomerPreviewEventsParams as CustomerPreviewEventsParams,
     type CustomerSetIngestAliasesParams as CustomerSetIngestAliasesParams,
     type CustomerSetNameParams as CustomerSetNameParams,
     type CustomerUpdateConfigParams as CustomerUpdateConfigParams,
@@ -280,10 +286,12 @@ export declare namespace V1 {
     Usage as Usage,
     type UsageListResponse as UsageListResponse,
     type UsageListWithGroupsResponse as UsageListWithGroupsResponse,
+    type UsageSearchResponse as UsageSearchResponse,
     UsageListWithGroupsResponsesCursorPage as UsageListWithGroupsResponsesCursorPage,
     type UsageListParams as UsageListParams,
     type UsageIngestParams as UsageIngestParams,
     type UsageListWithGroupsParams as UsageListWithGroupsParams,
+    type UsageSearchParams as UsageSearchParams,
   };
 
   export {

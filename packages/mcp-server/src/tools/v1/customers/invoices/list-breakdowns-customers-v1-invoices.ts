@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
+
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import type { Metadata } from '../../../';
 import Metronome from '@metronome/sdk';
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'list_breakdowns_customers_v1_invoices',
   description:
-    'List daily or hourly invoice breakdowns for a given customer, optionally filtered by status, date range, and/or credit type.\nImportant considerations:\n- If we receive backdated usage after an invoice has been finalized, the backdated usage will be included in the response and usage numbers may differ.',
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nList daily or hourly invoice breakdowns for a given customer, optionally filtered by status, date range, and/or credit type.\nImportant considerations:\n- If we receive backdated usage after an invoice has been finalized, the backdated usage will be included in the response and usage numbers may differ.",
   inputSchema: {
     type: 'object',
     properties: {
@@ -67,12 +68,14 @@ export const tool: Tool = {
         enum: ['HOUR', 'DAY'],
       },
     },
+    required: ['customer_id', 'ending_before', 'starting_on'],
   },
 };
 
-export const handler = (client: Metronome, args: Record<string, unknown> | undefined) => {
+export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return client.v1.customers.invoices.listBreakdowns(body);
+  const response = await client.v1.customers.invoices.listBreakdowns(body).asResponse();
+  return asTextContentResult(await response.json());
 };
 
 export default { metadata, tool, handler };

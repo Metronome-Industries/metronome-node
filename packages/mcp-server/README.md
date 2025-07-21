@@ -170,7 +170,7 @@ The following tools are available in this MCP server.
 ### Resource `v2.contracts`:
 
 - `retrieve_v2_contracts` (`write`): Get a specific contract. New clients should use this endpoint rather than the v1 endpoint.
-- `list_v2_contracts` (`write`): List all contracts for a customer. New clients should use this endpoint rather than the v1 endpoint.
+- `list_v2_contracts` (`write`): List all contracts for a customer in chronological order. New clients should use this endpoint rather than the v1 endpoint.
 - `edit_v2_contracts` (`write`): Edit a contract. Contract editing must be enabled to use this endpoint.
 - `edit_commit_v2_contracts` (`write`): Edit a customer or contract commit. Contract commits can only be edited using this endpoint if contract editing is enabled.
 - `edit_credit_v2_contracts` (`write`): Edit a customer or contract credit. Contract credits can only be edited using this endpoint if contract editing is enabled.
@@ -205,9 +205,10 @@ The following tools are available in this MCP server.
 - `create_v1_customers` (`write`): Create a new customer
 - `retrieve_v1_customers` (`read`): Get a customer by Metronome ID.
 - `list_v1_customers` (`read`): List all customers.
-- `archive_v1_customers` (`write`): Archive a customer
+- `archive_v1_customers` (`write`): Archive a customer Note: any alerts associated with the customer will not be triggered.
 - `list_billable_metrics_v1_customers` (`read`): Get all billable metrics for a given customer.
 - `list_costs_v1_customers` (`read`): Fetch daily pending costs for the specified customer, broken down by credit type and line items. Note: this is not supported for customers whose plan includes a UNIQUE-type billable metric.
+- `preview_events_v1_customers` (`write`): Preview how a set of events will affect a customer's invoice. Generates a draft invoice for a customer using their current contract configuration and the provided events. This is useful for testing how new events will affect the customer's invoice before they are actually processed.
 - `set_ingest_aliases_v1_customers` (`write`): Sets the ingest aliases for a customer. Ingest aliases can be used in the `customer_id` field when sending usage events to Metronome. This call is idempotent. It fully replaces the set of ingest aliases for the given customer.
 - `set_name_v1_customers` (`write`): Updates the specified customer's name.
 - `update_config_v1_customers` (`write`): Updates the specified customer's config.
@@ -266,6 +267,7 @@ The following tools are available in this MCP server.
 - `list_v1_usage` (`write`): Fetch aggregated usage data for multiple customers and billable-metrics, broken into intervals of the specified length.
 - `ingest_v1_usage` (`write`): Send usage events to Metronome. The body of this request is expected to be a JSON array of between 1 and 100 usage events. Compressed request bodies are supported with a `Content-Encoding: gzip` header. See [Getting usage into Metronome](https://docs.metronome.com/connect-metronome/) to learn more about usage events.
 - `list_with_groups_v1_usage` (`write`): Fetch aggregated usage data for the specified customer, billable-metric, and optional group, broken into intervals of the specified length.
+- `search_v1_usage` (`write`): For a set of events, look up matched billable metrics and customers by transaction id. This endpoint looks at transactions that occurred in the last 34 days, and is intended for sampling-based testing workflows. It is heavily rate limited.
 
 ### Resource `v1.audit_logs`:
 

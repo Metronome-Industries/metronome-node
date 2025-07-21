@@ -382,7 +382,7 @@ export namespace ContractRetrieveResponse {
      */
     archived_at?: string;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * The billing provider configuration associated with a contract.
@@ -390,6 +390,11 @@ export namespace ContractRetrieveResponse {
     customer_billing_provider_configuration?: Data.CustomerBillingProviderConfiguration;
 
     prepaid_balance_threshold_configuration?: Data.PrepaidBalanceThresholdConfiguration;
+
+    /**
+     * Priority of the contract.
+     */
+    priority?: number;
 
     /**
      * Determines which scheduled and commit charges to consolidate onto the Contract's
@@ -403,7 +408,7 @@ export namespace ContractRetrieveResponse {
     spend_threshold_configuration?: Data.SpendThresholdConfiguration;
 
     /**
-     * (beta) List of subscriptions on the contract.
+     * List of subscriptions on the contract.
      */
     subscriptions?: Array<Data.Subscription>;
 
@@ -507,7 +512,7 @@ export namespace ContractRetrieveResponse {
        * Configuration for the billing provider. The structure of this object is specific
        * to the billing provider.
        */
-      configuration?: Record<string, unknown>;
+      configuration?: { [key: string]: unknown };
     }
 
     export interface PrepaidBalanceThresholdConfiguration {
@@ -532,6 +537,12 @@ export namespace ContractRetrieveResponse {
        * balance lowers to this amount, a threshold charge will be initiated.
        */
       threshold_amount: number;
+
+      /**
+       * If provided, the threshold, recharge-to amount, and the resulting threshold
+       * commit amount will be in terms of this credit type instead of the fiat currency.
+       */
+      custom_credit_type_id?: string;
     }
 
     export namespace PrepaidBalanceThresholdConfiguration {
@@ -543,15 +554,16 @@ export namespace ContractRetrieveResponse {
         product_id: string;
 
         /**
-         * Which products the threshold commit applies to. If both applicable_product_ids
-         * and applicable_product_tags are not provided, the commit applies to all
-         * products.
+         * Which products the threshold commit applies to. If applicable_product_ids,
+         * applicable_product_tags or specifiers are not provided, the commit applies to
+         * all products.
          */
         applicable_product_ids?: Array<string>;
 
         /**
-         * Which tags the threshold commit applies to. If both applicable_product_ids and
-         * applicable_product_tags are not provided, the commit applies to all products.
+         * Which tags the threshold commit applies to. If applicable_product_ids,
+         * applicable_product_tags or specifiers are not provided, the commit applies to
+         * all products.
          */
         applicable_product_tags?: Array<string>;
 
@@ -574,9 +586,9 @@ export namespace ContractRetrieveResponse {
 
       export namespace Commit {
         export interface Specifier {
-          presentation_group_values?: Record<string, string>;
+          presentation_group_values?: { [key: string]: string };
 
-          pricing_group_values?: Record<string, string>;
+          pricing_group_values?: { [key: string]: string };
 
           /**
            * If provided, the specifier will only apply to the product with the specified ID.
@@ -601,7 +613,12 @@ export namespace ContractRetrieveResponse {
         payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
 
         /**
-         * Only applicable if using Stripe as your payment gateway through Metronome.
+         * Only applicable if using PRECALCULATED as your tax type.
+         */
+        precalculated_tax_config?: PaymentGateConfig.PrecalculatedTaxConfig;
+
+        /**
+         * Only applicable if using STRIPE as your payment gate type.
          */
         stripe_config?: PaymentGateConfig.StripeConfig;
 
@@ -610,18 +627,41 @@ export namespace ContractRetrieveResponse {
          * not wish Metronome to calculate tax on your behalf. Leaving this field blank
          * will default to NONE.
          */
-        tax_type?: 'NONE' | 'STRIPE';
+        tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
       }
 
       export namespace PaymentGateConfig {
         /**
-         * Only applicable if using Stripe as your payment gateway through Metronome.
+         * Only applicable if using PRECALCULATED as your tax type.
+         */
+        export interface PrecalculatedTaxConfig {
+          /**
+           * Amount of tax to be applied. This should be in the same currency and
+           * denomination as the commit's invoice schedule
+           */
+          tax_amount: number;
+
+          /**
+           * Name of the tax to be applied. This may be used in an invoice line item
+           * description.
+           */
+          tax_name?: string;
+        }
+
+        /**
+         * Only applicable if using STRIPE as your payment gate type.
          */
         export interface StripeConfig {
           /**
            * If left blank, will default to INVOICE
            */
           payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+
+          /**
+           * Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as
+           * your payment type.
+           */
+          invoice_metadata?: { [key: string]: string };
         }
       }
     }
@@ -672,7 +712,12 @@ export namespace ContractRetrieveResponse {
         payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
 
         /**
-         * Only applicable if using Stripe as your payment gateway through Metronome.
+         * Only applicable if using PRECALCULATED as your tax type.
+         */
+        precalculated_tax_config?: PaymentGateConfig.PrecalculatedTaxConfig;
+
+        /**
+         * Only applicable if using STRIPE as your payment gate type.
          */
         stripe_config?: PaymentGateConfig.StripeConfig;
 
@@ -681,18 +726,41 @@ export namespace ContractRetrieveResponse {
          * not wish Metronome to calculate tax on your behalf. Leaving this field blank
          * will default to NONE.
          */
-        tax_type?: 'NONE' | 'STRIPE';
+        tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
       }
 
       export namespace PaymentGateConfig {
         /**
-         * Only applicable if using Stripe as your payment gateway through Metronome.
+         * Only applicable if using PRECALCULATED as your tax type.
+         */
+        export interface PrecalculatedTaxConfig {
+          /**
+           * Amount of tax to be applied. This should be in the same currency and
+           * denomination as the commit's invoice schedule
+           */
+          tax_amount: number;
+
+          /**
+           * Name of the tax to be applied. This may be used in an invoice line item
+           * description.
+           */
+          tax_name?: string;
+        }
+
+        /**
+         * Only applicable if using STRIPE as your payment gate type.
          */
         export interface StripeConfig {
           /**
            * If left blank, will default to INVOICE
            */
           payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+
+          /**
+           * Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as
+           * your payment type.
+           */
+          invoice_metadata?: { [key: string]: string };
         }
       }
     }
@@ -702,6 +770,10 @@ export namespace ContractRetrieveResponse {
 
       proration: Subscription.Proration;
 
+      /**
+       * List of quantity schedule items for the subscription. Only includes the current
+       * quantity and future quantity changes.
+       */
       quantity_schedule: Array<Subscription.QuantitySchedule>;
 
       starting_at: string;
@@ -710,7 +782,7 @@ export namespace ContractRetrieveResponse {
 
       id?: string;
 
-      custom_fields?: Record<string, string>;
+      custom_fields?: { [key: string]: string };
 
       description?: string;
 
@@ -775,7 +847,7 @@ export namespace ContractListResponse {
      */
     archived_at?: string;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * The billing provider configuration associated with a contract.
@@ -783,6 +855,11 @@ export namespace ContractListResponse {
     customer_billing_provider_configuration?: Data.CustomerBillingProviderConfiguration;
 
     prepaid_balance_threshold_configuration?: Data.PrepaidBalanceThresholdConfiguration;
+
+    /**
+     * Priority of the contract.
+     */
+    priority?: number;
 
     /**
      * Determines which scheduled and commit charges to consolidate onto the Contract's
@@ -796,7 +873,7 @@ export namespace ContractListResponse {
     spend_threshold_configuration?: Data.SpendThresholdConfiguration;
 
     /**
-     * (beta) List of subscriptions on the contract.
+     * List of subscriptions on the contract.
      */
     subscriptions?: Array<Data.Subscription>;
 
@@ -900,7 +977,7 @@ export namespace ContractListResponse {
        * Configuration for the billing provider. The structure of this object is specific
        * to the billing provider.
        */
-      configuration?: Record<string, unknown>;
+      configuration?: { [key: string]: unknown };
     }
 
     export interface PrepaidBalanceThresholdConfiguration {
@@ -925,6 +1002,12 @@ export namespace ContractListResponse {
        * balance lowers to this amount, a threshold charge will be initiated.
        */
       threshold_amount: number;
+
+      /**
+       * If provided, the threshold, recharge-to amount, and the resulting threshold
+       * commit amount will be in terms of this credit type instead of the fiat currency.
+       */
+      custom_credit_type_id?: string;
     }
 
     export namespace PrepaidBalanceThresholdConfiguration {
@@ -936,15 +1019,16 @@ export namespace ContractListResponse {
         product_id: string;
 
         /**
-         * Which products the threshold commit applies to. If both applicable_product_ids
-         * and applicable_product_tags are not provided, the commit applies to all
-         * products.
+         * Which products the threshold commit applies to. If applicable_product_ids,
+         * applicable_product_tags or specifiers are not provided, the commit applies to
+         * all products.
          */
         applicable_product_ids?: Array<string>;
 
         /**
-         * Which tags the threshold commit applies to. If both applicable_product_ids and
-         * applicable_product_tags are not provided, the commit applies to all products.
+         * Which tags the threshold commit applies to. If applicable_product_ids,
+         * applicable_product_tags or specifiers are not provided, the commit applies to
+         * all products.
          */
         applicable_product_tags?: Array<string>;
 
@@ -967,9 +1051,9 @@ export namespace ContractListResponse {
 
       export namespace Commit {
         export interface Specifier {
-          presentation_group_values?: Record<string, string>;
+          presentation_group_values?: { [key: string]: string };
 
-          pricing_group_values?: Record<string, string>;
+          pricing_group_values?: { [key: string]: string };
 
           /**
            * If provided, the specifier will only apply to the product with the specified ID.
@@ -994,7 +1078,12 @@ export namespace ContractListResponse {
         payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
 
         /**
-         * Only applicable if using Stripe as your payment gateway through Metronome.
+         * Only applicable if using PRECALCULATED as your tax type.
+         */
+        precalculated_tax_config?: PaymentGateConfig.PrecalculatedTaxConfig;
+
+        /**
+         * Only applicable if using STRIPE as your payment gate type.
          */
         stripe_config?: PaymentGateConfig.StripeConfig;
 
@@ -1003,18 +1092,41 @@ export namespace ContractListResponse {
          * not wish Metronome to calculate tax on your behalf. Leaving this field blank
          * will default to NONE.
          */
-        tax_type?: 'NONE' | 'STRIPE';
+        tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
       }
 
       export namespace PaymentGateConfig {
         /**
-         * Only applicable if using Stripe as your payment gateway through Metronome.
+         * Only applicable if using PRECALCULATED as your tax type.
+         */
+        export interface PrecalculatedTaxConfig {
+          /**
+           * Amount of tax to be applied. This should be in the same currency and
+           * denomination as the commit's invoice schedule
+           */
+          tax_amount: number;
+
+          /**
+           * Name of the tax to be applied. This may be used in an invoice line item
+           * description.
+           */
+          tax_name?: string;
+        }
+
+        /**
+         * Only applicable if using STRIPE as your payment gate type.
          */
         export interface StripeConfig {
           /**
            * If left blank, will default to INVOICE
            */
           payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+
+          /**
+           * Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as
+           * your payment type.
+           */
+          invoice_metadata?: { [key: string]: string };
         }
       }
     }
@@ -1065,7 +1177,12 @@ export namespace ContractListResponse {
         payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
 
         /**
-         * Only applicable if using Stripe as your payment gateway through Metronome.
+         * Only applicable if using PRECALCULATED as your tax type.
+         */
+        precalculated_tax_config?: PaymentGateConfig.PrecalculatedTaxConfig;
+
+        /**
+         * Only applicable if using STRIPE as your payment gate type.
          */
         stripe_config?: PaymentGateConfig.StripeConfig;
 
@@ -1074,18 +1191,41 @@ export namespace ContractListResponse {
          * not wish Metronome to calculate tax on your behalf. Leaving this field blank
          * will default to NONE.
          */
-        tax_type?: 'NONE' | 'STRIPE';
+        tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
       }
 
       export namespace PaymentGateConfig {
         /**
-         * Only applicable if using Stripe as your payment gateway through Metronome.
+         * Only applicable if using PRECALCULATED as your tax type.
+         */
+        export interface PrecalculatedTaxConfig {
+          /**
+           * Amount of tax to be applied. This should be in the same currency and
+           * denomination as the commit's invoice schedule
+           */
+          tax_amount: number;
+
+          /**
+           * Name of the tax to be applied. This may be used in an invoice line item
+           * description.
+           */
+          tax_name?: string;
+        }
+
+        /**
+         * Only applicable if using STRIPE as your payment gate type.
          */
         export interface StripeConfig {
           /**
            * If left blank, will default to INVOICE
            */
           payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+
+          /**
+           * Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as
+           * your payment type.
+           */
+          invoice_metadata?: { [key: string]: string };
         }
       }
     }
@@ -1095,6 +1235,10 @@ export namespace ContractListResponse {
 
       proration: Subscription.Proration;
 
+      /**
+       * List of quantity schedule items for the subscription. Only includes the current
+       * quantity and future quantity changes.
+       */
       quantity_schedule: Array<Subscription.QuantitySchedule>;
 
       starting_at: string;
@@ -1103,7 +1247,7 @@ export namespace ContractListResponse {
 
       id?: string;
 
-      custom_fields?: Record<string, string>;
+      custom_fields?: { [key: string]: string };
 
       description?: string;
 
@@ -1176,7 +1320,7 @@ export namespace ContractRetrieveRateScheduleResponse {
 
     list_rate: Shared.Rate;
 
-    product_custom_fields: Record<string, string>;
+    product_custom_fields: { [key: string]: string };
 
     product_id: string;
 
@@ -1200,7 +1344,7 @@ export namespace ContractRetrieveRateScheduleResponse {
 
     override_rate?: Shared.Rate;
 
-    pricing_group_values?: Record<string, string>;
+    pricing_group_values?: { [key: string]: string };
   }
 
   export namespace Data {
@@ -1273,7 +1417,8 @@ export interface ContractCreateParams {
   starting_at: string;
 
   /**
-   * The billing provider configuration associated with a contract.
+   * The billing provider configuration associated with a contract. Provide either an
+   * ID or the provider and delivery method.
    */
   billing_provider_configuration?: ContractCreateParams.BillingProviderConfiguration;
 
@@ -1281,7 +1426,7 @@ export interface ContractCreateParams {
 
   credits?: Array<ContractCreateParams.Credit>;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -1292,6 +1437,8 @@ export interface ContractCreateParams {
    * exclusive contract end time
    */
   ending_before?: string;
+
+  hierarchy_configuration?: ContractCreateParams.HierarchyConfiguration;
 
   /**
    * Defaults to LOWEST_MULTIPLIER, which applies the greatest discount to list
@@ -1313,6 +1460,11 @@ export interface ContractCreateParams {
   overrides?: Array<ContractCreateParams.Override>;
 
   prepaid_balance_threshold_configuration?: ContractCreateParams.PrepaidBalanceThresholdConfiguration;
+
+  /**
+   * Priority of the contract.
+   */
+  priority?: number;
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -1355,7 +1507,7 @@ export interface ContractCreateParams {
   spend_threshold_configuration?: ContractCreateParams.SpendThresholdConfiguration;
 
   /**
-   * (beta) Optional list of
+   * Optional list of
    * [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/)
    * to add to the contract.
    */
@@ -1382,16 +1534,25 @@ export interface ContractCreateParams {
 
 export namespace ContractCreateParams {
   /**
-   * The billing provider configuration associated with a contract.
+   * The billing provider configuration associated with a contract. Provide either an
+   * ID or the provider and delivery method.
    */
   export interface BillingProviderConfiguration {
+    /**
+     * Do not specify if using billing_provider_configuration_id.
+     */
     billing_provider?: 'aws_marketplace' | 'azure_marketplace' | 'gcp_marketplace' | 'stripe' | 'netsuite';
 
     /**
-     * The Metronome ID of the billing provider configuration
+     * The Metronome ID of the billing provider configuration. Use when a customer has
+     * multiple configurations with the same billing provider and delivery method.
+     * Otherwise, specify the billing_provider and delivery_method.
      */
     billing_provider_configuration_id?: string;
 
+    /**
+     * Do not specify if using billing_provider_configuration_id.
+     */
     delivery_method?: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
   }
 
@@ -1413,23 +1574,30 @@ export namespace ContractCreateParams {
     amount?: number;
 
     /**
-     * Which products the commit applies to. If both applicable_product_ids and
-     * applicable_product_tags are not provided, the commit applies to all products.
+     * Which products the commit applies to. If applicable_product_ids,
+     * applicable_product_tags or specifiers are not provided, the commit applies to
+     * all products.
      */
     applicable_product_ids?: Array<string>;
 
     /**
-     * Which tags the commit applies to. If both applicable_product_ids and
-     * applicable_product_tags are not provided, the commit applies to all products.
+     * Which tags the commit applies to. If applicable_product_ids,
+     * applicable_product_tags or specifiers are not provided, the commit applies to
+     * all products.
      */
     applicable_product_tags?: Array<string>;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * Used only in UI/API. It is not exposed to end customers.
      */
     description?: string;
+
+    /**
+     * Optional configuration for commit hierarchy access control
+     */
+    hierarchy_configuration?: Commit.HierarchyConfiguration;
 
     /**
      * Required for "POSTPAID" commits: the true up invoice will be generated at this
@@ -1510,6 +1678,32 @@ export namespace ContractCreateParams {
          * RFC 3339 timestamp (inclusive)
          */
         starting_at: string;
+      }
+    }
+
+    /**
+     * Optional configuration for commit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
       }
     }
 
@@ -1623,7 +1817,12 @@ export namespace ContractCreateParams {
       payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
 
       /**
-       * Only applicable if using Stripe as your payment gateway through Metronome.
+       * Only applicable if using PRECALCULATED as your tax type.
+       */
+      precalculated_tax_config?: PaymentGateConfig.PrecalculatedTaxConfig;
+
+      /**
+       * Only applicable if using STRIPE as your payment gate type.
        */
       stripe_config?: PaymentGateConfig.StripeConfig;
 
@@ -1632,25 +1831,48 @@ export namespace ContractCreateParams {
        * not wish Metronome to calculate tax on your behalf. Leaving this field blank
        * will default to NONE.
        */
-      tax_type?: 'NONE' | 'STRIPE';
+      tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
     }
 
     export namespace PaymentGateConfig {
       /**
-       * Only applicable if using Stripe as your payment gateway through Metronome.
+       * Only applicable if using PRECALCULATED as your tax type.
+       */
+      export interface PrecalculatedTaxConfig {
+        /**
+         * Amount of tax to be applied. This should be in the same currency and
+         * denomination as the commit's invoice schedule
+         */
+        tax_amount: number;
+
+        /**
+         * Name of the tax to be applied. This may be used in an invoice line item
+         * description.
+         */
+        tax_name?: string;
+      }
+
+      /**
+       * Only applicable if using STRIPE as your payment gate type.
        */
       export interface StripeConfig {
         /**
          * If left blank, will default to INVOICE
          */
         payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+
+        /**
+         * Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as
+         * your payment type.
+         */
+        invoice_metadata?: { [key: string]: string };
       }
     }
 
     export interface Specifier {
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the specifier will only apply to the product with the specified ID.
@@ -1685,12 +1907,17 @@ export namespace ContractCreateParams {
      */
     applicable_product_tags?: Array<string>;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * Used only in UI/API. It is not exposed to end customers.
      */
     description?: string;
+
+    /**
+     * Optional configuration for credit hierarchy access control
+     */
+    hierarchy_configuration?: Credit.HierarchyConfiguration;
 
     /**
      * displayed on invoices
@@ -1748,10 +1975,36 @@ export namespace ContractCreateParams {
       }
     }
 
-    export interface Specifier {
-      presentation_group_values?: Record<string, string>;
+    /**
+     * Optional configuration for credit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
 
-      pricing_group_values?: Record<string, string>;
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
+      }
+    }
+
+    export interface Specifier {
+      presentation_group_values?: { [key: string]: string };
+
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the specifier will only apply to the product with the specified ID.
@@ -1774,7 +2027,7 @@ export namespace ContractCreateParams {
      */
     schedule: Discount.Schedule;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * displayed on invoices
@@ -1883,6 +2136,18 @@ export namespace ContractCreateParams {
     }
   }
 
+  export interface HierarchyConfiguration {
+    parent: HierarchyConfiguration.Parent;
+  }
+
+  export namespace HierarchyConfiguration {
+    export interface Parent {
+      contract_id: string;
+
+      customer_id: string;
+    }
+  }
+
   export interface Override {
     /**
      * RFC 3339 timestamp indicating when the override will start applying (inclusive)
@@ -1974,13 +2239,13 @@ export namespace ContractCreateParams {
        * A map of group names to values. The override will only apply to line items with
        * the specified presentation group values.
        */
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
       /**
        * A map of pricing group names to values. The override will only apply to products
        * with the specified pricing group values.
        */
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the override will only apply to the product with the specified ID.
@@ -2022,7 +2287,7 @@ export namespace ContractCreateParams {
        * Only set for CUSTOM rate_type. This field is interpreted by custom rate
        * processors.
        */
-      custom_rate?: Record<string, unknown>;
+      custom_rate?: { [key: string]: unknown };
 
       /**
        * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
@@ -2076,6 +2341,12 @@ export namespace ContractCreateParams {
      * balance lowers to this amount, a threshold charge will be initiated.
      */
     threshold_amount: number;
+
+    /**
+     * If provided, the threshold, recharge-to amount, and the resulting threshold
+     * commit amount will be in terms of this credit type instead of the fiat currency.
+     */
+    custom_credit_type_id?: string;
   }
 
   export namespace PrepaidBalanceThresholdConfiguration {
@@ -2087,15 +2358,16 @@ export namespace ContractCreateParams {
       product_id: string;
 
       /**
-       * Which products the threshold commit applies to. If both applicable_product_ids
-       * and applicable_product_tags are not provided, the commit applies to all
-       * products.
+       * Which products the threshold commit applies to. If applicable_product_ids,
+       * applicable_product_tags or specifiers are not provided, the commit applies to
+       * all products.
        */
       applicable_product_ids?: Array<string>;
 
       /**
-       * Which tags the threshold commit applies to. If both applicable_product_ids and
-       * applicable_product_tags are not provided, the commit applies to all products.
+       * Which tags the threshold commit applies to. If applicable_product_ids,
+       * applicable_product_tags or specifiers are not provided, the commit applies to
+       * all products.
        */
       applicable_product_tags?: Array<string>;
 
@@ -2118,9 +2390,9 @@ export namespace ContractCreateParams {
 
     export namespace Commit {
       export interface Specifier {
-        presentation_group_values?: Record<string, string>;
+        presentation_group_values?: { [key: string]: string };
 
-        pricing_group_values?: Record<string, string>;
+        pricing_group_values?: { [key: string]: string };
 
         /**
          * If provided, the specifier will only apply to the product with the specified ID.
@@ -2145,7 +2417,12 @@ export namespace ContractCreateParams {
       payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
 
       /**
-       * Only applicable if using Stripe as your payment gateway through Metronome.
+       * Only applicable if using PRECALCULATED as your tax type.
+       */
+      precalculated_tax_config?: PaymentGateConfig.PrecalculatedTaxConfig;
+
+      /**
+       * Only applicable if using STRIPE as your payment gate type.
        */
       stripe_config?: PaymentGateConfig.StripeConfig;
 
@@ -2154,18 +2431,41 @@ export namespace ContractCreateParams {
        * not wish Metronome to calculate tax on your behalf. Leaving this field blank
        * will default to NONE.
        */
-      tax_type?: 'NONE' | 'STRIPE';
+      tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
     }
 
     export namespace PaymentGateConfig {
       /**
-       * Only applicable if using Stripe as your payment gateway through Metronome.
+       * Only applicable if using PRECALCULATED as your tax type.
+       */
+      export interface PrecalculatedTaxConfig {
+        /**
+         * Amount of tax to be applied. This should be in the same currency and
+         * denomination as the commit's invoice schedule
+         */
+        tax_amount: number;
+
+        /**
+         * Name of the tax to be applied. This may be used in an invoice line item
+         * description.
+         */
+        tax_name?: string;
+      }
+
+      /**
+       * Only applicable if using STRIPE as your payment gate type.
        */
       export interface StripeConfig {
         /**
          * If left blank, will default to INVOICE
          */
         payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+
+        /**
+         * Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as
+         * your payment type.
+         */
+        invoice_metadata?: { [key: string]: string };
       }
     }
   }
@@ -2190,7 +2490,7 @@ export namespace ContractCreateParams {
      */
     unit_price: number;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     description?: string;
 
@@ -2207,7 +2507,9 @@ export namespace ContractCreateParams {
     access_amount: RecurringCommit.AccessAmount;
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     commit_duration: RecurringCommit.CommitDuration;
 
@@ -2307,18 +2609,24 @@ export namespace ContractCreateParams {
     export interface AccessAmount {
       credit_type_id: string;
 
-      quantity: number;
-
       unit_price: number;
+
+      /**
+       * This field is currently required. Upcoming recurring commit/credit configuration
+       * options will allow it to be optional.
+       */
+      quantity?: number;
     }
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     export interface CommitDuration {
-      unit: 'PERIODS';
-
       value: number;
+
+      unit?: 'PERIODS';
     }
 
     /**
@@ -2333,9 +2641,9 @@ export namespace ContractCreateParams {
     }
 
     export interface Specifier {
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the specifier will only apply to the product with the specified ID.
@@ -2357,7 +2665,9 @@ export namespace ContractCreateParams {
     access_amount: RecurringCredit.AccessAmount;
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     commit_duration: RecurringCredit.CommitDuration;
 
@@ -2452,24 +2762,30 @@ export namespace ContractCreateParams {
     export interface AccessAmount {
       credit_type_id: string;
 
-      quantity: number;
-
       unit_price: number;
+
+      /**
+       * This field is currently required. Upcoming recurring commit/credit configuration
+       * options will allow it to be optional.
+       */
+      quantity?: number;
     }
 
     /**
-     * The amount of time the created commits will be valid for.
+     * Defines the length of the access schedule for each created commit/credit. The
+     * value represents the number of units. Unit defaults to "PERIODS", where the
+     * length of a period is determined by the recurrence_frequency.
      */
     export interface CommitDuration {
-      unit: 'PERIODS';
-
       value: number;
+
+      unit?: 'PERIODS';
     }
 
     export interface Specifier {
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the specifier will only apply to the product with the specified ID.
@@ -2689,7 +3005,12 @@ export namespace ContractCreateParams {
       payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
 
       /**
-       * Only applicable if using Stripe as your payment gateway through Metronome.
+       * Only applicable if using PRECALCULATED as your tax type.
+       */
+      precalculated_tax_config?: PaymentGateConfig.PrecalculatedTaxConfig;
+
+      /**
+       * Only applicable if using STRIPE as your payment gate type.
        */
       stripe_config?: PaymentGateConfig.StripeConfig;
 
@@ -2698,18 +3019,41 @@ export namespace ContractCreateParams {
        * not wish Metronome to calculate tax on your behalf. Leaving this field blank
        * will default to NONE.
        */
-      tax_type?: 'NONE' | 'STRIPE';
+      tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
     }
 
     export namespace PaymentGateConfig {
       /**
-       * Only applicable if using Stripe as your payment gateway through Metronome.
+       * Only applicable if using PRECALCULATED as your tax type.
+       */
+      export interface PrecalculatedTaxConfig {
+        /**
+         * Amount of tax to be applied. This should be in the same currency and
+         * denomination as the commit's invoice schedule
+         */
+        tax_amount: number;
+
+        /**
+         * Name of the tax to be applied. This may be used in an invoice line item
+         * description.
+         */
+        tax_name?: string;
+      }
+
+      /**
+       * Only applicable if using STRIPE as your payment gate type.
        */
       export interface StripeConfig {
         /**
          * If left blank, will default to INVOICE
          */
         payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+
+        /**
+         * Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as
+         * your payment type.
+         */
+        invoice_metadata?: { [key: string]: string };
       }
     }
   }
@@ -2726,7 +3070,7 @@ export namespace ContractCreateParams {
 
     subscription_rate: Subscription.SubscriptionRate;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     description?: string;
 
@@ -2934,7 +3278,7 @@ export interface ContractAmendParams {
 
   credits?: Array<ContractAmendParams.Credit>;
 
-  custom_fields?: Record<string, string>;
+  custom_fields?: { [key: string]: string };
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -2990,23 +3334,30 @@ export namespace ContractAmendParams {
     amount?: number;
 
     /**
-     * Which products the commit applies to. If both applicable_product_ids and
-     * applicable_product_tags are not provided, the commit applies to all products.
+     * Which products the commit applies to. If applicable_product_ids,
+     * applicable_product_tags or specifiers are not provided, the commit applies to
+     * all products.
      */
     applicable_product_ids?: Array<string>;
 
     /**
-     * Which tags the commit applies to. If both applicable_product_ids and
-     * applicable_product_tags are not provided, the commit applies to all products.
+     * Which tags the commit applies to. If applicable_product_ids,
+     * applicable_product_tags or specifiers are not provided, the commit applies to
+     * all products.
      */
     applicable_product_tags?: Array<string>;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * Used only in UI/API. It is not exposed to end customers.
      */
     description?: string;
+
+    /**
+     * Optional configuration for commit hierarchy access control
+     */
+    hierarchy_configuration?: Commit.HierarchyConfiguration;
 
     /**
      * Required for "POSTPAID" commits: the true up invoice will be generated at this
@@ -3087,6 +3438,32 @@ export namespace ContractAmendParams {
          * RFC 3339 timestamp (inclusive)
          */
         starting_at: string;
+      }
+    }
+
+    /**
+     * Optional configuration for commit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
       }
     }
 
@@ -3200,7 +3577,12 @@ export namespace ContractAmendParams {
       payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
 
       /**
-       * Only applicable if using Stripe as your payment gateway through Metronome.
+       * Only applicable if using PRECALCULATED as your tax type.
+       */
+      precalculated_tax_config?: PaymentGateConfig.PrecalculatedTaxConfig;
+
+      /**
+       * Only applicable if using STRIPE as your payment gate type.
        */
       stripe_config?: PaymentGateConfig.StripeConfig;
 
@@ -3209,25 +3591,48 @@ export namespace ContractAmendParams {
        * not wish Metronome to calculate tax on your behalf. Leaving this field blank
        * will default to NONE.
        */
-      tax_type?: 'NONE' | 'STRIPE';
+      tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
     }
 
     export namespace PaymentGateConfig {
       /**
-       * Only applicable if using Stripe as your payment gateway through Metronome.
+       * Only applicable if using PRECALCULATED as your tax type.
+       */
+      export interface PrecalculatedTaxConfig {
+        /**
+         * Amount of tax to be applied. This should be in the same currency and
+         * denomination as the commit's invoice schedule
+         */
+        tax_amount: number;
+
+        /**
+         * Name of the tax to be applied. This may be used in an invoice line item
+         * description.
+         */
+        tax_name?: string;
+      }
+
+      /**
+       * Only applicable if using STRIPE as your payment gate type.
        */
       export interface StripeConfig {
         /**
          * If left blank, will default to INVOICE
          */
         payment_type: 'INVOICE' | 'PAYMENT_INTENT';
+
+        /**
+         * Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as
+         * your payment type.
+         */
+        invoice_metadata?: { [key: string]: string };
       }
     }
 
     export interface Specifier {
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the specifier will only apply to the product with the specified ID.
@@ -3262,12 +3667,17 @@ export namespace ContractAmendParams {
      */
     applicable_product_tags?: Array<string>;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * Used only in UI/API. It is not exposed to end customers.
      */
     description?: string;
+
+    /**
+     * Optional configuration for credit hierarchy access control
+     */
+    hierarchy_configuration?: Credit.HierarchyConfiguration;
 
     /**
      * displayed on invoices
@@ -3325,10 +3735,36 @@ export namespace ContractAmendParams {
       }
     }
 
-    export interface Specifier {
-      presentation_group_values?: Record<string, string>;
+    /**
+     * Optional configuration for credit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
 
-      pricing_group_values?: Record<string, string>;
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
+      }
+    }
+
+    export interface Specifier {
+      presentation_group_values?: { [key: string]: string };
+
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the specifier will only apply to the product with the specified ID.
@@ -3351,7 +3787,7 @@ export namespace ContractAmendParams {
      */
     schedule: Discount.Schedule;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     /**
      * displayed on invoices
@@ -3551,13 +3987,13 @@ export namespace ContractAmendParams {
        * A map of group names to values. The override will only apply to line items with
        * the specified presentation group values.
        */
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
       /**
        * A map of pricing group names to values. The override will only apply to products
        * with the specified pricing group values.
        */
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       /**
        * If provided, the override will only apply to the product with the specified ID.
@@ -3599,7 +4035,7 @@ export namespace ContractAmendParams {
        * Only set for CUSTOM rate_type. This field is interpreted by custom rate
        * processors.
        */
-      custom_rate?: Record<string, unknown>;
+      custom_rate?: { [key: string]: unknown };
 
       /**
        * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
@@ -3651,7 +4087,7 @@ export namespace ContractAmendParams {
      */
     unit_price: number;
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
 
     description?: string;
 
@@ -3871,7 +4307,7 @@ export namespace ContractCreateHistoricalInvoicesParams {
 
     breakdown_granularity?: 'HOUR' | 'DAY';
 
-    custom_fields?: Record<string, string>;
+    custom_fields?: { [key: string]: string };
   }
 
   export namespace Invoice {
@@ -3882,9 +4318,9 @@ export namespace ContractCreateHistoricalInvoicesParams {
 
       product_id: string;
 
-      presentation_group_values?: Record<string, string>;
+      presentation_group_values?: { [key: string]: string };
 
-      pricing_group_values?: Record<string, string>;
+      pricing_group_values?: { [key: string]: string };
 
       quantity?: number;
 
@@ -3998,13 +4434,13 @@ export namespace ContractRetrieveRateScheduleParams {
      * List of pricing group key value pairs, rates containing the matching key / value
      * pairs will be included in the response.
      */
-    partial_pricing_group_values?: Record<string, string>;
+    partial_pricing_group_values?: { [key: string]: string };
 
     /**
      * List of pricing group key value pairs, rates matching all of the key / value
      * pairs will be included in the response.
      */
-    pricing_group_values?: Record<string, string>;
+    pricing_group_values?: { [key: string]: string };
 
     /**
      * Rates matching the product id will be included in the response.

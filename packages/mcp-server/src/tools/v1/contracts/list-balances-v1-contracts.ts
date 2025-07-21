@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
+
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import type { Metadata } from '../../';
 import Metronome from '@metronome/sdk';
 
 export const metadata: Metadata = {
@@ -15,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'list_balances_v1_contracts',
-  description: 'List balances (commits and credits).\n',
+  description:
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nList balances (commits and credits).\n",
   inputSchema: {
     type: 'object',
     properties: {
@@ -62,12 +64,13 @@ export const tool: Tool = {
         format: 'date-time',
       },
     },
+    required: ['customer_id'],
   },
 };
 
-export const handler = (client: Metronome, args: Record<string, unknown> | undefined) => {
+export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return client.v1.contracts.listBalances(body);
+  return asTextContentResult(await client.v1.contracts.listBalances(body));
 };
 
 export default { metadata, tool, handler };

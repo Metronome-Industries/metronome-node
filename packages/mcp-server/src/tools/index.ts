@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Metronome from '@metronome/sdk';
-import { Tool } from '@modelcontextprotocol/sdk/types.js';
+import { Metadata, Endpoint, HandlerFunction } from './types';
+
+export { Metadata, Endpoint, HandlerFunction };
 
 import retrieve_v2_contracts from './v2/contracts/retrieve-v2-contracts';
 import list_v2_contracts from './v2/contracts/list-v2-contracts';
@@ -27,6 +28,7 @@ import list_v1_customers from './v1/customers/list-v1-customers';
 import archive_v1_customers from './v1/customers/archive-v1-customers';
 import list_billable_metrics_v1_customers from './v1/customers/list-billable-metrics-v1-customers';
 import list_costs_v1_customers from './v1/customers/list-costs-v1-customers';
+import preview_events_v1_customers from './v1/customers/preview-events-v1-customers';
 import set_ingest_aliases_v1_customers from './v1/customers/set-ingest-aliases-v1-customers';
 import set_name_v1_customers from './v1/customers/set-name-v1-customers';
 import update_config_v1_customers from './v1/customers/update-config-v1-customers';
@@ -56,6 +58,7 @@ import get_embeddable_url_v1_dashboards from './v1/dashboards/get-embeddable-url
 import list_v1_usage from './v1/usage/list-v1-usage';
 import ingest_v1_usage from './v1/usage/ingest-v1-usage';
 import list_with_groups_v1_usage from './v1/usage/list-with-groups-v1-usage';
+import search_v1_usage from './v1/usage/search-v1-usage';
 import list_v1_audit_logs from './v1/audit-logs/list-v1-audit-logs';
 import add_key_v1_custom_fields from './v1/custom-fields/add-key-v1-custom-fields';
 import delete_values_v1_custom_fields from './v1/custom-fields/delete-values-v1-custom-fields';
@@ -103,24 +106,6 @@ import update_rate_cards_contracts_v1_named_schedules from './v1/contracts/rate-
 import retrieve_contracts_v1_named_schedules from './v1/contracts/named-schedules/retrieve-contracts-v1-named-schedules';
 import update_contracts_v1_named_schedules from './v1/contracts/named-schedules/update-contracts-v1-named-schedules';
 
-export type HandlerFunction = (client: Metronome, args: Record<string, unknown> | undefined) => Promise<any>;
-
-export type Metadata = {
-  resource: string;
-  operation: 'read' | 'write';
-  tags: string[];
-
-  httpMethod?: string;
-  httpPath?: string;
-  operationId?: string;
-};
-
-export type Endpoint = {
-  metadata: Metadata;
-  tool: Tool;
-  handler: HandlerFunction;
-};
-
 export const endpoints: Endpoint[] = [];
 
 function addEndpoint(endpoint: Endpoint) {
@@ -151,6 +136,7 @@ addEndpoint(list_v1_customers);
 addEndpoint(archive_v1_customers);
 addEndpoint(list_billable_metrics_v1_customers);
 addEndpoint(list_costs_v1_customers);
+addEndpoint(preview_events_v1_customers);
 addEndpoint(set_ingest_aliases_v1_customers);
 addEndpoint(set_name_v1_customers);
 addEndpoint(update_config_v1_customers);
@@ -180,6 +166,7 @@ addEndpoint(get_embeddable_url_v1_dashboards);
 addEndpoint(list_v1_usage);
 addEndpoint(ingest_v1_usage);
 addEndpoint(list_with_groups_v1_usage);
+addEndpoint(search_v1_usage);
 addEndpoint(list_v1_audit_logs);
 addEndpoint(add_key_v1_custom_fields);
 addEndpoint(delete_values_v1_custom_fields);
@@ -251,9 +238,10 @@ export function query(filters: Filter[], endpoints: Endpoint[]): Endpoint[] {
   });
 
   // Check if any filters didn't match
-  if (unmatchedFilters.size > 0) {
+  const unmatched = Array.from(unmatchedFilters).filter((f) => f.type === 'tool' || f.type === 'resource');
+  if (unmatched.length > 0) {
     throw new Error(
-      `The following filters did not match any endpoints: ${[...unmatchedFilters]
+      `The following filters did not match any endpoints: ${unmatched
         .map((f) => `${f.type}=${f.value}`)
         .join(', ')}`,
     );

@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
+
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import type { Metadata } from '../../';
 import Metronome from '@metronome/sdk';
 
 export const metadata: Metadata = {
@@ -15,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'create_historical_invoices_v1_contracts',
-  description: 'Creates historical usage invoices for a contract',
+  description:
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nCreates historical usage invoices for a contract",
   inputSchema: {
     type: 'object',
     properties: {
@@ -122,12 +124,13 @@ export const tool: Tool = {
         type: 'boolean',
       },
     },
+    required: ['invoices', 'preview'],
   },
 };
 
-export const handler = (client: Metronome, args: Record<string, unknown> | undefined) => {
+export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return client.v1.contracts.createHistoricalInvoices(body);
+  return asTextContentResult(await client.v1.contracts.createHistoricalInvoices(body));
 };
 
 export default { metadata, tool, handler };

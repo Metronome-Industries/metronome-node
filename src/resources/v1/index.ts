@@ -90,6 +90,7 @@ export {
   type CustomerArchiveResponse,
   type CustomerListBillableMetricsResponse,
   type CustomerListCostsResponse,
+  type CustomerPreviewEventsResponse,
   type CustomerSetNameResponse,
   type CustomerCreateParams,
   type CustomerRetrieveParams,
@@ -97,6 +98,7 @@ export {
   type CustomerArchiveParams,
   type CustomerListBillableMetricsParams,
   type CustomerListCostsParams,
+  type CustomerPreviewEventsParams,
   type CustomerSetIngestAliasesParams,
   type CustomerSetNameParams,
   type CustomerUpdateConfigParams,
@@ -140,8 +142,10 @@ export {
   Usage,
   type UsageListResponse,
   type UsageListWithGroupsResponse,
+  type UsageSearchResponse,
   type UsageListParams,
   type UsageIngestParams,
   type UsageListWithGroupsParams,
+  type UsageSearchParams,
 } from './usage';
 export { V1 } from './v1';

@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
+
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import type { Metadata } from '../../../';
 import Metronome from '@metronome/sdk';
 
 export const metadata: Metadata = {
@@ -15,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'retrieve_customers_v1_invoices',
-  description: 'Fetch a specific invoice for a given customer.',
+  description:
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nFetch a specific invoice for a given customer.",
   inputSchema: {
     type: 'object',
     properties: {
@@ -30,12 +32,13 @@ export const tool: Tool = {
         description: 'If set, all zero quantity line items will be filtered out of the response',
       },
     },
+    required: ['customer_id', 'invoice_id'],
   },
 };
 
-export const handler = (client: Metronome, args: Record<string, unknown> | undefined) => {
+export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return client.v1.customers.invoices.retrieve(body);
+  return asTextContentResult(await client.v1.customers.invoices.retrieve(body));
 };
 
 export default { metadata, tool, handler };

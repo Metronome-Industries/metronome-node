@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
+
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import type { Metadata } from '../../';
 import Metronome from '@metronome/sdk';
 
 export const metadata: Metadata = {
@@ -15,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'create_v1_contracts',
-  description: 'Create a new contract\n',
+  description:
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nCreate a new contract\n",
   inputSchema: {
     type: 'object',
     properties: {
@@ -29,22 +31,25 @@ export const tool: Tool = {
       },
       billing_provider_configuration: {
         type: 'object',
-        description: 'The billing provider configuration associated with a contract.',
+        description:
+          'The billing provider configuration associated with a contract. Provide either an ID or the provider and delivery method.',
         properties: {
           billing_provider: {
             type: 'string',
+            description: 'Do not specify if using billing_provider_configuration_id.',
             enum: ['aws_marketplace', 'azure_marketplace', 'gcp_marketplace', 'stripe', 'netsuite'],
           },
           billing_provider_configuration_id: {
             type: 'string',
-            description: 'The Metronome ID of the billing provider configuration',
+            description:
+              'The Metronome ID of the billing provider configuration. Use when a customer has multiple configurations with the same billing provider and delivery method. Otherwise, specify the billing_provider and delivery_method.',
           },
           delivery_method: {
             type: 'string',
+            description: 'Do not specify if using billing_provider_configuration_id.',
             enum: ['direct_to_billing_provider', 'aws_sqs', 'tackle', 'aws_sns'],
           },
         },
-        required: [],
       },
       commits: {
         type: 'array',
@@ -99,7 +104,7 @@ export const tool: Tool = {
             applicable_product_ids: {
               type: 'array',
               description:
-                'Which products the commit applies to. If both applicable_product_ids and applicable_product_tags are not provided, the commit applies to all products.',
+                'Which products the commit applies to. If applicable_product_ids, applicable_product_tags or specifiers are not provided, the commit applies to all products.',
               items: {
                 type: 'string',
               },
@@ -107,7 +112,7 @@ export const tool: Tool = {
             applicable_product_tags: {
               type: 'array',
               description:
-                'Which tags the commit applies to. If both applicable_product_ids and applicable_product_tags are not provided, the commit applies to all products.',
+                'Which tags the commit applies to. If applicable_product_ids, applicable_product_tags or specifiers are not provided, the commit applies to all products.',
               items: {
                 type: 'string',
               },
@@ -118,6 +123,53 @@ export const tool: Tool = {
             description: {
               type: 'string',
               description: 'Used only in UI/API. It is not exposed to end customers.',
+            },
+            hierarchy_configuration: {
+              type: 'object',
+              description: 'Optional configuration for commit hierarchy access control',
+              properties: {
+                child_access: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      properties: {
+                        type: {
+                          type: 'string',
+                          enum: ['ALL'],
+                        },
+                      },
+                      required: ['type'],
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        type: {
+                          type: 'string',
+                          enum: ['NONE'],
+                        },
+                      },
+                      required: ['type'],
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        contract_ids: {
+                          type: 'array',
+                          items: {
+                            type: 'string',
+                          },
+                        },
+                        type: {
+                          type: 'string',
+                          enum: ['CONTRACT_IDS'],
+                        },
+                      },
+                      required: ['contract_ids', 'type'],
+                    },
+                  ],
+                },
+              },
+              required: ['child_access'],
             },
             invoice_schedule: {
               type: 'object',
@@ -200,7 +252,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             name: {
               type: 'string',
@@ -220,14 +271,36 @@ export const tool: Tool = {
                     'Gate access to the commit balance based on successful collection of payment. Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to facilitate payment using your own payment integration. Select NONE if you do not wish to payment gate the commit balance.',
                   enum: ['NONE', 'STRIPE', 'EXTERNAL'],
                 },
+                precalculated_tax_config: {
+                  type: 'object',
+                  description: 'Only applicable if using PRECALCULATED as your tax type.',
+                  properties: {
+                    tax_amount: {
+                      type: 'number',
+                      description:
+                        "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
+                    },
+                    tax_name: {
+                      type: 'string',
+                      description:
+                        'Name of the tax to be applied. This may be used in an invoice line item description.',
+                    },
+                  },
+                  required: ['tax_amount'],
+                },
                 stripe_config: {
                   type: 'object',
-                  description: 'Only applicable if using Stripe as your payment gateway through Metronome.',
+                  description: 'Only applicable if using STRIPE as your payment gate type.',
                   properties: {
                     payment_type: {
                       type: 'string',
                       description: 'If left blank, will default to INVOICE',
                       enum: ['INVOICE', 'PAYMENT_INTENT'],
+                    },
+                    invoice_metadata: {
+                      type: 'object',
+                      description:
+                        'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
                     },
                   },
                   required: ['payment_type'],
@@ -236,7 +309,7 @@ export const tool: Tool = {
                   type: 'string',
                   description:
                     'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                  enum: ['NONE', 'STRIPE'],
+                  enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
                 },
               },
               required: ['payment_gate_type'],
@@ -281,7 +354,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             temporary_id: {
@@ -357,6 +429,53 @@ export const tool: Tool = {
               type: 'string',
               description: 'Used only in UI/API. It is not exposed to end customers.',
             },
+            hierarchy_configuration: {
+              type: 'object',
+              description: 'Optional configuration for credit hierarchy access control',
+              properties: {
+                child_access: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      properties: {
+                        type: {
+                          type: 'string',
+                          enum: ['ALL'],
+                        },
+                      },
+                      required: ['type'],
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        type: {
+                          type: 'string',
+                          enum: ['NONE'],
+                        },
+                      },
+                      required: ['type'],
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        contract_ids: {
+                          type: 'array',
+                          items: {
+                            type: 'string',
+                          },
+                        },
+                        type: {
+                          type: 'string',
+                          enum: ['CONTRACT_IDS'],
+                        },
+                      },
+                      required: ['contract_ids', 'type'],
+                    },
+                  ],
+                },
+              },
+              required: ['child_access'],
+            },
             name: {
               type: 'string',
               description: 'displayed on invoices',
@@ -401,7 +520,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
           },
@@ -500,7 +618,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             custom_fields: {
               type: 'object',
@@ -521,6 +638,24 @@ export const tool: Tool = {
         type: 'string',
         description: 'exclusive contract end time',
         format: 'date-time',
+      },
+      hierarchy_configuration: {
+        type: 'object',
+        properties: {
+          parent: {
+            type: 'object',
+            properties: {
+              contract_id: {
+                type: 'string',
+              },
+              customer_id: {
+                type: 'string',
+              },
+            },
+            required: ['contract_id', 'customer_id'],
+          },
+        },
+        required: ['parent'],
       },
       multiplier_override_prioritization: {
         type: 'string',
@@ -632,7 +767,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             overwrite_rate: {
@@ -730,7 +864,7 @@ export const tool: Tool = {
               applicable_product_ids: {
                 type: 'array',
                 description:
-                  'Which products the threshold commit applies to. If both applicable_product_ids and applicable_product_tags are not provided, the commit applies to all products.',
+                  'Which products the threshold commit applies to. If applicable_product_ids, applicable_product_tags or specifiers are not provided, the commit applies to all products.',
                 items: {
                   type: 'string',
                 },
@@ -738,7 +872,7 @@ export const tool: Tool = {
               applicable_product_tags: {
                 type: 'array',
                 description:
-                  'Which tags the threshold commit applies to. If both applicable_product_ids and applicable_product_tags are not provided, the commit applies to all products.',
+                  'Which tags the threshold commit applies to. If applicable_product_ids, applicable_product_tags or specifiers are not provided, the commit applies to all products.',
                 items: {
                   type: 'string',
                 },
@@ -778,7 +912,6 @@ export const tool: Tool = {
                       },
                     },
                   },
-                  required: [],
                 },
               },
             },
@@ -798,14 +931,36 @@ export const tool: Tool = {
                   'Gate access to the commit balance based on successful collection of payment. Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to facilitate payment using your own payment integration. Select NONE if you do not wish to payment gate the commit balance.',
                 enum: ['NONE', 'STRIPE', 'EXTERNAL'],
               },
+              precalculated_tax_config: {
+                type: 'object',
+                description: 'Only applicable if using PRECALCULATED as your tax type.',
+                properties: {
+                  tax_amount: {
+                    type: 'number',
+                    description:
+                      "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
+                  },
+                  tax_name: {
+                    type: 'string',
+                    description:
+                      'Name of the tax to be applied. This may be used in an invoice line item description.',
+                  },
+                },
+                required: ['tax_amount'],
+              },
               stripe_config: {
                 type: 'object',
-                description: 'Only applicable if using Stripe as your payment gateway through Metronome.',
+                description: 'Only applicable if using STRIPE as your payment gate type.',
                 properties: {
                   payment_type: {
                     type: 'string',
                     description: 'If left blank, will default to INVOICE',
                     enum: ['INVOICE', 'PAYMENT_INTENT'],
+                  },
+                  invoice_metadata: {
+                    type: 'object',
+                    description:
+                      'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
                   },
                 },
                 required: ['payment_type'],
@@ -814,7 +969,7 @@ export const tool: Tool = {
                 type: 'string',
                 description:
                   'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                enum: ['NONE', 'STRIPE'],
+                enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
               },
             },
             required: ['payment_gate_type'],
@@ -828,8 +983,17 @@ export const tool: Tool = {
             description:
               "Specify the threshold amount for the contract. Each time the contract's prepaid balance lowers to this amount, a threshold charge will be initiated.",
           },
+          custom_credit_type_id: {
+            type: 'string',
+            description:
+              'If provided, the threshold, recharge-to amount, and the resulting threshold commit amount will be in terms of this credit type instead of the fiat currency.',
+          },
         },
         required: ['commit', 'is_enabled', 'payment_gate_config', 'recharge_to_amount', 'threshold_amount'],
+      },
+      priority: {
+        type: 'number',
+        description: 'Priority of the contract.',
       },
       professional_services: {
         type: 'array',
@@ -887,28 +1051,31 @@ export const tool: Tool = {
                 credit_type_id: {
                   type: 'string',
                 },
-                quantity: {
-                  type: 'number',
-                },
                 unit_price: {
                   type: 'number',
                 },
+                quantity: {
+                  type: 'number',
+                  description:
+                    'This field is currently required. Upcoming recurring commit/credit configuration options will allow it to be optional.',
+                },
               },
-              required: ['credit_type_id', 'quantity', 'unit_price'],
+              required: ['credit_type_id', 'unit_price'],
             },
             commit_duration: {
               type: 'object',
-              description: 'The amount of time the created commits will be valid for.',
+              description:
+                'Defines the length of the access schedule for each created commit/credit. The value represents the number of units. Unit defaults to "PERIODS", where the length of a period is determined by the recurrence_frequency.',
               properties: {
+                value: {
+                  type: 'number',
+                },
                 unit: {
                   type: 'string',
                   enum: ['PERIODS'],
                 },
-                value: {
-                  type: 'number',
-                },
               },
-              required: ['unit', 'value'],
+              required: ['value'],
             },
             priority: {
               type: 'number',
@@ -1018,7 +1185,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             temporary_id: {
@@ -1042,28 +1208,31 @@ export const tool: Tool = {
                 credit_type_id: {
                   type: 'string',
                 },
-                quantity: {
-                  type: 'number',
-                },
                 unit_price: {
                   type: 'number',
                 },
+                quantity: {
+                  type: 'number',
+                  description:
+                    'This field is currently required. Upcoming recurring commit/credit configuration options will allow it to be optional.',
+                },
               },
-              required: ['credit_type_id', 'quantity', 'unit_price'],
+              required: ['credit_type_id', 'unit_price'],
             },
             commit_duration: {
               type: 'object',
-              description: 'The amount of time the created commits will be valid for.',
+              description:
+                'Defines the length of the access schedule for each created commit/credit. The value represents the number of units. Unit defaults to "PERIODS", where the length of a period is determined by the recurrence_frequency.',
               properties: {
+                value: {
+                  type: 'number',
+                },
                 unit: {
                   type: 'string',
                   enum: ['PERIODS'],
                 },
-                value: {
-                  type: 'number',
-                },
               },
-              required: ['unit', 'value'],
+              required: ['value'],
             },
             priority: {
               type: 'number',
@@ -1157,7 +1326,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             temporary_id: {
@@ -1216,7 +1384,6 @@ export const tool: Tool = {
                   type: 'string',
                 },
               },
-              required: [],
             },
             ending_before: {
               type: 'string',
@@ -1232,7 +1399,6 @@ export const tool: Tool = {
                   type: 'string',
                 },
               },
-              required: [],
             },
             reseller_contract_value: {
               type: 'number',
@@ -1333,7 +1499,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             name: {
               type: 'string',
@@ -1389,14 +1554,36 @@ export const tool: Tool = {
                   'Gate access to the commit balance based on successful collection of payment. Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to facilitate payment using your own payment integration. Select NONE if you do not wish to payment gate the commit balance.',
                 enum: ['NONE', 'STRIPE', 'EXTERNAL'],
               },
+              precalculated_tax_config: {
+                type: 'object',
+                description: 'Only applicable if using PRECALCULATED as your tax type.',
+                properties: {
+                  tax_amount: {
+                    type: 'number',
+                    description:
+                      "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
+                  },
+                  tax_name: {
+                    type: 'string',
+                    description:
+                      'Name of the tax to be applied. This may be used in an invoice line item description.',
+                  },
+                },
+                required: ['tax_amount'],
+              },
               stripe_config: {
                 type: 'object',
-                description: 'Only applicable if using Stripe as your payment gateway through Metronome.',
+                description: 'Only applicable if using STRIPE as your payment gate type.',
                 properties: {
                   payment_type: {
                     type: 'string',
                     description: 'If left blank, will default to INVOICE',
                     enum: ['INVOICE', 'PAYMENT_INTENT'],
+                  },
+                  invoice_metadata: {
+                    type: 'object',
+                    description:
+                      'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
                   },
                 },
                 required: ['payment_type'],
@@ -1405,7 +1592,7 @@ export const tool: Tool = {
                 type: 'string',
                 description:
                   'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                enum: ['NONE', 'STRIPE'],
+                enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
               },
             },
             required: ['payment_gate_type'],
@@ -1421,7 +1608,7 @@ export const tool: Tool = {
       subscriptions: {
         type: 'array',
         description:
-          '(beta) Optional list of [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/) to add to the contract.',
+          'Optional list of [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/) to add to the contract.',
         items: {
           type: 'object',
           properties: {
@@ -1447,7 +1634,6 @@ export const tool: Tool = {
                   description: 'Indicates if the partial period will be prorated or charged a full amount.',
                 },
               },
-              required: [],
             },
             subscription_rate: {
               type: 'object',
@@ -1515,7 +1701,6 @@ export const tool: Tool = {
                 enum: ['REMOVE', 'AS_IS'],
               },
             },
-            required: [],
           },
         },
         required: ['from_contract_id', 'type'],
@@ -1556,6 +1741,7 @@ export const tool: Tool = {
         required: ['frequency'],
       },
     },
+    required: ['customer_id', 'starting_at'],
     $defs: {
       tier: {
         type: 'object',
@@ -1592,9 +1778,9 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: Metronome, args: Record<string, unknown> | undefined) => {
+export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return client.v1.contracts.create(body);
+  return asTextContentResult(await client.v1.contracts.create(body));
 };
 
 export default { metadata, tool, handler };

@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
+
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import type { Metadata } from '../../';
 import Metronome from '@metronome/sdk';
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'amend_v1_contracts',
   description:
-    'Amendments will be replaced by Contract editing. New clients should implement using the editContract endpoint. Read more about the migration to contract editing [here](https://docs.metronome.com/migrate-amendments-to-edits/) and reach out to your Metronome representative for more details. Once contract editing is enabled, access to this endpoint will be removed.\n',
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nAmendments will be replaced by Contract editing. New clients should implement using the editContract endpoint. Read more about the migration to contract editing [here](https://docs.metronome.com/migrate-amendments-to-edits/) and reach out to your Metronome representative for more details. Once contract editing is enabled, access to this endpoint will be removed.\n",
   inputSchema: {
     type: 'object',
     properties: {
@@ -86,7 +87,7 @@ export const tool: Tool = {
             applicable_product_ids: {
               type: 'array',
               description:
-                'Which products the commit applies to. If both applicable_product_ids and applicable_product_tags are not provided, the commit applies to all products.',
+                'Which products the commit applies to. If applicable_product_ids, applicable_product_tags or specifiers are not provided, the commit applies to all products.',
               items: {
                 type: 'string',
               },
@@ -94,7 +95,7 @@ export const tool: Tool = {
             applicable_product_tags: {
               type: 'array',
               description:
-                'Which tags the commit applies to. If both applicable_product_ids and applicable_product_tags are not provided, the commit applies to all products.',
+                'Which tags the commit applies to. If applicable_product_ids, applicable_product_tags or specifiers are not provided, the commit applies to all products.',
               items: {
                 type: 'string',
               },
@@ -105,6 +106,53 @@ export const tool: Tool = {
             description: {
               type: 'string',
               description: 'Used only in UI/API. It is not exposed to end customers.',
+            },
+            hierarchy_configuration: {
+              type: 'object',
+              description: 'Optional configuration for commit hierarchy access control',
+              properties: {
+                child_access: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      properties: {
+                        type: {
+                          type: 'string',
+                          enum: ['ALL'],
+                        },
+                      },
+                      required: ['type'],
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        type: {
+                          type: 'string',
+                          enum: ['NONE'],
+                        },
+                      },
+                      required: ['type'],
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        contract_ids: {
+                          type: 'array',
+                          items: {
+                            type: 'string',
+                          },
+                        },
+                        type: {
+                          type: 'string',
+                          enum: ['CONTRACT_IDS'],
+                        },
+                      },
+                      required: ['contract_ids', 'type'],
+                    },
+                  ],
+                },
+              },
+              required: ['child_access'],
             },
             invoice_schedule: {
               type: 'object',
@@ -187,7 +235,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             name: {
               type: 'string',
@@ -207,14 +254,36 @@ export const tool: Tool = {
                     'Gate access to the commit balance based on successful collection of payment. Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to facilitate payment using your own payment integration. Select NONE if you do not wish to payment gate the commit balance.',
                   enum: ['NONE', 'STRIPE', 'EXTERNAL'],
                 },
+                precalculated_tax_config: {
+                  type: 'object',
+                  description: 'Only applicable if using PRECALCULATED as your tax type.',
+                  properties: {
+                    tax_amount: {
+                      type: 'number',
+                      description:
+                        "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
+                    },
+                    tax_name: {
+                      type: 'string',
+                      description:
+                        'Name of the tax to be applied. This may be used in an invoice line item description.',
+                    },
+                  },
+                  required: ['tax_amount'],
+                },
                 stripe_config: {
                   type: 'object',
-                  description: 'Only applicable if using Stripe as your payment gateway through Metronome.',
+                  description: 'Only applicable if using STRIPE as your payment gate type.',
                   properties: {
                     payment_type: {
                       type: 'string',
                       description: 'If left blank, will default to INVOICE',
                       enum: ['INVOICE', 'PAYMENT_INTENT'],
+                    },
+                    invoice_metadata: {
+                      type: 'object',
+                      description:
+                        'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
                     },
                   },
                   required: ['payment_type'],
@@ -223,7 +292,7 @@ export const tool: Tool = {
                   type: 'string',
                   description:
                     'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                  enum: ['NONE', 'STRIPE'],
+                  enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
                 },
               },
               required: ['payment_gate_type'],
@@ -268,7 +337,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             temporary_id: {
@@ -344,6 +412,53 @@ export const tool: Tool = {
               type: 'string',
               description: 'Used only in UI/API. It is not exposed to end customers.',
             },
+            hierarchy_configuration: {
+              type: 'object',
+              description: 'Optional configuration for credit hierarchy access control',
+              properties: {
+                child_access: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      properties: {
+                        type: {
+                          type: 'string',
+                          enum: ['ALL'],
+                        },
+                      },
+                      required: ['type'],
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        type: {
+                          type: 'string',
+                          enum: ['NONE'],
+                        },
+                      },
+                      required: ['type'],
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        contract_ids: {
+                          type: 'array',
+                          items: {
+                            type: 'string',
+                          },
+                        },
+                        type: {
+                          type: 'string',
+                          enum: ['CONTRACT_IDS'],
+                        },
+                      },
+                      required: ['contract_ids', 'type'],
+                    },
+                  ],
+                },
+              },
+              required: ['child_access'],
+            },
             name: {
               type: 'string',
               description: 'displayed on invoices',
@@ -388,7 +503,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
           },
@@ -487,7 +601,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             custom_fields: {
               type: 'object',
@@ -602,7 +715,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             overwrite_rate: {
@@ -760,7 +872,6 @@ export const tool: Tool = {
                   type: 'string',
                 },
               },
-              required: [],
             },
             ending_before: {
               type: 'string',
@@ -780,7 +891,6 @@ export const tool: Tool = {
                   type: 'string',
                 },
               },
-              required: [],
             },
             netsuite_reseller_id: {
               type: 'string',
@@ -888,7 +998,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             name: {
               type: 'string',
@@ -907,6 +1016,7 @@ export const tool: Tool = {
         description: "This field's availability is dependent on your client's configuration.",
       },
     },
+    required: ['contract_id', 'customer_id', 'starting_at'],
     $defs: {
       tier: {
         type: 'object',
@@ -924,9 +1034,9 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: Metronome, args: Record<string, unknown> | undefined) => {
+export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return client.v1.contracts.amend(body);
+  return asTextContentResult(await client.v1.contracts.amend(body));
 };
 
 export default { metadata, tool, handler };

@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
+
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import type { Metadata } from '../../';
 import Metronome from '@metronome/sdk';
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'schedule_pro_services_invoice_v1_contracts',
   description:
-    "Create a new scheduled invoice for Professional Services terms on a contract. This endpoint's availability is dependent on your client's configuration.\n",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nCreate a new scheduled invoice for Professional Services terms on a contract. This endpoint's availability is dependent on your client's configuration.\n",
   inputSchema: {
     type: 'object',
     properties: {
@@ -88,12 +89,13 @@ export const tool: Tool = {
         format: 'date-time',
       },
     },
+    required: ['contract_id', 'customer_id', 'issued_at', 'line_items'],
   },
 };
 
-export const handler = (client: Metronome, args: Record<string, unknown> | undefined) => {
+export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return client.v1.contracts.scheduleProServicesInvoice(body);
+  return asTextContentResult(await client.v1.contracts.scheduleProServicesInvoice(body));
 };
 
 export default { metadata, tool, handler };

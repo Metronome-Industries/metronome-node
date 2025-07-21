@@ -4,34 +4,52 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { Endpoint, endpoints, HandlerFunction, query } from './tools';
 import { CallToolRequestSchema, ListToolsRequestSchema, Tool } from '@modelcontextprotocol/sdk/types.js';
+import { ClientOptions } from '@metronome/sdk';
 import Metronome from '@metronome/sdk';
 import {
   applyCompatibilityTransformations,
   ClientCapabilities,
   defaultClientCapabilities,
+  knownClients,
   parseEmbeddedJSON,
 } from './compat';
 import { dynamicTools } from './dynamic-tools';
-import { ParsedOptions } from './options';
+import { McpOptions } from './options';
+
+export { McpOptions } from './options';
+export { ClientType } from './compat';
+export { Filter } from './tools';
+export { ClientOptions } from '@metronome/sdk';
 export { endpoints } from './tools';
 
 // Create server instance
 export const server = new McpServer(
   {
     name: 'metronome_sdk_api',
-    version: '0.1.0-beta.11',
+    version: '0.1.0-beta.12',
   },
-  {
-    capabilities: {
-      tools: {},
-    },
-  },
+  { capabilities: { tools: {} } },
 );
 
 /**
  * Initializes the provided MCP Server with the given tools and handlers.
  * If not provided, the default client, tools and handlers will be used.
  */
+export function initMcpServer(params: {
+  server: Server | McpServer;
+  clientOptions: ClientOptions;
+  mcpOptions: McpOptions;
+  endpoints?: { tool: Tool; handler: HandlerFunction }[];
+}) {
+  const transformedEndpoints = selectTools(endpoints, params.mcpOptions);
+  const client = new Metronome(params.clientOptions);
+  const capabilities = {
+    ...defaultClientCapabilities,
+    ...(params.mcpOptions.client ? knownClients[params.mcpOptions.client] : params.mcpOptions.capabilities),
+  };
+  init({ server: params.server, client, endpoints: transformedEndpoints, capabilities });
+}
+
 export function init(params: {
   server: Server | McpServer;
   client?: Metronome;
@@ -43,7 +61,7 @@ export function init(params: {
 
   const endpointMap = Object.fromEntries(providedEndpoints.map((endpoint) => [endpoint.tool.name, endpoint]));
 
-  const client = params.client || new Metronome({});
+  const client = params.client || new Metronome({ defaultHeaders: { 'X-Stainless-MCP': 'true' } });
 
   server.setRequestHandler(ListToolsRequestSchema, async () => {
     return {
@@ -65,24 +83,27 @@ export function init(params: {
 /**
  * Selects the tools to include in the MCP Server based on the provided options.
  */
-export function selectTools(endpoints: Endpoint[], options: ParsedOptions) {
+export function selectTools(endpoints: Endpoint[], options: McpOptions) {
   const filteredEndpoints = query(options.filters, endpoints);
 
-  const includedTools = filteredEndpoints;
+  let includedTools = filteredEndpoints;
 
-  if (options.includeAllTools && includedTools.length === 0) {
-    includedTools.push(...endpoints);
+  if (includedTools.length > 0) {
+    if (options.includeDynamicTools) {
+      includedTools = dynamicTools(includedTools);
+    }
+  } else {
+    if (options.includeAllTools) {
+      includedTools = endpoints;
+    } else if (options.includeDynamicTools) {
+      includedTools = dynamicTools(endpoints);
+    } else {
+      includedTools = endpoints;
+    }
   }
 
-  if (options.includeDynamicTools) {
-    includedTools.push(...dynamicTools(endpoints));
-  }
-
-  if (includedTools.length === 0) {
-    includedTools.push(...endpoints);
-  }
-
-  return applyCompatibilityTransformations(includedTools, options.capabilities);
+  const capabilities = { ...defaultClientCapabilities, ...options.capabilities };
+  return applyCompatibilityTransformations(includedTools, capabilities);
 }
 
 /**
@@ -99,15 +120,7 @@ export async function executeHandler(
   if (options.validJson && args) {
     args = parseEmbeddedJSON(args, tool.inputSchema);
   }
-  const result = await handler(client, args || {});
-  return {
-    content: [
-      {
-        type: 'text',
-        text: JSON.stringify(result, null, 2),
-      },
-    ],
-  };
+  return await handler(client, args || {});
 }
 
 export const readEnv = (env: string): string | undefined => {
