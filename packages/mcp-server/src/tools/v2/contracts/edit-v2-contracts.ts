@@ -229,7 +229,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             name: {
               type: 'string',
@@ -332,7 +331,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             temporary_id: {
@@ -498,7 +496,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
           },
@@ -593,7 +590,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             custom_fields: {
               type: 'object',
@@ -703,7 +699,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             overwrite_rate: {
@@ -848,7 +843,6 @@ export const tool: Tool = {
                       },
                     },
                   },
-                  required: [],
                 },
               },
             },
@@ -1111,7 +1105,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             temporary_id: {
@@ -1253,7 +1246,6 @@ export const tool: Tool = {
                     },
                   },
                 },
-                required: [],
               },
             },
             temporary_id: {
@@ -1301,7 +1293,6 @@ export const tool: Tool = {
                   type: 'string',
                 },
               },
-              required: [],
             },
             ending_before: {
               type: 'string',
@@ -1321,7 +1312,6 @@ export const tool: Tool = {
                   type: 'string',
                 },
               },
-              required: [],
             },
             netsuite_reseller_id: {
               type: 'string',
@@ -1425,7 +1415,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             name: {
               type: 'string',
@@ -1554,7 +1543,6 @@ export const tool: Tool = {
                   description: 'Indicates if the partial period will be prorated or charged a full amount.',
                 },
               },
-              required: [],
             },
             subscription_rate: {
               type: 'object',
@@ -1721,7 +1709,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             applicable_product_ids: {
               type: 'array',
@@ -1849,7 +1836,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             netsuite_sales_order_id: {
               type: 'string',
@@ -1941,7 +1927,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             applicable_product_ids: {
               type: 'array',
@@ -2078,11 +2063,9 @@ export const tool: Tool = {
                       },
                     },
                   },
-                  required: [],
                 },
               },
             },
-            required: [],
           },
           custom_credit_type_id: {
             type: 'string',
@@ -2156,7 +2139,6 @@ export const tool: Tool = {
               "Specify the threshold amount for the contract. Each time the contract's balance lowers to this amount, a threshold charge will be initiated.",
           },
         },
-        required: [],
       },
       update_recurring_commits: {
         type: 'array',
@@ -2178,7 +2160,6 @@ export const tool: Tool = {
                   type: 'number',
                 },
               },
-              required: [],
             },
             ending_before: {
               type: 'string',
@@ -2194,7 +2175,6 @@ export const tool: Tool = {
                   type: 'number',
                 },
               },
-              required: [],
             },
           },
           required: ['recurring_commit_id'],
@@ -2220,7 +2200,6 @@ export const tool: Tool = {
                   type: 'number',
                 },
               },
-              required: [],
             },
             ending_before: {
               type: 'string',
@@ -2301,7 +2280,6 @@ export const tool: Tool = {
                   },
                 },
               },
-              required: [],
             },
             netsuite_sales_order_id: {
               type: 'string',
@@ -2330,7 +2308,6 @@ export const tool: Tool = {
                   'The commit product that will be used to generate the line item for commit payment.',
               },
             },
-            required: [],
           },
           is_enabled: {
             type: 'boolean',
@@ -2395,7 +2372,6 @@ export const tool: Tool = {
               "Specify the threshold amount for the contract. Each time the contract's usage hits this amount, a threshold charge will be initiated.",
           },
         },
-        required: [],
       },
       update_subscriptions: {
         type: 'array',
@@ -2440,6 +2416,7 @@ export const tool: Tool = {
         },
       },
     },
+    required: ['contract_id', 'customer_id'],
     $defs: {
       tier: {
         type: 'object',

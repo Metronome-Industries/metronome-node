@@ -59,6 +59,11 @@ export interface Commit {
   description?: string;
 
   /**
+   * Optional configuration for commit hierarchy access control
+   */
+  hierarchy_configuration?: Commit.HierarchyConfiguration;
+
+  /**
    * The contract that this commit will be billed on.
    */
   invoice_contract?: Commit.InvoiceContract;
@@ -137,6 +142,32 @@ export namespace Commit {
 
   export interface Contract {
     id: string;
+  }
+
+  /**
+   * Optional configuration for commit hierarchy access control
+   */
+  export interface HierarchyConfiguration {
+    child_access:
+      | HierarchyConfiguration.CommitHierarchyChildAccessAll
+      | HierarchyConfiguration.CommitHierarchyChildAccessNone
+      | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+  }
+
+  export namespace HierarchyConfiguration {
+    export interface CommitHierarchyChildAccessAll {
+      type: 'ALL';
+    }
+
+    export interface CommitHierarchyChildAccessNone {
+      type: 'NONE';
+    }
+
+    export interface CommitHierarchyChildAccessContractIDs {
+      contract_ids: Array<string>;
+
+      type: 'CONTRACT_IDS';
+    }
   }
 
   /**
@@ -1076,6 +1107,11 @@ export interface Credit {
   description?: string;
 
   /**
+   * Optional configuration for credit hierarchy access control
+   */
+  hierarchy_configuration?: Credit.HierarchyConfiguration;
+
+  /**
    * A list of ordered events that impact the balance of a credit. For example, an
    * invoice deduction or an expiration.
    */
@@ -1133,6 +1169,32 @@ export namespace Credit {
 
   export interface Contract {
     id: string;
+  }
+
+  /**
+   * Optional configuration for credit hierarchy access control
+   */
+  export interface HierarchyConfiguration {
+    child_access:
+      | HierarchyConfiguration.CommitHierarchyChildAccessAll
+      | HierarchyConfiguration.CommitHierarchyChildAccessNone
+      | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+  }
+
+  export namespace HierarchyConfiguration {
+    export interface CommitHierarchyChildAccessAll {
+      type: 'ALL';
+    }
+
+    export interface CommitHierarchyChildAccessNone {
+      type: 'NONE';
+    }
+
+    export interface CommitHierarchyChildAccessContractIDs {
+      contract_ids: Array<string>;
+
+      type: 'CONTRACT_IDS';
+    }
   }
 
   export interface CreditSegmentStartLedgerEntry {
@@ -1571,13 +1633,13 @@ export namespace SchedulePointInTime {
 
     amount: number;
 
-    invoice_id: string;
-
     quantity: number;
 
     timestamp: string;
 
     unit_price: number;
+
+    invoice_id?: string | null;
   }
 }
 

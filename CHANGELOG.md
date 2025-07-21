@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0-beta.12 (2025-07-15)
+## 0.1.0-beta.12 (2025-07-18)
 
 Full Changelog: [v0.1.0-beta.11...v0.1.0-beta.12](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.11...v0.1.0-beta.12)
 
@@ -25,6 +25,7 @@ Full Changelog: [v0.1.0-beta.11...v0.1.0-beta.12](https://github.com/Metronome-I
 * **build:** bump node version in CI build to 20 to be compatible with MCP package ([52b0abc](https://github.com/Metronome-Industries/metronome-node/commit/52b0abcac2913de4062e5249e27796647249bd7a))
 * **ci:** release-doctor — report correct token name ([4e1621e](https://github.com/Metronome-Industries/metronome-node/commit/4e1621e8e77f29d18dcc6a3d428c0dde033723de))
 * **client:** don't send `Content-Type` for bodyless methods ([7fd6259](https://github.com/Metronome-Industries/metronome-node/commit/7fd6259678fdf7c3878363732e6a1f2fbd90e595))
+* **mcp:** include required section for top-level properties and support naming transformations ([63bb909](https://github.com/Metronome-Industries/metronome-node/commit/63bb909ae64ac02224a5261283cfcb00c556f7b0))
 * **mcp:** relax input type for asTextContextResult ([672b608](https://github.com/Metronome-Industries/metronome-node/commit/672b6088899b3e56ccef1154061c179c0924eb7e))
 * **mcp:** support jq filtering on cloudflare workers ([e560bbc](https://github.com/Metronome-Industries/metronome-node/commit/e560bbc9b9975e2b6fe4a0609e7bba5faf3ee487))
 * publish script — handle NPM errors correctly ([59bc726](https://github.com/Metronome-Industries/metronome-node/commit/59bc726367965dac5877d900d81bec32b71c395d))
@@ -37,6 +38,7 @@ Full Changelog: [v0.1.0-beta.11...v0.1.0-beta.12](https://github.com/Metronome-I
 * **docs:** use top-level-await in example snippets ([b3010ef](https://github.com/Metronome-Industries/metronome-node/commit/b3010ef72fb05f33c3382354bc297e8a8fd4a175))
 * **internal:** make base APIResource abstract ([128bf66](https://github.com/Metronome-Industries/metronome-node/commit/128bf662fd0437cdcbd771d006e20b9a0f26f333))
 * make some internal functions async ([4ce7c1b](https://github.com/Metronome-Industries/metronome-node/commit/4ce7c1bdbd26d2144e8cf04d58a80c78bd69931f))
+* **mcp:** formatting ([51ed397](https://github.com/Metronome-Industries/metronome-node/commit/51ed397af653cdc96799a69a7065a66315c1410d))
 * **mcp:** provides high-level initMcpServer function and exports known clients ([7f82ab5](https://github.com/Metronome-Industries/metronome-node/commit/7f82ab5960c2bc474063395fd4c7af6e14964bbf))
 * **mcp:** rework imports in tools ([a1434bc](https://github.com/Metronome-Industries/metronome-node/commit/a1434bc98c123bd605091e1953faf6250022ed81))
 * mention unit type in timeout docs ([74a810d](https://github.com/Metronome-Industries/metronome-node/commit/74a810d4f89fd2840cf0d69cf0c77af4a22a9ffb))

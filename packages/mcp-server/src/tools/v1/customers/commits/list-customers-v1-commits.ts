@@ -65,6 +65,7 @@ export const tool: Tool = {
         format: 'date-time',
       },
     },
+    required: ['customer_id'],
   },
 };
 
