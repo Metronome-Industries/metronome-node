@@ -84,6 +84,7 @@ export interface Commit {
     | Commit.PrepaidCommitExpirationLedgerEntry
     | Commit.PrepaidCommitCanceledLedgerEntry
     | Commit.PrepaidCommitCreditedLedgerEntry
+    | Commit.PrepaidCommitSeatBasedAdjustmentLedgerEntry
     | Commit.PostpaidCommitInitialBalanceLedgerEntry
     | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry
     | Commit.PostpaidCommitRolloverLedgerEntry
@@ -243,6 +244,16 @@ export namespace Commit {
     timestamp: string;
 
     type: 'PREPAID_COMMIT_CREDITED';
+  }
+
+  export interface PrepaidCommitSeatBasedAdjustmentLedgerEntry {
+    amount: number;
+
+    segment_id: string;
+
+    timestamp: string;
+
+    type: 'PREPAID_COMMIT_SEAT_BASED_ADJUSTMENT';
   }
 
   export interface PostpaidCommitInitialBalanceLedgerEntry {
@@ -1122,6 +1133,7 @@ export interface Credit {
     | Credit.CreditCanceledLedgerEntry
     | Credit.CreditCreditedLedgerEntry
     | Credit.CreditManualLedgerEntry
+    | Credit.CreditSeatBasedAdjustmentLedgerEntry
   >;
 
   name?: string;
@@ -1261,6 +1273,16 @@ export namespace Credit {
     timestamp: string;
 
     type: 'CREDIT_MANUAL';
+  }
+
+  export interface CreditSeatBasedAdjustmentLedgerEntry {
+    amount: number;
+
+    segment_id: string;
+
+    timestamp: string;
+
+    type: 'CREDIT_SEAT_BASED_ADJUSTMENT';
   }
 
   export interface Specifier {
