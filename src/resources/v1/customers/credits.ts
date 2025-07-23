@@ -244,11 +244,6 @@ export interface CreditListParams {
   include_ledgers?: boolean;
 
   /**
-   * The maximum number of commits to return. Defaults to 25.
-   */
-  limit?: number;
-
-  /**
    * The next page token from a previous response.
    */
   next_page?: string;
