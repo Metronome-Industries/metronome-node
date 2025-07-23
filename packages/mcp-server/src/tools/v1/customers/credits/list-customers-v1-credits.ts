@@ -55,10 +55,6 @@ export const tool: Tool = {
         description:
           'Include credit ledgers in the response. Setting this flag may cause the query to be slower.',
       },
-      limit: {
-        type: 'integer',
-        description: 'The maximum number of commits to return. Defaults to 25.',
-      },
       next_page: {
         type: 'string',
         description: 'The next page token from a previous response.',

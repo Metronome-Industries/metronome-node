@@ -53,6 +53,10 @@ export class CursorPage<Item> extends AbstractPage<Item> implements CursorPageRe
     return this.data ?? [];
   }
 
+  override hasNextPage(): boolean {
+    return this.nextPageInfo() != null;
+  }
+
   // @deprecated Please use `nextPageInfo()` instead
   nextPageParams(): Partial<CursorPageParams> | null {
     const info = this.nextPageInfo();
