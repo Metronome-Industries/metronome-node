@@ -70,6 +70,9 @@ export const tool: Tool = {
     },
     required: ['customer_id', 'ending_before', 'starting_on'],
   },
+  annotations: {
+    readOnlyHint: true,
+  },
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {

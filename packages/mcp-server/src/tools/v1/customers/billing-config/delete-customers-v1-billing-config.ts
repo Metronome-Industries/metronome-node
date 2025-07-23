@@ -46,6 +46,9 @@ export const tool: Tool = {
     },
     required: ['customer_id', 'billing_provider_type'],
   },
+  annotations: {
+    idempotentHint: true,
+  },
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {

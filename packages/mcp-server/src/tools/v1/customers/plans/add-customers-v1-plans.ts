@@ -137,6 +137,7 @@ export const tool: Tool = {
     },
     required: ['customer_id', 'plan_id', 'starting_on'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
