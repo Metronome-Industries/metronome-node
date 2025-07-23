@@ -92,6 +92,7 @@ describe('resource credits', () => {
       include_balance: true,
       include_contract_credits: true,
       include_ledgers: true,
+      limit: 1,
       next_page: 'next_page',
       starting_at: '2019-12-27T18:11:19.117Z',
     });
