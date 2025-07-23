@@ -2546,6 +2546,11 @@ export namespace ContractCreateParams {
     ending_before?: string;
 
     /**
+     * Optional configuration for recurring commit/credit hierarchy access control
+     */
+    hierarchy_configuration?: RecurringCommit.HierarchyConfiguration;
+
+    /**
      * The amount the customer should be billed for the commit. Not required.
      */
     invoice_amount?: RecurringCommit.InvoiceAmount;
@@ -2630,6 +2635,32 @@ export namespace ContractCreateParams {
     }
 
     /**
+     * Optional configuration for recurring commit/credit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
+      }
+    }
+
+    /**
      * The amount the customer should be billed for the commit. Not required.
      */
     export interface InvoiceAmount {
@@ -2702,6 +2733,11 @@ export namespace ContractCreateParams {
      * Determines when the contract will stop creating recurring commits. optional
      */
     ending_before?: string;
+
+    /**
+     * Optional configuration for recurring commit/credit hierarchy access control
+     */
+    hierarchy_configuration?: RecurringCredit.HierarchyConfiguration;
 
     /**
      * displayed on invoices. will be passed through to the individual commits
@@ -2780,6 +2816,32 @@ export namespace ContractCreateParams {
       value: number;
 
       unit?: 'PERIODS';
+    }
+
+    /**
+     * Optional configuration for recurring commit/credit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
+      }
     }
 
     export interface Specifier {
@@ -4375,6 +4437,11 @@ export interface ContractListBalancesParams {
    * slower.
    */
   include_ledgers?: boolean;
+
+  /**
+   * The maximum number of commits to return. Defaults to 25.
+   */
+  limit?: number;
 
   /**
    * The next page token from a previous response.
