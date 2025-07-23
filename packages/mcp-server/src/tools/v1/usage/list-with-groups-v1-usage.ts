@@ -82,6 +82,7 @@ export const tool: Tool = {
     },
     required: ['billable_metric_id', 'customer_id', 'window_size'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {

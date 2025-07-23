@@ -84,6 +84,7 @@ export const tool: Tool = {
     },
     required: ['name'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {

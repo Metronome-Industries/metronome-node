@@ -59,6 +59,7 @@ export const tool: Tool = {
     },
     required: ['enforce_uniqueness', 'entity', 'key'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {

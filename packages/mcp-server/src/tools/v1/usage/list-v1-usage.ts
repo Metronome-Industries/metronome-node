@@ -89,6 +89,7 @@ export const tool: Tool = {
     },
     required: ['ending_before', 'starting_on', 'window_size'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
