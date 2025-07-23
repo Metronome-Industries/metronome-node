@@ -110,6 +110,7 @@ describe('resource commits', () => {
       include_balance: true,
       include_contract_commits: true,
       include_ledgers: true,
+      limit: 1,
       next_page: 'next_page',
       starting_at: '2019-12-27T18:11:19.117Z',
     });
