@@ -55,7 +55,7 @@ describe('resource commits', () => {
       applicable_product_tags: ['string'],
       custom_fields: { foo: 'string' },
       description: 'description',
-      invoice_contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      invoice_contract_id: 'e57d6929-c2f1-4796-a9a8-63cedefe848d',
       invoice_schedule: {
         credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
         recurring_schedule: {

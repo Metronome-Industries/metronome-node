@@ -25,6 +25,8 @@ export class Commits extends APIResource {
    *   priority: 100,
    *   product_id: 'f14d6729-6a44-4b13-9908-9387f1918790',
    *   type: 'prepaid',
+   *   invoice_contract_id:
+   *     'e57d6929-c2f1-4796-a9a8-63cedefe848d',
    *   invoice_schedule: {
    *     credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
    *     schedule_items: [
