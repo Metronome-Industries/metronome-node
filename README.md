@@ -1,8 +1,5 @@
 # Metronome Node API Library
 
-> [!WARNING]
-> This is in beta so there may be breaking changes version to version.
-
 [![NPM version](https://img.shields.io/npm/v/@metronome/sdk.svg)](https://npmjs.org/package/@metronome/sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@metronome/sdk)
 
 This library provides convenient access to the Metronome REST API from server-side TypeScript or JavaScript.
