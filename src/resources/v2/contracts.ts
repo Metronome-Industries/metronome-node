@@ -198,6 +198,12 @@ export namespace ContractRetrieveResponse {
     ending_before?: string;
 
     /**
+     * Indicates whether there are more items than the limit for this endpoint. Use the
+     * respective list endpoints to get the full lists.
+     */
+    has_more?: Data.HasMore;
+
+    /**
      * Either a **parent** configuration with a list of children or a **child**
      * configuration with a single parent.
      */
@@ -340,6 +346,7 @@ export namespace ContractRetrieveResponse {
         | Commit.PrepaidCommitExpirationLedgerEntry
         | Commit.PrepaidCommitCanceledLedgerEntry
         | Commit.PrepaidCommitCreditedLedgerEntry
+        | Commit.PrepaidCommitSeatBasedAdjustmentLedgerEntry
         | Commit.PostpaidCommitInitialBalanceLedgerEntry
         | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry
         | Commit.PostpaidCommitRolloverLedgerEntry
@@ -491,6 +498,16 @@ export namespace ContractRetrieveResponse {
         timestamp: string;
 
         type: 'PREPAID_COMMIT_CREDITED';
+      }
+
+      export interface PrepaidCommitSeatBasedAdjustmentLedgerEntry {
+        amount: number;
+
+        segment_id: string;
+
+        timestamp: string;
+
+        type: 'PREPAID_COMMIT_SEAT_BASED_ADJUSTMENT';
       }
 
       export interface PostpaidCommitInitialBalanceLedgerEntry {
@@ -770,6 +787,7 @@ export namespace ContractRetrieveResponse {
         | Credit.CreditCanceledLedgerEntry
         | Credit.CreditCreditedLedgerEntry
         | Credit.CreditManualLedgerEntry
+        | Credit.CreditSeatBasedAdjustmentLedgerEntry
       >;
 
       name?: string;
@@ -901,6 +919,16 @@ export namespace ContractRetrieveResponse {
         type: 'CREDIT_MANUAL';
       }
 
+      export interface CreditSeatBasedAdjustmentLedgerEntry {
+        amount: number;
+
+        segment_id: string;
+
+        timestamp: string;
+
+        type: 'CREDIT_SEAT_BASED_ADJUSTMENT';
+      }
+
       export interface Specifier {
         presentation_group_values?: { [key: string]: string };
 
@@ -934,6 +962,26 @@ export namespace ContractRetrieveResponse {
         | 'gcp_marketplace';
 
       delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+    }
+
+    /**
+     * Indicates whether there are more items than the limit for this endpoint. Use the
+     * respective list endpoints to get the full lists.
+     */
+    export interface HasMore {
+      /**
+       * Whether there are more commits on this contract than the limit for this
+       * endpoint. Use the /contracts/customerCommits/list endpoint to get the full list
+       * of commits.
+       */
+      commits: boolean;
+
+      /**
+       * Whether there are more credits on this contract than the limit for this
+       * endpoint. Use the /contracts/customerCredits/list endpoint to get the full list
+       * of credits.
+       */
+      credits: boolean;
     }
 
     export interface ParentHierarchyConfiguration {
@@ -1173,6 +1221,11 @@ export namespace ContractRetrieveResponse {
       ending_before?: string;
 
       /**
+       * Optional configuration for recurring commit/credit hierarchy access control
+       */
+      hierarchy_configuration?: RecurringCommit.HierarchyConfiguration;
+
+      /**
        * The amount the customer should be billed for the commit. Not required.
        */
       invoice_amount?: RecurringCommit.InvoiceAmount;
@@ -1190,7 +1243,6 @@ export namespace ContractRetrieveResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
-       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -1247,6 +1299,32 @@ export namespace ContractRetrieveResponse {
 
       export interface Contract {
         id: string;
+      }
+
+      /**
+       * Optional configuration for recurring commit/credit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
+        }
       }
 
       /**
@@ -1331,6 +1409,11 @@ export namespace ContractRetrieveResponse {
       ending_before?: string;
 
       /**
+       * Optional configuration for recurring commit/credit hierarchy access control
+       */
+      hierarchy_configuration?: RecurringCredit.HierarchyConfiguration;
+
+      /**
        * Displayed on invoices. Will be passed through to the individual commits
        */
       name?: string;
@@ -1343,7 +1426,6 @@ export namespace ContractRetrieveResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
-       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -1400,6 +1482,32 @@ export namespace ContractRetrieveResponse {
 
       export interface Contract {
         id: string;
+      }
+
+      /**
+       * Optional configuration for recurring commit/credit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
+        }
       }
 
       export interface Specifier {
@@ -1662,6 +1770,12 @@ export namespace ContractListResponse {
     ending_before?: string;
 
     /**
+     * Indicates whether there are more items than the limit for this endpoint. Use the
+     * respective list endpoints to get the full lists.
+     */
+    has_more?: Data.HasMore;
+
+    /**
      * Either a **parent** configuration with a list of children or a **child**
      * configuration with a single parent.
      */
@@ -1804,6 +1918,7 @@ export namespace ContractListResponse {
         | Commit.PrepaidCommitExpirationLedgerEntry
         | Commit.PrepaidCommitCanceledLedgerEntry
         | Commit.PrepaidCommitCreditedLedgerEntry
+        | Commit.PrepaidCommitSeatBasedAdjustmentLedgerEntry
         | Commit.PostpaidCommitInitialBalanceLedgerEntry
         | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry
         | Commit.PostpaidCommitRolloverLedgerEntry
@@ -1955,6 +2070,16 @@ export namespace ContractListResponse {
         timestamp: string;
 
         type: 'PREPAID_COMMIT_CREDITED';
+      }
+
+      export interface PrepaidCommitSeatBasedAdjustmentLedgerEntry {
+        amount: number;
+
+        segment_id: string;
+
+        timestamp: string;
+
+        type: 'PREPAID_COMMIT_SEAT_BASED_ADJUSTMENT';
       }
 
       export interface PostpaidCommitInitialBalanceLedgerEntry {
@@ -2234,6 +2359,7 @@ export namespace ContractListResponse {
         | Credit.CreditCanceledLedgerEntry
         | Credit.CreditCreditedLedgerEntry
         | Credit.CreditManualLedgerEntry
+        | Credit.CreditSeatBasedAdjustmentLedgerEntry
       >;
 
       name?: string;
@@ -2365,6 +2491,16 @@ export namespace ContractListResponse {
         type: 'CREDIT_MANUAL';
       }
 
+      export interface CreditSeatBasedAdjustmentLedgerEntry {
+        amount: number;
+
+        segment_id: string;
+
+        timestamp: string;
+
+        type: 'CREDIT_SEAT_BASED_ADJUSTMENT';
+      }
+
       export interface Specifier {
         presentation_group_values?: { [key: string]: string };
 
@@ -2398,6 +2534,26 @@ export namespace ContractListResponse {
         | 'gcp_marketplace';
 
       delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+    }
+
+    /**
+     * Indicates whether there are more items than the limit for this endpoint. Use the
+     * respective list endpoints to get the full lists.
+     */
+    export interface HasMore {
+      /**
+       * Whether there are more commits on this contract than the limit for this
+       * endpoint. Use the /contracts/customerCommits/list endpoint to get the full list
+       * of commits.
+       */
+      commits: boolean;
+
+      /**
+       * Whether there are more credits on this contract than the limit for this
+       * endpoint. Use the /contracts/customerCredits/list endpoint to get the full list
+       * of credits.
+       */
+      credits: boolean;
     }
 
     export interface ParentHierarchyConfiguration {
@@ -2637,6 +2793,11 @@ export namespace ContractListResponse {
       ending_before?: string;
 
       /**
+       * Optional configuration for recurring commit/credit hierarchy access control
+       */
+      hierarchy_configuration?: RecurringCommit.HierarchyConfiguration;
+
+      /**
        * The amount the customer should be billed for the commit. Not required.
        */
       invoice_amount?: RecurringCommit.InvoiceAmount;
@@ -2654,7 +2815,6 @@ export namespace ContractListResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
-       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -2711,6 +2871,32 @@ export namespace ContractListResponse {
 
       export interface Contract {
         id: string;
+      }
+
+      /**
+       * Optional configuration for recurring commit/credit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
+        }
       }
 
       /**
@@ -2795,6 +2981,11 @@ export namespace ContractListResponse {
       ending_before?: string;
 
       /**
+       * Optional configuration for recurring commit/credit hierarchy access control
+       */
+      hierarchy_configuration?: RecurringCredit.HierarchyConfiguration;
+
+      /**
        * Displayed on invoices. Will be passed through to the individual commits
        */
       name?: string;
@@ -2807,7 +2998,6 @@ export namespace ContractListResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
-       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -2864,6 +3054,32 @@ export namespace ContractListResponse {
 
       export interface Contract {
         id: string;
+      }
+
+      /**
+       * Optional configuration for recurring commit/credit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
+        }
       }
 
       export interface Specifier {
@@ -3621,6 +3837,11 @@ export namespace ContractGetEditHistoryResponse {
       ending_before?: string;
 
       /**
+       * Optional configuration for recurring commit/credit hierarchy access control
+       */
+      hierarchy_configuration?: AddRecurringCommit.HierarchyConfiguration;
+
+      /**
        * The amount the customer should be billed for the commit. Not required.
        */
       invoice_amount?: AddRecurringCommit.InvoiceAmount;
@@ -3638,7 +3859,6 @@ export namespace ContractGetEditHistoryResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
-       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -3695,6 +3915,32 @@ export namespace ContractGetEditHistoryResponse {
 
       export interface Contract {
         id: string;
+      }
+
+      /**
+       * Optional configuration for recurring commit/credit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
+        }
       }
 
       /**
@@ -3779,6 +4025,11 @@ export namespace ContractGetEditHistoryResponse {
       ending_before?: string;
 
       /**
+       * Optional configuration for recurring commit/credit hierarchy access control
+       */
+      hierarchy_configuration?: AddRecurringCredit.HierarchyConfiguration;
+
+      /**
        * Displayed on invoices. Will be passed through to the individual commits
        */
       name?: string;
@@ -3791,7 +4042,6 @@ export namespace ContractGetEditHistoryResponse {
       /**
        * Determines whether the first and last commit will be prorated. If not provided,
        * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
-       * subscription_config:
        */
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
@@ -3848,6 +4098,32 @@ export namespace ContractGetEditHistoryResponse {
 
       export interface Contract {
         id: string;
+      }
+
+      /**
+       * Optional configuration for recurring commit/credit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
+        }
       }
 
       export interface Specifier {
@@ -5921,6 +6197,11 @@ export namespace ContractEditParams {
     ending_before?: string;
 
     /**
+     * Optional configuration for recurring commit/credit hierarchy access control
+     */
+    hierarchy_configuration?: AddRecurringCommit.HierarchyConfiguration;
+
+    /**
      * The amount the customer should be billed for the commit. Not required.
      */
     invoice_amount?: AddRecurringCommit.InvoiceAmount;
@@ -6005,6 +6286,32 @@ export namespace ContractEditParams {
     }
 
     /**
+     * Optional configuration for recurring commit/credit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
+      }
+    }
+
+    /**
      * The amount the customer should be billed for the commit. Not required.
      */
     export interface InvoiceAmount {
@@ -6077,6 +6384,11 @@ export namespace ContractEditParams {
      * Determines when the contract will stop creating recurring commits. optional
      */
     ending_before?: string;
+
+    /**
+     * Optional configuration for recurring commit/credit hierarchy access control
+     */
+    hierarchy_configuration?: AddRecurringCredit.HierarchyConfiguration;
 
     /**
      * displayed on invoices. will be passed through to the individual commits
@@ -6155,6 +6467,32 @@ export namespace ContractEditParams {
       value: number;
 
       unit?: 'PERIODS';
+    }
+
+    /**
+     * Optional configuration for recurring commit/credit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
+      }
     }
 
     export interface Specifier {

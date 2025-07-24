@@ -84,6 +84,7 @@ export const tool: Tool = {
     },
     required: ['rate_card_id', 'starting_at'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {

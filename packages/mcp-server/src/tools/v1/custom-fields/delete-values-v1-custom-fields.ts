@@ -62,6 +62,7 @@ export const tool: Tool = {
     },
     required: ['entity', 'entity_id', 'keys'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {

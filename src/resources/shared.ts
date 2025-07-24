@@ -84,6 +84,7 @@ export interface Commit {
     | Commit.PrepaidCommitExpirationLedgerEntry
     | Commit.PrepaidCommitCanceledLedgerEntry
     | Commit.PrepaidCommitCreditedLedgerEntry
+    | Commit.PrepaidCommitSeatBasedAdjustmentLedgerEntry
     | Commit.PostpaidCommitInitialBalanceLedgerEntry
     | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry
     | Commit.PostpaidCommitRolloverLedgerEntry
@@ -243,6 +244,16 @@ export namespace Commit {
     timestamp: string;
 
     type: 'PREPAID_COMMIT_CREDITED';
+  }
+
+  export interface PrepaidCommitSeatBasedAdjustmentLedgerEntry {
+    amount: number;
+
+    segment_id: string;
+
+    timestamp: string;
+
+    type: 'PREPAID_COMMIT_SEAT_BASED_ADJUSTMENT';
   }
 
   export interface PostpaidCommitInitialBalanceLedgerEntry {
@@ -679,6 +690,11 @@ export namespace ContractWithoutAmendments {
     ending_before?: string;
 
     /**
+     * Optional configuration for recurring commit/credit hierarchy access control
+     */
+    hierarchy_configuration?: RecurringCommit.HierarchyConfiguration;
+
+    /**
      * The amount the customer should be billed for the commit. Not required.
      */
     invoice_amount?: RecurringCommit.InvoiceAmount;
@@ -752,6 +768,32 @@ export namespace ContractWithoutAmendments {
 
     export interface Contract {
       id: string;
+    }
+
+    /**
+     * Optional configuration for recurring commit/credit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
+      }
     }
 
     /**
@@ -836,6 +878,11 @@ export namespace ContractWithoutAmendments {
     ending_before?: string;
 
     /**
+     * Optional configuration for recurring commit/credit hierarchy access control
+     */
+    hierarchy_configuration?: RecurringCredit.HierarchyConfiguration;
+
+    /**
      * Displayed on invoices. Will be passed through to the individual commits
      */
     name?: string;
@@ -904,6 +951,32 @@ export namespace ContractWithoutAmendments {
 
     export interface Contract {
       id: string;
+    }
+
+    /**
+     * Optional configuration for recurring commit/credit hierarchy access control
+     */
+    export interface HierarchyConfiguration {
+      child_access:
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+    }
+
+    export namespace HierarchyConfiguration {
+      export interface CommitHierarchyChildAccessAll {
+        type: 'ALL';
+      }
+
+      export interface CommitHierarchyChildAccessNone {
+        type: 'NONE';
+      }
+
+      export interface CommitHierarchyChildAccessContractIDs {
+        contract_ids: Array<string>;
+
+        type: 'CONTRACT_IDS';
+      }
     }
 
     export interface Specifier {
@@ -1122,6 +1195,7 @@ export interface Credit {
     | Credit.CreditCanceledLedgerEntry
     | Credit.CreditCreditedLedgerEntry
     | Credit.CreditManualLedgerEntry
+    | Credit.CreditSeatBasedAdjustmentLedgerEntry
   >;
 
   name?: string;
@@ -1261,6 +1335,16 @@ export namespace Credit {
     timestamp: string;
 
     type: 'CREDIT_MANUAL';
+  }
+
+  export interface CreditSeatBasedAdjustmentLedgerEntry {
+    amount: number;
+
+    segment_id: string;
+
+    timestamp: string;
+
+    type: 'CREDIT_SEAT_BASED_ADJUSTMENT';
   }
 
   export interface Specifier {

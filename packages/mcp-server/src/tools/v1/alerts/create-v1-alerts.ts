@@ -140,6 +140,7 @@ export const tool: Tool = {
     },
     required: ['alert_type', 'name', 'threshold'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {

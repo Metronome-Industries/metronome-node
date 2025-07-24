@@ -42,6 +42,9 @@ export const tool: Tool = {
     },
     required: ['plan_id'],
   },
+  annotations: {
+    readOnlyHint: true,
+  },
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {

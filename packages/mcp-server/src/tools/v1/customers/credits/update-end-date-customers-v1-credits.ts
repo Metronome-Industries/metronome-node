@@ -45,6 +45,7 @@ export const tool: Tool = {
     },
     required: ['access_ending_before', 'credit_id', 'customer_id'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {

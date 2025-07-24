@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.1.0 (2025-07-24)
+
+Full Changelog: [v0.1.0-beta.12...v0.1.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.12...v0.1.0)
+
+### Features
+
+* **api:** Allow for Pagination past empty pages ([1b1308b](https://github.com/Metronome-Industries/metronome-node/commit/1b1308b513d14ae4da8c4c2626b31979812ab752))
+* **api:** api update ([b9a103e](https://github.com/Metronome-Industries/metronome-node/commit/b9a103e4cb6df2b6aee6abb86b45b80629f015dd))
+* **api:** api update ([2615251](https://github.com/Metronome-Industries/metronome-node/commit/26152511f0ca5b5fc6c899ad67edbdd27035d9a8))
+* **api:** api update ([2bf2236](https://github.com/Metronome-Industries/metronome-node/commit/2bf22368018398ab1297177ad905d614f708ba94))
+* **api:** api update ([5d3cd18](https://github.com/Metronome-Industries/metronome-node/commit/5d3cd180cb012878780ec99d8469a99d8f2fe5c6))
+
+
+### Chores
+
+* **internal:** codegen related update ([a587ca5](https://github.com/Metronome-Industries/metronome-node/commit/a587ca5d5b9e51241afe9b3bf570f47cee3a8916))
+
 ## 0.1.0-beta.12 (2025-07-18)
 
 Full Changelog: [v0.1.0-beta.11...v0.1.0-beta.12](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.11...v0.1.0-beta.12)

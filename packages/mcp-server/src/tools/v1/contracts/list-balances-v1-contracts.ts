@@ -54,6 +54,10 @@ export const tool: Tool = {
         type: 'boolean',
         description: 'Include ledgers in the response. Setting this flag may cause the query to be slower.',
       },
+      limit: {
+        type: 'integer',
+        description: 'The maximum number of commits to return. Defaults to 25.',
+      },
       next_page: {
         type: 'string',
         description: 'The next page token from a previous response.',
@@ -66,6 +70,7 @@ export const tool: Tool = {
     },
     required: ['customer_id'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
