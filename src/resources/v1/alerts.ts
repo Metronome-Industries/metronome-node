@@ -124,6 +124,12 @@ export interface AlertCreateParams {
   group_key_filter?: AlertCreateParams.GroupKeyFilter;
 
   /**
+   * Only present for `spend_threshold_reached` alerts. Scope alert to a specific
+   * group key on individual line items.
+   */
+  group_values?: Array<AlertCreateParams.GroupValue>;
+
+  /**
    * Only supported for invoice_total_reached alerts. A list of invoice types to
    * evaluate.
    */
@@ -157,6 +163,12 @@ export namespace AlertCreateParams {
    * items. Only present for spend alerts.
    */
   export interface GroupKeyFilter {
+    key: string;
+
+    value: string;
+  }
+
+  export interface GroupValue {
     key: string;
 
     value: string;

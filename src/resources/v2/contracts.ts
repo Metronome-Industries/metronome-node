@@ -1082,6 +1082,8 @@ export namespace ContractRetrieveResponse {
          * or credit. A customer's usage needs to meet the condition of at least one of the
          * specifiers to contribute to a commit's or credit's drawdown. This field cannot
          * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         * Instead, to target usage by product or product tag, pass those values in the
+         * body of `specifiers`.
          */
         specifiers?: Array<Commit.Specifier>;
       }
@@ -1221,7 +1223,7 @@ export namespace ContractRetrieveResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: RecurringCommit.HierarchyConfiguration;
 
@@ -1302,7 +1304,7 @@ export namespace ContractRetrieveResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -1409,7 +1411,7 @@ export namespace ContractRetrieveResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: RecurringCredit.HierarchyConfiguration;
 
@@ -1485,7 +1487,7 @@ export namespace ContractRetrieveResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -2654,6 +2656,8 @@ export namespace ContractListResponse {
          * or credit. A customer's usage needs to meet the condition of at least one of the
          * specifiers to contribute to a commit's or credit's drawdown. This field cannot
          * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         * Instead, to target usage by product or product tag, pass those values in the
+         * body of `specifiers`.
          */
         specifiers?: Array<Commit.Specifier>;
       }
@@ -2793,7 +2797,7 @@ export namespace ContractListResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: RecurringCommit.HierarchyConfiguration;
 
@@ -2874,7 +2878,7 @@ export namespace ContractListResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -2981,7 +2985,7 @@ export namespace ContractListResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: RecurringCredit.HierarchyConfiguration;
 
@@ -3057,7 +3061,7 @@ export namespace ContractListResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -3407,6 +3411,11 @@ export namespace ContractGetEditHistoryResponse {
       description?: string;
 
       /**
+       * Optional configuration for commit hierarchy access control
+       */
+      hierarchy_configuration?: AddCommit.HierarchyConfiguration;
+
+      /**
        * The schedule that the customer will be invoiced for this commit.
        */
       invoice_schedule?: Shared.SchedulePointInTime;
@@ -3438,6 +3447,8 @@ export namespace ContractGetEditHistoryResponse {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<AddCommit.Specifier>;
     }
@@ -3447,6 +3458,32 @@ export namespace ContractGetEditHistoryResponse {
         id: string;
 
         name: string;
+      }
+
+      /**
+       * Optional configuration for commit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
+        }
       }
 
       export interface Specifier {
@@ -3485,6 +3522,11 @@ export namespace ContractGetEditHistoryResponse {
 
       description?: string;
 
+      /**
+       * Optional configuration for recurring credit hierarchy access control
+       */
+      hierarchy_configuration?: AddCredit.HierarchyConfiguration;
+
       name?: string;
 
       /**
@@ -3508,6 +3550,8 @@ export namespace ContractGetEditHistoryResponse {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<AddCredit.Specifier>;
     }
@@ -3517,6 +3561,32 @@ export namespace ContractGetEditHistoryResponse {
         id: string;
 
         name: string;
+      }
+
+      /**
+       * Optional configuration for recurring credit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
+        }
       }
 
       export interface Specifier {
@@ -3698,6 +3768,8 @@ export namespace ContractGetEditHistoryResponse {
          * or credit. A customer's usage needs to meet the condition of at least one of the
          * specifiers to contribute to a commit's or credit's drawdown. This field cannot
          * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         * Instead, to target usage by product or product tag, pass those values in the
+         * body of `specifiers`.
          */
         specifiers?: Array<Commit.Specifier>;
       }
@@ -3837,7 +3909,7 @@ export namespace ContractGetEditHistoryResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: AddRecurringCommit.HierarchyConfiguration;
 
@@ -3918,7 +3990,7 @@ export namespace ContractGetEditHistoryResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -4025,7 +4097,7 @@ export namespace ContractGetEditHistoryResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: AddRecurringCredit.HierarchyConfiguration;
 
@@ -4101,7 +4173,7 @@ export namespace ContractGetEditHistoryResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -4408,6 +4480,11 @@ export namespace ContractGetEditHistoryResponse {
        */
       applicable_product_tags?: Array<string> | null;
 
+      /**
+       * Optional configuration for commit hierarchy access control
+       */
+      hierarchy_configuration?: UpdateCommit.HierarchyConfiguration;
+
       invoice_schedule?: UpdateCommit.InvoiceSchedule;
 
       name?: string;
@@ -4423,6 +4500,8 @@ export namespace ContractGetEditHistoryResponse {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<UpdateCommit.Specifier> | null;
     }
@@ -4469,6 +4548,32 @@ export namespace ContractGetEditHistoryResponse {
            * RFC 3339 timestamp (inclusive)
            */
           starting_at?: string;
+        }
+      }
+
+      /**
+       * Optional configuration for commit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
         }
       }
 
@@ -4531,6 +4636,11 @@ export namespace ContractGetEditHistoryResponse {
 
       access_schedule?: UpdateCredit.AccessSchedule;
 
+      /**
+       * Optional configuration for credit hierarchy access control
+       */
+      hierarchy_configuration?: UpdateCredit.HierarchyConfiguration;
+
       name?: string;
 
       netsuite_sales_order_id?: string | null;
@@ -4580,6 +4690,32 @@ export namespace ContractGetEditHistoryResponse {
            * RFC 3339 timestamp (inclusive)
            */
           starting_at?: string;
+        }
+      }
+
+      /**
+       * Optional configuration for credit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
         }
       }
     }
@@ -4759,6 +4895,8 @@ export namespace ContractGetEditHistoryResponse {
          * or credit. A customer's usage needs to meet the condition of at least one of the
          * specifiers to contribute to a commit's or credit's drawdown. This field cannot
          * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         * Instead, to target usage by product or product tag, pass those values in the
+         * body of `specifiers`.
          */
         specifiers?: Array<Commit.Specifier> | null;
       }
@@ -5312,6 +5450,8 @@ export namespace ContractEditParams {
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     * Instead, to target usage by product or product tag, pass those values in the
+     * body of `specifiers`.
      */
     specifiers?: Array<AddCommit.Specifier>;
 
@@ -5611,6 +5751,8 @@ export namespace ContractEditParams {
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     * Instead, to target usage by product or product tag, pass those values in the
+     * body of `specifiers`.
      */
     specifiers?: Array<AddCredit.Specifier>;
   }
@@ -6035,6 +6177,8 @@ export namespace ContractEditParams {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<Commit.Specifier>;
     }
@@ -6197,7 +6341,7 @@ export namespace ContractEditParams {
     ending_before?: string;
 
     /**
-     * Optional configuration for recurring commit/credit hierarchy access control
+     * Optional configuration for recurring credit hierarchy access control
      */
     hierarchy_configuration?: AddRecurringCommit.HierarchyConfiguration;
 
@@ -6248,6 +6392,8 @@ export namespace ContractEditParams {
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     * Instead, to target usage by product or product tag, pass those values in the
+     * body of `specifiers`.
      */
     specifiers?: Array<AddRecurringCommit.Specifier>;
 
@@ -6286,7 +6432,7 @@ export namespace ContractEditParams {
     }
 
     /**
-     * Optional configuration for recurring commit/credit hierarchy access control
+     * Optional configuration for recurring credit hierarchy access control
      */
     export interface HierarchyConfiguration {
       child_access:
@@ -6386,7 +6532,7 @@ export namespace ContractEditParams {
     ending_before?: string;
 
     /**
-     * Optional configuration for recurring commit/credit hierarchy access control
+     * Optional configuration for recurring credit hierarchy access control
      */
     hierarchy_configuration?: AddRecurringCredit.HierarchyConfiguration;
 
@@ -6432,6 +6578,8 @@ export namespace ContractEditParams {
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     * Instead, to target usage by product or product tag, pass those values in the
+     * body of `specifiers`.
      */
     specifiers?: Array<AddRecurringCredit.Specifier>;
 
@@ -6470,7 +6618,7 @@ export namespace ContractEditParams {
     }
 
     /**
-     * Optional configuration for recurring commit/credit hierarchy access control
+     * Optional configuration for recurring credit hierarchy access control
      */
     export interface HierarchyConfiguration {
       child_access:
@@ -6805,10 +6953,11 @@ export namespace ContractEditParams {
   export namespace AddSubscription {
     export interface Proration {
       /**
-       * Indicates how mid-period quantity adjustments are invoiced. If BILL_IMMEDIATELY
-       * is selected, the quantity increase will be billed on the scheduled date. If
-       * BILL_ON_NEXT_COLLECTION_DATE is selected, the quantity increase will be billed
-       * for in-arrears at the end of the period.
+       * Indicates how mid-period quantity adjustments are invoiced.
+       * **BILL_IMMEDIATELY**: Only available when collection schedule is `ADVANCE`. The
+       * quantity increase will be billed immediately on the scheduled date.
+       * **BILL_ON_NEXT_COLLECTION_DATE**: The quantity increase will be billed for
+       * in-arrears at the end of the period.
        */
       invoice_behavior?: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
 
@@ -7130,6 +7279,8 @@ export namespace ContractEditParams {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<Commit.Specifier> | null;
     }
@@ -7475,6 +7626,8 @@ export interface ContractEditCommitParams {
    * or credit. A customer's usage needs to meet the condition of at least one of the
    * specifiers to contribute to a commit's or credit's drawdown. This field cannot
    * be used together with `applicable_product_ids` or `applicable_product_tags`.
+   * Instead, to target usage by product or product tag, pass those values in the
+   * body of `specifiers`.
    */
   specifiers?: Array<ContractEditCommitParams.Specifier> | null;
 }
@@ -7598,6 +7751,8 @@ export interface ContractEditCreditParams {
    * or credit. A customer's usage needs to meet the condition of at least one of the
    * specifiers to contribute to a commit's or credit's drawdown. This field cannot
    * be used together with `applicable_product_ids` or `applicable_product_tags`.
+   * Instead, to target usage by product or product tag, pass those values in the
+   * body of `specifiers`.
    */
   specifiers?: Array<ContractEditCreditParams.Specifier> | null;
 }
