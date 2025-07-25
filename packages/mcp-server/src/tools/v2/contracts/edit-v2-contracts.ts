@@ -1034,7 +1034,7 @@ export const tool: Tool = {
             },
             hierarchy_configuration: {
               type: 'object',
-              description: 'Optional configuration for recurring commit/credit hierarchy access control',
+              description: 'Optional configuration for recurring credit hierarchy access control',
               properties: {
                 child_access: {
                   anyOf: [
@@ -1238,7 +1238,7 @@ export const tool: Tool = {
             },
             hierarchy_configuration: {
               type: 'object',
-              description: 'Optional configuration for recurring commit/credit hierarchy access control',
+              description: 'Optional configuration for recurring credit hierarchy access control',
               properties: {
                 child_access: {
                   anyOf: [

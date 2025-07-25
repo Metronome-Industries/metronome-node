@@ -1221,7 +1221,7 @@ export namespace ContractRetrieveResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: RecurringCommit.HierarchyConfiguration;
 
@@ -1302,7 +1302,7 @@ export namespace ContractRetrieveResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -1409,7 +1409,7 @@ export namespace ContractRetrieveResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: RecurringCredit.HierarchyConfiguration;
 
@@ -1485,7 +1485,7 @@ export namespace ContractRetrieveResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -2793,7 +2793,7 @@ export namespace ContractListResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: RecurringCommit.HierarchyConfiguration;
 
@@ -2874,7 +2874,7 @@ export namespace ContractListResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -2981,7 +2981,7 @@ export namespace ContractListResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: RecurringCredit.HierarchyConfiguration;
 
@@ -3057,7 +3057,7 @@ export namespace ContractListResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -3407,6 +3407,11 @@ export namespace ContractGetEditHistoryResponse {
       description?: string;
 
       /**
+       * Optional configuration for commit hierarchy access control
+       */
+      hierarchy_configuration?: AddCommit.HierarchyConfiguration;
+
+      /**
        * The schedule that the customer will be invoiced for this commit.
        */
       invoice_schedule?: Shared.SchedulePointInTime;
@@ -3449,6 +3454,32 @@ export namespace ContractGetEditHistoryResponse {
         name: string;
       }
 
+      /**
+       * Optional configuration for commit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
+        }
+      }
+
       export interface Specifier {
         presentation_group_values?: { [key: string]: string };
 
@@ -3485,6 +3516,11 @@ export namespace ContractGetEditHistoryResponse {
 
       description?: string;
 
+      /**
+       * Optional configuration for recurring credit hierarchy access control
+       */
+      hierarchy_configuration?: AddCredit.HierarchyConfiguration;
+
       name?: string;
 
       /**
@@ -3517,6 +3553,32 @@ export namespace ContractGetEditHistoryResponse {
         id: string;
 
         name: string;
+      }
+
+      /**
+       * Optional configuration for recurring credit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
+        }
       }
 
       export interface Specifier {
@@ -3837,7 +3899,7 @@ export namespace ContractGetEditHistoryResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: AddRecurringCommit.HierarchyConfiguration;
 
@@ -3918,7 +3980,7 @@ export namespace ContractGetEditHistoryResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -4025,7 +4087,7 @@ export namespace ContractGetEditHistoryResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: AddRecurringCredit.HierarchyConfiguration;
 
@@ -4101,7 +4163,7 @@ export namespace ContractGetEditHistoryResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -4408,6 +4470,11 @@ export namespace ContractGetEditHistoryResponse {
        */
       applicable_product_tags?: Array<string> | null;
 
+      /**
+       * Optional configuration for commit hierarchy access control
+       */
+      hierarchy_configuration?: UpdateCommit.HierarchyConfiguration;
+
       invoice_schedule?: UpdateCommit.InvoiceSchedule;
 
       name?: string;
@@ -4472,6 +4539,32 @@ export namespace ContractGetEditHistoryResponse {
         }
       }
 
+      /**
+       * Optional configuration for commit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
+        }
+      }
+
       export interface InvoiceSchedule {
         add_schedule_items?: Array<InvoiceSchedule.AddScheduleItem>;
 
@@ -4531,6 +4624,11 @@ export namespace ContractGetEditHistoryResponse {
 
       access_schedule?: UpdateCredit.AccessSchedule;
 
+      /**
+       * Optional configuration for credit hierarchy access control
+       */
+      hierarchy_configuration?: UpdateCredit.HierarchyConfiguration;
+
       name?: string;
 
       netsuite_sales_order_id?: string | null;
@@ -4580,6 +4678,32 @@ export namespace ContractGetEditHistoryResponse {
            * RFC 3339 timestamp (inclusive)
            */
           starting_at?: string;
+        }
+      }
+
+      /**
+       * Optional configuration for credit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
         }
       }
     }
@@ -6197,7 +6321,7 @@ export namespace ContractEditParams {
     ending_before?: string;
 
     /**
-     * Optional configuration for recurring commit/credit hierarchy access control
+     * Optional configuration for recurring credit hierarchy access control
      */
     hierarchy_configuration?: AddRecurringCommit.HierarchyConfiguration;
 
@@ -6286,7 +6410,7 @@ export namespace ContractEditParams {
     }
 
     /**
-     * Optional configuration for recurring commit/credit hierarchy access control
+     * Optional configuration for recurring credit hierarchy access control
      */
     export interface HierarchyConfiguration {
       child_access:
@@ -6386,7 +6510,7 @@ export namespace ContractEditParams {
     ending_before?: string;
 
     /**
-     * Optional configuration for recurring commit/credit hierarchy access control
+     * Optional configuration for recurring credit hierarchy access control
      */
     hierarchy_configuration?: AddRecurringCredit.HierarchyConfiguration;
 
@@ -6470,7 +6594,7 @@ export namespace ContractEditParams {
     }
 
     /**
-     * Optional configuration for recurring commit/credit hierarchy access control
+     * Optional configuration for recurring credit hierarchy access control
      */
     export interface HierarchyConfiguration {
       child_access:
