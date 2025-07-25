@@ -114,6 +114,23 @@ export const tool: Tool = {
         },
         required: ['key', 'value'],
       },
+      group_values: {
+        type: 'array',
+        description:
+          'Only present for `spend_threshold_reached` alerts. Scope alert to a specific group key on individual line items.',
+        items: {
+          type: 'object',
+          properties: {
+            key: {
+              type: 'string',
+            },
+            value: {
+              type: 'string',
+            },
+          },
+          required: ['key', 'value'],
+        },
+      },
       invoice_types_filter: {
         type: 'array',
         description: 'Only supported for invoice_total_reached alerts. A list of invoice types to evaluate.',
