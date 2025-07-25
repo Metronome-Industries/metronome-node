@@ -1082,6 +1082,8 @@ export namespace ContractRetrieveResponse {
          * or credit. A customer's usage needs to meet the condition of at least one of the
          * specifiers to contribute to a commit's or credit's drawdown. This field cannot
          * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         * Instead, to target usage by product or product tag, pass those values in the
+         * body of `specifiers`.
          */
         specifiers?: Array<Commit.Specifier>;
       }
@@ -2654,6 +2656,8 @@ export namespace ContractListResponse {
          * or credit. A customer's usage needs to meet the condition of at least one of the
          * specifiers to contribute to a commit's or credit's drawdown. This field cannot
          * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         * Instead, to target usage by product or product tag, pass those values in the
+         * body of `specifiers`.
          */
         specifiers?: Array<Commit.Specifier>;
       }
@@ -3443,6 +3447,8 @@ export namespace ContractGetEditHistoryResponse {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<AddCommit.Specifier>;
     }
@@ -3544,6 +3550,8 @@ export namespace ContractGetEditHistoryResponse {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<AddCredit.Specifier>;
     }
@@ -3760,6 +3768,8 @@ export namespace ContractGetEditHistoryResponse {
          * or credit. A customer's usage needs to meet the condition of at least one of the
          * specifiers to contribute to a commit's or credit's drawdown. This field cannot
          * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         * Instead, to target usage by product or product tag, pass those values in the
+         * body of `specifiers`.
          */
         specifiers?: Array<Commit.Specifier>;
       }
@@ -4490,6 +4500,8 @@ export namespace ContractGetEditHistoryResponse {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<UpdateCommit.Specifier> | null;
     }
@@ -4883,6 +4895,8 @@ export namespace ContractGetEditHistoryResponse {
          * or credit. A customer's usage needs to meet the condition of at least one of the
          * specifiers to contribute to a commit's or credit's drawdown. This field cannot
          * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         * Instead, to target usage by product or product tag, pass those values in the
+         * body of `specifiers`.
          */
         specifiers?: Array<Commit.Specifier> | null;
       }
@@ -5436,6 +5450,8 @@ export namespace ContractEditParams {
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     * Instead, to target usage by product or product tag, pass those values in the
+     * body of `specifiers`.
      */
     specifiers?: Array<AddCommit.Specifier>;
 
@@ -5735,6 +5751,8 @@ export namespace ContractEditParams {
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     * Instead, to target usage by product or product tag, pass those values in the
+     * body of `specifiers`.
      */
     specifiers?: Array<AddCredit.Specifier>;
   }
@@ -6159,6 +6177,8 @@ export namespace ContractEditParams {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<Commit.Specifier>;
     }
@@ -6372,6 +6392,8 @@ export namespace ContractEditParams {
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     * Instead, to target usage by product or product tag, pass those values in the
+     * body of `specifiers`.
      */
     specifiers?: Array<AddRecurringCommit.Specifier>;
 
@@ -6556,6 +6578,8 @@ export namespace ContractEditParams {
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     * Instead, to target usage by product or product tag, pass those values in the
+     * body of `specifiers`.
      */
     specifiers?: Array<AddRecurringCredit.Specifier>;
 
@@ -7254,6 +7278,8 @@ export namespace ContractEditParams {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<Commit.Specifier> | null;
     }
@@ -7599,6 +7625,8 @@ export interface ContractEditCommitParams {
    * or credit. A customer's usage needs to meet the condition of at least one of the
    * specifiers to contribute to a commit's or credit's drawdown. This field cannot
    * be used together with `applicable_product_ids` or `applicable_product_tags`.
+   * Instead, to target usage by product or product tag, pass those values in the
+   * body of `specifiers`.
    */
   specifiers?: Array<ContractEditCommitParams.Specifier> | null;
 }
@@ -7722,6 +7750,8 @@ export interface ContractEditCreditParams {
    * or credit. A customer's usage needs to meet the condition of at least one of the
    * specifiers to contribute to a commit's or credit's drawdown. This field cannot
    * be used together with `applicable_product_ids` or `applicable_product_tags`.
+   * Instead, to target usage by product or product tag, pass those values in the
+   * body of `specifiers`.
    */
   specifiers?: Array<ContractEditCreditParams.Specifier> | null;
 }
