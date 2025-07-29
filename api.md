@@ -193,13 +193,12 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/v1/customers/commits.ts">CommitCreateResponse</a></code>
-- <code><a href="./src/resources/v1/customers/commits.ts">CommitListResponse</a></code>
 - <code><a href="./src/resources/v1/customers/commits.ts">CommitUpdateEndDateResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/contracts/customerCommits/create">client.v1.customers.commits.<a href="./src/resources/v1/customers/commits.ts">create</a>({ ...params }) -> CommitCreateResponse</code>
-- <code title="post /v1/contracts/customerCommits/list">client.v1.customers.commits.<a href="./src/resources/v1/customers/commits.ts">list</a>({ ...params }) -> CommitListResponse</code>
+- <code title="post /v1/contracts/customerCommits/list">client.v1.customers.commits.<a href="./src/resources/v1/customers/commits.ts">list</a>({ ...params }) -> CommitsCursorPage</code>
 - <code title="post /v1/contracts/customerCommits/updateEndDate">client.v1.customers.commits.<a href="./src/resources/v1/customers/commits.ts">updateEndDate</a>({ ...params }) -> CommitUpdateEndDateResponse</code>
 
 ### Credits
@@ -207,13 +206,12 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/v1/customers/credits.ts">CreditCreateResponse</a></code>
-- <code><a href="./src/resources/v1/customers/credits.ts">CreditListResponse</a></code>
 - <code><a href="./src/resources/v1/customers/credits.ts">CreditUpdateEndDateResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/contracts/customerCredits/create">client.v1.customers.credits.<a href="./src/resources/v1/customers/credits.ts">create</a>({ ...params }) -> CreditCreateResponse</code>
-- <code title="post /v1/contracts/customerCredits/list">client.v1.customers.credits.<a href="./src/resources/v1/customers/credits.ts">list</a>({ ...params }) -> CreditListResponse</code>
+- <code title="post /v1/contracts/customerCredits/list">client.v1.customers.credits.<a href="./src/resources/v1/customers/credits.ts">list</a>({ ...params }) -> CreditsCursorPage</code>
 - <code title="post /v1/contracts/customerCredits/updateEndDate">client.v1.customers.credits.<a href="./src/resources/v1/customers/credits.ts">updateEndDate</a>({ ...params }) -> CreditUpdateEndDateResponse</code>
 
 ### NamedSchedules
@@ -339,7 +337,7 @@ Methods:
 - <code title="post /v1/contracts/amend">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">amend</a>({ ...params }) -> ContractAmendResponse</code>
 - <code title="post /v1/contracts/archive">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">archive</a>({ ...params }) -> ContractArchiveResponse</code>
 - <code title="post /v1/contracts/createHistoricalInvoices">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">createHistoricalInvoices</a>({ ...params }) -> ContractCreateHistoricalInvoicesResponse</code>
-- <code title="post /v1/contracts/customerBalances/list">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">listBalances</a>({ ...params }) -> ContractListBalancesResponse</code>
+- <code title="post /v1/contracts/customerBalances/list">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">listBalances</a>({ ...params }) -> ContractListBalancesResponsesCursorPage</code>
 - <code title="post /v1/contracts/getContractRateSchedule">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">retrieveRateSchedule</a>({ ...params }) -> ContractRetrieveRateScheduleResponse</code>
 - <code title="post /v1/contracts/getSubscriptionQuantityHistory">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">retrieveSubscriptionQuantityHistory</a>({ ...params }) -> ContractRetrieveSubscriptionQuantityHistoryResponse</code>
 - <code title="post /v1/contracts/scheduleProServicesInvoice">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">scheduleProServicesInvoice</a>({ ...params }) -> ContractScheduleProServicesInvoiceResponse</code>
