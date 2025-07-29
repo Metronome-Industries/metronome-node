@@ -19,7 +19,6 @@ export {
 export {
   Commits,
   type CommitCreateResponse,
-  type CommitListResponse,
   type CommitUpdateEndDateResponse,
   type CommitCreateParams,
   type CommitListParams,
@@ -28,7 +27,6 @@ export {
 export {
   Credits,
   type CreditCreateResponse,
-  type CreditListResponse,
   type CreditUpdateEndDateResponse,
   type CreditCreateParams,
   type CreditListParams,
