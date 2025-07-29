@@ -82,6 +82,8 @@ export const tool: Tool = {
                 'UsageLine_9',
                 'Primary_green',
                 'Primary_red',
+                'Progress_bar',
+                'Progress_bar_background',
               ],
             },
             value: {
