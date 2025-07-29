@@ -951,6 +951,11 @@ export namespace ContractRetrieveResponse {
      * This field's availability is dependent on your client's configuration.
      */
     export interface CustomerBillingProviderConfiguration {
+      /**
+       * ID of Customer's billing provider configuration.
+       */
+      id: string;
+
       billing_provider:
         | 'aws_marketplace'
         | 'stripe'
@@ -2525,6 +2530,11 @@ export namespace ContractListResponse {
      * This field's availability is dependent on your client's configuration.
      */
     export interface CustomerBillingProviderConfiguration {
+      /**
+       * ID of Customer's billing provider configuration.
+       */
+      id: string;
+
       billing_provider:
         | 'aws_marketplace'
         | 'stripe'
