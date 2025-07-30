@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'list_v1_contracts',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nThis is the v1 endpoint to list all contracts for a customer. New clients should implement using the v2 endpoint.",
+    'This is the v1 endpoint to list all contracts for a customer. New clients should implement using the v2 endpoint.',
   inputSchema: {
     type: 'object',
     properties: {
