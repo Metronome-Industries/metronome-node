@@ -2,6 +2,7 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
+import * as Shared from '../shared';
 
 export class Alerts extends APIResource {
   /**
@@ -39,23 +40,11 @@ export class Alerts extends APIResource {
 }
 
 export interface AlertCreateResponse {
-  data: AlertCreateResponse.Data;
-}
-
-export namespace AlertCreateResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface AlertArchiveResponse {
-  data: AlertArchiveResponse.Data;
-}
-
-export namespace AlertArchiveResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface AlertCreateParams {
@@ -129,12 +118,6 @@ export interface AlertCreateParams {
   evaluate_on_create?: boolean;
 
   /**
-   * Scopes alert evaluation to a specific presentation group key on individual line
-   * items. Only present for spend alerts.
-   */
-  group_key_filter?: AlertCreateParams.GroupKeyFilter;
-
-  /**
    * Only present for `spend_threshold_reached` alerts. Scope alert to a specific
    * group key on individual line items.
    */
@@ -164,16 +147,6 @@ export namespace AlertCreateParams {
   export interface CustomFieldFilter {
     entity: 'Contract' | 'Commit' | 'ContractCredit';
 
-    key: string;
-
-    value: string;
-  }
-
-  /**
-   * Scopes alert evaluation to a specific presentation group key on individual line
-   * items. Only present for spend alerts.
-   */
-  export interface GroupKeyFilter {
     key: string;
 
     value: string;
