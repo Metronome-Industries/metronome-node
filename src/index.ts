@@ -196,29 +196,9 @@ export declare namespace Metronome {
   export import CursorPage = Pagination.CursorPage;
   export { type CursorPageParams as CursorPageParams, type CursorPageResponse as CursorPageResponse };
 
-  export import CursorPage = Pagination.CursorPage;
-  export { type CursorPageParams as CursorPageParams, type CursorPageResponse as CursorPageResponse };
-
   export { V2 as V2 };
 
   export { V1 as V1 };
-
-  export type BaseUsageFilter = API.BaseUsageFilter;
-  export type Commit = API.Commit;
-  export type ContractWithoutAmendments = API.ContractWithoutAmendments;
-  export type Credit = API.Credit;
-  export type CreditTypeData = API.CreditTypeData;
-  export type Discount = API.Discount;
-  export type EventTypeFilter = API.EventTypeFilter;
-  export type ID = API.ID;
-  export type Override = API.Override;
-  export type PropertyFilter = API.PropertyFilter;
-  export type ProService = API.ProService;
-  export type Rate = API.Rate;
-  export type ScheduledCharge = API.ScheduledCharge;
-  export type ScheduleDuration = API.ScheduleDuration;
-  export type SchedulePointInTime = API.SchedulePointInTime;
-  export type Tier = API.Tier;
 }
 
 export { toFile, fileFromPath } from './uploads';

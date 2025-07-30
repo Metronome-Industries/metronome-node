@@ -26,7 +26,6 @@ export {
   type BillableMetricArchiveParams,
 } from './billable-metrics';
 export {
-  ContractListBalancesResponsesCursorPage,
   Contracts,
   type ContractCreateResponse,
   type ContractRetrieveResponse,
@@ -56,9 +55,6 @@ export {
 export {
   CreditGrantListResponsesCursorPage,
   CreditGrants,
-  type CreditLedgerEntry,
-  type RolloverAmountMaxAmount,
-  type RolloverAmountMaxPercentage,
   type CreditGrantCreateResponse,
   type CreditGrantListResponse,
   type CreditGrantEditResponse,
@@ -80,14 +76,13 @@ export {
   type CustomFieldSetValuesParams,
 } from './custom-fields';
 export {
-  CustomerDetailsCursorPage,
+  CustomerListResponsesCursorPage,
   CustomerListBillableMetricsResponsesCursorPage,
   CustomerListCostsResponsesCursorPage,
   Customers,
-  type Customer,
-  type CustomerDetail,
   type CustomerCreateResponse,
   type CustomerRetrieveResponse,
+  type CustomerListResponse,
   type CustomerArchiveResponse,
   type CustomerListBillableMetricsResponse,
   type CustomerListCostsResponse,
@@ -121,7 +116,6 @@ export {
   PlanListChargesResponsesCursorPage,
   PlanListCustomersResponsesCursorPage,
   Plans,
-  type PlanDetail,
   type PlanListResponse,
   type PlanGetDetailsResponse,
   type PlanListChargesResponse,

@@ -1,6 +1,5 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { maybeFilter } from '@metronome/mcp/filtering';
 import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
@@ -17,8 +16,7 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'retrieve_rate_schedule_v1_contracts',
-  description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nGet the rate schedule for the rate card on a given contract.\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      type: 'array',\n      items: {\n        type: 'object',\n        properties: {\n          entitled: {\n            type: 'boolean'\n          },\n          list_rate: {\n            $ref: '#/$defs/rate'\n          },\n          product_custom_fields: {\n            type: 'object'\n          },\n          product_id: {\n            type: 'string'\n          },\n          product_name: {\n            type: 'string'\n          },\n          product_tags: {\n            type: 'array',\n            items: {\n              type: 'string'\n            }\n          },\n          rate_card_id: {\n            type: 'string'\n          },\n          starting_at: {\n            type: 'string',\n            format: 'date-time'\n          },\n          billing_frequency: {\n            type: 'string',\n            enum: [              'MONTHLY',\n              'QUARTERLY',\n              'ANNUAL',\n              'WEEKLY'\n            ]\n          },\n          commit_rate: {\n            type: 'object',\n            description: 'A distinct rate on the rate card. You can choose to use this rate rather than list rate when consuming a credit or commit.',\n            properties: {\n              rate_type: {\n                type: 'string',\n                enum: [                  'FLAT',\n                  'PERCENTAGE',\n                  'SUBSCRIPTION',\n                  'TIERED',\n                  'CUSTOM'\n                ]\n              },\n              price: {\n                type: 'number',\n                description: 'Commit rate price. For FLAT rate_type, this must be >=0.'\n              },\n              tiers: {\n                type: 'array',\n                description: 'Only set for TIERED rate_type.',\n                items: {\n                  $ref: '#/$defs/tier'\n                }\n              }\n            },\n            required: [              'rate_type'\n            ]\n          },\n          ending_before: {\n            type: 'string',\n            format: 'date-time'\n          },\n          override_rate: {\n            $ref: '#/$defs/rate'\n          },\n          pricing_group_values: {\n            type: 'object'\n          }\n        },\n        required: [          'entitled',\n          'list_rate',\n          'product_custom_fields',\n          'product_id',\n          'product_name',\n          'product_tags',\n          'rate_card_id',\n          'starting_at'\n        ]\n      }\n    },\n    next_page: {\n      type: 'string'\n    }\n  },\n  required: [    'data'\n  ],\n  $defs: {\n    rate: {\n      type: 'object',\n      properties: {\n        rate_type: {\n          type: 'string',\n          enum: [            'FLAT',\n            'PERCENTAGE',\n            'SUBSCRIPTION',\n            'CUSTOM',\n            'TIERED'\n          ]\n        },\n        credit_type: {\n          $ref: '#/$defs/credit_type_data'\n        },\n        custom_rate: {\n          type: 'object',\n          description: 'Only set for CUSTOM rate_type. This field is interpreted by custom rate processors.'\n        },\n        is_prorated: {\n          type: 'boolean',\n          description: 'Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be set to true.'\n        },\n        price: {\n          type: 'number',\n          description: 'Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type, this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.'\n        },\n        pricing_group_values: {\n          type: 'object',\n          description: 'if pricing groups are used, this will contain the values used to calculate the price'\n        },\n        quantity: {\n          type: 'number',\n          description: 'Default quantity. For SUBSCRIPTION rate_type, this must be >=0.'\n        },\n        tiers: {\n          type: 'array',\n          description: 'Only set for TIERED rate_type.',\n          items: {\n            $ref: '#/$defs/tier'\n          }\n        },\n        use_list_prices: {\n          type: 'boolean',\n          description: 'Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed using list prices rather than the standard rates for this product on the contract.'\n        }\n      },\n      required: [        'rate_type'\n      ]\n    },\n    credit_type_data: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        },\n        name: {\n          type: 'string'\n        }\n      },\n      required: [        'id',\n        'name'\n      ]\n    },\n    tier: {\n      type: 'object',\n      properties: {\n        price: {\n          type: 'number'\n        },\n        size: {\n          type: 'number'\n        }\n      },\n      required: [        'price'\n      ]\n    }\n  }\n}\n```",
+  description: 'Get the rate schedule for the rate card on a given contract.\n',
   inputSchema: {
     type: 'object',
     properties: {
@@ -82,12 +80,6 @@ export const tool: Tool = {
           },
         },
       },
-      jq_filter: {
-        type: 'string',
-        title: 'jq Filter',
-        description:
-          'A jq filter to apply to the response to include certain fields. Consult the output schema in the tool description to see the fields that are available.\n\nFor example: to include only the `name` field in every object of a results array, you can provide ".results[].name".\n\nFor more information, see the [jq documentation](https://jqlang.org/manual/).',
-      },
     },
     required: ['contract_id', 'customer_id'],
   },
@@ -96,7 +88,7 @@ export const tool: Tool = {
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return asTextContentResult(await maybeFilter(args, await client.v1.contracts.retrieveRateSchedule(body)));
+  return asTextContentResult(await client.v1.contracts.retrieveRateSchedule(body));
 };
 
 export default { metadata, tool, handler };

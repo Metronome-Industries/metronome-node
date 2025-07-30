@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export {
-  ContractListBalancesResponsesCursorPage,
   Contracts,
   type ContractCreateResponse,
   type ContractRetrieveResponse,
@@ -37,9 +36,6 @@ export {
 export {
   ProductListResponsesCursorPage,
   Products,
-  type ProductListItemState,
-  type QuantityConversion,
-  type QuantityRounding,
   type ProductCreateResponse,
   type ProductRetrieveResponse,
   type ProductUpdateResponse,
