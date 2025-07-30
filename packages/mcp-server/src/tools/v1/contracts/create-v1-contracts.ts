@@ -1234,6 +1234,32 @@ export const tool: Tool = {
                 },
               },
             },
+            subscription_config: {
+              type: 'object',
+              description: 'Attach a subscription to the recurring commit/credit.',
+              properties: {
+                apply_seat_increase_config: {
+                  type: 'object',
+                  properties: {
+                    is_prorated: {
+                      type: 'boolean',
+                      description: 'Indicates whether a mid-period seat increase should be prorated.',
+                    },
+                  },
+                  required: ['is_prorated'],
+                },
+                subscription_id: {
+                  type: 'string',
+                  description: 'ID of the subscription to configure on the recurring commit/credit.',
+                },
+                allocation: {
+                  type: 'string',
+                  description: 'If set to POOLED, allocation added per seat is pooled across the account.',
+                  enum: ['POOLED'],
+                },
+              },
+              required: ['apply_seat_increase_config', 'subscription_id'],
+            },
             temporary_id: {
               type: 'string',
               description:
@@ -1421,6 +1447,32 @@ export const tool: Tool = {
                   },
                 },
               },
+            },
+            subscription_config: {
+              type: 'object',
+              description: 'Attach a subscription to the recurring commit/credit.',
+              properties: {
+                apply_seat_increase_config: {
+                  type: 'object',
+                  properties: {
+                    is_prorated: {
+                      type: 'boolean',
+                      description: 'Indicates whether a mid-period seat increase should be prorated.',
+                    },
+                  },
+                  required: ['is_prorated'],
+                },
+                subscription_id: {
+                  type: 'string',
+                  description: 'ID of the subscription to configure on the recurring commit/credit.',
+                },
+                allocation: {
+                  type: 'string',
+                  description: 'If set to POOLED, allocation added per seat is pooled across the account.',
+                  enum: ['POOLED'],
+                },
+              },
+              required: ['apply_seat_increase_config', 'subscription_id'],
             },
             temporary_id: {
               type: 'string',
@@ -1765,6 +1817,11 @@ export const tool: Tool = {
               description:
                 'Inclusive start time for the subscription. If not provided, defaults to contract start date',
               format: 'date-time',
+            },
+            temporary_id: {
+              type: 'string',
+              description:
+                'A temporary ID used to reference the subscription in recurring commit/credit subscription configs created within the same payload.',
             },
           },
           required: ['collection_schedule', 'initial_quantity', 'proration', 'subscription_rate'],
