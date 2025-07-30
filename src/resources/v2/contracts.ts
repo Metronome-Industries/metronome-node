@@ -1275,6 +1275,11 @@ export namespace ContractRetrieveResponse {
        * specifiers to contribute to a commit's or credit's drawdown.
        */
       specifiers?: Array<RecurringCommit.Specifier>;
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      subscription_config?: RecurringCommit.SubscriptionConfig;
     }
 
     export namespace RecurringCommit {
@@ -1360,6 +1365,26 @@ export namespace ContractRetrieveResponse {
          * tags.
          */
         product_tags?: Array<string>;
+      }
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      export interface SubscriptionConfig {
+        allocation: 'INDIVIDUAL' | 'POOLED';
+
+        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+        subscription_id: string;
+      }
+
+      export namespace SubscriptionConfig {
+        export interface ApplySeatIncreaseConfig {
+          /**
+           * Indicates whether a mid-period seat increase should be prorated.
+           */
+          is_prorated: boolean;
+        }
       }
     }
 
@@ -1458,6 +1483,11 @@ export namespace ContractRetrieveResponse {
        * specifiers to contribute to a commit's or credit's drawdown.
        */
       specifiers?: Array<RecurringCredit.Specifier>;
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      subscription_config?: RecurringCredit.SubscriptionConfig;
     }
 
     export namespace RecurringCredit {
@@ -1532,6 +1562,26 @@ export namespace ContractRetrieveResponse {
          * tags.
          */
         product_tags?: Array<string>;
+      }
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      export interface SubscriptionConfig {
+        allocation: 'INDIVIDUAL' | 'POOLED';
+
+        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+        subscription_id: string;
+      }
+
+      export namespace SubscriptionConfig {
+        export interface ApplySeatIncreaseConfig {
+          /**
+           * Indicates whether a mid-period seat increase should be prorated.
+           */
+          is_prorated: boolean;
+        }
       }
     }
 
@@ -2854,6 +2904,11 @@ export namespace ContractListResponse {
        * specifiers to contribute to a commit's or credit's drawdown.
        */
       specifiers?: Array<RecurringCommit.Specifier>;
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      subscription_config?: RecurringCommit.SubscriptionConfig;
     }
 
     export namespace RecurringCommit {
@@ -2939,6 +2994,26 @@ export namespace ContractListResponse {
          * tags.
          */
         product_tags?: Array<string>;
+      }
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      export interface SubscriptionConfig {
+        allocation: 'INDIVIDUAL' | 'POOLED';
+
+        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+        subscription_id: string;
+      }
+
+      export namespace SubscriptionConfig {
+        export interface ApplySeatIncreaseConfig {
+          /**
+           * Indicates whether a mid-period seat increase should be prorated.
+           */
+          is_prorated: boolean;
+        }
       }
     }
 
@@ -3037,6 +3112,11 @@ export namespace ContractListResponse {
        * specifiers to contribute to a commit's or credit's drawdown.
        */
       specifiers?: Array<RecurringCredit.Specifier>;
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      subscription_config?: RecurringCredit.SubscriptionConfig;
     }
 
     export namespace RecurringCredit {
@@ -3111,6 +3191,26 @@ export namespace ContractListResponse {
          * tags.
          */
         product_tags?: Array<string>;
+      }
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      export interface SubscriptionConfig {
+        allocation: 'INDIVIDUAL' | 'POOLED';
+
+        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+        subscription_id: string;
+      }
+
+      export namespace SubscriptionConfig {
+        export interface ApplySeatIncreaseConfig {
+          /**
+           * Indicates whether a mid-period seat increase should be prorated.
+           */
+          is_prorated: boolean;
+        }
       }
     }
 
@@ -3966,6 +4066,11 @@ export namespace ContractGetEditHistoryResponse {
        * specifiers to contribute to a commit's or credit's drawdown.
        */
       specifiers?: Array<AddRecurringCommit.Specifier>;
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      subscription_config?: AddRecurringCommit.SubscriptionConfig;
     }
 
     export namespace AddRecurringCommit {
@@ -4051,6 +4156,26 @@ export namespace ContractGetEditHistoryResponse {
          * tags.
          */
         product_tags?: Array<string>;
+      }
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      export interface SubscriptionConfig {
+        allocation: 'INDIVIDUAL' | 'POOLED';
+
+        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+        subscription_id: string;
+      }
+
+      export namespace SubscriptionConfig {
+        export interface ApplySeatIncreaseConfig {
+          /**
+           * Indicates whether a mid-period seat increase should be prorated.
+           */
+          is_prorated: boolean;
+        }
       }
     }
 
@@ -4149,6 +4274,11 @@ export namespace ContractGetEditHistoryResponse {
        * specifiers to contribute to a commit's or credit's drawdown.
        */
       specifiers?: Array<AddRecurringCredit.Specifier>;
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      subscription_config?: AddRecurringCredit.SubscriptionConfig;
     }
 
     export namespace AddRecurringCredit {
@@ -4223,6 +4353,26 @@ export namespace ContractGetEditHistoryResponse {
          * tags.
          */
         product_tags?: Array<string>;
+      }
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      export interface SubscriptionConfig {
+        allocation: 'INDIVIDUAL' | 'POOLED';
+
+        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+        subscription_id: string;
+      }
+
+      export namespace SubscriptionConfig {
+        export interface ApplySeatIncreaseConfig {
+          /**
+           * Indicates whether a mid-period seat increase should be prorated.
+           */
+          is_prorated: boolean;
+        }
       }
     }
 
@@ -4751,7 +4901,7 @@ export namespace ContractGetEditHistoryResponse {
        */
       export interface Schedule {
         /**
-         * Defaults to USD if not passed. Only USD is supported at this time.
+         * Defaults to USD (cents) if not passed.
          */
         credit_type_id?: string;
 
@@ -5534,7 +5684,7 @@ export namespace ContractEditParams {
      */
     export interface InvoiceSchedule {
       /**
-       * Defaults to USD if not passed. Only USD is supported at this time.
+       * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
 
@@ -5864,7 +6014,7 @@ export namespace ContractEditParams {
      */
     export interface Schedule {
       /**
-       * Defaults to USD if not passed. Only USD is supported at this time.
+       * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
 
@@ -6408,6 +6558,11 @@ export namespace ContractEditParams {
     specifiers?: Array<AddRecurringCommit.Specifier>;
 
     /**
+     * Attach a subscription to the recurring commit/credit.
+     */
+    subscription_config?: AddRecurringCommit.SubscriptionConfig;
+
+    /**
      * A temporary ID that can be used to reference the recurring commit for commit
      * specific overrides.
      */
@@ -6493,6 +6648,32 @@ export namespace ContractEditParams {
        * tags.
        */
       product_tags?: Array<string>;
+    }
+
+    /**
+     * Attach a subscription to the recurring commit/credit.
+     */
+    export interface SubscriptionConfig {
+      apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+      /**
+       * ID of the subscription to configure on the recurring commit/credit.
+       */
+      subscription_id: string;
+
+      /**
+       * If set to POOLED, allocation added per seat is pooled across the account.
+       */
+      allocation?: 'POOLED';
+    }
+
+    export namespace SubscriptionConfig {
+      export interface ApplySeatIncreaseConfig {
+        /**
+         * Indicates whether a mid-period seat increase should be prorated.
+         */
+        is_prorated: boolean;
+      }
     }
   }
 
@@ -6594,6 +6775,11 @@ export namespace ContractEditParams {
     specifiers?: Array<AddRecurringCredit.Specifier>;
 
     /**
+     * Attach a subscription to the recurring commit/credit.
+     */
+    subscription_config?: AddRecurringCredit.SubscriptionConfig;
+
+    /**
      * A temporary ID that can be used to reference the recurring commit for commit
      * specific overrides.
      */
@@ -6669,6 +6855,32 @@ export namespace ContractEditParams {
        */
       product_tags?: Array<string>;
     }
+
+    /**
+     * Attach a subscription to the recurring commit/credit.
+     */
+    export interface SubscriptionConfig {
+      apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+      /**
+       * ID of the subscription to configure on the recurring commit/credit.
+       */
+      subscription_id: string;
+
+      /**
+       * If set to POOLED, allocation added per seat is pooled across the account.
+       */
+      allocation?: 'POOLED';
+    }
+
+    export namespace SubscriptionConfig {
+      export interface ApplySeatIncreaseConfig {
+        /**
+         * Indicates whether a mid-period seat increase should be prorated.
+         */
+        is_prorated: boolean;
+      }
+    }
   }
 
   export interface AddResellerRoyalty {
@@ -6743,7 +6955,7 @@ export namespace ContractEditParams {
      */
     export interface Schedule {
       /**
-       * Defaults to USD if not passed. Only USD is supported at this time.
+       * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
 
@@ -6958,6 +7170,12 @@ export namespace ContractEditParams {
      * start date
      */
     starting_at?: string;
+
+    /**
+     * A temporary ID used to reference the subscription in recurring commit/credit
+     * subscription configs created within the same payload.
+     */
+    temporary_id?: string;
   }
 
   export namespace AddSubscription {
