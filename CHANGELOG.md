@@ -4,30 +4,16 @@
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0...v0.2.0)
 
+
 ### Features
-
-* **api:** api update ([87261b8](https://github.com/Metronome-Industries/metronome-node/commit/87261b8a5114bf6b783b41ec8bf5cf9153789a23))
-* **api:** api update ([d5bb1fc](https://github.com/Metronome-Industries/metronome-node/commit/d5bb1fcf8d555dba0b4302fee6b3fc3b8d7035b5))
-* **api:** api update ([55b4980](https://github.com/Metronome-Industries/metronome-node/commit/55b4980a82d2d03303fb9750b5d94df04e6691ba))
-* **api:** api update ([f82d931](https://github.com/Metronome-Industries/metronome-node/commit/f82d931a0f2c19bdcccb3b84f934b4b0d78a0b6d))
-* **api:** api update ([17bcd56](https://github.com/Metronome-Industries/metronome-node/commit/17bcd5644382bac31d9e9141b2787856856d4dfe))
-* **api:** api update ([1ed6adf](https://github.com/Metronome-Industries/metronome-node/commit/1ed6adf3bc3dc869939bb17231cc554e6864549d))
-* **api:** api update ([d7e8869](https://github.com/Metronome-Industries/metronome-node/commit/d7e8869855af380dd27225b154b22134cc169d7e))
-* **api:** api update ([9416c33](https://github.com/Metronome-Industries/metronome-node/commit/9416c334b94acc3fc21ac0ed13a3f935680296e3))
-* **api:** api update ([35b011e](https://github.com/Metronome-Industries/metronome-node/commit/35b011ec7776ceaf1bbdeabeb5f59b270494e42d))
-* **api:** api update ([fe1cfec](https://github.com/Metronome-Industries/metronome-node/commit/fe1cfec62380940f235af23f195bfb60f287bf7a))
-
-
-### Bug Fixes
-
-* **mcp:** avoid sending `jq_filter` to base API ([6360a30](https://github.com/Metronome-Industries/metronome-node/commit/6360a30406f17497609bf5bd84748a627ad9f646))
-* **mcp:** fix tool description of jq_filter ([ca5d633](https://github.com/Metronome-Industries/metronome-node/commit/ca5d633cce8c971c42df4c909984c28bbf69a565))
-* **mcp:** reverse validJson capability option and limit scope ([bd6e8f5](https://github.com/Metronome-Industries/metronome-node/commit/bd6e8f5014961d7fc94e0316a4363ac44c724cfa))
-
+* **api:** Add support for spend threshold alerts for specific group keys. See [updated alert documentation](https://docs.metronome.com/manage-product-access/create-manage-alerts/#spend-alerts).
+* **api:** Add support for recurring commits linked to subscriptions. See documentation for [hybrid billing models](https://docs.metronome.com/launch-guides/hybrid-business/#implement-a-hybrid-model-for-a-customer).
+* **api:** Add support for new styles in embeddable dashboards.
+* **api:** Add reference to contract on commit objects.
 
 ### Chores
 
-* **internal:** remove redundant imports config ([f5025bd](https://github.com/Metronome-Industries/metronome-node/commit/f5025bd85a565940a8cf5ebff1d7f7afe24fbe21))
+* **docs:** Improved documentation.
 
 ## 0.1.0 (2025-07-24)
 
