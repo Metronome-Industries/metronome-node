@@ -1774,6 +1774,12 @@ export namespace ScheduleDuration {
 export interface SchedulePointInTime {
   credit_type?: CreditTypeData;
 
+  /**
+   * This field is only applicable to commit invoice schedules. If true, this
+   * schedule will not generate an invoice.
+   */
+  do_not_invoice?: boolean;
+
   schedule_items?: Array<SchedulePointInTime.ScheduleItem>;
 }
 
