@@ -16,8 +16,7 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'edit_v2_contracts',
-  description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nEdit a contract. Contract editing must be enabled to use this endpoint.",
+  description: 'Edit a contract. Contract editing must be enabled to use this endpoint.',
   inputSchema: {
     type: 'object',
     properties: {
@@ -155,7 +154,7 @@ export const tool: Tool = {
               properties: {
                 credit_type_id: {
                   type: 'string',
-                  description: 'Defaults to USD if not passed. Only USD is supported at this time.',
+                  description: 'Defaults to USD (cents) if not passed.',
                 },
                 recurring_schedule: {
                   type: 'object',
@@ -307,7 +306,7 @@ export const tool: Tool = {
             specifiers: {
               type: 'array',
               description:
-                "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`.",
+                "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
               items: {
                 type: 'object',
                 properties: {
@@ -472,7 +471,7 @@ export const tool: Tool = {
             specifiers: {
               type: 'array',
               description:
-                "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`.",
+                "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
               items: {
                 type: 'object',
                 properties: {
@@ -516,7 +515,7 @@ export const tool: Tool = {
               properties: {
                 credit_type_id: {
                   type: 'string',
-                  description: 'Defaults to USD if not passed. Only USD is supported at this time.',
+                  description: 'Defaults to USD (cents) if not passed.',
                 },
                 recurring_schedule: {
                   type: 'object',
@@ -819,7 +818,7 @@ export const tool: Tool = {
               specifiers: {
                 type: 'array',
                 description:
-                  "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`.",
+                  "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
                 items: {
                   type: 'object',
                   properties: {
@@ -1034,7 +1033,7 @@ export const tool: Tool = {
             },
             hierarchy_configuration: {
               type: 'object',
-              description: 'Optional configuration for recurring commit/credit hierarchy access control',
+              description: 'Optional configuration for recurring credit hierarchy access control',
               properties: {
                 child_access: {
                   anyOf: [
@@ -1128,7 +1127,7 @@ export const tool: Tool = {
             specifiers: {
               type: 'array',
               description:
-                "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`.",
+                "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
               items: {
                 type: 'object',
                 properties: {
@@ -1153,6 +1152,32 @@ export const tool: Tool = {
                   },
                 },
               },
+            },
+            subscription_config: {
+              type: 'object',
+              description: 'Attach a subscription to the recurring commit/credit.',
+              properties: {
+                apply_seat_increase_config: {
+                  type: 'object',
+                  properties: {
+                    is_prorated: {
+                      type: 'boolean',
+                      description: 'Indicates whether a mid-period seat increase should be prorated.',
+                    },
+                  },
+                  required: ['is_prorated'],
+                },
+                subscription_id: {
+                  type: 'string',
+                  description: 'ID of the subscription to configure on the recurring commit/credit.',
+                },
+                allocation: {
+                  type: 'string',
+                  description: 'If set to POOLED, allocation added per seat is pooled across the account.',
+                  enum: ['POOLED'],
+                },
+              },
+              required: ['apply_seat_increase_config', 'subscription_id'],
             },
             temporary_id: {
               type: 'string',
@@ -1238,7 +1263,7 @@ export const tool: Tool = {
             },
             hierarchy_configuration: {
               type: 'object',
-              description: 'Optional configuration for recurring commit/credit hierarchy access control',
+              description: 'Optional configuration for recurring credit hierarchy access control',
               properties: {
                 child_access: {
                   anyOf: [
@@ -1316,7 +1341,7 @@ export const tool: Tool = {
             specifiers: {
               type: 'array',
               description:
-                "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`.",
+                "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
               items: {
                 type: 'object',
                 properties: {
@@ -1341,6 +1366,32 @@ export const tool: Tool = {
                   },
                 },
               },
+            },
+            subscription_config: {
+              type: 'object',
+              description: 'Attach a subscription to the recurring commit/credit.',
+              properties: {
+                apply_seat_increase_config: {
+                  type: 'object',
+                  properties: {
+                    is_prorated: {
+                      type: 'boolean',
+                      description: 'Indicates whether a mid-period seat increase should be prorated.',
+                    },
+                  },
+                  required: ['is_prorated'],
+                },
+                subscription_id: {
+                  type: 'string',
+                  description: 'ID of the subscription to configure on the recurring commit/credit.',
+                },
+                allocation: {
+                  type: 'string',
+                  description: 'If set to POOLED, allocation added per seat is pooled across the account.',
+                  enum: ['POOLED'],
+                },
+              },
+              required: ['apply_seat_increase_config', 'subscription_id'],
             },
             temporary_id: {
               type: 'string',
@@ -1435,7 +1486,7 @@ export const tool: Tool = {
               properties: {
                 credit_type_id: {
                   type: 'string',
-                  description: 'Defaults to USD if not passed. Only USD is supported at this time.',
+                  description: 'Defaults to USD (cents) if not passed.',
                 },
                 recurring_schedule: {
                   type: 'object',
@@ -1629,7 +1680,7 @@ export const tool: Tool = {
                 invoice_behavior: {
                   type: 'string',
                   description:
-                    'Indicates how mid-period quantity adjustments are invoiced. If BILL_IMMEDIATELY is selected, the quantity increase will be billed on the scheduled date. If BILL_ON_NEXT_COLLECTION_DATE is selected, the quantity increase will be billed for in-arrears at the end of the period.',
+                    'Indicates how mid-period quantity adjustments are invoiced. \n**BILL_IMMEDIATELY**: Only available when collection schedule is `ADVANCE`. The quantity increase will be billed immediately on the scheduled date.\n**BILL_ON_NEXT_COLLECTION_DATE**: The quantity increase will be billed for in-arrears at the end of the period.',
                   enum: ['BILL_IMMEDIATELY', 'BILL_ON_NEXT_COLLECTION_DATE'],
                 },
                 is_prorated: {
@@ -1674,6 +1725,11 @@ export const tool: Tool = {
               description:
                 'Inclusive start time for the subscription. If not provided, defaults to contract start date',
               format: 'date-time',
+            },
+            temporary_id: {
+              type: 'string',
+              description:
+                'A temporary ID used to reference the subscription in recurring commit/credit subscription configs created within the same payload.',
             },
           },
           required: ['collection_schedule', 'initial_quantity', 'proration', 'subscription_rate'],
@@ -2133,7 +2189,7 @@ export const tool: Tool = {
               specifiers: {
                 type: 'array',
                 description:
-                  "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`.",
+                  "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
                 items: {
                   type: 'object',
                   properties: {

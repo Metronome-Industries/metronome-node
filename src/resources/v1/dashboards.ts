@@ -119,7 +119,9 @@ export namespace DashboardGetEmbeddableURLParams {
       | 'UsageLine_8'
       | 'UsageLine_9'
       | 'Primary_green'
-      | 'Primary_red';
+      | 'Primary_red'
+      | 'Progress_bar'
+      | 'Progress_bar_background';
 
     /**
      * Hex value representation of the color

@@ -35,7 +35,7 @@ describe('resource alerts', () => {
       custom_field_filters: [{ entity: 'Contract', key: 'key', value: 'value' }],
       customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
       evaluate_on_create: true,
-      group_key_filter: { key: 'key', value: 'value' },
+      group_values: [{ key: 'key', value: 'value' }],
       invoice_types_filter: ['PLAN_ARREARS, SCHEDULED, USAGE, CORRECTION, CREDIT_PURCHASE, or SEAT_PURCHASE'],
       plan_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       uniqueness_key: 'x',

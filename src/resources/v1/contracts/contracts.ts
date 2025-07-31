@@ -2601,6 +2601,11 @@ export namespace ContractCreateParams {
     specifiers?: Array<RecurringCommit.Specifier>;
 
     /**
+     * Attach a subscription to the recurring commit/credit.
+     */
+    subscription_config?: RecurringCommit.SubscriptionConfig;
+
+    /**
      * A temporary ID that can be used to reference the recurring commit for commit
      * specific overrides.
      */
@@ -2686,6 +2691,32 @@ export namespace ContractCreateParams {
        * tags.
        */
       product_tags?: Array<string>;
+    }
+
+    /**
+     * Attach a subscription to the recurring commit/credit.
+     */
+    export interface SubscriptionConfig {
+      apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+      /**
+       * ID of the subscription to configure on the recurring commit/credit.
+       */
+      subscription_id: string;
+
+      /**
+       * If set to POOLED, allocation added per seat is pooled across the account.
+       */
+      allocation?: 'POOLED';
+    }
+
+    export namespace SubscriptionConfig {
+      export interface ApplySeatIncreaseConfig {
+        /**
+         * Indicates whether a mid-period seat increase should be prorated.
+         */
+        is_prorated: boolean;
+      }
     }
   }
 
@@ -2785,6 +2816,11 @@ export namespace ContractCreateParams {
     specifiers?: Array<RecurringCredit.Specifier>;
 
     /**
+     * Attach a subscription to the recurring commit/credit.
+     */
+    subscription_config?: RecurringCredit.SubscriptionConfig;
+
+    /**
      * A temporary ID that can be used to reference the recurring commit for commit
      * specific overrides.
      */
@@ -2859,6 +2895,32 @@ export namespace ContractCreateParams {
        * tags.
        */
       product_tags?: Array<string>;
+    }
+
+    /**
+     * Attach a subscription to the recurring commit/credit.
+     */
+    export interface SubscriptionConfig {
+      apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+      /**
+       * ID of the subscription to configure on the recurring commit/credit.
+       */
+      subscription_id: string;
+
+      /**
+       * If set to POOLED, allocation added per seat is pooled across the account.
+       */
+      allocation?: 'POOLED';
+    }
+
+    export namespace SubscriptionConfig {
+      export interface ApplySeatIncreaseConfig {
+        /**
+         * Indicates whether a mid-period seat increase should be prorated.
+         */
+        is_prorated: boolean;
+      }
     }
   }
 
@@ -3149,15 +3211,22 @@ export namespace ContractCreateParams {
      * start date
      */
     starting_at?: string;
+
+    /**
+     * A temporary ID used to reference the subscription in recurring commit/credit
+     * subscription configs created within the same payload.
+     */
+    temporary_id?: string;
   }
 
   export namespace Subscription {
     export interface Proration {
       /**
-       * Indicates how mid-period quantity adjustments are invoiced. If BILL_IMMEDIATELY
-       * is selected, the quantity increase will be billed on the scheduled date. If
-       * BILL_ON_NEXT_COLLECTION_DATE is selected, the quantity increase will be billed
-       * for in-arrears at the end of the period.
+       * Indicates how mid-period quantity adjustments are invoiced.
+       * **BILL_IMMEDIATELY**: Only available when collection schedule is `ADVANCE`. The
+       * quantity increase will be billed immediately on the scheduled date.
+       * **BILL_ON_NEXT_COLLECTION_DATE**: The quantity increase will be billed for
+       * in-arrears at the end of the period.
        */
       invoice_behavior?: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
 

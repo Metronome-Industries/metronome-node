@@ -100,19 +100,22 @@ export const tool: Tool = {
         description:
           'If true, the alert will evaluate immediately on customers that already meet the alert threshold. If false, it will only evaluate on future customers that trigger the alert threshold. Defaults to true.',
       },
-      group_key_filter: {
-        type: 'object',
+      group_values: {
+        type: 'array',
         description:
-          'Scopes alert evaluation to a specific presentation group key on individual line items. Only present for spend alerts.',
-        properties: {
-          key: {
-            type: 'string',
+          'Only present for `spend_threshold_reached` alerts. Scope alert to a specific group key on individual line items.',
+        items: {
+          type: 'object',
+          properties: {
+            key: {
+              type: 'string',
+            },
+            value: {
+              type: 'string',
+            },
           },
-          value: {
-            type: 'string',
-          },
+          required: ['key', 'value'],
         },
-        required: ['key', 'value'],
       },
       invoice_types_filter: {
         type: 'array',
@@ -144,8 +147,8 @@ export const tool: Tool = {
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
-  const body = args as any;
-  return asTextContentResult(await maybeFilter(args, await client.v1.alerts.create(body)));
+  const { jq_filter, ...body } = args as any;
+  return asTextContentResult(await maybeFilter(jq_filter, await client.v1.alerts.create(body)));
 };
 
 export default { metadata, tool, handler };

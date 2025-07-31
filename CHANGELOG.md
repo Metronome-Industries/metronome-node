@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.2.0 (2025-07-31)
+
+Full Changelog: [v0.1.0...v0.2.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0...v0.2.0)
+
+
+### Features
+* **api:** Add support for spend threshold alerts for specific group keys. See [updated alert documentation](https://docs.metronome.com/manage-product-access/create-manage-alerts/#spend-alerts).
+* **api:** Add support for recurring commits linked to subscriptions. See documentation for [hybrid billing models](https://docs.metronome.com/launch-guides/hybrid-business/#implement-a-hybrid-model-for-a-customer).
+* **api:** Add support for new styles in embeddable dashboards.
+* **api:** Add reference to contract on commit objects.
+
+### Chores
+
+* **docs:** Improved documentation.
+
 ## 0.1.0 (2025-07-24)
 
 Full Changelog: [v0.1.0-beta.12...v0.1.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0-beta.12...v0.1.0)

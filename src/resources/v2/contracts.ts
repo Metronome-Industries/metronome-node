@@ -452,6 +452,8 @@ export namespace ContractRetrieveResponse {
         timestamp: string;
 
         type: 'PREPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION';
+
+        contract_id?: string;
       }
 
       export interface PrepaidCommitRolloverLedgerEntry {
@@ -486,6 +488,8 @@ export namespace ContractRetrieveResponse {
         timestamp: string;
 
         type: 'PREPAID_COMMIT_CANCELED';
+
+        contract_id?: string;
       }
 
       export interface PrepaidCommitCreditedLedgerEntry {
@@ -498,6 +502,8 @@ export namespace ContractRetrieveResponse {
         timestamp: string;
 
         type: 'PREPAID_COMMIT_CREDITED';
+
+        contract_id?: string;
       }
 
       export interface PrepaidCommitSeatBasedAdjustmentLedgerEntry {
@@ -528,6 +534,8 @@ export namespace ContractRetrieveResponse {
         timestamp: string;
 
         type: 'POSTPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION';
+
+        contract_id?: string;
       }
 
       export interface PostpaidCommitRolloverLedgerEntry {
@@ -550,6 +558,8 @@ export namespace ContractRetrieveResponse {
         timestamp: string;
 
         type: 'POSTPAID_COMMIT_TRUEUP';
+
+        contract_id?: string;
       }
 
       export interface PrepaidCommitManualLedgerEntry {
@@ -873,6 +883,8 @@ export namespace ContractRetrieveResponse {
         timestamp: string;
 
         type: 'CREDIT_AUTOMATED_INVOICE_DEDUCTION';
+
+        contract_id?: string;
       }
 
       export interface CreditExpirationLedgerEntry {
@@ -895,6 +907,8 @@ export namespace ContractRetrieveResponse {
         timestamp: string;
 
         type: 'CREDIT_CANCELED';
+
+        contract_id?: string;
       }
 
       export interface CreditCreditedLedgerEntry {
@@ -907,6 +921,8 @@ export namespace ContractRetrieveResponse {
         timestamp: string;
 
         type: 'CREDIT_CREDITED';
+
+        contract_id?: string;
       }
 
       export interface CreditManualLedgerEntry {
@@ -951,6 +967,11 @@ export namespace ContractRetrieveResponse {
      * This field's availability is dependent on your client's configuration.
      */
     export interface CustomerBillingProviderConfiguration {
+      /**
+       * ID of Customer's billing provider configuration.
+       */
+      id: string;
+
       billing_provider:
         | 'aws_marketplace'
         | 'stripe'
@@ -1082,6 +1103,8 @@ export namespace ContractRetrieveResponse {
          * or credit. A customer's usage needs to meet the condition of at least one of the
          * specifiers to contribute to a commit's or credit's drawdown. This field cannot
          * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         * Instead, to target usage by product or product tag, pass those values in the
+         * body of `specifiers`.
          */
         specifiers?: Array<Commit.Specifier>;
       }
@@ -1221,7 +1244,7 @@ export namespace ContractRetrieveResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: RecurringCommit.HierarchyConfiguration;
 
@@ -1268,6 +1291,11 @@ export namespace ContractRetrieveResponse {
        * specifiers to contribute to a commit's or credit's drawdown.
        */
       specifiers?: Array<RecurringCommit.Specifier>;
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      subscription_config?: RecurringCommit.SubscriptionConfig;
     }
 
     export namespace RecurringCommit {
@@ -1302,7 +1330,7 @@ export namespace ContractRetrieveResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -1353,6 +1381,26 @@ export namespace ContractRetrieveResponse {
          * tags.
          */
         product_tags?: Array<string>;
+      }
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      export interface SubscriptionConfig {
+        allocation: 'INDIVIDUAL' | 'POOLED';
+
+        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+        subscription_id: string;
+      }
+
+      export namespace SubscriptionConfig {
+        export interface ApplySeatIncreaseConfig {
+          /**
+           * Indicates whether a mid-period seat increase should be prorated.
+           */
+          is_prorated: boolean;
+        }
       }
     }
 
@@ -1409,7 +1457,7 @@ export namespace ContractRetrieveResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: RecurringCredit.HierarchyConfiguration;
 
@@ -1451,6 +1499,11 @@ export namespace ContractRetrieveResponse {
        * specifiers to contribute to a commit's or credit's drawdown.
        */
       specifiers?: Array<RecurringCredit.Specifier>;
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      subscription_config?: RecurringCredit.SubscriptionConfig;
     }
 
     export namespace RecurringCredit {
@@ -1485,7 +1538,7 @@ export namespace ContractRetrieveResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -1525,6 +1578,26 @@ export namespace ContractRetrieveResponse {
          * tags.
          */
         product_tags?: Array<string>;
+      }
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      export interface SubscriptionConfig {
+        allocation: 'INDIVIDUAL' | 'POOLED';
+
+        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+        subscription_id: string;
+      }
+
+      export namespace SubscriptionConfig {
+        export interface ApplySeatIncreaseConfig {
+          /**
+           * Indicates whether a mid-period seat increase should be prorated.
+           */
+          is_prorated: boolean;
+        }
       }
     }
 
@@ -2024,6 +2097,8 @@ export namespace ContractListResponse {
         timestamp: string;
 
         type: 'PREPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION';
+
+        contract_id?: string;
       }
 
       export interface PrepaidCommitRolloverLedgerEntry {
@@ -2058,6 +2133,8 @@ export namespace ContractListResponse {
         timestamp: string;
 
         type: 'PREPAID_COMMIT_CANCELED';
+
+        contract_id?: string;
       }
 
       export interface PrepaidCommitCreditedLedgerEntry {
@@ -2070,6 +2147,8 @@ export namespace ContractListResponse {
         timestamp: string;
 
         type: 'PREPAID_COMMIT_CREDITED';
+
+        contract_id?: string;
       }
 
       export interface PrepaidCommitSeatBasedAdjustmentLedgerEntry {
@@ -2100,6 +2179,8 @@ export namespace ContractListResponse {
         timestamp: string;
 
         type: 'POSTPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION';
+
+        contract_id?: string;
       }
 
       export interface PostpaidCommitRolloverLedgerEntry {
@@ -2122,6 +2203,8 @@ export namespace ContractListResponse {
         timestamp: string;
 
         type: 'POSTPAID_COMMIT_TRUEUP';
+
+        contract_id?: string;
       }
 
       export interface PrepaidCommitManualLedgerEntry {
@@ -2445,6 +2528,8 @@ export namespace ContractListResponse {
         timestamp: string;
 
         type: 'CREDIT_AUTOMATED_INVOICE_DEDUCTION';
+
+        contract_id?: string;
       }
 
       export interface CreditExpirationLedgerEntry {
@@ -2467,6 +2552,8 @@ export namespace ContractListResponse {
         timestamp: string;
 
         type: 'CREDIT_CANCELED';
+
+        contract_id?: string;
       }
 
       export interface CreditCreditedLedgerEntry {
@@ -2479,6 +2566,8 @@ export namespace ContractListResponse {
         timestamp: string;
 
         type: 'CREDIT_CREDITED';
+
+        contract_id?: string;
       }
 
       export interface CreditManualLedgerEntry {
@@ -2523,6 +2612,11 @@ export namespace ContractListResponse {
      * This field's availability is dependent on your client's configuration.
      */
     export interface CustomerBillingProviderConfiguration {
+      /**
+       * ID of Customer's billing provider configuration.
+       */
+      id: string;
+
       billing_provider:
         | 'aws_marketplace'
         | 'stripe'
@@ -2654,6 +2748,8 @@ export namespace ContractListResponse {
          * or credit. A customer's usage needs to meet the condition of at least one of the
          * specifiers to contribute to a commit's or credit's drawdown. This field cannot
          * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         * Instead, to target usage by product or product tag, pass those values in the
+         * body of `specifiers`.
          */
         specifiers?: Array<Commit.Specifier>;
       }
@@ -2793,7 +2889,7 @@ export namespace ContractListResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: RecurringCommit.HierarchyConfiguration;
 
@@ -2840,6 +2936,11 @@ export namespace ContractListResponse {
        * specifiers to contribute to a commit's or credit's drawdown.
        */
       specifiers?: Array<RecurringCommit.Specifier>;
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      subscription_config?: RecurringCommit.SubscriptionConfig;
     }
 
     export namespace RecurringCommit {
@@ -2874,7 +2975,7 @@ export namespace ContractListResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -2925,6 +3026,26 @@ export namespace ContractListResponse {
          * tags.
          */
         product_tags?: Array<string>;
+      }
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      export interface SubscriptionConfig {
+        allocation: 'INDIVIDUAL' | 'POOLED';
+
+        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+        subscription_id: string;
+      }
+
+      export namespace SubscriptionConfig {
+        export interface ApplySeatIncreaseConfig {
+          /**
+           * Indicates whether a mid-period seat increase should be prorated.
+           */
+          is_prorated: boolean;
+        }
       }
     }
 
@@ -2981,7 +3102,7 @@ export namespace ContractListResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: RecurringCredit.HierarchyConfiguration;
 
@@ -3023,6 +3144,11 @@ export namespace ContractListResponse {
        * specifiers to contribute to a commit's or credit's drawdown.
        */
       specifiers?: Array<RecurringCredit.Specifier>;
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      subscription_config?: RecurringCredit.SubscriptionConfig;
     }
 
     export namespace RecurringCredit {
@@ -3057,7 +3183,7 @@ export namespace ContractListResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -3097,6 +3223,26 @@ export namespace ContractListResponse {
          * tags.
          */
         product_tags?: Array<string>;
+      }
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      export interface SubscriptionConfig {
+        allocation: 'INDIVIDUAL' | 'POOLED';
+
+        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+        subscription_id: string;
+      }
+
+      export namespace SubscriptionConfig {
+        export interface ApplySeatIncreaseConfig {
+          /**
+           * Indicates whether a mid-period seat increase should be prorated.
+           */
+          is_prorated: boolean;
+        }
       }
     }
 
@@ -3407,6 +3553,11 @@ export namespace ContractGetEditHistoryResponse {
       description?: string;
 
       /**
+       * Optional configuration for commit hierarchy access control
+       */
+      hierarchy_configuration?: AddCommit.HierarchyConfiguration;
+
+      /**
        * The schedule that the customer will be invoiced for this commit.
        */
       invoice_schedule?: Shared.SchedulePointInTime;
@@ -3438,6 +3589,8 @@ export namespace ContractGetEditHistoryResponse {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<AddCommit.Specifier>;
     }
@@ -3447,6 +3600,32 @@ export namespace ContractGetEditHistoryResponse {
         id: string;
 
         name: string;
+      }
+
+      /**
+       * Optional configuration for commit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
+        }
       }
 
       export interface Specifier {
@@ -3485,6 +3664,11 @@ export namespace ContractGetEditHistoryResponse {
 
       description?: string;
 
+      /**
+       * Optional configuration for recurring credit hierarchy access control
+       */
+      hierarchy_configuration?: AddCredit.HierarchyConfiguration;
+
       name?: string;
 
       /**
@@ -3508,6 +3692,8 @@ export namespace ContractGetEditHistoryResponse {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<AddCredit.Specifier>;
     }
@@ -3517,6 +3703,32 @@ export namespace ContractGetEditHistoryResponse {
         id: string;
 
         name: string;
+      }
+
+      /**
+       * Optional configuration for recurring credit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
+        }
       }
 
       export interface Specifier {
@@ -3698,6 +3910,8 @@ export namespace ContractGetEditHistoryResponse {
          * or credit. A customer's usage needs to meet the condition of at least one of the
          * specifiers to contribute to a commit's or credit's drawdown. This field cannot
          * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         * Instead, to target usage by product or product tag, pass those values in the
+         * body of `specifiers`.
          */
         specifiers?: Array<Commit.Specifier>;
       }
@@ -3837,7 +4051,7 @@ export namespace ContractGetEditHistoryResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: AddRecurringCommit.HierarchyConfiguration;
 
@@ -3884,6 +4098,11 @@ export namespace ContractGetEditHistoryResponse {
        * specifiers to contribute to a commit's or credit's drawdown.
        */
       specifiers?: Array<AddRecurringCommit.Specifier>;
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      subscription_config?: AddRecurringCommit.SubscriptionConfig;
     }
 
     export namespace AddRecurringCommit {
@@ -3918,7 +4137,7 @@ export namespace ContractGetEditHistoryResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -3969,6 +4188,26 @@ export namespace ContractGetEditHistoryResponse {
          * tags.
          */
         product_tags?: Array<string>;
+      }
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      export interface SubscriptionConfig {
+        allocation: 'INDIVIDUAL' | 'POOLED';
+
+        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+        subscription_id: string;
+      }
+
+      export namespace SubscriptionConfig {
+        export interface ApplySeatIncreaseConfig {
+          /**
+           * Indicates whether a mid-period seat increase should be prorated.
+           */
+          is_prorated: boolean;
+        }
       }
     }
 
@@ -4025,7 +4264,7 @@ export namespace ContractGetEditHistoryResponse {
       ending_before?: string;
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       hierarchy_configuration?: AddRecurringCredit.HierarchyConfiguration;
 
@@ -4067,6 +4306,11 @@ export namespace ContractGetEditHistoryResponse {
        * specifiers to contribute to a commit's or credit's drawdown.
        */
       specifiers?: Array<AddRecurringCredit.Specifier>;
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      subscription_config?: AddRecurringCredit.SubscriptionConfig;
     }
 
     export namespace AddRecurringCredit {
@@ -4101,7 +4345,7 @@ export namespace ContractGetEditHistoryResponse {
       }
 
       /**
-       * Optional configuration for recurring commit/credit hierarchy access control
+       * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
@@ -4141,6 +4385,26 @@ export namespace ContractGetEditHistoryResponse {
          * tags.
          */
         product_tags?: Array<string>;
+      }
+
+      /**
+       * Attach a subscription to the recurring commit/credit.
+       */
+      export interface SubscriptionConfig {
+        allocation: 'INDIVIDUAL' | 'POOLED';
+
+        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+        subscription_id: string;
+      }
+
+      export namespace SubscriptionConfig {
+        export interface ApplySeatIncreaseConfig {
+          /**
+           * Indicates whether a mid-period seat increase should be prorated.
+           */
+          is_prorated: boolean;
+        }
       }
     }
 
@@ -4408,6 +4672,11 @@ export namespace ContractGetEditHistoryResponse {
        */
       applicable_product_tags?: Array<string> | null;
 
+      /**
+       * Optional configuration for commit hierarchy access control
+       */
+      hierarchy_configuration?: UpdateCommit.HierarchyConfiguration;
+
       invoice_schedule?: UpdateCommit.InvoiceSchedule;
 
       name?: string;
@@ -4423,6 +4692,8 @@ export namespace ContractGetEditHistoryResponse {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<UpdateCommit.Specifier> | null;
     }
@@ -4469,6 +4740,32 @@ export namespace ContractGetEditHistoryResponse {
            * RFC 3339 timestamp (inclusive)
            */
           starting_at?: string;
+        }
+      }
+
+      /**
+       * Optional configuration for commit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
         }
       }
 
@@ -4531,6 +4828,11 @@ export namespace ContractGetEditHistoryResponse {
 
       access_schedule?: UpdateCredit.AccessSchedule;
 
+      /**
+       * Optional configuration for credit hierarchy access control
+       */
+      hierarchy_configuration?: UpdateCredit.HierarchyConfiguration;
+
       name?: string;
 
       netsuite_sales_order_id?: string | null;
@@ -4582,6 +4884,32 @@ export namespace ContractGetEditHistoryResponse {
           starting_at?: string;
         }
       }
+
+      /**
+       * Optional configuration for credit hierarchy access control
+       */
+      export interface HierarchyConfiguration {
+        child_access:
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+      }
+
+      export namespace HierarchyConfiguration {
+        export interface CommitHierarchyChildAccessAll {
+          type: 'ALL';
+        }
+
+        export interface CommitHierarchyChildAccessNone {
+          type: 'NONE';
+        }
+
+        export interface CommitHierarchyChildAccessContractIDs {
+          contract_ids: Array<string>;
+
+          type: 'CONTRACT_IDS';
+        }
+      }
     }
 
     export interface UpdateDiscount {
@@ -4605,7 +4933,7 @@ export namespace ContractGetEditHistoryResponse {
        */
       export interface Schedule {
         /**
-         * Defaults to USD if not passed. Only USD is supported at this time.
+         * Defaults to USD (cents) if not passed.
          */
         credit_type_id?: string;
 
@@ -4759,6 +5087,8 @@ export namespace ContractGetEditHistoryResponse {
          * or credit. A customer's usage needs to meet the condition of at least one of the
          * specifiers to contribute to a commit's or credit's drawdown. This field cannot
          * be used together with `applicable_product_ids` or `applicable_product_tags`.
+         * Instead, to target usage by product or product tag, pass those values in the
+         * body of `specifiers`.
          */
         specifiers?: Array<Commit.Specifier> | null;
       }
@@ -5312,6 +5642,8 @@ export namespace ContractEditParams {
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     * Instead, to target usage by product or product tag, pass those values in the
+     * body of `specifiers`.
      */
     specifiers?: Array<AddCommit.Specifier>;
 
@@ -5384,7 +5716,7 @@ export namespace ContractEditParams {
      */
     export interface InvoiceSchedule {
       /**
-       * Defaults to USD if not passed. Only USD is supported at this time.
+       * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
 
@@ -5611,6 +5943,8 @@ export namespace ContractEditParams {
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     * Instead, to target usage by product or product tag, pass those values in the
+     * body of `specifiers`.
      */
     specifiers?: Array<AddCredit.Specifier>;
   }
@@ -5712,7 +6046,7 @@ export namespace ContractEditParams {
      */
     export interface Schedule {
       /**
-       * Defaults to USD if not passed. Only USD is supported at this time.
+       * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
 
@@ -6035,6 +6369,8 @@ export namespace ContractEditParams {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<Commit.Specifier>;
     }
@@ -6197,7 +6533,7 @@ export namespace ContractEditParams {
     ending_before?: string;
 
     /**
-     * Optional configuration for recurring commit/credit hierarchy access control
+     * Optional configuration for recurring credit hierarchy access control
      */
     hierarchy_configuration?: AddRecurringCommit.HierarchyConfiguration;
 
@@ -6248,8 +6584,15 @@ export namespace ContractEditParams {
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     * Instead, to target usage by product or product tag, pass those values in the
+     * body of `specifiers`.
      */
     specifiers?: Array<AddRecurringCommit.Specifier>;
+
+    /**
+     * Attach a subscription to the recurring commit/credit.
+     */
+    subscription_config?: AddRecurringCommit.SubscriptionConfig;
 
     /**
      * A temporary ID that can be used to reference the recurring commit for commit
@@ -6286,7 +6629,7 @@ export namespace ContractEditParams {
     }
 
     /**
-     * Optional configuration for recurring commit/credit hierarchy access control
+     * Optional configuration for recurring credit hierarchy access control
      */
     export interface HierarchyConfiguration {
       child_access:
@@ -6338,6 +6681,32 @@ export namespace ContractEditParams {
        */
       product_tags?: Array<string>;
     }
+
+    /**
+     * Attach a subscription to the recurring commit/credit.
+     */
+    export interface SubscriptionConfig {
+      apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+      /**
+       * ID of the subscription to configure on the recurring commit/credit.
+       */
+      subscription_id: string;
+
+      /**
+       * If set to POOLED, allocation added per seat is pooled across the account.
+       */
+      allocation?: 'POOLED';
+    }
+
+    export namespace SubscriptionConfig {
+      export interface ApplySeatIncreaseConfig {
+        /**
+         * Indicates whether a mid-period seat increase should be prorated.
+         */
+        is_prorated: boolean;
+      }
+    }
   }
 
   export interface AddRecurringCredit {
@@ -6386,7 +6755,7 @@ export namespace ContractEditParams {
     ending_before?: string;
 
     /**
-     * Optional configuration for recurring commit/credit hierarchy access control
+     * Optional configuration for recurring credit hierarchy access control
      */
     hierarchy_configuration?: AddRecurringCredit.HierarchyConfiguration;
 
@@ -6432,8 +6801,15 @@ export namespace ContractEditParams {
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
+     * Instead, to target usage by product or product tag, pass those values in the
+     * body of `specifiers`.
      */
     specifiers?: Array<AddRecurringCredit.Specifier>;
+
+    /**
+     * Attach a subscription to the recurring commit/credit.
+     */
+    subscription_config?: AddRecurringCredit.SubscriptionConfig;
 
     /**
      * A temporary ID that can be used to reference the recurring commit for commit
@@ -6470,7 +6846,7 @@ export namespace ContractEditParams {
     }
 
     /**
-     * Optional configuration for recurring commit/credit hierarchy access control
+     * Optional configuration for recurring credit hierarchy access control
      */
     export interface HierarchyConfiguration {
       child_access:
@@ -6510,6 +6886,32 @@ export namespace ContractEditParams {
        * tags.
        */
       product_tags?: Array<string>;
+    }
+
+    /**
+     * Attach a subscription to the recurring commit/credit.
+     */
+    export interface SubscriptionConfig {
+      apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+      /**
+       * ID of the subscription to configure on the recurring commit/credit.
+       */
+      subscription_id: string;
+
+      /**
+       * If set to POOLED, allocation added per seat is pooled across the account.
+       */
+      allocation?: 'POOLED';
+    }
+
+    export namespace SubscriptionConfig {
+      export interface ApplySeatIncreaseConfig {
+        /**
+         * Indicates whether a mid-period seat increase should be prorated.
+         */
+        is_prorated: boolean;
+      }
     }
   }
 
@@ -6585,7 +6987,7 @@ export namespace ContractEditParams {
      */
     export interface Schedule {
       /**
-       * Defaults to USD if not passed. Only USD is supported at this time.
+       * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
 
@@ -6800,15 +7202,22 @@ export namespace ContractEditParams {
      * start date
      */
     starting_at?: string;
+
+    /**
+     * A temporary ID used to reference the subscription in recurring commit/credit
+     * subscription configs created within the same payload.
+     */
+    temporary_id?: string;
   }
 
   export namespace AddSubscription {
     export interface Proration {
       /**
-       * Indicates how mid-period quantity adjustments are invoiced. If BILL_IMMEDIATELY
-       * is selected, the quantity increase will be billed on the scheduled date. If
-       * BILL_ON_NEXT_COLLECTION_DATE is selected, the quantity increase will be billed
-       * for in-arrears at the end of the period.
+       * Indicates how mid-period quantity adjustments are invoiced.
+       * **BILL_IMMEDIATELY**: Only available when collection schedule is `ADVANCE`. The
+       * quantity increase will be billed immediately on the scheduled date.
+       * **BILL_ON_NEXT_COLLECTION_DATE**: The quantity increase will be billed for
+       * in-arrears at the end of the period.
        */
       invoice_behavior?: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
 
@@ -7130,6 +7539,8 @@ export namespace ContractEditParams {
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
        * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
        */
       specifiers?: Array<Commit.Specifier> | null;
     }
@@ -7475,6 +7886,8 @@ export interface ContractEditCommitParams {
    * or credit. A customer's usage needs to meet the condition of at least one of the
    * specifiers to contribute to a commit's or credit's drawdown. This field cannot
    * be used together with `applicable_product_ids` or `applicable_product_tags`.
+   * Instead, to target usage by product or product tag, pass those values in the
+   * body of `specifiers`.
    */
   specifiers?: Array<ContractEditCommitParams.Specifier> | null;
 }
@@ -7598,6 +8011,8 @@ export interface ContractEditCreditParams {
    * or credit. A customer's usage needs to meet the condition of at least one of the
    * specifiers to contribute to a commit's or credit's drawdown. This field cannot
    * be used together with `applicable_product_ids` or `applicable_product_tags`.
+   * Instead, to target usage by product or product tag, pass those values in the
+   * body of `specifiers`.
    */
   specifiers?: Array<ContractEditCreditParams.Specifier> | null;
 }
