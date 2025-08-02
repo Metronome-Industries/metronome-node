@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0 (2025-08-02)
+
+Full Changelog: [v0.2.0...v0.3.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.2.0...v0.3.0)
+
+### Features
+
+* **api:** api update ([7658522](https://github.com/Metronome-Industries/metronome-node/commit/76585227332f5bf7f7640af83cc56a791972afbc))
+* **api:** api update ([39508d4](https://github.com/Metronome-Industries/metronome-node/commit/39508d435f1966327cadcf4f208f8e7bbd65e902))
+* **mcp:** add logging when environment variable is set ([da446ed](https://github.com/Metronome-Industries/metronome-node/commit/da446ed9e30f4f8b2d75c73346583388f53fda80))
+
 ## 0.2.0 (2025-07-31)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0...v0.2.0)
