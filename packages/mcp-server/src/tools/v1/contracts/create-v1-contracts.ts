@@ -179,6 +179,11 @@ export const tool: Tool = {
                   type: 'string',
                   description: 'Defaults to USD (cents) if not passed.',
                 },
+                do_not_invoice: {
+                  type: 'boolean',
+                  description:
+                    'This field is only applicable to commit invoice schedules. If true, this schedule will not generate an invoice.',
+                },
                 recurring_schedule: {
                   type: 'object',
                   description:
@@ -544,6 +549,11 @@ export const tool: Tool = {
                 credit_type_id: {
                   type: 'string',
                   description: 'Defaults to USD (cents) if not passed.',
+                },
+                do_not_invoice: {
+                  type: 'boolean',
+                  description:
+                    'This field is only applicable to commit invoice schedules. If true, this schedule will not generate an invoice.',
                 },
                 recurring_schedule: {
                   type: 'object',
@@ -1056,7 +1066,7 @@ export const tool: Tool = {
                 quantity: {
                   type: 'number',
                   description:
-                    'This field is currently required. Upcoming recurring commit/credit configuration options will allow it to be optional.',
+                    'This field is required unless a subscription is attached via `subscription_config`.',
                 },
               },
               required: ['credit_type_id', 'unit_price'],
@@ -1286,7 +1296,7 @@ export const tool: Tool = {
                 quantity: {
                   type: 'number',
                   description:
-                    'This field is currently required. Upcoming recurring commit/credit configuration options will allow it to be optional.',
+                    'This field is required unless a subscription is attached via `subscription_config`.',
                 },
               },
               required: ['credit_type_id', 'unit_price'],
@@ -1571,6 +1581,11 @@ export const tool: Tool = {
                 credit_type_id: {
                   type: 'string',
                   description: 'Defaults to USD (cents) if not passed.',
+                },
+                do_not_invoice: {
+                  type: 'boolean',
+                  description:
+                    'This field is only applicable to commit invoice schedules. If true, this schedule will not generate an invoice.',
                 },
                 recurring_schedule: {
                   type: 'object',

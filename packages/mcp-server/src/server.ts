@@ -26,9 +26,9 @@ export { endpoints } from './tools';
 export const server = new McpServer(
   {
     name: 'metronome_sdk_api',
-    version: '0.2.0',
+    version: '0.3.0',
   },
-  { capabilities: { tools: {} } },
+  { capabilities: { tools: {}, logging: {} } },
 );
 
 /**

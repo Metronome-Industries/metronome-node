@@ -4938,6 +4938,12 @@ export namespace ContractGetEditHistoryResponse {
         credit_type_id?: string;
 
         /**
+         * This field is only applicable to commit invoice schedules. If true, this
+         * schedule will not generate an invoice.
+         */
+        do_not_invoice?: boolean;
+
+        /**
          * Enter the unit price and quantity for the charge or instead only send the
          * amount. If amount is sent, the unit price is assumed to be the amount and
          * quantity is inferred to be 1.
@@ -5721,6 +5727,12 @@ export namespace ContractEditParams {
       credit_type_id?: string;
 
       /**
+       * This field is only applicable to commit invoice schedules. If true, this
+       * schedule will not generate an invoice.
+       */
+      do_not_invoice?: boolean;
+
+      /**
        * Enter the unit price and quantity for the charge or instead only send the
        * amount. If amount is sent, the unit price is assumed to be the amount and
        * quantity is inferred to be 1.
@@ -6049,6 +6061,12 @@ export namespace ContractEditParams {
        * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
+
+      /**
+       * This field is only applicable to commit invoice schedules. If true, this
+       * schedule will not generate an invoice.
+       */
+      do_not_invoice?: boolean;
 
       /**
        * Enter the unit price and quantity for the charge or instead only send the
@@ -6611,8 +6629,8 @@ export namespace ContractEditParams {
       unit_price: number;
 
       /**
-       * This field is currently required. Upcoming recurring commit/credit configuration
-       * options will allow it to be optional.
+       * This field is required unless a subscription is attached via
+       * `subscription_config`.
        */
       quantity?: number;
     }
@@ -6828,8 +6846,8 @@ export namespace ContractEditParams {
       unit_price: number;
 
       /**
-       * This field is currently required. Upcoming recurring commit/credit configuration
-       * options will allow it to be optional.
+       * This field is required unless a subscription is attached via
+       * `subscription_config`.
        */
       quantity?: number;
     }
@@ -6990,6 +7008,12 @@ export namespace ContractEditParams {
        * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
+
+      /**
+       * This field is only applicable to commit invoice schedules. If true, this
+       * schedule will not generate an invoice.
+       */
+      do_not_invoice?: boolean;
 
       /**
        * Enter the unit price and quantity for the charge or instead only send the
