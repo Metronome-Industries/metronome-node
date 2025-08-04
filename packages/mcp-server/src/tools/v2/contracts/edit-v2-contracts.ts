@@ -744,16 +744,7 @@ export const tool: Tool = {
                   type: 'array',
                   description: 'Only set for TIERED rate_type.',
                   items: {
-                    type: 'object',
-                    properties: {
-                      price: {
-                        type: 'number',
-                      },
-                      size: {
-                        type: 'number',
-                      },
-                    },
-                    required: ['price'],
+                    $ref: '#/$defs/tier',
                   },
                 },
               },
@@ -2594,6 +2585,20 @@ export const tool: Tool = {
       },
     },
     required: ['contract_id', 'customer_id'],
+    $defs: {
+      tier: {
+        type: 'object',
+        properties: {
+          price: {
+            type: 'number',
+          },
+          size: {
+            type: 'number',
+          },
+        },
+        required: ['price'],
+      },
+    },
   },
   annotations: {},
 };
