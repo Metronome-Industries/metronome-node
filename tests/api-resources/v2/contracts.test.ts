@@ -456,6 +456,7 @@ describe('resource contracts', () => {
             ],
           },
           netsuite_sales_order_id: 'netsuite_sales_order_id',
+          priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           rollover_fraction: 0,
         },
@@ -624,6 +625,7 @@ describe('resource contracts', () => {
           },
         ],
       },
+      priority: 0,
       product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       specifiers: [
         {
@@ -670,6 +672,7 @@ describe('resource contracts', () => {
       },
       applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
       applicable_product_tags: ['string'],
+      priority: 0,
       product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       specifiers: [
         {
