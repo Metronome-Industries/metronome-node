@@ -744,7 +744,16 @@ export const tool: Tool = {
                   type: 'array',
                   description: 'Only set for TIERED rate_type.',
                   items: {
-                    $ref: '#/$defs/tier',
+                    type: 'object',
+                    properties: {
+                      price: {
+                        type: 'number',
+                      },
+                      size: {
+                        type: 'number',
+                      },
+                    },
+                    required: ['price'],
                   },
                 },
               },
@@ -2005,6 +2014,9 @@ export const tool: Tool = {
             netsuite_sales_order_id: {
               type: 'string',
             },
+            priority: {
+              type: 'number',
+            },
             product_id: {
               type: 'string',
             },
@@ -2582,20 +2594,6 @@ export const tool: Tool = {
       },
     },
     required: ['contract_id', 'customer_id'],
-    $defs: {
-      tier: {
-        type: 'object',
-        properties: {
-          price: {
-            type: 'number',
-          },
-          size: {
-            type: 'number',
-          },
-        },
-        required: ['price'],
-      },
-    },
   },
   annotations: {},
 };
