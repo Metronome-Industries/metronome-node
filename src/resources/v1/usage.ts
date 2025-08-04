@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
-import { CursorPage, type CursorPageParams } from '../../pagination';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { CursorPage, type CursorPageParams, PagePromise } from '../../core/pagination';
+import { buildHeaders } from '../../internal/headers';
+import { RequestOptions } from '../../internal/request-options';
 
 export class Usage extends APIResource {
   /**
@@ -19,7 +20,7 @@ export class Usage extends APIResource {
    * });
    * ```
    */
-  list(params: UsageListParams, options?: Core.RequestOptions): Core.APIPromise<UsageListResponse> {
+  list(params: UsageListParams, options?: RequestOptions): APIPromise<UsageListResponse> {
     const { next_page, ...body } = params;
     return this._client.post('/v1/usage', { query: { next_page }, body, ...options });
   }
@@ -33,29 +34,18 @@ export class Usage extends APIResource {
    *
    * @example
    * ```ts
-   * await client.v1.usage.ingest([
-   *   {
-   *     customer_id: 'team@example.com',
-   *     event_type: 'heartbeat',
-   *     timestamp: '2021-01-01T00:00:00Z',
-   *     transaction_id: '2021-01-01T00:00:00Z_cluster42',
-   *   },
-   * ]);
+   * await client.v1.usage.ingest();
    * ```
    */
-  ingest(body?: UsageIngestParams, options?: Core.RequestOptions): Core.APIPromise<void>;
-  ingest(options?: Core.RequestOptions): Core.APIPromise<void>;
   ingest(
-    body?: UsageIngestParams | Core.RequestOptions,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<void> {
-    if (isRequestOptions(body)) {
-      return this.ingest(undefined, body);
-    }
+    params: UsageIngestParams | null | undefined = undefined,
+    options?: RequestOptions,
+  ): APIPromise<void> {
+    const { usage } = params ?? {};
     return this._client.post('/v1/ingest', {
-      body,
+      body: usage,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
@@ -86,10 +76,10 @@ export class Usage extends APIResource {
    */
   listWithGroups(
     params: UsageListWithGroupsParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<UsageListWithGroupsResponsesCursorPage, UsageListWithGroupsResponse> {
+    options?: RequestOptions,
+  ): PagePromise<UsageListWithGroupsResponsesCursorPage, UsageListWithGroupsResponse> {
     const { limit, next_page, ...body } = params;
-    return this._client.getAPIList('/v1/usage/groups', UsageListWithGroupsResponsesCursorPage, {
+    return this._client.getAPIList('/v1/usage/groups', CursorPage<UsageListWithGroupsResponse>, {
       query: { limit, next_page },
       body,
       method: 'post',
@@ -110,12 +100,12 @@ export class Usage extends APIResource {
    * });
    * ```
    */
-  search(body: UsageSearchParams, options?: Core.RequestOptions): Core.APIPromise<UsageSearchResponse> {
+  search(body: UsageSearchParams, options?: RequestOptions): APIPromise<UsageSearchResponse> {
     return this._client.post('/v1/events/search', { body, ...options });
   }
 }
 
-export class UsageListWithGroupsResponsesCursorPage extends CursorPage<UsageListWithGroupsResponse> {}
+export type UsageListWithGroupsResponsesCursorPage = CursorPage<UsageListWithGroupsResponse>;
 
 export interface UsageListResponse {
   data: Array<UsageListResponse.Data>;
@@ -381,7 +371,9 @@ export namespace UsageListParams {
   }
 }
 
-export type UsageIngestParams = Array<UsageIngestParams.Usage>;
+export interface UsageIngestParams {
+  usage?: Array<UsageIngestParams.Usage>;
+}
 
 export namespace UsageIngestParams {
   export interface Usage {
@@ -464,14 +456,12 @@ export interface UsageSearchParams {
   transactionIds: Array<string>;
 }
 
-Usage.UsageListWithGroupsResponsesCursorPage = UsageListWithGroupsResponsesCursorPage;
-
 export declare namespace Usage {
   export {
     type UsageListResponse as UsageListResponse,
     type UsageListWithGroupsResponse as UsageListWithGroupsResponse,
     type UsageSearchResponse as UsageSearchResponse,
-    UsageListWithGroupsResponsesCursorPage as UsageListWithGroupsResponsesCursorPage,
+    type UsageListWithGroupsResponsesCursorPage as UsageListWithGroupsResponsesCursorPage,
     type UsageListParams as UsageListParams,
     type UsageIngestParams as UsageIngestParams,
     type UsageListWithGroupsParams as UsageListWithGroupsParams,

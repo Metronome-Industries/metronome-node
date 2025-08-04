@@ -1,8 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import * as Core from '../../../core';
-import { CursorPage, type CursorPageParams } from '../../../pagination';
+import { APIResource } from '../../../core/resource';
+import { APIPromise } from '../../../core/api-promise';
+import { CursorPage, type CursorPageParams, PagePromise } from '../../../core/pagination';
+import { RequestOptions } from '../../../internal/request-options';
+import { path } from '../../../internal/utils/path';
 
 export class Plans extends APIResource {
   /**
@@ -20,10 +22,10 @@ export class Plans extends APIResource {
    */
   list(
     params: PlanListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListResponsesCursorPage, PlanListResponse> {
+    options?: RequestOptions,
+  ): PagePromise<PlanListResponsesCursorPage, PlanListResponse> {
     const { customer_id, ...query } = params;
-    return this._client.getAPIList(`/v1/customers/${customer_id}/plans`, PlanListResponsesCursorPage, {
+    return this._client.getAPIList(path`/v1/customers/${customer_id}/plans`, CursorPage<PlanListResponse>, {
       query,
       ...options,
     });
@@ -44,9 +46,9 @@ export class Plans extends APIResource {
    * });
    * ```
    */
-  add(params: PlanAddParams, options?: Core.RequestOptions): Core.APIPromise<PlanAddResponse> {
+  add(params: PlanAddParams, options?: RequestOptions): APIPromise<PlanAddResponse> {
     const { customer_id, ...body } = params;
-    return this._client.post(`/v1/customers/${customer_id}/plans/add`, { body, ...options });
+    return this._client.post(path`/v1/customers/${customer_id}/plans/add`, { body, ...options });
   }
 
   /**
@@ -61,9 +63,9 @@ export class Plans extends APIResource {
    * });
    * ```
    */
-  end(params: PlanEndParams, options?: Core.RequestOptions): Core.APIPromise<PlanEndResponse> {
+  end(params: PlanEndParams, options?: RequestOptions): APIPromise<PlanEndResponse> {
     const { customer_id, customer_plan_id, ...body } = params;
-    return this._client.post(`/v1/customers/${customer_id}/plans/${customer_plan_id}/end`, {
+    return this._client.post(path`/v1/customers/${customer_id}/plans/${customer_plan_id}/end`, {
       body,
       ...options,
     });
@@ -90,20 +92,20 @@ export class Plans extends APIResource {
    */
   listPriceAdjustments(
     params: PlanListPriceAdjustmentsParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListPriceAdjustmentsResponsesCursorPage, PlanListPriceAdjustmentsResponse> {
+    options?: RequestOptions,
+  ): PagePromise<PlanListPriceAdjustmentsResponsesCursorPage, PlanListPriceAdjustmentsResponse> {
     const { customer_id, customer_plan_id, ...query } = params;
     return this._client.getAPIList(
-      `/v1/customers/${customer_id}/plans/${customer_plan_id}/priceAdjustments`,
-      PlanListPriceAdjustmentsResponsesCursorPage,
+      path`/v1/customers/${customer_id}/plans/${customer_plan_id}/priceAdjustments`,
+      CursorPage<PlanListPriceAdjustmentsResponse>,
       { query, ...options },
     );
   }
 }
 
-export class PlanListResponsesCursorPage extends CursorPage<PlanListResponse> {}
+export type PlanListResponsesCursorPage = CursorPage<PlanListResponse>;
 
-export class PlanListPriceAdjustmentsResponsesCursorPage extends CursorPage<PlanListPriceAdjustmentsResponse> {}
+export type PlanListPriceAdjustmentsResponsesCursorPage = CursorPage<PlanListPriceAdjustmentsResponse>;
 
 export interface PlanListResponse {
   /**
@@ -371,17 +373,14 @@ export interface PlanListPriceAdjustmentsParams extends CursorPageParams {
   customer_plan_id: string;
 }
 
-Plans.PlanListResponsesCursorPage = PlanListResponsesCursorPage;
-Plans.PlanListPriceAdjustmentsResponsesCursorPage = PlanListPriceAdjustmentsResponsesCursorPage;
-
 export declare namespace Plans {
   export {
     type PlanListResponse as PlanListResponse,
     type PlanAddResponse as PlanAddResponse,
     type PlanEndResponse as PlanEndResponse,
     type PlanListPriceAdjustmentsResponse as PlanListPriceAdjustmentsResponse,
-    PlanListResponsesCursorPage as PlanListResponsesCursorPage,
-    PlanListPriceAdjustmentsResponsesCursorPage as PlanListPriceAdjustmentsResponsesCursorPage,
+    type PlanListResponsesCursorPage as PlanListResponsesCursorPage,
+    type PlanListPriceAdjustmentsResponsesCursorPage as PlanListPriceAdjustmentsResponsesCursorPage,
     type PlanListParams as PlanListParams,
     type PlanAddParams as PlanAddParams,
     type PlanEndParams as PlanEndParams,

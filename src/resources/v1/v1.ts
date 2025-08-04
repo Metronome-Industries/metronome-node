@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
+import { APIResource } from '../../core/resource';
 import * as AlertsAPI from './alerts';
 import {
   AlertArchiveParams,
@@ -172,25 +172,14 @@ export class V1 extends APIResource {
 
 V1.Alerts = Alerts;
 V1.Plans = Plans;
-V1.PlanListResponsesCursorPage = PlanListResponsesCursorPage;
-V1.PlanListChargesResponsesCursorPage = PlanListChargesResponsesCursorPage;
-V1.PlanListCustomersResponsesCursorPage = PlanListCustomersResponsesCursorPage;
 V1.CreditGrants = CreditGrants;
-V1.CreditGrantListResponsesCursorPage = CreditGrantListResponsesCursorPage;
 V1.PricingUnits = PricingUnits;
-V1.PricingUnitListResponsesCursorPage = PricingUnitListResponsesCursorPage;
 V1.Customers = Customers;
-V1.CustomerListResponsesCursorPage = CustomerListResponsesCursorPage;
-V1.CustomerListBillableMetricsResponsesCursorPage = CustomerListBillableMetricsResponsesCursorPage;
-V1.CustomerListCostsResponsesCursorPage = CustomerListCostsResponsesCursorPage;
 V1.Dashboards = Dashboards;
 V1.Usage = Usage;
-V1.UsageListWithGroupsResponsesCursorPage = UsageListWithGroupsResponsesCursorPage;
 V1.AuditLogs = AuditLogs;
-V1.AuditLogListResponsesCursorPage = AuditLogListResponsesCursorPage;
 V1.CustomFields = CustomFields;
 V1.BillableMetrics = BillableMetrics;
-V1.BillableMetricListResponsesCursorPage = BillableMetricListResponsesCursorPage;
 V1.Services = Services;
 V1.Invoices = Invoices;
 V1.Contracts = Contracts;
@@ -210,9 +199,9 @@ export declare namespace V1 {
     type PlanGetDetailsResponse as PlanGetDetailsResponse,
     type PlanListChargesResponse as PlanListChargesResponse,
     type PlanListCustomersResponse as PlanListCustomersResponse,
-    PlanListResponsesCursorPage as PlanListResponsesCursorPage,
-    PlanListChargesResponsesCursorPage as PlanListChargesResponsesCursorPage,
-    PlanListCustomersResponsesCursorPage as PlanListCustomersResponsesCursorPage,
+    type PlanListResponsesCursorPage as PlanListResponsesCursorPage,
+    type PlanListChargesResponsesCursorPage as PlanListChargesResponsesCursorPage,
+    type PlanListCustomersResponsesCursorPage as PlanListCustomersResponsesCursorPage,
     type PlanListParams as PlanListParams,
     type PlanGetDetailsParams as PlanGetDetailsParams,
     type PlanListChargesParams as PlanListChargesParams,
@@ -226,7 +215,7 @@ export declare namespace V1 {
     type CreditGrantEditResponse as CreditGrantEditResponse,
     type CreditGrantListEntriesResponse as CreditGrantListEntriesResponse,
     type CreditGrantVoidResponse as CreditGrantVoidResponse,
-    CreditGrantListResponsesCursorPage as CreditGrantListResponsesCursorPage,
+    type CreditGrantListResponsesCursorPage as CreditGrantListResponsesCursorPage,
     type CreditGrantCreateParams as CreditGrantCreateParams,
     type CreditGrantListParams as CreditGrantListParams,
     type CreditGrantEditParams as CreditGrantEditParams,
@@ -237,7 +226,7 @@ export declare namespace V1 {
   export {
     PricingUnits as PricingUnits,
     type PricingUnitListResponse as PricingUnitListResponse,
-    PricingUnitListResponsesCursorPage as PricingUnitListResponsesCursorPage,
+    type PricingUnitListResponsesCursorPage as PricingUnitListResponsesCursorPage,
     type PricingUnitListParams as PricingUnitListParams,
   };
 
@@ -251,9 +240,9 @@ export declare namespace V1 {
     type CustomerListCostsResponse as CustomerListCostsResponse,
     type CustomerPreviewEventsResponse as CustomerPreviewEventsResponse,
     type CustomerSetNameResponse as CustomerSetNameResponse,
-    CustomerListResponsesCursorPage as CustomerListResponsesCursorPage,
-    CustomerListBillableMetricsResponsesCursorPage as CustomerListBillableMetricsResponsesCursorPage,
-    CustomerListCostsResponsesCursorPage as CustomerListCostsResponsesCursorPage,
+    type CustomerListResponsesCursorPage as CustomerListResponsesCursorPage,
+    type CustomerListBillableMetricsResponsesCursorPage as CustomerListBillableMetricsResponsesCursorPage,
+    type CustomerListCostsResponsesCursorPage as CustomerListCostsResponsesCursorPage,
     type CustomerCreateParams as CustomerCreateParams,
     type CustomerRetrieveParams as CustomerRetrieveParams,
     type CustomerListParams as CustomerListParams,
@@ -277,7 +266,7 @@ export declare namespace V1 {
     type UsageListResponse as UsageListResponse,
     type UsageListWithGroupsResponse as UsageListWithGroupsResponse,
     type UsageSearchResponse as UsageSearchResponse,
-    UsageListWithGroupsResponsesCursorPage as UsageListWithGroupsResponsesCursorPage,
+    type UsageListWithGroupsResponsesCursorPage as UsageListWithGroupsResponsesCursorPage,
     type UsageListParams as UsageListParams,
     type UsageIngestParams as UsageIngestParams,
     type UsageListWithGroupsParams as UsageListWithGroupsParams,
@@ -287,7 +276,7 @@ export declare namespace V1 {
   export {
     AuditLogs as AuditLogs,
     type AuditLogListResponse as AuditLogListResponse,
-    AuditLogListResponsesCursorPage as AuditLogListResponsesCursorPage,
+    type AuditLogListResponsesCursorPage as AuditLogListResponsesCursorPage,
     type AuditLogListParams as AuditLogListParams,
   };
 
@@ -307,7 +296,7 @@ export declare namespace V1 {
     type BillableMetricRetrieveResponse as BillableMetricRetrieveResponse,
     type BillableMetricListResponse as BillableMetricListResponse,
     type BillableMetricArchiveResponse as BillableMetricArchiveResponse,
-    BillableMetricListResponsesCursorPage as BillableMetricListResponsesCursorPage,
+    type BillableMetricListResponsesCursorPage as BillableMetricListResponsesCursorPage,
     type BillableMetricCreateParams as BillableMetricCreateParams,
     type BillableMetricRetrieveParams as BillableMetricRetrieveParams,
     type BillableMetricListParams as BillableMetricListParams,

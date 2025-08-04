@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import * as Core from '../../../core';
+import { APIResource } from '../../../core/resource';
+import { APIPromise } from '../../../core/api-promise';
+import { RequestOptions } from '../../../internal/request-options';
 
 export class Credits extends APIResource {
   /**
@@ -27,7 +28,7 @@ export class Credits extends APIResource {
    * });
    * ```
    */
-  create(body: CreditCreateParams, options?: Core.RequestOptions): Core.APIPromise<CreditCreateResponse> {
+  create(body: CreditCreateParams, options?: RequestOptions): APIPromise<CreditCreateResponse> {
     return this._client.post('/v1/contracts/customerCredits/create', { body, ...options });
   }
 
@@ -43,7 +44,7 @@ export class Credits extends APIResource {
    * });
    * ```
    */
-  list(body: CreditListParams, options?: Core.RequestOptions): Core.APIPromise<CreditListResponse> {
+  list(body: CreditListParams, options?: RequestOptions): APIPromise<CreditListResponse> {
     return this._client.post('/v1/contracts/customerCredits/list', { body, ...options });
   }
 
@@ -63,8 +64,8 @@ export class Credits extends APIResource {
    */
   updateEndDate(
     body: CreditUpdateEndDateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditUpdateEndDateResponse> {
+    options?: RequestOptions,
+  ): APIPromise<CreditUpdateEndDateResponse> {
     return this._client.post('/v1/contracts/customerCredits/updateEndDate', { body, ...options });
   }
 }

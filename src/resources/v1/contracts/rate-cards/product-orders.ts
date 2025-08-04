@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../../resource';
-import * as Core from '../../../../core';
+import { APIResource } from '../../../../core/resource';
+import { APIPromise } from '../../../../core/api-promise';
+import { RequestOptions } from '../../../../internal/request-options';
 
 export class ProductOrders extends APIResource {
   /**
@@ -25,10 +26,7 @@ export class ProductOrders extends APIResource {
    *   });
    * ```
    */
-  update(
-    body: ProductOrderUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ProductOrderUpdateResponse> {
+  update(body: ProductOrderUpdateParams, options?: RequestOptions): APIPromise<ProductOrderUpdateResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/moveRateCardProducts', { body, ...options });
   }
 
@@ -47,7 +45,7 @@ export class ProductOrders extends APIResource {
    *   });
    * ```
    */
-  set(body: ProductOrderSetParams, options?: Core.RequestOptions): Core.APIPromise<ProductOrderSetResponse> {
+  set(body: ProductOrderSetParams, options?: RequestOptions): APIPromise<ProductOrderSetResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/setRateCardProductsOrder', {
       body,
       ...options,

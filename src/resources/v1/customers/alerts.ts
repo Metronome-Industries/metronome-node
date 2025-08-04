@@ -1,7 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import * as Core from '../../../core';
+import { APIResource } from '../../../core/resource';
+import { APIPromise } from '../../../core/api-promise';
+import { buildHeaders } from '../../../internal/headers';
+import { RequestOptions } from '../../../internal/request-options';
 
 export class Alerts extends APIResource {
   /**
@@ -16,7 +18,7 @@ export class Alerts extends APIResource {
    * });
    * ```
    */
-  retrieve(body: AlertRetrieveParams, options?: Core.RequestOptions): Core.APIPromise<AlertRetrieveResponse> {
+  retrieve(body: AlertRetrieveParams, options?: RequestOptions): APIPromise<AlertRetrieveResponse> {
     return this._client.post('/v1/customer-alerts/get', { body, ...options });
   }
 
@@ -30,7 +32,7 @@ export class Alerts extends APIResource {
    * });
    * ```
    */
-  list(params: AlertListParams, options?: Core.RequestOptions): Core.APIPromise<AlertListResponse> {
+  list(params: AlertListParams, options?: RequestOptions): APIPromise<AlertListResponse> {
     const { next_page, ...body } = params;
     return this._client.post('/v1/customer-alerts/list', { query: { next_page }, body, ...options });
   }
@@ -46,11 +48,11 @@ export class Alerts extends APIResource {
    * });
    * ```
    */
-  reset(body: AlertResetParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+  reset(body: AlertResetParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/v1/customer-alerts/reset', {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 }

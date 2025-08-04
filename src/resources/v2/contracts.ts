@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { RequestOptions } from '../../internal/request-options';
 
 export class Contracts extends APIResource {
   /**
@@ -16,10 +17,7 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  retrieve(
-    body: ContractRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ContractRetrieveResponse> {
+  retrieve(body: ContractRetrieveParams, options?: RequestOptions): APIPromise<ContractRetrieveResponse> {
     return this._client.post('/v2/contracts/get', { body, ...options });
   }
 
@@ -34,7 +32,7 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  list(body: ContractListParams, options?: Core.RequestOptions): Core.APIPromise<ContractListResponse> {
+  list(body: ContractListParams, options?: RequestOptions): APIPromise<ContractListResponse> {
     return this._client.post('/v2/contracts/list', { body, ...options });
   }
 
@@ -72,7 +70,7 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  edit(body: ContractEditParams, options?: Core.RequestOptions): Core.APIPromise<ContractEditResponse> {
+  edit(body: ContractEditParams, options?: RequestOptions): APIPromise<ContractEditResponse> {
     return this._client.post('/v2/contracts/edit', { body, ...options });
   }
 
@@ -98,8 +96,8 @@ export class Contracts extends APIResource {
    */
   editCommit(
     body: ContractEditCommitParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ContractEditCommitResponse> {
+    options?: RequestOptions,
+  ): APIPromise<ContractEditCommitResponse> {
     return this._client.post('/v2/contracts/commits/edit', { body, ...options });
   }
 
@@ -125,8 +123,8 @@ export class Contracts extends APIResource {
    */
   editCredit(
     body: ContractEditCreditParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ContractEditCreditResponse> {
+    options?: RequestOptions,
+  ): APIPromise<ContractEditCreditResponse> {
     return this._client.post('/v2/contracts/credits/edit', { body, ...options });
   }
 
@@ -144,8 +142,8 @@ export class Contracts extends APIResource {
    */
   getEditHistory(
     body: ContractGetEditHistoryParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ContractGetEditHistoryResponse> {
+    options?: RequestOptions,
+  ): APIPromise<ContractGetEditHistoryResponse> {
     return this._client.post('/v2/contracts/getEditHistory', { body, ...options });
   }
 }

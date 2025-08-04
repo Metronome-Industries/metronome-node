@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
-import { CursorPage, type CursorPageParams } from '../../pagination';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { CursorPage, type CursorPageParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class BillableMetrics extends APIResource {
   /**
@@ -36,8 +37,8 @@ export class BillableMetrics extends APIResource {
    */
   create(
     body: BillableMetricCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillableMetricCreateResponse> {
+    options?: RequestOptions,
+  ): APIPromise<BillableMetricCreateResponse> {
     return this._client.post('/v1/billable-metrics/create', { body, ...options });
   }
 
@@ -55,10 +56,10 @@ export class BillableMetrics extends APIResource {
    */
   retrieve(
     params: BillableMetricRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillableMetricRetrieveResponse> {
+    options?: RequestOptions,
+  ): APIPromise<BillableMetricRetrieveResponse> {
     const { billable_metric_id } = params;
-    return this._client.get(`/v1/billable-metrics/${billable_metric_id}`, options);
+    return this._client.get(path`/v1/billable-metrics/${billable_metric_id}`, options);
   }
 
   /**
@@ -73,20 +74,10 @@ export class BillableMetrics extends APIResource {
    * ```
    */
   list(
-    query?: BillableMetricListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse>;
-  list(
-    query: BillableMetricListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/v1/billable-metrics', BillableMetricListResponsesCursorPage, {
+    query: BillableMetricListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse> {
+    return this._client.getAPIList('/v1/billable-metrics', CursorPage<BillableMetricListResponse>, {
       query,
       ...options,
     });
@@ -104,13 +95,13 @@ export class BillableMetrics extends APIResource {
    */
   archive(
     body: BillableMetricArchiveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillableMetricArchiveResponse> {
+    options?: RequestOptions,
+  ): APIPromise<BillableMetricArchiveResponse> {
     return this._client.post('/v1/billable-metrics/archive', { body, ...options });
   }
 }
 
-export class BillableMetricListResponsesCursorPage extends CursorPage<BillableMetricListResponse> {}
+export type BillableMetricListResponsesCursorPage = CursorPage<BillableMetricListResponse>;
 
 export interface BillableMetricCreateResponse {
   data: BillableMetricCreateResponse.Data;
@@ -468,15 +459,13 @@ export interface BillableMetricArchiveParams {
   id: string;
 }
 
-BillableMetrics.BillableMetricListResponsesCursorPage = BillableMetricListResponsesCursorPage;
-
 export declare namespace BillableMetrics {
   export {
     type BillableMetricCreateResponse as BillableMetricCreateResponse,
     type BillableMetricRetrieveResponse as BillableMetricRetrieveResponse,
     type BillableMetricListResponse as BillableMetricListResponse,
     type BillableMetricArchiveResponse as BillableMetricArchiveResponse,
-    BillableMetricListResponsesCursorPage as BillableMetricListResponsesCursorPage,
+    type BillableMetricListResponsesCursorPage as BillableMetricListResponsesCursorPage,
     type BillableMetricCreateParams as BillableMetricCreateParams,
     type BillableMetricRetrieveParams as BillableMetricRetrieveParams,
     type BillableMetricListParams as BillableMetricListParams,

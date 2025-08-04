@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
-import { CursorPage, type CursorPageParams } from '../../pagination';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { CursorPage, type CursorPageParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
 
 export class CreditGrants extends APIResource {
   /**
@@ -30,10 +30,7 @@ export class CreditGrants extends APIResource {
    * });
    * ```
    */
-  create(
-    body: CreditGrantCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditGrantCreateResponse> {
+  create(body: CreditGrantCreateParams, options?: RequestOptions): APIPromise<CreditGrantCreateResponse> {
     return this._client.post('/v1/credits/createGrant', { body, ...options });
   }
 
@@ -61,21 +58,11 @@ export class CreditGrants extends APIResource {
    * ```
    */
   list(
-    params?: CreditGrantListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CreditGrantListResponsesCursorPage, CreditGrantListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CreditGrantListResponsesCursorPage, CreditGrantListResponse>;
-  list(
-    params: CreditGrantListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CreditGrantListResponsesCursorPage, CreditGrantListResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { limit, next_page, ...body } = params;
-    return this._client.getAPIList('/v1/credits/listGrants', CreditGrantListResponsesCursorPage, {
+    params: CreditGrantListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CreditGrantListResponsesCursorPage, CreditGrantListResponse> {
+    const { limit, next_page, ...body } = params ?? {};
+    return this._client.getAPIList('/v1/credits/listGrants', CursorPage<CreditGrantListResponse>, {
       query: { limit, next_page },
       body,
       method: 'post',
@@ -95,7 +82,7 @@ export class CreditGrants extends APIResource {
    * });
    * ```
    */
-  edit(body: CreditGrantEditParams, options?: Core.RequestOptions): Core.APIPromise<CreditGrantEditResponse> {
+  edit(body: CreditGrantEditParams, options?: RequestOptions): APIPromise<CreditGrantEditResponse> {
     return this._client.post('/v1/credits/editGrant', { body, ...options });
   }
 
@@ -115,18 +102,10 @@ export class CreditGrants extends APIResource {
    * ```
    */
   listEntries(
-    params?: CreditGrantListEntriesParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditGrantListEntriesResponse>;
-  listEntries(options?: Core.RequestOptions): Core.APIPromise<CreditGrantListEntriesResponse>;
-  listEntries(
-    params: CreditGrantListEntriesParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditGrantListEntriesResponse> {
-    if (isRequestOptions(params)) {
-      return this.listEntries({}, params);
-    }
-    const { next_page, sort, ...body } = params;
+    params: CreditGrantListEntriesParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CreditGrantListEntriesResponse> {
+    const { next_page, sort, ...body } = params ?? {};
     return this._client.post('/v1/credits/listEntries', { query: { next_page, sort }, body, ...options });
   }
 
@@ -140,12 +119,12 @@ export class CreditGrants extends APIResource {
    * });
    * ```
    */
-  void(body: CreditGrantVoidParams, options?: Core.RequestOptions): Core.APIPromise<CreditGrantVoidResponse> {
+  void(body: CreditGrantVoidParams, options?: RequestOptions): APIPromise<CreditGrantVoidResponse> {
     return this._client.post('/v1/credits/voidGrant', { body, ...options });
   }
 }
 
-export class CreditGrantListResponsesCursorPage extends CursorPage<CreditGrantListResponse> {}
+export type CreditGrantListResponsesCursorPage = CursorPage<CreditGrantListResponse>;
 
 export interface CreditGrantCreateResponse {
   data: CreditGrantCreateResponse.Data;
@@ -780,8 +759,6 @@ export interface CreditGrantVoidParams {
   void_credit_purchase_invoice?: boolean;
 }
 
-CreditGrants.CreditGrantListResponsesCursorPage = CreditGrantListResponsesCursorPage;
-
 export declare namespace CreditGrants {
   export {
     type CreditGrantCreateResponse as CreditGrantCreateResponse,
@@ -789,7 +766,7 @@ export declare namespace CreditGrants {
     type CreditGrantEditResponse as CreditGrantEditResponse,
     type CreditGrantListEntriesResponse as CreditGrantListEntriesResponse,
     type CreditGrantVoidResponse as CreditGrantVoidResponse,
-    CreditGrantListResponsesCursorPage as CreditGrantListResponsesCursorPage,
+    type CreditGrantListResponsesCursorPage as CreditGrantListResponsesCursorPage,
     type CreditGrantCreateParams as CreditGrantCreateParams,
     type CreditGrantListParams as CreditGrantListParams,
     type CreditGrantEditParams as CreditGrantEditParams,

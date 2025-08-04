@@ -1,8 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { buildHeaders } from '../../internal/headers';
+import { RequestOptions } from '../../internal/request-options';
 
 export class CustomFields extends APIResource {
   /**
@@ -18,11 +19,11 @@ export class CustomFields extends APIResource {
    * });
    * ```
    */
-  addKey(body: CustomFieldAddKeyParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+  addKey(body: CustomFieldAddKeyParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/v1/customFields/addKey', {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
@@ -38,11 +39,11 @@ export class CustomFields extends APIResource {
    * });
    * ```
    */
-  deleteValues(body: CustomFieldDeleteValuesParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+  deleteValues(body: CustomFieldDeleteValuesParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/v1/customFields/deleteValues', {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
@@ -57,18 +58,10 @@ export class CustomFields extends APIResource {
    * ```
    */
   listKeys(
-    params?: CustomFieldListKeysParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomFieldListKeysResponse>;
-  listKeys(options?: Core.RequestOptions): Core.APIPromise<CustomFieldListKeysResponse>;
-  listKeys(
-    params: CustomFieldListKeysParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomFieldListKeysResponse> {
-    if (isRequestOptions(params)) {
-      return this.listKeys({}, params);
-    }
-    const { next_page, ...body } = params;
+    params: CustomFieldListKeysParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CustomFieldListKeysResponse> {
+    const { next_page, ...body } = params ?? {};
     return this._client.post('/v1/customFields/listKeys', { query: { next_page }, body, ...options });
   }
 
@@ -83,11 +76,11 @@ export class CustomFields extends APIResource {
    * });
    * ```
    */
-  removeKey(body: CustomFieldRemoveKeyParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+  removeKey(body: CustomFieldRemoveKeyParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/v1/customFields/removeKey', {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
@@ -109,11 +102,11 @@ export class CustomFields extends APIResource {
    * });
    * ```
    */
-  setValues(body: CustomFieldSetValuesParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+  setValues(body: CustomFieldSetValuesParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/v1/customFields/setValues', {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 }

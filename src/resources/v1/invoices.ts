@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { RequestOptions } from '../../internal/request-options';
 
 export class Invoices extends APIResource {
   /**
@@ -14,10 +15,7 @@ export class Invoices extends APIResource {
    * });
    * ```
    */
-  regenerate(
-    body: InvoiceRegenerateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<InvoiceRegenerateResponse> {
+  regenerate(body: InvoiceRegenerateParams, options?: RequestOptions): APIPromise<InvoiceRegenerateResponse> {
     return this._client.post('/v1/invoices/regenerate', { body, ...options });
   }
 
@@ -31,7 +29,7 @@ export class Invoices extends APIResource {
    * });
    * ```
    */
-  void(body: InvoiceVoidParams, options?: Core.RequestOptions): Core.APIPromise<InvoiceVoidResponse> {
+  void(body: InvoiceVoidParams, options?: RequestOptions): APIPromise<InvoiceVoidResponse> {
     return this._client.post('/v1/invoices/void', { body, ...options });
   }
 }

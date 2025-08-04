@@ -1,8 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../../resource';
-import { isRequestOptions } from '../../../../core';
-import * as Core from '../../../../core';
+import { APIResource } from '../../../../core/resource';
 import * as NamedSchedulesAPI from './named-schedules';
 import {
   NamedScheduleRetrieveParams,
@@ -29,7 +27,9 @@ import {
   RateListResponsesCursorPage,
   Rates,
 } from './rates';
-import { CursorPage, type CursorPageParams } from '../../../../pagination';
+import { APIPromise } from '../../../../core/api-promise';
+import { CursorPage, type CursorPageParams, PagePromise } from '../../../../core/pagination';
+import { RequestOptions } from '../../../../internal/request-options';
 
 export class RateCards extends APIResource {
   productOrders: ProductOrdersAPI.ProductOrders = new ProductOrdersAPI.ProductOrders(this._client);
@@ -59,7 +59,7 @@ export class RateCards extends APIResource {
    * );
    * ```
    */
-  create(body: RateCardCreateParams, options?: Core.RequestOptions): Core.APIPromise<RateCardCreateResponse> {
+  create(body: RateCardCreateParams, options?: RequestOptions): APIPromise<RateCardCreateResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/create', { body, ...options });
   }
 
@@ -75,10 +75,7 @@ export class RateCards extends APIResource {
    *   });
    * ```
    */
-  retrieve(
-    body: RateCardRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<RateCardRetrieveResponse> {
+  retrieve(body: RateCardRetrieveParams, options?: RequestOptions): APIPromise<RateCardRetrieveResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/get', { body, ...options });
   }
 
@@ -96,7 +93,7 @@ export class RateCards extends APIResource {
    * );
    * ```
    */
-  update(body: RateCardUpdateParams, options?: Core.RequestOptions): Core.APIPromise<RateCardUpdateResponse> {
+  update(body: RateCardUpdateParams, options?: RequestOptions): APIPromise<RateCardUpdateResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/update', { body, ...options });
   }
 
@@ -113,21 +110,11 @@ export class RateCards extends APIResource {
    * ```
    */
   list(
-    params?: RateCardListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<RateCardListResponsesCursorPage, RateCardListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<RateCardListResponsesCursorPage, RateCardListResponse>;
-  list(
-    params?: RateCardListParams | Core.RequestOptions,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<RateCardListResponsesCursorPage, RateCardListResponse> {
-    if (isRequestOptions(params)) {
-      return this.list(undefined, params);
-    }
+    params: RateCardListParams | null | undefined = undefined,
+    options?: RequestOptions,
+  ): PagePromise<RateCardListResponsesCursorPage, RateCardListResponse> {
     const { limit, next_page, body } = params ?? {};
-    return this._client.getAPIList('/v1/contract-pricing/rate-cards/list', RateCardListResponsesCursorPage, {
+    return this._client.getAPIList('/v1/contract-pricing/rate-cards/list', CursorPage<RateCardListResponse>, {
       query: { limit, next_page },
       body: body,
       method: 'post',
@@ -146,10 +133,7 @@ export class RateCards extends APIResource {
    *   });
    * ```
    */
-  archive(
-    body: RateCardArchiveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<RateCardArchiveResponse> {
+  archive(body: RateCardArchiveParams, options?: RequestOptions): APIPromise<RateCardArchiveResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/archive', { body, ...options });
   }
 
@@ -177,8 +161,8 @@ export class RateCards extends APIResource {
    */
   retrieveRateSchedule(
     params: RateCardRetrieveRateScheduleParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<RateCardRetrieveRateScheduleResponse> {
+    options?: RequestOptions,
+  ): APIPromise<RateCardRetrieveRateScheduleResponse> {
     const { limit, next_page, ...body } = params;
     return this._client.post('/v1/contract-pricing/rate-cards/getRateSchedule', {
       query: { limit, next_page },
@@ -188,7 +172,7 @@ export class RateCards extends APIResource {
   }
 }
 
-export class RateCardListResponsesCursorPage extends CursorPage<RateCardListResponse> {}
+export type RateCardListResponsesCursorPage = CursorPage<RateCardListResponse>;
 
 export interface RateCardCreateResponse {
   data: RateCardCreateResponse.Data;
@@ -604,10 +588,8 @@ export namespace RateCardRetrieveRateScheduleParams {
   }
 }
 
-RateCards.RateCardListResponsesCursorPage = RateCardListResponsesCursorPage;
 RateCards.ProductOrders = ProductOrders;
 RateCards.Rates = Rates;
-RateCards.RateListResponsesCursorPage = RateListResponsesCursorPage;
 RateCards.NamedSchedules = NamedSchedules;
 
 export declare namespace RateCards {
@@ -618,7 +600,7 @@ export declare namespace RateCards {
     type RateCardListResponse as RateCardListResponse,
     type RateCardArchiveResponse as RateCardArchiveResponse,
     type RateCardRetrieveRateScheduleResponse as RateCardRetrieveRateScheduleResponse,
-    RateCardListResponsesCursorPage as RateCardListResponsesCursorPage,
+    type RateCardListResponsesCursorPage as RateCardListResponsesCursorPage,
     type RateCardCreateParams as RateCardCreateParams,
     type RateCardRetrieveParams as RateCardRetrieveParams,
     type RateCardUpdateParams as RateCardUpdateParams,
@@ -640,7 +622,7 @@ export declare namespace RateCards {
     type RateListResponse as RateListResponse,
     type RateAddResponse as RateAddResponse,
     type RateAddManyResponse as RateAddManyResponse,
-    RateListResponsesCursorPage as RateListResponsesCursorPage,
+    type RateListResponsesCursorPage as RateListResponsesCursorPage,
     type RateListParams as RateListParams,
     type RateAddParams as RateAddParams,
     type RateAddManyParams as RateAddManyParams,

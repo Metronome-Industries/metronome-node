@@ -1,8 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import * as Core from '../../../core';
-import { CursorPage, type CursorPageParams } from '../../../pagination';
+import { APIResource } from '../../../core/resource';
+import { APIPromise } from '../../../core/api-promise';
+import { CursorPage, type CursorPageParams, PagePromise } from '../../../core/pagination';
+import { RequestOptions } from '../../../internal/request-options';
+import { path } from '../../../internal/utils/path';
 
 export class Invoices extends APIResource {
   /**
@@ -18,12 +20,9 @@ export class Invoices extends APIResource {
    * );
    * ```
    */
-  retrieve(
-    params: InvoiceRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<InvoiceRetrieveResponse> {
+  retrieve(params: InvoiceRetrieveParams, options?: RequestOptions): APIPromise<InvoiceRetrieveResponse> {
     const { customer_id, invoice_id, ...query } = params;
-    return this._client.get(`/v1/customers/${customer_id}/invoices/${invoice_id}`, { query, ...options });
+    return this._client.get(path`/v1/customers/${customer_id}/invoices/${invoice_id}`, { query, ...options });
   }
 
   /**
@@ -42,13 +41,14 @@ export class Invoices extends APIResource {
    */
   list(
     params: InvoiceListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<InvoiceListResponsesCursorPage, InvoiceListResponse> {
+    options?: RequestOptions,
+  ): PagePromise<InvoiceListResponsesCursorPage, InvoiceListResponse> {
     const { customer_id, ...query } = params;
-    return this._client.getAPIList(`/v1/customers/${customer_id}/invoices`, InvoiceListResponsesCursorPage, {
-      query,
-      ...options,
-    });
+    return this._client.getAPIList(
+      path`/v1/customers/${customer_id}/invoices`,
+      CursorPage<InvoiceListResponse>,
+      { query, ...options },
+    );
   }
 
   /**
@@ -69,12 +69,9 @@ export class Invoices extends APIResource {
    *   });
    * ```
    */
-  addCharge(
-    params: InvoiceAddChargeParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<InvoiceAddChargeResponse> {
+  addCharge(params: InvoiceAddChargeParams, options?: RequestOptions): APIPromise<InvoiceAddChargeResponse> {
     const { customer_id, ...body } = params;
-    return this._client.post(`/v1/customers/${customer_id}/addCharge`, { body, ...options });
+    return this._client.post(path`/v1/customers/${customer_id}/addCharge`, { body, ...options });
   }
 
   /**
@@ -100,20 +97,20 @@ export class Invoices extends APIResource {
    */
   listBreakdowns(
     params: InvoiceListBreakdownsParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<InvoiceListBreakdownsResponsesCursorPage, InvoiceListBreakdownsResponse> {
+    options?: RequestOptions,
+  ): PagePromise<InvoiceListBreakdownsResponsesCursorPage, InvoiceListBreakdownsResponse> {
     const { customer_id, ...query } = params;
     return this._client.getAPIList(
-      `/v1/customers/${customer_id}/invoices/breakdowns`,
-      InvoiceListBreakdownsResponsesCursorPage,
+      path`/v1/customers/${customer_id}/invoices/breakdowns`,
+      CursorPage<InvoiceListBreakdownsResponse>,
       { query, ...options },
     );
   }
 }
 
-export class InvoiceListResponsesCursorPage extends CursorPage<InvoiceListResponse> {}
+export type InvoiceListResponsesCursorPage = CursorPage<InvoiceListResponse>;
 
-export class InvoiceListBreakdownsResponsesCursorPage extends CursorPage<InvoiceListBreakdownsResponse> {}
+export type InvoiceListBreakdownsResponsesCursorPage = CursorPage<InvoiceListBreakdownsResponse>;
 
 export interface InvoiceRetrieveResponse {
   data: InvoiceRetrieveResponse.Data;
@@ -1868,17 +1865,14 @@ export interface InvoiceListBreakdownsParams extends CursorPageParams {
   window_size?: 'HOUR' | 'DAY';
 }
 
-Invoices.InvoiceListResponsesCursorPage = InvoiceListResponsesCursorPage;
-Invoices.InvoiceListBreakdownsResponsesCursorPage = InvoiceListBreakdownsResponsesCursorPage;
-
 export declare namespace Invoices {
   export {
     type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
     type InvoiceListResponse as InvoiceListResponse,
     type InvoiceAddChargeResponse as InvoiceAddChargeResponse,
     type InvoiceListBreakdownsResponse as InvoiceListBreakdownsResponse,
-    InvoiceListResponsesCursorPage as InvoiceListResponsesCursorPage,
-    InvoiceListBreakdownsResponsesCursorPage as InvoiceListBreakdownsResponsesCursorPage,
+    type InvoiceListResponsesCursorPage as InvoiceListResponsesCursorPage,
+    type InvoiceListBreakdownsResponsesCursorPage as InvoiceListBreakdownsResponsesCursorPage,
     type InvoiceRetrieveParams as InvoiceRetrieveParams,
     type InvoiceListParams as InvoiceListParams,
     type InvoiceAddChargeParams as InvoiceAddChargeParams,

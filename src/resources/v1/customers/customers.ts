@@ -1,8 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import { isRequestOptions } from '../../../core';
-import * as Core from '../../../core';
+import { APIResource } from '../../../core/resource';
 import * as AlertsAPI from './alerts';
 import {
   AlertListParams,
@@ -75,7 +73,11 @@ import {
   PlanListResponsesCursorPage,
   Plans,
 } from './plans';
-import { CursorPage, type CursorPageParams } from '../../../pagination';
+import { APIPromise } from '../../../core/api-promise';
+import { CursorPage, type CursorPageParams, PagePromise } from '../../../core/pagination';
+import { buildHeaders } from '../../../internal/headers';
+import { RequestOptions } from '../../../internal/request-options';
+import { path } from '../../../internal/utils/path';
 
 export class Customers extends APIResource {
   alerts: AlertsAPI.Alerts = new AlertsAPI.Alerts(this._client);
@@ -107,7 +109,7 @@ export class Customers extends APIResource {
    * });
    * ```
    */
-  create(body: CustomerCreateParams, options?: Core.RequestOptions): Core.APIPromise<CustomerCreateResponse> {
+  create(body: CustomerCreateParams, options?: RequestOptions): APIPromise<CustomerCreateResponse> {
     return this._client.post('/v1/customers', { body, ...options });
   }
 
@@ -121,12 +123,9 @@ export class Customers extends APIResource {
    * });
    * ```
    */
-  retrieve(
-    params: CustomerRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomerRetrieveResponse> {
+  retrieve(params: CustomerRetrieveParams, options?: RequestOptions): APIPromise<CustomerRetrieveResponse> {
     const { customer_id } = params;
-    return this._client.get(`/v1/customers/${customer_id}`, options);
+    return this._client.get(path`/v1/customers/${customer_id}`, options);
   }
 
   /**
@@ -141,20 +140,10 @@ export class Customers extends APIResource {
    * ```
    */
   list(
-    query?: CustomerListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListResponsesCursorPage, CustomerListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListResponsesCursorPage, CustomerListResponse>;
-  list(
-    query: CustomerListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListResponsesCursorPage, CustomerListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/v1/customers', CustomerListResponsesCursorPage, { query, ...options });
+    query: CustomerListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CustomerListResponsesCursorPage, CustomerListResponse> {
+    return this._client.getAPIList('/v1/customers', CursorPage<CustomerListResponse>, { query, ...options });
   }
 
   /**
@@ -168,10 +157,7 @@ export class Customers extends APIResource {
    * });
    * ```
    */
-  archive(
-    body: CustomerArchiveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomerArchiveResponse> {
+  archive(body: CustomerArchiveParams, options?: RequestOptions): APIPromise<CustomerArchiveResponse> {
     return this._client.post('/v1/customers/archive', { body, ...options });
   }
 
@@ -190,12 +176,12 @@ export class Customers extends APIResource {
    */
   listBillableMetrics(
     params: CustomerListBillableMetricsParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse> {
+    options?: RequestOptions,
+  ): PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse> {
     const { customer_id, ...query } = params;
     return this._client.getAPIList(
-      `/v1/customers/${customer_id}/billable-metrics`,
-      CustomerListBillableMetricsResponsesCursorPage,
+      path`/v1/customers/${customer_id}/billable-metrics`,
+      CursorPage<CustomerListBillableMetricsResponse>,
       { query, ...options },
     );
   }
@@ -221,12 +207,12 @@ export class Customers extends APIResource {
    */
   listCosts(
     params: CustomerListCostsParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListCostsResponsesCursorPage, CustomerListCostsResponse> {
+    options?: RequestOptions,
+  ): PagePromise<CustomerListCostsResponsesCursorPage, CustomerListCostsResponse> {
     const { customer_id, ...query } = params;
     return this._client.getAPIList(
-      `/v1/customers/${customer_id}/costs`,
-      CustomerListCostsResponsesCursorPage,
+      path`/v1/customers/${customer_id}/costs`,
+      CursorPage<CustomerListCostsResponse>,
       { query, ...options },
     );
   }
@@ -253,10 +239,10 @@ export class Customers extends APIResource {
    */
   previewEvents(
     params: CustomerPreviewEventsParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomerPreviewEventsResponse> {
+    options?: RequestOptions,
+  ): APIPromise<CustomerPreviewEventsResponse> {
     const { customer_id, ...body } = params;
-    return this._client.post(`/v1/customers/${customer_id}/previewEvents`, { body, ...options });
+    return this._client.post(path`/v1/customers/${customer_id}/previewEvents`, { body, ...options });
   }
 
   /**
@@ -272,15 +258,12 @@ export class Customers extends APIResource {
    * });
    * ```
    */
-  setIngestAliases(
-    params: CustomerSetIngestAliasesParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<void> {
+  setIngestAliases(params: CustomerSetIngestAliasesParams, options?: RequestOptions): APIPromise<void> {
     const { customer_id, ...body } = params;
-    return this._client.post(`/v1/customers/${customer_id}/setIngestAliases`, {
+    return this._client.post(path`/v1/customers/${customer_id}/setIngestAliases`, {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
@@ -295,12 +278,9 @@ export class Customers extends APIResource {
    * });
    * ```
    */
-  setName(
-    params: CustomerSetNameParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomerSetNameResponse> {
+  setName(params: CustomerSetNameParams, options?: RequestOptions): APIPromise<CustomerSetNameResponse> {
     const { customer_id, ...body } = params;
-    return this._client.post(`/v1/customers/${customer_id}/setName`, { body, ...options });
+    return this._client.post(path`/v1/customers/${customer_id}/setName`, { body, ...options });
   }
 
   /**
@@ -314,21 +294,21 @@ export class Customers extends APIResource {
    * });
    * ```
    */
-  updateConfig(params: CustomerUpdateConfigParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+  updateConfig(params: CustomerUpdateConfigParams, options?: RequestOptions): APIPromise<void> {
     const { customer_id, ...body } = params;
-    return this._client.post(`/v1/customers/${customer_id}/updateConfig`, {
+    return this._client.post(path`/v1/customers/${customer_id}/updateConfig`, {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 }
 
-export class CustomerListResponsesCursorPage extends CursorPage<CustomerListResponse> {}
+export type CustomerListResponsesCursorPage = CursorPage<CustomerListResponse>;
 
-export class CustomerListBillableMetricsResponsesCursorPage extends CursorPage<CustomerListBillableMetricsResponse> {}
+export type CustomerListBillableMetricsResponsesCursorPage = CursorPage<CustomerListBillableMetricsResponse>;
 
-export class CustomerListCostsResponsesCursorPage extends CursorPage<CustomerListCostsResponse> {}
+export type CustomerListCostsResponsesCursorPage = CursorPage<CustomerListCostsResponse>;
 
 export interface CustomerCreateResponse {
   data: CustomerCreateResponse.Data;
@@ -1477,16 +1457,9 @@ export interface CustomerUpdateConfigParams {
   salesforce_account_id?: string | null;
 }
 
-Customers.CustomerListResponsesCursorPage = CustomerListResponsesCursorPage;
-Customers.CustomerListBillableMetricsResponsesCursorPage = CustomerListBillableMetricsResponsesCursorPage;
-Customers.CustomerListCostsResponsesCursorPage = CustomerListCostsResponsesCursorPage;
 Customers.Alerts = Alerts;
 Customers.Plans = Plans;
-Customers.PlanListResponsesCursorPage = PlanListResponsesCursorPage;
-Customers.PlanListPriceAdjustmentsResponsesCursorPage = PlanListPriceAdjustmentsResponsesCursorPage;
 Customers.Invoices = Invoices;
-Customers.InvoiceListResponsesCursorPage = InvoiceListResponsesCursorPage;
-Customers.InvoiceListBreakdownsResponsesCursorPage = InvoiceListBreakdownsResponsesCursorPage;
 Customers.BillingConfig = BillingConfigAPIBillingConfig;
 Customers.Commits = Commits;
 Customers.Credits = Credits;
@@ -1502,9 +1475,9 @@ export declare namespace Customers {
     type CustomerListCostsResponse as CustomerListCostsResponse,
     type CustomerPreviewEventsResponse as CustomerPreviewEventsResponse,
     type CustomerSetNameResponse as CustomerSetNameResponse,
-    CustomerListResponsesCursorPage as CustomerListResponsesCursorPage,
-    CustomerListBillableMetricsResponsesCursorPage as CustomerListBillableMetricsResponsesCursorPage,
-    CustomerListCostsResponsesCursorPage as CustomerListCostsResponsesCursorPage,
+    type CustomerListResponsesCursorPage as CustomerListResponsesCursorPage,
+    type CustomerListBillableMetricsResponsesCursorPage as CustomerListBillableMetricsResponsesCursorPage,
+    type CustomerListCostsResponsesCursorPage as CustomerListCostsResponsesCursorPage,
     type CustomerCreateParams as CustomerCreateParams,
     type CustomerRetrieveParams as CustomerRetrieveParams,
     type CustomerListParams as CustomerListParams,
@@ -1532,8 +1505,8 @@ export declare namespace Customers {
     type PlanAddResponse as PlanAddResponse,
     type PlanEndResponse as PlanEndResponse,
     type PlanListPriceAdjustmentsResponse as PlanListPriceAdjustmentsResponse,
-    PlanListResponsesCursorPage as PlanListResponsesCursorPage,
-    PlanListPriceAdjustmentsResponsesCursorPage as PlanListPriceAdjustmentsResponsesCursorPage,
+    type PlanListResponsesCursorPage as PlanListResponsesCursorPage,
+    type PlanListPriceAdjustmentsResponsesCursorPage as PlanListPriceAdjustmentsResponsesCursorPage,
     type PlanListParams as PlanListParams,
     type PlanAddParams as PlanAddParams,
     type PlanEndParams as PlanEndParams,
@@ -1546,8 +1519,8 @@ export declare namespace Customers {
     type InvoiceListResponse as InvoiceListResponse,
     type InvoiceAddChargeResponse as InvoiceAddChargeResponse,
     type InvoiceListBreakdownsResponse as InvoiceListBreakdownsResponse,
-    InvoiceListResponsesCursorPage as InvoiceListResponsesCursorPage,
-    InvoiceListBreakdownsResponsesCursorPage as InvoiceListBreakdownsResponsesCursorPage,
+    type InvoiceListResponsesCursorPage as InvoiceListResponsesCursorPage,
+    type InvoiceListBreakdownsResponsesCursorPage as InvoiceListBreakdownsResponsesCursorPage,
     type InvoiceRetrieveParams as InvoiceRetrieveParams,
     type InvoiceListParams as InvoiceListParams,
     type InvoiceAddChargeParams as InvoiceAddChargeParams,

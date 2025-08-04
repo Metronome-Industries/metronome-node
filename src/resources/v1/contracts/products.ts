@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import { isRequestOptions } from '../../../core';
-import * as Core from '../../../core';
-import { CursorPage, type CursorPageParams } from '../../../pagination';
+import { APIResource } from '../../../core/resource';
+import { APIPromise } from '../../../core/api-promise';
+import { CursorPage, type CursorPageParams, PagePromise } from '../../../core/pagination';
+import { RequestOptions } from '../../../internal/request-options';
 
 export class Products extends APIResource {
   /**
@@ -19,7 +19,7 @@ export class Products extends APIResource {
    * });
    * ```
    */
-  create(body: ProductCreateParams, options?: Core.RequestOptions): Core.APIPromise<ProductCreateResponse> {
+  create(body: ProductCreateParams, options?: RequestOptions): APIPromise<ProductCreateResponse> {
     return this._client.post('/v1/contract-pricing/products/create', { body, ...options });
   }
 
@@ -33,10 +33,7 @@ export class Products extends APIResource {
    * );
    * ```
    */
-  retrieve(
-    body: ProductRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ProductRetrieveResponse> {
+  retrieve(body: ProductRetrieveParams, options?: RequestOptions): APIPromise<ProductRetrieveResponse> {
     return this._client.post('/v1/contract-pricing/products/get', { body, ...options });
   }
 
@@ -52,7 +49,7 @@ export class Products extends APIResource {
    * });
    * ```
    */
-  update(body: ProductUpdateParams, options?: Core.RequestOptions): Core.APIPromise<ProductUpdateResponse> {
+  update(body: ProductUpdateParams, options?: RequestOptions): APIPromise<ProductUpdateResponse> {
     return this._client.post('/v1/contract-pricing/products/update', { body, ...options });
   }
 
@@ -70,19 +67,11 @@ export class Products extends APIResource {
    * ```
    */
   list(
-    params?: ProductListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ProductListResponsesCursorPage, ProductListResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<ProductListResponsesCursorPage, ProductListResponse>;
-  list(
-    params: ProductListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ProductListResponsesCursorPage, ProductListResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { limit, next_page, ...body } = params;
-    return this._client.getAPIList('/v1/contract-pricing/products/list', ProductListResponsesCursorPage, {
+    params: ProductListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<ProductListResponsesCursorPage, ProductListResponse> {
+    const { limit, next_page, ...body } = params ?? {};
+    return this._client.getAPIList('/v1/contract-pricing/products/list', CursorPage<ProductListResponse>, {
       query: { limit, next_page },
       body,
       method: 'post',
@@ -100,15 +89,12 @@ export class Products extends APIResource {
    * );
    * ```
    */
-  archive(
-    body: ProductArchiveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ProductArchiveResponse> {
+  archive(body: ProductArchiveParams, options?: RequestOptions): APIPromise<ProductArchiveResponse> {
     return this._client.post('/v1/contract-pricing/products/archive', { body, ...options });
   }
 }
 
-export class ProductListResponsesCursorPage extends CursorPage<ProductListResponse> {}
+export type ProductListResponsesCursorPage = CursorPage<ProductListResponse>;
 
 export interface ProductCreateResponse {
   data: ProductCreateResponse.Data;
@@ -1111,8 +1097,6 @@ export interface ProductArchiveParams {
   product_id: string;
 }
 
-Products.ProductListResponsesCursorPage = ProductListResponsesCursorPage;
-
 export declare namespace Products {
   export {
     type ProductCreateResponse as ProductCreateResponse,
@@ -1120,7 +1104,7 @@ export declare namespace Products {
     type ProductUpdateResponse as ProductUpdateResponse,
     type ProductListResponse as ProductListResponse,
     type ProductArchiveResponse as ProductArchiveResponse,
-    ProductListResponsesCursorPage as ProductListResponsesCursorPage,
+    type ProductListResponsesCursorPage as ProductListResponsesCursorPage,
     type ProductCreateParams as ProductCreateParams,
     type ProductRetrieveParams as ProductRetrieveParams,
     type ProductUpdateParams as ProductUpdateParams,

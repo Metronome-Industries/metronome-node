@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import * as Core from '../../../core';
+import { APIResource } from '../../../core/resource';
 import * as NamedSchedulesAPI from './named-schedules';
 import {
   NamedScheduleRetrieveParams,
@@ -41,6 +40,9 @@ import {
   RateCardUpdateResponse,
   RateCards,
 } from './rate-cards/rate-cards';
+import { APIPromise } from '../../../core/api-promise';
+import { buildHeaders } from '../../../internal/headers';
+import { RequestOptions } from '../../../internal/request-options';
 
 export class Contracts extends APIResource {
   products: ProductsAPI.Products = new ProductsAPI.Products(this._client);
@@ -63,7 +65,7 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  create(body: ContractCreateParams, options?: Core.RequestOptions): Core.APIPromise<ContractCreateResponse> {
+  create(body: ContractCreateParams, options?: RequestOptions): APIPromise<ContractCreateResponse> {
     return this._client.post('/v1/contracts/create', { body, ...options });
   }
 
@@ -79,10 +81,7 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  retrieve(
-    body: ContractRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ContractRetrieveResponse> {
+  retrieve(body: ContractRetrieveParams, options?: RequestOptions): APIPromise<ContractRetrieveResponse> {
     return this._client.post('/v1/contracts/get', { body, ...options });
   }
 
@@ -97,7 +96,7 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  list(body: ContractListParams, options?: Core.RequestOptions): Core.APIPromise<ContractListResponse> {
+  list(body: ContractListParams, options?: RequestOptions): APIPromise<ContractListResponse> {
     return this._client.post('/v1/contracts/list', { body, ...options });
   }
 
@@ -118,12 +117,12 @@ export class Contracts extends APIResource {
    */
   addManualBalanceEntry(
     body: ContractAddManualBalanceEntryParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<void> {
+    options?: RequestOptions,
+  ): APIPromise<void> {
     return this._client.post('/v1/contracts/addManualBalanceLedgerEntry', {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
@@ -143,7 +142,7 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  amend(body: ContractAmendParams, options?: Core.RequestOptions): Core.APIPromise<ContractAmendResponse> {
+  amend(body: ContractAmendParams, options?: RequestOptions): APIPromise<ContractAmendResponse> {
     return this._client.post('/v1/contracts/amend', { body, ...options });
   }
 
@@ -159,10 +158,7 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  archive(
-    body: ContractArchiveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ContractArchiveResponse> {
+  archive(body: ContractArchiveParams, options?: RequestOptions): APIPromise<ContractArchiveResponse> {
     return this._client.post('/v1/contracts/archive', { body, ...options });
   }
 
@@ -200,8 +196,8 @@ export class Contracts extends APIResource {
    */
   createHistoricalInvoices(
     body: ContractCreateHistoricalInvoicesParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ContractCreateHistoricalInvoicesResponse> {
+    options?: RequestOptions,
+  ): APIPromise<ContractCreateHistoricalInvoicesResponse> {
     return this._client.post('/v1/contracts/createHistoricalInvoices', { body, ...options });
   }
 
@@ -219,8 +215,8 @@ export class Contracts extends APIResource {
    */
   listBalances(
     body: ContractListBalancesParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ContractListBalancesResponse> {
+    options?: RequestOptions,
+  ): APIPromise<ContractListBalancesResponse> {
     return this._client.post('/v1/contracts/customerBalances/list', { body, ...options });
   }
 
@@ -248,8 +244,8 @@ export class Contracts extends APIResource {
    */
   retrieveRateSchedule(
     params: ContractRetrieveRateScheduleParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ContractRetrieveRateScheduleResponse> {
+    options?: RequestOptions,
+  ): APIPromise<ContractRetrieveRateScheduleResponse> {
     const { limit, next_page, ...body } = params;
     return this._client.post('/v1/contracts/getContractRateSchedule', {
       query: { limit, next_page },
@@ -277,8 +273,8 @@ export class Contracts extends APIResource {
    */
   retrieveSubscriptionQuantityHistory(
     body: ContractRetrieveSubscriptionQuantityHistoryParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ContractRetrieveSubscriptionQuantityHistoryResponse> {
+    options?: RequestOptions,
+  ): APIPromise<ContractRetrieveSubscriptionQuantityHistoryResponse> {
     return this._client.post('/v1/contracts/getSubscriptionQuantityHistory', { body, ...options });
   }
 
@@ -304,8 +300,8 @@ export class Contracts extends APIResource {
    */
   scheduleProServicesInvoice(
     body: ContractScheduleProServicesInvoiceParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ContractScheduleProServicesInvoiceResponse> {
+    options?: RequestOptions,
+  ): APIPromise<ContractScheduleProServicesInvoiceResponse> {
     return this._client.post('/v1/contracts/scheduleProServicesInvoice', { body, ...options });
   }
 
@@ -323,11 +319,11 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  setUsageFilter(body: ContractSetUsageFilterParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+  setUsageFilter(body: ContractSetUsageFilterParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/v1/contracts/setUsageFilter', {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
@@ -345,8 +341,8 @@ export class Contracts extends APIResource {
    */
   updateEndDate(
     body: ContractUpdateEndDateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ContractUpdateEndDateResponse> {
+    options?: RequestOptions,
+  ): APIPromise<ContractUpdateEndDateResponse> {
     return this._client.post('/v1/contracts/updateEndDate', { body, ...options });
   }
 }
@@ -15961,9 +15957,7 @@ export interface ContractUpdateEndDateParams {
 }
 
 Contracts.Products = Products;
-Contracts.ProductListResponsesCursorPage = ProductListResponsesCursorPage;
 Contracts.RateCards = RateCards;
-Contracts.RateCardListResponsesCursorPage = RateCardListResponsesCursorPage;
 Contracts.NamedSchedules = NamedSchedules;
 
 export declare namespace Contracts {
@@ -16001,7 +15995,7 @@ export declare namespace Contracts {
     type ProductUpdateResponse as ProductUpdateResponse,
     type ProductListResponse as ProductListResponse,
     type ProductArchiveResponse as ProductArchiveResponse,
-    ProductListResponsesCursorPage as ProductListResponsesCursorPage,
+    type ProductListResponsesCursorPage as ProductListResponsesCursorPage,
     type ProductCreateParams as ProductCreateParams,
     type ProductRetrieveParams as ProductRetrieveParams,
     type ProductUpdateParams as ProductUpdateParams,
@@ -16017,7 +16011,7 @@ export declare namespace Contracts {
     type RateCardListResponse as RateCardListResponse,
     type RateCardArchiveResponse as RateCardArchiveResponse,
     type RateCardRetrieveRateScheduleResponse as RateCardRetrieveRateScheduleResponse,
-    RateCardListResponsesCursorPage as RateCardListResponsesCursorPage,
+    type RateCardListResponsesCursorPage as RateCardListResponsesCursorPage,
     type RateCardCreateParams as RateCardCreateParams,
     type RateCardRetrieveParams as RateCardRetrieveParams,
     type RateCardUpdateParams as RateCardUpdateParams,

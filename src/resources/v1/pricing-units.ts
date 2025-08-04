@@ -1,9 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
-import { CursorPage, type CursorPageParams } from '../../pagination';
+import { APIResource } from '../../core/resource';
+import { CursorPage, type CursorPageParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
 
 export class PricingUnits extends APIResource {
   /**
@@ -18,27 +17,17 @@ export class PricingUnits extends APIResource {
    * ```
    */
   list(
-    query?: PricingUnitListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PricingUnitListResponsesCursorPage, PricingUnitListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PricingUnitListResponsesCursorPage, PricingUnitListResponse>;
-  list(
-    query: PricingUnitListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PricingUnitListResponsesCursorPage, PricingUnitListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/v1/credit-types/list', PricingUnitListResponsesCursorPage, {
+    query: PricingUnitListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<PricingUnitListResponsesCursorPage, PricingUnitListResponse> {
+    return this._client.getAPIList('/v1/credit-types/list', CursorPage<PricingUnitListResponse>, {
       query,
       ...options,
     });
   }
 }
 
-export class PricingUnitListResponsesCursorPage extends CursorPage<PricingUnitListResponse> {}
+export type PricingUnitListResponsesCursorPage = CursorPage<PricingUnitListResponse>;
 
 export interface PricingUnitListResponse {
   id?: string;
@@ -50,12 +39,10 @@ export interface PricingUnitListResponse {
 
 export interface PricingUnitListParams extends CursorPageParams {}
 
-PricingUnits.PricingUnitListResponsesCursorPage = PricingUnitListResponsesCursorPage;
-
 export declare namespace PricingUnits {
   export {
     type PricingUnitListResponse as PricingUnitListResponse,
-    PricingUnitListResponsesCursorPage as PricingUnitListResponsesCursorPage,
+    type PricingUnitListResponsesCursorPage as PricingUnitListResponsesCursorPage,
     type PricingUnitListParams as PricingUnitListParams,
   };
 }

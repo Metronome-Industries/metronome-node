@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
-import { CursorPage, type CursorPageParams } from '../../pagination';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { CursorPage, type CursorPageParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Plans extends APIResource {
   /**
@@ -18,18 +19,10 @@ export class Plans extends APIResource {
    * ```
    */
   list(
-    query?: PlanListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListResponsesCursorPage, PlanListResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<PlanListResponsesCursorPage, PlanListResponse>;
-  list(
-    query: PlanListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListResponsesCursorPage, PlanListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/v1/plans', PlanListResponsesCursorPage, { query, ...options });
+    query: PlanListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<PlanListResponsesCursorPage, PlanListResponse> {
+    return this._client.getAPIList('/v1/plans', CursorPage<PlanListResponse>, { query, ...options });
   }
 
   /**
@@ -42,12 +35,9 @@ export class Plans extends APIResource {
    * });
    * ```
    */
-  getDetails(
-    params: PlanGetDetailsParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanGetDetailsResponse> {
+  getDetails(params: PlanGetDetailsParams, options?: RequestOptions): APIPromise<PlanGetDetailsResponse> {
     const { plan_id } = params;
-    return this._client.get(`/v1/planDetails/${plan_id}`, options);
+    return this._client.get(path`/v1/planDetails/${plan_id}`, options);
   }
 
   /**
@@ -65,13 +55,14 @@ export class Plans extends APIResource {
    */
   listCharges(
     params: PlanListChargesParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListChargesResponsesCursorPage, PlanListChargesResponse> {
+    options?: RequestOptions,
+  ): PagePromise<PlanListChargesResponsesCursorPage, PlanListChargesResponse> {
     const { plan_id, ...query } = params;
-    return this._client.getAPIList(`/v1/planDetails/${plan_id}/charges`, PlanListChargesResponsesCursorPage, {
-      query,
-      ...options,
-    });
+    return this._client.getAPIList(
+      path`/v1/planDetails/${plan_id}/charges`,
+      CursorPage<PlanListChargesResponse>,
+      { query, ...options },
+    );
   }
 
   /**
@@ -90,22 +81,22 @@ export class Plans extends APIResource {
    */
   listCustomers(
     params: PlanListCustomersParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanListCustomersResponsesCursorPage, PlanListCustomersResponse> {
+    options?: RequestOptions,
+  ): PagePromise<PlanListCustomersResponsesCursorPage, PlanListCustomersResponse> {
     const { plan_id, ...query } = params;
     return this._client.getAPIList(
-      `/v1/planDetails/${plan_id}/customers`,
-      PlanListCustomersResponsesCursorPage,
+      path`/v1/planDetails/${plan_id}/customers`,
+      CursorPage<PlanListCustomersResponse>,
       { query, ...options },
     );
   }
 }
 
-export class PlanListResponsesCursorPage extends CursorPage<PlanListResponse> {}
+export type PlanListResponsesCursorPage = CursorPage<PlanListResponse>;
 
-export class PlanListChargesResponsesCursorPage extends CursorPage<PlanListChargesResponse> {}
+export type PlanListChargesResponsesCursorPage = CursorPage<PlanListChargesResponse>;
 
-export class PlanListCustomersResponsesCursorPage extends CursorPage<PlanListCustomersResponse> {}
+export type PlanListCustomersResponsesCursorPage = CursorPage<PlanListCustomersResponse>;
 
 export interface PlanListResponse {
   id: string;
@@ -425,19 +416,15 @@ export interface PlanListCustomersParams extends CursorPageParams {
   status?: 'all' | 'active' | 'ended' | 'upcoming';
 }
 
-Plans.PlanListResponsesCursorPage = PlanListResponsesCursorPage;
-Plans.PlanListChargesResponsesCursorPage = PlanListChargesResponsesCursorPage;
-Plans.PlanListCustomersResponsesCursorPage = PlanListCustomersResponsesCursorPage;
-
 export declare namespace Plans {
   export {
     type PlanListResponse as PlanListResponse,
     type PlanGetDetailsResponse as PlanGetDetailsResponse,
     type PlanListChargesResponse as PlanListChargesResponse,
     type PlanListCustomersResponse as PlanListCustomersResponse,
-    PlanListResponsesCursorPage as PlanListResponsesCursorPage,
-    PlanListChargesResponsesCursorPage as PlanListChargesResponsesCursorPage,
-    PlanListCustomersResponsesCursorPage as PlanListCustomersResponsesCursorPage,
+    type PlanListResponsesCursorPage as PlanListResponsesCursorPage,
+    type PlanListChargesResponsesCursorPage as PlanListChargesResponsesCursorPage,
+    type PlanListCustomersResponsesCursorPage as PlanListCustomersResponsesCursorPage,
     type PlanListParams as PlanListParams,
     type PlanGetDetailsParams as PlanGetDetailsParams,
     type PlanListChargesParams as PlanListChargesParams,

@@ -1,8 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../../resource';
-import * as Core from '../../../../core';
-import { CursorPage, type CursorPageParams } from '../../../../pagination';
+import { APIResource } from '../../../../core/resource';
+import { APIPromise } from '../../../../core/api-promise';
+import { CursorPage, type CursorPageParams, PagePromise } from '../../../../core/pagination';
+import { RequestOptions } from '../../../../internal/request-options';
 
 export class Rates extends APIResource {
   /**
@@ -32,10 +33,10 @@ export class Rates extends APIResource {
    */
   list(
     params: RateListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<RateListResponsesCursorPage, RateListResponse> {
+    options?: RequestOptions,
+  ): PagePromise<RateListResponsesCursorPage, RateListResponse> {
     const { limit, next_page, ...body } = params;
-    return this._client.getAPIList('/v1/contract-pricing/rate-cards/getRates', RateListResponsesCursorPage, {
+    return this._client.getAPIList('/v1/contract-pricing/rate-cards/getRates', CursorPage<RateListResponse>, {
       query: { limit, next_page },
       body,
       method: 'post',
@@ -60,7 +61,7 @@ export class Rates extends APIResource {
    *   });
    * ```
    */
-  add(body: RateAddParams, options?: Core.RequestOptions): Core.APIPromise<RateAddResponse> {
+  add(body: RateAddParams, options?: RequestOptions): APIPromise<RateAddResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/addRate', { body, ...options });
   }
 
@@ -99,12 +100,12 @@ export class Rates extends APIResource {
    *   });
    * ```
    */
-  addMany(body: RateAddManyParams, options?: Core.RequestOptions): Core.APIPromise<RateAddManyResponse> {
+  addMany(body: RateAddManyParams, options?: RequestOptions): APIPromise<RateAddManyResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/addRates', { body, ...options });
   }
 }
 
-export class RateListResponsesCursorPage extends CursorPage<RateListResponse> {}
+export type RateListResponsesCursorPage = CursorPage<RateListResponse>;
 
 export interface RateListResponse {
   entitled: boolean;
@@ -635,14 +636,12 @@ export namespace RateAddManyParams {
   }
 }
 
-Rates.RateListResponsesCursorPage = RateListResponsesCursorPage;
-
 export declare namespace Rates {
   export {
     type RateListResponse as RateListResponse,
     type RateAddResponse as RateAddResponse,
     type RateAddManyResponse as RateAddManyResponse,
-    RateListResponsesCursorPage as RateListResponsesCursorPage,
+    type RateListResponsesCursorPage as RateListResponsesCursorPage,
     type RateListParams as RateListParams,
     type RateAddParams as RateAddParams,
     type RateAddManyParams as RateAddManyParams,

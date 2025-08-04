@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { RequestOptions } from '../../internal/request-options';
 
 export class Services extends APIResource {
   /**
@@ -15,7 +16,7 @@ export class Services extends APIResource {
    * const services = await client.v1.services.list();
    * ```
    */
-  list(options?: Core.RequestOptions): Core.APIPromise<ServiceListResponse> {
+  list(options?: RequestOptions): APIPromise<ServiceListResponse> {
     return this._client.get('/v1/services', options);
   }
 }

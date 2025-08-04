@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import * as Core from '../../../core';
+import { APIResource } from '../../../core/resource';
+import { APIPromise } from '../../../core/api-promise';
+import { RequestOptions } from '../../../internal/request-options';
 
 export class Commits extends APIResource {
   /**
@@ -41,7 +42,7 @@ export class Commits extends APIResource {
    * });
    * ```
    */
-  create(body: CommitCreateParams, options?: Core.RequestOptions): Core.APIPromise<CommitCreateResponse> {
+  create(body: CommitCreateParams, options?: RequestOptions): APIPromise<CommitCreateResponse> {
     return this._client.post('/v1/contracts/customerCommits/create', { body, ...options });
   }
 
@@ -57,7 +58,7 @@ export class Commits extends APIResource {
    * });
    * ```
    */
-  list(body: CommitListParams, options?: Core.RequestOptions): Core.APIPromise<CommitListResponse> {
+  list(body: CommitListParams, options?: RequestOptions): APIPromise<CommitListResponse> {
     return this._client.post('/v1/contracts/customerCommits/list', { body, ...options });
   }
 
@@ -79,8 +80,8 @@ export class Commits extends APIResource {
    */
   updateEndDate(
     body: CommitUpdateEndDateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CommitUpdateEndDateResponse> {
+    options?: RequestOptions,
+  ): APIPromise<CommitUpdateEndDateResponse> {
     return this._client.post('/v1/contracts/customerCommits/updateEndDate', { body, ...options });
   }
 }

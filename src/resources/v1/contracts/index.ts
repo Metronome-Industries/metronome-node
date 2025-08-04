@@ -34,7 +34,6 @@ export {
   type NamedScheduleUpdateParams,
 } from './named-schedules';
 export {
-  ProductListResponsesCursorPage,
   Products,
   type ProductCreateResponse,
   type ProductRetrieveResponse,
@@ -46,9 +45,9 @@ export {
   type ProductUpdateParams,
   type ProductListParams,
   type ProductArchiveParams,
+  type ProductListResponsesCursorPage,
 } from './products';
 export {
-  RateCardListResponsesCursorPage,
   RateCards,
   type RateCardCreateResponse,
   type RateCardRetrieveResponse,
@@ -62,4 +61,5 @@ export {
   type RateCardListParams,
   type RateCardArchiveParams,
   type RateCardRetrieveRateScheduleParams,
+  type RateCardListResponsesCursorPage,
 } from './rate-cards/index';

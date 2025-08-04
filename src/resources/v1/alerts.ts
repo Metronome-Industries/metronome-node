@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { RequestOptions } from '../../internal/request-options';
 
 export class Alerts extends APIResource {
   /**
@@ -19,7 +20,7 @@ export class Alerts extends APIResource {
    * });
    * ```
    */
-  create(body: AlertCreateParams, options?: Core.RequestOptions): Core.APIPromise<AlertCreateResponse> {
+  create(body: AlertCreateParams, options?: RequestOptions): APIPromise<AlertCreateResponse> {
     return this._client.post('/v1/alerts/create', { body, ...options });
   }
 
@@ -33,7 +34,7 @@ export class Alerts extends APIResource {
    * });
    * ```
    */
-  archive(body: AlertArchiveParams, options?: Core.RequestOptions): Core.APIPromise<AlertArchiveResponse> {
+  archive(body: AlertArchiveParams, options?: RequestOptions): APIPromise<AlertArchiveResponse> {
     return this._client.post('/v1/alerts/archive', { body, ...options });
   }
 }

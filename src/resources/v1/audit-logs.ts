@@ -1,9 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
-import { CursorPage, type CursorPageParams } from '../../pagination';
+import { APIResource } from '../../core/resource';
+import { CursorPage, type CursorPageParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
 
 export class AuditLogs extends APIResource {
   /**
@@ -21,24 +20,14 @@ export class AuditLogs extends APIResource {
    * ```
    */
   list(
-    query?: AuditLogListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AuditLogListResponsesCursorPage, AuditLogListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AuditLogListResponsesCursorPage, AuditLogListResponse>;
-  list(
-    query: AuditLogListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AuditLogListResponsesCursorPage, AuditLogListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/v1/auditLogs', AuditLogListResponsesCursorPage, { query, ...options });
+    query: AuditLogListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<AuditLogListResponsesCursorPage, AuditLogListResponse> {
+    return this._client.getAPIList('/v1/auditLogs', CursorPage<AuditLogListResponse>, { query, ...options });
   }
 }
 
-export class AuditLogListResponsesCursorPage extends CursorPage<AuditLogListResponse> {}
+export type AuditLogListResponsesCursorPage = CursorPage<AuditLogListResponse>;
 
 export interface AuditLogListResponse {
   id: string;
@@ -108,12 +97,10 @@ export interface AuditLogListParams extends CursorPageParams {
   starting_on?: string;
 }
 
-AuditLogs.AuditLogListResponsesCursorPage = AuditLogListResponsesCursorPage;
-
 export declare namespace AuditLogs {
   export {
     type AuditLogListResponse as AuditLogListResponse,
-    AuditLogListResponsesCursorPage as AuditLogListResponsesCursorPage,
+    type AuditLogListResponsesCursorPage as AuditLogListResponsesCursorPage,
     type AuditLogListParams as AuditLogListParams,
   };
 }

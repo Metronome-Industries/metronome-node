@@ -14,7 +14,6 @@ export {
   type ProductOrderSetParams,
 } from './product-orders';
 export {
-  RateCardListResponsesCursorPage,
   RateCards,
   type RateCardCreateResponse,
   type RateCardRetrieveResponse,
@@ -28,9 +27,9 @@ export {
   type RateCardListParams,
   type RateCardArchiveParams,
   type RateCardRetrieveRateScheduleParams,
+  type RateCardListResponsesCursorPage,
 } from './rate-cards';
 export {
-  RateListResponsesCursorPage,
   Rates,
   type RateListResponse,
   type RateAddResponse,
@@ -38,4 +37,5 @@ export {
   type RateListParams,
   type RateAddParams,
   type RateAddManyParams,
+  type RateListResponsesCursorPage,
 } from './rates';
