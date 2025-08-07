@@ -7450,6 +7450,8 @@ export namespace ContractEditParams {
 
     netsuite_sales_order_id?: string | null;
 
+    priority?: number | null;
+
     product_id?: string;
   }
 

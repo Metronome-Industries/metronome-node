@@ -2162,6 +2162,9 @@ export const tool: Tool = {
             netsuite_sales_order_id: {
               type: 'string',
             },
+            priority: {
+              type: 'number',
+            },
             product_id: {
               type: 'string',
             },
