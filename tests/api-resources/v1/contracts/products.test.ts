@@ -27,6 +27,7 @@ describe('resource products', () => {
       billable_metric_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
       composite_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
       composite_tags: ['string'],
+      custom_fields: { foo: 'string' },
       exclude_free_usage: true,
       is_refundable: true,
       netsuite_internal_item_id: 'netsuite_internal_item_id',
