@@ -428,6 +428,8 @@ export interface ProductCreateParams {
    */
   composite_tags?: Array<string>;
 
+  custom_fields?: { [key: string]: string };
+
   /**
    * Beta feature only available for composite products. If true, products with $0
    * will not be included when computing composite usage. Defaults to false
