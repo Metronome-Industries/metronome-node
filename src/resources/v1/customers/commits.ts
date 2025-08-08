@@ -36,6 +36,7 @@ export class Commits extends APIResource {
    *         timestamp: '2020-03-01T00:00:00.000Z',
    *       },
    *     ],
+   *     do_not_invoice: false,
    *   },
    *   name: 'My Commit',
    * });
@@ -239,6 +240,12 @@ export namespace CommitCreateParams {
      * Defaults to USD (cents) if not passed.
      */
     credit_type_id?: string;
+
+    /**
+     * This field is only applicable to commit invoice schedules. If true, this
+     * schedule will not generate an invoice.
+     */
+    do_not_invoice?: boolean;
 
     /**
      * Enter the unit price and quantity for the charge or instead only send the

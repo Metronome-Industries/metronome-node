@@ -4683,6 +4683,12 @@ export namespace ContractGetEditHistoryResponse {
 
       netsuite_sales_order_id?: string | null;
 
+      /**
+       * If multiple commits are applicable, the one with the lower priority will apply
+       * first.
+       */
+      priority?: number | null;
+
       product_id?: string;
 
       rollover_fraction?: number | null;
@@ -4837,6 +4843,12 @@ export namespace ContractGetEditHistoryResponse {
 
       netsuite_sales_order_id?: string | null;
 
+      /**
+       * If multiple credits are applicable, the one with the lower priority will apply
+       * first.
+       */
+      priority?: number | null;
+
       rollover_fraction?: number | null;
     }
 
@@ -4936,6 +4948,12 @@ export namespace ContractGetEditHistoryResponse {
          * Defaults to USD (cents) if not passed.
          */
         credit_type_id?: string;
+
+        /**
+         * This field is only applicable to commit invoice schedules. If true, this
+         * schedule will not generate an invoice.
+         */
+        do_not_invoice?: boolean;
 
         /**
          * Enter the unit price and quantity for the charge or instead only send the
@@ -5721,6 +5739,12 @@ export namespace ContractEditParams {
       credit_type_id?: string;
 
       /**
+       * This field is only applicable to commit invoice schedules. If true, this
+       * schedule will not generate an invoice.
+       */
+      do_not_invoice?: boolean;
+
+      /**
        * Enter the unit price and quantity for the charge or instead only send the
        * amount. If amount is sent, the unit price is assumed to be the amount and
        * quantity is inferred to be 1.
@@ -6049,6 +6073,12 @@ export namespace ContractEditParams {
        * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
+
+      /**
+       * This field is only applicable to commit invoice schedules. If true, this
+       * schedule will not generate an invoice.
+       */
+      do_not_invoice?: boolean;
 
       /**
        * Enter the unit price and quantity for the charge or instead only send the
@@ -6611,8 +6641,8 @@ export namespace ContractEditParams {
       unit_price: number;
 
       /**
-       * This field is currently required. Upcoming recurring commit/credit configuration
-       * options will allow it to be optional.
+       * This field is required unless a subscription is attached via
+       * `subscription_config`.
        */
       quantity?: number;
     }
@@ -6828,8 +6858,8 @@ export namespace ContractEditParams {
       unit_price: number;
 
       /**
-       * This field is currently required. Upcoming recurring commit/credit configuration
-       * options will allow it to be optional.
+       * This field is required unless a subscription is attached via
+       * `subscription_config`.
        */
       quantity?: number;
     }
@@ -6990,6 +7020,12 @@ export namespace ContractEditParams {
        * Defaults to USD (cents) if not passed.
        */
       credit_type_id?: string;
+
+      /**
+       * This field is only applicable to commit invoice schedules. If true, this
+       * schedule will not generate an invoice.
+       */
+      do_not_invoice?: boolean;
 
       /**
        * Enter the unit price and quantity for the charge or instead only send the
@@ -7285,6 +7321,8 @@ export namespace ContractEditParams {
 
     netsuite_sales_order_id?: string | null;
 
+    priority?: number | null;
+
     product_id?: string;
 
     rollover_fraction?: number | null;
@@ -7411,6 +7449,8 @@ export namespace ContractEditParams {
     hierarchy_configuration?: UpdateCredit.HierarchyConfiguration;
 
     netsuite_sales_order_id?: string | null;
+
+    priority?: number | null;
 
     product_id?: string;
   }
@@ -7879,6 +7919,12 @@ export interface ContractEditCommitParams {
 
   invoice_schedule?: ContractEditCommitParams.InvoiceSchedule;
 
+  /**
+   * If multiple commits are applicable, the one with the lower priority will apply
+   * first.
+   */
+  priority?: number | null;
+
   product_id?: string;
 
   /**
@@ -8003,6 +8049,12 @@ export interface ContractEditCreditParams {
    * applicable_product_tags are not provided, the credit applies to all products.
    */
   applicable_product_tags?: Array<string> | null;
+
+  /**
+   * If multiple commits are applicable, the one with the lower priority will apply
+   * first.
+   */
+  priority?: number | null;
 
   product_id?: string;
 

@@ -174,6 +174,10 @@ export const tool: Tool = {
           },
         },
       },
+      priority: {
+        type: 'number',
+        description: 'If multiple commits are applicable, the one with the lower priority will apply first.',
+      },
       product_id: {
         type: 'string',
       },

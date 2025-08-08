@@ -95,6 +95,7 @@ describe('resource contracts', () => {
           hierarchy_configuration: { child_access: { type: 'ALL' } },
           invoice_schedule: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            do_not_invoice: true,
             recurring_schedule: {
               amount_distribution: 'DIVIDED',
               ending_before: '2019-12-27T18:11:19.117Z',
@@ -167,6 +168,7 @@ describe('resource contracts', () => {
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           schedule: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            do_not_invoice: true,
             recurring_schedule: {
               amount_distribution: 'DIVIDED',
               ending_before: '2019-12-27T18:11:19.117Z',
@@ -363,6 +365,7 @@ describe('resource contracts', () => {
           product_id: '2e30f074-d04c-412e-a134-851ebfa5ceb2',
           schedule: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            do_not_invoice: true,
             recurring_schedule: {
               amount_distribution: 'DIVIDED',
               ending_before: '2019-12-27T18:11:19.117Z',
@@ -453,6 +456,7 @@ describe('resource contracts', () => {
             ],
           },
           netsuite_sales_order_id: 'netsuite_sales_order_id',
+          priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           rollover_fraction: 0,
         },
@@ -484,6 +488,7 @@ describe('resource contracts', () => {
           applicable_product_tags: ['string'],
           hierarchy_configuration: { child_access: { type: 'ALL' } },
           netsuite_sales_order_id: 'netsuite_sales_order_id',
+          priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
         },
       ],
@@ -621,6 +626,7 @@ describe('resource contracts', () => {
           },
         ],
       },
+      priority: 0,
       product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       specifiers: [
         {
@@ -667,6 +673,7 @@ describe('resource contracts', () => {
       },
       applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
       applicable_product_tags: ['string'],
+      priority: 0,
       product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       specifiers: [
         {

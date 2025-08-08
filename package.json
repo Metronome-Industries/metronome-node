@@ -1,6 +1,6 @@
 {
   "name": "@metronome/sdk",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "The official TypeScript library for the Metronome API",
   "author": "Metronome <dev-feedback@metronome.com>",
   "types": "dist/index.d.ts",
@@ -13,6 +13,9 @@
     "**/*"
   ],
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "./scripts/test",
     "build": "./scripts/build",

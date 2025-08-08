@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.3.0 (2025-08-08)
+
+Full Changelog: [v0.2.0...v0.3.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.2.0...v0.3.0)
+
+### Features
+
+* **api:** api update ([62d4fd8](https://github.com/Metronome-Industries/metronome-node/commit/62d4fd845d64b162596d2f2e2ef300daf4d4b5c0))
+* **api:** api update ([ce43e12](https://github.com/Metronome-Industries/metronome-node/commit/ce43e1222870d9842786230a2adab43433326e39))
+* **api:** api update ([734bfdc](https://github.com/Metronome-Industries/metronome-node/commit/734bfdcdea00e42709d8d655a7f71f532f1db980))
+* **api:** api update ([9538819](https://github.com/Metronome-Industries/metronome-node/commit/9538819f0d9289cbdc3f13e8337843af47845194))
+* **api:** api update ([7658522](https://github.com/Metronome-Industries/metronome-node/commit/76585227332f5bf7f7640af83cc56a791972afbc))
+* **api:** api update ([39508d4](https://github.com/Metronome-Industries/metronome-node/commit/39508d435f1966327cadcf4f208f8e7bbd65e902))
+* **mcp:** add logging when environment variable is set ([da446ed](https://github.com/Metronome-Industries/metronome-node/commit/da446ed9e30f4f8b2d75c73346583388f53fda80))
+* **mcp:** add unix socket option for remote MCP ([1bb6f63](https://github.com/Metronome-Industries/metronome-node/commit/1bb6f63c9f0c2b7c24d3c768fba5bf1dbd451563))
+* **mcp:** remote server with passthru auth ([0c61cb9](https://github.com/Metronome-Industries/metronome-node/commit/0c61cb95a43ba9e4046f2c4026800e95802a76f4))
+
+
+### Bug Fixes
+
+* **mcp:** fix bug in header handling ([bbc7303](https://github.com/Metronome-Industries/metronome-node/commit/bbc730360ef3559a2d261dbf60329d59c4f5fe1a))
+
+
+### Chores
+
+* **internal:** move publish config ([7fe7728](https://github.com/Metronome-Industries/metronome-node/commit/7fe77288030502d813786a2c2cd90ebd45a5a2ce))
+* **internal:** update comment in script ([eb4b678](https://github.com/Metronome-Industries/metronome-node/commit/eb4b6789b92c39cc300b915050f5212684c79b3b))
+* **mcp:** refactor streamable http transport ([26ea8ca](https://github.com/Metronome-Industries/metronome-node/commit/26ea8ca90308a338dd46786e68c63c2d37642c59))
+* update @stainless-api/prism-cli to v5.15.0 ([5ce7a05](https://github.com/Metronome-Industries/metronome-node/commit/5ce7a053d4a88bde83fa560ac1636934f742fe68))
+
 ## 0.2.0 (2025-07-31)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0...v0.2.0)
