@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as Shared from '../shared';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
@@ -40,23 +41,11 @@ export class Alerts extends APIResource {
 }
 
 export interface AlertCreateResponse {
-  data: AlertCreateResponse.Data;
-}
-
-export namespace AlertCreateResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface AlertArchiveResponse {
-  data: AlertArchiveResponse.Data;
-}
-
-export namespace AlertArchiveResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface AlertCreateParams {

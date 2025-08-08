@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../../core/resource';
+import * as Shared from '../../../shared';
 import { APIPromise } from '../../../../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../../../../core/pagination';
 import { RequestOptions } from '../../../../internal/request-options';
@@ -118,7 +119,7 @@ export interface RateListResponse {
 
   product_tags: Array<string>;
 
-  rate: RateListResponse.Rate;
+  rate: Shared.Rate;
 
   starting_at: string;
 
@@ -136,67 +137,6 @@ export interface RateListResponse {
 }
 
 export namespace RateListResponse {
-  export interface Rate {
-    rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
-
-    credit_type?: Rate.CreditType;
-
-    /**
-     * Only set for CUSTOM rate_type. This field is interpreted by custom rate
-     * processors.
-     */
-    custom_rate?: { [key: string]: unknown };
-
-    /**
-     * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
-     * set to true.
-     */
-    is_prorated?: boolean;
-
-    /**
-     * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
-     * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
-     */
-    price?: number;
-
-    /**
-     * if pricing groups are used, this will contain the values used to calculate the
-     * price
-     */
-    pricing_group_values?: { [key: string]: string };
-
-    /**
-     * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
-     */
-    quantity?: number;
-
-    /**
-     * Only set for TIERED rate_type.
-     */
-    tiers?: Array<Rate.Tier>;
-
-    /**
-     * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
-     * using list prices rather than the standard rates for this product on the
-     * contract.
-     */
-    use_list_prices?: boolean;
-  }
-
-  export namespace Rate {
-    export interface CreditType {
-      id: string;
-
-      name: string;
-    }
-
-    export interface Tier {
-      price: number;
-
-      size?: number;
-    }
-  }
-
   /**
    * A distinct rate on the rate card. You can choose to use this rate rather than
    * list rate when consuming a credit or commit.
@@ -212,15 +152,7 @@ export namespace RateListResponse {
     /**
      * Only set for TIERED rate_type.
      */
-    tiers?: Array<CommitRate.Tier>;
-  }
-
-  export namespace CommitRate {
-    export interface Tier {
-      price: number;
-
-      size?: number;
-    }
+    tiers?: Array<Shared.Tier>;
   }
 }
 
@@ -238,7 +170,7 @@ export namespace RateAddResponse {
      */
     commit_rate?: Data.CommitRate;
 
-    credit_type?: Data.CreditType;
+    credit_type?: Shared.CreditTypeData;
 
     /**
      * Only set for CUSTOM rate_type. This field is interpreted by custom rate
@@ -272,7 +204,7 @@ export namespace RateAddResponse {
     /**
      * Only set for TIERED rate_type.
      */
-    tiers?: Array<Data.Tier>;
+    tiers?: Array<Shared.Tier>;
 
     /**
      * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
@@ -298,27 +230,7 @@ export namespace RateAddResponse {
       /**
        * Only set for TIERED rate_type.
        */
-      tiers?: Array<CommitRate.Tier>;
-    }
-
-    export namespace CommitRate {
-      export interface Tier {
-        price: number;
-
-        size?: number;
-      }
-    }
-
-    export interface CreditType {
-      id: string;
-
-      name: string;
-    }
-
-    export interface Tier {
-      price: number;
-
-      size?: number;
+      tiers?: Array<Shared.Tier>;
     }
   }
 }
@@ -327,16 +239,7 @@ export interface RateAddManyResponse {
   /**
    * The ID of the rate card to which the rates were added.
    */
-  data: RateAddManyResponse.Data;
-}
-
-export namespace RateAddManyResponse {
-  /**
-   * The ID of the rate card to which the rates were added.
-   */
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface RateListParams extends CursorPageParams {
@@ -468,7 +371,7 @@ export interface RateAddParams {
   /**
    * Only set for TIERED rate_type.
    */
-  tiers?: Array<RateAddParams.Tier>;
+  tiers?: Array<Shared.Tier>;
 
   /**
    * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
@@ -494,21 +397,7 @@ export namespace RateAddParams {
     /**
      * Only set for TIERED rate_type.
      */
-    tiers?: Array<CommitRate.Tier>;
-  }
-
-  export namespace CommitRate {
-    export interface Tier {
-      price: number;
-
-      size?: number;
-    }
-  }
-
-  export interface Tier {
-    price: number;
-
-    size?: number;
+    tiers?: Array<Shared.Tier>;
   }
 }
 
@@ -591,7 +480,7 @@ export namespace RateAddManyParams {
     /**
      * Only set for TIERED rate_type.
      */
-    tiers?: Array<Rate.Tier>;
+    tiers?: Array<Shared.Tier>;
 
     /**
      * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
@@ -617,21 +506,7 @@ export namespace RateAddManyParams {
       /**
        * Only set for TIERED rate_type.
        */
-      tiers?: Array<CommitRate.Tier>;
-    }
-
-    export namespace CommitRate {
-      export interface Tier {
-        price: number;
-
-        size?: number;
-      }
-    }
-
-    export interface Tier {
-      price: number;
-
-      size?: number;
+      tiers?: Array<Shared.Tier>;
     }
   }
 }

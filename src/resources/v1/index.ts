@@ -54,6 +54,9 @@ export {
 } from './contracts/index';
 export {
   CreditGrants,
+  type CreditLedgerEntry,
+  type RolloverAmountMaxAmount,
+  type RolloverAmountMaxPercentage,
   type CreditGrantCreateResponse,
   type CreditGrantListResponse,
   type CreditGrantEditResponse,
@@ -77,9 +80,10 @@ export {
 } from './custom-fields';
 export {
   Customers,
+  type Customer,
+  type CustomerDetail,
   type CustomerCreateResponse,
   type CustomerRetrieveResponse,
-  type CustomerListResponse,
   type CustomerArchiveResponse,
   type CustomerListBillableMetricsResponse,
   type CustomerListCostsResponse,
@@ -95,7 +99,7 @@ export {
   type CustomerSetIngestAliasesParams,
   type CustomerSetNameParams,
   type CustomerUpdateConfigParams,
-  type CustomerListResponsesCursorPage,
+  type CustomerDetailsCursorPage,
   type CustomerListBillableMetricsResponsesCursorPage,
   type CustomerListCostsResponsesCursorPage,
 } from './customers/index';
@@ -113,6 +117,7 @@ export {
 } from './invoices';
 export {
   Plans,
+  type PlanDetail,
   type PlanListResponse,
   type PlanGetDetailsResponse,
   type PlanListChargesResponse,

@@ -2,6 +2,7 @@
 
 export {
   Alerts,
+  type CustomerAlert,
   type AlertRetrieveResponse,
   type AlertListResponse,
   type AlertRetrieveParams,
@@ -35,9 +36,10 @@ export {
 } from './credits';
 export {
   Customers,
+  type Customer,
+  type CustomerDetail,
   type CustomerCreateResponse,
   type CustomerRetrieveResponse,
-  type CustomerListResponse,
   type CustomerArchiveResponse,
   type CustomerListBillableMetricsResponse,
   type CustomerListCostsResponse,
@@ -53,21 +55,21 @@ export {
   type CustomerSetIngestAliasesParams,
   type CustomerSetNameParams,
   type CustomerUpdateConfigParams,
-  type CustomerListResponsesCursorPage,
+  type CustomerDetailsCursorPage,
   type CustomerListBillableMetricsResponsesCursorPage,
   type CustomerListCostsResponsesCursorPage,
 } from './customers';
 export {
   Invoices,
+  type Invoice,
   type InvoiceRetrieveResponse,
-  type InvoiceListResponse,
   type InvoiceAddChargeResponse,
   type InvoiceListBreakdownsResponse,
   type InvoiceRetrieveParams,
   type InvoiceListParams,
   type InvoiceAddChargeParams,
   type InvoiceListBreakdownsParams,
-  type InvoiceListResponsesCursorPage,
+  type InvoicesCursorPage,
   type InvoiceListBreakdownsResponsesCursorPage,
 } from './invoices';
 export {

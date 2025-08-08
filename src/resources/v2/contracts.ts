@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as Shared from '../shared';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
@@ -166,7 +167,7 @@ export namespace ContractRetrieveResponse {
 
     overrides: Array<Data.Override>;
 
-    scheduled_charges: Array<Data.ScheduledCharge>;
+    scheduled_charges: Array<Shared.ScheduledCharge>;
 
     starting_at: string;
 
@@ -190,7 +191,7 @@ export namespace ContractRetrieveResponse {
     /**
      * This field's availability is dependent on your client's configuration.
      */
-    discounts?: Array<Data.Discount>;
+    discounts?: Array<Shared.Discount>;
 
     ending_before?: string;
 
@@ -204,7 +205,7 @@ export namespace ContractRetrieveResponse {
      * Either a **parent** configuration with a list of children or a **child**
      * configuration with a single parent.
      */
-    hierarchy_configuration?: Data.Children | Data.Parent;
+    hierarchy_configuration?: Data.ParentHierarchyConfiguration | Data.ChildHierarchyConfiguration;
 
     /**
      * Defaults to LOWEST_MULTIPLIER, which applies the greatest discount to list
@@ -233,7 +234,7 @@ export namespace ContractRetrieveResponse {
     /**
      * This field's availability is dependent on your client's configuration.
      */
-    professional_services?: Array<Data.ProfessionalService>;
+    professional_services?: Array<Shared.ProService>;
 
     rate_card_id?: string;
 
@@ -289,7 +290,7 @@ export namespace ContractRetrieveResponse {
        * The schedule that the customer will gain access to the credits purposed with
        * this commit.
        */
-      access_schedule?: Commit.AccessSchedule;
+      access_schedule?: Shared.ScheduleDuration;
 
       applicable_contract_ids?: Array<string>;
 
@@ -330,27 +331,27 @@ export namespace ContractRetrieveResponse {
       /**
        * The schedule that the customer will be invoiced for this commit.
        */
-      invoice_schedule?: Commit.InvoiceSchedule;
+      invoice_schedule?: Shared.SchedulePointInTime;
 
       /**
        * A list of ordered events that impact the balance of a commit. For example, an
        * invoice deduction or a rollover.
        */
       ledger?: Array<
-        | Commit.UnionMember0
-        | Commit.UnionMember1
-        | Commit.UnionMember2
-        | Commit.UnionMember3
-        | Commit.UnionMember4
-        | Commit.UnionMember5
-        | Commit.UnionMember6
-        | Commit.UnionMember7
-        | Commit.UnionMember8
-        | Commit.UnionMember9
-        | Commit.UnionMember10
-        | Commit.UnionMember11
-        | Commit.UnionMember12
-        | Commit.UnionMember13
+        | Commit.PrepaidCommitSegmentStartLedgerEntry
+        | Commit.PrepaidCommitAutomatedInvoiceDeductionLedgerEntry
+        | Commit.PrepaidCommitRolloverLedgerEntry
+        | Commit.PrepaidCommitExpirationLedgerEntry
+        | Commit.PrepaidCommitCanceledLedgerEntry
+        | Commit.PrepaidCommitCreditedLedgerEntry
+        | Commit.PrepaidCommitSeatBasedAdjustmentLedgerEntry
+        | Commit.PostpaidCommitInitialBalanceLedgerEntry
+        | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry
+        | Commit.PostpaidCommitRolloverLedgerEntry
+        | Commit.PostpaidCommitTrueupLedgerEntry
+        | Commit.PrepaidCommitManualLedgerEntry
+        | Commit.PostpaidCommitManualLedgerEntry
+        | Commit.PostpaidCommitExpirationLedgerEntry
       >;
 
       name?: string;
@@ -392,34 +393,6 @@ export namespace ContractRetrieveResponse {
         name: string;
       }
 
-      /**
-       * The schedule that the customer will gain access to the credits purposed with
-       * this commit.
-       */
-      export interface AccessSchedule {
-        schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-        credit_type?: AccessSchedule.CreditType;
-      }
-
-      export namespace AccessSchedule {
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          ending_before: string;
-
-          starting_at: string;
-        }
-
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-      }
-
       export interface Contract {
         id: string;
       }
@@ -429,21 +402,21 @@ export namespace ContractRetrieveResponse {
        */
       export interface HierarchyConfiguration {
         child_access:
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.UnionMember2;
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
       }
 
       export namespace HierarchyConfiguration {
-        export interface Type {
+        export interface CommitHierarchyChildAccessAll {
           type: 'ALL';
         }
 
-        export interface Type {
+        export interface CommitHierarchyChildAccessNone {
           type: 'NONE';
         }
 
-        export interface UnionMember2 {
+        export interface CommitHierarchyChildAccessContractIDs {
           contract_ids: Array<string>;
 
           type: 'CONTRACT_IDS';
@@ -457,44 +430,7 @@ export namespace ContractRetrieveResponse {
         id: string;
       }
 
-      /**
-       * The schedule that the customer will be invoiced for this commit.
-       */
-      export interface InvoiceSchedule {
-        credit_type?: InvoiceSchedule.CreditType;
-
-        /**
-         * This field is only applicable to commit invoice schedules. If true, this
-         * schedule will not generate an invoice.
-         */
-        do_not_invoice?: boolean;
-
-        schedule_items?: Array<InvoiceSchedule.ScheduleItem>;
-      }
-
-      export namespace InvoiceSchedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-
-          invoice_id?: string | null;
-        }
-      }
-
-      export interface UnionMember0 {
+      export interface PrepaidCommitSegmentStartLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -504,7 +440,7 @@ export namespace ContractRetrieveResponse {
         type: 'PREPAID_COMMIT_SEGMENT_START';
       }
 
-      export interface UnionMember1 {
+      export interface PrepaidCommitAutomatedInvoiceDeductionLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -518,7 +454,7 @@ export namespace ContractRetrieveResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember2 {
+      export interface PrepaidCommitRolloverLedgerEntry {
         amount: number;
 
         new_contract_id: string;
@@ -530,7 +466,7 @@ export namespace ContractRetrieveResponse {
         type: 'PREPAID_COMMIT_ROLLOVER';
       }
 
-      export interface UnionMember3 {
+      export interface PrepaidCommitExpirationLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -540,7 +476,7 @@ export namespace ContractRetrieveResponse {
         type: 'PREPAID_COMMIT_EXPIRATION';
       }
 
-      export interface UnionMember4 {
+      export interface PrepaidCommitCanceledLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -554,7 +490,7 @@ export namespace ContractRetrieveResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember5 {
+      export interface PrepaidCommitCreditedLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -568,7 +504,7 @@ export namespace ContractRetrieveResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember6 {
+      export interface PrepaidCommitSeatBasedAdjustmentLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -578,7 +514,7 @@ export namespace ContractRetrieveResponse {
         type: 'PREPAID_COMMIT_SEAT_BASED_ADJUSTMENT';
       }
 
-      export interface UnionMember7 {
+      export interface PostpaidCommitInitialBalanceLedgerEntry {
         amount: number;
 
         timestamp: string;
@@ -586,7 +522,7 @@ export namespace ContractRetrieveResponse {
         type: 'POSTPAID_COMMIT_INITIAL_BALANCE';
       }
 
-      export interface UnionMember8 {
+      export interface PostpaidCommitAutomatedInvoiceDeductionLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -600,7 +536,7 @@ export namespace ContractRetrieveResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember9 {
+      export interface PostpaidCommitRolloverLedgerEntry {
         amount: number;
 
         new_contract_id: string;
@@ -612,7 +548,7 @@ export namespace ContractRetrieveResponse {
         type: 'POSTPAID_COMMIT_ROLLOVER';
       }
 
-      export interface UnionMember10 {
+      export interface PostpaidCommitTrueupLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -624,7 +560,7 @@ export namespace ContractRetrieveResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember11 {
+      export interface PrepaidCommitManualLedgerEntry {
         amount: number;
 
         reason: string;
@@ -634,7 +570,7 @@ export namespace ContractRetrieveResponse {
         type: 'PREPAID_COMMIT_MANUAL';
       }
 
-      export interface UnionMember12 {
+      export interface PostpaidCommitManualLedgerEntry {
         amount: number;
 
         reason: string;
@@ -644,7 +580,7 @@ export namespace ContractRetrieveResponse {
         type: 'POSTPAID_COMMIT_MANUAL';
       }
 
-      export interface UnionMember13 {
+      export interface PostpaidCommitExpirationLedgerEntry {
         amount: number;
 
         timestamp: string;
@@ -734,7 +670,7 @@ export namespace ContractRetrieveResponse {
       export interface OverwriteRate {
         rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
-        credit_type?: OverwriteRate.CreditType;
+        credit_type?: Shared.CreditTypeData;
 
         /**
          * Only set for CUSTOM rate_type. This field is interpreted by custom rate
@@ -762,91 +698,13 @@ export namespace ContractRetrieveResponse {
         /**
          * Only set for TIERED rate_type.
          */
-        tiers?: Array<OverwriteRate.Tier>;
-      }
-
-      export namespace OverwriteRate {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface Tier {
-          price: number;
-
-          size?: number;
-        }
+        tiers?: Array<Shared.Tier>;
       }
 
       export interface Product {
         id: string;
 
         name: string;
-      }
-    }
-
-    export interface ScheduledCharge {
-      id: string;
-
-      product: ScheduledCharge.Product;
-
-      schedule: ScheduledCharge.Schedule;
-
-      archived_at?: string;
-
-      custom_fields?: { [key: string]: string };
-
-      /**
-       * displayed on invoices
-       */
-      name?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
-    }
-
-    export namespace ScheduledCharge {
-      export interface Product {
-        id: string;
-
-        name: string;
-      }
-
-      export interface Schedule {
-        credit_type?: Schedule.CreditType;
-
-        /**
-         * This field is only applicable to commit invoice schedules. If true, this
-         * schedule will not generate an invoice.
-         */
-        do_not_invoice?: boolean;
-
-        schedule_items?: Array<Schedule.ScheduleItem>;
-      }
-
-      export namespace Schedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-
-          invoice_id?: string | null;
-        }
       }
     }
 
@@ -895,7 +753,7 @@ export namespace ContractRetrieveResponse {
       /**
        * The schedule that the customer will gain access to the credits.
        */
-      access_schedule?: Credit.AccessSchedule;
+      access_schedule?: Shared.ScheduleDuration;
 
       applicable_contract_ids?: Array<string>;
 
@@ -931,13 +789,13 @@ export namespace ContractRetrieveResponse {
        * invoice deduction or an expiration.
        */
       ledger?: Array<
-        | Credit.UnionMember0
-        | Credit.UnionMember1
-        | Credit.UnionMember2
-        | Credit.UnionMember3
-        | Credit.UnionMember4
-        | Credit.UnionMember5
-        | Credit.UnionMember6
+        | Credit.CreditSegmentStartLedgerEntry
+        | Credit.CreditAutomatedInvoiceDeductionLedgerEntry
+        | Credit.CreditExpirationLedgerEntry
+        | Credit.CreditCanceledLedgerEntry
+        | Credit.CreditCreditedLedgerEntry
+        | Credit.CreditManualLedgerEntry
+        | Credit.CreditSeatBasedAdjustmentLedgerEntry
       >;
 
       name?: string;
@@ -973,33 +831,6 @@ export namespace ContractRetrieveResponse {
         name: string;
       }
 
-      /**
-       * The schedule that the customer will gain access to the credits.
-       */
-      export interface AccessSchedule {
-        schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-        credit_type?: AccessSchedule.CreditType;
-      }
-
-      export namespace AccessSchedule {
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          ending_before: string;
-
-          starting_at: string;
-        }
-
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-      }
-
       export interface Contract {
         id: string;
       }
@@ -1009,28 +840,28 @@ export namespace ContractRetrieveResponse {
        */
       export interface HierarchyConfiguration {
         child_access:
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.UnionMember2;
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
       }
 
       export namespace HierarchyConfiguration {
-        export interface Type {
+        export interface CommitHierarchyChildAccessAll {
           type: 'ALL';
         }
 
-        export interface Type {
+        export interface CommitHierarchyChildAccessNone {
           type: 'NONE';
         }
 
-        export interface UnionMember2 {
+        export interface CommitHierarchyChildAccessContractIDs {
           contract_ids: Array<string>;
 
           type: 'CONTRACT_IDS';
         }
       }
 
-      export interface UnionMember0 {
+      export interface CreditSegmentStartLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -1040,7 +871,7 @@ export namespace ContractRetrieveResponse {
         type: 'CREDIT_SEGMENT_START';
       }
 
-      export interface UnionMember1 {
+      export interface CreditAutomatedInvoiceDeductionLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -1054,7 +885,7 @@ export namespace ContractRetrieveResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember2 {
+      export interface CreditExpirationLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -1064,7 +895,7 @@ export namespace ContractRetrieveResponse {
         type: 'CREDIT_EXPIRATION';
       }
 
-      export interface UnionMember3 {
+      export interface CreditCanceledLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -1078,7 +909,7 @@ export namespace ContractRetrieveResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember4 {
+      export interface CreditCreditedLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -1092,7 +923,7 @@ export namespace ContractRetrieveResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember5 {
+      export interface CreditManualLedgerEntry {
         amount: number;
 
         reason: string;
@@ -1102,7 +933,7 @@ export namespace ContractRetrieveResponse {
         type: 'CREDIT_MANUAL';
       }
 
-      export interface UnionMember6 {
+      export interface CreditSeatBasedAdjustmentLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -1152,65 +983,6 @@ export namespace ContractRetrieveResponse {
       delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
     }
 
-    export interface Discount {
-      id: string;
-
-      product: Discount.Product;
-
-      schedule: Discount.Schedule;
-
-      custom_fields?: { [key: string]: string };
-
-      name?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
-    }
-
-    export namespace Discount {
-      export interface Product {
-        id: string;
-
-        name: string;
-      }
-
-      export interface Schedule {
-        credit_type?: Schedule.CreditType;
-
-        /**
-         * This field is only applicable to commit invoice schedules. If true, this
-         * schedule will not generate an invoice.
-         */
-        do_not_invoice?: boolean;
-
-        schedule_items?: Array<Schedule.ScheduleItem>;
-      }
-
-      export namespace Schedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-
-          invoice_id?: string | null;
-        }
-      }
-    }
-
     /**
      * Indicates whether there are more items than the limit for this endpoint. Use the
      * respective list endpoints to get the full lists.
@@ -1231,14 +1003,14 @@ export namespace ContractRetrieveResponse {
       credits: boolean;
     }
 
-    export interface Children {
+    export interface ParentHierarchyConfiguration {
       /**
        * List of contracts that belong to this parent.
        */
-      children: Array<Children.Child>;
+      children: Array<ParentHierarchyConfiguration.Child>;
     }
 
-    export namespace Children {
+    export namespace ParentHierarchyConfiguration {
       export interface Child {
         contract_id: string;
 
@@ -1246,14 +1018,14 @@ export namespace ContractRetrieveResponse {
       }
     }
 
-    export interface Parent {
+    export interface ChildHierarchyConfiguration {
       /**
        * The single parent contract/customer for this child.
        */
-      parent: Parent.Parent;
+      parent: ChildHierarchyConfiguration.Parent;
     }
 
-    export namespace Parent {
+    export namespace ChildHierarchyConfiguration {
       /**
        * The single parent contract/customer for this child.
        */
@@ -1417,38 +1189,6 @@ export namespace ContractRetrieveResponse {
       }
     }
 
-    export interface ProfessionalService {
-      id: string;
-
-      /**
-       * Maximum amount for the term.
-       */
-      max_amount: number;
-
-      product_id: string;
-
-      /**
-       * Quantity for the charge. Will be multiplied by unit_price to determine the
-       * amount.
-       */
-      quantity: number;
-
-      /**
-       * Unit price for the charge. Will be multiplied by quantity to determine the
-       * amount and must be specified.
-       */
-      unit_price: number;
-
-      custom_fields?: { [key: string]: string };
-
-      description?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
-    }
-
     export interface RecurringCommit {
       id: string;
 
@@ -1592,21 +1332,21 @@ export namespace ContractRetrieveResponse {
        */
       export interface HierarchyConfiguration {
         child_access:
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.UnionMember2;
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
       }
 
       export namespace HierarchyConfiguration {
-        export interface Type {
+        export interface CommitHierarchyChildAccessAll {
           type: 'ALL';
         }
 
-        export interface Type {
+        export interface CommitHierarchyChildAccessNone {
           type: 'NONE';
         }
 
-        export interface UnionMember2 {
+        export interface CommitHierarchyChildAccessContractIDs {
           contract_ids: Array<string>;
 
           type: 'CONTRACT_IDS';
@@ -1800,21 +1540,21 @@ export namespace ContractRetrieveResponse {
        */
       export interface HierarchyConfiguration {
         child_access:
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.UnionMember2;
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
       }
 
       export namespace HierarchyConfiguration {
-        export interface Type {
+        export interface CommitHierarchyChildAccessAll {
           type: 'ALL';
         }
 
-        export interface Type {
+        export interface CommitHierarchyChildAccessNone {
           type: 'NONE';
         }
 
-        export interface UnionMember2 {
+        export interface CommitHierarchyChildAccessContractIDs {
           contract_ids: Array<string>;
 
           type: 'CONTRACT_IDS';
@@ -2072,7 +1812,7 @@ export namespace ContractListResponse {
 
     overrides: Array<Data.Override>;
 
-    scheduled_charges: Array<Data.ScheduledCharge>;
+    scheduled_charges: Array<Shared.ScheduledCharge>;
 
     starting_at: string;
 
@@ -2096,7 +1836,7 @@ export namespace ContractListResponse {
     /**
      * This field's availability is dependent on your client's configuration.
      */
-    discounts?: Array<Data.Discount>;
+    discounts?: Array<Shared.Discount>;
 
     ending_before?: string;
 
@@ -2110,7 +1850,7 @@ export namespace ContractListResponse {
      * Either a **parent** configuration with a list of children or a **child**
      * configuration with a single parent.
      */
-    hierarchy_configuration?: Data.Children | Data.Parent;
+    hierarchy_configuration?: Data.ParentHierarchyConfiguration | Data.ChildHierarchyConfiguration;
 
     /**
      * Defaults to LOWEST_MULTIPLIER, which applies the greatest discount to list
@@ -2139,7 +1879,7 @@ export namespace ContractListResponse {
     /**
      * This field's availability is dependent on your client's configuration.
      */
-    professional_services?: Array<Data.ProfessionalService>;
+    professional_services?: Array<Shared.ProService>;
 
     rate_card_id?: string;
 
@@ -2195,7 +1935,7 @@ export namespace ContractListResponse {
        * The schedule that the customer will gain access to the credits purposed with
        * this commit.
        */
-      access_schedule?: Commit.AccessSchedule;
+      access_schedule?: Shared.ScheduleDuration;
 
       applicable_contract_ids?: Array<string>;
 
@@ -2236,27 +1976,27 @@ export namespace ContractListResponse {
       /**
        * The schedule that the customer will be invoiced for this commit.
        */
-      invoice_schedule?: Commit.InvoiceSchedule;
+      invoice_schedule?: Shared.SchedulePointInTime;
 
       /**
        * A list of ordered events that impact the balance of a commit. For example, an
        * invoice deduction or a rollover.
        */
       ledger?: Array<
-        | Commit.UnionMember0
-        | Commit.UnionMember1
-        | Commit.UnionMember2
-        | Commit.UnionMember3
-        | Commit.UnionMember4
-        | Commit.UnionMember5
-        | Commit.UnionMember6
-        | Commit.UnionMember7
-        | Commit.UnionMember8
-        | Commit.UnionMember9
-        | Commit.UnionMember10
-        | Commit.UnionMember11
-        | Commit.UnionMember12
-        | Commit.UnionMember13
+        | Commit.PrepaidCommitSegmentStartLedgerEntry
+        | Commit.PrepaidCommitAutomatedInvoiceDeductionLedgerEntry
+        | Commit.PrepaidCommitRolloverLedgerEntry
+        | Commit.PrepaidCommitExpirationLedgerEntry
+        | Commit.PrepaidCommitCanceledLedgerEntry
+        | Commit.PrepaidCommitCreditedLedgerEntry
+        | Commit.PrepaidCommitSeatBasedAdjustmentLedgerEntry
+        | Commit.PostpaidCommitInitialBalanceLedgerEntry
+        | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry
+        | Commit.PostpaidCommitRolloverLedgerEntry
+        | Commit.PostpaidCommitTrueupLedgerEntry
+        | Commit.PrepaidCommitManualLedgerEntry
+        | Commit.PostpaidCommitManualLedgerEntry
+        | Commit.PostpaidCommitExpirationLedgerEntry
       >;
 
       name?: string;
@@ -2298,34 +2038,6 @@ export namespace ContractListResponse {
         name: string;
       }
 
-      /**
-       * The schedule that the customer will gain access to the credits purposed with
-       * this commit.
-       */
-      export interface AccessSchedule {
-        schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-        credit_type?: AccessSchedule.CreditType;
-      }
-
-      export namespace AccessSchedule {
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          ending_before: string;
-
-          starting_at: string;
-        }
-
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-      }
-
       export interface Contract {
         id: string;
       }
@@ -2335,21 +2047,21 @@ export namespace ContractListResponse {
        */
       export interface HierarchyConfiguration {
         child_access:
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.UnionMember2;
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
       }
 
       export namespace HierarchyConfiguration {
-        export interface Type {
+        export interface CommitHierarchyChildAccessAll {
           type: 'ALL';
         }
 
-        export interface Type {
+        export interface CommitHierarchyChildAccessNone {
           type: 'NONE';
         }
 
-        export interface UnionMember2 {
+        export interface CommitHierarchyChildAccessContractIDs {
           contract_ids: Array<string>;
 
           type: 'CONTRACT_IDS';
@@ -2363,44 +2075,7 @@ export namespace ContractListResponse {
         id: string;
       }
 
-      /**
-       * The schedule that the customer will be invoiced for this commit.
-       */
-      export interface InvoiceSchedule {
-        credit_type?: InvoiceSchedule.CreditType;
-
-        /**
-         * This field is only applicable to commit invoice schedules. If true, this
-         * schedule will not generate an invoice.
-         */
-        do_not_invoice?: boolean;
-
-        schedule_items?: Array<InvoiceSchedule.ScheduleItem>;
-      }
-
-      export namespace InvoiceSchedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-
-          invoice_id?: string | null;
-        }
-      }
-
-      export interface UnionMember0 {
+      export interface PrepaidCommitSegmentStartLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -2410,7 +2085,7 @@ export namespace ContractListResponse {
         type: 'PREPAID_COMMIT_SEGMENT_START';
       }
 
-      export interface UnionMember1 {
+      export interface PrepaidCommitAutomatedInvoiceDeductionLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2424,7 +2099,7 @@ export namespace ContractListResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember2 {
+      export interface PrepaidCommitRolloverLedgerEntry {
         amount: number;
 
         new_contract_id: string;
@@ -2436,7 +2111,7 @@ export namespace ContractListResponse {
         type: 'PREPAID_COMMIT_ROLLOVER';
       }
 
-      export interface UnionMember3 {
+      export interface PrepaidCommitExpirationLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -2446,7 +2121,7 @@ export namespace ContractListResponse {
         type: 'PREPAID_COMMIT_EXPIRATION';
       }
 
-      export interface UnionMember4 {
+      export interface PrepaidCommitCanceledLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2460,7 +2135,7 @@ export namespace ContractListResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember5 {
+      export interface PrepaidCommitCreditedLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2474,7 +2149,7 @@ export namespace ContractListResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember6 {
+      export interface PrepaidCommitSeatBasedAdjustmentLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -2484,7 +2159,7 @@ export namespace ContractListResponse {
         type: 'PREPAID_COMMIT_SEAT_BASED_ADJUSTMENT';
       }
 
-      export interface UnionMember7 {
+      export interface PostpaidCommitInitialBalanceLedgerEntry {
         amount: number;
 
         timestamp: string;
@@ -2492,7 +2167,7 @@ export namespace ContractListResponse {
         type: 'POSTPAID_COMMIT_INITIAL_BALANCE';
       }
 
-      export interface UnionMember8 {
+      export interface PostpaidCommitAutomatedInvoiceDeductionLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2506,7 +2181,7 @@ export namespace ContractListResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember9 {
+      export interface PostpaidCommitRolloverLedgerEntry {
         amount: number;
 
         new_contract_id: string;
@@ -2518,7 +2193,7 @@ export namespace ContractListResponse {
         type: 'POSTPAID_COMMIT_ROLLOVER';
       }
 
-      export interface UnionMember10 {
+      export interface PostpaidCommitTrueupLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2530,7 +2205,7 @@ export namespace ContractListResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember11 {
+      export interface PrepaidCommitManualLedgerEntry {
         amount: number;
 
         reason: string;
@@ -2540,7 +2215,7 @@ export namespace ContractListResponse {
         type: 'PREPAID_COMMIT_MANUAL';
       }
 
-      export interface UnionMember12 {
+      export interface PostpaidCommitManualLedgerEntry {
         amount: number;
 
         reason: string;
@@ -2550,7 +2225,7 @@ export namespace ContractListResponse {
         type: 'POSTPAID_COMMIT_MANUAL';
       }
 
-      export interface UnionMember13 {
+      export interface PostpaidCommitExpirationLedgerEntry {
         amount: number;
 
         timestamp: string;
@@ -2640,7 +2315,7 @@ export namespace ContractListResponse {
       export interface OverwriteRate {
         rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
-        credit_type?: OverwriteRate.CreditType;
+        credit_type?: Shared.CreditTypeData;
 
         /**
          * Only set for CUSTOM rate_type. This field is interpreted by custom rate
@@ -2668,91 +2343,13 @@ export namespace ContractListResponse {
         /**
          * Only set for TIERED rate_type.
          */
-        tiers?: Array<OverwriteRate.Tier>;
-      }
-
-      export namespace OverwriteRate {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface Tier {
-          price: number;
-
-          size?: number;
-        }
+        tiers?: Array<Shared.Tier>;
       }
 
       export interface Product {
         id: string;
 
         name: string;
-      }
-    }
-
-    export interface ScheduledCharge {
-      id: string;
-
-      product: ScheduledCharge.Product;
-
-      schedule: ScheduledCharge.Schedule;
-
-      archived_at?: string;
-
-      custom_fields?: { [key: string]: string };
-
-      /**
-       * displayed on invoices
-       */
-      name?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
-    }
-
-    export namespace ScheduledCharge {
-      export interface Product {
-        id: string;
-
-        name: string;
-      }
-
-      export interface Schedule {
-        credit_type?: Schedule.CreditType;
-
-        /**
-         * This field is only applicable to commit invoice schedules. If true, this
-         * schedule will not generate an invoice.
-         */
-        do_not_invoice?: boolean;
-
-        schedule_items?: Array<Schedule.ScheduleItem>;
-      }
-
-      export namespace Schedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-
-          invoice_id?: string | null;
-        }
       }
     }
 
@@ -2801,7 +2398,7 @@ export namespace ContractListResponse {
       /**
        * The schedule that the customer will gain access to the credits.
        */
-      access_schedule?: Credit.AccessSchedule;
+      access_schedule?: Shared.ScheduleDuration;
 
       applicable_contract_ids?: Array<string>;
 
@@ -2837,13 +2434,13 @@ export namespace ContractListResponse {
        * invoice deduction or an expiration.
        */
       ledger?: Array<
-        | Credit.UnionMember0
-        | Credit.UnionMember1
-        | Credit.UnionMember2
-        | Credit.UnionMember3
-        | Credit.UnionMember4
-        | Credit.UnionMember5
-        | Credit.UnionMember6
+        | Credit.CreditSegmentStartLedgerEntry
+        | Credit.CreditAutomatedInvoiceDeductionLedgerEntry
+        | Credit.CreditExpirationLedgerEntry
+        | Credit.CreditCanceledLedgerEntry
+        | Credit.CreditCreditedLedgerEntry
+        | Credit.CreditManualLedgerEntry
+        | Credit.CreditSeatBasedAdjustmentLedgerEntry
       >;
 
       name?: string;
@@ -2879,33 +2476,6 @@ export namespace ContractListResponse {
         name: string;
       }
 
-      /**
-       * The schedule that the customer will gain access to the credits.
-       */
-      export interface AccessSchedule {
-        schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-        credit_type?: AccessSchedule.CreditType;
-      }
-
-      export namespace AccessSchedule {
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          ending_before: string;
-
-          starting_at: string;
-        }
-
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-      }
-
       export interface Contract {
         id: string;
       }
@@ -2915,28 +2485,28 @@ export namespace ContractListResponse {
        */
       export interface HierarchyConfiguration {
         child_access:
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.UnionMember2;
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
       }
 
       export namespace HierarchyConfiguration {
-        export interface Type {
+        export interface CommitHierarchyChildAccessAll {
           type: 'ALL';
         }
 
-        export interface Type {
+        export interface CommitHierarchyChildAccessNone {
           type: 'NONE';
         }
 
-        export interface UnionMember2 {
+        export interface CommitHierarchyChildAccessContractIDs {
           contract_ids: Array<string>;
 
           type: 'CONTRACT_IDS';
         }
       }
 
-      export interface UnionMember0 {
+      export interface CreditSegmentStartLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -2946,7 +2516,7 @@ export namespace ContractListResponse {
         type: 'CREDIT_SEGMENT_START';
       }
 
-      export interface UnionMember1 {
+      export interface CreditAutomatedInvoiceDeductionLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2960,7 +2530,7 @@ export namespace ContractListResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember2 {
+      export interface CreditExpirationLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -2970,7 +2540,7 @@ export namespace ContractListResponse {
         type: 'CREDIT_EXPIRATION';
       }
 
-      export interface UnionMember3 {
+      export interface CreditCanceledLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2984,7 +2554,7 @@ export namespace ContractListResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember4 {
+      export interface CreditCreditedLedgerEntry {
         amount: number;
 
         invoice_id: string;
@@ -2998,7 +2568,7 @@ export namespace ContractListResponse {
         contract_id?: string;
       }
 
-      export interface UnionMember5 {
+      export interface CreditManualLedgerEntry {
         amount: number;
 
         reason: string;
@@ -3008,7 +2578,7 @@ export namespace ContractListResponse {
         type: 'CREDIT_MANUAL';
       }
 
-      export interface UnionMember6 {
+      export interface CreditSeatBasedAdjustmentLedgerEntry {
         amount: number;
 
         segment_id: string;
@@ -3058,65 +2628,6 @@ export namespace ContractListResponse {
       delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
     }
 
-    export interface Discount {
-      id: string;
-
-      product: Discount.Product;
-
-      schedule: Discount.Schedule;
-
-      custom_fields?: { [key: string]: string };
-
-      name?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
-    }
-
-    export namespace Discount {
-      export interface Product {
-        id: string;
-
-        name: string;
-      }
-
-      export interface Schedule {
-        credit_type?: Schedule.CreditType;
-
-        /**
-         * This field is only applicable to commit invoice schedules. If true, this
-         * schedule will not generate an invoice.
-         */
-        do_not_invoice?: boolean;
-
-        schedule_items?: Array<Schedule.ScheduleItem>;
-      }
-
-      export namespace Schedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-
-          invoice_id?: string | null;
-        }
-      }
-    }
-
     /**
      * Indicates whether there are more items than the limit for this endpoint. Use the
      * respective list endpoints to get the full lists.
@@ -3137,14 +2648,14 @@ export namespace ContractListResponse {
       credits: boolean;
     }
 
-    export interface Children {
+    export interface ParentHierarchyConfiguration {
       /**
        * List of contracts that belong to this parent.
        */
-      children: Array<Children.Child>;
+      children: Array<ParentHierarchyConfiguration.Child>;
     }
 
-    export namespace Children {
+    export namespace ParentHierarchyConfiguration {
       export interface Child {
         contract_id: string;
 
@@ -3152,14 +2663,14 @@ export namespace ContractListResponse {
       }
     }
 
-    export interface Parent {
+    export interface ChildHierarchyConfiguration {
       /**
        * The single parent contract/customer for this child.
        */
-      parent: Parent.Parent;
+      parent: ChildHierarchyConfiguration.Parent;
     }
 
-    export namespace Parent {
+    export namespace ChildHierarchyConfiguration {
       /**
        * The single parent contract/customer for this child.
        */
@@ -3323,38 +2834,6 @@ export namespace ContractListResponse {
       }
     }
 
-    export interface ProfessionalService {
-      id: string;
-
-      /**
-       * Maximum amount for the term.
-       */
-      max_amount: number;
-
-      product_id: string;
-
-      /**
-       * Quantity for the charge. Will be multiplied by unit_price to determine the
-       * amount.
-       */
-      quantity: number;
-
-      /**
-       * Unit price for the charge. Will be multiplied by quantity to determine the
-       * amount and must be specified.
-       */
-      unit_price: number;
-
-      custom_fields?: { [key: string]: string };
-
-      description?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
-    }
-
     export interface RecurringCommit {
       id: string;
 
@@ -3498,21 +2977,21 @@ export namespace ContractListResponse {
        */
       export interface HierarchyConfiguration {
         child_access:
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.UnionMember2;
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
       }
 
       export namespace HierarchyConfiguration {
-        export interface Type {
+        export interface CommitHierarchyChildAccessAll {
           type: 'ALL';
         }
 
-        export interface Type {
+        export interface CommitHierarchyChildAccessNone {
           type: 'NONE';
         }
 
-        export interface UnionMember2 {
+        export interface CommitHierarchyChildAccessContractIDs {
           contract_ids: Array<string>;
 
           type: 'CONTRACT_IDS';
@@ -3706,21 +3185,21 @@ export namespace ContractListResponse {
        */
       export interface HierarchyConfiguration {
         child_access:
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.UnionMember2;
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
       }
 
       export namespace HierarchyConfiguration {
-        export interface Type {
+        export interface CommitHierarchyChildAccessAll {
           type: 'ALL';
         }
 
-        export interface Type {
+        export interface CommitHierarchyChildAccessNone {
           type: 'NONE';
         }
 
-        export interface UnionMember2 {
+        export interface CommitHierarchyChildAccessContractIDs {
           contract_ids: Array<string>;
 
           type: 'CONTRACT_IDS';
@@ -3961,33 +3440,15 @@ export namespace ContractListResponse {
 }
 
 export interface ContractEditResponse {
-  data: ContractEditResponse.Data;
-}
-
-export namespace ContractEditResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface ContractEditCommitResponse {
-  data: ContractEditCommitResponse.Data;
-}
-
-export namespace ContractEditCommitResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface ContractEditCreditResponse {
-  data: ContractEditCreditResponse.Data;
-}
-
-export namespace ContractEditCreditResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface ContractGetEditHistoryResponse {
@@ -4002,13 +3463,13 @@ export namespace ContractGetEditHistoryResponse {
 
     add_credits?: Array<Data.AddCredit>;
 
-    add_discounts?: Array<Data.AddDiscount>;
+    add_discounts?: Array<Shared.Discount>;
 
     add_overrides?: Array<Data.AddOverride>;
 
     add_prepaid_balance_threshold_configuration?: Data.AddPrepaidBalanceThresholdConfiguration;
 
-    add_pro_services?: Array<Data.AddProService>;
+    add_pro_services?: Array<Shared.ProService>;
 
     add_recurring_commits?: Array<Data.AddRecurringCommit>;
 
@@ -4081,7 +3542,7 @@ export namespace ContractGetEditHistoryResponse {
        * The schedule that the customer will gain access to the credits purposed with
        * this commit.
        */
-      access_schedule?: AddCommit.AccessSchedule;
+      access_schedule?: Shared.ScheduleDuration;
 
       applicable_product_ids?: Array<string>;
 
@@ -4097,7 +3558,7 @@ export namespace ContractGetEditHistoryResponse {
       /**
        * The schedule that the customer will be invoiced for this commit.
        */
-      invoice_schedule?: AddCommit.InvoiceSchedule;
+      invoice_schedule?: Shared.SchedulePointInTime;
 
       name?: string;
 
@@ -4140,93 +3601,28 @@ export namespace ContractGetEditHistoryResponse {
       }
 
       /**
-       * The schedule that the customer will gain access to the credits purposed with
-       * this commit.
-       */
-      export interface AccessSchedule {
-        schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-        credit_type?: AccessSchedule.CreditType;
-      }
-
-      export namespace AccessSchedule {
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          ending_before: string;
-
-          starting_at: string;
-        }
-
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-      }
-
-      /**
        * Optional configuration for commit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.UnionMember2;
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
       }
 
       export namespace HierarchyConfiguration {
-        export interface Type {
+        export interface CommitHierarchyChildAccessAll {
           type: 'ALL';
         }
 
-        export interface Type {
+        export interface CommitHierarchyChildAccessNone {
           type: 'NONE';
         }
 
-        export interface UnionMember2 {
+        export interface CommitHierarchyChildAccessContractIDs {
           contract_ids: Array<string>;
 
           type: 'CONTRACT_IDS';
-        }
-      }
-
-      /**
-       * The schedule that the customer will be invoiced for this commit.
-       */
-      export interface InvoiceSchedule {
-        credit_type?: InvoiceSchedule.CreditType;
-
-        /**
-         * This field is only applicable to commit invoice schedules. If true, this
-         * schedule will not generate an invoice.
-         */
-        do_not_invoice?: boolean;
-
-        schedule_items?: Array<InvoiceSchedule.ScheduleItem>;
-      }
-
-      export namespace InvoiceSchedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-
-          invoice_id?: string | null;
         }
       }
 
@@ -4258,7 +3654,7 @@ export namespace ContractGetEditHistoryResponse {
       /**
        * The schedule that the customer will gain access to the credits.
        */
-      access_schedule?: AddCredit.AccessSchedule;
+      access_schedule?: Shared.ScheduleDuration;
 
       applicable_product_ids?: Array<string>;
 
@@ -4308,52 +3704,25 @@ export namespace ContractGetEditHistoryResponse {
       }
 
       /**
-       * The schedule that the customer will gain access to the credits.
-       */
-      export interface AccessSchedule {
-        schedule_items: Array<AccessSchedule.ScheduleItem>;
-
-        credit_type?: AccessSchedule.CreditType;
-      }
-
-      export namespace AccessSchedule {
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          ending_before: string;
-
-          starting_at: string;
-        }
-
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-      }
-
-      /**
        * Optional configuration for recurring credit hierarchy access control
        */
       export interface HierarchyConfiguration {
         child_access:
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.UnionMember2;
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
       }
 
       export namespace HierarchyConfiguration {
-        export interface Type {
+        export interface CommitHierarchyChildAccessAll {
           type: 'ALL';
         }
 
-        export interface Type {
+        export interface CommitHierarchyChildAccessNone {
           type: 'NONE';
         }
 
-        export interface UnionMember2 {
+        export interface CommitHierarchyChildAccessContractIDs {
           contract_ids: Array<string>;
 
           type: 'CONTRACT_IDS';
@@ -4375,65 +3744,6 @@ export namespace ContractGetEditHistoryResponse {
          * tags.
          */
         product_tags?: Array<string>;
-      }
-    }
-
-    export interface AddDiscount {
-      id: string;
-
-      product: AddDiscount.Product;
-
-      schedule: AddDiscount.Schedule;
-
-      custom_fields?: { [key: string]: string };
-
-      name?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
-    }
-
-    export namespace AddDiscount {
-      export interface Product {
-        id: string;
-
-        name: string;
-      }
-
-      export interface Schedule {
-        credit_type?: Schedule.CreditType;
-
-        /**
-         * This field is only applicable to commit invoice schedules. If true, this
-         * schedule will not generate an invoice.
-         */
-        do_not_invoice?: boolean;
-
-        schedule_items?: Array<Schedule.ScheduleItem>;
-      }
-
-      export namespace Schedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-
-          invoice_id?: string | null;
-        }
       }
     }
 
@@ -4495,7 +3805,7 @@ export namespace ContractGetEditHistoryResponse {
       export interface OverwriteRate {
         rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
 
-        credit_type?: OverwriteRate.CreditType;
+        credit_type?: Shared.CreditTypeData;
 
         /**
          * Only set for CUSTOM rate_type. This field is interpreted by custom rate
@@ -4523,21 +3833,7 @@ export namespace ContractGetEditHistoryResponse {
         /**
          * Only set for TIERED rate_type.
          */
-        tiers?: Array<OverwriteRate.Tier>;
-      }
-
-      export namespace OverwriteRate {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface Tier {
-          price: number;
-
-          size?: number;
-        }
+        tiers?: Array<Shared.Tier>;
       }
 
       export interface Product {
@@ -4700,38 +3996,6 @@ export namespace ContractGetEditHistoryResponse {
       }
     }
 
-    export interface AddProService {
-      id: string;
-
-      /**
-       * Maximum amount for the term.
-       */
-      max_amount: number;
-
-      product_id: string;
-
-      /**
-       * Quantity for the charge. Will be multiplied by unit_price to determine the
-       * amount.
-       */
-      quantity: number;
-
-      /**
-       * Unit price for the charge. Will be multiplied by quantity to determine the
-       * amount and must be specified.
-       */
-      unit_price: number;
-
-      custom_fields?: { [key: string]: string };
-
-      description?: string;
-
-      /**
-       * This field's availability is dependent on your client's configuration.
-       */
-      netsuite_sales_order_id?: string;
-    }
-
     export interface AddRecurringCommit {
       id: string;
 
@@ -4875,21 +4139,21 @@ export namespace ContractGetEditHistoryResponse {
        */
       export interface HierarchyConfiguration {
         child_access:
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.UnionMember2;
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
       }
 
       export namespace HierarchyConfiguration {
-        export interface Type {
+        export interface CommitHierarchyChildAccessAll {
           type: 'ALL';
         }
 
-        export interface Type {
+        export interface CommitHierarchyChildAccessNone {
           type: 'NONE';
         }
 
-        export interface UnionMember2 {
+        export interface CommitHierarchyChildAccessContractIDs {
           contract_ids: Array<string>;
 
           type: 'CONTRACT_IDS';
@@ -5083,21 +4347,21 @@ export namespace ContractGetEditHistoryResponse {
        */
       export interface HierarchyConfiguration {
         child_access:
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.UnionMember2;
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
       }
 
       export namespace HierarchyConfiguration {
-        export interface Type {
+        export interface CommitHierarchyChildAccessAll {
           type: 'ALL';
         }
 
-        export interface Type {
+        export interface CommitHierarchyChildAccessNone {
           type: 'NONE';
         }
 
-        export interface UnionMember2 {
+        export interface CommitHierarchyChildAccessContractIDs {
           contract_ids: Array<string>;
 
           type: 'CONTRACT_IDS';
@@ -5175,7 +4439,7 @@ export namespace ContractGetEditHistoryResponse {
 
       product: AddScheduledCharge.Product;
 
-      schedule: AddScheduledCharge.Schedule;
+      schedule: Shared.SchedulePointInTime;
 
       /**
        * displayed on invoices
@@ -5193,40 +4457,6 @@ export namespace ContractGetEditHistoryResponse {
         id: string;
 
         name: string;
-      }
-
-      export interface Schedule {
-        credit_type?: Schedule.CreditType;
-
-        /**
-         * This field is only applicable to commit invoice schedules. If true, this
-         * schedule will not generate an invoice.
-         */
-        do_not_invoice?: boolean;
-
-        schedule_items?: Array<Schedule.ScheduleItem>;
-      }
-
-      export namespace Schedule {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface ScheduleItem {
-          id: string;
-
-          amount: number;
-
-          quantity: number;
-
-          timestamp: string;
-
-          unit_price: number;
-
-          invoice_id?: string | null;
-        }
       }
     }
 
@@ -5522,21 +4752,21 @@ export namespace ContractGetEditHistoryResponse {
        */
       export interface HierarchyConfiguration {
         child_access:
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.UnionMember2;
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
       }
 
       export namespace HierarchyConfiguration {
-        export interface Type {
+        export interface CommitHierarchyChildAccessAll {
           type: 'ALL';
         }
 
-        export interface Type {
+        export interface CommitHierarchyChildAccessNone {
           type: 'NONE';
         }
 
-        export interface UnionMember2 {
+        export interface CommitHierarchyChildAccessContractIDs {
           contract_ids: Array<string>;
 
           type: 'CONTRACT_IDS';
@@ -5670,21 +4900,21 @@ export namespace ContractGetEditHistoryResponse {
        */
       export interface HierarchyConfiguration {
         child_access:
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.Type
-          | HierarchyConfiguration.UnionMember2;
+          | HierarchyConfiguration.CommitHierarchyChildAccessAll
+          | HierarchyConfiguration.CommitHierarchyChildAccessNone
+          | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
       }
 
       export namespace HierarchyConfiguration {
-        export interface Type {
+        export interface CommitHierarchyChildAccessAll {
           type: 'ALL';
         }
 
-        export interface Type {
+        export interface CommitHierarchyChildAccessNone {
           type: 'NONE';
         }
 
-        export interface UnionMember2 {
+        export interface CommitHierarchyChildAccessContractIDs {
           contract_ids: Array<string>;
 
           type: 'CONTRACT_IDS';
@@ -6473,21 +5703,21 @@ export namespace ContractEditParams {
      */
     export interface HierarchyConfiguration {
       child_access:
-        | HierarchyConfiguration.Type
-        | HierarchyConfiguration.Type
-        | HierarchyConfiguration.UnionMember2;
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
     }
 
     export namespace HierarchyConfiguration {
-      export interface Type {
+      export interface CommitHierarchyChildAccessAll {
         type: 'ALL';
       }
 
-      export interface Type {
+      export interface CommitHierarchyChildAccessNone {
         type: 'NONE';
       }
 
-      export interface UnionMember2 {
+      export interface CommitHierarchyChildAccessContractIDs {
         contract_ids: Array<string>;
 
         type: 'CONTRACT_IDS';
@@ -6772,21 +6002,21 @@ export namespace ContractEditParams {
      */
     export interface HierarchyConfiguration {
       child_access:
-        | HierarchyConfiguration.Type
-        | HierarchyConfiguration.Type
-        | HierarchyConfiguration.UnionMember2;
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
     }
 
     export namespace HierarchyConfiguration {
-      export interface Type {
+      export interface CommitHierarchyChildAccessAll {
         type: 'ALL';
       }
 
-      export interface Type {
+      export interface CommitHierarchyChildAccessNone {
         type: 'NONE';
       }
 
-      export interface UnionMember2 {
+      export interface CommitHierarchyChildAccessContractIDs {
         contract_ids: Array<string>;
 
         type: 'CONTRACT_IDS';
@@ -7092,15 +6322,7 @@ export namespace ContractEditParams {
       /**
        * Only set for TIERED rate_type.
        */
-      tiers?: Array<OverwriteRate.Tier>;
-    }
-
-    export namespace OverwriteRate {
-      export interface Tier {
-        price: number;
-
-        size?: number;
-      }
+      tiers?: Array<Shared.Tier>;
     }
 
     export interface Tier {
@@ -7439,21 +6661,21 @@ export namespace ContractEditParams {
      */
     export interface HierarchyConfiguration {
       child_access:
-        | HierarchyConfiguration.Type
-        | HierarchyConfiguration.Type
-        | HierarchyConfiguration.UnionMember2;
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
     }
 
     export namespace HierarchyConfiguration {
-      export interface Type {
+      export interface CommitHierarchyChildAccessAll {
         type: 'ALL';
       }
 
-      export interface Type {
+      export interface CommitHierarchyChildAccessNone {
         type: 'NONE';
       }
 
-      export interface UnionMember2 {
+      export interface CommitHierarchyChildAccessContractIDs {
         contract_ids: Array<string>;
 
         type: 'CONTRACT_IDS';
@@ -7656,21 +6878,21 @@ export namespace ContractEditParams {
      */
     export interface HierarchyConfiguration {
       child_access:
-        | HierarchyConfiguration.Type
-        | HierarchyConfiguration.Type
-        | HierarchyConfiguration.UnionMember2;
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
     }
 
     export namespace HierarchyConfiguration {
-      export interface Type {
+      export interface CommitHierarchyChildAccessAll {
         type: 'ALL';
       }
 
-      export interface Type {
+      export interface CommitHierarchyChildAccessNone {
         type: 'NONE';
       }
 
-      export interface UnionMember2 {
+      export interface CommitHierarchyChildAccessContractIDs {
         contract_ids: Array<string>;
 
         type: 'CONTRACT_IDS';
@@ -8142,21 +7364,21 @@ export namespace ContractEditParams {
      */
     export interface HierarchyConfiguration {
       child_access:
-        | HierarchyConfiguration.Type
-        | HierarchyConfiguration.Type
-        | HierarchyConfiguration.UnionMember2;
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
     }
 
     export namespace HierarchyConfiguration {
-      export interface Type {
+      export interface CommitHierarchyChildAccessAll {
         type: 'ALL';
       }
 
-      export interface Type {
+      export interface CommitHierarchyChildAccessNone {
         type: 'NONE';
       }
 
-      export interface UnionMember2 {
+      export interface CommitHierarchyChildAccessContractIDs {
         contract_ids: Array<string>;
 
         type: 'CONTRACT_IDS';
@@ -8226,6 +7448,8 @@ export namespace ContractEditParams {
 
     netsuite_sales_order_id?: string | null;
 
+    priority?: number | null;
+
     product_id?: string;
   }
 
@@ -8267,21 +7491,21 @@ export namespace ContractEditParams {
      */
     export interface HierarchyConfiguration {
       child_access:
-        | HierarchyConfiguration.Type
-        | HierarchyConfiguration.Type
-        | HierarchyConfiguration.UnionMember2;
+        | HierarchyConfiguration.CommitHierarchyChildAccessAll
+        | HierarchyConfiguration.CommitHierarchyChildAccessNone
+        | HierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
     }
 
     export namespace HierarchyConfiguration {
-      export interface Type {
+      export interface CommitHierarchyChildAccessAll {
         type: 'ALL';
       }
 
-      export interface Type {
+      export interface CommitHierarchyChildAccessNone {
         type: 'NONE';
       }
 
-      export interface UnionMember2 {
+      export interface CommitHierarchyChildAccessContractIDs {
         contract_ids: Array<string>;
 
         type: 'CONTRACT_IDS';

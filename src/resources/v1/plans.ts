@@ -1,6 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as Shared from '../shared';
+import * as CustomersAPI from './customers/customers';
 import { APIPromise } from '../../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../../core/pagination';
 import { RequestOptions } from '../../internal/request-options';
@@ -98,6 +100,76 @@ export type PlanListChargesResponsesCursorPage = CursorPage<PlanListChargesRespo
 
 export type PlanListCustomersResponsesCursorPage = CursorPage<PlanListCustomersResponse>;
 
+export interface PlanDetail {
+  id: string;
+
+  custom_fields: { [key: string]: string };
+
+  name: string;
+
+  credit_grants?: Array<PlanDetail.CreditGrant>;
+
+  description?: string;
+
+  minimums?: Array<PlanDetail.Minimum>;
+
+  overage_rates?: Array<PlanDetail.OverageRate>;
+}
+
+export namespace PlanDetail {
+  export interface CreditGrant {
+    amount_granted: number;
+
+    amount_granted_credit_type: Shared.CreditTypeData;
+
+    amount_paid: number;
+
+    amount_paid_credit_type: Shared.CreditTypeData;
+
+    effective_duration: number;
+
+    name: string;
+
+    priority: string;
+
+    send_invoice: boolean;
+
+    reason?: string;
+
+    recurrence_duration?: number;
+
+    recurrence_interval?: number;
+  }
+
+  export interface Minimum {
+    credit_type: Shared.CreditTypeData;
+
+    name: string;
+
+    /**
+     * Used in price ramps. Indicates how many billing periods pass before the charge
+     * applies.
+     */
+    start_period: number;
+
+    value: number;
+  }
+
+  export interface OverageRate {
+    credit_type: Shared.CreditTypeData;
+
+    fiat_credit_type: Shared.CreditTypeData;
+
+    /**
+     * Used in price ramps. Indicates how many billing periods pass before the charge
+     * applies.
+     */
+    start_period: number;
+
+    to_fiat_conversion_factor: number;
+  }
+}
+
 export interface PlanListResponse {
   id: string;
 
@@ -109,115 +181,7 @@ export interface PlanListResponse {
 }
 
 export interface PlanGetDetailsResponse {
-  data: PlanGetDetailsResponse.Data;
-}
-
-export namespace PlanGetDetailsResponse {
-  export interface Data {
-    id: string;
-
-    custom_fields: { [key: string]: string };
-
-    name: string;
-
-    credit_grants?: Array<Data.CreditGrant>;
-
-    description?: string;
-
-    minimums?: Array<Data.Minimum>;
-
-    overage_rates?: Array<Data.OverageRate>;
-  }
-
-  export namespace Data {
-    export interface CreditGrant {
-      amount_granted: number;
-
-      amount_granted_credit_type: CreditGrant.AmountGrantedCreditType;
-
-      amount_paid: number;
-
-      amount_paid_credit_type: CreditGrant.AmountPaidCreditType;
-
-      effective_duration: number;
-
-      name: string;
-
-      priority: string;
-
-      send_invoice: boolean;
-
-      reason?: string;
-
-      recurrence_duration?: number;
-
-      recurrence_interval?: number;
-    }
-
-    export namespace CreditGrant {
-      export interface AmountGrantedCreditType {
-        id: string;
-
-        name: string;
-      }
-
-      export interface AmountPaidCreditType {
-        id: string;
-
-        name: string;
-      }
-    }
-
-    export interface Minimum {
-      credit_type: Minimum.CreditType;
-
-      name: string;
-
-      /**
-       * Used in price ramps. Indicates how many billing periods pass before the charge
-       * applies.
-       */
-      start_period: number;
-
-      value: number;
-    }
-
-    export namespace Minimum {
-      export interface CreditType {
-        id: string;
-
-        name: string;
-      }
-    }
-
-    export interface OverageRate {
-      credit_type: OverageRate.CreditType;
-
-      fiat_credit_type: OverageRate.FiatCreditType;
-
-      /**
-       * Used in price ramps. Indicates how many billing periods pass before the charge
-       * applies.
-       */
-      start_period: number;
-
-      to_fiat_conversion_factor: number;
-    }
-
-    export namespace OverageRate {
-      export interface CreditType {
-        id: string;
-
-        name: string;
-      }
-
-      export interface FiatCreditType {
-        id: string;
-
-        name: string;
-      }
-    }
-  }
+  data: PlanDetail;
 }
 
 export interface PlanListChargesResponse {
@@ -225,7 +189,7 @@ export interface PlanListChargesResponse {
 
   charge_type: 'usage' | 'fixed' | 'composite' | 'minimum' | 'seat';
 
-  credit_type: PlanListChargesResponse.CreditType;
+  credit_type: Shared.CreditTypeData;
 
   custom_fields: { [key: string]: string };
 
@@ -258,12 +222,6 @@ export interface PlanListChargesResponse {
 }
 
 export namespace PlanListChargesResponse {
-  export interface CreditType {
-    id: string;
-
-    name: string;
-  }
-
   export interface Price {
     /**
      * Used in pricing tiers. Indicates at what metric value the price applies.
@@ -297,71 +255,12 @@ export namespace PlanListChargesResponse {
 }
 
 export interface PlanListCustomersResponse {
-  customer_details: PlanListCustomersResponse.CustomerDetails;
+  customer_details: CustomersAPI.CustomerDetail;
 
   plan_details: PlanListCustomersResponse.PlanDetails;
 }
 
 export namespace PlanListCustomersResponse {
-  export interface CustomerDetails {
-    /**
-     * the Metronome ID of the customer
-     */
-    id: string;
-
-    /**
-     * RFC 3339 timestamp indicating when the customer was created.
-     */
-    created_at: string;
-
-    custom_fields: { [key: string]: string };
-
-    customer_config: CustomerDetails.CustomerConfig;
-
-    /**
-     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
-     * alias) that can be used in usage events
-     */
-    external_id: string;
-
-    /**
-     * aliases for this customer that can be used instead of the Metronome customer ID
-     * in usage events
-     */
-    ingest_aliases: Array<string>;
-
-    name: string;
-
-    /**
-     * RFC 3339 timestamp indicating when the customer was archived. Null if the
-     * customer is active.
-     */
-    archived_at?: string | null;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    current_billable_status?: CustomerDetails.CurrentBillableStatus;
-  }
-
-  export namespace CustomerDetails {
-    export interface CustomerConfig {
-      /**
-       * The Salesforce account ID for the customer
-       */
-      salesforce_account_id: string | null;
-    }
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    export interface CurrentBillableStatus {
-      value: 'billable' | 'unbillable';
-
-      effective_at?: string | null;
-    }
-  }
-
   export interface PlanDetails {
     id: string;
 
@@ -418,6 +317,7 @@ export interface PlanListCustomersParams extends CursorPageParams {
 
 export declare namespace Plans {
   export {
+    type PlanDetail as PlanDetail,
     type PlanListResponse as PlanListResponse,
     type PlanGetDetailsResponse as PlanGetDetailsResponse,
     type PlanListChargesResponse as PlanListChargesResponse,

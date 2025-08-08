@@ -35,6 +35,9 @@ export {
 } from './named-schedules';
 export {
   Products,
+  type ProductListItemState,
+  type QuantityConversion,
+  type QuantityRounding,
   type ProductCreateResponse,
   type ProductRetrieveResponse,
   type ProductUpdateResponse,

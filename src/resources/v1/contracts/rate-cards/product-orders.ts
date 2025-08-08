@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../../core/resource';
+import * as Shared from '../../../shared';
 import { APIPromise } from '../../../../core/api-promise';
 import { RequestOptions } from '../../../../internal/request-options';
 
@@ -54,23 +55,11 @@ export class ProductOrders extends APIResource {
 }
 
 export interface ProductOrderUpdateResponse {
-  data: ProductOrderUpdateResponse.Data;
-}
-
-export namespace ProductOrderUpdateResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface ProductOrderSetResponse {
-  data: ProductOrderSetResponse.Data;
-}
-
-export namespace ProductOrderSetResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface ProductOrderUpdateParams {

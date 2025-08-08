@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
+import * as Shared from '../../shared';
 import { APIPromise } from '../../../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../../../core/pagination';
 import { RequestOptions } from '../../../internal/request-options';
@@ -146,27 +147,13 @@ export namespace PlanListResponse {
 
       amount_remaining: number;
 
-      credit_type: SpendingCap.CreditType;
-    }
-
-    export namespace SpendingCap {
-      export interface CreditType {
-        id: string;
-
-        name: string;
-      }
+      credit_type: Shared.CreditTypeData;
     }
   }
 }
 
 export interface PlanAddResponse {
-  data: PlanAddResponse.Data;
-}
-
-export namespace PlanAddResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface PlanEndResponse {}
