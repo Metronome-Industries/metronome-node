@@ -1872,6 +1872,18 @@ export namespace ContractCreateParams {
          * your payment type.
          */
         invoice_metadata?: { [key: string]: string };
+
+        /**
+         * If true, the payment will be made assuming the customer is present (i.e. on
+         * session).
+         *
+         * If false, the payment will be made assuming the customer is not present (i.e.
+         * off session). For cardholders from a country with an e-mandate requirement (e.g.
+         * India), the payment may be declined.
+         *
+         * If left blank, will default to false.
+         */
+        on_session_payment?: boolean;
       }
     }
 
@@ -3781,6 +3793,18 @@ export namespace ContractAmendParams {
          * your payment type.
          */
         invoice_metadata?: { [key: string]: string };
+
+        /**
+         * If true, the payment will be made assuming the customer is present (i.e. on
+         * session).
+         *
+         * If false, the payment will be made assuming the customer is not present (i.e.
+         * off session). For cardholders from a country with an e-mandate requirement (e.g.
+         * India), the payment may be declined.
+         *
+         * If left blank, will default to false.
+         */
+        on_session_payment?: boolean;
       }
     }
 

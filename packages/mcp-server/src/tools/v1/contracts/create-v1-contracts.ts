@@ -306,6 +306,11 @@ export const tool: Tool = {
                       description:
                         'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
                     },
+                    on_session_payment: {
+                      type: 'boolean',
+                      description:
+                        'If true, the payment will be made assuming the customer is present (i.e. on session). \n\nIf false, the payment will be made assuming the customer is not present (i.e. off session). \nFor cardholders from a country with an e-mandate requirement (e.g. India), the payment may be declined.\n\nIf left blank, will default to false.',
+                    },
                   },
                   required: ['payment_type'],
                 },
