@@ -43,9 +43,6 @@ import {
   CreditGrantVoidParams,
   CreditGrantVoidResponse,
   CreditGrants,
-  CreditLedgerEntry,
-  RolloverAmountMaxAmount,
-  RolloverAmountMaxPercentage,
 } from './credit-grants';
 import * as CustomFieldsAPI from './custom-fields';
 import {
@@ -69,7 +66,6 @@ import {
 } from './invoices';
 import * as PlansAPI from './plans';
 import {
-  PlanDetail,
   PlanGetDetailsParams,
   PlanGetDetailsResponse,
   PlanListChargesParams,
@@ -134,13 +130,10 @@ import {
 } from './contracts/contracts';
 import * as CustomersAPI from './customers/customers';
 import {
-  Customer,
   CustomerArchiveParams,
   CustomerArchiveResponse,
   CustomerCreateParams,
   CustomerCreateResponse,
-  CustomerDetail,
-  CustomerDetailsCursorPage,
   CustomerListBillableMetricsParams,
   CustomerListBillableMetricsResponse,
   CustomerListBillableMetricsResponsesCursorPage,
@@ -148,6 +141,8 @@ import {
   CustomerListCostsResponse,
   CustomerListCostsResponsesCursorPage,
   CustomerListParams,
+  CustomerListResponse,
+  CustomerListResponsesCursorPage,
   CustomerPreviewEventsParams,
   CustomerPreviewEventsResponse,
   CustomerRetrieveParams,
@@ -185,7 +180,7 @@ V1.CreditGrantListResponsesCursorPage = CreditGrantListResponsesCursorPage;
 V1.PricingUnits = PricingUnits;
 V1.PricingUnitListResponsesCursorPage = PricingUnitListResponsesCursorPage;
 V1.Customers = Customers;
-V1.CustomerDetailsCursorPage = CustomerDetailsCursorPage;
+V1.CustomerListResponsesCursorPage = CustomerListResponsesCursorPage;
 V1.CustomerListBillableMetricsResponsesCursorPage = CustomerListBillableMetricsResponsesCursorPage;
 V1.CustomerListCostsResponsesCursorPage = CustomerListCostsResponsesCursorPage;
 V1.Dashboards = Dashboards;
@@ -211,7 +206,6 @@ export declare namespace V1 {
 
   export {
     Plans as Plans,
-    type PlanDetail as PlanDetail,
     type PlanListResponse as PlanListResponse,
     type PlanGetDetailsResponse as PlanGetDetailsResponse,
     type PlanListChargesResponse as PlanListChargesResponse,
@@ -227,9 +221,6 @@ export declare namespace V1 {
 
   export {
     CreditGrants as CreditGrants,
-    type CreditLedgerEntry as CreditLedgerEntry,
-    type RolloverAmountMaxAmount as RolloverAmountMaxAmount,
-    type RolloverAmountMaxPercentage as RolloverAmountMaxPercentage,
     type CreditGrantCreateResponse as CreditGrantCreateResponse,
     type CreditGrantListResponse as CreditGrantListResponse,
     type CreditGrantEditResponse as CreditGrantEditResponse,
@@ -252,16 +243,15 @@ export declare namespace V1 {
 
   export {
     Customers as Customers,
-    type Customer as Customer,
-    type CustomerDetail as CustomerDetail,
     type CustomerCreateResponse as CustomerCreateResponse,
     type CustomerRetrieveResponse as CustomerRetrieveResponse,
+    type CustomerListResponse as CustomerListResponse,
     type CustomerArchiveResponse as CustomerArchiveResponse,
     type CustomerListBillableMetricsResponse as CustomerListBillableMetricsResponse,
     type CustomerListCostsResponse as CustomerListCostsResponse,
     type CustomerPreviewEventsResponse as CustomerPreviewEventsResponse,
     type CustomerSetNameResponse as CustomerSetNameResponse,
-    CustomerDetailsCursorPage as CustomerDetailsCursorPage,
+    CustomerListResponsesCursorPage as CustomerListResponsesCursorPage,
     CustomerListBillableMetricsResponsesCursorPage as CustomerListBillableMetricsResponsesCursorPage,
     CustomerListCostsResponsesCursorPage as CustomerListCostsResponsesCursorPage,
     type CustomerCreateParams as CustomerCreateParams,

@@ -3,8 +3,6 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
-import * as CreditGrantsAPI from './credit-grants';
-import * as Shared from '../shared';
 import { CursorPage, type CursorPageParams } from '../../pagination';
 
 export class CreditGrants extends APIResource {
@@ -149,63 +147,14 @@ export class CreditGrants extends APIResource {
 
 export class CreditGrantListResponsesCursorPage extends CursorPage<CreditGrantListResponse> {}
 
-export interface CreditLedgerEntry {
-  /**
-   * an amount representing the change to the customer's credit balance
-   */
-  amount: number;
-
-  created_by: string;
-
-  /**
-   * the credit grant this entry is related to
-   */
-  credit_grant_id: string;
-
-  effective_at: string;
-
-  reason: string;
-
-  /**
-   * the running balance for this credit type at the time of the ledger entry,
-   * including all preceding charges
-   */
-  running_balance: number;
-
-  /**
-   * if this entry is a deduction, the Metronome ID of the invoice where the credit
-   * deduction was consumed; if this entry is a grant, the Metronome ID of the
-   * invoice where the grant's paid_amount was charged
-   */
-  invoice_id?: string | null;
-}
-
-export interface RolloverAmountMaxAmount {
-  /**
-   * Rollover up to a fixed amount of the original credit grant amount.
-   */
-  type: 'MAX_AMOUNT';
-
-  /**
-   * The maximum amount to rollover.
-   */
-  value: number;
-}
-
-export interface RolloverAmountMaxPercentage {
-  /**
-   * Rollover up to a percentage of the original credit grant amount.
-   */
-  type: 'MAX_PERCENTAGE';
-
-  /**
-   * The maximum percentage (0-1) of the original credit grant to rollover.
-   */
-  value: number;
-}
-
 export interface CreditGrantCreateResponse {
-  data: Shared.ID;
+  data: CreditGrantCreateResponse.Data;
+}
+
+export namespace CreditGrantCreateResponse {
+  export interface Data {
+    id: string;
+  }
 }
 
 export interface CreditGrantListResponse {
@@ -228,7 +177,7 @@ export interface CreditGrantListResponse {
    */
   customer_id: string;
 
-  deductions: Array<CreditLedgerEntry>;
+  deductions: Array<CreditGrantListResponse.Deduction>;
 
   effective_at: string;
 
@@ -246,7 +195,7 @@ export interface CreditGrantListResponse {
    */
   paid_amount: CreditGrantListResponse.PaidAmount;
 
-  pending_deductions: Array<CreditLedgerEntry>;
+  pending_deductions: Array<CreditGrantListResponse.PendingDeduction>;
 
   priority: number;
 
@@ -300,6 +249,37 @@ export namespace CreditGrantListResponse {
     including_pending: number;
   }
 
+  export interface Deduction {
+    /**
+     * an amount representing the change to the customer's credit balance
+     */
+    amount: number;
+
+    created_by: string;
+
+    /**
+     * the credit grant this entry is related to
+     */
+    credit_grant_id: string;
+
+    effective_at: string;
+
+    reason: string;
+
+    /**
+     * the running balance for this credit type at the time of the ledger entry,
+     * including all preceding charges
+     */
+    running_balance: number;
+
+    /**
+     * if this entry is a deduction, the Metronome ID of the invoice where the credit
+     * deduction was consumed; if this entry is a grant, the Metronome ID of the
+     * invoice where the grant's paid_amount was charged
+     */
+    invoice_id?: string | null;
+  }
+
   /**
    * the amount of credits initially granted
    */
@@ -309,7 +289,18 @@ export namespace CreditGrantListResponse {
     /**
      * the credit type for the amount granted
      */
-    credit_type: Shared.CreditTypeData;
+    credit_type: GrantAmount.CreditType;
+  }
+
+  export namespace GrantAmount {
+    /**
+     * the credit type for the amount granted
+     */
+    export interface CreditType {
+      id: string;
+
+      name: string;
+    }
   }
 
   /**
@@ -321,7 +312,49 @@ export namespace CreditGrantListResponse {
     /**
      * the credit type for the amount paid
      */
-    credit_type: Shared.CreditTypeData;
+    credit_type: PaidAmount.CreditType;
+  }
+
+  export namespace PaidAmount {
+    /**
+     * the credit type for the amount paid
+     */
+    export interface CreditType {
+      id: string;
+
+      name: string;
+    }
+  }
+
+  export interface PendingDeduction {
+    /**
+     * an amount representing the change to the customer's credit balance
+     */
+    amount: number;
+
+    created_by: string;
+
+    /**
+     * the credit grant this entry is related to
+     */
+    credit_grant_id: string;
+
+    effective_at: string;
+
+    reason: string;
+
+    /**
+     * the running balance for this credit type at the time of the ledger entry,
+     * including all preceding charges
+     */
+    running_balance: number;
+
+    /**
+     * if this entry is a deduction, the Metronome ID of the invoice where the credit
+     * deduction was consumed; if this entry is a grant, the Metronome ID of the
+     * invoice where the grant's paid_amount was charged
+     */
+    invoice_id?: string | null;
   }
 
   export interface Product {
@@ -332,7 +365,13 @@ export namespace CreditGrantListResponse {
 }
 
 export interface CreditGrantEditResponse {
-  data: Shared.ID;
+  data: CreditGrantEditResponse.Data;
+}
+
+export namespace CreditGrantEditResponse {
+  export interface Data {
+    id: string;
+  }
 }
 
 export interface CreditGrantListEntriesResponse {
@@ -350,21 +389,27 @@ export namespace CreditGrantListEntriesResponse {
 
   export namespace Data {
     export interface Ledger {
-      credit_type: Shared.CreditTypeData;
+      credit_type: Ledger.CreditType;
 
       /**
        * the effective balances at the end of the specified time window
        */
       ending_balance: Ledger.EndingBalance;
 
-      entries: Array<CreditGrantsAPI.CreditLedgerEntry>;
+      entries: Array<Ledger.Entry>;
 
-      pending_entries: Array<CreditGrantsAPI.CreditLedgerEntry>;
+      pending_entries: Array<Ledger.PendingEntry>;
 
       starting_balance: Ledger.StartingBalance;
     }
 
     export namespace Ledger {
+      export interface CreditType {
+        id: string;
+
+        name: string;
+      }
+
       /**
        * the effective balances at the end of the specified time window
        */
@@ -387,6 +432,68 @@ export namespace CreditGrantListEntriesResponse {
          * expirations that will happen by the effective_at date
          */
         including_pending: number;
+      }
+
+      export interface Entry {
+        /**
+         * an amount representing the change to the customer's credit balance
+         */
+        amount: number;
+
+        created_by: string;
+
+        /**
+         * the credit grant this entry is related to
+         */
+        credit_grant_id: string;
+
+        effective_at: string;
+
+        reason: string;
+
+        /**
+         * the running balance for this credit type at the time of the ledger entry,
+         * including all preceding charges
+         */
+        running_balance: number;
+
+        /**
+         * if this entry is a deduction, the Metronome ID of the invoice where the credit
+         * deduction was consumed; if this entry is a grant, the Metronome ID of the
+         * invoice where the grant's paid_amount was charged
+         */
+        invoice_id?: string | null;
+      }
+
+      export interface PendingEntry {
+        /**
+         * an amount representing the change to the customer's credit balance
+         */
+        amount: number;
+
+        created_by: string;
+
+        /**
+         * the credit grant this entry is related to
+         */
+        credit_grant_id: string;
+
+        effective_at: string;
+
+        reason: string;
+
+        /**
+         * the running balance for this credit type at the time of the ledger entry,
+         * including all preceding charges
+         */
+        running_balance: number;
+
+        /**
+         * if this entry is a deduction, the Metronome ID of the invoice where the credit
+         * deduction was consumed; if this entry is a grant, the Metronome ID of the
+         * invoice where the grant's paid_amount was charged
+         */
+        invoice_id?: string | null;
       }
 
       export interface StartingBalance {
@@ -413,7 +520,13 @@ export namespace CreditGrantListEntriesResponse {
 }
 
 export interface CreditGrantVoidResponse {
-  data: Shared.ID;
+  data: CreditGrantVoidResponse.Data;
+}
+
+export namespace CreditGrantVoidResponse {
+  export interface Data {
+    id: string;
+  }
 }
 
 export interface CreditGrantCreateParams {
@@ -532,7 +645,33 @@ export namespace CreditGrantCreateParams {
     /**
      * Specify how much to rollover to the rollover credit grant
      */
-    rollover_amount: CreditGrantsAPI.RolloverAmountMaxPercentage | CreditGrantsAPI.RolloverAmountMaxAmount;
+    rollover_amount: RolloverSettings.UnionMember0 | RolloverSettings.UnionMember1;
+  }
+
+  export namespace RolloverSettings {
+    export interface UnionMember0 {
+      /**
+       * Rollover up to a percentage of the original credit grant amount.
+       */
+      type: 'MAX_PERCENTAGE';
+
+      /**
+       * The maximum percentage (0-1) of the original credit grant to rollover.
+       */
+      value: number;
+    }
+
+    export interface UnionMember1 {
+      /**
+       * Rollover up to a fixed amount of the original credit grant amount.
+       */
+      type: 'MAX_AMOUNT';
+
+      /**
+       * The maximum amount to rollover.
+       */
+      value: number;
+    }
   }
 }
 
@@ -645,9 +784,6 @@ CreditGrants.CreditGrantListResponsesCursorPage = CreditGrantListResponsesCursor
 
 export declare namespace CreditGrants {
   export {
-    type CreditLedgerEntry as CreditLedgerEntry,
-    type RolloverAmountMaxAmount as RolloverAmountMaxAmount,
-    type RolloverAmountMaxPercentage as RolloverAmountMaxPercentage,
     type CreditGrantCreateResponse as CreditGrantCreateResponse,
     type CreditGrantListResponse as CreditGrantListResponse,
     type CreditGrantEditResponse as CreditGrantEditResponse,
