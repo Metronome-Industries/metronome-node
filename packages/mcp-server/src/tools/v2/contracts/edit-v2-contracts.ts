@@ -259,7 +259,7 @@ export const tool: Tool = {
                     tax_amount: {
                       type: 'number',
                       description:
-                        "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
+                        "Amount of tax to be applied. This should be in the same currency and denomination as the commit's invoice schedule",
                     },
                     tax_name: {
                       type: 'string',
@@ -283,13 +283,18 @@ export const tool: Tool = {
                       description:
                         'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
                     },
+                    on_session_payment: {
+                      type: 'boolean',
+                      description:
+                        'If true, the payment will be made assuming the customer is present (i.e. on session). \n\nIf false, the payment will be made assuming the customer is not present (i.e. off session). \nFor cardholders from a country with an e-mandate requirement (e.g. India), the payment may be declined.\n\nIf left blank, will default to false.',
+                    },
                   },
                   required: ['payment_type'],
                 },
                 tax_type: {
                   type: 'string',
                   description:
-                    'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish  Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
+                    'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
                   enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
                 },
               },

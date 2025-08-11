@@ -114,7 +114,11 @@ describe('resource contracts', () => {
           payment_gate_config: {
             payment_gate_type: 'NONE',
             precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
-            stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
+            stripe_config: {
+              payment_type: 'INVOICE',
+              invoice_metadata: { foo: 'string' },
+              on_session_payment: true,
+            },
             tax_type: 'NONE',
           },
           priority: 0,
