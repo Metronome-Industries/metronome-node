@@ -383,6 +383,7 @@ describe('resource contracts', () => {
               { timestamp: '2020-02-15T00:00:00.000Z', amount: 0, quantity: 1, unit_price: 1000000 },
             ],
           },
+          custom_fields: { foo: 'string' },
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
         },

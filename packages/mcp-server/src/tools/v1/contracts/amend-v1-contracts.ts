@@ -1019,6 +1019,9 @@ export const tool: Tool = {
                 },
               },
             },
+            custom_fields: {
+              type: 'object',
+            },
             name: {
               type: 'string',
               description: 'displayed on invoices',

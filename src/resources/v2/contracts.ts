@@ -7012,6 +7012,8 @@ export namespace ContractEditParams {
      */
     schedule: AddScheduledCharge.Schedule;
 
+    custom_fields?: { [key: string]: string };
+
     /**
      * displayed on invoices
      */

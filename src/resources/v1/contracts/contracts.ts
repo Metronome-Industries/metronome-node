@@ -3000,6 +3000,8 @@ export namespace ContractCreateParams {
      */
     schedule: ScheduledCharge.Schedule;
 
+    custom_fields?: { [key: string]: string };
+
     /**
      * displayed on invoices
      */
@@ -4336,6 +4338,8 @@ export namespace ContractAmendParams {
      * Must provide either schedule_items or recurring_schedule.
      */
     schedule: ScheduledCharge.Schedule;
+
+    custom_fields?: { [key: string]: string };
 
     /**
      * displayed on invoices
