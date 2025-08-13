@@ -208,6 +208,15 @@ export namespace Invoice {
     total: number;
 
     /**
+     * The type of line item. Possible values are 'aws_royalty',
+     * 'applied_commit_or_credit', 'scheduled', 'commit_purchase', 'cpu_conversion',
+     * 'discount', 'gcp_royalty', 'postpaid_trueup', 'professional_services',
+     * 'subscription', 'usage', 'legacy', 'minimum', 'product_charge',
+     * 'trial_discount', 'rollover', 'seat', 'grouped_charge'.
+     */
+    type: string;
+
+    /**
      * Details about the credit or commit that was applied to this line item. Only
      * present on line items with product of `USAGE`, `SUBSCRIPTION` or `COMPOSITE`
      * types.
