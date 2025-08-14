@@ -23,6 +23,7 @@ export const tool: Tool = {
     properties: {
       custom_fields: {
         type: 'object',
+        additionalProperties: true,
       },
       entity: {
         type: 'string',
