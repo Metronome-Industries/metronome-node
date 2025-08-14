@@ -99,6 +99,7 @@ export const tool: Tool = {
       },
       custom_fields: {
         type: 'object',
+        additionalProperties: true,
       },
       description: {
         type: 'string',
@@ -221,9 +222,11 @@ export const tool: Tool = {
           properties: {
             presentation_group_values: {
               type: 'object',
+              additionalProperties: true,
             },
             pricing_group_values: {
               type: 'object',
+              additionalProperties: true,
             },
             product_id: {
               type: 'string',
