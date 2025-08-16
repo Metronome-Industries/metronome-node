@@ -174,6 +174,10 @@ export const tool: Tool = {
           },
         },
       },
+      priority: {
+        type: 'number',
+        description: 'If multiple commits are applicable, the one with the lower priority will apply first.',
+      },
       product_id: {
         type: 'string',
       },
@@ -186,9 +190,11 @@ export const tool: Tool = {
           properties: {
             presentation_group_values: {
               type: 'object',
+              additionalProperties: true,
             },
             pricing_group_values: {
               type: 'object',
+              additionalProperties: true,
             },
             product_id: {
               type: 'string',

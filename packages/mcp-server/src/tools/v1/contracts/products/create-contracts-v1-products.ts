@@ -48,6 +48,10 @@ export const tool: Tool = {
           type: 'string',
         },
       },
+      custom_fields: {
+        type: 'object',
+        additionalProperties: true,
+      },
       exclude_free_usage: {
         type: 'boolean',
         description:

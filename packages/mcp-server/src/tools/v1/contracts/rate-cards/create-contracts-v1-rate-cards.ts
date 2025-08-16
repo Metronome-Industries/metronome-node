@@ -66,6 +66,7 @@ export const tool: Tool = {
       },
       custom_fields: {
         type: 'object',
+        additionalProperties: true,
       },
       description: {
         type: 'string',

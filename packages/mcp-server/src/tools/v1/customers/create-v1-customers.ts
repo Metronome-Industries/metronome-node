@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'create_v1_customers',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nCreate a new customer\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      $ref: '#/$defs/customer'\n    }\n  },\n  required: [    'data'\n  ],\n  $defs: {\n    customer: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string',\n          description: 'the Metronome ID of the customer'\n        },\n        external_id: {\n          type: 'string',\n          description: '(deprecated, use ingest_aliases instead) the first ID (Metronome or ingest alias) that can be used in usage events'\n        },\n        ingest_aliases: {\n          type: 'array',\n          description: 'aliases for this customer that can be used instead of the Metronome customer ID in usage events',\n          items: {\n            type: 'string'\n          }\n        },\n        name: {\n          type: 'string'\n        },\n        custom_fields: {\n          type: 'object'\n        }\n      },\n      required: [        'id',\n        'external_id',\n        'ingest_aliases',\n        'name'\n      ]\n    }\n  }\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nCreate a new customer\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      $ref: '#/$defs/customer'\n    }\n  },\n  required: [    'data'\n  ],\n  $defs: {\n    customer: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string',\n          description: 'the Metronome ID of the customer'\n        },\n        external_id: {\n          type: 'string',\n          description: '(deprecated, use ingest_aliases instead) the first ID (Metronome or ingest alias) that can be used in usage events'\n        },\n        ingest_aliases: {\n          type: 'array',\n          description: 'aliases for this customer that can be used instead of the Metronome customer ID in usage events',\n          items: {\n            type: 'string'\n          }\n        },\n        name: {\n          type: 'string'\n        },\n        custom_fields: {\n          type: 'object',\n          additionalProperties: true\n        }\n      },\n      required: [        'id',\n        'external_id',\n        'ingest_aliases',\n        'name'\n      ]\n    }\n  }\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
@@ -91,6 +91,7 @@ export const tool: Tool = {
       },
       custom_fields: {
         type: 'object',
+        additionalProperties: true,
       },
       customer_billing_provider_configurations: {
         type: 'array',
@@ -106,6 +107,7 @@ export const tool: Tool = {
               type: 'object',
               description:
                 'Configuration for the billing provider. The structure of this object is specific to the billing provider and delivery provider combination. Defaults to an empty object, however, for most billing provider + delivery method combinations, it will not be a valid configuration.',
+              additionalProperties: true,
             },
             delivery_method: {
               type: 'string',

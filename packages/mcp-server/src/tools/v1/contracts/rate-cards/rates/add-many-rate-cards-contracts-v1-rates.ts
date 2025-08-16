@@ -84,6 +84,7 @@ export const tool: Tool = {
               type: 'object',
               description:
                 'Only set for CUSTOM rate_type. This field is interpreted by custom rate processors.',
+              additionalProperties: true,
             },
             ending_before: {
               type: 'string',
@@ -104,6 +105,7 @@ export const tool: Tool = {
               type: 'object',
               description:
                 'Optional. List of pricing group key value pairs which will be used to calculate the price.',
+              additionalProperties: true,
             },
             quantity: {
               type: 'number',

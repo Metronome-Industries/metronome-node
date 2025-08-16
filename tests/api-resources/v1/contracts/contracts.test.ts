@@ -54,6 +54,7 @@ describe('resource contracts', () => {
           hierarchy_configuration: { child_access: { type: 'ALL' } },
           invoice_schedule: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            do_not_invoice: true,
             recurring_schedule: {
               amount_distribution: 'DIVIDED',
               ending_before: '2019-12-27T18:11:19.117Z',
@@ -72,7 +73,11 @@ describe('resource contracts', () => {
           payment_gate_config: {
             payment_gate_type: 'NONE',
             precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
-            stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
+            stripe_config: {
+              payment_type: 'INVOICE',
+              invoice_metadata: { foo: 'string' },
+              on_session_payment: true,
+            },
             tax_type: 'NONE',
           },
           priority: 0,
@@ -127,6 +132,7 @@ describe('resource contracts', () => {
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           schedule: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            do_not_invoice: true,
             recurring_schedule: {
               amount_distribution: 'DIVIDED',
               ending_before: '2019-12-27T18:11:19.117Z',
@@ -338,6 +344,7 @@ describe('resource contracts', () => {
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           schedule: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            do_not_invoice: true,
             recurring_schedule: {
               amount_distribution: 'DIVIDED',
               ending_before: '2019-12-27T18:11:19.117Z',
@@ -351,6 +358,7 @@ describe('resource contracts', () => {
               { timestamp: '2019-12-27T18:11:19.117Z', amount: 0, quantity: 0, unit_price: 0 },
             ],
           },
+          custom_fields: { foo: 'string' },
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
         },
@@ -521,6 +529,7 @@ describe('resource contracts', () => {
           hierarchy_configuration: { child_access: { type: 'ALL' } },
           invoice_schedule: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            do_not_invoice: true,
             recurring_schedule: {
               amount_distribution: 'DIVIDED',
               ending_before: '2019-12-27T18:11:19.117Z',
@@ -539,7 +548,11 @@ describe('resource contracts', () => {
           payment_gate_config: {
             payment_gate_type: 'NONE',
             precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
-            stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
+            stripe_config: {
+              payment_type: 'INVOICE',
+              invoice_metadata: { foo: 'string' },
+              on_session_payment: true,
+            },
             tax_type: 'NONE',
           },
           priority: 0,
@@ -594,6 +607,7 @@ describe('resource contracts', () => {
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           schedule: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            do_not_invoice: true,
             recurring_schedule: {
               amount_distribution: 'DIVIDED',
               ending_before: '2019-12-27T18:11:19.117Z',
@@ -684,6 +698,7 @@ describe('resource contracts', () => {
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           schedule: {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+            do_not_invoice: true,
             recurring_schedule: {
               amount_distribution: 'DIVIDED',
               ending_before: '2019-12-27T18:11:19.117Z',
@@ -697,6 +712,7 @@ describe('resource contracts', () => {
               { timestamp: '2019-12-27T18:11:19.117Z', amount: 0, quantity: 0, unit_price: 0 },
             ],
           },
+          custom_fields: { foo: 'string' },
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
         },

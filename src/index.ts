@@ -190,6 +190,7 @@ export class Metronome extends Core.APIClient {
 
 Metronome.V2 = V2;
 Metronome.V1 = V1;
+
 export declare namespace Metronome {
   export type RequestOptions = Core.RequestOptions;
 

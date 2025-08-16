@@ -99,6 +99,7 @@ export const tool: Tool = {
       },
       custom_fields: {
         type: 'object',
+        additionalProperties: true,
       },
       description: {
         type: 'string',
@@ -117,6 +118,11 @@ export const tool: Tool = {
           credit_type_id: {
             type: 'string',
             description: 'Defaults to USD (cents) if not passed.',
+          },
+          do_not_invoice: {
+            type: 'boolean',
+            description:
+              'This field is only applicable to commit invoice schedules. If true, this schedule will not generate an invoice.',
           },
           recurring_schedule: {
             type: 'object',
@@ -216,9 +222,11 @@ export const tool: Tool = {
           properties: {
             presentation_group_values: {
               type: 'object',
+              additionalProperties: true,
             },
             pricing_group_values: {
               type: 'object',
+              additionalProperties: true,
             },
             product_id: {
               type: 'string',

@@ -102,6 +102,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              additionalProperties: true,
             },
             description: {
               type: 'string',
@@ -162,6 +163,11 @@ export const tool: Tool = {
                 credit_type_id: {
                   type: 'string',
                   description: 'Defaults to USD (cents) if not passed.',
+                },
+                do_not_invoice: {
+                  type: 'boolean',
+                  description:
+                    'This field is only applicable to commit invoice schedules. If true, this schedule will not generate an invoice.',
                 },
                 recurring_schedule: {
                   type: 'object',
@@ -284,6 +290,12 @@ export const tool: Tool = {
                       type: 'object',
                       description:
                         'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
+                      additionalProperties: true,
+                    },
+                    on_session_payment: {
+                      type: 'boolean',
+                      description:
+                        'If true, the payment will be made assuming the customer is present (i.e. on session). \n\nIf false, the payment will be made assuming the customer is not present (i.e. off session). \nFor cardholders from a country with an e-mandate requirement (e.g. India), the payment may be declined.\n\nIf left blank, will default to false.',
                     },
                   },
                   required: ['payment_type'],
@@ -319,9 +331,11 @@ export const tool: Tool = {
                 properties: {
                   presentation_group_values: {
                     type: 'object',
+                    additionalProperties: true,
                   },
                   pricing_group_values: {
                     type: 'object',
+                    additionalProperties: true,
                   },
                   product_id: {
                     type: 'string',
@@ -407,6 +421,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              additionalProperties: true,
             },
             description: {
               type: 'string',
@@ -485,9 +500,11 @@ export const tool: Tool = {
                 properties: {
                   presentation_group_values: {
                     type: 'object',
+                    additionalProperties: true,
                   },
                   pricing_group_values: {
                     type: 'object',
+                    additionalProperties: true,
                   },
                   product_id: {
                     type: 'string',
@@ -511,6 +528,7 @@ export const tool: Tool = {
       },
       custom_fields: {
         type: 'object',
+        additionalProperties: true,
       },
       discounts: {
         type: 'array',
@@ -528,6 +546,11 @@ export const tool: Tool = {
                 credit_type_id: {
                   type: 'string',
                   description: 'Defaults to USD (cents) if not passed.',
+                },
+                do_not_invoice: {
+                  type: 'boolean',
+                  description:
+                    'This field is only applicable to commit invoice schedules. If true, this schedule will not generate an invoice.',
                 },
                 recurring_schedule: {
                   type: 'object',
@@ -604,6 +627,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              additionalProperties: true,
             },
             name: {
               type: 'string',
@@ -679,11 +703,13 @@ export const tool: Tool = {
                     type: 'object',
                     description:
                       'A map of group names to values. The override will only apply to line items with the specified presentation group values.',
+                    additionalProperties: true,
                   },
                   pricing_group_values: {
                     type: 'object',
                     description:
                       'A map of pricing group names to values. The override will only apply to products with the specified pricing group values.',
+                    additionalProperties: true,
                   },
                   product_id: {
                     type: 'string',
@@ -732,6 +758,7 @@ export const tool: Tool = {
                   type: 'object',
                   description:
                     'Only set for CUSTOM rate_type. This field is interpreted by custom rate processors.',
+                  additionalProperties: true,
                 },
                 is_prorated: {
                   type: 'boolean',
@@ -823,6 +850,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              additionalProperties: true,
             },
             description: {
               type: 'string',
@@ -926,6 +954,11 @@ export const tool: Tool = {
                   type: 'string',
                   description: 'Defaults to USD (cents) if not passed.',
                 },
+                do_not_invoice: {
+                  type: 'boolean',
+                  description:
+                    'This field is only applicable to commit invoice schedules. If true, this schedule will not generate an invoice.',
+                },
                 recurring_schedule: {
                   type: 'object',
                   description:
@@ -998,6 +1031,10 @@ export const tool: Tool = {
                   },
                 },
               },
+            },
+            custom_fields: {
+              type: 'object',
+              additionalProperties: true,
             },
             name: {
               type: 'string',
