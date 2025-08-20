@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'create_v1_credit_grants',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nCreate a new credit grant\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      $ref: '#/$defs/id'\n    }\n  },\n  required: [    'data'\n  ],\n  $defs: {\n    id: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  }\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nCreate a new credit grant\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  },\n  required: [    'data'\n  ]\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
@@ -113,10 +113,34 @@ export const tool: Tool = {
           rollover_amount: {
             anyOf: [
               {
-                $ref: '#/$defs/rollover_amount_max_percentage',
+                type: 'object',
+                properties: {
+                  type: {
+                    type: 'string',
+                    description: 'Rollover up to a percentage of the original credit grant amount.',
+                    enum: ['MAX_PERCENTAGE'],
+                  },
+                  value: {
+                    type: 'number',
+                    description: 'The maximum percentage (0-1) of the original credit grant to rollover.',
+                  },
+                },
+                required: ['type', 'value'],
               },
               {
-                $ref: '#/$defs/rollover_amount_max_amount',
+                type: 'object',
+                properties: {
+                  type: {
+                    type: 'string',
+                    description: 'Rollover up to a fixed amount of the original credit grant amount.',
+                    enum: ['MAX_AMOUNT'],
+                  },
+                  value: {
+                    type: 'number',
+                    description: 'The maximum amount to rollover.',
+                  },
+                },
+                required: ['type', 'value'],
               },
             ],
             description: 'Specify how much to rollover to the rollover credit grant',
@@ -137,38 +161,6 @@ export const tool: Tool = {
       },
     },
     required: ['customer_id', 'expires_at', 'grant_amount', 'name', 'paid_amount', 'priority'],
-    $defs: {
-      rollover_amount_max_percentage: {
-        type: 'object',
-        properties: {
-          type: {
-            type: 'string',
-            description: 'Rollover up to a percentage of the original credit grant amount.',
-            enum: ['MAX_PERCENTAGE'],
-          },
-          value: {
-            type: 'number',
-            description: 'The maximum percentage (0-1) of the original credit grant to rollover.',
-          },
-        },
-        required: ['type', 'value'],
-      },
-      rollover_amount_max_amount: {
-        type: 'object',
-        properties: {
-          type: {
-            type: 'string',
-            description: 'Rollover up to a fixed amount of the original credit grant amount.',
-            enum: ['MAX_AMOUNT'],
-          },
-          value: {
-            type: 'number',
-            description: 'The maximum amount to rollover.',
-          },
-        },
-        required: ['type', 'value'],
-      },
-    },
   },
   annotations: {},
 };
