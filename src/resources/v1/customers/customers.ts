@@ -3,6 +3,7 @@
 import { APIResource } from '../../../resource';
 import { isRequestOptions } from '../../../core';
 import * as Core from '../../../core';
+import * as Shared from '../../shared';
 import * as AlertsAPI from './alerts';
 import {
   AlertListParams,
@@ -11,6 +12,7 @@ import {
   AlertRetrieveParams,
   AlertRetrieveResponse,
   Alerts,
+  CustomerAlert,
 } from './alerts';
 import * as BillingConfigAPI from './billing-config';
 import {
@@ -42,17 +44,17 @@ import {
 } from './credits';
 import * as InvoicesAPI from './invoices';
 import {
+  Invoice,
   InvoiceAddChargeParams,
   InvoiceAddChargeResponse,
   InvoiceListBreakdownsParams,
   InvoiceListBreakdownsResponse,
   InvoiceListBreakdownsResponsesCursorPage,
   InvoiceListParams,
-  InvoiceListResponse,
-  InvoiceListResponsesCursorPage,
   InvoiceRetrieveParams,
   InvoiceRetrieveResponse,
   Invoices,
+  InvoicesCursorPage,
 } from './invoices';
 import * as NamedSchedulesAPI from './named-schedules';
 import {
@@ -135,7 +137,7 @@ export class Customers extends APIResource {
    * @example
    * ```ts
    * // Automatically fetches more pages as needed.
-   * for await (const customerListResponse of client.v1.customers.list()) {
+   * for await (const customerDetail of client.v1.customers.list()) {
    *   // ...
    * }
    * ```
@@ -143,18 +145,16 @@ export class Customers extends APIResource {
   list(
     query?: CustomerListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListResponsesCursorPage, CustomerListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListResponsesCursorPage, CustomerListResponse>;
+  ): Core.PagePromise<CustomerDetailsCursorPage, CustomerDetail>;
+  list(options?: Core.RequestOptions): Core.PagePromise<CustomerDetailsCursorPage, CustomerDetail>;
   list(
     query: CustomerListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerListResponsesCursorPage, CustomerListResponse> {
+  ): Core.PagePromise<CustomerDetailsCursorPage, CustomerDetail> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/v1/customers', CustomerListResponsesCursorPage, { query, ...options });
+    return this._client.getAPIList('/v1/customers', CustomerDetailsCursorPage, { query, ...options });
   }
 
   /**
@@ -324,107 +324,36 @@ export class Customers extends APIResource {
   }
 }
 
-export class CustomerListResponsesCursorPage extends CursorPage<CustomerListResponse> {}
+export class CustomerDetailsCursorPage extends CursorPage<CustomerDetail> {}
 
 export class CustomerListBillableMetricsResponsesCursorPage extends CursorPage<CustomerListBillableMetricsResponse> {}
 
 export class CustomerListCostsResponsesCursorPage extends CursorPage<CustomerListCostsResponse> {}
 
-export interface CustomerCreateResponse {
-  data: CustomerCreateResponse.Data;
+export interface Customer {
+  /**
+   * the Metronome ID of the customer
+   */
+  id: string;
+
+  /**
+   * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
+   * alias) that can be used in usage events
+   */
+  external_id: string;
+
+  /**
+   * aliases for this customer that can be used instead of the Metronome customer ID
+   * in usage events
+   */
+  ingest_aliases: Array<string>;
+
+  name: string;
+
+  custom_fields?: { [key: string]: string };
 }
 
-export namespace CustomerCreateResponse {
-  export interface Data {
-    /**
-     * the Metronome ID of the customer
-     */
-    id: string;
-
-    /**
-     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
-     * alias) that can be used in usage events
-     */
-    external_id: string;
-
-    /**
-     * aliases for this customer that can be used instead of the Metronome customer ID
-     * in usage events
-     */
-    ingest_aliases: Array<string>;
-
-    name: string;
-
-    custom_fields?: { [key: string]: string };
-  }
-}
-
-export interface CustomerRetrieveResponse {
-  data: CustomerRetrieveResponse.Data;
-}
-
-export namespace CustomerRetrieveResponse {
-  export interface Data {
-    /**
-     * the Metronome ID of the customer
-     */
-    id: string;
-
-    /**
-     * RFC 3339 timestamp indicating when the customer was created.
-     */
-    created_at: string;
-
-    custom_fields: { [key: string]: string };
-
-    customer_config: Data.CustomerConfig;
-
-    /**
-     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
-     * alias) that can be used in usage events
-     */
-    external_id: string;
-
-    /**
-     * aliases for this customer that can be used instead of the Metronome customer ID
-     * in usage events
-     */
-    ingest_aliases: Array<string>;
-
-    name: string;
-
-    /**
-     * RFC 3339 timestamp indicating when the customer was archived. Null if the
-     * customer is active.
-     */
-    archived_at?: string | null;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    current_billable_status?: Data.CurrentBillableStatus;
-  }
-
-  export namespace Data {
-    export interface CustomerConfig {
-      /**
-       * The Salesforce account ID for the customer
-       */
-      salesforce_account_id: string | null;
-    }
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    export interface CurrentBillableStatus {
-      value: 'billable' | 'unbillable';
-
-      effective_at?: string | null;
-    }
-  }
-}
-
-export interface CustomerListResponse {
+export interface CustomerDetail {
   /**
    * the Metronome ID of the customer
    */
@@ -437,7 +366,7 @@ export interface CustomerListResponse {
 
   custom_fields: { [key: string]: string };
 
-  customer_config: CustomerListResponse.CustomerConfig;
+  customer_config: CustomerDetail.CustomerConfig;
 
   /**
    * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
@@ -462,10 +391,10 @@ export interface CustomerListResponse {
   /**
    * This field's availability is dependent on your client's configuration.
    */
-  current_billable_status?: CustomerListResponse.CurrentBillableStatus;
+  current_billable_status?: CustomerDetail.CurrentBillableStatus;
 }
 
-export namespace CustomerListResponse {
+export namespace CustomerDetail {
   export interface CustomerConfig {
     /**
      * The Salesforce account ID for the customer
@@ -483,14 +412,16 @@ export namespace CustomerListResponse {
   }
 }
 
-export interface CustomerArchiveResponse {
-  data: CustomerArchiveResponse.Data;
+export interface CustomerCreateResponse {
+  data: Customer;
 }
 
-export namespace CustomerArchiveResponse {
-  export interface Data {
-    id: string;
-  }
+export interface CustomerRetrieveResponse {
+  data: CustomerDetail;
+}
+
+export interface CustomerArchiveResponse {
+  data: Shared.ID;
 }
 
 export interface CustomerListBillableMetricsResponse {
@@ -531,7 +462,7 @@ export interface CustomerListBillableMetricsResponse {
   /**
    * An optional filtering rule to match the 'event_type' property of an event.
    */
-  event_type_filter?: CustomerListBillableMetricsResponse.EventTypeFilter;
+  event_type_filter?: Shared.EventTypeFilter;
 
   /**
    * (DEPRECATED) use property_filters & event_type_filter instead
@@ -554,64 +485,12 @@ export interface CustomerListBillableMetricsResponse {
    * rule on an event property. All rules must pass for the event to match the
    * billable metric.
    */
-  property_filters?: Array<CustomerListBillableMetricsResponse.PropertyFilter>;
+  property_filters?: Array<Shared.PropertyFilter>;
 
   /**
    * The SQL query associated with the billable metric
    */
   sql?: string;
-}
-
-export namespace CustomerListBillableMetricsResponse {
-  /**
-   * An optional filtering rule to match the 'event_type' property of an event.
-   */
-  export interface EventTypeFilter {
-    /**
-     * A list of event types that are explicitly included in the billable metric. If
-     * specified, only events of these types will match the billable metric. Must be
-     * non-empty if present.
-     */
-    in_values?: Array<string>;
-
-    /**
-     * A list of event types that are explicitly excluded from the billable metric. If
-     * specified, events of these types will not match the billable metric. Must be
-     * non-empty if present.
-     */
-    not_in_values?: Array<string>;
-  }
-
-  export interface PropertyFilter {
-    /**
-     * The name of the event property.
-     */
-    name: string;
-
-    /**
-     * Determines whether the property must exist in the event. If true, only events
-     * with this property will pass the filter. If false, only events without this
-     * property will pass the filter. If null or omitted, the existence of the property
-     * is optional.
-     */
-    exists?: boolean;
-
-    /**
-     * Specifies the allowed values for the property to match an event. An event will
-     * pass the filter only if its property value is included in this list. If
-     * undefined, all property values will pass the filter. Must be non-empty if
-     * present.
-     */
-    in_values?: Array<string>;
-
-    /**
-     * Specifies the values that prevent an event from matching the filter. An event
-     * will not pass the filter if its property value is included in this list. If null
-     * or empty, all property values will pass the filter. Must be non-empty if
-     * present.
-     */
-    not_in_values?: Array<string>;
-  }
 }
 
 export interface CustomerListCostsResponse {
@@ -645,595 +524,11 @@ export namespace CustomerListCostsResponse {
 }
 
 export interface CustomerPreviewEventsResponse {
-  data: CustomerPreviewEventsResponse.Data;
-}
-
-export namespace CustomerPreviewEventsResponse {
-  export interface Data {
-    id: string;
-
-    credit_type: Data.CreditType;
-
-    customer_id: string;
-
-    line_items: Array<Data.LineItem>;
-
-    status: string;
-
-    total: number;
-
-    type: string;
-
-    amendment_id?: string;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    billable_status?: 'billable' | 'unbillable';
-
-    contract_custom_fields?: { [key: string]: string };
-
-    contract_id?: string;
-
-    correction_record?: Data.CorrectionRecord;
-
-    /**
-     * When the invoice was created (UTC). This field is present for correction
-     * invoices only.
-     */
-    created_at?: string;
-
-    custom_fields?: { [key: string]: unknown };
-
-    customer_custom_fields?: { [key: string]: string };
-
-    /**
-     * End of the usage period this invoice covers (UTC)
-     */
-    end_timestamp?: string;
-
-    external_invoice?: Data.ExternalInvoice | null;
-
-    invoice_adjustments?: Array<Data.InvoiceAdjustment>;
-
-    /**
-     * When the invoice was issued (UTC)
-     */
-    issued_at?: string;
-
-    net_payment_terms_days?: number;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    netsuite_sales_order_id?: string;
-
-    plan_custom_fields?: { [key: string]: string };
-
-    plan_id?: string;
-
-    plan_name?: string;
-
-    /**
-     * Only present for contract invoices with reseller royalties.
-     */
-    reseller_royalty?: Data.ResellerRoyalty;
-
-    /**
-     * This field's availability is dependent on your client's configuration.
-     */
-    salesforce_opportunity_id?: string;
-
-    /**
-     * Beginning of the usage period this invoice covers (UTC)
-     */
-    start_timestamp?: string;
-
-    subtotal?: number;
-  }
-
-  export namespace Data {
-    export interface CreditType {
-      id: string;
-
-      name: string;
-    }
-
-    export interface LineItem {
-      credit_type: LineItem.CreditType;
-
-      name: string;
-
-      total: number;
-
-      /**
-       * The type of line item. scheduled - Line item is associated with a scheduled
-       * charge. View the scheduled_charge_id on the line item. commit_purchase - Line
-       * item is associated with a payment for a prepaid commit. View the commit_id on
-       * the line item. usage - Line item is associated with a usage product or composite
-       * product. View the product_id on the line item to determine which product.
-       * subscription - Line item is associated with a subscription. e.g. monthly
-       * recurring payment for an in-advance subscription. applied_commit_or_credit - On
-       * metronome invoices, applied commits and credits are associated with their own
-       * line items. These line items have negative totals. Use the
-       * applied_commit_or_credit object on the line item to understand the id of the
-       * applied commit or credit, and its type. Note that the application of a postpaid
-       * commit is associated with a line item, but the total on the line item is not
-       * included in the invoice's total as postpaid commits are paid in-arrears.
-       * postpaid_trueup - Line item is associated with the true up amount for a postpaid
-       * commit. This line item type will only appear on invoices with type TRUEUP .
-       * cpu_conversion - Line item converting between a custom pricing unit and fiat
-       * currency, using the conversion rate set on the rate card. This line item will
-       * appear when there are products priced in custom pricing units, and there is
-       * insufficient prepaid commit/credit in that custom pricing unit to fully cover
-       * the spend. Then, the outstanding spend in custom pricing units will be converted
-       * to fiat currency using a cpu_conversion line item.
-       */
-      type: string;
-
-      /**
-       * Details about the credit or commit that was applied to this line item. Only
-       * present on line items with product of `USAGE`, `SUBSCRIPTION` or `COMPOSITE`
-       * types.
-       */
-      applied_commit_or_credit?: LineItem.AppliedCommitOrCredit;
-
-      commit_custom_fields?: { [key: string]: string };
-
-      /**
-       * For line items with product of `USAGE`, `SUBSCRIPTION`, or `COMPOSITE` types,
-       * the ID of the credit or commit that was applied to this line item. For line
-       * items with product type of `FIXED`, the ID of the prepaid or postpaid commit
-       * that is being paid for.
-       */
-      commit_id?: string;
-
-      commit_netsuite_item_id?: string;
-
-      commit_netsuite_sales_order_id?: string;
-
-      commit_segment_id?: string;
-
-      /**
-       * `PrepaidCommit` (for commit types `PREPAID` and `CREDIT`) or `PostpaidCommit`
-       * (for commit type `POSTPAID`).
-       */
-      commit_type?: string;
-
-      custom_fields?: { [key: string]: string };
-
-      discount_custom_fields?: { [key: string]: string };
-
-      /**
-       * ID of the discount applied to this line item.
-       */
-      discount_id?: string;
-
-      /**
-       * The line item's end date (exclusive).
-       */
-      ending_before?: string;
-
-      group_key?: string;
-
-      group_value?: string | null;
-
-      /**
-       * Indicates whether the line item is prorated for `SUBSCRIPTION` type product.
-       */
-      is_prorated?: boolean;
-
-      /**
-       * Only present for contract invoices and when the `include_list_prices` query
-       * parameter is set to true. This will include the list rate for the charge if
-       * applicable. Only present for usage and subscription line items.
-       */
-      list_price?: LineItem.ListPrice;
-
-      metadata?: string;
-
-      /**
-       * The end date for the billing period on the invoice.
-       */
-      netsuite_invoice_billing_end?: string;
-
-      /**
-       * The start date for the billing period on the invoice.
-       */
-      netsuite_invoice_billing_start?: string;
-
-      netsuite_item_id?: string;
-
-      /**
-       * Only present for line items paying for a postpaid commit true-up.
-       */
-      postpaid_commit?: LineItem.PostpaidCommit;
-
-      /**
-       * Includes the presentation group values associated with this line item if
-       * presentation group keys are used.
-       */
-      presentation_group_values?: { [key: string]: string | null };
-
-      /**
-       * Includes the pricing group values associated with this line item if dimensional
-       * pricing is used.
-       */
-      pricing_group_values?: { [key: string]: string };
-
-      product_custom_fields?: { [key: string]: string };
-
-      /**
-       * ID of the product associated with the line item.
-       */
-      product_id?: string;
-
-      /**
-       * The current product tags associated with the line item's `product_id`.
-       */
-      product_tags?: Array<string>;
-
-      /**
-       * The type of the line item's product. Possible values are `FixedProductListItem`
-       * (for `FIXED` type products), `UsageProductListItem` (for `USAGE` type products),
-       * `SubscriptionProductListItem` (for `SUBSCRIPTION` type products) or
-       * `CompositeProductListItem` (for `COMPOSITE` type products). For scheduled
-       * charges, commit and credit payments, the value is `FixedProductListItem`.
-       */
-      product_type?: string;
-
-      professional_service_custom_fields?: { [key: string]: string };
-
-      professional_service_id?: string;
-
-      /**
-       * The quantity associated with the line item.
-       */
-      quantity?: number;
-
-      reseller_type?: 'AWS' | 'AWS_PRO_SERVICE' | 'GCP' | 'GCP_PRO_SERVICE';
-
-      scheduled_charge_custom_fields?: { [key: string]: string };
-
-      /**
-       * ID of scheduled charge.
-       */
-      scheduled_charge_id?: string;
-
-      /**
-       * The line item's start date (inclusive).
-       */
-      starting_at?: string;
-
-      sub_line_items?: Array<LineItem.SubLineItem>;
-
-      subscription_custom_fields?: { [key: string]: string };
-
-      /**
-       * Populated if the line item has a tiered price.
-       */
-      tier?: LineItem.Tier;
-
-      /**
-       * The unit price associated with the line item.
-       */
-      unit_price?: number;
-    }
-
-    export namespace LineItem {
-      export interface CreditType {
-        id: string;
-
-        name: string;
-      }
-
-      /**
-       * Details about the credit or commit that was applied to this line item. Only
-       * present on line items with product of `USAGE`, `SUBSCRIPTION` or `COMPOSITE`
-       * types.
-       */
-      export interface AppliedCommitOrCredit {
-        id: string;
-
-        type: 'PREPAID' | 'POSTPAID' | 'CREDIT';
-      }
-
-      /**
-       * Only present for contract invoices and when the `include_list_prices` query
-       * parameter is set to true. This will include the list rate for the charge if
-       * applicable. Only present for usage and subscription line items.
-       */
-      export interface ListPrice {
-        rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
-
-        credit_type?: ListPrice.CreditType;
-
-        /**
-         * Only set for CUSTOM rate_type. This field is interpreted by custom rate
-         * processors.
-         */
-        custom_rate?: { [key: string]: unknown };
-
-        /**
-         * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
-         * set to true.
-         */
-        is_prorated?: boolean;
-
-        /**
-         * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
-         * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
-         */
-        price?: number;
-
-        /**
-         * if pricing groups are used, this will contain the values used to calculate the
-         * price
-         */
-        pricing_group_values?: { [key: string]: string };
-
-        /**
-         * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
-         */
-        quantity?: number;
-
-        /**
-         * Only set for TIERED rate_type.
-         */
-        tiers?: Array<ListPrice.Tier>;
-
-        /**
-         * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
-         * using list prices rather than the standard rates for this product on the
-         * contract.
-         */
-        use_list_prices?: boolean;
-      }
-
-      export namespace ListPrice {
-        export interface CreditType {
-          id: string;
-
-          name: string;
-        }
-
-        export interface Tier {
-          price: number;
-
-          size?: number;
-        }
-      }
-
-      /**
-       * Only present for line items paying for a postpaid commit true-up.
-       */
-      export interface PostpaidCommit {
-        id: string;
-      }
-
-      export interface SubLineItem {
-        custom_fields: { [key: string]: string };
-
-        name: string;
-
-        quantity: number;
-
-        subtotal: number;
-
-        charge_id?: string;
-
-        credit_grant_id?: string;
-
-        /**
-         * The end date for the charge (for seats charges only).
-         */
-        end_date?: string;
-
-        /**
-         * the unit price for this charge, present only if the charge is not tiered and the
-         * quantity is nonzero
-         */
-        price?: number;
-
-        /**
-         * The start date for the charge (for seats charges only).
-         */
-        start_date?: string;
-
-        /**
-         * when the current tier started and ends (for tiered charges only)
-         */
-        tier_period?: SubLineItem.TierPeriod;
-
-        tiers?: Array<SubLineItem.Tier>;
-      }
-
-      export namespace SubLineItem {
-        /**
-         * when the current tier started and ends (for tiered charges only)
-         */
-        export interface TierPeriod {
-          starting_at: string;
-
-          ending_before?: string;
-        }
-
-        export interface Tier {
-          price: number;
-
-          quantity: number;
-
-          /**
-           * at what metric amount this tier begins
-           */
-          starting_at: number;
-
-          subtotal: number;
-        }
-      }
-
-      /**
-       * Populated if the line item has a tiered price.
-       */
-      export interface Tier {
-        level: number;
-
-        starting_at: string;
-
-        size?: string | null;
-      }
-    }
-
-    export interface CorrectionRecord {
-      corrected_invoice_id: string;
-
-      memo: string;
-
-      reason: string;
-
-      corrected_external_invoice?: CorrectionRecord.CorrectedExternalInvoice;
-    }
-
-    export namespace CorrectionRecord {
-      export interface CorrectedExternalInvoice {
-        billing_provider_type:
-          | 'aws_marketplace'
-          | 'stripe'
-          | 'netsuite'
-          | 'custom'
-          | 'azure_marketplace'
-          | 'quickbooks_online'
-          | 'workday'
-          | 'gcp_marketplace';
-
-        external_status?:
-          | 'DRAFT'
-          | 'FINALIZED'
-          | 'PAID'
-          | 'UNCOLLECTIBLE'
-          | 'VOID'
-          | 'DELETED'
-          | 'PAYMENT_FAILED'
-          | 'INVALID_REQUEST_ERROR'
-          | 'SKIPPED'
-          | 'SENT'
-          | 'QUEUED';
-
-        invoice_id?: string;
-
-        issued_at_timestamp?: string;
-      }
-    }
-
-    export interface ExternalInvoice {
-      billing_provider_type:
-        | 'aws_marketplace'
-        | 'stripe'
-        | 'netsuite'
-        | 'custom'
-        | 'azure_marketplace'
-        | 'quickbooks_online'
-        | 'workday'
-        | 'gcp_marketplace';
-
-      external_status?:
-        | 'DRAFT'
-        | 'FINALIZED'
-        | 'PAID'
-        | 'UNCOLLECTIBLE'
-        | 'VOID'
-        | 'DELETED'
-        | 'PAYMENT_FAILED'
-        | 'INVALID_REQUEST_ERROR'
-        | 'SKIPPED'
-        | 'SENT'
-        | 'QUEUED';
-
-      invoice_id?: string;
-
-      issued_at_timestamp?: string;
-    }
-
-    export interface InvoiceAdjustment {
-      credit_type: InvoiceAdjustment.CreditType;
-
-      name: string;
-
-      total: number;
-
-      credit_grant_custom_fields?: { [key: string]: string };
-
-      credit_grant_id?: string;
-    }
-
-    export namespace InvoiceAdjustment {
-      export interface CreditType {
-        id: string;
-
-        name: string;
-      }
-    }
-
-    /**
-     * Only present for contract invoices with reseller royalties.
-     */
-    export interface ResellerRoyalty {
-      fraction: string;
-
-      netsuite_reseller_id: string;
-
-      reseller_type: 'AWS' | 'AWS_PRO_SERVICE' | 'GCP' | 'GCP_PRO_SERVICE';
-
-      aws_options?: ResellerRoyalty.AwsOptions;
-
-      gcp_options?: ResellerRoyalty.GcpOptions;
-    }
-
-    export namespace ResellerRoyalty {
-      export interface AwsOptions {
-        aws_account_number?: string;
-
-        aws_offer_id?: string;
-
-        aws_payer_reference_id?: string;
-      }
-
-      export interface GcpOptions {
-        gcp_account_id?: string;
-
-        gcp_offer_id?: string;
-      }
-    }
-  }
+  data: InvoicesAPI.Invoice;
 }
 
 export interface CustomerSetNameResponse {
-  data: CustomerSetNameResponse.Data;
-}
-
-export namespace CustomerSetNameResponse {
-  export interface Data {
-    /**
-     * the Metronome ID of the customer
-     */
-    id: string;
-
-    /**
-     * (deprecated, use ingest_aliases instead) the first ID (Metronome or ingest
-     * alias) that can be used in usage events
-     */
-    external_id: string;
-
-    /**
-     * aliases for this customer that can be used instead of the Metronome customer ID
-     * in usage events
-     */
-    ingest_aliases: Array<string>;
-
-    name: string;
-
-    custom_fields?: { [key: string]: string };
-  }
+  data: Customer;
 }
 
 export interface CustomerCreateParams {
@@ -1502,7 +797,7 @@ export interface CustomerUpdateConfigParams {
   salesforce_account_id?: string | null;
 }
 
-Customers.CustomerListResponsesCursorPage = CustomerListResponsesCursorPage;
+Customers.CustomerDetailsCursorPage = CustomerDetailsCursorPage;
 Customers.CustomerListBillableMetricsResponsesCursorPage = CustomerListBillableMetricsResponsesCursorPage;
 Customers.CustomerListCostsResponsesCursorPage = CustomerListCostsResponsesCursorPage;
 Customers.Alerts = Alerts;
@@ -1510,7 +805,7 @@ Customers.Plans = Plans;
 Customers.PlanListResponsesCursorPage = PlanListResponsesCursorPage;
 Customers.PlanListPriceAdjustmentsResponsesCursorPage = PlanListPriceAdjustmentsResponsesCursorPage;
 Customers.Invoices = Invoices;
-Customers.InvoiceListResponsesCursorPage = InvoiceListResponsesCursorPage;
+Customers.InvoicesCursorPage = InvoicesCursorPage;
 Customers.InvoiceListBreakdownsResponsesCursorPage = InvoiceListBreakdownsResponsesCursorPage;
 Customers.BillingConfig = BillingConfigAPIBillingConfig;
 Customers.Commits = Commits;
@@ -1519,15 +814,16 @@ Customers.NamedSchedules = NamedSchedules;
 
 export declare namespace Customers {
   export {
+    type Customer as Customer,
+    type CustomerDetail as CustomerDetail,
     type CustomerCreateResponse as CustomerCreateResponse,
     type CustomerRetrieveResponse as CustomerRetrieveResponse,
-    type CustomerListResponse as CustomerListResponse,
     type CustomerArchiveResponse as CustomerArchiveResponse,
     type CustomerListBillableMetricsResponse as CustomerListBillableMetricsResponse,
     type CustomerListCostsResponse as CustomerListCostsResponse,
     type CustomerPreviewEventsResponse as CustomerPreviewEventsResponse,
     type CustomerSetNameResponse as CustomerSetNameResponse,
-    CustomerListResponsesCursorPage as CustomerListResponsesCursorPage,
+    CustomerDetailsCursorPage as CustomerDetailsCursorPage,
     CustomerListBillableMetricsResponsesCursorPage as CustomerListBillableMetricsResponsesCursorPage,
     CustomerListCostsResponsesCursorPage as CustomerListCostsResponsesCursorPage,
     type CustomerCreateParams as CustomerCreateParams,
@@ -1544,6 +840,7 @@ export declare namespace Customers {
 
   export {
     Alerts as Alerts,
+    type CustomerAlert as CustomerAlert,
     type AlertRetrieveResponse as AlertRetrieveResponse,
     type AlertListResponse as AlertListResponse,
     type AlertRetrieveParams as AlertRetrieveParams,
@@ -1567,11 +864,11 @@ export declare namespace Customers {
 
   export {
     Invoices as Invoices,
+    type Invoice as Invoice,
     type InvoiceRetrieveResponse as InvoiceRetrieveResponse,
-    type InvoiceListResponse as InvoiceListResponse,
     type InvoiceAddChargeResponse as InvoiceAddChargeResponse,
     type InvoiceListBreakdownsResponse as InvoiceListBreakdownsResponse,
-    InvoiceListResponsesCursorPage as InvoiceListResponsesCursorPage,
+    InvoicesCursorPage as InvoicesCursorPage,
     InvoiceListBreakdownsResponsesCursorPage as InvoiceListBreakdownsResponsesCursorPage,
     type InvoiceRetrieveParams as InvoiceRetrieveParams,
     type InvoiceListParams as InvoiceListParams,
