@@ -3,7 +3,6 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
-import * as Shared from '../shared';
 import { CursorPage, type CursorPageParams } from '../../pagination';
 
 export class Usage extends APIResource {
@@ -228,7 +227,7 @@ export namespace UsageSearchResponse {
       /**
        * An optional filtering rule to match the 'event_type' property of an event.
        */
-      event_type_filter?: Shared.EventTypeFilter;
+      event_type_filter?: MatchedBillableMetric.EventTypeFilter;
 
       /**
        * (DEPRECATED) use property_filters & event_type_filter instead
@@ -251,12 +250,64 @@ export namespace UsageSearchResponse {
        * rule on an event property. All rules must pass for the event to match the
        * billable metric.
        */
-      property_filters?: Array<Shared.PropertyFilter>;
+      property_filters?: Array<MatchedBillableMetric.PropertyFilter>;
 
       /**
        * The SQL query associated with the billable metric
        */
       sql?: string;
+    }
+
+    export namespace MatchedBillableMetric {
+      /**
+       * An optional filtering rule to match the 'event_type' property of an event.
+       */
+      export interface EventTypeFilter {
+        /**
+         * A list of event types that are explicitly included in the billable metric. If
+         * specified, only events of these types will match the billable metric. Must be
+         * non-empty if present.
+         */
+        in_values?: Array<string>;
+
+        /**
+         * A list of event types that are explicitly excluded from the billable metric. If
+         * specified, events of these types will not match the billable metric. Must be
+         * non-empty if present.
+         */
+        not_in_values?: Array<string>;
+      }
+
+      export interface PropertyFilter {
+        /**
+         * The name of the event property.
+         */
+        name: string;
+
+        /**
+         * Determines whether the property must exist in the event. If true, only events
+         * with this property will pass the filter. If false, only events without this
+         * property will pass the filter. If null or omitted, the existence of the property
+         * is optional.
+         */
+        exists?: boolean;
+
+        /**
+         * Specifies the allowed values for the property to match an event. An event will
+         * pass the filter only if its property value is included in this list. If
+         * undefined, all property values will pass the filter. Must be non-empty if
+         * present.
+         */
+        in_values?: Array<string>;
+
+        /**
+         * Specifies the values that prevent an event from matching the filter. An event
+         * will not pass the filter if its property value is included in this list. If null
+         * or empty, all property values will pass the filter. Must be non-empty if
+         * present.
+         */
+        not_in_values?: Array<string>;
+      }
     }
 
     /**
