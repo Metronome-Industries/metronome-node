@@ -213,6 +213,8 @@ export declare namespace Metronome {
 
   export type BaseUsageFilter = API.BaseUsageFilter;
   export type Commit = API.Commit;
+  export type Contract = API.Contract;
+  export type ContractV2 = API.ContractV2;
   export type ContractWithoutAmendments = API.ContractWithoutAmendments;
   export type Credit = API.Credit;
   export type CreditTypeData = API.CreditTypeData;
