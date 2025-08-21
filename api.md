@@ -4,6 +4,8 @@ Types:
 
 - <code><a href="./src/resources/shared.ts">BaseUsageFilter</a></code>
 - <code><a href="./src/resources/shared.ts">Commit</a></code>
+- <code><a href="./src/resources/shared.ts">Contract</a></code>
+- <code><a href="./src/resources/shared.ts">ContractV2</a></code>
 - <code><a href="./src/resources/shared.ts">ContractWithoutAmendments</a></code>
 - <code><a href="./src/resources/shared.ts">Credit</a></code>
 - <code><a href="./src/resources/shared.ts">CreditTypeData</a></code>
