@@ -26,6 +26,7 @@ export {
   type BillableMetricArchiveParams,
 } from './billable-metrics';
 export {
+  ContractListBalancesResponsesBodyCursorPage,
   Contracts,
   type ContractCreateResponse,
   type ContractRetrieveResponse,

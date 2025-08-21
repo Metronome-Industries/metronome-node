@@ -5,7 +5,12 @@ import * as qs from './internal/qs';
 import * as Core from './core';
 import * as Errors from './error';
 import * as Pagination from './pagination';
-import { type CursorPageParams, CursorPageResponse } from './pagination';
+import {
+  type BodyCursorPageParams,
+  BodyCursorPageResponse,
+  type CursorPageParams,
+  CursorPageResponse,
+} from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { V1 } from './resources/v1/v1';
@@ -196,6 +201,12 @@ export declare namespace Metronome {
 
   export import CursorPage = Pagination.CursorPage;
   export { type CursorPageParams as CursorPageParams, type CursorPageResponse as CursorPageResponse };
+
+  export import BodyCursorPage = Pagination.BodyCursorPage;
+  export {
+    type BodyCursorPageParams as BodyCursorPageParams,
+    type BodyCursorPageResponse as BodyCursorPageResponse,
+  };
 
   export { V2 as V2 };
 
