@@ -75,7 +75,8 @@ export const tool: Tool = {
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return asTextContentResult(await client.v1.customers.credits.list(body));
+  const response = await client.v1.customers.credits.list(body).asResponse();
+  return asTextContentResult(await response.json());
 };
 
 export default { metadata, tool, handler };

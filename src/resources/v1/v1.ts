@@ -117,6 +117,7 @@ import {
   ContractCreateResponse,
   ContractListBalancesParams,
   ContractListBalancesResponse,
+  ContractListBalancesResponsesBodyCursorPage,
   ContractListParams,
   ContractListResponse,
   ContractRetrieveParams,
@@ -199,6 +200,7 @@ V1.BillableMetricListResponsesCursorPage = BillableMetricListResponsesCursorPage
 V1.Services = Services;
 V1.Invoices = Invoices;
 V1.Contracts = Contracts;
+V1.ContractListBalancesResponsesBodyCursorPage = ContractListBalancesResponsesBodyCursorPage;
 
 export declare namespace V1 {
   export {
@@ -347,6 +349,7 @@ export declare namespace V1 {
     type ContractRetrieveSubscriptionQuantityHistoryResponse as ContractRetrieveSubscriptionQuantityHistoryResponse,
     type ContractScheduleProServicesInvoiceResponse as ContractScheduleProServicesInvoiceResponse,
     type ContractUpdateEndDateResponse as ContractUpdateEndDateResponse,
+    ContractListBalancesResponsesBodyCursorPage as ContractListBalancesResponsesBodyCursorPage,
     type ContractCreateParams as ContractCreateParams,
     type ContractRetrieveParams as ContractRetrieveParams,
     type ContractListParams as ContractListParams,

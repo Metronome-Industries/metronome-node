@@ -46,6 +46,7 @@ import {
   RateCardUpdateResponse,
   RateCards,
 } from './rate-cards/rate-cards';
+import { BodyCursorPage, type BodyCursorPageParams } from '../../../pagination';
 
 export class Contracts extends APIResource {
   products: ProductsAPI.Products = new ProductsAPI.Products(this._client);
@@ -215,18 +216,27 @@ export class Contracts extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.v1.contracts.listBalances({
-   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-   *   id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
-   *   include_ledgers: true,
-   * });
+   * // Automatically fetches more pages as needed.
+   * for await (const contractListBalancesResponse of client.v1.contracts.listBalances(
+   *   {
+   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *     id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+   *     include_ledgers: true,
+   *   },
+   * )) {
+   *   // ...
+   * }
    * ```
    */
   listBalances(
     body: ContractListBalancesParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<ContractListBalancesResponse> {
-    return this._client.post('/v1/contracts/customerBalances/list', { body, ...options });
+  ): Core.PagePromise<ContractListBalancesResponsesBodyCursorPage, ContractListBalancesResponse> {
+    return this._client.getAPIList(
+      '/v1/contracts/customerBalances/list',
+      ContractListBalancesResponsesBodyCursorPage,
+      { body, method: 'post', ...options },
+    );
   }
 
   /**
@@ -355,6 +365,8 @@ export class Contracts extends APIResource {
     return this._client.post('/v1/contracts/updateEndDate', { body, ...options });
   }
 }
+
+export class ContractListBalancesResponsesBodyCursorPage extends BodyCursorPage<ContractListBalancesResponse> {}
 
 export interface ContractCreateResponse {
   data: Shared.ID;
@@ -1302,11 +1314,7 @@ export interface ContractCreateHistoricalInvoicesResponse {
   data: Array<InvoicesAPI.Invoice>;
 }
 
-export interface ContractListBalancesResponse {
-  data: Array<Shared.Commit | Shared.Credit>;
-
-  next_page: string | null;
-}
+export type ContractListBalancesResponse = Shared.Commit | Shared.Credit;
 
 export interface ContractRetrieveRateScheduleResponse {
   data: Array<ContractRetrieveRateScheduleResponse.Data>;
@@ -4534,7 +4542,7 @@ export namespace ContractCreateHistoricalInvoicesParams {
   }
 }
 
-export interface ContractListBalancesParams {
+export interface ContractListBalancesParams extends BodyCursorPageParams {
   customer_id: string;
 
   id?: string;
@@ -4570,16 +4578,6 @@ export interface ContractListBalancesParams {
    * slower.
    */
   include_ledgers?: boolean;
-
-  /**
-   * The maximum number of commits to return. Defaults to 25.
-   */
-  limit?: number;
-
-  /**
-   * The next page token from a previous response.
-   */
-  next_page?: string;
 
   /**
    * Include only balances that have any access on or after the provided date
@@ -4773,6 +4771,7 @@ export interface ContractUpdateEndDateParams {
   ending_before?: string;
 }
 
+Contracts.ContractListBalancesResponsesBodyCursorPage = ContractListBalancesResponsesBodyCursorPage;
 Contracts.Products = Products;
 Contracts.ProductListResponsesCursorPage = ProductListResponsesCursorPage;
 Contracts.RateCards = RateCards;
@@ -4792,6 +4791,7 @@ export declare namespace Contracts {
     type ContractRetrieveSubscriptionQuantityHistoryResponse as ContractRetrieveSubscriptionQuantityHistoryResponse,
     type ContractScheduleProServicesInvoiceResponse as ContractScheduleProServicesInvoiceResponse,
     type ContractUpdateEndDateResponse as ContractUpdateEndDateResponse,
+    ContractListBalancesResponsesBodyCursorPage as ContractListBalancesResponsesBodyCursorPage,
     type ContractCreateParams as ContractCreateParams,
     type ContractRetrieveParams as ContractRetrieveParams,
     type ContractListParams as ContractListParams,

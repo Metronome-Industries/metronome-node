@@ -27,7 +27,6 @@ import {
   CommitCreateParams,
   CommitCreateResponse,
   CommitListParams,
-  CommitListResponse,
   CommitUpdateEndDateParams,
   CommitUpdateEndDateResponse,
   Commits,
@@ -37,7 +36,6 @@ import {
   CreditCreateParams,
   CreditCreateResponse,
   CreditListParams,
-  CreditListResponse,
   CreditUpdateEndDateParams,
   CreditUpdateEndDateResponse,
   Credits,
@@ -887,7 +885,6 @@ export declare namespace Customers {
   export {
     Commits as Commits,
     type CommitCreateResponse as CommitCreateResponse,
-    type CommitListResponse as CommitListResponse,
     type CommitUpdateEndDateResponse as CommitUpdateEndDateResponse,
     type CommitCreateParams as CommitCreateParams,
     type CommitListParams as CommitListParams,
@@ -897,7 +894,6 @@ export declare namespace Customers {
   export {
     Credits as Credits,
     type CreditCreateResponse as CreditCreateResponse,
-    type CreditListResponse as CreditListResponse,
     type CreditUpdateEndDateResponse as CreditUpdateEndDateResponse,
     type CreditCreateParams as CreditCreateParams,
     type CreditListParams as CreditListParams,

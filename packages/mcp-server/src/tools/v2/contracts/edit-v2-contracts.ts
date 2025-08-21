@@ -1837,6 +1837,10 @@ export const tool: Tool = {
           required: ['id'],
         },
       },
+      uniqueness_key: {
+        type: 'string',
+        description: 'Optional uniqueness key to prevent duplicate contract edits.',
+      },
       update_commits: {
         type: 'array',
         items: {

@@ -273,9 +273,7 @@ export namespace ContractRetrieveResponse {
     total_contract_value?: number;
 
     /**
-     * Prevents the creation of duplicates. If a request to create a record is made
-     * with a previously used uniqueness key, a new record will not be created and the
-     * request will fail with a 409 error.
+     * Optional uniqueness key to prevent duplicate contract creations.
      */
     uniqueness_key?: string;
   }
@@ -1918,9 +1916,7 @@ export namespace ContractListResponse {
     total_contract_value?: number;
 
     /**
-     * Prevents the creation of duplicates. If a request to create a record is made
-     * with a previously used uniqueness key, a new record will not be created and the
-     * request will fail with a 409 error.
+     * Optional uniqueness key to prevent duplicate contract creations.
      */
     uniqueness_key?: string;
   }
@@ -3499,6 +3495,13 @@ export namespace ContractGetEditHistoryResponse {
     remove_overrides?: Array<Data.RemoveOverride>;
 
     timestamp?: string;
+
+    /**
+     * Prevents the creation of duplicates. If a request to create a record is made
+     * with a previously used uniqueness key, a new record will not be created and the
+     * request will fail with a 409 error.
+     */
+    uniqueness_key?: string;
 
     update_commits?: Array<Data.UpdateCommit>;
 
@@ -5533,6 +5536,11 @@ export interface ContractEditParams {
    * IDs of overrides to remove
    */
   remove_overrides?: Array<ContractEditParams.RemoveOverride>;
+
+  /**
+   * Optional uniqueness key to prevent duplicate contract edits.
+   */
+  uniqueness_key?: string;
 
   update_commits?: Array<ContractEditParams.UpdateCommit>;
 

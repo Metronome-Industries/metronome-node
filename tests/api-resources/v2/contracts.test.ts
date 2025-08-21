@@ -421,6 +421,7 @@ describe('resource contracts', () => {
       archive_credits: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
       archive_scheduled_charges: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
       remove_overrides: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
+      uniqueness_key: 'x',
       update_commits: [
         {
           commit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',

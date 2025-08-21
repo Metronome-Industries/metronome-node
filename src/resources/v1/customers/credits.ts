@@ -3,6 +3,8 @@
 import { APIResource } from '../../../resource';
 import * as Core from '../../../core';
 import * as Shared from '../../shared';
+import { CreditsBodyCursorPage } from '../../shared';
+import { type BodyCursorPageParams } from '../../../pagination';
 
 export class Credits extends APIResource {
   /**
@@ -37,15 +39,27 @@ export class Credits extends APIResource {
    *
    * @example
    * ```ts
-   * const credits = await client.v1.customers.credits.list({
-   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-   *   credit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
-   *   include_ledgers: true,
-   * });
+   * // Automatically fetches more pages as needed.
+   * for await (const credit of client.v1.customers.credits.list(
+   *   {
+   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *     credit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+   *     include_ledgers: true,
+   *   },
+   * )) {
+   *   // ...
+   * }
    * ```
    */
-  list(body: CreditListParams, options?: Core.RequestOptions): Core.APIPromise<CreditListResponse> {
-    return this._client.post('/v1/contracts/customerCredits/list', { body, ...options });
+  list(
+    body: CreditListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CreditsBodyCursorPage, Shared.Credit> {
+    return this._client.getAPIList('/v1/contracts/customerCredits/list', CreditsBodyCursorPage, {
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -72,12 +86,6 @@ export class Credits extends APIResource {
 
 export interface CreditCreateResponse {
   data: Shared.ID;
-}
-
-export interface CreditListResponse {
-  data: Array<Shared.Credit>;
-
-  next_page: string | null;
 }
 
 export interface CreditUpdateEndDateResponse {
@@ -206,7 +214,7 @@ export namespace CreditCreateParams {
   }
 }
 
-export interface CreditListParams {
+export interface CreditListParams extends BodyCursorPageParams {
   customer_id: string;
 
   /**
@@ -244,16 +252,6 @@ export interface CreditListParams {
   include_ledgers?: boolean;
 
   /**
-   * The maximum number of commits to return. Defaults to 25.
-   */
-  limit?: number;
-
-  /**
-   * The next page token from a previous response.
-   */
-  next_page?: string;
-
-  /**
    * Include only credits that have any access on or after the provided date
    */
   starting_at?: string;
@@ -280,10 +278,11 @@ export interface CreditUpdateEndDateParams {
 export declare namespace Credits {
   export {
     type CreditCreateResponse as CreditCreateResponse,
-    type CreditListResponse as CreditListResponse,
     type CreditUpdateEndDateResponse as CreditUpdateEndDateResponse,
     type CreditCreateParams as CreditCreateParams,
     type CreditListParams as CreditListParams,
     type CreditUpdateEndDateParams as CreditUpdateEndDateParams,
   };
 }
+
+export { CreditsBodyCursorPage };

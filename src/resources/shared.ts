@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import * as Shared from './shared';
+import { BodyCursorPage } from '../pagination';
 
 export interface BaseUsageFilter {
   group_key: string;
@@ -1804,3 +1805,7 @@ export interface Tier {
 
   size?: number;
 }
+
+export class CommitsBodyCursorPage extends BodyCursorPage<Commit> {}
+
+export class CreditsBodyCursorPage extends BodyCursorPage<Credit> {}
