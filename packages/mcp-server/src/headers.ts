@@ -1,8 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { type ClientOptions } from '@metronome/sdk/index';
-
 import { IncomingMessage } from 'node:http';
+import { ClientOptions } from '@metronome/sdk';
 
 export const parseAuthHeaders = (req: IncomingMessage): Partial<ClientOptions> => {
   if (req.headers.authorization) {
@@ -17,7 +16,7 @@ export const parseAuthHeaders = (req: IncomingMessage): Partial<ClientOptions> =
   }
 
   const bearerToken =
-    req.headers['x-metronome-bearer-token'] instanceof Array ?
+    Array.isArray(req.headers['x-metronome-bearer-token']) ?
       req.headers['x-metronome-bearer-token'][0]
     : req.headers['x-metronome-bearer-token'];
   return { bearerToken };

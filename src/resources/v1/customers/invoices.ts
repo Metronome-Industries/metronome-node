@@ -208,11 +208,29 @@ export namespace Invoice {
     total: number;
 
     /**
-     * The type of line item. Possible values are 'aws_royalty',
-     * 'applied_commit_or_credit', 'scheduled', 'commit_purchase', 'cpu_conversion',
-     * 'discount', 'gcp_royalty', 'postpaid_trueup', 'professional_services',
-     * 'subscription', 'usage', 'legacy', 'minimum', 'product_charge',
-     * 'trial_discount', 'rollover', 'seat', 'grouped_charge'.
+     * The type of line item.
+     *
+     * - `scheduled`: Line item is associated with a scheduled charge. View the
+     *   scheduled_charge_id on the line item.
+     * - `commit_purchase`: Line item is associated with a payment for a prepaid
+     *   commit. View the commit_id on the line item.
+     * - `usage`: Line item is associated with a usage product or composite product.
+     *   View the product_id on the line item to determine which product.
+     * - `subscription`: Line item is associated with a subscription. e.g. monthly
+     *   recurring payment for an in-advance subscription.
+     * - `applied_commit_or_credit`: On metronome invoices, applied commits and credits
+     *   are associated with their own line items. These line items have negative
+     *   totals. Use the applied_commit_or_credit object on the line item to understand
+     *   the id of the applied commit or credit, and its type. Note that the
+     *   application of a postpaid commit is associated with a line item, but the total
+     *   on the line item is not included in the invoice's total as postpaid commits
+     *   are paid in-arrears.
+     * - `cpu_conversion`: Line item converting between a custom pricing unit and fiat
+     *   currency, using the conversion rate set on the rate card. This line item will
+     *   appear when there are products priced in custom pricing units, and there is
+     *   insufficient prepaid commit/credit in that custom pricing unit to fully cover
+     *   the spend. Then, the outstanding spend in custom pricing units will be
+     *   converted to fiat currency using a cpu_conversion line item.
      */
     type: string;
 

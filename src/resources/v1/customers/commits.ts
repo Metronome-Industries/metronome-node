@@ -3,6 +3,8 @@
 import { APIResource } from '../../../resource';
 import * as Core from '../../../core';
 import * as Shared from '../../shared';
+import { CommitsBodyCursorPage } from '../../shared';
+import { type BodyCursorPageParams } from '../../../pagination';
 
 export class Commits extends APIResource {
   /**
@@ -51,15 +53,27 @@ export class Commits extends APIResource {
    *
    * @example
    * ```ts
-   * const commits = await client.v1.customers.commits.list({
-   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-   *   commit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
-   *   include_ledgers: true,
-   * });
+   * // Automatically fetches more pages as needed.
+   * for await (const commit of client.v1.customers.commits.list(
+   *   {
+   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *     commit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+   *     include_ledgers: true,
+   *   },
+   * )) {
+   *   // ...
+   * }
    * ```
    */
-  list(body: CommitListParams, options?: Core.RequestOptions): Core.APIPromise<CommitListResponse> {
-    return this._client.post('/v1/contracts/customerCommits/list', { body, ...options });
+  list(
+    body: CommitListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CommitsBodyCursorPage, Shared.Commit> {
+    return this._client.getAPIList('/v1/contracts/customerCommits/list', CommitsBodyCursorPage, {
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -88,12 +102,6 @@ export class Commits extends APIResource {
 
 export interface CommitCreateResponse {
   data: Shared.ID;
-}
-
-export interface CommitListResponse {
-  data: Array<Shared.Commit>;
-
-  next_page: string | null;
 }
 
 export interface CommitUpdateEndDateResponse {
@@ -188,7 +196,7 @@ export interface CommitCreateParams {
    * specifiers to contribute to a commit's or credit's drawdown. This field cannot
    * be used together with `applicable_product_ids` or `applicable_product_tags`.
    */
-  specifiers?: Array<CommitCreateParams.Specifier>;
+  specifiers?: Array<Shared.CommitSpecifierInput>;
 
   /**
    * Prevents the creation of duplicates. If a request to create a commit or credit
@@ -331,26 +339,9 @@ export namespace CommitCreateParams {
       unit_price?: number;
     }
   }
-
-  export interface Specifier {
-    presentation_group_values?: { [key: string]: string };
-
-    pricing_group_values?: { [key: string]: string };
-
-    /**
-     * If provided, the specifier will only apply to the product with the specified ID.
-     */
-    product_id?: string;
-
-    /**
-     * If provided, the specifier will only apply to products with all the specified
-     * tags.
-     */
-    product_tags?: Array<string>;
-  }
 }
 
-export interface CommitListParams {
+export interface CommitListParams extends BodyCursorPageParams {
   customer_id: string;
 
   commit_id?: string;
@@ -388,16 +379,6 @@ export interface CommitListParams {
   include_ledgers?: boolean;
 
   /**
-   * The maximum number of commits to return. Defaults to 25.
-   */
-  limit?: number;
-
-  /**
-   * The next page token from a previous response.
-   */
-  next_page?: string;
-
-  /**
    * Include only commits that have any access on or after the provided date
    */
   starting_at?: string;
@@ -431,10 +412,11 @@ export interface CommitUpdateEndDateParams {
 export declare namespace Commits {
   export {
     type CommitCreateResponse as CommitCreateResponse,
-    type CommitListResponse as CommitListResponse,
     type CommitUpdateEndDateResponse as CommitUpdateEndDateResponse,
     type CommitCreateParams as CommitCreateParams,
     type CommitListParams as CommitListParams,
     type CommitUpdateEndDateParams as CommitUpdateEndDateParams,
   };
 }
+
+export { CommitsBodyCursorPage };

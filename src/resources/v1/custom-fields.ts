@@ -3,6 +3,7 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
+import { CursorPageWithoutLimit, type CursorPageWithoutLimitParams } from '../../pagination';
 
 export class CustomFields extends APIResource {
   /**
@@ -51,25 +52,34 @@ export class CustomFields extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.v1.customFields.listKeys({
-   *   entities: ['customer'],
-   * });
+   * // Automatically fetches more pages as needed.
+   * for await (const customFieldListKeysResponse of client.v1.customFields.listKeys(
+   *   { entities: ['customer'] },
+   * )) {
+   *   // ...
+   * }
    * ```
    */
   listKeys(
     params?: CustomFieldListKeysParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomFieldListKeysResponse>;
-  listKeys(options?: Core.RequestOptions): Core.APIPromise<CustomFieldListKeysResponse>;
+  ): Core.PagePromise<CustomFieldListKeysResponsesCursorPageWithoutLimit, CustomFieldListKeysResponse>;
+  listKeys(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CustomFieldListKeysResponsesCursorPageWithoutLimit, CustomFieldListKeysResponse>;
   listKeys(
     params: CustomFieldListKeysParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomFieldListKeysResponse> {
+  ): Core.PagePromise<CustomFieldListKeysResponsesCursorPageWithoutLimit, CustomFieldListKeysResponse> {
     if (isRequestOptions(params)) {
       return this.listKeys({}, params);
     }
     const { next_page, ...body } = params;
-    return this._client.post('/v1/customFields/listKeys', { query: { next_page }, body, ...options });
+    return this._client.getAPIList(
+      '/v1/customFields/listKeys',
+      CustomFieldListKeysResponsesCursorPageWithoutLimit,
+      { query: { next_page }, body, method: 'post', ...options },
+    );
   }
 
   /**
@@ -118,38 +128,32 @@ export class CustomFields extends APIResource {
   }
 }
 
+export class CustomFieldListKeysResponsesCursorPageWithoutLimit extends CursorPageWithoutLimit<CustomFieldListKeysResponse> {}
+
 export interface CustomFieldListKeysResponse {
-  data: Array<CustomFieldListKeysResponse.Data>;
+  enforce_uniqueness: boolean;
 
-  next_page: string | null;
-}
+  entity:
+    | 'alert'
+    | 'billable_metric'
+    | 'charge'
+    | 'commit'
+    | 'contract_credit'
+    | 'contract_product'
+    | 'contract'
+    | 'credit_grant'
+    | 'customer_plan'
+    | 'customer'
+    | 'discount'
+    | 'invoice'
+    | 'plan'
+    | 'professional_service'
+    | 'product'
+    | 'rate_card'
+    | 'scheduled_charge'
+    | 'subscription';
 
-export namespace CustomFieldListKeysResponse {
-  export interface Data {
-    enforce_uniqueness: boolean;
-
-    entity:
-      | 'alert'
-      | 'billable_metric'
-      | 'charge'
-      | 'commit'
-      | 'contract_credit'
-      | 'contract_product'
-      | 'contract'
-      | 'credit_grant'
-      | 'customer_plan'
-      | 'customer'
-      | 'discount'
-      | 'invoice'
-      | 'plan'
-      | 'professional_service'
-      | 'product'
-      | 'rate_card'
-      | 'scheduled_charge'
-      | 'subscription';
-
-    key: string;
-  }
+  key: string;
 }
 
 export interface CustomFieldAddKeyParams {
@@ -204,12 +208,7 @@ export interface CustomFieldDeleteValuesParams {
   keys: Array<string>;
 }
 
-export interface CustomFieldListKeysParams {
-  /**
-   * Query param: Cursor that indicates where the next page of results should start.
-   */
-  next_page?: string;
-
+export interface CustomFieldListKeysParams extends CursorPageWithoutLimitParams {
   /**
    * Body param: Optional list of entity types to return keys for
    */
@@ -285,9 +284,13 @@ export interface CustomFieldSetValuesParams {
   entity_id: string;
 }
 
+CustomFields.CustomFieldListKeysResponsesCursorPageWithoutLimit =
+  CustomFieldListKeysResponsesCursorPageWithoutLimit;
+
 export declare namespace CustomFields {
   export {
     type CustomFieldListKeysResponse as CustomFieldListKeysResponse,
+    CustomFieldListKeysResponsesCursorPageWithoutLimit as CustomFieldListKeysResponsesCursorPageWithoutLimit,
     type CustomFieldAddKeyParams as CustomFieldAddKeyParams,
     type CustomFieldDeleteValuesParams as CustomFieldDeleteValuesParams,
     type CustomFieldListKeysParams as CustomFieldListKeysParams,

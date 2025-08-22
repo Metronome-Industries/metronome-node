@@ -37,6 +37,7 @@ import {
   CreditGrantEditResponse,
   CreditGrantListEntriesParams,
   CreditGrantListEntriesResponse,
+  CreditGrantListEntriesResponsesCursorPageWithoutLimit,
   CreditGrantListParams,
   CreditGrantListResponse,
   CreditGrantListResponsesCursorPage,
@@ -53,6 +54,7 @@ import {
   CustomFieldDeleteValuesParams,
   CustomFieldListKeysParams,
   CustomFieldListKeysResponse,
+  CustomFieldListKeysResponsesCursorPageWithoutLimit,
   CustomFieldRemoveKeyParams,
   CustomFieldSetValuesParams,
   CustomFields,
@@ -98,6 +100,7 @@ import {
   UsageIngestParams,
   UsageListParams,
   UsageListResponse,
+  UsageListResponsesCursorPageWithoutLimit,
   UsageListWithGroupsParams,
   UsageListWithGroupsResponse,
   UsageListWithGroupsResponsesCursorPage,
@@ -117,6 +120,7 @@ import {
   ContractCreateResponse,
   ContractListBalancesParams,
   ContractListBalancesResponse,
+  ContractListBalancesResponsesBodyCursorPage,
   ContractListParams,
   ContractListResponse,
   ContractRetrieveParams,
@@ -182,6 +186,8 @@ V1.PlanListChargesResponsesCursorPage = PlanListChargesResponsesCursorPage;
 V1.PlanListCustomersResponsesCursorPage = PlanListCustomersResponsesCursorPage;
 V1.CreditGrants = CreditGrants;
 V1.CreditGrantListResponsesCursorPage = CreditGrantListResponsesCursorPage;
+V1.CreditGrantListEntriesResponsesCursorPageWithoutLimit =
+  CreditGrantListEntriesResponsesCursorPageWithoutLimit;
 V1.PricingUnits = PricingUnits;
 V1.PricingUnitListResponsesCursorPage = PricingUnitListResponsesCursorPage;
 V1.Customers = Customers;
@@ -190,15 +196,18 @@ V1.CustomerListBillableMetricsResponsesCursorPage = CustomerListBillableMetricsR
 V1.CustomerListCostsResponsesCursorPage = CustomerListCostsResponsesCursorPage;
 V1.Dashboards = Dashboards;
 V1.Usage = Usage;
+V1.UsageListResponsesCursorPageWithoutLimit = UsageListResponsesCursorPageWithoutLimit;
 V1.UsageListWithGroupsResponsesCursorPage = UsageListWithGroupsResponsesCursorPage;
 V1.AuditLogs = AuditLogs;
 V1.AuditLogListResponsesCursorPage = AuditLogListResponsesCursorPage;
 V1.CustomFields = CustomFields;
+V1.CustomFieldListKeysResponsesCursorPageWithoutLimit = CustomFieldListKeysResponsesCursorPageWithoutLimit;
 V1.BillableMetrics = BillableMetrics;
 V1.BillableMetricListResponsesCursorPage = BillableMetricListResponsesCursorPage;
 V1.Services = Services;
 V1.Invoices = Invoices;
 V1.Contracts = Contracts;
+V1.ContractListBalancesResponsesBodyCursorPage = ContractListBalancesResponsesBodyCursorPage;
 
 export declare namespace V1 {
   export {
@@ -236,6 +245,7 @@ export declare namespace V1 {
     type CreditGrantListEntriesResponse as CreditGrantListEntriesResponse,
     type CreditGrantVoidResponse as CreditGrantVoidResponse,
     CreditGrantListResponsesCursorPage as CreditGrantListResponsesCursorPage,
+    CreditGrantListEntriesResponsesCursorPageWithoutLimit as CreditGrantListEntriesResponsesCursorPageWithoutLimit,
     type CreditGrantCreateParams as CreditGrantCreateParams,
     type CreditGrantListParams as CreditGrantListParams,
     type CreditGrantEditParams as CreditGrantEditParams,
@@ -287,6 +297,7 @@ export declare namespace V1 {
     type UsageListResponse as UsageListResponse,
     type UsageListWithGroupsResponse as UsageListWithGroupsResponse,
     type UsageSearchResponse as UsageSearchResponse,
+    UsageListResponsesCursorPageWithoutLimit as UsageListResponsesCursorPageWithoutLimit,
     UsageListWithGroupsResponsesCursorPage as UsageListWithGroupsResponsesCursorPage,
     type UsageListParams as UsageListParams,
     type UsageIngestParams as UsageIngestParams,
@@ -304,6 +315,7 @@ export declare namespace V1 {
   export {
     CustomFields as CustomFields,
     type CustomFieldListKeysResponse as CustomFieldListKeysResponse,
+    CustomFieldListKeysResponsesCursorPageWithoutLimit as CustomFieldListKeysResponsesCursorPageWithoutLimit,
     type CustomFieldAddKeyParams as CustomFieldAddKeyParams,
     type CustomFieldDeleteValuesParams as CustomFieldDeleteValuesParams,
     type CustomFieldListKeysParams as CustomFieldListKeysParams,
@@ -347,6 +359,7 @@ export declare namespace V1 {
     type ContractRetrieveSubscriptionQuantityHistoryResponse as ContractRetrieveSubscriptionQuantityHistoryResponse,
     type ContractScheduleProServicesInvoiceResponse as ContractScheduleProServicesInvoiceResponse,
     type ContractUpdateEndDateResponse as ContractUpdateEndDateResponse,
+    ContractListBalancesResponsesBodyCursorPage as ContractListBalancesResponsesBodyCursorPage,
     type ContractCreateParams as ContractCreateParams,
     type ContractRetrieveParams as ContractRetrieveParams,
     type ContractListParams as ContractListParams,

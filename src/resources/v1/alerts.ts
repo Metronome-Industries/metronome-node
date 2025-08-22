@@ -155,7 +155,7 @@ export namespace AlertCreateParams {
   export interface GroupValue {
     key: string;
 
-    value: string;
+    value?: string;
   }
 }
 

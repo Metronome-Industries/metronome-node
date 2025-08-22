@@ -5,7 +5,12 @@ import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
 import * as CreditGrantsAPI from './credit-grants';
 import * as Shared from '../shared';
-import { CursorPage, type CursorPageParams } from '../../pagination';
+import {
+  CursorPage,
+  type CursorPageParams,
+  CursorPageWithoutLimit,
+  type CursorPageWithoutLimitParams,
+} from '../../pagination';
 
 export class CreditGrants extends APIResource {
   /**
@@ -108,28 +113,41 @@ export class CreditGrants extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.v1.creditGrants.listEntries({
-   *   credit_type_ids: ['2714e483-4ff1-48e4-9e25-ac732e8f24f2'],
-   *   customer_ids: ['6a37bb88-8538-48c5-b37b-a41c836328bd'],
-   *   ending_before: '2021-02-01T00:00:00Z',
-   *   starting_on: '2021-01-01T00:00:00Z',
-   * });
+   * // Automatically fetches more pages as needed.
+   * for await (const creditGrantListEntriesResponse of client.v1.creditGrants.listEntries(
+   *   {
+   *     credit_type_ids: [
+   *       '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+   *     ],
+   *     customer_ids: ['6a37bb88-8538-48c5-b37b-a41c836328bd'],
+   *     ending_before: '2021-02-01T00:00:00Z',
+   *     starting_on: '2021-01-01T00:00:00Z',
+   *   },
+   * )) {
+   *   // ...
+   * }
    * ```
    */
   listEntries(
     params?: CreditGrantListEntriesParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditGrantListEntriesResponse>;
-  listEntries(options?: Core.RequestOptions): Core.APIPromise<CreditGrantListEntriesResponse>;
+  ): Core.PagePromise<CreditGrantListEntriesResponsesCursorPageWithoutLimit, CreditGrantListEntriesResponse>;
+  listEntries(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CreditGrantListEntriesResponsesCursorPageWithoutLimit, CreditGrantListEntriesResponse>;
   listEntries(
     params: CreditGrantListEntriesParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditGrantListEntriesResponse> {
+  ): Core.PagePromise<CreditGrantListEntriesResponsesCursorPageWithoutLimit, CreditGrantListEntriesResponse> {
     if (isRequestOptions(params)) {
       return this.listEntries({}, params);
     }
     const { next_page, sort, ...body } = params;
-    return this._client.post('/v1/credits/listEntries', { query: { next_page, sort }, body, ...options });
+    return this._client.getAPIList(
+      '/v1/credits/listEntries',
+      CreditGrantListEntriesResponsesCursorPageWithoutLimit,
+      { query: { next_page, sort }, body, method: 'post', ...options },
+    );
   }
 
   /**
@@ -148,6 +166,8 @@ export class CreditGrants extends APIResource {
 }
 
 export class CreditGrantListResponsesCursorPage extends CursorPage<CreditGrantListResponse> {}
+
+export class CreditGrantListEntriesResponsesCursorPageWithoutLimit extends CursorPageWithoutLimit<CreditGrantListEntriesResponse> {}
 
 export interface CreditLedgerEntry {
   /**
@@ -336,78 +356,70 @@ export interface CreditGrantEditResponse {
 }
 
 export interface CreditGrantListEntriesResponse {
-  data: Array<CreditGrantListEntriesResponse.Data>;
+  customer_id: string;
 
-  next_page: string | null;
+  ledgers: Array<CreditGrantListEntriesResponse.Ledger>;
 }
 
 export namespace CreditGrantListEntriesResponse {
-  export interface Data {
-    customer_id: string;
+  export interface Ledger {
+    credit_type: Shared.CreditTypeData;
 
-    ledgers: Array<Data.Ledger>;
+    /**
+     * the effective balances at the end of the specified time window
+     */
+    ending_balance: Ledger.EndingBalance;
+
+    entries: Array<CreditGrantsAPI.CreditLedgerEntry>;
+
+    pending_entries: Array<CreditGrantsAPI.CreditLedgerEntry>;
+
+    starting_balance: Ledger.StartingBalance;
   }
 
-  export namespace Data {
-    export interface Ledger {
-      credit_type: Shared.CreditTypeData;
+  export namespace Ledger {
+    /**
+     * the effective balances at the end of the specified time window
+     */
+    export interface EndingBalance {
+      /**
+       * the ending_before request parameter (if supplied) or the current billing
+       * period's end date
+       */
+      effective_at: string;
 
       /**
-       * the effective balances at the end of the specified time window
+       * the ending balance, including the balance of all grants that have not expired
+       * before the effective_at date and deductions that happened before the
+       * effective_at date
        */
-      ending_balance: Ledger.EndingBalance;
+      excluding_pending: number;
 
-      entries: Array<CreditGrantsAPI.CreditLedgerEntry>;
-
-      pending_entries: Array<CreditGrantsAPI.CreditLedgerEntry>;
-
-      starting_balance: Ledger.StartingBalance;
+      /**
+       * the excluding_pending balance plus any pending invoice deductions and
+       * expirations that will happen by the effective_at date
+       */
+      including_pending: number;
     }
 
-    export namespace Ledger {
+    export interface StartingBalance {
       /**
-       * the effective balances at the end of the specified time window
+       * the starting_on request parameter (if supplied) or the first credit grant's
+       * effective_at date
        */
-      export interface EndingBalance {
-        /**
-         * the ending_before request parameter (if supplied) or the current billing
-         * period's end date
-         */
-        effective_at: string;
+      effective_at: string;
 
-        /**
-         * the ending balance, including the balance of all grants that have not expired
-         * before the effective_at date and deductions that happened before the
-         * effective_at date
-         */
-        excluding_pending: number;
+      /**
+       * the starting balance, including all posted grants, deductions, and expirations
+       * that happened at or before the effective_at timestamp
+       */
+      excluding_pending: number;
 
-        /**
-         * the excluding_pending balance plus any pending invoice deductions and
-         * expirations that will happen by the effective_at date
-         */
-        including_pending: number;
-      }
-
-      export interface StartingBalance {
-        /**
-         * the starting_on request parameter (if supplied) or the first credit grant's
-         * effective_at date
-         */
-        effective_at: string;
-
-        /**
-         * the starting balance, including all posted grants, deductions, and expirations
-         * that happened at or before the effective_at timestamp
-         */
-        excluding_pending: number;
-
-        /**
-         * the excluding_pending balance plus any pending activity that has not been posted
-         * at the time of the query
-         */
-        including_pending: number;
-      }
+      /**
+       * the excluding_pending balance plus any pending activity that has not been posted
+       * at the time of the query
+       */
+      including_pending: number;
     }
   }
 }
@@ -589,12 +601,7 @@ export interface CreditGrantEditParams {
   name?: string;
 }
 
-export interface CreditGrantListEntriesParams {
-  /**
-   * Query param: Cursor that indicates where the next page of results should start.
-   */
-  next_page?: string;
-
+export interface CreditGrantListEntriesParams extends CursorPageWithoutLimitParams {
   /**
    * Query param: Ledgers sort order by date, asc or desc. Defaults to asc.
    */
@@ -642,6 +649,8 @@ export interface CreditGrantVoidParams {
 }
 
 CreditGrants.CreditGrantListResponsesCursorPage = CreditGrantListResponsesCursorPage;
+CreditGrants.CreditGrantListEntriesResponsesCursorPageWithoutLimit =
+  CreditGrantListEntriesResponsesCursorPageWithoutLimit;
 
 export declare namespace CreditGrants {
   export {
@@ -654,6 +663,7 @@ export declare namespace CreditGrants {
     type CreditGrantListEntriesResponse as CreditGrantListEntriesResponse,
     type CreditGrantVoidResponse as CreditGrantVoidResponse,
     CreditGrantListResponsesCursorPage as CreditGrantListResponsesCursorPage,
+    CreditGrantListEntriesResponsesCursorPageWithoutLimit as CreditGrantListEntriesResponsesCursorPageWithoutLimit,
     type CreditGrantCreateParams as CreditGrantCreateParams,
     type CreditGrantListParams as CreditGrantListParams,
     type CreditGrantEditParams as CreditGrantEditParams,

@@ -4,7 +4,12 @@ import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
 import * as Shared from '../shared';
-import { CursorPage, type CursorPageParams } from '../../pagination';
+import {
+  CursorPage,
+  type CursorPageParams,
+  CursorPageWithoutLimit,
+  type CursorPageWithoutLimitParams,
+} from '../../pagination';
 
 export class Usage extends APIResource {
   /**
@@ -13,16 +18,27 @@ export class Usage extends APIResource {
    *
    * @example
    * ```ts
-   * const usages = await client.v1.usage.list({
+   * // Automatically fetches more pages as needed.
+   * for await (const usageListResponse of client.v1.usage.list({
    *   ending_before: '2021-01-03T00:00:00Z',
    *   starting_on: '2021-01-01T00:00:00Z',
    *   window_size: 'day',
-   * });
+   * })) {
+   *   // ...
+   * }
    * ```
    */
-  list(params: UsageListParams, options?: Core.RequestOptions): Core.APIPromise<UsageListResponse> {
+  list(
+    params: UsageListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<UsageListResponsesCursorPageWithoutLimit, UsageListResponse> {
     const { next_page, ...body } = params;
-    return this._client.post('/v1/usage', { query: { next_page }, body, ...options });
+    return this._client.getAPIList('/v1/usage', UsageListResponsesCursorPageWithoutLimit, {
+      query: { next_page },
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -116,34 +132,28 @@ export class Usage extends APIResource {
   }
 }
 
+export class UsageListResponsesCursorPageWithoutLimit extends CursorPageWithoutLimit<UsageListResponse> {}
+
 export class UsageListWithGroupsResponsesCursorPage extends CursorPage<UsageListWithGroupsResponse> {}
 
 export interface UsageListResponse {
-  data: Array<UsageListResponse.Data>;
+  billable_metric_id: string;
 
-  next_page: string | null;
-}
+  billable_metric_name: string;
 
-export namespace UsageListResponse {
-  export interface Data {
-    billable_metric_id: string;
+  customer_id: string;
 
-    billable_metric_name: string;
+  end_timestamp: string;
 
-    customer_id: string;
+  start_timestamp: string;
 
-    end_timestamp: string;
+  value: number | null;
 
-    start_timestamp: string;
-
-    value: number | null;
-
-    /**
-     * Values will be either a number or null. Null indicates that there were no
-     * matches for the group_by value.
-     */
-    groups?: { [key: string]: number | null };
-  }
+  /**
+   * Values will be either a number or null. Null indicates that there were no
+   * matches for the group_by value.
+   */
+  groups?: { [key: string]: number | null };
 }
 
 export interface UsageListWithGroupsResponse {
@@ -270,7 +280,7 @@ export namespace UsageSearchResponse {
   }
 }
 
-export interface UsageListParams {
+export interface UsageListParams extends CursorPageWithoutLimitParams {
   /**
    * Body param:
    */
@@ -288,11 +298,6 @@ export interface UsageListParams {
    * period.
    */
   window_size: 'HOUR' | 'DAY' | 'NONE';
-
-  /**
-   * Query param: Cursor that indicates where the next page of results should start.
-   */
-  next_page?: string;
 
   /**
    * Body param: A list of billable metrics to fetch usage for. If absent, all
@@ -413,6 +418,7 @@ export interface UsageSearchParams {
   transactionIds: Array<string>;
 }
 
+Usage.UsageListResponsesCursorPageWithoutLimit = UsageListResponsesCursorPageWithoutLimit;
 Usage.UsageListWithGroupsResponsesCursorPage = UsageListWithGroupsResponsesCursorPage;
 
 export declare namespace Usage {
@@ -420,6 +426,7 @@ export declare namespace Usage {
     type UsageListResponse as UsageListResponse,
     type UsageListWithGroupsResponse as UsageListWithGroupsResponse,
     type UsageSearchResponse as UsageSearchResponse,
+    UsageListResponsesCursorPageWithoutLimit as UsageListResponsesCursorPageWithoutLimit,
     UsageListWithGroupsResponsesCursorPage as UsageListWithGroupsResponsesCursorPage,
     type UsageListParams as UsageListParams,
     type UsageIngestParams as UsageIngestParams,

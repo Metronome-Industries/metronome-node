@@ -2,21 +2,37 @@
 
 Types:
 
+- <code><a href="./src/resources/shared.ts">BaseThresholdCommit</a></code>
 - <code><a href="./src/resources/shared.ts">BaseUsageFilter</a></code>
 - <code><a href="./src/resources/shared.ts">Commit</a></code>
+- <code><a href="./src/resources/shared.ts">CommitHierarchyConfiguration</a></code>
+- <code><a href="./src/resources/shared.ts">CommitRate</a></code>
+- <code><a href="./src/resources/shared.ts">CommitSpecifier</a></code>
+- <code><a href="./src/resources/shared.ts">CommitSpecifierInput</a></code>
+- <code><a href="./src/resources/shared.ts">Contract</a></code>
+- <code><a href="./src/resources/shared.ts">ContractV2</a></code>
 - <code><a href="./src/resources/shared.ts">ContractWithoutAmendments</a></code>
 - <code><a href="./src/resources/shared.ts">Credit</a></code>
 - <code><a href="./src/resources/shared.ts">CreditTypeData</a></code>
 - <code><a href="./src/resources/shared.ts">Discount</a></code>
 - <code><a href="./src/resources/shared.ts">EventTypeFilter</a></code>
+- <code><a href="./src/resources/shared.ts">HierarchyConfiguration</a></code>
 - <code><a href="./src/resources/shared.ts">ID</a></code>
 - <code><a href="./src/resources/shared.ts">Override</a></code>
+- <code><a href="./src/resources/shared.ts">OverrideTier</a></code>
+- <code><a href="./src/resources/shared.ts">PaymentGateConfig</a></code>
+- <code><a href="./src/resources/shared.ts">PaymentGateConfigV2</a></code>
+- <code><a href="./src/resources/shared.ts">PrepaidBalanceThresholdConfiguration</a></code>
+- <code><a href="./src/resources/shared.ts">PrepaidBalanceThresholdConfigurationV2</a></code>
 - <code><a href="./src/resources/shared.ts">PropertyFilter</a></code>
 - <code><a href="./src/resources/shared.ts">ProService</a></code>
 - <code><a href="./src/resources/shared.ts">Rate</a></code>
 - <code><a href="./src/resources/shared.ts">ScheduledCharge</a></code>
 - <code><a href="./src/resources/shared.ts">ScheduleDuration</a></code>
 - <code><a href="./src/resources/shared.ts">SchedulePointInTime</a></code>
+- <code><a href="./src/resources/shared.ts">SpendThresholdConfiguration</a></code>
+- <code><a href="./src/resources/shared.ts">SpendThresholdConfigurationV2</a></code>
+- <code><a href="./src/resources/shared.ts">Subscription</a></code>
 - <code><a href="./src/resources/shared.ts">Tier</a></code>
 
 # V2
@@ -90,7 +106,7 @@ Methods:
 - <code title="post /v1/credits/createGrant">client.v1.creditGrants.<a href="./src/resources/v1/credit-grants.ts">create</a>({ ...params }) -> CreditGrantCreateResponse</code>
 - <code title="post /v1/credits/listGrants">client.v1.creditGrants.<a href="./src/resources/v1/credit-grants.ts">list</a>({ ...params }) -> CreditGrantListResponsesCursorPage</code>
 - <code title="post /v1/credits/editGrant">client.v1.creditGrants.<a href="./src/resources/v1/credit-grants.ts">edit</a>({ ...params }) -> CreditGrantEditResponse</code>
-- <code title="post /v1/credits/listEntries">client.v1.creditGrants.<a href="./src/resources/v1/credit-grants.ts">listEntries</a>({ ...params }) -> CreditGrantListEntriesResponse</code>
+- <code title="post /v1/credits/listEntries">client.v1.creditGrants.<a href="./src/resources/v1/credit-grants.ts">listEntries</a>({ ...params }) -> CreditGrantListEntriesResponsesCursorPageWithoutLimit</code>
 - <code title="post /v1/credits/voidGrant">client.v1.creditGrants.<a href="./src/resources/v1/credit-grants.ts">void</a>({ ...params }) -> CreditGrantVoidResponse</code>
 
 ## PricingUnits
@@ -136,12 +152,11 @@ Types:
 
 - <code><a href="./src/resources/v1/customers/alerts.ts">CustomerAlert</a></code>
 - <code><a href="./src/resources/v1/customers/alerts.ts">AlertRetrieveResponse</a></code>
-- <code><a href="./src/resources/v1/customers/alerts.ts">AlertListResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/customer-alerts/get">client.v1.customers.alerts.<a href="./src/resources/v1/customers/alerts.ts">retrieve</a>({ ...params }) -> AlertRetrieveResponse</code>
-- <code title="post /v1/customer-alerts/list">client.v1.customers.alerts.<a href="./src/resources/v1/customers/alerts.ts">list</a>({ ...params }) -> AlertListResponse</code>
+- <code title="post /v1/customer-alerts/list">client.v1.customers.alerts.<a href="./src/resources/v1/customers/alerts.ts">list</a>({ ...params }) -> CustomerAlertsCursorPageWithoutLimit</code>
 - <code title="post /v1/customer-alerts/reset">client.v1.customers.alerts.<a href="./src/resources/v1/customers/alerts.ts">reset</a>({ ...params }) -> void</code>
 
 ### Plans
@@ -193,13 +208,12 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/v1/customers/commits.ts">CommitCreateResponse</a></code>
-- <code><a href="./src/resources/v1/customers/commits.ts">CommitListResponse</a></code>
 - <code><a href="./src/resources/v1/customers/commits.ts">CommitUpdateEndDateResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/contracts/customerCommits/create">client.v1.customers.commits.<a href="./src/resources/v1/customers/commits.ts">create</a>({ ...params }) -> CommitCreateResponse</code>
-- <code title="post /v1/contracts/customerCommits/list">client.v1.customers.commits.<a href="./src/resources/v1/customers/commits.ts">list</a>({ ...params }) -> CommitListResponse</code>
+- <code title="post /v1/contracts/customerCommits/list">client.v1.customers.commits.<a href="./src/resources/v1/customers/commits.ts">list</a>({ ...params }) -> CommitsBodyCursorPage</code>
 - <code title="post /v1/contracts/customerCommits/updateEndDate">client.v1.customers.commits.<a href="./src/resources/v1/customers/commits.ts">updateEndDate</a>({ ...params }) -> CommitUpdateEndDateResponse</code>
 
 ### Credits
@@ -207,13 +221,12 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/v1/customers/credits.ts">CreditCreateResponse</a></code>
-- <code><a href="./src/resources/v1/customers/credits.ts">CreditListResponse</a></code>
 - <code><a href="./src/resources/v1/customers/credits.ts">CreditUpdateEndDateResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/contracts/customerCredits/create">client.v1.customers.credits.<a href="./src/resources/v1/customers/credits.ts">create</a>({ ...params }) -> CreditCreateResponse</code>
-- <code title="post /v1/contracts/customerCredits/list">client.v1.customers.credits.<a href="./src/resources/v1/customers/credits.ts">list</a>({ ...params }) -> CreditListResponse</code>
+- <code title="post /v1/contracts/customerCredits/list">client.v1.customers.credits.<a href="./src/resources/v1/customers/credits.ts">list</a>({ ...params }) -> CreditsBodyCursorPage</code>
 - <code title="post /v1/contracts/customerCredits/updateEndDate">client.v1.customers.credits.<a href="./src/resources/v1/customers/credits.ts">updateEndDate</a>({ ...params }) -> CreditUpdateEndDateResponse</code>
 
 ### NamedSchedules
@@ -247,7 +260,7 @@ Types:
 
 Methods:
 
-- <code title="post /v1/usage">client.v1.usage.<a href="./src/resources/v1/usage.ts">list</a>({ ...params }) -> UsageListResponse</code>
+- <code title="post /v1/usage">client.v1.usage.<a href="./src/resources/v1/usage.ts">list</a>({ ...params }) -> UsageListResponsesCursorPageWithoutLimit</code>
 - <code title="post /v1/ingest">client.v1.usage.<a href="./src/resources/v1/usage.ts">ingest</a>([ ...usage ]) -> void</code>
 - <code title="post /v1/usage/groups">client.v1.usage.<a href="./src/resources/v1/usage.ts">listWithGroups</a>({ ...params }) -> UsageListWithGroupsResponsesCursorPage</code>
 - <code title="post /v1/events/search">client.v1.usage.<a href="./src/resources/v1/usage.ts">search</a>({ ...params }) -> UsageSearchResponse</code>
@@ -272,7 +285,7 @@ Methods:
 
 - <code title="post /v1/customFields/addKey">client.v1.customFields.<a href="./src/resources/v1/custom-fields.ts">addKey</a>({ ...params }) -> void</code>
 - <code title="post /v1/customFields/deleteValues">client.v1.customFields.<a href="./src/resources/v1/custom-fields.ts">deleteValues</a>({ ...params }) -> void</code>
-- <code title="post /v1/customFields/listKeys">client.v1.customFields.<a href="./src/resources/v1/custom-fields.ts">listKeys</a>({ ...params }) -> CustomFieldListKeysResponse</code>
+- <code title="post /v1/customFields/listKeys">client.v1.customFields.<a href="./src/resources/v1/custom-fields.ts">listKeys</a>({ ...params }) -> CustomFieldListKeysResponsesCursorPageWithoutLimit</code>
 - <code title="post /v1/customFields/removeKey">client.v1.customFields.<a href="./src/resources/v1/custom-fields.ts">removeKey</a>({ ...params }) -> void</code>
 - <code title="post /v1/customFields/setValues">client.v1.customFields.<a href="./src/resources/v1/custom-fields.ts">setValues</a>({ ...params }) -> void</code>
 
@@ -339,7 +352,7 @@ Methods:
 - <code title="post /v1/contracts/amend">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">amend</a>({ ...params }) -> ContractAmendResponse</code>
 - <code title="post /v1/contracts/archive">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">archive</a>({ ...params }) -> ContractArchiveResponse</code>
 - <code title="post /v1/contracts/createHistoricalInvoices">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">createHistoricalInvoices</a>({ ...params }) -> ContractCreateHistoricalInvoicesResponse</code>
-- <code title="post /v1/contracts/customerBalances/list">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">listBalances</a>({ ...params }) -> ContractListBalancesResponse</code>
+- <code title="post /v1/contracts/customerBalances/list">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">listBalances</a>({ ...params }) -> ContractListBalancesResponsesBodyCursorPage</code>
 - <code title="post /v1/contracts/getContractRateSchedule">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">retrieveRateSchedule</a>({ ...params }) -> ContractRetrieveRateScheduleResponse</code>
 - <code title="post /v1/contracts/getSubscriptionQuantityHistory">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">retrieveSubscriptionQuantityHistory</a>({ ...params }) -> ContractRetrieveSubscriptionQuantityHistoryResponse</code>
 - <code title="post /v1/contracts/scheduleProServicesInvoice">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">scheduleProServicesInvoice</a>({ ...params }) -> ContractScheduleProServicesInvoiceResponse</code>

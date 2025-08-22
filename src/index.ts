@@ -5,7 +5,14 @@ import * as qs from './internal/qs';
 import * as Core from './core';
 import * as Errors from './error';
 import * as Pagination from './pagination';
-import { type CursorPageParams, CursorPageResponse } from './pagination';
+import {
+  type BodyCursorPageParams,
+  BodyCursorPageResponse,
+  type CursorPageParams,
+  CursorPageResponse,
+  type CursorPageWithoutLimitParams,
+  CursorPageWithoutLimitResponse,
+} from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { V1 } from './resources/v1/v1';
@@ -197,25 +204,53 @@ export declare namespace Metronome {
   export import CursorPage = Pagination.CursorPage;
   export { type CursorPageParams as CursorPageParams, type CursorPageResponse as CursorPageResponse };
 
+  export import BodyCursorPage = Pagination.BodyCursorPage;
+  export {
+    type BodyCursorPageParams as BodyCursorPageParams,
+    type BodyCursorPageResponse as BodyCursorPageResponse,
+  };
+
+  export import CursorPageWithoutLimit = Pagination.CursorPageWithoutLimit;
+  export {
+    type CursorPageWithoutLimitParams as CursorPageWithoutLimitParams,
+    type CursorPageWithoutLimitResponse as CursorPageWithoutLimitResponse,
+  };
+
   export { V2 as V2 };
 
   export { V1 as V1 };
 
+  export type BaseThresholdCommit = API.BaseThresholdCommit;
   export type BaseUsageFilter = API.BaseUsageFilter;
   export type Commit = API.Commit;
+  export type CommitHierarchyConfiguration = API.CommitHierarchyConfiguration;
+  export type CommitRate = API.CommitRate;
+  export type CommitSpecifier = API.CommitSpecifier;
+  export type CommitSpecifierInput = API.CommitSpecifierInput;
+  export type Contract = API.Contract;
+  export type ContractV2 = API.ContractV2;
   export type ContractWithoutAmendments = API.ContractWithoutAmendments;
   export type Credit = API.Credit;
   export type CreditTypeData = API.CreditTypeData;
   export type Discount = API.Discount;
   export type EventTypeFilter = API.EventTypeFilter;
+  export type HierarchyConfiguration = API.HierarchyConfiguration;
   export type ID = API.ID;
   export type Override = API.Override;
+  export type OverrideTier = API.OverrideTier;
+  export type PaymentGateConfig = API.PaymentGateConfig;
+  export type PaymentGateConfigV2 = API.PaymentGateConfigV2;
+  export type PrepaidBalanceThresholdConfiguration = API.PrepaidBalanceThresholdConfiguration;
+  export type PrepaidBalanceThresholdConfigurationV2 = API.PrepaidBalanceThresholdConfigurationV2;
   export type PropertyFilter = API.PropertyFilter;
   export type ProService = API.ProService;
   export type Rate = API.Rate;
   export type ScheduledCharge = API.ScheduledCharge;
   export type ScheduleDuration = API.ScheduleDuration;
   export type SchedulePointInTime = API.SchedulePointInTime;
+  export type SpendThresholdConfiguration = API.SpendThresholdConfiguration;
+  export type SpendThresholdConfigurationV2 = API.SpendThresholdConfigurationV2;
+  export type Subscription = API.Subscription;
   export type Tier = API.Tier;
 }
 

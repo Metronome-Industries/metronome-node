@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.4.0 (2025-08-22)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* **api:** api update ([13cf75b](https://github.com/Metronome-Industries/metronome-node/commit/13cf75bd4aacae03e0dfa75f5bfe318c4d218641))
+* **api:** api update ([cf3070e](https://github.com/Metronome-Industries/metronome-node/commit/cf3070e1a6daf760b615563b4258b4c3dd23e7c2))
+* **api:** api update ([597274f](https://github.com/Metronome-Industries/metronome-node/commit/597274f4361c282c9694df2b4c016e80727c2738))
+* **api:** api update ([342a301](https://github.com/Metronome-Industries/metronome-node/commit/342a301fa796ae9f094c11a4a89b59001530e9fc))
+* **api:** api update ([9b7ae0d](https://github.com/Metronome-Industries/metronome-node/commit/9b7ae0d0db78f26fedefd4bf6ea7e1adcd2bd34f))
+* **api:** api update ([b6d40a2](https://github.com/Metronome-Industries/metronome-node/commit/b6d40a2ae603f5597f80bd5fee972ecf60970109))
+* **api:** api update ([668f2f2](https://github.com/Metronome-Industries/metronome-node/commit/668f2f27afca551bb65492e8b68f518057592dd4))
+* **mcp:** add code execution tool ([c32ce96](https://github.com/Metronome-Industries/metronome-node/commit/c32ce964368c009b8b495f0b73e8e590adb6bd92))
+* **mcp:** add option to infer mcp client ([30d0b1b](https://github.com/Metronome-Industries/metronome-node/commit/30d0b1b31e8446f0ca8a713948ffa90780a77d43))
+* **mcp:** change remote server query option parsing logic ([e414908](https://github.com/Metronome-Industries/metronome-node/commit/e41490817b82c9f2ca10ca8dfbc3ad61bcf260e7))
+* **mcp:** parse query string as mcp client options in mcp server ([8c5eb84](https://github.com/Metronome-Industries/metronome-node/commit/8c5eb84a37ddbb9529f14ae974c5d9c7ac44b633))
+
+
+### Chores
+
+* **internal:** make mcp-server publishing public by defaut ([78f2017](https://github.com/Metronome-Industries/metronome-node/commit/78f20176d7157098fd3b177e819e17a798240b1c))
+* **internal:** refactor array check ([5a3af2d](https://github.com/Metronome-Industries/metronome-node/commit/5a3af2da2d5891a670c62a149187fc107776842c))
+* **mcp:** add cors to oauth metadata route ([bf3ffa6](https://github.com/Metronome-Industries/metronome-node/commit/bf3ffa64a3d8ba44b97ef061f40787fb8c52a101))
+* **mcp:** update package.json ([dbcf655](https://github.com/Metronome-Industries/metronome-node/commit/dbcf6551c1e456f84d17f440b51e00e48dddde64))
+* **mcp:** update types ([4935d59](https://github.com/Metronome-Industries/metronome-node/commit/4935d59b714148c0e75fc3cce4ba3300b1c9342e))
+* update CI script ([21133cc](https://github.com/Metronome-Industries/metronome-node/commit/21133cc3f883fe51f5acad8af2ec7a9d055164ba))
+
 ## 0.3.0 (2025-08-15)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.2.0...v0.3.0)

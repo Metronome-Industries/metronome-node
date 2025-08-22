@@ -7,12 +7,12 @@ import * as Shared from '../../shared';
 import * as AlertsAPI from './alerts';
 import {
   AlertListParams,
-  AlertListResponse,
   AlertResetParams,
   AlertRetrieveParams,
   AlertRetrieveResponse,
   Alerts,
   CustomerAlert,
+  CustomerAlertsCursorPageWithoutLimit,
 } from './alerts';
 import * as BillingConfigAPI from './billing-config';
 import {
@@ -27,7 +27,6 @@ import {
   CommitCreateParams,
   CommitCreateResponse,
   CommitListParams,
-  CommitListResponse,
   CommitUpdateEndDateParams,
   CommitUpdateEndDateResponse,
   Commits,
@@ -37,7 +36,6 @@ import {
   CreditCreateParams,
   CreditCreateResponse,
   CreditListParams,
-  CreditListResponse,
   CreditUpdateEndDateParams,
   CreditUpdateEndDateResponse,
   Credits,
@@ -801,6 +799,7 @@ Customers.CustomerDetailsCursorPage = CustomerDetailsCursorPage;
 Customers.CustomerListBillableMetricsResponsesCursorPage = CustomerListBillableMetricsResponsesCursorPage;
 Customers.CustomerListCostsResponsesCursorPage = CustomerListCostsResponsesCursorPage;
 Customers.Alerts = Alerts;
+Customers.CustomerAlertsCursorPageWithoutLimit = CustomerAlertsCursorPageWithoutLimit;
 Customers.Plans = Plans;
 Customers.PlanListResponsesCursorPage = PlanListResponsesCursorPage;
 Customers.PlanListPriceAdjustmentsResponsesCursorPage = PlanListPriceAdjustmentsResponsesCursorPage;
@@ -842,7 +841,7 @@ export declare namespace Customers {
     Alerts as Alerts,
     type CustomerAlert as CustomerAlert,
     type AlertRetrieveResponse as AlertRetrieveResponse,
-    type AlertListResponse as AlertListResponse,
+    CustomerAlertsCursorPageWithoutLimit as CustomerAlertsCursorPageWithoutLimit,
     type AlertRetrieveParams as AlertRetrieveParams,
     type AlertListParams as AlertListParams,
     type AlertResetParams as AlertResetParams,
@@ -887,7 +886,6 @@ export declare namespace Customers {
   export {
     Commits as Commits,
     type CommitCreateResponse as CommitCreateResponse,
-    type CommitListResponse as CommitListResponse,
     type CommitUpdateEndDateResponse as CommitUpdateEndDateResponse,
     type CommitCreateParams as CommitCreateParams,
     type CommitListParams as CommitListParams,
@@ -897,7 +895,6 @@ export declare namespace Customers {
   export {
     Credits as Credits,
     type CreditCreateResponse as CreditCreateResponse,
-    type CreditListResponse as CreditListResponse,
     type CreditUpdateEndDateResponse as CreditUpdateEndDateResponse,
     type CreditCreateParams as CreditCreateParams,
     type CreditListParams as CreditListParams,

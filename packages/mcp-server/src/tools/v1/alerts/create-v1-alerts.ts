@@ -114,7 +114,7 @@ export const tool: Tool = {
               type: 'string',
             },
           },
-          required: ['key', 'value'],
+          required: ['key'],
         },
       },
       invoice_types_filter: {
