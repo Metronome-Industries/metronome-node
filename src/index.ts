@@ -10,6 +10,8 @@ import {
   BodyCursorPageResponse,
   type CursorPageParams,
   CursorPageResponse,
+  type CursorPageWithoutLimitParams,
+  CursorPageWithoutLimitResponse,
 } from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
@@ -205,6 +207,12 @@ export declare namespace Metronome {
   export {
     type BodyCursorPageParams as BodyCursorPageParams,
     type BodyCursorPageResponse as BodyCursorPageResponse,
+  };
+
+  export import CursorPageWithoutLimit = Pagination.CursorPageWithoutLimit;
+  export {
+    type CursorPageWithoutLimitParams as CursorPageWithoutLimitParams,
+    type CursorPageWithoutLimitResponse as CursorPageWithoutLimitResponse,
   };
 
   export { V2 as V2 };

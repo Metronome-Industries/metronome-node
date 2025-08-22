@@ -7,12 +7,12 @@ import * as Shared from '../../shared';
 import * as AlertsAPI from './alerts';
 import {
   AlertListParams,
-  AlertListResponse,
   AlertResetParams,
   AlertRetrieveParams,
   AlertRetrieveResponse,
   Alerts,
   CustomerAlert,
+  CustomerAlertsCursorPageWithoutLimit,
 } from './alerts';
 import * as BillingConfigAPI from './billing-config';
 import {
@@ -799,6 +799,7 @@ Customers.CustomerDetailsCursorPage = CustomerDetailsCursorPage;
 Customers.CustomerListBillableMetricsResponsesCursorPage = CustomerListBillableMetricsResponsesCursorPage;
 Customers.CustomerListCostsResponsesCursorPage = CustomerListCostsResponsesCursorPage;
 Customers.Alerts = Alerts;
+Customers.CustomerAlertsCursorPageWithoutLimit = CustomerAlertsCursorPageWithoutLimit;
 Customers.Plans = Plans;
 Customers.PlanListResponsesCursorPage = PlanListResponsesCursorPage;
 Customers.PlanListPriceAdjustmentsResponsesCursorPage = PlanListPriceAdjustmentsResponsesCursorPage;
@@ -840,7 +841,7 @@ export declare namespace Customers {
     Alerts as Alerts,
     type CustomerAlert as CustomerAlert,
     type AlertRetrieveResponse as AlertRetrieveResponse,
-    type AlertListResponse as AlertListResponse,
+    CustomerAlertsCursorPageWithoutLimit as CustomerAlertsCursorPageWithoutLimit,
     type AlertRetrieveParams as AlertRetrieveParams,
     type AlertListParams as AlertListParams,
     type AlertResetParams as AlertResetParams,

@@ -92,7 +92,7 @@ Methods:
 - <code title="post /v1/credits/createGrant">client.v1.creditGrants.<a href="./src/resources/v1/credit-grants.ts">create</a>({ ...params }) -> CreditGrantCreateResponse</code>
 - <code title="post /v1/credits/listGrants">client.v1.creditGrants.<a href="./src/resources/v1/credit-grants.ts">list</a>({ ...params }) -> CreditGrantListResponsesCursorPage</code>
 - <code title="post /v1/credits/editGrant">client.v1.creditGrants.<a href="./src/resources/v1/credit-grants.ts">edit</a>({ ...params }) -> CreditGrantEditResponse</code>
-- <code title="post /v1/credits/listEntries">client.v1.creditGrants.<a href="./src/resources/v1/credit-grants.ts">listEntries</a>({ ...params }) -> CreditGrantListEntriesResponse</code>
+- <code title="post /v1/credits/listEntries">client.v1.creditGrants.<a href="./src/resources/v1/credit-grants.ts">listEntries</a>({ ...params }) -> CreditGrantListEntriesResponsesCursorPageWithoutLimit</code>
 - <code title="post /v1/credits/voidGrant">client.v1.creditGrants.<a href="./src/resources/v1/credit-grants.ts">void</a>({ ...params }) -> CreditGrantVoidResponse</code>
 
 ## PricingUnits
@@ -138,12 +138,11 @@ Types:
 
 - <code><a href="./src/resources/v1/customers/alerts.ts">CustomerAlert</a></code>
 - <code><a href="./src/resources/v1/customers/alerts.ts">AlertRetrieveResponse</a></code>
-- <code><a href="./src/resources/v1/customers/alerts.ts">AlertListResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/customer-alerts/get">client.v1.customers.alerts.<a href="./src/resources/v1/customers/alerts.ts">retrieve</a>({ ...params }) -> AlertRetrieveResponse</code>
-- <code title="post /v1/customer-alerts/list">client.v1.customers.alerts.<a href="./src/resources/v1/customers/alerts.ts">list</a>({ ...params }) -> AlertListResponse</code>
+- <code title="post /v1/customer-alerts/list">client.v1.customers.alerts.<a href="./src/resources/v1/customers/alerts.ts">list</a>({ ...params }) -> CustomerAlertsCursorPageWithoutLimit</code>
 - <code title="post /v1/customer-alerts/reset">client.v1.customers.alerts.<a href="./src/resources/v1/customers/alerts.ts">reset</a>({ ...params }) -> void</code>
 
 ### Plans
@@ -247,7 +246,7 @@ Types:
 
 Methods:
 
-- <code title="post /v1/usage">client.v1.usage.<a href="./src/resources/v1/usage.ts">list</a>({ ...params }) -> UsageListResponse</code>
+- <code title="post /v1/usage">client.v1.usage.<a href="./src/resources/v1/usage.ts">list</a>({ ...params }) -> UsageListResponsesCursorPageWithoutLimit</code>
 - <code title="post /v1/ingest">client.v1.usage.<a href="./src/resources/v1/usage.ts">ingest</a>([ ...usage ]) -> void</code>
 - <code title="post /v1/usage/groups">client.v1.usage.<a href="./src/resources/v1/usage.ts">listWithGroups</a>({ ...params }) -> UsageListWithGroupsResponsesCursorPage</code>
 - <code title="post /v1/events/search">client.v1.usage.<a href="./src/resources/v1/usage.ts">search</a>({ ...params }) -> UsageSearchResponse</code>
@@ -272,7 +271,7 @@ Methods:
 
 - <code title="post /v1/customFields/addKey">client.v1.customFields.<a href="./src/resources/v1/custom-fields.ts">addKey</a>({ ...params }) -> void</code>
 - <code title="post /v1/customFields/deleteValues">client.v1.customFields.<a href="./src/resources/v1/custom-fields.ts">deleteValues</a>({ ...params }) -> void</code>
-- <code title="post /v1/customFields/listKeys">client.v1.customFields.<a href="./src/resources/v1/custom-fields.ts">listKeys</a>({ ...params }) -> CustomFieldListKeysResponse</code>
+- <code title="post /v1/customFields/listKeys">client.v1.customFields.<a href="./src/resources/v1/custom-fields.ts">listKeys</a>({ ...params }) -> CustomFieldListKeysResponsesCursorPageWithoutLimit</code>
 - <code title="post /v1/customFields/removeKey">client.v1.customFields.<a href="./src/resources/v1/custom-fields.ts">removeKey</a>({ ...params }) -> void</code>
 - <code title="post /v1/customFields/setValues">client.v1.customFields.<a href="./src/resources/v1/custom-fields.ts">setValues</a>({ ...params }) -> void</code>
 
