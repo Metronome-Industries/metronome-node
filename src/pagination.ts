@@ -159,3 +159,80 @@ export class BodyCursorPage<Item> extends AbstractPage<Item> implements BodyCurs
     };
   }
 }
+
+export interface CursorPageWithoutLimitResponse<Item> {
+  /**
+   * Cursor to fetch the next page
+   */
+  next_page: string;
+
+  /**
+   * Items of the page
+   */
+  data: Array<Item>;
+}
+
+export interface CursorPageWithoutLimitParams {
+  /**
+   * Cursor to begin fetching from
+   */
+  next_page?: string;
+}
+
+export class CursorPageWithoutLimit<Item>
+  extends AbstractPage<Item>
+  implements CursorPageWithoutLimitResponse<Item>
+{
+  /**
+   * Cursor to fetch the next page
+   */
+  next_page: string;
+
+  /**
+   * Items of the page
+   */
+  data: Array<Item>;
+
+  constructor(
+    client: APIClient,
+    response: Response,
+    body: CursorPageWithoutLimitResponse<Item>,
+    options: FinalRequestOptions,
+  ) {
+    super(client, response, body, options);
+
+    this.next_page = body.next_page || '';
+    this.data = body.data || [];
+  }
+
+  getPaginatedItems(): Item[] {
+    return this.data ?? [];
+  }
+
+  override hasNextPage(): boolean {
+    return this.nextPageInfo() != null;
+  }
+
+  // @deprecated Please use `nextPageInfo()` instead
+  nextPageParams(): Partial<CursorPageWithoutLimitParams> | null {
+    const info = this.nextPageInfo();
+    if (!info) return null;
+    if ('params' in info) return info.params;
+    const params = Object.fromEntries(info.url.searchParams);
+    if (!Object.keys(params).length) return null;
+    return params;
+  }
+
+  nextPageInfo(): PageInfo | null {
+    const cursor = this.next_page;
+    if (!cursor) {
+      return null;
+    }
+
+    return {
+      params: {
+        next_page: cursor,
+      },
+    };
+  }
+}

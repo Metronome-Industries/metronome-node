@@ -3,6 +3,7 @@
 import { APIResource } from '../../../resource';
 import * as Core from '../../../core';
 import * as Shared from '../../shared';
+import { CursorPageWithoutLimit, type CursorPageWithoutLimitParams } from '../../../pagination';
 
 export class Alerts extends APIResource {
   /**
@@ -26,14 +27,25 @@ export class Alerts extends APIResource {
    *
    * @example
    * ```ts
-   * const alerts = await client.v1.customers.alerts.list({
-   *   customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
-   * });
+   * // Automatically fetches more pages as needed.
+   * for await (const customerAlert of client.v1.customers.alerts.list(
+   *   { customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1' },
+   * )) {
+   *   // ...
+   * }
    * ```
    */
-  list(params: AlertListParams, options?: Core.RequestOptions): Core.APIPromise<AlertListResponse> {
+  list(
+    params: AlertListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CustomerAlertsCursorPageWithoutLimit, CustomerAlert> {
     const { next_page, ...body } = params;
-    return this._client.post('/v1/customer-alerts/list', { query: { next_page }, body, ...options });
+    return this._client.getAPIList('/v1/customer-alerts/list', CustomerAlertsCursorPageWithoutLimit, {
+      query: { next_page },
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -55,6 +67,8 @@ export class Alerts extends APIResource {
     });
   }
 }
+
+export class CustomerAlertsCursorPageWithoutLimit extends CursorPageWithoutLimit<CustomerAlert> {}
 
 export interface CustomerAlert {
   alert: CustomerAlert.Alert;
@@ -188,12 +202,6 @@ export interface AlertRetrieveResponse {
   data: CustomerAlert;
 }
 
-export interface AlertListResponse {
-  data: Array<CustomerAlert>;
-
-  next_page: string | null;
-}
-
 export interface AlertRetrieveParams {
   /**
    * The Metronome ID of the alert
@@ -212,16 +220,11 @@ export interface AlertRetrieveParams {
   plans_or_contracts?: 'PLANS' | 'CONTRACTS';
 }
 
-export interface AlertListParams {
+export interface AlertListParams extends CursorPageWithoutLimitParams {
   /**
    * Body param: The Metronome ID of the customer
    */
   customer_id: string;
-
-  /**
-   * Query param: Cursor that indicates where the next page of results should start.
-   */
-  next_page?: string;
 
   /**
    * Body param: Optionally filter by alert status. If absent, only enabled alerts
@@ -242,11 +245,13 @@ export interface AlertResetParams {
   customer_id: string;
 }
 
+Alerts.CustomerAlertsCursorPageWithoutLimit = CustomerAlertsCursorPageWithoutLimit;
+
 export declare namespace Alerts {
   export {
     type CustomerAlert as CustomerAlert,
     type AlertRetrieveResponse as AlertRetrieveResponse,
-    type AlertListResponse as AlertListResponse,
+    CustomerAlertsCursorPageWithoutLimit as CustomerAlertsCursorPageWithoutLimit,
     type AlertRetrieveParams as AlertRetrieveParams,
     type AlertListParams as AlertListParams,
     type AlertResetParams as AlertResetParams,
