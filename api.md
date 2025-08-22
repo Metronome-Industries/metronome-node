@@ -2,8 +2,13 @@
 
 Types:
 
+- <code><a href="./src/resources/shared.ts">BaseThresholdCommit</a></code>
 - <code><a href="./src/resources/shared.ts">BaseUsageFilter</a></code>
 - <code><a href="./src/resources/shared.ts">Commit</a></code>
+- <code><a href="./src/resources/shared.ts">CommitHierarchyConfiguration</a></code>
+- <code><a href="./src/resources/shared.ts">CommitRate</a></code>
+- <code><a href="./src/resources/shared.ts">CommitSpecifier</a></code>
+- <code><a href="./src/resources/shared.ts">CommitSpecifierInput</a></code>
 - <code><a href="./src/resources/shared.ts">Contract</a></code>
 - <code><a href="./src/resources/shared.ts">ContractV2</a></code>
 - <code><a href="./src/resources/shared.ts">ContractWithoutAmendments</a></code>
@@ -11,14 +16,23 @@ Types:
 - <code><a href="./src/resources/shared.ts">CreditTypeData</a></code>
 - <code><a href="./src/resources/shared.ts">Discount</a></code>
 - <code><a href="./src/resources/shared.ts">EventTypeFilter</a></code>
+- <code><a href="./src/resources/shared.ts">HierarchyConfiguration</a></code>
 - <code><a href="./src/resources/shared.ts">ID</a></code>
 - <code><a href="./src/resources/shared.ts">Override</a></code>
+- <code><a href="./src/resources/shared.ts">OverrideTier</a></code>
+- <code><a href="./src/resources/shared.ts">PaymentGateConfig</a></code>
+- <code><a href="./src/resources/shared.ts">PaymentGateConfigV2</a></code>
+- <code><a href="./src/resources/shared.ts">PrepaidBalanceThresholdConfiguration</a></code>
+- <code><a href="./src/resources/shared.ts">PrepaidBalanceThresholdConfigurationV2</a></code>
 - <code><a href="./src/resources/shared.ts">PropertyFilter</a></code>
 - <code><a href="./src/resources/shared.ts">ProService</a></code>
 - <code><a href="./src/resources/shared.ts">Rate</a></code>
 - <code><a href="./src/resources/shared.ts">ScheduledCharge</a></code>
 - <code><a href="./src/resources/shared.ts">ScheduleDuration</a></code>
 - <code><a href="./src/resources/shared.ts">SchedulePointInTime</a></code>
+- <code><a href="./src/resources/shared.ts">SpendThresholdConfiguration</a></code>
+- <code><a href="./src/resources/shared.ts">SpendThresholdConfigurationV2</a></code>
+- <code><a href="./src/resources/shared.ts">Subscription</a></code>
 - <code><a href="./src/resources/shared.ts">Tier</a></code>
 
 # V2

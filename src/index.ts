@@ -219,8 +219,13 @@ export declare namespace Metronome {
 
   export { V1 as V1 };
 
+  export type BaseThresholdCommit = API.BaseThresholdCommit;
   export type BaseUsageFilter = API.BaseUsageFilter;
   export type Commit = API.Commit;
+  export type CommitHierarchyConfiguration = API.CommitHierarchyConfiguration;
+  export type CommitRate = API.CommitRate;
+  export type CommitSpecifier = API.CommitSpecifier;
+  export type CommitSpecifierInput = API.CommitSpecifierInput;
   export type Contract = API.Contract;
   export type ContractV2 = API.ContractV2;
   export type ContractWithoutAmendments = API.ContractWithoutAmendments;
@@ -228,14 +233,23 @@ export declare namespace Metronome {
   export type CreditTypeData = API.CreditTypeData;
   export type Discount = API.Discount;
   export type EventTypeFilter = API.EventTypeFilter;
+  export type HierarchyConfiguration = API.HierarchyConfiguration;
   export type ID = API.ID;
   export type Override = API.Override;
+  export type OverrideTier = API.OverrideTier;
+  export type PaymentGateConfig = API.PaymentGateConfig;
+  export type PaymentGateConfigV2 = API.PaymentGateConfigV2;
+  export type PrepaidBalanceThresholdConfiguration = API.PrepaidBalanceThresholdConfiguration;
+  export type PrepaidBalanceThresholdConfigurationV2 = API.PrepaidBalanceThresholdConfigurationV2;
   export type PropertyFilter = API.PropertyFilter;
   export type ProService = API.ProService;
   export type Rate = API.Rate;
   export type ScheduledCharge = API.ScheduledCharge;
   export type ScheduleDuration = API.ScheduleDuration;
   export type SchedulePointInTime = API.SchedulePointInTime;
+  export type SpendThresholdConfiguration = API.SpendThresholdConfiguration;
+  export type SpendThresholdConfigurationV2 = API.SpendThresholdConfigurationV2;
+  export type Subscription = API.Subscription;
   export type Tier = API.Tier;
 }
 
