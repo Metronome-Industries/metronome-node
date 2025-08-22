@@ -196,7 +196,7 @@ export interface CommitCreateParams {
    * specifiers to contribute to a commit's or credit's drawdown. This field cannot
    * be used together with `applicable_product_ids` or `applicable_product_tags`.
    */
-  specifiers?: Array<CommitCreateParams.Specifier>;
+  specifiers?: Array<Shared.CommitSpecifierInput>;
 
   /**
    * Prevents the creation of duplicates. If a request to create a commit or credit
@@ -338,23 +338,6 @@ export namespace CommitCreateParams {
        */
       unit_price?: number;
     }
-  }
-
-  export interface Specifier {
-    presentation_group_values?: { [key: string]: string };
-
-    pricing_group_values?: { [key: string]: string };
-
-    /**
-     * If provided, the specifier will only apply to the product with the specified ID.
-     */
-    product_id?: string;
-
-    /**
-     * If provided, the specifier will only apply to products with all the specified
-     * tags.
-     */
-    product_tags?: Array<string>;
   }
 }
 

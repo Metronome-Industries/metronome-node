@@ -218,29 +218,7 @@ export const tool: Tool = {
         description:
           "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`.",
         items: {
-          type: 'object',
-          properties: {
-            presentation_group_values: {
-              type: 'object',
-              additionalProperties: true,
-            },
-            pricing_group_values: {
-              type: 'object',
-              additionalProperties: true,
-            },
-            product_id: {
-              type: 'string',
-              description: 'If provided, the specifier will only apply to the product with the specified ID.',
-            },
-            product_tags: {
-              type: 'array',
-              description:
-                'If provided, the specifier will only apply to products with all the specified tags.',
-              items: {
-                type: 'string',
-              },
-            },
-          },
+          $ref: '#/$defs/commit_specifier_input',
         },
       },
       uniqueness_key: {
@@ -256,6 +234,33 @@ export const tool: Tool = {
       },
     },
     required: ['access_schedule', 'customer_id', 'priority', 'product_id', 'type'],
+    $defs: {
+      commit_specifier_input: {
+        type: 'object',
+        properties: {
+          presentation_group_values: {
+            type: 'object',
+            additionalProperties: true,
+          },
+          pricing_group_values: {
+            type: 'object',
+            additionalProperties: true,
+          },
+          product_id: {
+            type: 'string',
+            description: 'If provided, the specifier will only apply to the product with the specified ID.',
+          },
+          product_tags: {
+            type: 'array',
+            description:
+              'If provided, the specifier will only apply to products with all the specified tags.',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
   },
   annotations: {},
 };

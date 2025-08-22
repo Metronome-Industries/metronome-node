@@ -309,31 +309,11 @@ export namespace RateCardRetrieveRateScheduleResponse {
      * A distinct rate on the rate card. You can choose to use this rate rather than
      * list rate when consuming a credit or commit.
      */
-    commit_rate?: Data.CommitRate;
+    commit_rate?: Shared.CommitRate;
 
     ending_before?: string;
 
     pricing_group_values?: { [key: string]: string };
-  }
-
-  export namespace Data {
-    /**
-     * A distinct rate on the rate card. You can choose to use this rate rather than
-     * list rate when consuming a credit or commit.
-     */
-    export interface CommitRate {
-      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
-
-      /**
-       * Commit rate price. For FLAT rate_type, this must be >=0.
-       */
-      price?: number;
-
-      /**
-       * Only set for TIERED rate_type.
-       */
-      tiers?: Array<Shared.Tier>;
-    }
   }
 }
 
