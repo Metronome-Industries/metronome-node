@@ -407,7 +407,7 @@ export namespace ContractGetEditHistoryResponse {
 
       override_tiers?: Array<Shared.OverrideTier>;
 
-      overwrite_rate?: AddOverride.OverwriteRate;
+      overwrite_rate?: Shared.OverwriteRate;
 
       priority?: number;
 
@@ -435,40 +435,6 @@ export namespace ContractGetEditHistoryResponse {
         recurring_commit_ids?: Array<string>;
 
         recurring_credit_ids?: Array<string>;
-      }
-
-      export interface OverwriteRate {
-        rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
-
-        credit_type?: Shared.CreditTypeData;
-
-        /**
-         * Only set for CUSTOM rate_type. This field is interpreted by custom rate
-         * processors.
-         */
-        custom_rate?: { [key: string]: unknown };
-
-        /**
-         * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
-         * set to true.
-         */
-        is_prorated?: boolean;
-
-        /**
-         * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
-         * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
-         */
-        price?: number;
-
-        /**
-         * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
-         */
-        quantity?: number;
-
-        /**
-         * Only set for TIERED rate_type.
-         */
-        tiers?: Array<Shared.Tier>;
       }
 
       export interface Product {
@@ -582,7 +548,7 @@ export namespace ContractGetEditHistoryResponse {
       /**
        * Attach a subscription to the recurring commit/credit.
        */
-      subscription_config?: AddRecurringCommit.SubscriptionConfig;
+      subscription_config?: Shared.RecurringCommitSubscriptionConfig;
     }
 
     export namespace AddRecurringCommit {
@@ -625,26 +591,6 @@ export namespace ContractGetEditHistoryResponse {
         quantity: number;
 
         unit_price: number;
-      }
-
-      /**
-       * Attach a subscription to the recurring commit/credit.
-       */
-      export interface SubscriptionConfig {
-        allocation: 'INDIVIDUAL' | 'POOLED';
-
-        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
-
-        subscription_id: string;
-      }
-
-      export namespace SubscriptionConfig {
-        export interface ApplySeatIncreaseConfig {
-          /**
-           * Indicates whether a mid-period seat increase should be prorated.
-           */
-          is_prorated: boolean;
-        }
       }
     }
 
@@ -747,7 +693,7 @@ export namespace ContractGetEditHistoryResponse {
       /**
        * Attach a subscription to the recurring commit/credit.
        */
-      subscription_config?: AddRecurringCredit.SubscriptionConfig;
+      subscription_config?: Shared.RecurringCommitSubscriptionConfig;
     }
 
     export namespace AddRecurringCredit {
@@ -779,26 +725,6 @@ export namespace ContractGetEditHistoryResponse {
 
       export interface Contract {
         id: string;
-      }
-
-      /**
-       * Attach a subscription to the recurring commit/credit.
-       */
-      export interface SubscriptionConfig {
-        allocation: 'INDIVIDUAL' | 'POOLED';
-
-        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
-
-        subscription_id: string;
-      }
-
-      export namespace SubscriptionConfig {
-        export interface ApplySeatIncreaseConfig {
-          /**
-           * Indicates whether a mid-period seat increase should be prorated.
-           */
-          is_prorated: boolean;
-        }
       }
     }
 
@@ -1240,7 +1166,7 @@ export namespace ContractGetEditHistoryResponse {
     }
 
     export namespace UpdatePrepaidBalanceThresholdConfiguration {
-      export interface Commit {
+      export interface Commit extends Shared.UpdateBaseThresholdCommit {
         /**
          * Which products the threshold commit applies to. If both applicable_product_ids
          * and applicable_product_tags are not provided, the commit applies to all
@@ -1253,20 +1179,6 @@ export namespace ContractGetEditHistoryResponse {
          * applicable_product_tags are not provided, the commit applies to all products.
          */
         applicable_product_tags?: Array<string> | null;
-
-        description?: string;
-
-        /**
-         * Specify the name of the line item for the threshold charge. If left blank, it
-         * will default to the commit product name.
-         */
-        name?: string;
-
-        /**
-         * The commit product that will be used to generate the line item for commit
-         * payment.
-         */
-        product_id?: string;
 
         /**
          * List of filters that determine what kind of customer usage draws down a commit
@@ -1375,7 +1287,7 @@ export namespace ContractGetEditHistoryResponse {
     }
 
     export interface UpdateSpendThresholdConfiguration {
-      commit?: UpdateSpendThresholdConfiguration.Commit;
+      commit?: Shared.UpdateBaseThresholdCommit;
 
       /**
        * When set to false, the contract will not be evaluated against the
@@ -1391,24 +1303,6 @@ export namespace ContractGetEditHistoryResponse {
        * hits this amount, a threshold charge will be initiated.
        */
       threshold_amount?: number;
-    }
-
-    export namespace UpdateSpendThresholdConfiguration {
-      export interface Commit {
-        description?: string;
-
-        /**
-         * Specify the name of the line item for the threshold charge. If left blank, it
-         * will default to the commit product name.
-         */
-        name?: string;
-
-        /**
-         * The commit product that will be used to generate the line item for commit
-         * payment.
-         */
-        product_id?: string;
-      }
     }
 
     export interface UpdateSubscription {
@@ -3114,7 +3008,7 @@ export namespace ContractEditParams {
   }
 
   export namespace UpdatePrepaidBalanceThresholdConfiguration {
-    export interface Commit {
+    export interface Commit extends Shared.UpdateBaseThresholdCommit {
       /**
        * Which products the threshold commit applies to. If both applicable_product_ids
        * and applicable_product_tags are not provided, the commit applies to all
@@ -3127,20 +3021,6 @@ export namespace ContractEditParams {
        * applicable_product_tags are not provided, the commit applies to all products.
        */
       applicable_product_tags?: Array<string> | null;
-
-      description?: string;
-
-      /**
-       * Specify the name of the line item for the threshold charge. If left blank, it
-       * will default to the commit product name.
-       */
-      name?: string;
-
-      /**
-       * The commit product that will be used to generate the line item for commit
-       * payment.
-       */
-      product_id?: string;
 
       /**
        * List of filters that determine what kind of customer usage draws down a commit
@@ -3241,7 +3121,7 @@ export namespace ContractEditParams {
   }
 
   export interface UpdateSpendThresholdConfiguration {
-    commit?: UpdateSpendThresholdConfiguration.Commit;
+    commit?: Shared.UpdateBaseThresholdCommit;
 
     /**
      * When set to false, the contract will not be evaluated against the
@@ -3257,24 +3137,6 @@ export namespace ContractEditParams {
      * hits this amount, a threshold charge will be initiated.
      */
     threshold_amount?: number;
-  }
-
-  export namespace UpdateSpendThresholdConfiguration {
-    export interface Commit {
-      description?: string;
-
-      /**
-       * Specify the name of the line item for the threshold charge. If left blank, it
-       * will default to the commit product name.
-       */
-      name?: string;
-
-      /**
-       * The commit product that will be used to generate the line item for commit
-       * payment.
-       */
-      product_id?: string;
-    }
   }
 
   export interface UpdateSubscription {

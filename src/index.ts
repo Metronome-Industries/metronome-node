@@ -238,6 +238,7 @@ export declare namespace Metronome {
   export type ID = API.ID;
   export type Override = API.Override;
   export type OverrideTier = API.OverrideTier;
+  export type OverwriteRate = API.OverwriteRate;
   export type PaymentGateConfig = API.PaymentGateConfig;
   export type PaymentGateConfigV2 = API.PaymentGateConfigV2;
   export type PrepaidBalanceThresholdConfiguration = API.PrepaidBalanceThresholdConfiguration;
@@ -245,6 +246,7 @@ export declare namespace Metronome {
   export type PropertyFilter = API.PropertyFilter;
   export type ProService = API.ProService;
   export type Rate = API.Rate;
+  export type RecurringCommitSubscriptionConfig = API.RecurringCommitSubscriptionConfig;
   export type ScheduledCharge = API.ScheduledCharge;
   export type ScheduleDuration = API.ScheduleDuration;
   export type SchedulePointInTime = API.SchedulePointInTime;
@@ -252,6 +254,7 @@ export declare namespace Metronome {
   export type SpendThresholdConfigurationV2 = API.SpendThresholdConfigurationV2;
   export type Subscription = API.Subscription;
   export type Tier = API.Tier;
+  export type UpdateBaseThresholdCommit = API.UpdateBaseThresholdCommit;
 }
 
 export { toFile, fileFromPath } from './uploads';

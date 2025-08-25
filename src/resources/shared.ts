@@ -992,7 +992,7 @@ export namespace ContractV2 {
 
     override_tiers?: Array<Shared.OverrideTier>;
 
-    overwrite_rate?: Override.OverwriteRate;
+    overwrite_rate?: Shared.OverwriteRate;
 
     priority?: number;
 
@@ -1020,40 +1020,6 @@ export namespace ContractV2 {
       recurring_commit_ids?: Array<string>;
 
       recurring_credit_ids?: Array<string>;
-    }
-
-    export interface OverwriteRate {
-      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
-
-      credit_type?: Shared.CreditTypeData;
-
-      /**
-       * Only set for CUSTOM rate_type. This field is interpreted by custom rate
-       * processors.
-       */
-      custom_rate?: { [key: string]: unknown };
-
-      /**
-       * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
-       * set to true.
-       */
-      is_prorated?: boolean;
-
-      /**
-       * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
-       * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
-       */
-      price?: number;
-
-      /**
-       * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
-       */
-      quantity?: number;
-
-      /**
-       * Only set for TIERED rate_type.
-       */
-      tiers?: Array<Shared.Tier>;
     }
 
     export interface Product {
@@ -1419,7 +1385,7 @@ export namespace ContractV2 {
     /**
      * Attach a subscription to the recurring commit/credit.
      */
-    subscription_config?: RecurringCommit.SubscriptionConfig;
+    subscription_config?: Shared.RecurringCommitSubscriptionConfig;
   }
 
   export namespace RecurringCommit {
@@ -1462,26 +1428,6 @@ export namespace ContractV2 {
       quantity: number;
 
       unit_price: number;
-    }
-
-    /**
-     * Attach a subscription to the recurring commit/credit.
-     */
-    export interface SubscriptionConfig {
-      allocation: 'INDIVIDUAL' | 'POOLED';
-
-      apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
-
-      subscription_id: string;
-    }
-
-    export namespace SubscriptionConfig {
-      export interface ApplySeatIncreaseConfig {
-        /**
-         * Indicates whether a mid-period seat increase should be prorated.
-         */
-        is_prorated: boolean;
-      }
     }
   }
 
@@ -1584,7 +1530,7 @@ export namespace ContractV2 {
     /**
      * Attach a subscription to the recurring commit/credit.
      */
-    subscription_config?: RecurringCredit.SubscriptionConfig;
+    subscription_config?: Shared.RecurringCommitSubscriptionConfig;
   }
 
   export namespace RecurringCredit {
@@ -1616,26 +1562,6 @@ export namespace ContractV2 {
 
     export interface Contract {
       id: string;
-    }
-
-    /**
-     * Attach a subscription to the recurring commit/credit.
-     */
-    export interface SubscriptionConfig {
-      allocation: 'INDIVIDUAL' | 'POOLED';
-
-      apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
-
-      subscription_id: string;
-    }
-
-    export namespace SubscriptionConfig {
-      export interface ApplySeatIncreaseConfig {
-        /**
-         * Indicates whether a mid-period seat increase should be prorated.
-         */
-        is_prorated: boolean;
-      }
     }
   }
 
@@ -1881,7 +1807,7 @@ export namespace ContractWithoutAmendments {
     /**
      * Attach a subscription to the recurring commit/credit.
      */
-    subscription_config?: RecurringCommit.SubscriptionConfig;
+    subscription_config?: Shared.RecurringCommitSubscriptionConfig;
   }
 
   export namespace RecurringCommit {
@@ -1924,26 +1850,6 @@ export namespace ContractWithoutAmendments {
       quantity: number;
 
       unit_price: number;
-    }
-
-    /**
-     * Attach a subscription to the recurring commit/credit.
-     */
-    export interface SubscriptionConfig {
-      allocation: 'INDIVIDUAL' | 'POOLED';
-
-      apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
-
-      subscription_id: string;
-    }
-
-    export namespace SubscriptionConfig {
-      export interface ApplySeatIncreaseConfig {
-        /**
-         * Indicates whether a mid-period seat increase should be prorated.
-         */
-        is_prorated: boolean;
-      }
     }
   }
 
@@ -2046,7 +1952,7 @@ export namespace ContractWithoutAmendments {
     /**
      * Attach a subscription to the recurring commit/credit.
      */
-    subscription_config?: RecurringCredit.SubscriptionConfig;
+    subscription_config?: Shared.RecurringCommitSubscriptionConfig;
   }
 
   export namespace RecurringCredit {
@@ -2078,26 +1984,6 @@ export namespace ContractWithoutAmendments {
 
     export interface Contract {
       id: string;
-    }
-
-    /**
-     * Attach a subscription to the recurring commit/credit.
-     */
-    export interface SubscriptionConfig {
-      allocation: 'INDIVIDUAL' | 'POOLED';
-
-      apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
-
-      subscription_id: string;
-    }
-
-    export namespace SubscriptionConfig {
-      export interface ApplySeatIncreaseConfig {
-        /**
-         * Indicates whether a mid-period seat increase should be prorated.
-         */
-        is_prorated: boolean;
-      }
     }
   }
 
@@ -2457,7 +2343,7 @@ export interface Override {
 
   override_tiers?: Array<OverrideTier>;
 
-  overwrite_rate?: Override.OverwriteRate;
+  overwrite_rate?: OverwriteRate;
 
   /**
    * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
@@ -2511,40 +2397,6 @@ export namespace Override {
     recurring_credit_ids?: Array<string>;
   }
 
-  export interface OverwriteRate {
-    rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
-
-    credit_type?: Shared.CreditTypeData;
-
-    /**
-     * Only set for CUSTOM rate_type. This field is interpreted by custom rate
-     * processors.
-     */
-    custom_rate?: { [key: string]: unknown };
-
-    /**
-     * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
-     * set to true.
-     */
-    is_prorated?: boolean;
-
-    /**
-     * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
-     * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
-     */
-    price?: number;
-
-    /**
-     * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
-     */
-    quantity?: number;
-
-    /**
-     * Only set for TIERED rate_type.
-     */
-    tiers?: Array<Shared.Tier>;
-  }
-
   export interface Product {
     id: string;
 
@@ -2556,6 +2408,40 @@ export interface OverrideTier {
   multiplier: number;
 
   size?: number;
+}
+
+export interface OverwriteRate {
+  rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+
+  credit_type?: CreditTypeData;
+
+  /**
+   * Only set for CUSTOM rate_type. This field is interpreted by custom rate
+   * processors.
+   */
+  custom_rate?: { [key: string]: unknown };
+
+  /**
+   * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+   * set to true.
+   */
+  is_prorated?: boolean;
+
+  /**
+   * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
+   * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
+   */
+  price?: number;
+
+  /**
+   * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
+   */
+  quantity?: number;
+
+  /**
+   * Only set for TIERED rate_type.
+   */
+  tiers?: Array<Tier>;
 }
 
 export interface PaymentGateConfig {
@@ -2769,13 +2655,7 @@ export interface PrepaidBalanceThresholdConfigurationV2 {
 }
 
 export namespace PrepaidBalanceThresholdConfigurationV2 {
-  export interface Commit {
-    /**
-     * The commit product that will be used to generate the line item for commit
-     * payment.
-     */
-    product_id: string;
-
+  export interface Commit extends Shared.UpdateBaseThresholdCommit {
     /**
      * Which products the threshold commit applies to. If applicable_product_ids,
      * applicable_product_tags or specifiers are not provided, the commit applies to
@@ -2789,14 +2669,6 @@ export namespace PrepaidBalanceThresholdConfigurationV2 {
      * all products.
      */
     applicable_product_tags?: Array<string>;
-
-    description?: string;
-
-    /**
-     * Specify the name of the line item for the threshold charge. If left blank, it
-     * will default to the commit product name.
-     */
-    name?: string;
 
     /**
      * List of filters that determine what kind of customer usage draws down a commit
@@ -2920,6 +2792,23 @@ export interface Rate {
   use_list_prices?: boolean;
 }
 
+export interface RecurringCommitSubscriptionConfig {
+  allocation: 'INDIVIDUAL' | 'POOLED';
+
+  apply_seat_increase_config: RecurringCommitSubscriptionConfig.ApplySeatIncreaseConfig;
+
+  subscription_id: string;
+}
+
+export namespace RecurringCommitSubscriptionConfig {
+  export interface ApplySeatIncreaseConfig {
+    /**
+     * Indicates whether a mid-period seat increase should be prorated.
+     */
+    is_prorated: boolean;
+  }
+}
+
 export interface ScheduledCharge {
   id: string;
 
@@ -3016,7 +2905,7 @@ export interface SpendThresholdConfiguration {
 }
 
 export interface SpendThresholdConfigurationV2 {
-  commit: SpendThresholdConfigurationV2.Commit;
+  commit: UpdateBaseThresholdCommit;
 
   /**
    * When set to false, the contract will not be evaluated against the
@@ -3032,24 +2921,6 @@ export interface SpendThresholdConfigurationV2 {
    * hits this amount, a threshold charge will be initiated.
    */
   threshold_amount: number;
-}
-
-export namespace SpendThresholdConfigurationV2 {
-  export interface Commit {
-    /**
-     * The commit product that will be used to generate the line item for commit
-     * payment.
-     */
-    product_id: string;
-
-    description?: string;
-
-    /**
-     * Specify the name of the line item for the threshold charge. If left blank, it
-     * will default to the commit product name.
-     */
-    name?: string;
-  }
 }
 
 export interface Subscription {
@@ -3114,6 +2985,22 @@ export interface Tier {
   price: number;
 
   size?: number;
+}
+
+export interface UpdateBaseThresholdCommit {
+  description?: string;
+
+  /**
+   * Specify the name of the line item for the threshold charge. If left blank, it
+   * will default to the commit product name.
+   */
+  name?: string;
+
+  /**
+   * The commit product that will be used to generate the line item for commit
+   * payment.
+   */
+  product_id?: string;
 }
 
 export class CommitsBodyCursorPage extends BodyCursorPage<Commit> {}

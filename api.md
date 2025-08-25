@@ -20,6 +20,7 @@ Types:
 - <code><a href="./src/resources/shared.ts">ID</a></code>
 - <code><a href="./src/resources/shared.ts">Override</a></code>
 - <code><a href="./src/resources/shared.ts">OverrideTier</a></code>
+- <code><a href="./src/resources/shared.ts">OverwriteRate</a></code>
 - <code><a href="./src/resources/shared.ts">PaymentGateConfig</a></code>
 - <code><a href="./src/resources/shared.ts">PaymentGateConfigV2</a></code>
 - <code><a href="./src/resources/shared.ts">PrepaidBalanceThresholdConfiguration</a></code>
@@ -27,6 +28,7 @@ Types:
 - <code><a href="./src/resources/shared.ts">PropertyFilter</a></code>
 - <code><a href="./src/resources/shared.ts">ProService</a></code>
 - <code><a href="./src/resources/shared.ts">Rate</a></code>
+- <code><a href="./src/resources/shared.ts">RecurringCommitSubscriptionConfig</a></code>
 - <code><a href="./src/resources/shared.ts">ScheduledCharge</a></code>
 - <code><a href="./src/resources/shared.ts">ScheduleDuration</a></code>
 - <code><a href="./src/resources/shared.ts">SchedulePointInTime</a></code>
@@ -34,6 +36,7 @@ Types:
 - <code><a href="./src/resources/shared.ts">SpendThresholdConfigurationV2</a></code>
 - <code><a href="./src/resources/shared.ts">Subscription</a></code>
 - <code><a href="./src/resources/shared.ts">Tier</a></code>
+- <code><a href="./src/resources/shared.ts">UpdateBaseThresholdCommit</a></code>
 
 # V2
 

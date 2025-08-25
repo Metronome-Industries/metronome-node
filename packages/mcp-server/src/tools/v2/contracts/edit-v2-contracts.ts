@@ -1628,46 +1628,11 @@ export const tool: Tool = {
         type: 'object',
         properties: {
           commit: {
-            type: 'object',
-            properties: {
-              applicable_product_ids: {
-                type: 'array',
-                description:
-                  'Which products the threshold commit applies to. If both applicable_product_ids and applicable_product_tags are not provided, the commit applies to all products.',
-                items: {
-                  type: 'string',
-                },
+            allOf: [
+              {
+                $ref: '#/$defs/update_base_threshold_commit',
               },
-              applicable_product_tags: {
-                type: 'array',
-                description:
-                  'Which tags the threshold commit applies to. If both applicable_product_ids and applicable_product_tags are not provided, the commit applies to all products.',
-                items: {
-                  type: 'string',
-                },
-              },
-              description: {
-                type: 'string',
-              },
-              name: {
-                type: 'string',
-                description:
-                  'Specify the name of the line item for the threshold charge. If left blank, it will default to the commit product name.',
-              },
-              product_id: {
-                type: 'string',
-                description:
-                  'The commit product that will be used to generate the line item for commit payment.',
-              },
-              specifiers: {
-                type: 'array',
-                description:
-                  "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
-                items: {
-                  $ref: '#/$defs/commit_specifier_input',
-                },
-              },
-            },
+            ],
           },
           custom_credit_type_id: {
             type: 'string',
@@ -1845,22 +1810,7 @@ export const tool: Tool = {
         type: 'object',
         properties: {
           commit: {
-            type: 'object',
-            properties: {
-              description: {
-                type: 'string',
-              },
-              name: {
-                type: 'string',
-                description:
-                  'Specify the name of the line item for the threshold charge. If left blank, it will default to the commit product name.',
-              },
-              product_id: {
-                type: 'string',
-                description:
-                  'The commit product that will be used to generate the line item for commit payment.',
-              },
-            },
+            $ref: '#/$defs/update_base_threshold_commit',
           },
           is_enabled: {
             type: 'boolean',
@@ -2009,47 +1959,11 @@ export const tool: Tool = {
         type: 'object',
         properties: {
           commit: {
-            type: 'object',
-            properties: {
-              product_id: {
-                type: 'string',
-                description:
-                  'The commit product that will be used to generate the line item for commit payment.',
+            allOf: [
+              {
+                $ref: '#/$defs/update_base_threshold_commit',
               },
-              applicable_product_ids: {
-                type: 'array',
-                description:
-                  'Which products the threshold commit applies to. If applicable_product_ids, applicable_product_tags or specifiers are not provided, the commit applies to all products.',
-                items: {
-                  type: 'string',
-                },
-              },
-              applicable_product_tags: {
-                type: 'array',
-                description:
-                  'Which tags the threshold commit applies to. If applicable_product_ids, applicable_product_tags or specifiers are not provided, the commit applies to all products.',
-                items: {
-                  type: 'string',
-                },
-              },
-              description: {
-                type: 'string',
-              },
-              name: {
-                type: 'string',
-                description:
-                  'Specify the name of the line item for the threshold charge. If left blank, it will default to the commit product name.',
-              },
-              specifiers: {
-                type: 'array',
-                description:
-                  "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
-                items: {
-                  $ref: '#/$defs/commit_specifier_input',
-                },
-              },
-            },
-            required: ['product_id'],
+            ],
           },
           is_enabled: {
             type: 'boolean',
@@ -2075,6 +1989,23 @@ export const tool: Tool = {
           },
         },
         required: ['commit', 'is_enabled', 'payment_gate_config', 'recharge_to_amount', 'threshold_amount'],
+      },
+      update_base_threshold_commit: {
+        type: 'object',
+        properties: {
+          description: {
+            type: 'string',
+          },
+          name: {
+            type: 'string',
+            description:
+              'Specify the name of the line item for the threshold charge. If left blank, it will default to the commit product name.',
+          },
+          product_id: {
+            type: 'string',
+            description: 'The commit product that will be used to generate the line item for commit payment.',
+          },
+        },
       },
       payment_gate_config_v2: {
         type: 'object',
@@ -2133,23 +2064,7 @@ export const tool: Tool = {
         type: 'object',
         properties: {
           commit: {
-            type: 'object',
-            properties: {
-              product_id: {
-                type: 'string',
-                description:
-                  'The commit product that will be used to generate the line item for commit payment.',
-              },
-              description: {
-                type: 'string',
-              },
-              name: {
-                type: 'string',
-                description:
-                  'Specify the name of the line item for the threshold charge. If left blank, it will default to the commit product name.',
-              },
-            },
-            required: ['product_id'],
+            $ref: '#/$defs/update_base_threshold_commit',
           },
           is_enabled: {
             type: 'boolean',
