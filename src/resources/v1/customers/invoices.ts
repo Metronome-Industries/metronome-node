@@ -7,7 +7,45 @@ import { CursorPage, type CursorPageParams } from '../../../pagination';
 
 export class Invoices extends APIResource {
   /**
-   * Fetch a specific invoice for a given customer.
+   * Retrieve detailed information for a specific invoice by its unique identifier.
+   * This endpoint returns comprehensive invoice data including line items, applied
+   * credits, totals, and billing period details for both finalized and draft
+   * invoices.
+   *
+   * Use this endpoint to:
+   *
+   * - Display historical invoice details in customer-facing dashboards or billing
+   *   portals.
+   * - Retrieve current month draft invoices to show customers their month-to-date
+   *   spend.
+   * - Access finalized invoices for historical billing records and payment
+   *   reconciliation.
+   * - Validate customer pricing and credit applications for customer support
+   *   queries.
+   *
+   * Key response fields: Invoice status (DRAFT, FINALIZED, VOID) Billing period
+   * start and end dates Total amount and amount due after credits Detailed line
+   * items broken down by:
+   *
+   * - Customer and contract information
+   * - Invoice line item type
+   * - Product/service name and ID
+   * - Quantity consumed
+   * - Unit and total price
+   * - Time period for usage-based charges
+   * - Applied credits or prepaid commitments
+   *
+   * Usage guidelines:
+   *
+   * - Draft invoices update in real-time as usage is reported and may change before
+   *   finalization
+   * - The response includes both usage-based line items (e.g., API calls, data
+   *   processed) and scheduled charges (e.g., monthly subscriptions, commitment
+   *   fees)
+   * - Credit and commitment applications are shown as separate line items with
+   *   negative amounts
+   * - For voided invoices, the response will indicate VOID status but retain all
+   *   original line item details
    *
    * @example
    * ```ts
@@ -28,8 +66,50 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * List all invoices for a given customer, optionally filtered by status, date
-   * range, and/or credit type.
+   * Retrieves a paginated list of invoices for a specific customer, with flexible
+   * filtering options to narrow results by status, date range, credit type, and
+   * more. This endpoint provides a comprehensive view of a customer's billing
+   * history and current charges, supporting both real-time billing dashboards and
+   * historical reporting needs.
+   *
+   * Use this endpoint to:
+   *
+   * - Display historical invoice details in customer-facing dashboards or billing
+   *   portals.
+   * - Retrieve current month draft invoices to show customers their month-to-date
+   *   spend.
+   * - Access finalized invoices for historical billing records and payment
+   *   reconciliation.
+   * - Validate customer pricing and credit applications for customer support
+   *   queries.
+   * - Generate financial reports by filtering invoices within specific date ranges
+   *
+   * Key response fields: Array of invoice objects containing:
+   *
+   * - Invoice ID and status (DRAFT, FINALIZED, VOID)
+   * - Invoice type (USAGE, SCHEDULED)
+   * - Billing period start and end dates
+   * - Issue date and due date
+   * - Total amount, subtotal, and amount due
+   * - Applied credits summary
+   * - Contract ID reference
+   * - External billing provider status (if integrated with Stripe, etc.)
+   * - Pagination metadata next_page cursor
+   *
+   * Usage guidelines:
+   *
+   * - The endpoint returns invoice summaries; use the Get Invoice endpoint for
+   *   detailed line items
+   * - Draft invoices are continuously updated as new usage is reported and will show
+   *   real-time spend
+   * - Results are ordered by creation date descending by default (newest first)
+   * - When filtering by date range, the filter applies to the billing period, not
+   *   the issue date
+   * - For customers with many invoices, implement pagination to ensure all results
+   *   are retrieved External billing provider statuses (like Stripe payment status)
+   *   are included when applicable
+   * - Voided invoices are included in results by default unless filtered out by
+   *   status
    *
    * @example
    * ```ts
@@ -79,11 +159,40 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * List daily or hourly invoice breakdowns for a given customer, optionally
-   * filtered by status, date range, and/or credit type. Important considerations:
+   * Retrieve granular time-series breakdowns of invoice data at hourly or daily
+   * intervals. This endpoint transforms standard invoices into detailed timelines,
+   * enabling you to track usage patterns, identify consumption spikes, and provide
+   * customers with transparency into their billing details throughout the billing
+   * period.
    *
-   * - If we receive backdated usage after an invoice has been finalized, the
-   *   backdated usage will be included in the response and usage numbers may differ.
+   * Use this endpoint to:
+   *
+   * - Build usage analytics dashboards showing daily or hourly consumption trends
+   * - Identify peak usage periods for capacity planning and cost optimization
+   * - Generate detailed billing reports for finance teams and customer success
+   * - Troubleshoot billing disputes by examining usage patterns at specific times
+   * - Power real-time cost monitoring and alerting systems
+   *
+   * Key response fields: An array of BreakdownInvoice objects, each containing:
+   *
+   * - All standard invoice fields (ID, customer, commit, line items, totals, status)
+   * - Line items with quantities and costs for that specific period
+   * - breakdown_start_timestamp: Start of the specific time window
+   * - breakdown_end_timestamp: End of the specific time window
+   * - next_page: Pagination cursor for large result sets
+   *
+   * Usage guidelines:
+   *
+   * - Time granularity: Set window_size to hour or day based on your analysis needs
+   * - Response limits: Daily breakdowns return up to 35 days; hourly breakdowns
+   *   return up to 24 hours per request
+   * - Date filtering: Use starting_on and ending_before to focus on specific periods
+   * - Performance: For large date ranges, use pagination to retrieve all data
+   *   efficiently
+   * - Backdated usage: If usage events arrive after invoice finalization, breakdowns
+   *   will reflect the updated usage
+   * - Zero quantity filtering: Use skip_zero_qty_line_items=true to exclude periods
+   *   with no usage
    *
    * @example
    * ```ts
@@ -138,6 +247,9 @@ export interface Invoice {
    */
   billable_status?: 'billable' | 'unbillable';
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   contract_custom_fields?: { [key: string]: string };
 
   contract_id?: string;
@@ -152,6 +264,9 @@ export interface Invoice {
 
   custom_fields?: { [key: string]: unknown };
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   customer_custom_fields?: { [key: string]: string };
 
   /**
@@ -175,6 +290,9 @@ export interface Invoice {
    */
   netsuite_sales_order_id?: string;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   plan_custom_fields?: { [key: string]: string };
 
   plan_id?: string;
@@ -241,6 +359,9 @@ export namespace Invoice {
      */
     applied_commit_or_credit?: LineItem.AppliedCommitOrCredit;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     commit_custom_fields?: { [key: string]: string };
 
     /**
@@ -263,8 +384,14 @@ export namespace Invoice {
      */
     commit_type?: string;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     custom_fields?: { [key: string]: string };
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     discount_custom_fields?: { [key: string]: string };
 
     /**
@@ -324,6 +451,9 @@ export namespace Invoice {
      */
     pricing_group_values?: { [key: string]: string };
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     product_custom_fields?: { [key: string]: string };
 
     /**
@@ -345,6 +475,9 @@ export namespace Invoice {
      */
     product_type?: string;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     professional_service_custom_fields?: { [key: string]: string };
 
     professional_service_id?: string;
@@ -356,6 +489,9 @@ export namespace Invoice {
 
     reseller_type?: 'AWS' | 'AWS_PRO_SERVICE' | 'GCP' | 'GCP_PRO_SERVICE';
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     scheduled_charge_custom_fields?: { [key: string]: string };
 
     /**
@@ -370,6 +506,9 @@ export namespace Invoice {
 
     sub_line_items?: Array<LineItem.SubLineItem>;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     subscription_custom_fields?: { [key: string]: string };
 
     /**
@@ -403,6 +542,9 @@ export namespace Invoice {
     }
 
     export interface SubLineItem {
+      /**
+       * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+       */
       custom_fields: { [key: string]: string };
 
       name: string;
@@ -552,6 +694,9 @@ export namespace Invoice {
 
     total: number;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     credit_grant_custom_fields?: { [key: string]: string };
 
     credit_grant_id?: string;

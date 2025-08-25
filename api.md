@@ -134,6 +134,7 @@ Types:
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerListBillableMetricsResponse</a></code>
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerListCostsResponse</a></code>
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerPreviewEventsResponse</a></code>
+- <code><a href="./src/resources/v1/customers/customers.ts">CustomerRetrieveCustomerBillingConfigurationsResponse</a></code>
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerSetNameResponse</a></code>
 
 Methods:
@@ -145,6 +146,8 @@ Methods:
 - <code title="get /v1/customers/{customer_id}/billable-metrics">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">listBillableMetrics</a>({ ...params }) -> CustomerListBillableMetricsResponsesCursorPage</code>
 - <code title="get /v1/customers/{customer_id}/costs">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">listCosts</a>({ ...params }) -> CustomerListCostsResponsesCursorPage</code>
 - <code title="post /v1/customers/{customer_id}/previewEvents">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">previewEvents</a>({ ...params }) -> CustomerPreviewEventsResponse</code>
+- <code title="post /v1/getCustomerBillingProviderConfigurations">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">retrieveCustomerBillingConfigurations</a>({ ...params }) -> CustomerRetrieveCustomerBillingConfigurationsResponse</code>
+- <code title="post /v1/setCustomerBillingProviderConfigurations">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">setCustomerBillingConfigurations</a>({ ...params }) -> void</code>
 - <code title="post /v1/customers/{customer_id}/setIngestAliases">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">setIngestAliases</a>({ ...params }) -> void</code>
 - <code title="post /v1/customers/{customer_id}/setName">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">setName</a>({ ...params }) -> CustomerSetNameResponse</code>
 - <code title="post /v1/customers/{customer_id}/updateConfig">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">updateConfig</a>({ ...params }) -> void</code>

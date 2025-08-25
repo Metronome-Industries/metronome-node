@@ -6,8 +6,23 @@ import * as Shared from '../shared';
 
 export class Contracts extends APIResource {
   /**
-   * Get a specific contract. New clients should use this endpoint rather than the v1
-   * endpoint.
+   * Gets the details for a specific contract, including contract term, rate card
+   * information, credits and commits, and more.
+   *
+   * Use this endpoint to:
+   *
+   * - Check the duration of a customer's current contract
+   * - Get details on contract terms, including access schedule amounts for
+   *   commitments and credits
+   * - Understand the state of a contract at a past time. As you can evolve the terms
+   *   of a contract over time through editing, use the as_of_date parameter to view
+   *   the full contract configuration as of that point in time.
+   *
+   * Usage guidelines:
+   *
+   * - Optionally, use the include_balance and include_ledger fields to include
+   *   balances and ledgers in the credit and commit responses. Using these fields
+   *   will cause the query to be slower.
    *
    * @example
    * ```ts
@@ -25,8 +40,20 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * List all contracts for a customer in chronological order. New clients should use
-   * this endpoint rather than the v1 endpoint.
+   * For a given customer, lists all of their contracts in chronological order.
+   *
+   * Use this endpoint to:
+   *
+   * - Check if a customer is provisioned with any contract, and at which tier
+   * - Check the duration and terms of a customer's current contract
+   * - Power a page in your end customer experience that shows the customer's history
+   *   of tiers (e.g. this customer started out on the Pro Plan, then downgraded to
+   *   the Starter plan).
+   *
+   * Usage guidelines:\
+   * Use the starting_at, covering_date, and include_archived parameters to filter the
+   * list of returned contracts. For example, to list only currently active contracts,
+   * pass covering_date equal to the current time.
    *
    * @example
    * ```ts
@@ -40,7 +67,28 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Edit a contract. Contract editing must be enabled to use this endpoint.
+   * The ability to edit a contract helps you react quickly to the needs of your
+   * customers and your business.
+   *
+   * Use this endpoint to:
+   *
+   * - Encode mid-term commitment and discount changes
+   * - Fix configuration mistakes and easily roll back packaging changes
+   *
+   * Key response fields:
+   *
+   * - The id of the edit
+   * - Complete edit details. For example, if you edited the contract to add new
+   *   overrides and credits, you will receive the IDs of those overrides and credits
+   *   in the response.
+   *
+   * Usage guidelines:
+   *
+   * - When you edit a contract, any draft invoices update immediately to reflect
+   *   that edit. Finalized invoices remain unchanged - you must void and regenerate
+   *   them in the UI or API to reflect the edit.
+   * - Contract editing must be enabled to use this endpoint. Reach out to your
+   *   Metronome representative to learn more.
    *
    * @example
    * ```ts
@@ -78,8 +126,22 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Edit a customer or contract commit. Contract commits can only be edited using
-   * this endpoint if contract editing is enabled.
+   * Edit specific details for a contract-level or customer-level commit. Use this
+   * endpoint to modify individual commit access schedules, invoice schedules,
+   * applicable products, invoicing contracts, or other fields.
+   *
+   * Usage guidelines:
+   *
+   * - As with all edits in Metronome, draft invoices will reflect the edit
+   *   immediately, while finalized invoices are untouched unless voided and
+   *   regenerated.
+   * - If a commit's invoice schedule item is associated with a finalized invoice,
+   *   you cannot remove or update the invoice schedule item.
+   * - If a commit's invoice schedule item is associated with a voided invoice, you
+   *   cannot remove the invoice schedule item.
+   * - You cannot remove an commit access schedule segment that was applied to a
+   *   finalized invoice. You can void the invoice beforehand and then remove the
+   *   access schedule segment.
    *
    * @example
    * ```ts
@@ -105,8 +167,22 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Edit a customer or contract credit. Contract credits can only be edited using
-   * this endpoint if contract editing is enabled.
+   * Edit details for a contract-level or customer-level credit.
+   *
+   * Use this endpoint to:
+   *
+   * - Extend the duration or the amount of an existing free credit like a trial
+   * - Modify individual credit access schedules, applicable products, priority, or
+   *   other fields.
+   *
+   * Usage guidelines:
+   *
+   * - As with all edits in Metronome, draft invoices will reflect the edit
+   *   immediately, while finalized invoices are untouched unless voided and
+   *   regenerated.
+   * - You cannot remove an access schedule segment that was applied to a finalized
+   *   invoice. You can void the invoice beforehand and then remove the access
+   *   schedule segment.
    *
    * @example
    * ```ts
@@ -132,8 +208,21 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Get the edit history of a specific contract. Contract editing must be enabled to
-   * use this endpoint.
+   * List all the edits made to a contract over time. In Metronome, you can edit a
+   * contract at any point after it's created to fix mistakes or reflect changes in
+   * terms. Metronome stores a full history of all edits that were ever made to a
+   * contract, whether through the UI, editContract endpoint, or other endpoints like
+   * updateContractEndDate.
+   *
+   * Use this endpoint to:
+   *
+   * - Understand what changes were made to a contract, when, and by who
+   *
+   * Key response fields:
+   *
+   * - An array of every edit ever made to the contract
+   * - Details on each individual edit - for example showing that in one edit, a user
+   *   added two discounts and incremented a subscription quantity.
    *
    * @example
    * ```ts
@@ -1021,6 +1110,9 @@ export namespace ContractGetEditHistoryResponse {
     export interface UpdateDiscount {
       id: string;
 
+      /**
+       * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+       */
       custom_fields?: { [key: string]: string };
 
       name?: string;
@@ -1531,6 +1623,9 @@ export namespace ContractEditParams {
      */
     applicable_product_tags?: Array<string>;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     custom_fields?: { [key: string]: string };
 
     /**
@@ -1825,6 +1920,9 @@ export namespace ContractEditParams {
      */
     applicable_product_tags?: Array<string>;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     custom_fields?: { [key: string]: string };
 
     /**
@@ -1901,6 +1999,9 @@ export namespace ContractEditParams {
      */
     schedule: AddDiscount.Schedule;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     custom_fields?: { [key: string]: string };
 
     /**
@@ -2204,6 +2305,9 @@ export namespace ContractEditParams {
      */
     unit_price: number;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     custom_fields?: { [key: string]: string };
 
     description?: string;
@@ -2611,6 +2715,9 @@ export namespace ContractEditParams {
      */
     schedule: AddScheduledCharge.Schedule;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     custom_fields?: { [key: string]: string };
 
     /**
@@ -2729,12 +2836,13 @@ export namespace ContractEditParams {
   export interface AddSubscription {
     collection_schedule: 'ADVANCE' | 'ARREARS';
 
-    initial_quantity: number;
-
     proration: AddSubscription.Proration;
 
     subscription_rate: AddSubscription.SubscriptionRate;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     custom_fields?: { [key: string]: string };
 
     description?: string;
@@ -2745,7 +2853,21 @@ export namespace ContractEditParams {
      */
     ending_before?: string;
 
+    /**
+     * The initial quantity for the subscription. It must be non-negative value.
+     * Required if quantity_management_mode is QUANTITY_ONLY.
+     */
+    initial_quantity?: number;
+
     name?: string;
+
+    /**
+     * Determines how the subscription's quantity is controlled. Defaults to
+     * QUANTITY_ONLY. **QUANTITY_ONLY**: The subscription quantity is specified
+     * directly on the subscription. `initial_quantity` must be provided with this
+     * option. Compatible with recurring commits/credits that use POOLED allocation.
+     */
+    quantity_management_mode?: 'SEAT_BASED' | 'QUANTITY_ONLY';
 
     /**
      * Inclusive start time for the subscription. If not provided, defaults to contract

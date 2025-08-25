@@ -112,6 +112,9 @@ export interface PlanListResponse {
    */
   id: string;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields: { [key: string]: string };
 
   plan_description: string;

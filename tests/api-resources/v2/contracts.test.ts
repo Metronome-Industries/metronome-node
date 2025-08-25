@@ -402,7 +402,6 @@ describe('resource contracts', () => {
       add_subscriptions: [
         {
           collection_schedule: 'ADVANCE',
-          initial_quantity: 0,
           proration: { invoice_behavior: 'BILL_IMMEDIATELY', is_prorated: true },
           subscription_rate: {
             billing_frequency: 'MONTHLY',
@@ -411,7 +410,9 @@ describe('resource contracts', () => {
           custom_fields: { foo: 'string' },
           description: 'description',
           ending_before: '2019-12-27T18:11:19.117Z',
+          initial_quantity: 0,
           name: 'name',
+          quantity_management_mode: 'SEAT_BASED',
           starting_at: '2019-12-27T18:11:19.117Z',
           temporary_id: 'temporary_id',
         },

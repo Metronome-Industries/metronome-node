@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'remove_key_v1_custom_fields',
-  description: 'Remove a key from the allow list for a given entity.\n',
+  description:
+    'Removes a custom field key from the allowlist for a specific entity type, preventing future use of that key across all instances of the entity. Existing values for this key on entity instances will no longer be accessible once the key is removed.\n',
   inputSchema: {
     type: 'object',
     properties: {

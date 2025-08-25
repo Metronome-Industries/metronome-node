@@ -102,6 +102,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             description: {
@@ -354,6 +355,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             description: {
@@ -394,6 +396,7 @@ export const tool: Tool = {
       },
       custom_fields: {
         type: 'object',
+        description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
         additionalProperties: true,
       },
       discounts: {
@@ -493,6 +496,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             name: {
@@ -716,6 +720,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             description: {
@@ -900,6 +905,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             name: {

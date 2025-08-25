@@ -71,6 +71,9 @@ export interface Commit {
 
   contract?: Commit.Contract;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields?: { [key: string]: string };
 
   description?: string;
@@ -426,6 +429,9 @@ export interface Contract {
    */
   archived_at?: string;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields?: { [key: string]: string };
 
   /**
@@ -587,6 +593,9 @@ export interface ContractV2 {
 
   credits?: Array<ContractV2.Credit>;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields?: { [key: string]: string };
 
   /**
@@ -718,6 +727,9 @@ export namespace ContractV2 {
 
     contract?: Commit.Contract;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     custom_fields?: { [key: string]: string };
 
     description?: string;
@@ -1096,6 +1108,9 @@ export namespace ContractV2 {
 
     contract?: Credit.Contract;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     custom_fields?: { [key: string]: string };
 
     description?: string;
@@ -2066,6 +2081,9 @@ export interface Credit {
 
   contract?: Credit.Contract;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields?: { [key: string]: string };
 
   description?: string;
@@ -2232,6 +2250,9 @@ export interface Discount {
 
   schedule: SchedulePointInTime;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields?: { [key: string]: string };
 
   name?: string;
@@ -2735,6 +2756,9 @@ export interface ProService {
    */
   unit_price: number;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields?: { [key: string]: string };
 
   description?: string;
@@ -2818,6 +2842,9 @@ export interface ScheduledCharge {
 
   archived_at?: string;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields?: { [key: string]: string };
 
   /**
@@ -2929,6 +2956,14 @@ export interface Subscription {
   proration: Subscription.Proration;
 
   /**
+   * Determines how the subscription's quantity is controlled. Defaults to
+   * QUANTITY_ONLY. **QUANTITY_ONLY**: The subscription quantity is specified
+   * directly on the subscription. `initial_quantity` must be provided with this
+   * option. Compatible with recurring commits/credits that use POOLED allocation.
+   */
+  quantity_management_mode: 'SEAT_BASED' | 'QUANTITY_ONLY';
+
+  /**
    * List of quantity schedule items for the subscription. Only includes the current
    * quantity and future quantity changes.
    */
@@ -2940,6 +2975,9 @@ export interface Subscription {
 
   id?: string;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields?: { [key: string]: string };
 
   description?: string;

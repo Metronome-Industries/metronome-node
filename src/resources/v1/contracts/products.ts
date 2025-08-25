@@ -9,7 +9,11 @@ import { CursorPage, type CursorPageParams } from '../../../pagination';
 
 export class Products extends APIResource {
   /**
-   * Create a new product
+   * Create a new product object. Products in Metronome represent your company's
+   * individual product or service offerings. A Product can be thought of as the
+   * basic unit of a line item on the invoice. This is analogous to SKUs or items in
+   * an ERP system. Give the product a meaningful name as they will appear on
+   * customer invoices.
    *
    * @example
    * ```ts
@@ -26,7 +30,7 @@ export class Products extends APIResource {
   }
 
   /**
-   * Get a specific product
+   * Retrieve a product by its ID, including all metadata and historical changes.
    *
    * @example
    * ```ts
@@ -43,7 +47,15 @@ export class Products extends APIResource {
   }
 
   /**
-   * Update a product
+   * Updates a product's configuration while maintaining billing continuity for
+   * active customers. Use this endpoint to modify product names, metrics, pricing
+   * rules, and composite settings without disrupting ongoing billing cycles. Changes
+   * are scheduled using the starting_at timestamp, which must be on an hour
+   * boundary—set future dates to schedule updates ahead of time, or past dates for
+   * retroactive changes. Returns the updated product ID upon success.
+   *
+   * Usage guidance: Product type cannot be changed after creation. For incorrect
+   * product types, create a new product and archive the original instead.
    *
    * @example
    * ```ts
@@ -59,7 +71,9 @@ export class Products extends APIResource {
   }
 
   /**
-   * List products
+   * Get a paginated list of all products in your organization with their complete
+   * configuration, version history, and metadata. By default excludes archived
+   * products unless explicitly requested via the archive_filter parameter.
    *
    * @example
    * ```ts
@@ -93,7 +107,10 @@ export class Products extends APIResource {
   }
 
   /**
-   * Archive a product
+   * Archive a product. Any current rate cards associated with this product will
+   * continue to function as normal. However, it will no longer be available as an
+   * option for newly created rates. Once you archive a product, you can still
+   * retrieve it in the UI and API, but you cannot unarchive it.
    *
    * @example
    * ```ts
@@ -241,6 +258,9 @@ export namespace ProductRetrieveResponse {
 
     archived_at?: string | null;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     custom_fields?: { [key: string]: string };
   }
 
@@ -330,6 +350,9 @@ export interface ProductListResponse {
 
   archived_at?: string | null;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields?: { [key: string]: string };
 }
 
@@ -428,6 +451,9 @@ export interface ProductCreateParams {
    */
   composite_tags?: Array<string>;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields?: { [key: string]: string };
 
   /**

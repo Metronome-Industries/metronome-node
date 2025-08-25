@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'update_config_v1_customers',
-  description: "Updates the specified customer's config.\n",
+  description:
+    'Update configuration settings for a specific customer, such as external system integrations (e.g., Salesforce account ID) and other customer-specific billing parameters. Use this endpoint to modify customer configurations without affecting core customer data like name or ingest aliases.\n',
   inputSchema: {
     type: 'object',
     properties: {

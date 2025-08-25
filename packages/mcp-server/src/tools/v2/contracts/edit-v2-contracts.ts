@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'edit_v2_contracts',
-  description: 'Edit a contract. Contract editing must be enabled to use this endpoint.',
+  description:
+    'The ability to edit a contract helps you react quickly to the needs of your customers and your business.\n\nUse this endpoint to:\n- Encode mid-term commitment and discount changes\n- Fix configuration mistakes and easily roll back packaging changes\n\nKey response fields:\n- The id of the edit\n- Complete edit details. For example, if you edited the contract to add new overrides and credits, you will receive the IDs of those overrides and credits in the response.\n\nUsage guidelines:\n- When you edit a contract, any draft invoices update immediately to reflect that edit. Finalized invoices remain unchanged - you must void and regenerate them in the UI or API to reflect the edit.\n- Contract editing must be enabled to use this endpoint. Reach out to your Metronome representative to learn more.\n',
   inputSchema: {
     type: 'object',
     properties: {
@@ -95,6 +96,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             description: {
@@ -346,6 +348,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             description: {
@@ -480,6 +483,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             name: {
@@ -700,6 +704,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             description: {
@@ -1193,6 +1198,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             name: {
@@ -1220,9 +1226,6 @@ export const tool: Tool = {
             collection_schedule: {
               type: 'string',
               enum: ['ADVANCE', 'ARREARS'],
-            },
-            initial_quantity: {
-              type: 'number',
             },
             proration: {
               type: 'object',
@@ -1257,6 +1260,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             description: {
@@ -1268,8 +1272,19 @@ export const tool: Tool = {
                 'Exclusive end time for the subscription. If not provided, subscription inherits contract end date.',
               format: 'date-time',
             },
+            initial_quantity: {
+              type: 'number',
+              description:
+                'The initial quantity for the subscription. It must be non-negative value. Required if quantity_management_mode is QUANTITY_ONLY.',
+            },
             name: {
               type: 'string',
+            },
+            quantity_management_mode: {
+              type: 'string',
+              description:
+                "Determines how the subscription's quantity is controlled. Defaults to QUANTITY_ONLY. **QUANTITY_ONLY**: The subscription quantity is specified directly on the subscription. `initial_quantity` must be provided with this option. Compatible with recurring commits/credits that use POOLED allocation.",
+              enum: ['SEAT_BASED', 'QUANTITY_ONLY'],
             },
             starting_at: {
               type: 'string',
@@ -1283,7 +1298,7 @@ export const tool: Tool = {
                 'A temporary ID used to reference the subscription in recurring commit/credit subscription configs created within the same payload.',
             },
           },
-          required: ['collection_schedule', 'initial_quantity', 'proration', 'subscription_rate'],
+          required: ['collection_schedule', 'proration', 'subscription_rate'],
         },
       },
       allow_contract_ending_before_finalized_invoice: {

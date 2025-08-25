@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'list_balances_v1_contracts',
-  description: 'List balances (commits and credits).\n',
+  description:
+    'Retrieve a comprehensive view of all available balances (commits and credits) for a customer. This endpoint provides real-time visibility into prepaid funds, postpaid commitments, promotional credits, and other balance types that can offset usage charges, helping you build transparent billing experiences.\n\nUse this endpoint to:\n- Display current available balances in customer dashboards\n- Verify available funds before approving high-usage operations\n- Generate balance reports for finance teams\n- Filter balances by contract or date ranges\n\nKey response fields:\nAn array of balance objects (all credits and commits) containing:\n\n- Balance details: Current available amount for each commit or credit\n- Metadata: Product associations, priorities, applicable date ranges\n- Optional ledger entries: Detailed transaction history (if include_ledgers=true)\n- Balance calculations: Including pending transactions and future-dated entries\n- Custom fields: Any additional metadata attached to balances\n\nUsage guidelines:\n- Date filtering: Use effective_before to include only balances with access before a specific date (exclusive)\n- Set include_balance=true for calculated balance amounts on each commit or credit\n- Set include_ledgers=true for full transaction history\n- Set include_contract_balances = true to see contract level balances\n\n- Balance logic: Reflects currently accessible amounts, excluding expired/future segments\n- Manual adjustments: Includes all manual ledger entries, even future-dated ones\n',
   inputSchema: {
     type: 'object',
     properties: {
