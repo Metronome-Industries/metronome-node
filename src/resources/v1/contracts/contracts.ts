@@ -165,9 +165,8 @@ export class Contracts extends APIResource {
    *   track of all edits, both in the audit log and over the getEditHistory
    *   endpoint.
    * - Customers in Metronome can have multiple concurrent contracts at one time. Use
-   *   usage_filters to route the correct usage to each contract. Read more about
-   *   usage filters
-   *   [https://docs.metronome.com/manage-product-access/provision-customer/#create-a-usage-filter](https://docs.metronome.com/manage-product-access/provision-customer/#create-a-usage-filter).
+   *   usage_filters to route the correct usage to each contract.
+   *   [Read more about usage filters](https://docs.metronome.com/manage-product-access/provision-customer/#create-a-usage-filter).
    *
    * @example
    * ```ts

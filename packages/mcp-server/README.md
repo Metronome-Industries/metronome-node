@@ -1080,7 +1080,7 @@ The following tools are available in this MCP server.
   Usage guidelines:
 
   - You can always [Edit Contracts](https://docs.metronome.com/manage-product-access/edit-contract/) after it has been created, using the editContract endpoint. Metronome keeps track of all edits, both in the audit log and over the getEditHistory endpoint.
-  - Customers in Metronome can have multiple concurrent contracts at one time. Use usage_filters to route the correct usage to each contract. Read more about usage filters [https://docs.metronome.com/manage-product-access/provision-customer/#create-a-usage-filter](https://docs.metronome.com/manage-product-access/provision-customer/#create-a-usage-filter).
+  - Customers in Metronome can have multiple concurrent contracts at one time. Use usage_filters to route the correct usage to each contract. [Read more about usage filters](https://docs.metronome.com/manage-product-access/provision-customer/#create-a-usage-filter).
 
 - `retrieve_v1_contracts` (`write`): This is the v1 endpoint to get a contract. New clients should implement using the v2 endpoint.
 - `list_v1_contracts` (`write`): Retrieves all contracts for a specific customer, including pricing, terms, credits, and commitments. Use this to view a customer's contract history and current agreements for billing management. Returns contract details with optional ledgers and balance information.
