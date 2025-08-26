@@ -229,11 +229,11 @@ describe('resource contracts', () => {
       ],
       add_prepaid_balance_threshold_configuration: {
         commit: {
-          description: 'description',
-          name: 'name',
           product_id: 'product_id',
           applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
           applicable_product_tags: ['string'],
+          description: 'description',
+          name: 'name',
           specifiers: [
             {
               presentation_group_values: { foo: 'string' },
@@ -389,7 +389,7 @@ describe('resource contracts', () => {
         },
       ],
       add_spend_threshold_configuration: {
-        commit: { description: 'description', name: 'name', product_id: 'product_id' },
+        commit: { product_id: 'product_id', description: 'description', name: 'name' },
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',
@@ -501,11 +501,11 @@ describe('resource contracts', () => {
       ],
       update_prepaid_balance_threshold_configuration: {
         commit: {
+          applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+          applicable_product_tags: ['string'],
           description: 'description',
           name: 'name',
           product_id: 'product_id',
-          applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
-          applicable_product_tags: ['string'],
           specifiers: [
             {
               presentation_group_values: { foo: 'string' },

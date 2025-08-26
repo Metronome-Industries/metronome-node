@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'edit_credit_v2_contracts',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nEdit details for a contract-level or customer-level credit. \n\nUse this endpoint to: \n- Extend the duration or the amount of an existing free credit like a trial \n- Modify individual credit access schedules, applicable products, priority, or other fields. \n\nUsage guidelines:\n- As with all edits in Metronome, draft invoices will reflect the edit immediately, while finalized invoices are untouched unless voided and regenerated. \n- You cannot remove an access schedule segment that was applied to a finalized invoice. You can void the invoice beforehand and then remove the access schedule segment.\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      $ref: '#/$defs/id'\n    }\n  },\n  required: [    'data'\n  ],\n  $defs: {\n    id: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  }\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nEdit details for a contract-level or customer-level credit. \n\nUse this endpoint to: \n- Extend the duration or the amount of an existing free credit like a trial \n- Modify individual credit access schedules, applicable products, priority, or other fields. \n\nUsage guidelines:\n- As with all edits in Metronome, draft invoices will reflect the edit immediately, while finalized invoices are untouched unless voided and regenerated. \n- You cannot remove an access schedule segment that was applied to a finalized invoice. You can void the invoice beforehand and then remove the access schedule segment.\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  },\n  required: [    'data'\n  ]\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
@@ -118,7 +118,29 @@ export const tool: Tool = {
         description:
           "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
         items: {
-          $ref: '#/$defs/commit_specifier_input',
+          type: 'object',
+          properties: {
+            presentation_group_values: {
+              type: 'object',
+              additionalProperties: true,
+            },
+            pricing_group_values: {
+              type: 'object',
+              additionalProperties: true,
+            },
+            product_id: {
+              type: 'string',
+              description: 'If provided, the specifier will only apply to the product with the specified ID.',
+            },
+            product_tags: {
+              type: 'array',
+              description:
+                'If provided, the specifier will only apply to products with all the specified tags.',
+              items: {
+                type: 'string',
+              },
+            },
+          },
         },
       },
       jq_filter: {
@@ -129,33 +151,6 @@ export const tool: Tool = {
       },
     },
     required: ['credit_id', 'customer_id'],
-    $defs: {
-      commit_specifier_input: {
-        type: 'object',
-        properties: {
-          presentation_group_values: {
-            type: 'object',
-            additionalProperties: true,
-          },
-          pricing_group_values: {
-            type: 'object',
-            additionalProperties: true,
-          },
-          product_id: {
-            type: 'string',
-            description: 'If provided, the specifier will only apply to the product with the specified ID.',
-          },
-          product_tags: {
-            type: 'array',
-            description:
-              'If provided, the specifier will only apply to products with all the specified tags.',
-            items: {
-              type: 'string',
-            },
-          },
-        },
-      },
-    },
   },
   annotations: {},
 };

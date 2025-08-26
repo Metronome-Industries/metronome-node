@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'create_customers_v1_credits',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nCreates customer-level credits that provide spending allowances or free credit balances for customers across their Metronome usage. Note: In most cases, you should add credits directly to customer contracts using the contract/create or contract/edit APIs.\n\nWhen to use this endpoint:\nUse this endpoint when you need to provision credits directly at the customer level that can be applied across multiple contracts or scoped to specific contracts. Customer-level credits are ideal for:\n- Customer onboarding incentives that apply globally\n- Flexible spending allowances that aren't tied to a single contract\n- Migration scenarios where you need to preserve existing customer balances\n\nScoping Flexibility: \nCustomer-level credits can be configured in two ways:\n- Contract-specific: Use the applicable_contract_ids field to limit the credit to specific contracts\n- Cross-contract: Leave applicable_contract_ids empty to allow the credit to be used across all of the customer's contracts\n\nProduct Targeting: Credits can be scoped to specific products using applicable_product_ids or applicable_product_tags, or left unrestricted to apply to all products.\n\nPriority Considerations: \nWhen multiple credits are applicable, the one with the lower priority value will be consumed first. If there is a tie, contract level commits and credits will be applied before customer level commits and credits. Plan your priority scheme carefully to ensure credits are applied in the desired order.\n\nAccess Schedule Required: \nYou must provide an access_schedule that defines when and how much credit becomes available to the customer over time. This usually is aligned to the contract schedule or starts immediately and is set to expire in the future.\n\nUsage Guidelines:\\\n⚠️ Preferred Alternative: In most cases, you should add credits directly to contracts using the contract/create or contract/edit APIs instead of creating customer-level credits. Contract-level credits provide better organization, and are easier for finance teams to recognize revenue, and are the recommended approach for most use cases.\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      $ref: '#/$defs/id'\n    }\n  },\n  required: [    'data'\n  ],\n  $defs: {\n    id: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  }\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nCreates customer-level credits that provide spending allowances or free credit balances for customers across their Metronome usage. Note: In most cases, you should add credits directly to customer contracts using the contract/create or contract/edit APIs.\n\nWhen to use this endpoint:\nUse this endpoint when you need to provision credits directly at the customer level that can be applied across multiple contracts or scoped to specific contracts. Customer-level credits are ideal for:\n- Customer onboarding incentives that apply globally\n- Flexible spending allowances that aren't tied to a single contract\n- Migration scenarios where you need to preserve existing customer balances\n\nScoping Flexibility: \nCustomer-level credits can be configured in two ways:\n- Contract-specific: Use the applicable_contract_ids field to limit the credit to specific contracts\n- Cross-contract: Leave applicable_contract_ids empty to allow the credit to be used across all of the customer's contracts\n\nProduct Targeting: Credits can be scoped to specific products using applicable_product_ids or applicable_product_tags, or left unrestricted to apply to all products.\n\nPriority Considerations: \nWhen multiple credits are applicable, the one with the lower priority value will be consumed first. If there is a tie, contract level commits and credits will be applied before customer level commits and credits. Plan your priority scheme carefully to ensure credits are applied in the desired order.\n\nAccess Schedule Required: \nYou must provide an access_schedule that defines when and how much credit becomes available to the customer over time. This usually is aligned to the contract schedule or starts immediately and is set to expire in the future.\n\nUsage Guidelines:\\\n⚠️ Preferred Alternative: In most cases, you should add credits directly to contracts using the contract/create or contract/edit APIs instead of creating customer-level credits. Contract-level credits provide better organization, and are easier for finance teams to recognize revenue, and are the recommended approach for most use cases.\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  },\n  required: [    'data'\n  ]\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
@@ -120,7 +120,29 @@ export const tool: Tool = {
         description:
           "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`.",
         items: {
-          $ref: '#/$defs/commit_specifier_input',
+          type: 'object',
+          properties: {
+            presentation_group_values: {
+              type: 'object',
+              additionalProperties: true,
+            },
+            pricing_group_values: {
+              type: 'object',
+              additionalProperties: true,
+            },
+            product_id: {
+              type: 'string',
+              description: 'If provided, the specifier will only apply to the product with the specified ID.',
+            },
+            product_tags: {
+              type: 'array',
+              description:
+                'If provided, the specifier will only apply to products with all the specified tags.',
+              items: {
+                type: 'string',
+              },
+            },
+          },
         },
       },
       uniqueness_key: {
@@ -136,33 +158,6 @@ export const tool: Tool = {
       },
     },
     required: ['access_schedule', 'customer_id', 'priority', 'product_id'],
-    $defs: {
-      commit_specifier_input: {
-        type: 'object',
-        properties: {
-          presentation_group_values: {
-            type: 'object',
-            additionalProperties: true,
-          },
-          pricing_group_values: {
-            type: 'object',
-            additionalProperties: true,
-          },
-          product_id: {
-            type: 'string',
-            description: 'If provided, the specifier will only apply to the product with the specified ID.',
-          },
-          product_tags: {
-            type: 'array',
-            description:
-              'If provided, the specifier will only apply to products with all the specified tags.',
-            items: {
-              type: 'string',
-            },
-          },
-        },
-      },
-    },
   },
   annotations: {},
 };

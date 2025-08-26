@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'add_many_rate_cards_contracts_v1_rates',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nAdd new rates\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      $ref: '#/$defs/id'\n    }\n  },\n  required: [    'data'\n  ],\n  $defs: {\n    id: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  }\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nAdd new rates\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      type: 'object',\n      description: 'The ID of the rate card to which the rates were added.',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  },\n  required: [    'data'\n  ]\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
@@ -53,7 +53,36 @@ export const tool: Tool = {
               enum: ['MONTHLY', 'QUARTERLY', 'ANNUAL', 'WEEKLY'],
             },
             commit_rate: {
-              $ref: '#/$defs/commit_rate',
+              type: 'object',
+              description:
+                'A distinct rate on the rate card. You can choose to use this rate rather than list rate when consuming a credit or commit.',
+              properties: {
+                rate_type: {
+                  type: 'string',
+                  enum: ['FLAT', 'PERCENTAGE', 'SUBSCRIPTION', 'TIERED', 'CUSTOM'],
+                },
+                price: {
+                  type: 'number',
+                  description: 'Commit rate price. For FLAT rate_type, this must be >=0.',
+                },
+                tiers: {
+                  type: 'array',
+                  description: 'Only set for TIERED rate_type.',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      price: {
+                        type: 'number',
+                      },
+                      size: {
+                        type: 'number',
+                      },
+                    },
+                    required: ['price'],
+                  },
+                },
+              },
+              required: ['rate_type'],
             },
             credit_type_id: {
               type: 'string',
@@ -95,7 +124,16 @@ export const tool: Tool = {
               type: 'array',
               description: 'Only set for TIERED rate_type.',
               items: {
-                $ref: '#/$defs/tier',
+                type: 'object',
+                properties: {
+                  price: {
+                    type: 'number',
+                  },
+                  size: {
+                    type: 'number',
+                  },
+                },
+                required: ['price'],
               },
             },
             use_list_prices: {
@@ -115,43 +153,6 @@ export const tool: Tool = {
       },
     },
     required: ['rate_card_id', 'rates'],
-    $defs: {
-      commit_rate: {
-        type: 'object',
-        description:
-          'A distinct rate on the rate card. You can choose to use this rate rather than list rate when consuming a credit or commit.',
-        properties: {
-          rate_type: {
-            type: 'string',
-            enum: ['FLAT', 'PERCENTAGE', 'SUBSCRIPTION', 'TIERED', 'CUSTOM'],
-          },
-          price: {
-            type: 'number',
-            description: 'Commit rate price. For FLAT rate_type, this must be >=0.',
-          },
-          tiers: {
-            type: 'array',
-            description: 'Only set for TIERED rate_type.',
-            items: {
-              $ref: '#/$defs/tier',
-            },
-          },
-        },
-        required: ['rate_type'],
-      },
-      tier: {
-        type: 'object',
-        properties: {
-          price: {
-            type: 'number',
-          },
-          size: {
-            type: 'number',
-          },
-        },
-        required: ['price'],
-      },
-    },
   },
   annotations: {},
 };
