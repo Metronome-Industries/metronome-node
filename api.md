@@ -1,3 +1,43 @@
+# Shared
+
+Types:
+
+- <code><a href="./src/resources/shared.ts">BaseThresholdCommit</a></code>
+- <code><a href="./src/resources/shared.ts">BaseUsageFilter</a></code>
+- <code><a href="./src/resources/shared.ts">Commit</a></code>
+- <code><a href="./src/resources/shared.ts">CommitHierarchyConfiguration</a></code>
+- <code><a href="./src/resources/shared.ts">CommitRate</a></code>
+- <code><a href="./src/resources/shared.ts">CommitSpecifier</a></code>
+- <code><a href="./src/resources/shared.ts">CommitSpecifierInput</a></code>
+- <code><a href="./src/resources/shared.ts">Contract</a></code>
+- <code><a href="./src/resources/shared.ts">ContractV2</a></code>
+- <code><a href="./src/resources/shared.ts">ContractWithoutAmendments</a></code>
+- <code><a href="./src/resources/shared.ts">Credit</a></code>
+- <code><a href="./src/resources/shared.ts">CreditTypeData</a></code>
+- <code><a href="./src/resources/shared.ts">Discount</a></code>
+- <code><a href="./src/resources/shared.ts">EventTypeFilter</a></code>
+- <code><a href="./src/resources/shared.ts">HierarchyConfiguration</a></code>
+- <code><a href="./src/resources/shared.ts">ID</a></code>
+- <code><a href="./src/resources/shared.ts">Override</a></code>
+- <code><a href="./src/resources/shared.ts">OverrideTier</a></code>
+- <code><a href="./src/resources/shared.ts">OverwriteRate</a></code>
+- <code><a href="./src/resources/shared.ts">PaymentGateConfig</a></code>
+- <code><a href="./src/resources/shared.ts">PaymentGateConfigV2</a></code>
+- <code><a href="./src/resources/shared.ts">PrepaidBalanceThresholdConfiguration</a></code>
+- <code><a href="./src/resources/shared.ts">PrepaidBalanceThresholdConfigurationV2</a></code>
+- <code><a href="./src/resources/shared.ts">PropertyFilter</a></code>
+- <code><a href="./src/resources/shared.ts">ProService</a></code>
+- <code><a href="./src/resources/shared.ts">Rate</a></code>
+- <code><a href="./src/resources/shared.ts">RecurringCommitSubscriptionConfig</a></code>
+- <code><a href="./src/resources/shared.ts">ScheduledCharge</a></code>
+- <code><a href="./src/resources/shared.ts">ScheduleDuration</a></code>
+- <code><a href="./src/resources/shared.ts">SchedulePointInTime</a></code>
+- <code><a href="./src/resources/shared.ts">SpendThresholdConfiguration</a></code>
+- <code><a href="./src/resources/shared.ts">SpendThresholdConfigurationV2</a></code>
+- <code><a href="./src/resources/shared.ts">Subscription</a></code>
+- <code><a href="./src/resources/shared.ts">Tier</a></code>
+- <code><a href="./src/resources/shared.ts">UpdateBaseThresholdCommit</a></code>
+
 # V2
 
 ## Contracts
@@ -38,6 +78,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/v1/plans.ts">PlanDetail</a></code>
 - <code><a href="./src/resources/v1/plans.ts">PlanListResponse</a></code>
 - <code><a href="./src/resources/v1/plans.ts">PlanGetDetailsResponse</a></code>
 - <code><a href="./src/resources/v1/plans.ts">PlanListChargesResponse</a></code>
@@ -54,6 +95,9 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/v1/credit-grants.ts">CreditLedgerEntry</a></code>
+- <code><a href="./src/resources/v1/credit-grants.ts">RolloverAmountMaxAmount</a></code>
+- <code><a href="./src/resources/v1/credit-grants.ts">RolloverAmountMaxPercentage</a></code>
 - <code><a href="./src/resources/v1/credit-grants.ts">CreditGrantCreateResponse</a></code>
 - <code><a href="./src/resources/v1/credit-grants.ts">CreditGrantListResponse</a></code>
 - <code><a href="./src/resources/v1/credit-grants.ts">CreditGrantEditResponse</a></code>
@@ -82,9 +126,10 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/v1/customers/customers.ts">Customer</a></code>
+- <code><a href="./src/resources/v1/customers/customers.ts">CustomerDetail</a></code>
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerCreateResponse</a></code>
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerRetrieveResponse</a></code>
-- <code><a href="./src/resources/v1/customers/customers.ts">CustomerListResponse</a></code>
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerArchiveResponse</a></code>
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerListBillableMetricsResponse</a></code>
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerListCostsResponse</a></code>
@@ -96,7 +141,7 @@ Methods:
 
 - <code title="post /v1/customers">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">create</a>({ ...params }) -> CustomerCreateResponse</code>
 - <code title="get /v1/customers/{customer_id}">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">retrieve</a>({ ...params }) -> CustomerRetrieveResponse</code>
-- <code title="get /v1/customers">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">list</a>({ ...params }) -> CustomerListResponsesCursorPage</code>
+- <code title="get /v1/customers">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">list</a>({ ...params }) -> CustomerDetailsCursorPage</code>
 - <code title="post /v1/customers/archive">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">archive</a>({ ...params }) -> CustomerArchiveResponse</code>
 - <code title="get /v1/customers/{customer_id}/billable-metrics">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">listBillableMetrics</a>({ ...params }) -> CustomerListBillableMetricsResponsesCursorPage</code>
 - <code title="get /v1/customers/{customer_id}/costs">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">listCosts</a>({ ...params }) -> CustomerListCostsResponsesCursorPage</code>
@@ -111,13 +156,13 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/v1/customers/alerts.ts">CustomerAlert</a></code>
 - <code><a href="./src/resources/v1/customers/alerts.ts">AlertRetrieveResponse</a></code>
-- <code><a href="./src/resources/v1/customers/alerts.ts">AlertListResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/customer-alerts/get">client.v1.customers.alerts.<a href="./src/resources/v1/customers/alerts.ts">retrieve</a>({ ...params }) -> AlertRetrieveResponse</code>
-- <code title="post /v1/customer-alerts/list">client.v1.customers.alerts.<a href="./src/resources/v1/customers/alerts.ts">list</a>({ ...params }) -> AlertListResponsesCursorPageWithoutLimit</code>
+- <code title="post /v1/customer-alerts/list">client.v1.customers.alerts.<a href="./src/resources/v1/customers/alerts.ts">list</a>({ ...params }) -> CustomerAlertsCursorPageWithoutLimit</code>
 - <code title="post /v1/customer-alerts/reset">client.v1.customers.alerts.<a href="./src/resources/v1/customers/alerts.ts">reset</a>({ ...params }) -> void</code>
 
 ### Plans
@@ -140,15 +185,15 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/v1/customers/invoices.ts">Invoice</a></code>
 - <code><a href="./src/resources/v1/customers/invoices.ts">InvoiceRetrieveResponse</a></code>
-- <code><a href="./src/resources/v1/customers/invoices.ts">InvoiceListResponse</a></code>
 - <code><a href="./src/resources/v1/customers/invoices.ts">InvoiceAddChargeResponse</a></code>
 - <code><a href="./src/resources/v1/customers/invoices.ts">InvoiceListBreakdownsResponse</a></code>
 
 Methods:
 
 - <code title="get /v1/customers/{customer_id}/invoices/{invoice_id}">client.v1.customers.invoices.<a href="./src/resources/v1/customers/invoices.ts">retrieve</a>({ ...params }) -> InvoiceRetrieveResponse</code>
-- <code title="get /v1/customers/{customer_id}/invoices">client.v1.customers.invoices.<a href="./src/resources/v1/customers/invoices.ts">list</a>({ ...params }) -> InvoiceListResponsesCursorPage</code>
+- <code title="get /v1/customers/{customer_id}/invoices">client.v1.customers.invoices.<a href="./src/resources/v1/customers/invoices.ts">list</a>({ ...params }) -> InvoicesCursorPage</code>
 - <code title="post /v1/customers/{customer_id}/addCharge">client.v1.customers.invoices.<a href="./src/resources/v1/customers/invoices.ts">addCharge</a>({ ...params }) -> InvoiceAddChargeResponse</code>
 - <code title="get /v1/customers/{customer_id}/invoices/breakdowns">client.v1.customers.invoices.<a href="./src/resources/v1/customers/invoices.ts">listBreakdowns</a>({ ...params }) -> InvoiceListBreakdownsResponsesCursorPage</code>
 
@@ -169,13 +214,12 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/v1/customers/commits.ts">CommitCreateResponse</a></code>
-- <code><a href="./src/resources/v1/customers/commits.ts">CommitListResponse</a></code>
 - <code><a href="./src/resources/v1/customers/commits.ts">CommitUpdateEndDateResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/contracts/customerCommits/create">client.v1.customers.commits.<a href="./src/resources/v1/customers/commits.ts">create</a>({ ...params }) -> CommitCreateResponse</code>
-- <code title="post /v1/contracts/customerCommits/list">client.v1.customers.commits.<a href="./src/resources/v1/customers/commits.ts">list</a>({ ...params }) -> CommitListResponsesBodyCursorPage</code>
+- <code title="post /v1/contracts/customerCommits/list">client.v1.customers.commits.<a href="./src/resources/v1/customers/commits.ts">list</a>({ ...params }) -> CommitsBodyCursorPage</code>
 - <code title="post /v1/contracts/customerCommits/updateEndDate">client.v1.customers.commits.<a href="./src/resources/v1/customers/commits.ts">updateEndDate</a>({ ...params }) -> CommitUpdateEndDateResponse</code>
 
 ### Credits
@@ -183,13 +227,12 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/v1/customers/credits.ts">CreditCreateResponse</a></code>
-- <code><a href="./src/resources/v1/customers/credits.ts">CreditListResponse</a></code>
 - <code><a href="./src/resources/v1/customers/credits.ts">CreditUpdateEndDateResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/contracts/customerCredits/create">client.v1.customers.credits.<a href="./src/resources/v1/customers/credits.ts">create</a>({ ...params }) -> CreditCreateResponse</code>
-- <code title="post /v1/contracts/customerCredits/list">client.v1.customers.credits.<a href="./src/resources/v1/customers/credits.ts">list</a>({ ...params }) -> CreditListResponsesBodyCursorPage</code>
+- <code title="post /v1/contracts/customerCredits/list">client.v1.customers.credits.<a href="./src/resources/v1/customers/credits.ts">list</a>({ ...params }) -> CreditsBodyCursorPage</code>
 - <code title="post /v1/contracts/customerCredits/updateEndDate">client.v1.customers.credits.<a href="./src/resources/v1/customers/credits.ts">updateEndDate</a>({ ...params }) -> CreditUpdateEndDateResponse</code>
 
 ### NamedSchedules
@@ -326,6 +369,9 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/v1/contracts/products.ts">ProductListItemState</a></code>
+- <code><a href="./src/resources/v1/contracts/products.ts">QuantityConversion</a></code>
+- <code><a href="./src/resources/v1/contracts/products.ts">QuantityRounding</a></code>
 - <code><a href="./src/resources/v1/contracts/products.ts">ProductCreateResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/products.ts">ProductRetrieveResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/products.ts">ProductUpdateResponse</a></code>

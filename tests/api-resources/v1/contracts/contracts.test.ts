@@ -201,10 +201,10 @@ describe('resource contracts', () => {
       prepaid_balance_threshold_configuration: {
         commit: {
           product_id: 'product_id',
-          applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
-          applicable_product_tags: ['string'],
           description: 'description',
           name: 'name',
+          applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+          applicable_product_tags: ['string'],
           specifiers: [
             {
               presentation_group_values: { foo: 'string' },

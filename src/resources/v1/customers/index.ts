@@ -1,15 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export {
-  AlertListResponsesCursorPageWithoutLimit,
-  Alerts,
-  type AlertRetrieveResponse,
-  type AlertListResponse,
-  type AlertRetrieveParams,
-  type AlertListParams,
-  type AlertResetParams,
-} from './alerts';
-export {
   BillingConfig,
   type BillingConfigRetrieveResponse,
   type BillingConfigCreateParams,
@@ -17,33 +8,39 @@ export {
   type BillingConfigDeleteParams,
 } from './billing-config';
 export {
-  CommitListResponsesBodyCursorPage,
   Commits,
   type CommitCreateResponse,
-  type CommitListResponse,
   type CommitUpdateEndDateResponse,
   type CommitCreateParams,
   type CommitListParams,
   type CommitUpdateEndDateParams,
 } from './commits';
 export {
-  CreditListResponsesBodyCursorPage,
   Credits,
   type CreditCreateResponse,
-  type CreditListResponse,
   type CreditUpdateEndDateResponse,
   type CreditCreateParams,
   type CreditListParams,
   type CreditUpdateEndDateParams,
 } from './credits';
 export {
-  CustomerListResponsesCursorPage,
+  CustomerAlertsCursorPageWithoutLimit,
+  Alerts,
+  type CustomerAlert,
+  type AlertRetrieveResponse,
+  type AlertRetrieveParams,
+  type AlertListParams,
+  type AlertResetParams,
+} from './alerts';
+export {
+  CustomerDetailsCursorPage,
   CustomerListBillableMetricsResponsesCursorPage,
   CustomerListCostsResponsesCursorPage,
   Customers,
+  type Customer,
+  type CustomerDetail,
   type CustomerCreateResponse,
   type CustomerRetrieveResponse,
-  type CustomerListResponse,
   type CustomerArchiveResponse,
   type CustomerListBillableMetricsResponse,
   type CustomerListCostsResponse,
@@ -64,11 +61,11 @@ export {
   type CustomerUpdateConfigParams,
 } from './customers';
 export {
-  InvoiceListResponsesCursorPage,
+  InvoicesCursorPage,
   InvoiceListBreakdownsResponsesCursorPage,
   Invoices,
+  type Invoice,
   type InvoiceRetrieveResponse,
-  type InvoiceListResponse,
   type InvoiceAddChargeResponse,
   type InvoiceListBreakdownsResponse,
   type InvoiceRetrieveParams,

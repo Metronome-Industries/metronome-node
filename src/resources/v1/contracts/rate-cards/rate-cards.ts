@@ -3,6 +3,7 @@
 import { APIResource } from '../../../../resource';
 import { isRequestOptions } from '../../../../core';
 import * as Core from '../../../../core';
+import * as Shared from '../../../shared';
 import * as NamedSchedulesAPI from './named-schedules';
 import {
   NamedScheduleRetrieveParams,
@@ -288,13 +289,7 @@ export class RateCards extends APIResource {
 export class RateCardListResponsesCursorPage extends CursorPage<RateCardListResponse> {}
 
 export interface RateCardCreateResponse {
-  data: RateCardCreateResponse.Data;
-}
-
-export namespace RateCardCreateResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface RateCardRetrieveResponse {
@@ -322,7 +317,7 @@ export namespace RateCardRetrieveResponse {
 
     description?: string;
 
-    fiat_credit_type?: Data.FiatCreditType;
+    fiat_credit_type?: Shared.CreditTypeData;
   }
 
   export namespace Data {
@@ -335,35 +330,15 @@ export namespace RateCardRetrieveResponse {
     }
 
     export interface CreditTypeConversion {
-      custom_credit_type: CreditTypeConversion.CustomCreditType;
+      custom_credit_type: Shared.CreditTypeData;
 
       fiat_per_custom_credit: string;
-    }
-
-    export namespace CreditTypeConversion {
-      export interface CustomCreditType {
-        id: string;
-
-        name: string;
-      }
-    }
-
-    export interface FiatCreditType {
-      id: string;
-
-      name: string;
     }
   }
 }
 
 export interface RateCardUpdateResponse {
-  data: RateCardUpdateResponse.Data;
-}
-
-export namespace RateCardUpdateResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface RateCardListResponse {
@@ -386,7 +361,7 @@ export interface RateCardListResponse {
 
   description?: string;
 
-  fiat_credit_type?: RateCardListResponse.FiatCreditType;
+  fiat_credit_type?: Shared.CreditTypeData;
 }
 
 export namespace RateCardListResponse {
@@ -399,34 +374,14 @@ export namespace RateCardListResponse {
   }
 
   export interface CreditTypeConversion {
-    custom_credit_type: CreditTypeConversion.CustomCreditType;
+    custom_credit_type: Shared.CreditTypeData;
 
     fiat_per_custom_credit: string;
-  }
-
-  export namespace CreditTypeConversion {
-    export interface CustomCreditType {
-      id: string;
-
-      name: string;
-    }
-  }
-
-  export interface FiatCreditType {
-    id: string;
-
-    name: string;
   }
 }
 
 export interface RateCardArchiveResponse {
-  data: RateCardArchiveResponse.Data;
-}
-
-export namespace RateCardArchiveResponse {
-  export interface Data {
-    id: string;
-  }
+  data: Shared.ID;
 }
 
 export interface RateCardRetrieveRateScheduleResponse {
@@ -450,7 +405,7 @@ export namespace RateCardRetrieveRateScheduleResponse {
 
     product_tags: Array<string>;
 
-    rate: Data.Rate;
+    rate: Shared.Rate;
 
     starting_at: string;
 
@@ -460,100 +415,11 @@ export namespace RateCardRetrieveRateScheduleResponse {
      * A distinct rate on the rate card. You can choose to use this rate rather than
      * list rate when consuming a credit or commit.
      */
-    commit_rate?: Data.CommitRate;
+    commit_rate?: Shared.CommitRate;
 
     ending_before?: string;
 
     pricing_group_values?: { [key: string]: string };
-  }
-
-  export namespace Data {
-    export interface Rate {
-      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
-
-      credit_type?: Rate.CreditType;
-
-      /**
-       * Only set for CUSTOM rate_type. This field is interpreted by custom rate
-       * processors.
-       */
-      custom_rate?: { [key: string]: unknown };
-
-      /**
-       * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
-       * set to true.
-       */
-      is_prorated?: boolean;
-
-      /**
-       * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
-       * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
-       */
-      price?: number;
-
-      /**
-       * if pricing groups are used, this will contain the values used to calculate the
-       * price
-       */
-      pricing_group_values?: { [key: string]: string };
-
-      /**
-       * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
-       */
-      quantity?: number;
-
-      /**
-       * Only set for TIERED rate_type.
-       */
-      tiers?: Array<Rate.Tier>;
-
-      /**
-       * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
-       * using list prices rather than the standard rates for this product on the
-       * contract.
-       */
-      use_list_prices?: boolean;
-    }
-
-    export namespace Rate {
-      export interface CreditType {
-        id: string;
-
-        name: string;
-      }
-
-      export interface Tier {
-        price: number;
-
-        size?: number;
-      }
-    }
-
-    /**
-     * A distinct rate on the rate card. You can choose to use this rate rather than
-     * list rate when consuming a credit or commit.
-     */
-    export interface CommitRate {
-      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
-
-      /**
-       * Commit rate price. For FLAT rate_type, this must be >=0.
-       */
-      price?: number;
-
-      /**
-       * Only set for TIERED rate_type.
-       */
-      tiers?: Array<CommitRate.Tier>;
-    }
-
-    export namespace CommitRate {
-      export interface Tier {
-        price: number;
-
-        size?: number;
-      }
-    }
   }
 }
 
