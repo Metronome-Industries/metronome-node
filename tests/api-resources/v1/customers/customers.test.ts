@@ -185,6 +185,87 @@ describe('resource customers', () => {
     });
   });
 
+  test('retrieveBillingConfigurations: only required params', async () => {
+    const responsePromise = client.v1.customers.retrieveBillingConfigurations({
+      customer_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieveBillingConfigurations: required and optional params', async () => {
+    const response = await client.v1.customers.retrieveBillingConfigurations({
+      customer_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+    });
+  });
+
+  test('setBillingConfigurations: only required params', async () => {
+    const responsePromise = client.v1.customers.setBillingConfigurations({
+      data: [
+        { billing_provider: 'stripe', customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491' },
+        { billing_provider: 'aws_marketplace', customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491' },
+        { billing_provider: 'azure_marketplace', customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491' },
+        { billing_provider: 'aws_marketplace', customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491' },
+      ],
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('setBillingConfigurations: required and optional params', async () => {
+    const response = await client.v1.customers.setBillingConfigurations({
+      data: [
+        {
+          billing_provider: 'stripe',
+          customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
+          configuration: {
+            stripe_customer_id: 'bar',
+            stripe_collection_method: 'bar',
+            leave_stripe_invoices_in_draft: 'bar',
+          },
+          delivery_method: 'direct_to_billing_provider',
+          delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        },
+        {
+          billing_provider: 'aws_marketplace',
+          customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
+          configuration: { aws_customer_id: 'bar', aws_product_code: 'bar', aws_region: 'bar' },
+          delivery_method: 'direct_to_billing_provider',
+          delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        },
+        {
+          billing_provider: 'azure_marketplace',
+          customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
+          configuration: { azure_subscription_id: 'bar' },
+          delivery_method: 'direct_to_billing_provider',
+          delivery_method_id: '5b9e3072-415b-4842-94f0-0b6700c8b6be',
+        },
+        {
+          billing_provider: 'aws_marketplace',
+          customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
+          configuration: {
+            aws_customer_id: 'bar',
+            aws_product_code: 'bar',
+            aws_region: 'bar',
+            aws_is_subscription_product: 'bar',
+          },
+          delivery_method: 'direct_to_billing_provider',
+          delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        },
+      ],
+    });
+  });
+
   test('setIngestAliases: only required params', async () => {
     const responsePromise = client.v1.customers.setIngestAliases({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',

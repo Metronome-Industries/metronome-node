@@ -7,7 +7,10 @@ import { RequestOptions } from '../../../../internal/request-options';
 
 export class ProductOrders extends APIResource {
   /**
-   * Updates ordering of specified products
+   * The ordering of products on a rate card determines the order in which the
+   * products will appear on customers' invoices. Use this endpoint to set the order
+   * of specific products on the rate card by moving them relative to their current
+   * location.
    *
    * @example
    * ```ts
@@ -32,7 +35,9 @@ export class ProductOrders extends APIResource {
   }
 
   /**
-   * Sets the ordering of products within a rate card
+   * The ordering of products on a rate card determines the order in which the
+   * products will appear on customers' invoices. Use this endpoint to set the order
+   * of products on the rate card.
    *
    * @example
    * ```ts

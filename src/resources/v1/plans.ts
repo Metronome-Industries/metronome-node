@@ -103,6 +103,9 @@ export type PlanListCustomersResponsesCursorPage = CursorPage<PlanListCustomersR
 export interface PlanDetail {
   id: string;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields: { [key: string]: string };
 
   name: string;
@@ -177,6 +180,9 @@ export interface PlanListResponse {
 
   name: string;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields?: { [key: string]: string };
 }
 
@@ -191,6 +197,9 @@ export interface PlanListChargesResponse {
 
   credit_type: Shared.CreditTypeData;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields: { [key: string]: string };
 
   name: string;
@@ -264,6 +273,9 @@ export namespace PlanListCustomersResponse {
   export interface PlanDetails {
     id: string;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     custom_fields: { [key: string]: string };
 
     customer_plan_id: string;

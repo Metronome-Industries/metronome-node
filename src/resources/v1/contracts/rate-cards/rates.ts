@@ -8,7 +8,14 @@ import { RequestOptions } from '../../../../internal/request-options';
 
 export class Rates extends APIResource {
   /**
-   * Get all rates for a rate card at a point in time
+   * Understand the rate schedule at a given timestamp, optionally filtering the list
+   * of rates returned based on properties such as product_id and
+   * pricing_group_values . For example, you may want to display the current price
+   * for a given product in your product experience - use this endpoint to fetch that
+   * information from its source of truth in Metronome.
+   *
+   * If you want to understand the rates for a specific customer's contract,
+   * inclusive of contract-level overrides, use the getContractRateSchedule endpoint.
    *
    * @example
    * ```ts
@@ -111,6 +118,9 @@ export type RateListResponsesCursorPage = CursorPage<RateListResponse>;
 export interface RateListResponse {
   entitled: boolean;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   product_custom_fields: { [key: string]: string };
 
   product_id: string;
@@ -129,31 +139,11 @@ export interface RateListResponse {
    * A distinct rate on the rate card. You can choose to use this rate rather than
    * list rate when consuming a credit or commit.
    */
-  commit_rate?: RateListResponse.CommitRate;
+  commit_rate?: Shared.CommitRate;
 
   ending_before?: string;
 
   pricing_group_values?: { [key: string]: string };
-}
-
-export namespace RateListResponse {
-  /**
-   * A distinct rate on the rate card. You can choose to use this rate rather than
-   * list rate when consuming a credit or commit.
-   */
-  export interface CommitRate {
-    rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
-
-    /**
-     * Commit rate price. For FLAT rate_type, this must be >=0.
-     */
-    price?: number;
-
-    /**
-     * Only set for TIERED rate_type.
-     */
-    tiers?: Array<Shared.Tier>;
-  }
 }
 
 export interface RateAddResponse {
@@ -168,7 +158,7 @@ export namespace RateAddResponse {
      * A distinct rate on the rate card. You can choose to use this rate rather than
      * list rate when consuming a credit or commit.
      */
-    commit_rate?: Data.CommitRate;
+    commit_rate?: Shared.CommitRate;
 
     credit_type?: Shared.CreditTypeData;
 
@@ -212,26 +202,6 @@ export namespace RateAddResponse {
      * contract.
      */
     use_list_prices?: boolean;
-  }
-
-  export namespace Data {
-    /**
-     * A distinct rate on the rate card. You can choose to use this rate rather than
-     * list rate when consuming a credit or commit.
-     */
-    export interface CommitRate {
-      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
-
-      /**
-       * Commit rate price. For FLAT rate_type, this must be >=0.
-       */
-      price?: number;
-
-      /**
-       * Only set for TIERED rate_type.
-       */
-      tiers?: Array<Shared.Tier>;
-    }
   }
 }
 
@@ -324,7 +294,7 @@ export interface RateAddParams {
    * A distinct rate on the rate card. You can choose to use this rate rather than
    * list rate when consuming a credit or commit.
    */
-  commit_rate?: RateAddParams.CommitRate;
+  commit_rate?: Shared.CommitRate;
 
   /**
    * The Metronome ID of the credit type to associate with price, defaults to USD
@@ -381,26 +351,6 @@ export interface RateAddParams {
   use_list_prices?: boolean;
 }
 
-export namespace RateAddParams {
-  /**
-   * A distinct rate on the rate card. You can choose to use this rate rather than
-   * list rate when consuming a credit or commit.
-   */
-  export interface CommitRate {
-    rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
-
-    /**
-     * Commit rate price. For FLAT rate_type, this must be >=0.
-     */
-    price?: number;
-
-    /**
-     * Only set for TIERED rate_type.
-     */
-    tiers?: Array<Shared.Tier>;
-  }
-}
-
 export interface RateAddManyParams {
   rate_card_id: string;
 
@@ -433,7 +383,7 @@ export namespace RateAddManyParams {
      * A distinct rate on the rate card. You can choose to use this rate rather than
      * list rate when consuming a credit or commit.
      */
-    commit_rate?: Rate.CommitRate;
+    commit_rate?: Shared.CommitRate;
 
     /**
      * "The Metronome ID of the credit type to associate with price, defaults to USD
@@ -488,26 +438,6 @@ export namespace RateAddManyParams {
      * contract.
      */
     use_list_prices?: boolean;
-  }
-
-  export namespace Rate {
-    /**
-     * A distinct rate on the rate card. You can choose to use this rate rather than
-     * list rate when consuming a credit or commit.
-     */
-    export interface CommitRate {
-      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
-
-      /**
-       * Commit rate price. For FLAT rate_type, this must be >=0.
-       */
-      price?: number;
-
-      /**
-       * Only set for TIERED rate_type.
-       */
-      tiers?: Array<Shared.Tier>;
-    }
   }
 }
 

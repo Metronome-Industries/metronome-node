@@ -26,6 +26,7 @@ export {
   type ContractScheduleProServicesInvoiceParams,
   type ContractSetUsageFilterParams,
   type ContractUpdateEndDateParams,
+  type ContractListBalancesResponsesBodyCursorPage,
 } from './contracts';
 export {
   NamedSchedules,

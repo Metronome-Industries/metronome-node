@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'retrieve_v2_contracts',
-  description: 'Get a specific contract. New clients should use this endpoint rather than the v1 endpoint.\n',
+  description:
+    "Gets the details for a specific contract, including contract term, rate card information, credits and commits, and more. \n\nUse this endpoint to: \n- Check the duration of a customer's current contract\n- Get details on contract terms, including access schedule amounts for commitments and credits\n- Understand the state of a contract at a past time. As you can evolve the terms of a contract over time through editing, use the as_of_date parameter to view the full contract configuration as of that point in time. \n\nUsage guidelines: \n- Optionally, use the include_balance and include_ledger fields to include balances and ledgers in the credit and commit responses. Using these fields will cause the query to be slower.\n",
   inputSchema: {
     type: 'object',
     properties: {

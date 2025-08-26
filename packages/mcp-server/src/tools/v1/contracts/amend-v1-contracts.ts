@@ -102,57 +102,14 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
             },
             description: {
               type: 'string',
               description: 'Used only in UI/API. It is not exposed to end customers.',
             },
             hierarchy_configuration: {
-              type: 'object',
-              description: 'Optional configuration for commit hierarchy access control',
-              properties: {
-                child_access: {
-                  anyOf: [
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['ALL'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['NONE'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        contract_ids: {
-                          type: 'array',
-                          items: {
-                            type: 'string',
-                          },
-                        },
-                        type: {
-                          type: 'string',
-                          enum: ['CONTRACT_IDS'],
-                        },
-                      },
-                      required: ['contract_ids', 'type'],
-                    },
-                  ],
-                },
-              },
-              required: ['child_access'],
+              $ref: '#/$defs/commit_hierarchy_configuration',
             },
             invoice_schedule: {
               type: 'object',
@@ -290,6 +247,11 @@ export const tool: Tool = {
                       description:
                         'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
                     },
+                    on_session_payment: {
+                      type: 'boolean',
+                      description:
+                        'If true, the payment will be made assuming the customer is present (i.e. on session). \n\nIf false, the payment will be made assuming the customer is not present (i.e. off session). \nFor cardholders from a country with an e-mandate requirement (e.g. India), the payment may be declined.\n\nIf left blank, will default to false.',
+                    },
                   },
                   required: ['payment_type'],
                 },
@@ -320,28 +282,7 @@ export const tool: Tool = {
               description:
                 "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`.",
               items: {
-                type: 'object',
-                properties: {
-                  presentation_group_values: {
-                    type: 'object',
-                  },
-                  pricing_group_values: {
-                    type: 'object',
-                  },
-                  product_id: {
-                    type: 'string',
-                    description:
-                      'If provided, the specifier will only apply to the product with the specified ID.',
-                  },
-                  product_tags: {
-                    type: 'array',
-                    description:
-                      'If provided, the specifier will only apply to products with all the specified tags.',
-                    items: {
-                      type: 'string',
-                    },
-                  },
-                },
+                $ref: '#/$defs/commit_specifier_input',
               },
             },
             temporary_id: {
@@ -412,57 +353,14 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
             },
             description: {
               type: 'string',
               description: 'Used only in UI/API. It is not exposed to end customers.',
             },
             hierarchy_configuration: {
-              type: 'object',
-              description: 'Optional configuration for credit hierarchy access control',
-              properties: {
-                child_access: {
-                  anyOf: [
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['ALL'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['NONE'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        contract_ids: {
-                          type: 'array',
-                          items: {
-                            type: 'string',
-                          },
-                        },
-                        type: {
-                          type: 'string',
-                          enum: ['CONTRACT_IDS'],
-                        },
-                      },
-                      required: ['contract_ids', 'type'],
-                    },
-                  ],
-                },
-              },
-              required: ['child_access'],
+              $ref: '#/$defs/commit_hierarchy_configuration',
             },
             name: {
               type: 'string',
@@ -486,28 +384,7 @@ export const tool: Tool = {
               description:
                 "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`.",
               items: {
-                type: 'object',
-                properties: {
-                  presentation_group_values: {
-                    type: 'object',
-                  },
-                  pricing_group_values: {
-                    type: 'object',
-                  },
-                  product_id: {
-                    type: 'string',
-                    description:
-                      'If provided, the specifier will only apply to the product with the specified ID.',
-                  },
-                  product_tags: {
-                    type: 'array',
-                    description:
-                      'If provided, the specifier will only apply to products with all the specified tags.',
-                    items: {
-                      type: 'string',
-                    },
-                  },
-                },
+                $ref: '#/$defs/commit_specifier_input',
               },
             },
           },
@@ -516,6 +393,7 @@ export const tool: Tool = {
       },
       custom_fields: {
         type: 'object',
+        description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
       },
       discounts: {
         type: 'array',
@@ -614,6 +492,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
             },
             name: {
               type: 'string',
@@ -833,6 +712,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
             },
             description: {
               type: 'string',
@@ -1014,6 +894,10 @@ export const tool: Tool = {
                 },
               },
             },
+            custom_fields: {
+              type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
+            },
             name: {
               type: 'string',
               description: 'displayed on invoices',
@@ -1033,6 +917,75 @@ export const tool: Tool = {
     },
     required: ['contract_id', 'customer_id', 'starting_at'],
     $defs: {
+      commit_hierarchy_configuration: {
+        type: 'object',
+        properties: {
+          child_access: {
+            anyOf: [
+              {
+                type: 'object',
+                properties: {
+                  type: {
+                    type: 'string',
+                    enum: ['ALL'],
+                  },
+                },
+                required: ['type'],
+              },
+              {
+                type: 'object',
+                properties: {
+                  type: {
+                    type: 'string',
+                    enum: ['NONE'],
+                  },
+                },
+                required: ['type'],
+              },
+              {
+                type: 'object',
+                properties: {
+                  contract_ids: {
+                    type: 'array',
+                    items: {
+                      type: 'string',
+                    },
+                  },
+                  type: {
+                    type: 'string',
+                    enum: ['CONTRACT_IDS'],
+                  },
+                },
+                required: ['contract_ids', 'type'],
+              },
+            ],
+          },
+        },
+        required: ['child_access'],
+      },
+      commit_specifier_input: {
+        type: 'object',
+        properties: {
+          presentation_group_values: {
+            type: 'object',
+          },
+          pricing_group_values: {
+            type: 'object',
+          },
+          product_id: {
+            type: 'string',
+            description: 'If provided, the specifier will only apply to the product with the specified ID.',
+          },
+          product_tags: {
+            type: 'array',
+            description:
+              'If provided, the specifier will only apply to products with all the specified tags.',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+      },
       tier: {
         type: 'object',
         properties: {

@@ -177,3 +177,143 @@ export class CursorPage<Item> extends AbstractPage<Item> implements CursorPageRe
     };
   }
 }
+
+export interface BodyCursorPageResponse<Item> {
+  /**
+   * Cursor to fetch the next page
+   */
+  next_page: string;
+
+  /**
+   * Items of the page
+   */
+  data: Array<Item>;
+}
+
+export interface BodyCursorPageParams {
+  /**
+   * Cursor to begin fetching from
+   */
+  next_page?: string;
+
+  /**
+   * Number of elements to fetch
+   */
+  limit?: number;
+}
+
+export class BodyCursorPage<Item> extends AbstractPage<Item> implements BodyCursorPageResponse<Item> {
+  /**
+   * Cursor to fetch the next page
+   */
+  next_page: string;
+
+  /**
+   * Items of the page
+   */
+  data: Array<Item>;
+
+  constructor(
+    client: Metronome,
+    response: Response,
+    body: BodyCursorPageResponse<Item>,
+    options: FinalRequestOptions,
+  ) {
+    super(client, response, body, options);
+
+    this.next_page = body.next_page || '';
+    this.data = body.data || [];
+  }
+
+  getPaginatedItems(): Item[] {
+    return this.data ?? [];
+  }
+
+  override hasNextPage(): boolean {
+    return this.nextPageRequestOptions() != null;
+  }
+
+  nextPageRequestOptions(): PageRequestOptions | null {
+    const cursor = this.next_page;
+    if (!cursor) {
+      return null;
+    }
+
+    return {
+      ...this.options,
+      body: {
+        ...maybeObj(this.options.body),
+        next_page: cursor,
+      },
+    };
+  }
+}
+
+export interface CursorPageWithoutLimitResponse<Item> {
+  /**
+   * Cursor to fetch the next page
+   */
+  next_page: string;
+
+  /**
+   * Items of the page
+   */
+  data: Array<Item>;
+}
+
+export interface CursorPageWithoutLimitParams {
+  /**
+   * Cursor to begin fetching from
+   */
+  next_page?: string;
+}
+
+export class CursorPageWithoutLimit<Item>
+  extends AbstractPage<Item>
+  implements CursorPageWithoutLimitResponse<Item>
+{
+  /**
+   * Cursor to fetch the next page
+   */
+  next_page: string;
+
+  /**
+   * Items of the page
+   */
+  data: Array<Item>;
+
+  constructor(
+    client: Metronome,
+    response: Response,
+    body: CursorPageWithoutLimitResponse<Item>,
+    options: FinalRequestOptions,
+  ) {
+    super(client, response, body, options);
+
+    this.next_page = body.next_page || '';
+    this.data = body.data || [];
+  }
+
+  getPaginatedItems(): Item[] {
+    return this.data ?? [];
+  }
+
+  override hasNextPage(): boolean {
+    return this.nextPageRequestOptions() != null;
+  }
+
+  nextPageRequestOptions(): PageRequestOptions | null {
+    const cursor = this.next_page;
+    if (!cursor) {
+      return null;
+    }
+
+    return {
+      ...this.options,
+      query: {
+        ...maybeObj(this.options.query),
+        next_page: cursor,
+      },
+    };
+  }
+}

@@ -4,10 +4,10 @@ export {
   Alerts,
   type CustomerAlert,
   type AlertRetrieveResponse,
-  type AlertListResponse,
   type AlertRetrieveParams,
   type AlertListParams,
   type AlertResetParams,
+  type CustomerAlertsCursorPageWithoutLimit,
 } from './alerts';
 export {
   BillingConfig,
@@ -19,7 +19,6 @@ export {
 export {
   Commits,
   type CommitCreateResponse,
-  type CommitListResponse,
   type CommitUpdateEndDateResponse,
   type CommitCreateParams,
   type CommitListParams,
@@ -28,7 +27,6 @@ export {
 export {
   Credits,
   type CreditCreateResponse,
-  type CreditListResponse,
   type CreditUpdateEndDateResponse,
   type CreditCreateParams,
   type CreditListParams,
@@ -44,6 +42,7 @@ export {
   type CustomerListBillableMetricsResponse,
   type CustomerListCostsResponse,
   type CustomerPreviewEventsResponse,
+  type CustomerRetrieveBillingConfigurationsResponse,
   type CustomerSetNameResponse,
   type CustomerCreateParams,
   type CustomerRetrieveParams,
@@ -52,6 +51,8 @@ export {
   type CustomerListBillableMetricsParams,
   type CustomerListCostsParams,
   type CustomerPreviewEventsParams,
+  type CustomerRetrieveBillingConfigurationsParams,
+  type CustomerSetBillingConfigurationsParams,
   type CustomerSetIngestAliasesParams,
   type CustomerSetNameParams,
   type CustomerUpdateConfigParams,

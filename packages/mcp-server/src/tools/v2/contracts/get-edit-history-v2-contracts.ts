@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'get_edit_history_v2_contracts',
   description:
-    'Get the edit history of a specific contract. Contract editing must be enabled to use this endpoint.',
+    "List all the edits made to a contract over time. In Metronome, you can edit a contract at any point after it's created to fix mistakes or reflect changes in terms. Metronome stores a full history of all edits that were ever made to a contract, whether through the UI, editContract endpoint, or other endpoints like updateContractEndDate. \n\nUse this endpoint to: \n- Understand what changes were made to a contract, when, and by who\n\nKey response fields: \n- An array of every edit ever made to the contract\n- Details on each individual edit - for example showing that in one edit, a user added two discounts and incremented a subscription quantity.\n",
   inputSchema: {
     type: 'object',
     properties: {

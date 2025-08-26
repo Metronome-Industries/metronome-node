@@ -17,12 +17,13 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'set_values_v1_custom_fields',
   description:
-    'Sets one or more custom fields on an instance of a Metronome entity. If a key/value pair passed in this request matches one already set on the entity, its value will be overwritten. Any key/value pairs that exist on the entity that do not match those passed in this request will remain untouched. This endpoint is transactional and will update all key/value pairs or no key/value pairs. Partial updates are not supported. There is a 200 character limit on custom field values.\n',
+    'Sets custom field values on a specific Metronome entity instance. Overwrites existing values for matching keys while preserving other fields. All updates are transactional—either all values are set or none are. Custom field values are limited to 200 characters each.\n',
   inputSchema: {
     type: 'object',
     properties: {
       custom_fields: {
         type: 'object',
+        description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
       },
       entity: {
         type: 'string',
