@@ -193,8 +193,8 @@ describe('resource customers', () => {
     });
   });
 
-  test('retrieveCustomerBillingConfigurations: only required params', async () => {
-    const responsePromise = client.v1.customers.retrieveCustomerBillingConfigurations({
+  test('retrieveBillingConfigurations: only required params', async () => {
+    const responsePromise = client.v1.customers.retrieveBillingConfigurations({
       customer_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -206,14 +206,14 @@ describe('resource customers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('retrieveCustomerBillingConfigurations: required and optional params', async () => {
-    const response = await client.v1.customers.retrieveCustomerBillingConfigurations({
+  test('retrieveBillingConfigurations: required and optional params', async () => {
+    const response = await client.v1.customers.retrieveBillingConfigurations({
       customer_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
     });
   });
 
-  test('setCustomerBillingConfigurations: only required params', async () => {
-    const responsePromise = client.v1.customers.setCustomerBillingConfigurations({
+  test('setBillingConfigurations: only required params', async () => {
+    const responsePromise = client.v1.customers.setBillingConfigurations({
       data: [
         { billing_provider: 'stripe', customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491' },
         { billing_provider: 'aws_marketplace', customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491' },
@@ -230,8 +230,8 @@ describe('resource customers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('setCustomerBillingConfigurations: required and optional params', async () => {
-    const response = await client.v1.customers.setCustomerBillingConfigurations({
+  test('setBillingConfigurations: required and optional params', async () => {
+    const response = await client.v1.customers.setBillingConfigurations({
       data: [
         {
           billing_provider: 'stripe',

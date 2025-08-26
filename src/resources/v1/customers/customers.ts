@@ -321,15 +321,15 @@ export class Customers extends APIResource {
    * @example
    * ```ts
    * const response =
-   *   await client.v1.customers.retrieveCustomerBillingConfigurations(
-   *     { customer_id: '6a37bb88-8538-48c5-b37b-a41c836328bd' },
-   *   );
+   *   await client.v1.customers.retrieveBillingConfigurations({
+   *     customer_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+   *   });
    * ```
    */
-  retrieveCustomerBillingConfigurations(
-    body: CustomerRetrieveCustomerBillingConfigurationsParams,
+  retrieveBillingConfigurations(
+    body: CustomerRetrieveBillingConfigurationsParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomerRetrieveCustomerBillingConfigurationsResponse> {
+  ): Core.APIPromise<CustomerRetrieveBillingConfigurationsResponse> {
     return this._client.post('/v1/getCustomerBillingProviderConfigurations', { body, ...options });
   }
 
@@ -371,7 +371,7 @@ export class Customers extends APIResource {
    *
    * @example
    * ```ts
-   * await client.v1.customers.setCustomerBillingConfigurations({
+   * await client.v1.customers.setBillingConfigurations({
    *   data: [
    *     {
    *       customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
@@ -401,8 +401,8 @@ export class Customers extends APIResource {
    * });
    * ```
    */
-  setCustomerBillingConfigurations(
-    body: CustomerSetCustomerBillingConfigurationsParams,
+  setBillingConfigurations(
+    body: CustomerSetBillingConfigurationsParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<void> {
     return this._client.post('/v1/setCustomerBillingProviderConfigurations', {
@@ -706,11 +706,11 @@ export interface CustomerPreviewEventsResponse {
   data: InvoicesAPI.Invoice;
 }
 
-export interface CustomerRetrieveCustomerBillingConfigurationsResponse {
-  data: Array<CustomerRetrieveCustomerBillingConfigurationsResponse.Data>;
+export interface CustomerRetrieveBillingConfigurationsResponse {
+  data: Array<CustomerRetrieveBillingConfigurationsResponse.Data>;
 }
 
-export namespace CustomerRetrieveCustomerBillingConfigurationsResponse {
+export namespace CustomerRetrieveBillingConfigurationsResponse {
   export interface Data {
     /**
      * ID of this configuration; can be provided as the
@@ -987,15 +987,15 @@ export namespace CustomerPreviewEventsParams {
   }
 }
 
-export interface CustomerRetrieveCustomerBillingConfigurationsParams {
+export interface CustomerRetrieveBillingConfigurationsParams {
   customer_id: string;
 }
 
-export interface CustomerSetCustomerBillingConfigurationsParams {
-  data: Array<CustomerSetCustomerBillingConfigurationsParams.Data>;
+export interface CustomerSetBillingConfigurationsParams {
+  data: Array<CustomerSetBillingConfigurationsParams.Data>;
 }
 
-export namespace CustomerSetCustomerBillingConfigurationsParams {
+export namespace CustomerSetBillingConfigurationsParams {
   export interface Data {
     /**
      * The billing provider set for this configuration.
@@ -1106,7 +1106,7 @@ export declare namespace Customers {
     type CustomerListBillableMetricsResponse as CustomerListBillableMetricsResponse,
     type CustomerListCostsResponse as CustomerListCostsResponse,
     type CustomerPreviewEventsResponse as CustomerPreviewEventsResponse,
-    type CustomerRetrieveCustomerBillingConfigurationsResponse as CustomerRetrieveCustomerBillingConfigurationsResponse,
+    type CustomerRetrieveBillingConfigurationsResponse as CustomerRetrieveBillingConfigurationsResponse,
     type CustomerSetNameResponse as CustomerSetNameResponse,
     CustomerDetailsCursorPage as CustomerDetailsCursorPage,
     CustomerListBillableMetricsResponsesCursorPage as CustomerListBillableMetricsResponsesCursorPage,
@@ -1118,8 +1118,8 @@ export declare namespace Customers {
     type CustomerListBillableMetricsParams as CustomerListBillableMetricsParams,
     type CustomerListCostsParams as CustomerListCostsParams,
     type CustomerPreviewEventsParams as CustomerPreviewEventsParams,
-    type CustomerRetrieveCustomerBillingConfigurationsParams as CustomerRetrieveCustomerBillingConfigurationsParams,
-    type CustomerSetCustomerBillingConfigurationsParams as CustomerSetCustomerBillingConfigurationsParams,
+    type CustomerRetrieveBillingConfigurationsParams as CustomerRetrieveBillingConfigurationsParams,
+    type CustomerSetBillingConfigurationsParams as CustomerSetBillingConfigurationsParams,
     type CustomerSetIngestAliasesParams as CustomerSetIngestAliasesParams,
     type CustomerSetNameParams as CustomerSetNameParams,
     type CustomerUpdateConfigParams as CustomerUpdateConfigParams,
