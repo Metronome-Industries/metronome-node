@@ -48,6 +48,7 @@ export const tool: Tool = {
               type: 'object',
               description:
                 '<key, value> pairs of the billable metric group key values and their display names. e.g. {"a": "Asia", "b": "Euro"}',
+              additionalProperties: true,
             },
           },
           required: ['group_key_name'],

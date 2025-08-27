@@ -701,7 +701,7 @@ export class Metronome {
         // Preserve legacy string encoding behavior for now
         headers.values.has('content-type')) ||
       // `Blob` is superset of `File`
-      body instanceof Blob ||
+      ((globalThis as any).Blob && body instanceof (globalThis as any).Blob) ||
       // `FormData` -> `multipart/form-data`
       body instanceof FormData ||
       // `URLSearchParams` -> `application/x-www-form-urlencoded`
@@ -743,8 +743,10 @@ export class Metronome {
   v2: API.V2 = new API.V2(this);
   v1: API.V1 = new API.V1(this);
 }
+
 Metronome.V2 = V2;
 Metronome.V1 = V1;
+
 export declare namespace Metronome {
   export type RequestOptions = Opts.RequestOptions;
 

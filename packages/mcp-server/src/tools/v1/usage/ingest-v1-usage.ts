@@ -41,6 +41,7 @@ export const tool: Tool = {
             },
             properties: {
               type: 'object',
+              additionalProperties: true,
             },
           },
           required: ['customer_id', 'event_type', 'timestamp', 'transaction_id'],

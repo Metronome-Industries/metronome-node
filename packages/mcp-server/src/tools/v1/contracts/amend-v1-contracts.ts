@@ -103,6 +103,7 @@ export const tool: Tool = {
             custom_fields: {
               type: 'object',
               description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
+              additionalProperties: true,
             },
             description: {
               type: 'string',
@@ -246,6 +247,7 @@ export const tool: Tool = {
                       type: 'object',
                       description:
                         'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
+                      additionalProperties: true,
                     },
                     on_session_payment: {
                       type: 'boolean',
@@ -354,6 +356,7 @@ export const tool: Tool = {
             custom_fields: {
               type: 'object',
               description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
+              additionalProperties: true,
             },
             description: {
               type: 'string',
@@ -394,6 +397,7 @@ export const tool: Tool = {
       custom_fields: {
         type: 'object',
         description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
+        additionalProperties: true,
       },
       discounts: {
         type: 'array',
@@ -493,6 +497,7 @@ export const tool: Tool = {
             custom_fields: {
               type: 'object',
               description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
+              additionalProperties: true,
             },
             name: {
               type: 'string',
@@ -568,11 +573,13 @@ export const tool: Tool = {
                     type: 'object',
                     description:
                       'A map of group names to values. The override will only apply to line items with the specified presentation group values.',
+                    additionalProperties: true,
                   },
                   pricing_group_values: {
                     type: 'object',
                     description:
                       'A map of pricing group names to values. The override will only apply to products with the specified pricing group values.',
+                    additionalProperties: true,
                   },
                   product_id: {
                     type: 'string',
@@ -621,6 +628,7 @@ export const tool: Tool = {
                   type: 'object',
                   description:
                     'Only set for CUSTOM rate_type. This field is interpreted by custom rate processors.',
+                  additionalProperties: true,
                 },
                 is_prorated: {
                   type: 'boolean',
@@ -713,6 +721,7 @@ export const tool: Tool = {
             custom_fields: {
               type: 'object',
               description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
+              additionalProperties: true,
             },
             description: {
               type: 'string',
@@ -897,6 +906,7 @@ export const tool: Tool = {
             custom_fields: {
               type: 'object',
               description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
+              additionalProperties: true,
             },
             name: {
               type: 'string',
@@ -968,9 +978,11 @@ export const tool: Tool = {
         properties: {
           presentation_group_values: {
             type: 'object',
+            additionalProperties: true,
           },
           pricing_group_values: {
             type: 'object',
+            additionalProperties: true,
           },
           product_id: {
             type: 'string',

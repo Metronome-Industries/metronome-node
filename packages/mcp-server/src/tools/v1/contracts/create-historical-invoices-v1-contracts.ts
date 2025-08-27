@@ -65,9 +65,11 @@ export const tool: Tool = {
                   },
                   presentation_group_values: {
                     type: 'object',
+                    additionalProperties: true,
                   },
                   pricing_group_values: {
                     type: 'object',
+                    additionalProperties: true,
                   },
                   quantity: {
                     type: 'number',
@@ -108,6 +110,7 @@ export const tool: Tool = {
             custom_fields: {
               type: 'object',
               description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
+              additionalProperties: true,
             },
           },
           required: [

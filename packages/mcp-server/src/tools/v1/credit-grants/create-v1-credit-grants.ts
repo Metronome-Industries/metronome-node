@@ -72,6 +72,7 @@ export const tool: Tool = {
       custom_fields: {
         type: 'object',
         description: 'Custom fields to attach to the credit grant.',
+        additionalProperties: true,
       },
       effective_at: {
         type: 'string',

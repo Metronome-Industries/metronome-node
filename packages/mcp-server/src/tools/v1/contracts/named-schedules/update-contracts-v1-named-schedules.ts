@@ -37,6 +37,7 @@ export const tool: Tool = {
         type: 'object',
         description:
           'The value to set for the named schedule. The structure of this object is specific to the named schedule.',
+        additionalProperties: true,
       },
       ending_before: {
         type: 'string',

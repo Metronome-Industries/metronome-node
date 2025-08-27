@@ -39,6 +39,7 @@ export const tool: Tool = {
       custom_fields: {
         type: 'object',
         description: 'Custom fields to attach to the billable metric.',
+        additionalProperties: true,
       },
       event_type_filter: {
         $ref: '#/$defs/event_type_filter',
