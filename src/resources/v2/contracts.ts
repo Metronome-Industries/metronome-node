@@ -942,6 +942,11 @@ export namespace ContractGetEditHistoryResponse {
 
       product_id?: string;
 
+      /**
+       * If set, the commit's rate type was updated to the specified value.
+       */
+      rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
       rollover_fraction?: number | null;
 
       /**
@@ -1056,6 +1061,11 @@ export namespace ContractGetEditHistoryResponse {
        * first.
        */
       priority?: number | null;
+
+      /**
+       * If set, the credit's rate type was updated to the specified value.
+       */
+      rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
 
       rollover_fraction?: number | null;
     }
@@ -2483,7 +2493,7 @@ export namespace ContractEditParams {
       /**
        * If set to POOLED, allocation added per seat is pooled across the account.
        */
-      allocation?: 'POOLED';
+      allocation?: 'POOLED' | 'INDIVIDUAL';
     }
 
     export namespace SubscriptionConfig {
@@ -2646,7 +2656,7 @@ export namespace ContractEditParams {
       /**
        * If set to POOLED, allocation added per seat is pooled across the account.
        */
-      allocation?: 'POOLED';
+      allocation?: 'POOLED' | 'INDIVIDUAL';
     }
 
     export namespace SubscriptionConfig {
@@ -2960,6 +2970,13 @@ export namespace ContractEditParams {
 
     product_id?: string;
 
+    /**
+     * If provided, updates the commit to use the specified rate type for current and
+     * future invoices. Previously finalized invoices will need to be voided and
+     * regenerated to reflect the rate type change.
+     */
+    rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
+
     rollover_fraction?: number | null;
   }
 
@@ -3062,6 +3079,13 @@ export namespace ContractEditParams {
     priority?: number | null;
 
     product_id?: string;
+
+    /**
+     * If provided, updates the credit to use the specified rate type for current and
+     * future invoices. Previously finalized invoices will need to be voided and
+     * regenerated to reflect the rate type change.
+     */
+    rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
   }
 
   export namespace UpdateCredit {
@@ -3336,6 +3360,13 @@ export interface ContractEditCommitParams {
   product_id?: string;
 
   /**
+   * If provided, updates the commit to use the specified rate type for current and
+   * future invoices. Previously finalized invoices will need to be voided and
+   * regenerated to reflect the rate type change.
+   */
+  rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
+
+  /**
    * List of filters that determine what kind of customer usage draws down a commit
    * or credit. A customer's usage needs to meet the condition of at least one of the
    * specifiers to contribute to a commit's or credit's drawdown. This field cannot
@@ -3448,6 +3479,13 @@ export interface ContractEditCreditParams {
   priority?: number | null;
 
   product_id?: string;
+
+  /**
+   * If provided, updates the credit to use the specified rate type for current and
+   * future invoices. Previously finalized invoices will need to be voided and
+   * regenerated to reflect the rate type change.
+   */
+  rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
 
   /**
    * List of filters that determine what kind of customer usage draws down a commit

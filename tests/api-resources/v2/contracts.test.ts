@@ -464,6 +464,7 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          rate_type: 'LIST_RATE',
           rollover_fraction: 0,
         },
       ],
@@ -496,6 +497,7 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          rate_type: 'LIST_RATE',
         },
       ],
       update_prepaid_balance_threshold_configuration: {
@@ -634,6 +636,7 @@ describe('resource contracts', () => {
       },
       priority: 0,
       product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      rate_type: 'LIST_RATE',
       specifiers: [
         {
           presentation_group_values: { foo: 'string' },
@@ -681,6 +684,7 @@ describe('resource contracts', () => {
       applicable_product_tags: ['string'],
       priority: 0,
       product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      rate_type: 'LIST_RATE',
       specifiers: [
         {
           presentation_group_values: { foo: 'string' },

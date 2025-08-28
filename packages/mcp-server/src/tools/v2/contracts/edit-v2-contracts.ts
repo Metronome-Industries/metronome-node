@@ -869,7 +869,7 @@ export const tool: Tool = {
                 allocation: {
                   type: 'string',
                   description: 'If set to POOLED, allocation added per seat is pooled across the account.',
-                  enum: ['POOLED'],
+                  enum: ['POOLED', 'INDIVIDUAL'],
                 },
               },
               required: ['apply_seat_increase_config', 'subscription_id'],
@@ -1018,7 +1018,7 @@ export const tool: Tool = {
                 allocation: {
                   type: 'string',
                   description: 'If set to POOLED, allocation added per seat is pooled across the account.',
-                  enum: ['POOLED'],
+                  enum: ['POOLED', 'INDIVIDUAL'],
                 },
               },
               required: ['apply_seat_increase_config', 'subscription_id'],
@@ -1522,6 +1522,12 @@ export const tool: Tool = {
             product_id: {
               type: 'string',
             },
+            rate_type: {
+              type: 'string',
+              description:
+                'If provided, updates the commit to use the specified rate type for current and future invoices. Previously finalized invoices will need to be voided and regenerated to reflect the rate type change.',
+              enum: ['LIST_RATE', 'COMMIT_RATE'],
+            },
             rollover_fraction: {
               type: 'number',
             },
@@ -1634,6 +1640,12 @@ export const tool: Tool = {
             },
             product_id: {
               type: 'string',
+            },
+            rate_type: {
+              type: 'string',
+              description:
+                'If provided, updates the credit to use the specified rate type for current and future invoices. Previously finalized invoices will need to be voided and regenerated to reflect the rate type change.',
+              enum: ['LIST_RATE', 'COMMIT_RATE'],
             },
           },
           required: ['credit_id'],
