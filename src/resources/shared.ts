@@ -30,6 +30,15 @@ export interface BaseUsageFilter {
 export interface Commit {
   id: string;
 
+  /**
+   * Timestamp of when the commit was created.
+   *
+   * - Recurring commits: latter of commit service period date and parent commit
+   *   start date
+   * - Rollover commits: when the new contract started
+   */
+  created_at: string;
+
   product: Commit.Product;
 
   type: 'PREPAID' | 'POSTPAID';
@@ -694,6 +703,15 @@ export interface ContractV2 {
 export namespace ContractV2 {
   export interface Commit {
     id: string;
+
+    /**
+     * Timestamp of when the commit was created.
+     *
+     * - Recurring commits: latter of commit service period date and parent commit
+     *   start date
+     * - Rollover commits: when the new contract started
+     */
+    created_at: string;
 
     product: Commit.Product;
 
