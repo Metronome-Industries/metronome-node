@@ -18,14 +18,16 @@ export class Alerts extends APIResource {
    * an alert condition, enabling you to monitor account health and take proactive
    * action based on current alert states.
    *
-   * Use this endpoint to:
+   * ### Use this endpoint to:
    *
    * - Check if a specific customer is currently violating an alert threshold
    *   (in_alarm status)
    * - Verify alert configuration details and threshold values for a customer
    * - Integrate alert status checks into customer support tools or admin interfaces
    *
-   * Key response fields: A CustomerAlert object containing:
+   * ### Key response fields:
+   *
+   * A CustomerAlert object containing:
    *
    * customer_status: The current evaluation state
    *
@@ -43,7 +45,7 @@ export class Alerts extends APIResource {
    *   - Last update timestamp
    *   - Any applied filters (credit grant types, custom fields, group values)
    *
-   * Usage guidelines:
+   * ### Usage guidelines:
    *
    * - Customer status: Returns the current evaluation state, not historical data.
    *   For alert history, use webhook notifications or event logs
@@ -72,14 +74,14 @@ export class Alerts extends APIResource {
    * customer in a single API call. This endpoint provides a comprehensive view of
    * all alerts monitoring a customer account.
    *
-   * Use this endpoint to:
+   * ### Use this endpoint to:
    *
    * - Display all active alerts for a customer in dashboards or admin panels
    * - Quickly identify which alerts a customer is currently triggering
    * - Audit alert coverage for specific accounts
    * - Filter alerts by status (enabled, disabled, or archived)
    *
-   * Key response fields:
+   * ### Key response fields:
    *
    * - data: Array of CustomerAlert objects, each containing:
    *   - Current evaluation status (ok, in_alarm, evaluating, or null)
@@ -87,7 +89,7 @@ export class Alerts extends APIResource {
    *   - Alert metadata including type, name, and last update time
    * - next_page: Pagination cursor for retrieving additional results
    *
-   * Usage guidelines:
+   * ### Usage guidelines:
    *
    * - Default behavior: Returns only enabled alerts unless alert_statuses filter is
    *   specified
@@ -123,7 +125,7 @@ export class Alerts extends APIResource {
    * This endpoint ensures alert accuracy after configuration changes or data
    * corrections.
    *
-   * Use this endpoint to:
+   * ### Use this endpoint to:
    *
    * - Clear false positive alerts after fixing data issues
    * - Re-evaluate alerts after adjusting customer balances or credits
@@ -131,13 +133,13 @@ export class Alerts extends APIResource {
    * - Resolve stuck alerts that may be in an incorrect state
    * - Trigger immediate evaluation after threshold modifications
    *
-   * Key response fields:
+   * ### Key response fields:
    *
    * - 200 Success: Confirmation that the alert has been reset and re-evaluation
    *   initiated
    * - No response body is returned - the operation completes asynchronously
    *
-   * Usage guidelines:
+   * ### Usage guidelines:
    *
    * - Immediate effect: Triggers re-evaluation instantly, which may result in new
    *   webhook notifications if thresholds are breached

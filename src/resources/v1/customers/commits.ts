@@ -15,7 +15,7 @@ export class Commits extends APIResource {
    * most cases, you should add commitments directly to customer contracts using the
    * contract/create or contract/edit APIs.
    *
-   * Use this endpoint to:\
+   * ### Use this endpoint to:
    *
    * Use this endpoint when you need to establish customer-level spending commitments
    * that can be applied across multiple contracts or scoped to specific contracts.
@@ -59,11 +59,12 @@ export class Commits extends APIResource {
    * Plan your priority scheme carefully to ensure commits are applied in the desired
    * order.
    *
-   * Usage guidelines:\
-   * ⚠️ Preferred Alternative: In most cases, you should add commits directly to contracts
-   * using the create contract or edit contract APIs instead of creating customer-level
-   * commits. Contract-level commits provide better organization and are the recommended
-   * approach for standard use cases.
+   * ### Usage guidelines:
+   *
+   * ⚠️ Preferred Alternative: In most cases, you should add commits directly to
+   * contracts using the create contract or edit contract APIs instead of creating
+   * customer-level commits. Contract-level commits provide better organization and
+   * are the recommended approach for standard use cases.
    *
    * @example
    * ```ts
@@ -109,7 +110,7 @@ export class Commits extends APIResource {
    * contractual spending obligations, enabling you to track commitment utilization
    * and manage customer contracts effectively.
    *
-   * Use this endpoint to:
+   * ### Use this endpoint to:
    *
    * - Display commitment balances and utilization in customer dashboards
    * - Track prepaid commitment drawdown and remaining balances
@@ -118,28 +119,30 @@ export class Commits extends APIResource {
    * - Show commitment history with optional ledger details
    * - Manage rollover balances between contract periods
    *
-   * Key response fields: An array of Commit objects containing:
+   * ### Key response fields:
+   *
+   * An array of Commit objects containing:
    *
    * - Commit type: PREPAID (pay upfront) or POSTPAID (pay at true-up)
    * - Rate type: COMMIT_RATE (discounted) or LIST_RATE (standard pricing)
    * - Access schedule: When commitment funds become available
    * - Invoice schedule: When the customer is billed
    * - Product targeting: Which product(s) usage is eligible to draw from this commit
-   * - Optional ledger entries: Transaction history (if include_ledgers=true)
-   * - Balance information: Current available amount (if include_balance=true)
+   * - Optional ledger entries: Transaction history (if `include_ledgers=true`)
+   * - Balance information: Current available amount (if `include_balance=true`)
    * - Rollover settings: Fraction of unused amount that carries forward
    *
-   * Usage guidelines:
+   * ### Usage guidelines:
    *
-   * - Pagination: Results limited to 25 commits per page; use next_page for more
+   * - Pagination: Results limited to 25 commits per page; use 'next_page' for more
    * - Date filtering options:
    *   - covering_date: Commits active on a specific date
    *   - starting_at: Commits with access on/after a date
    *   - effective_before: Commits with access before a date (exclusive)
    * - Scope options:
-   *   - include_contract_commits: Include contract-level commits (not just
+   *   - `include_contract_commits`: Include contract-level commits (not just
    *     customer-level)
-   *   - include_archived: Include archived commits and commits from archived
+   *   - `include_archived`: Include archived commits and commits from archived
    *     contracts
    * - Performance considerations:
    *   - include_ledgers: Adds detailed transaction history (slower)
@@ -174,8 +177,10 @@ export class Commits extends APIResource {
    * duration of an existing prepaid commit. Only works with prepaid commit types and
    * can only move the end date forward (earlier), not extend it.
    *
-   * Usage guidelines:\ To extend commit end dates or make other comprehensive edits,
-   * use the 'edit commit' endpoint instead.
+   * ### Usage guidelines:
+   *
+   * To extend commit end dates or make other comprehensive edits, use the 'edit
+   * commit' endpoint instead.
    *
    * @example
    * ```ts

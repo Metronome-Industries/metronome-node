@@ -12,13 +12,15 @@ export class AuditLogs extends APIResource {
    * enabling compliance reporting, security monitoring, and operational
    * troubleshooting across all interaction channels.
    *
-   * Use this endpoint to:
+   * ### Use this endpoint to:
    *
    * - Monitor all account activity for security and compliance purposes
    * - Track configuration changes regardless of source (API, UI, or system)
    * - Investigate issues by reviewing historical operations
    *
-   * Key response fields: An array of AuditLog objects containing:
+   * ### Key response fields:
+   *
+   * An array of AuditLog objects containing:
    *
    * - id: Unique identifier for the audit log entry
    * - timestamp: When the action occurred (RFC 3339 format)
@@ -30,16 +32,16 @@ export class AuditLogs extends APIResource {
    * - action: The operation performed
    * - next_page: Cursor for continuous log retrieval
    *
-   * Usage guidelines:
+   * ### Usage guidelines:
    *
    * - Continuous retrieval: The next_page token enables uninterrupted log
    *   streaming—save it between requests to ensure no logs are missed
    * - Empty responses: An empty data array means no new logs yet; continue polling
    *   with the same next_page token
    * - Date filtering:
-   *   - starting_on: Earliest logs to return (inclusive)
-   *   - ending_before: Latest logs to return (exclusive)
-   *   - Cannot be used with next_page
+   *   - `starting_on`: Earliest logs to return (inclusive)
+   *   - `ending_before`: Latest logs to return (exclusive)
+   *   - Cannot be used with `next_page`
    * - Resource filtering: Must specify both resource_type and resource_id together
    * - Sort order: Default is date_asc; use date_desc for newest first
    *

@@ -12,19 +12,19 @@ export class Dashboards extends APIResource {
    * dashboards, providing a white-labeled billing experience without building custom
    * UI.
    *
-   * Use this endpoint to:
+   * ### Use this endpoint to:
    *
    * - Embed billing dashboards directly in your customer portal or admin interface
    * - Provide self-service access to invoices, usage data, and credit balances
    * - Build white-labeled billing experiences with minimal development effort
    *
-   * Key response fields:
+   * ### Key response fields:
    *
    * - A secure, time-limited URL that can be embedded in an iframe
    * - The URL includes authentication tokens and configuration parameters
    * - URLs are customer-specific and respect your security settings
    *
-   * Usage guidelines:
+   * ### Usage guidelines:
    *
    * - Dashboard types: Choose from invoices, usage, or commits_and_credits
    * - Customization options:

@@ -18,7 +18,7 @@ export class BillableMetrics extends APIResource {
    * transforms raw usage data into actionable pricing metrics, enabling accurate
    * metering and billing for your products.
    *
-   * Use this endpoint to:
+   * ### Use this endpoint to:
    *
    * - Create individual or multiple billable metrics as part of a setup workflow.
    * - Automate the entire pricing configuration process, from metric creation to
@@ -26,13 +26,13 @@ export class BillableMetrics extends APIResource {
    * - Define metrics using either standard filtering/aggregation or a custom SQL
    *   query.
    *
-   * Key response fields:
+   * ### Key response fields:
    *
    * - The ID of the billable metric that was created
    * - The created billable metric will be available to be used in Products, usage
    *   endpoints, and alerts.
    *
-   * Usage guidelines:
+   * ### Usage guidelines:
    *
    * - Metrics defined using standard filtering and aggregation are Streaming
    *   billable metrics, which have been optimized for ultra low latency and high
@@ -101,8 +101,8 @@ export class BillableMetrics extends APIResource {
    * Retrieves all billable metrics with their complete configurations. Use this for
    * programmatic discovery and management of billable metrics, such as associating
    * metrics to products and auditing for orphaned or archived metrics. Important:
-   * Archived metrics are excluded by default; use include_archived=true parameter to
-   * include them.
+   * Archived metrics are excluded by default; use `include_archived=true` parameter
+   * to include them.
    *
    * @example
    * ```ts
