@@ -277,7 +277,7 @@ describe('resource contracts', () => {
           subscription_config: {
             apply_seat_increase_config: { is_prorated: true },
             subscription_id: 'subscription_id',
-            allocation: 'POOLED',
+            allocation: 'INDIVIDUAL',
           },
           temporary_id: 'temporary_id',
         },
@@ -315,7 +315,7 @@ describe('resource contracts', () => {
           subscription_config: {
             apply_seat_increase_config: { is_prorated: true },
             subscription_id: 'subscription_id',
-            allocation: 'POOLED',
+            allocation: 'INDIVIDUAL',
           },
           temporary_id: 'temporary_id',
         },

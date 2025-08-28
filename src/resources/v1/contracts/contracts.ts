@@ -1758,7 +1758,7 @@ export namespace ContractCreateParams {
       /**
        * If set to POOLED, allocation added per seat is pooled across the account.
        */
-      allocation?: 'POOLED';
+      allocation?: 'INDIVIDUAL' | 'POOLED';
     }
 
     export namespace SubscriptionConfig {
@@ -1919,7 +1919,7 @@ export namespace ContractCreateParams {
       /**
        * If set to POOLED, allocation added per seat is pooled across the account.
        */
-      allocation?: 'POOLED';
+      allocation?: 'INDIVIDUAL' | 'POOLED';
     }
 
     export namespace SubscriptionConfig {

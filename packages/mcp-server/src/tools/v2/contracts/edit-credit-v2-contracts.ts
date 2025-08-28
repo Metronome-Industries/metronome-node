@@ -113,6 +113,12 @@ export const tool: Tool = {
       product_id: {
         type: 'string',
       },
+      rate_type: {
+        type: 'string',
+        description:
+          'If provided, updates the credit to use the specified rate type for current and future invoices. Previously finalized invoices will need to be voided and regenerated to reflect the rate type change.',
+        enum: ['LIST_RATE', 'COMMIT_RATE'],
+      },
       specifiers: {
         type: 'array',
         description:

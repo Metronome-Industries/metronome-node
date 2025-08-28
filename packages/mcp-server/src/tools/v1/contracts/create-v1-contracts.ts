@@ -951,7 +951,7 @@ export const tool: Tool = {
                 allocation: {
                   type: 'string',
                   description: 'If set to POOLED, allocation added per seat is pooled across the account.',
-                  enum: ['POOLED'],
+                  enum: ['INDIVIDUAL', 'POOLED'],
                 },
               },
               required: ['apply_seat_increase_config', 'subscription_id'],
@@ -1100,7 +1100,7 @@ export const tool: Tool = {
                 allocation: {
                   type: 'string',
                   description: 'If set to POOLED, allocation added per seat is pooled across the account.',
-                  enum: ['POOLED'],
+                  enum: ['INDIVIDUAL', 'POOLED'],
                 },
               },
               required: ['apply_seat_increase_config', 'subscription_id'],
