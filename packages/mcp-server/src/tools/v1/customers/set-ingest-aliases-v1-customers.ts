@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'set_ingest_aliases_v1_customers',
   description:
-    'Sets the ingest aliases for a customer. Use this endpoint to associate a Metronome customer with an internal ID for easier tracking between systems. Ingest aliases can be used in the customer_id field when sending usage events to Metronome. \n\nUsage guidelines:\n- This call is idempotent and fully replaces the set of ingest aliases for the given customer.\n- Switching an ingest alias from one customer to another will associate all corresponding usage to the new customer.\n- Use multiple ingest aliases to model child organizations within a single Metronome customer.\n',
+    'Sets the ingest aliases for a customer. Use this endpoint to associate a Metronome customer with an internal ID for easier tracking between systems. Ingest aliases can be used in the `customer_id` field when sending usage events to Metronome. \n\n### Usage guidelines:\n- This call is idempotent and fully replaces the set of ingest aliases for the given customer.\n- Switching an ingest alias from one customer to another will associate all corresponding usage to the new customer.\n- Use multiple ingest aliases to model child organizations within a single Metronome customer.\n',
   inputSchema: {
     type: 'object',
     properties: {

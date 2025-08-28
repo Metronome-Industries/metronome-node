@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'list_v2_contracts',
   description:
-    "For a given customer, lists all of their contracts in chronological order. \n\nUse this endpoint to:\n- Check if a customer is provisioned with any contract, and at which tier\n- Check the duration and terms of a customer's current contract\n- Power a page in your end customer experience that shows the customer's history of tiers (e.g. this customer started out on the Pro Plan, then downgraded to the Starter plan).\n\nUsage guidelines:\\\nUse the starting_at, covering_date, and include_archived parameters to filter the list of returned contracts. For example, to list only currently active contracts, pass covering_date equal to the current time.\n",
+    "For a given customer, lists all of their contracts in chronological order. \n\n### Use this endpoint to:\n- Check if a customer is provisioned with any contract, and at which tier\n- Check the duration and terms of a customer's current contract\n- Power a page in your end customer experience that shows the customer's history of tiers (e.g. this customer started out on the Pro Plan, then downgraded to the Starter plan).\n\n### Usage guidelines:\nUse the `starting_at`, `covering_date`, and `include_archived` parameters to filter the list of returned contracts. For example, to list only currently active contracts, pass `covering_date` equal to the current time.\n",
   inputSchema: {
     type: 'object',
     properties: {

@@ -8,13 +8,14 @@ import { CursorPage, type CursorPageParams } from '../../../../pagination';
 export class Rates extends APIResource {
   /**
    * Understand the rate schedule at a given timestamp, optionally filtering the list
-   * of rates returned based on properties such as product_id and
-   * pricing_group_values . For example, you may want to display the current price
+   * of rates returned based on properties such as `product_id` and
+   * `pricing_group_values`. For example, you may want to display the current price
    * for a given product in your product experience - use this endpoint to fetch that
    * information from its source of truth in Metronome.
    *
    * If you want to understand the rates for a specific customer's contract,
-   * inclusive of contract-level overrides, use the getContractRateSchedule endpoint.
+   * inclusive of contract-level overrides, use the `getContractRateSchedule`
+   * endpoint.
    *
    * @example
    * ```ts

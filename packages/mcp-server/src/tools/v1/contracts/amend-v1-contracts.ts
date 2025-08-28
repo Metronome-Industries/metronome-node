@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'amend_v1_contracts',
   description:
-    'Amendments will be replaced by Contract editing. New clients should implement using the editContract endpoint. Read more about the migration to contract editing [here](https://docs.metronome.com/migrate-amendments-to-edits/) and reach out to your Metronome representative for more details. Once contract editing is enabled, access to this endpoint will be removed.\n',
+    'Amendments will be replaced by Contract editing. New clients should implement using the `editContract` endpoint. Read more about the migration to contract editing [here](https://docs.metronome.com/migrate-amendments-to-edits/) and reach out to your Metronome representative for more details. Once contract editing is enabled, access to this endpoint will be removed.\n',
   inputSchema: {
     type: 'object',
     properties: {
@@ -564,7 +564,7 @@ export const tool: Tool = {
                   commit_ids: {
                     type: 'array',
                     description:
-                      'Can only be used for commit specific overrides. Must be used in conjunction with one of product_id, product_tags, pricing_group_values, or presentation_group_values. If provided, the override will only apply to the specified commits. If not provided, the override will apply to all commits.',
+                      'Can only be used for commit specific overrides. Must be used in conjunction with one of `product_id`, `product_tags`, `pricing_group_values`, or `presentation_group_values`. If provided, the override will only apply to the specified commits. If not provided, the override will apply to all commits.',
                     items: {
                       type: 'string',
                     },
@@ -597,7 +597,7 @@ export const tool: Tool = {
                   recurring_commit_ids: {
                     type: 'array',
                     description:
-                      'Can only be used for commit specific overrides. Must be used in conjunction with one of product_id, product_tags, pricing_group_values, or presentation_group_values. If provided, the override will only apply to commits created by the specified recurring commit ids.',
+                      'Can only be used for commit specific overrides. Must be used in conjunction with one of `product_id`, `product_tags`, `pricing_group_values`, or `presentation_group_values`. If provided, the override will only apply to commits created by the specified recurring commit ids.',
                     items: {
                       type: 'string',
                     },
@@ -605,7 +605,7 @@ export const tool: Tool = {
                   recurring_credit_ids: {
                     type: 'array',
                     description:
-                      'Can only be used for commit specific overrides. Must be used in conjunction with one of product_id, product_tags, pricing_group_values, or presentation_group_values. If provided, the override will only apply to credits created by the specified recurring credit ids.',
+                      'Can only be used for commit specific overrides. Must be used in conjunction with one of `product_id`, `product_tags`, `pricing_group_values`, or `presentation_group_values`. If provided, the override will only apply to credits created by the specified recurring credit ids.',
                     items: {
                       type: 'string',
                     },

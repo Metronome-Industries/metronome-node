@@ -17,7 +17,7 @@ export class Alerts extends APIResource {
    * customers or targeted to specific customer accounts. Custom fields can be used
    * on certain alert types to further target alerts to groups of customers.
    *
-   * Use this endpoint to:
+   * ### Use this endpoint to:
    *
    * - Proactively monitor customer spending patterns to prevent unexpected overages
    *   or credit exhaustion
@@ -27,22 +27,24 @@ export class Alerts extends APIResource {
    * - Scale billing operations by automating threshold-based workflows and
    *   notifications
    *
-   * Key response fields: A successful response returns a CustomerAlert object
-   * containing:
+   * ### Key response fields:
+   *
+   * A successful response returns a CustomerAlert object containing:
    *
    * - The alert configuration with its unique ID and current status
    * - The customer's evaluation status (ok, in_alarm, or evaluating)
    * - Alert metadata including type, threshold values, and update timestamps
    *
-   * Usage guidelines:
+   * ### Usage guidelines:
    *
-   * - Immediate evaluation: Set evaluate_on_create: true (default) for instant
+   * - Immediate evaluation: Set `evaluate_on_create` : `true` (default) for instant
    *   evaluation against existing customers
-   * - Uniqueness constraints: Each alert must have a unique uniqueness_key within
-   *   your organization. Use release_uniqueness_key: true when archiving to reuse
-   *   keys
+   * - Uniqueness constraints: Each alert must have a unique `uniqueness_key` within
+   *   your organization. Use `release_uniqueness_key` : `true` when archiving to
+   *   reuse keys
    * - Alert type requirements: Different alert types require specific fields (e.g.,
-   *   billable_metric_id for usage alerts, credit_type_id for credit-based alerts)
+   *   `billable_metric_id` for usage alerts, `credit_type_id` for credit-based
+   *   alerts)
    * - Webhook delivery: Alerts trigger webhook notifications for real-time
    *   integration with your systems. Configure webhook endpoints before creating
    *   alerts
@@ -71,7 +73,7 @@ export class Alerts extends APIResource {
    * customers. Archived alerts stop evaluating immediately and can optionally
    * release their uniqueness key for reuse in future alert configurations.
    *
-   * Use this endpoint to:
+   * ### Use this endpoint to:
    *
    * - Decommission alerts that are no longer needed
    * - Clean up test or deprecated alert configurations
@@ -79,18 +81,18 @@ export class Alerts extends APIResource {
    * - Stop alert evaluations without losing historical configuration data
    * - Disable outdated monitoring rules during pricing model transitions
    *
-   * Key response fields:
+   * ### Key response fields:
    *
    * - data: Object containing the archived alert's ID
    * - Alert evaluation stops immediately for all affected customers
    * - Historical alert data and configurations remain accessible for audit purposes
    *
-   * Usage guidelines:
+   * ### Usage guidelines:
    *
    * - Irreversible for evaluation: Archived alerts cannot be re-enabled; create a
    *   new alert to resume monitoring
-   * - Uniqueness key handling: Set release_uniqueness_key: true to reuse the key in
-   *   future alerts
+   * - Uniqueness key handling: Set `release_uniqueness_key` : `true` to reuse the
+   *   key in future alerts
    * - Immediate effect: Alert evaluation stops instantly across all customers
    * - Historical preservation: Archive operation maintains alert history and
    *   configuration for compliance and auditing
