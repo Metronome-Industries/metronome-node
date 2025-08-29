@@ -73,11 +73,15 @@ export class BillableMetrics extends APIResource {
   /**
    * Retrieves the complete configuration for a specific billable metric by its ID.
    * Use this to review billable metric setup before associating it with products.
-   * Returns the metric's name, event type, properties, aggregation_type,
-   * aggregation_key, group_keys, custom fields, and SQL query (if it's a SQL
-   * billable metric). Important: Archived billable metrics will include an
-   * archived_at timestamp; they no longer process new usage events but remain
-   * accessible for historical reference.
+   * Returns the metric's `name`, `event_type_filter`, `property_filters`,
+   * `aggregation_type`, `aggregation_key`, `group_keys`, `custom fields`, and
+   * `SQL query` (if it's a SQL billable metric).
+   *
+   * Important:
+   *
+   * - Archived billable metrics will include an `archived_at` timestamp; they no
+   *   longer process new usage events but remain accessible for historical
+   *   reference.
    *
    * @example
    * ```ts
@@ -100,8 +104,8 @@ export class BillableMetrics extends APIResource {
    * Retrieves all billable metrics with their complete configurations. Use this for
    * programmatic discovery and management of billable metrics, such as associating
    * metrics to products and auditing for orphaned or archived metrics. Important:
-   * Archived metrics are excluded by default; use `include_archived=true` parameter
-   * to include them.
+   * Archived metrics are excluded by default; use `include_archived`=`true`
+   * parameter to include them.
    *
    * @example
    * ```ts
@@ -137,9 +141,10 @@ export class BillableMetrics extends APIResource {
    * new Products to define how that product should be metered. If you archive a
    * billable metric that is already associated with a Product, the Product will
    * continue to function as usual, metering based on the definition of the archived
-   * billable metric. Archived billable metrics will be returned on the
-   * getBillableMetric and listBillableMetrics endpoints with a populated archived_at
-   * field.
+   * billable metric.
+   *
+   * Archived billable metrics will be returned on the `getBillableMetric` and
+   * `listBillableMetrics` endpoints with a populated `archived_at` field.
    *
    * @example
    * ```ts

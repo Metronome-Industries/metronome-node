@@ -121,10 +121,9 @@ export class RateCards extends APIResource {
    * description, and aliases. This endpoint is designed for managing rate card
    * identity and reference aliases rather than modifying pricing rates.
    *
-   * What This Endpoint Does: Modifies the descriptive properties and alias
-   * configuration of a rate card without affecting the underlying pricing rates or
-   * schedules. This allows you to update how a rate card is identified and
-   * referenced throughout your system.
+   * Modifies the descriptive properties and alias configuration of a rate card
+   * without affecting the underlying pricing rates or schedules. This allows you to
+   * update how a rate card is identified and referenced throughout your system.
    *
    * ### Use this endpoint to:
    *
@@ -137,20 +136,20 @@ export class RateCards extends APIResource {
    * - Self-serve provisioning setup: Configure aliases to enable code-free rate card
    *   transitions
    *
-   * Active contract impact:
+   * #### Active contract impact:
    *
    * - Alias changes: Already-created contracts continue using their originally
    *   assigned rate cards.
    * - Other changes made using this endpoint will only impact the Metronome UI.
    *
-   * Grandfathering existing PLG customer pricing:
+   * #### Grandfathering existing PLG customer pricing:
    *
    * - Rate card aliases support scheduled transitions, enabling seamless rate card
    *   migrations for new customers, allowing existing customers to be grandfathered
    *   into their existing prices without code. Note that there are multiple
    *   mechanisms to support grandfathering in Metronome.
    *
-   * How scheduled aliases work for PLG grandfathering: Initial setup:
+   * ####How scheduled aliases work for PLG grandfathering: Initial setup:
    *
    * - Add alias to current rate card: Assign a stable alias (e.g.,
    *   "standard-pricing") to your active rate card
@@ -160,11 +159,11 @@ export class RateCards extends APIResource {
    *   resolve to the rate card associated with the alias at the point in time of
    *   provisioning
    *
-   * Grandfathering process:
+   * ####Grandfathering process:
    *
    * - Create new rate card: Build your new rate card with updated pricing structure
    * - Schedule alias transition: Add the same alias to the new rate card with a
-   *   starting_at timestamp
+   *   `starting_at` timestamp
    * - Automatic cutover: Starting at the scheduled time, new contracts created in
    *   your PLG workflow using that alias will automatically reference the new rate
    *   card
