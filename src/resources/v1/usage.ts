@@ -123,7 +123,7 @@ export class Usage extends APIResource {
    * }
    * ```
    *
-   * #### Transaction ID\
+   * #### Transaction ID
    *
    * The transaction_id serves as your idempotency key, ensuring events are processed
    * exactly once. Metronome maintains a 34-day deduplication window - significantly
@@ -135,9 +135,10 @@ export class Usage extends APIResource {
    *   - For heartbeat events, use deterministic IDs
    *   - Include enough context to avoid collisions across different event sources
    *
-   * ####Customer ID\
-   * Identifies which customer should be billed for this usage. Supports two identification
-   * methods:
+   * #### Customer ID
+   *
+   * Identifies which customer should be billed for this usage. Supports two
+   * identification methods:
    *
    * - Metronome Customer ID: The UUID returned when creating a customer
    * - Ingest Alias: Your system's identifier (email, account number, etc.)
