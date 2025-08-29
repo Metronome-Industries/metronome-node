@@ -26,12 +26,12 @@ export class Dashboards extends APIResource {
    *
    * ### Usage guidelines:
    *
-   * - Dashboard types: Choose from invoices, usage, or commits_and_credits
+   * - Dashboard types: Choose from `invoices`, `usage`, or `commits_and_credits`
    * - Customization options:
-   *   - dashboard_options: Configure whether you want invoices to show zero usage
+   *   - `dashboard_options`: Configure whether you want invoices to show zero usage
    *     line items
-   *   - color_overrides: Match your brand's color palette
-   *   - bm_group_key_overrides: Customize how dimensions are displayed (for the
+   *   - `color_overrides`: Match your brand's color palette
+   *   - `bm_group_key_overrides`: Customize how dimensions are displayed (for the
    *     usage embeddable dashboard)
    * - Iframe implementation: Embed the returned URL directly in an iframe element
    * - Responsive design: Dashboards automatically adapt to container dimensions

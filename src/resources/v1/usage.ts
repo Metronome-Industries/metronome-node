@@ -29,24 +29,24 @@ export class Usage extends APIResource {
    *
    * ### Key response fields:
    *
-   * An array of UsageBatchAggregate objects containing:
+   * An array of `UsageBatchAggregate` objects containing:
    *
-   * - customer_id: The customer this usage belongs to
-   * - billable_metric_id and billable_metric_name: What was measured
-   * - start_timestamp and end_timestamp: Time window for this data point
-   * - value: Aggregated usage amount for the period
-   * - groups (optional): Usage broken down by group keys with values -next_page:
-   *   Pagination cursor for large result sets
+   * - `customer_id`: The customer this usage belongs to
+   * - `billable_metric_id` and `billable_metric_name`: What was measured
+   * - `start_timestamp` and `end_timestamp`: Time window for this data point
+   * - `value`: Aggregated usage amount for the period
+   * - `groups` (optional): Usage broken down by group keys with values
+   * - `next_page`: Pagination cursor for large result sets
    *
    * ### Usage guidelines:
    *
-   * - Time windows: Set window_size to hour, day, or none (entire period)
+   * - Time windows: Set `window_size` to `hour`, `day`, or `none` (entire period)
    * - Required parameters: Must specify `starting_on`, `ending_before`, and
    *   `window_size`
    * - Filtering options:
-   *   - customer_ids: Limit to specific customers (omit for all customers)
-   *   - billable_metrics: Limit to specific metrics (omit for all metrics)
-   * - Pagination: Use next_page cursor to retrieve large datasets
+   *   - `customer_ids`: Limit to specific customers (omit for all customers)
+   *   - `billable_metrics`: Limit to specific metrics (omit for all metrics)
+   * - Pagination: Use `next_page` cursor to retrieve large datasets
    * - Null values: Group values may be null when no usage matches that group
    *
    * @example
@@ -91,7 +91,7 @@ export class Usage extends APIResource {
    * credit drawdown, and invoicing. Track customer behavior, resource consumption,
    * and feature usage
    *
-   * What happens when you send events:
+   * ### What happens when you send events:
    *
    * - Events are validated and processed in real-time
    * - Events are matched to customers using customer IDs or customer ingest aliases
@@ -105,8 +105,10 @@ export class Usage extends APIResource {
    * - Duplicate events are automatically detected and ignored (34-day deduplication
    *   window)
    *
-   * Event structure: Usage events are simple JSON objects designed for flexibility
-   * and ease of integration:
+   * #### Event structure:
+   *
+   * Usage events are simple JSON objects designed for flexibility and ease of
+   * integration:
    *
    * ```json
    * {
@@ -123,33 +125,39 @@ export class Usage extends APIResource {
    * }
    * ```
    *
-   * - Transaction ID\
-   *   The transaction_id serves as your idempotency key, ensuring events are processed
-   *   exactly once. Metronome maintains a 34-day deduplication window - significantly
-   *   longer than typical 12-hour windows - enabling robust backfill scenarios without
-   *   duplicate billing.
+   * #### Transaction ID\
    *
-   *   - Best Practices:
-   *     - Use UUIDs for one-time events: uuid4()
-   *     - For heartbeat events, use deterministic IDs
-   *     - Include enough context to avoid collisions across different event sources
+   * The transaction_id serves as your idempotency key, ensuring events are processed
+   * exactly once. Metronome maintains a 34-day deduplication window - significantly
+   * longer than typical 12-hour windows - enabling robust backfill scenarios without
+   * duplicate billing.
    *
-   * - Customer ID\
-   *   Identifies which customer should be billed for this usage. Supports two identification
-   *   methods:
-   *   - Metronome Customer ID: The UUID returned when creating a customer
-   *   - Ingest Alias: Your system's identifier (email, account number, etc.)
+   * - Best Practices:
+   *   - Use UUIDs for one-time events: uuid4()
+   *   - For heartbeat events, use deterministic IDs
+   *   - Include enough context to avoid collisions across different event sources
+   *
+   * ####Customer ID\
+   * Identifies which customer should be billed for this usage. Supports two identification
+   * methods:
+   *
+   * - Metronome Customer ID: The UUID returned when creating a customer
+   * - Ingest Alias: Your system's identifier (email, account number, etc.)
    *
    * Ingest aliases enable seamless integration without requiring ID mapping, and
    * customers can have multiple aliases for flexibility.
    *
-   * - Event Type: Categorizes the event type for billable metric matching. Choose
-   *   descriptive names that aligns with the product surface area.
+   * #### Event Type:
    *
-   * - Properties: Flexible metadata also used to match billable metrics or to be
-   *   used to serve as group keys to create multiple pricing dimensions or breakdown
-   *   costs by novel properties for end customers or internal finance teams
-   *   measuring underlying COGs.
+   * Categorizes the event type for billable metric matching. Choose descriptive
+   * names that aligns with the product surface area.
+   *
+   * #### Properties:
+   *
+   * Flexible metadata also used to match billable metrics or to be used to serve as
+   * group keys to create multiple pricing dimensions or breakdown costs by novel
+   * properties for end customers or internal finance teams measuring underlying
+   * COGs.
    *
    * @example
    * ```ts
@@ -183,12 +191,12 @@ export class Usage extends APIResource {
    *
    * ### Key response fields:
    *
-   * An array of PagedUsageAggregate objects containing:
+   * An array of `PagedUsageAggregate` objects containing:
    *
    * - `starting_on` and `ending_before`: Time window boundaries
    * - `group_key`: The dimension being grouped by (e.g., "region")
    * - `group_value`: The specific value for this group (e.g., "US-East")
-   * - value: Aggregated usage for this group and time window
+   * - `value`: Aggregated usage for this group and time window
    * - `next_page`: Pagination cursor for large datasets
    *
    * ### Usage guidelines:

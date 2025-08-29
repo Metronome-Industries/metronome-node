@@ -61,7 +61,7 @@ export class Contracts extends APIResource {
    * PLG and Enterprise customers, you can automatically customers access to your
    * products and services directly from your product or CRM.
    *
-   * Common Use Cases:
+   * ###Use this endpoint to:
    *
    * - PLG onboarding: Automatically provision new self-serve customers with
    *   contracts when they sign up.
@@ -70,7 +70,7 @@ export class Contracts extends APIResource {
    * - Promotional pricing: Implement time-limited discounts and free trials through
    *   overrides
    *
-   * Key Components:
+   * ###Key components:
    *
    * - Contract Term and Billing Schedule
    * - Set contract duration using `starting_at` and `ending_before` fields. PLG
@@ -78,22 +78,22 @@ export class Contracts extends APIResource {
    *   contracts have fixed end dates which can be edited over time in the case of
    *   co-term upsells.
    *
-   * Rate Card\
-   * If you are offering usage based pricing, you can set a rate card for the contract
-   * to reference through `rate_card_id` or `rate_card_alias`. The rate card is a store
-   * of all of your usage based products and their centralized pricing. Any new products
-   * or price changes on the rate card can be set to automatically propagate to all associated
-   * contracts - this ensures consistent pricing and product launches flow to contracts
-   * without manual updates and migrations. The usage_statement_schedule determines the
-   * cadence on which Metronome will finalize a usage invoice for the customer. This defaults
-   * to monthly on the 1st, with options for custom dates, quarterly, or annual cadences.
-   * Note: Most usage based billing companies align usage statements to be evaluated aligned
-   * to the first of the month. Read more about [Create and Manage Rate Cards](https://docs.metronome.com/pricing-packaging/create-manage-rate-cards/).
+   * ####Rate Card If you are offering usage based pricing, you can set a rate card
+   * for the contract to reference through `rate_card_id` or `rate_card_alias`. The
+   * rate card is a store of all of your usage based products and their centralized
+   * pricing. Any new products or price changes on the rate card can be set to
+   * automatically propagate to all associated contracts - this ensures consistent
+   * pricing and product launches flow to contracts without manual updates and
+   * migrations. The `usage_statement_schedule` determines the cadence on which
+   * Metronome will finalize a usage invoice for the customer. This defaults to
+   * monthly on the 1st, with options for custom dates, quarterly, or annual
+   * cadences. Note: Most usage based billing companies align usage statements to be
+   * evaluated aligned to the first of the month. Read more about
+   * [Rate Cards](https://docs.metronome.com/pricing-packaging/create-manage-rate-cards/).
    *
-   * Overrides and discounts\
-   * Customize pricing on the contract through time-bounded overrides that can target
-   * specific products, product families, or complex usage scenarios. Overrides enable
-   * two key capabilities:
+   * ####Overrides and discounts Customize pricing on the contract through
+   * time-bounded overrides that can target specific products, product families, or
+   * complex usage scenarios. Overrides enable two key capabilities:
    *
    * - Discounts: Apply percentage discounts, fixed rate reductions, or
    *   quantity-based pricing tiers
@@ -101,14 +101,14 @@ export class Contracts extends APIResource {
    *   negotiated deals
    *
    * Read more about
-   * [Add Contract Overrides](https://docs.metronome.com/manage-product-access/add-contract-override/).
+   * [Contract Overrides](https://docs.metronome.com/manage-product-access/add-contract-override/).
    *
-   * Commits and Credits\
-   * Using commits, configure prepaid or postpaid spending commitments where customers
-   * promise to spend a certain amount over the contract period paid in advance or in
-   * arrears. Use credits to provide free spending allowances. Under the hood these are
-   * the same mechanisms, however, credits are typically offered for free (SLA or promotional)
-   * or as a part of an allotment associated with a Subscription.
+   * ####Commits and Credits Using commits, configure prepaid or postpaid spending
+   * commitments where customers promise to spend a certain amount over the contract
+   * period paid in advance or in arrears. Use credits to provide free spending
+   * allowances. Under the hood these are the same mechanisms, however, credits are
+   * typically offered for free (SLA or promotional) or as a part of an allotment
+   * associated with a Subscription.
    *
    * In Metronome, you can set commits and credits to only be applicable for a subset
    * of usage. Use `applicable_product_ids` or `applicable_product_tags` to create
@@ -124,13 +124,13 @@ export class Contracts extends APIResource {
    * balances between contract periods, either entirely or as a percentage.
    *
    * Read more about
-   * [Apply Credits and Commits](https://docs.metronome.com/pricing-packaging/apply-credits-commits/).
+   * [Credits and Commits](https://docs.metronome.com/pricing-packaging/apply-credits-commits/).
    *
-   * Subscriptions\
-   * You can add a fixed recurring charge to a contract, like monthly licenses or seat-based
-   * fees, using the subscription charge. Subscription charges are defined on your rate
-   * card and you can select which subscription is applicable to add to each contract.
-   * When you add a subscription to a contract you need to:
+   * ####Subscriptions You can add a fixed recurring charge to a contract, like
+   * monthly licenses or seat-based fees, using the subscription charge. Subscription
+   * charges are defined on your rate card and you can select which subscription is
+   * applicable to add to each contract. When you add a subscription to a contract
+   * you need to:
    *
    * - Define whether the subscription is paid for in-advance or in-arrears
    *   (`collection_schedule`)
@@ -140,18 +140,18 @@ export class Contracts extends APIResource {
    *   (`subscription_rate`)
    *
    * Read more about
-   * [Create Subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/).
+   * [Subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/).
    *
-   * Scheduled Charges\
-   * Set up one-time, recurring, or entirely custom charges that occur on specific dates,
-   * separate from usage-based billing or commitments. These can be used to model non-recurring
-   * platform charges or professional services.
+   * ####Scheduled Charges Set up one-time, recurring, or entirely custom charges
+   * that occur on specific dates, separate from usage-based billing or commitments.
+   * These can be used to model non-recurring platform charges or professional
+   * services.
    *
-   * Threshold Billing\
-   * Metronome allows you to configure automatic billing triggers when customers reach
-   * spending thresholds to prevent fraud and manage risk. You can use `spend_threshold_configuration`
-   * to trigger an invoice to cover current charges whenever the threshold is reached
-   * or you can ensure the customer maintains a minimum prepaid balance using the `prepaid_balance_configuration`.
+   * ####Threshold Billing Metronome allows you to configure automatic billing
+   * triggers when customers reach spending thresholds to prevent fraud and manage
+   * risk. You can use `spend_threshold_configuration` to trigger an invoice to cover
+   * current charges whenever the threshold is reached or you can ensure the customer
+   * maintains a minimum prepaid balance using the `prepaid_balance_configuration`.
    *
    * Read more about
    * [Spend Threshold](https://docs.metronome.com/manage-product-access/spend-thresholds/)
@@ -292,15 +292,14 @@ export class Contracts extends APIResource {
    * event a contract was incorrectly created and needed to be removed from a
    * customer.
    *
-   * Impact on commits and credits:
+   * ####Impact on commits and credits: When archiving a contract, all associated
+   * commits and credits are also archived. For prepaid commits with active segments,
+   * Metronome automatically generates expiration ledger entries to close out any
+   * remaining balances, ensuring accurate accounting of unused prepaid amounts.
+   * These ledger entries will appear in the commit's transaction history with type
+   * `PREPAID_COMMIT_EXPIRATION`.
    *
-   * When archiving a contract, all associated commits and credits are also archived.
-   * For prepaid commits with active segments, Metronome automatically generates
-   * expiration ledger entries to close out any remaining balances, ensuring accurate
-   * accounting of unused prepaid amounts. These ledger entries will appear in the
-   * commit's transaction history with type PREPAID_COMMIT_EXPIRATION.
-   *
-   * Archived contract visibility:
+   * #### Archived contract visibility:
    *
    * Archived contracts remain accessible for historical reporting and audit
    * purposes. They can be retrieved using the `ListContracts` endpoint by setting
@@ -427,8 +426,9 @@ export class Contracts extends APIResource {
   /**
    * For a specific customer and contract, get the rates at a specific point in time.
    * This endpoint takes the contract's rate card into consideration, including
-   * scheduled changes. It also takes into account overrides on the contract. For
-   * example, if you want to show your customer a summary of the prices they are
+   * scheduled changes. It also takes into account overrides on the contract.
+   *
+   * For example, if you want to show your customer a summary of the prices they are
    * paying, inclusive of any negotiated discounts or promotions, use this endpoint.
    * This endpoint only returns rates that are entitled.
    *
@@ -465,9 +465,9 @@ export class Contracts extends APIResource {
 
   /**
    * Get the history of subscription quantities and prices over time for a given
-   * subscription_id. This endpoint can be used to power an in-product experience
+   * `subscription_id`. This endpoint can be used to power an in-product experience
    * where you show a customer their historical changes to seat count. Future changes
-   * are not included in this endpoint - use the getContract endpoint to view the
+   * are not included in this endpoint - use the `getContract` endpoint to view the
    * future scheduled changes to a subscription's quantity.
    *
    * Subscriptions are used to model fixed recurring fees as well as seat-based
@@ -528,8 +528,8 @@ export class Contracts extends APIResource {
    *
    * As an example, imagine you have a customer associated with two projects. Each
    * project is associated with its own contract. You can create a usage filter with
-   * group key project_id on each contract, and route usage for project_1 to the
-   * first contract and project_2 to the second contract.
+   * group key `project_id` on each contract, and route usage for `project_1` to the
+   * first contract and `project_2` to the second contract.
    *
    * ### Use this endpoint to:
    *

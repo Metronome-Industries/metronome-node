@@ -14,7 +14,7 @@ export class Credits extends APIResource {
    * should add credits directly to customer contracts using the contract/create or
    * contract/edit APIs.
    *
-   * When to use this endpoint: Use this endpoint when you need to provision credits
+   * ###Use this endpoint to: Use this endpoint when you need to provision credits
    * directly at the customer level that can be applied across multiple contracts or
    * scoped to specific contracts. Customer-level credits are ideal for:
    *
@@ -22,27 +22,27 @@ export class Credits extends APIResource {
    * - Flexible spending allowances that aren't tied to a single contract
    * - Migration scenarios where you need to preserve existing customer balances
    *
-   * Scoping Flexibility: Customer-level credits can be configured in two ways:
+   * ####Scoping flexibility: Customer-level credits can be configured in two ways:
    *
    * - Contract-specific: Use the applicable_contract_ids field to limit the credit
    *   to specific contracts
    * - Cross-contract: Leave applicable_contract_ids empty to allow the credit to be
    *   used across all of the customer's contracts
    *
-   * Product Targeting: Credits can be scoped to specific products using
-   * applicable_product_ids or applicable_product_tags, or left unrestricted to apply
-   * to all products.
+   * ####Product Targeting: Credits can be scoped to specific products using
+   * `applicable_product_ids` or `applicable_product_tags`, or left unrestricted to
+   * apply to all products.
    *
-   * Priority Considerations: When multiple credits are applicable, the one with the
-   * lower priority value will be consumed first. If there is a tie, contract level
-   * commits and credits will be applied before customer level commits and credits.
-   * Plan your priority scheme carefully to ensure credits are applied in the desired
-   * order.
+   * ####Priority considerations: When multiple credits are applicable, the one with
+   * the lower priority value will be consumed first. If there is a tie, contract
+   * level commits and credits will be applied before customer level commits and
+   * credits. Plan your priority scheme carefully to ensure credits are applied in
+   * the desired order.
    *
-   * Access Schedule Required: You must provide an access_schedule that defines when
-   * and how much credit becomes available to the customer over time. This usually is
-   * aligned to the contract schedule or starts immediately and is set to expire in
-   * the future.
+   * ####Access Schedule Required: You must provide an `access_schedule` that defines
+   * when and how much credit becomes available to the customer over time. This
+   * usually is aligned to the contract schedule or starts immediately and is set to
+   * expire in the future.
    *
    * ### Usage Guidelines:
    *
@@ -109,17 +109,17 @@ export class Credits extends APIResource {
    *
    * - Pagination: Results limited to 25 commits per page; use next_page for more
    * - Date filtering options:
-   *   - covering_date: Credits active on a specific date
-   *   - starting_at: Credits with access on/after a date
-   *   - effective_before: Credits with access before a date (exclusive)
+   *   - `covering_date`: Credits active on a specific date
+   *   - `starting_at`: Credits with access on/after a date
+   *   - `effective_before`: Credits with access before a date (exclusive)
    * - Scope options:
    *   - `include_contract_credits`: Include contract-level credits (not just
    *     customer-level)
    *   - `include_archived`: Include archived credits and credits from archived
    *     contracts
    * - Performance considerations:
-   *   - include_ledgers: Adds detailed transaction history (slower)
-   *   - include_balance: Adds current balance calculation (slower)
+   *   - `include_ledgers`: Adds detailed transaction history (slower)
+   *   - `include_balance`: Adds current balance calculation (slower)
    * - Optional filtering: Use credit_id to retrieve a specific commit
    *
    * @example

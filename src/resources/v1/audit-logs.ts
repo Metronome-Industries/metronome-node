@@ -26,11 +26,11 @@ export class AuditLogs extends APIResource {
    * - timestamp: When the action occurred (RFC 3339 format)
    * - actor: Information about who performed the action
    * - request: Details including request ID, IP address, and user agent
-   * - resource_type: The type of resource affected (e.g., customer, contract,
+   * - `resource_type`: The type of resource affected (e.g., customer, contract,
    *   invoice)
-   * - resource_id: The specific resource identifier
-   * - action: The operation performed
-   * - next_page: Cursor for continuous log retrieval
+   * - `resource_id`: The specific resource identifier
+   * - `action`: The operation performed
+   * - `next_page`: Cursor for continuous log retrieval
    *
    * ### Usage guidelines:
    *
@@ -42,8 +42,9 @@ export class AuditLogs extends APIResource {
    *   - `starting_on`: Earliest logs to return (inclusive)
    *   - `ending_before`: Latest logs to return (exclusive)
    *   - Cannot be used with `next_page`
-   * - Resource filtering: Must specify both resource_type and resource_id together
-   * - Sort order: Default is date_asc; use date_desc for newest first
+   * - Resource filtering: Must specify both `resource_type` and `resource_id`
+   *   together
+   * - Sort order: Default is `date_asc`; use `date_desc` for newest first
    *
    * @example
    * ```ts

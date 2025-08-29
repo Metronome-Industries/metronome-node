@@ -385,7 +385,7 @@ The following tools are available in this MCP server.
 
   This end-point returns the `customer_id` created by the request. This id can be used to fetch relevant billing configurations and create contracts.
 
-  Example workflow:
+  ### Example workflow:
 
   - Generally, Metronome recommends first creating the customer in the downstream payment / ERP system when payment method is collected and then creating the customer in Metronome using the response (i.e. `customer_id`) from the downstream system. If you do not create a billing configuration on customer creation, you can add it later.
   - Once a customer is created, you can then create a contract for the customer. In the contract creation process, you will need to add the customer billing configuration to the contract to ensure Metronome invoices the customer correctly. This is because a customer can have multiple configurations.
@@ -393,11 +393,11 @@ The following tools are available in this MCP server.
 
   ### Usage guidelines:
 
-  For details on different billing configurations for different systems, review the /setCustomerBillingConfiguration end-point.
+  For details on different billing configurations for different systems, review the `/setCustomerBillingConfiguration` end-point.
 
 - `retrieve_v1_customers` (`read`): Get detailed information for a specific customer by their Metronome ID. Returns customer profile data including name, creation date, ingest aliases, configuration settings, and custom fields. Use this endpoint to fetch complete customer details for billing operations or account management.
 
-  Note: If searching for a customer billing configuration, use the /getCustomerBillingConfigurations end-point.
+  Note: If searching for a customer billing configuration, use the `/getCustomerBillingConfigurations` endpoint.
 
 - `list_v1_customers` (`read`): Gets a paginated list of all customers in your Metronome account. Use this endpoint to browse your customer base, implement customer search functionality, or sync customer data with external systems. Returns customer details including IDs, names, and configuration settings. Supports filtering and pagination parameters for efficient data retrieval.
 - `archive_v1_customers` (`write`): Use this endpoint to archive a customer while preserving auditability. Archiving a customer will automatically archive all contracts as of the current date and void all corresponding invoices. Use this endpoint if a customer is onboarded by mistake.
@@ -420,12 +420,12 @@ The following tools are available in this MCP server.
   - Add the initial configuration to an existing customer. Once created, the billing configuration can then be associated to the customer's contract.
   - Add a new configuration to an existing customer. This might be used as part of an upgrade or downgrade workflow where the customer was previously billed through system A (e.g. Stripe) but will now be billed through system B (e.g. AWS). Once created, the new configuration can then be associated to the customer's contract.
 
-  Delivery Method Options:
+  ### Delivery method options:
 
-  - direct_to_billing_provider: Use when Metronome should send invoices directly to the billing provider's API (e.g., Stripe, NetSuite). This is the most common method for automated billing workflows.
-  - tackle: Use specifically for AWS Marketplace transactions that require Tackle's co-selling platform for partner attribution and commission tracking.
-  - aws_sqs: Use when you want invoice data delivered to an AWS SQS queue for custom processing before sending to your billing system.
-  - aws_sns: Use when you want invoice notifications published to an AWS SNS topic for event-driven billing workflows.
+  - `direct_to_billing_provider`: Use when Metronome should send invoices directly to the billing provider's API (e.g., Stripe, NetSuite). This is the most common method for automated billing workflows.
+  - `tackle`: Use specifically for AWS Marketplace transactions that require Tackle's co-selling platform for partner attribution and commission tracking.
+  - `aws_sqs`: Use when you want invoice data delivered to an AWS SQS queue for custom processing before sending to your billing system.
+  - `aws_sns`: Use when you want invoice notifications published to an AWS SNS topic for event-driven billing workflows.
 
   ### Key response fields:
 
@@ -433,7 +433,7 @@ The following tools are available in this MCP server.
 
   ### Usage guidelines:
 
-  Must use the delivery_method_id if you have multiple Stripe accounts connected to Metronome.
+  Must use the `delivery_method_id` if you have multiple Stripe accounts connected to Metronome.
 
 - `set_ingest_aliases_v1_customers` (`write`): Sets the ingest aliases for a customer. Use this endpoint to associate a Metronome customer with an internal ID for easier tracking between systems. Ingest aliases can be used in the `customer_id` field when sending usage events to Metronome.
 
@@ -452,7 +452,7 @@ The following tools are available in this MCP server.
 
   ### Use this endpoint to:
 
-  - Check if a specific customer is currently violating an alert threshold (in_alarm status)
+  - Check if a specific customer is currently violating an alert threshold (`in_alarm` status)
   - Verify alert configuration details and threshold values for a customer
   - Integrate alert status checks into customer support tools or admin interfaces
 
@@ -460,13 +460,13 @@ The following tools are available in this MCP server.
 
   A CustomerAlert object containing:
 
-  customer_status: The current evaluation state
+  - `customer_status`: The current evaluation state
 
-  - ok - Customer is within acceptable thresholds
-  - in_alarm- Customer has breached the alert threshold
-  - evaluating - Alert has yet to be evaluated (typically due to a customer or alert having just been created)
-  - null - Alert has been archived
-  - triggered_by: Additional context about what caused the alert to trigger (when applicable)
+  - `ok` - Customer is within acceptable thresholds
+  - `in_alarm`- Customer has breached the alert threshold
+  - `evaluating` - Alert has yet to be evaluated (typically due to a customer or alert having just been created)
+  - `null` - Alert has been archived
+  - `triggered_by`: Additional context about what caused the alert to trigger (when applicable)
   - alert: Complete alert configuration including:
     - Alert ID, name, and type
     - Current threshold values and credit type information
@@ -493,15 +493,15 @@ The following tools are available in this MCP server.
   ### Key response fields:
 
   - data: Array of CustomerAlert objects, each containing:
-    - Current evaluation status (ok, in_alarm, evaluating, or null)
+    - Current evaluation status (`ok`, `in_alarm`, `evaluating`, or `null`)
     - Complete alert configuration and threshold details
     - Alert metadata including type, name, and last update time
-  - next_page: Pagination cursor for retrieving additional results
+  - `next_page`: Pagination cursor for retrieving additional results
 
   ### Usage guidelines:
 
   - Default behavior: Returns only enabled alerts unless alert_statuses filter is specified
-  - Pagination: Use the next_page cursor to retrieve all results for customers with many alerts
+  - Pagination: Use the `next_page` cursor to retrieve all results for customers with many alerts
 
 - `reset_customers_v1_alerts` (`write`): Force an immediate re-evaluation of a specific alert for a customer, clearing any previous state and triggering a fresh assessment against current thresholds. This endpoint ensures alert accuracy after configuration changes or data corrections.
 
@@ -587,7 +587,7 @@ The following tools are available in this MCP server.
   - Applied credits summary
   - Contract ID reference
   - External billing provider status (if integrated with Stripe, etc.)
-  - Pagination metadata next_page cursor
+  - Pagination metadata `next_page` cursor
 
   ### Usage guidelines:
 
@@ -616,9 +616,9 @@ The following tools are available in this MCP server.
 
   - All standard invoice fields (ID, customer, commit, line items, totals, status)
   - Line items with quantities and costs for that specific period
-  - breakdown_start_timestamp: Start of the specific time window
-  - breakdown_end_timestamp: End of the specific time window
-  - next_page: Pagination cursor for large result sets
+  - `breakdown_start_timestamp`: Start of the specific time window
+  - `breakdown_end_timestamp`: End of the specific time window
+  - `next_page`: Pagination cursor for large result sets
 
   ### Usage guidelines:
 
@@ -637,7 +637,9 @@ The following tools are available in this MCP server.
 
 ### Resource `v1.customers.commits`:
 
-- `create_customers_v1_commits` (`write`): Creates customer-level commits that establish spending commitments for customers across their Metronome usage. Commits represent contracted spending obligations that can be either prepaid (paid upfront) or postpaid (billed later). Note: In most cases, you should add commitments directly to customer contracts using the contract/create or contract/edit APIs.
+- `create_customers_v1_commits` (`write`): Creates customer-level commits that establish spending commitments for customers across their Metronome usage. Commits represent contracted spending obligations that can be either prepaid (paid upfront) or postpaid (billed later).
+
+  Note: In most cases, you should add commitments directly to customer contracts using the contract/create or contract/edit APIs.
 
   ### Use this endpoint to:
 
@@ -647,25 +649,29 @@ The following tools are available in this MCP server.
   - Multi-contract volume commitments with shared spending pools
   - Cross-contract discount tiers based on aggregate usage
 
-  Commit type Requirements: You must specify either "prepaid" or "postpaid" as the commit type:
+  ####Commit type Requirements:
 
+  - You must specify either "prepaid" or "postpaid" as the commit type:
   - Prepaid commits: Customer pays upfront; invoice_schedule is optional (if omitted, creates a commit without an invoice)
   - Postpaid commits: Customer pays when the commitment expires (the end of the access_schedule); invoice_schedule is required and must match access_schedule totals.
 
-  Billing configuration:
+  ####Billing configuration:
 
   - invoice_contract_id is required for postpaid commits and for prepaid commits with billing (only optional for free prepaid commits)
   - For postpaid commits: access_schedule and invoice_schedule must have matching amounts
   - For postpaid commits: only one schedule item is allowed in both schedules.
 
-  Scoping flexibility: Customer-level commits can be configured in a few ways:
+  ####Scoping flexibility:
+  Customer-level commits can be configured in a few ways:
 
-  - Contract-specific: Use the applicable_contract_ids field to limit the commit to specific contracts
-  - Cross-contract: Leave applicable_contract_ids empty to allow the commit to be used across all of the customer's contracts
+  - Contract-specific: Use the `applicable_contract_ids` field to limit the commit to specific contracts
+  - Cross-contract: Leave `applicable_contract_ids` empty to allow the commit to be used across all of the customer's contracts
 
-  Product targeting: Commits can be scoped to specific products using applicable_product_ids, applicable_product_tags, or specifiers, or left unrestricted to apply to all products.
+  ####Product targeting:
+  Commits can be scoped to specific products using applicable_product_ids, applicable_product_tags, or specifiers, or left unrestricted to apply to all products.
 
-  Priority considerations: When multiple commits are applicable, the one with the lower priority value will be consumed first. If there is a tie, contract level commits and credits will be applied before customer level commits and credits. Plan your priority scheme carefully to ensure commits are applied in the desired order.
+  ####Priority considerations:
+  When multiple commits are applicable, the one with the lower priority value will be consumed first. If there is a tie, contract level commits and credits will be applied before customer level commits and credits. Plan your priority scheme carefully to ensure commits are applied in the desired order.
 
   ### Usage guidelines:
 
@@ -699,9 +705,9 @@ The following tools are available in this MCP server.
 
   - Pagination: Results limited to 25 commits per page; use 'next_page' for more
   - Date filtering options:
-    - covering_date: Commits active on a specific date
-    - starting_at: Commits with access on/after a date
-    - effective_before: Commits with access before a date (exclusive)
+    - `covering_date`: Commits active on a specific date
+    - `starting_at`: Commits with access on/after a date
+    - `effective_before`: Commits with access before a date (exclusive)
   - Scope options:
     - `include_contract_commits`: Include contract-level commits (not just customer-level)
     - `include_archived`: Include archived commits and commits from archived contracts
@@ -720,26 +726,27 @@ The following tools are available in this MCP server.
 
 - `create_customers_v1_credits` (`write`): Creates customer-level credits that provide spending allowances or free credit balances for customers across their Metronome usage. Note: In most cases, you should add credits directly to customer contracts using the contract/create or contract/edit APIs.
 
-  When to use this endpoint:
+  ###Use this endpoint to:
   Use this endpoint when you need to provision credits directly at the customer level that can be applied across multiple contracts or scoped to specific contracts. Customer-level credits are ideal for:
 
   - Customer onboarding incentives that apply globally
   - Flexible spending allowances that aren't tied to a single contract
   - Migration scenarios where you need to preserve existing customer balances
 
-  Scoping Flexibility:
+  ####Scoping flexibility:
   Customer-level credits can be configured in two ways:
 
   - Contract-specific: Use the applicable_contract_ids field to limit the credit to specific contracts
   - Cross-contract: Leave applicable_contract_ids empty to allow the credit to be used across all of the customer's contracts
 
-  Product Targeting: Credits can be scoped to specific products using applicable_product_ids or applicable_product_tags, or left unrestricted to apply to all products.
+  ####Product Targeting:
+  Credits can be scoped to specific products using `applicable_product_ids` or `applicable_product_tags`, or left unrestricted to apply to all products.
 
-  Priority Considerations:
+  ####Priority considerations:
   When multiple credits are applicable, the one with the lower priority value will be consumed first. If there is a tie, contract level commits and credits will be applied before customer level commits and credits. Plan your priority scheme carefully to ensure credits are applied in the desired order.
 
-  Access Schedule Required:
-  You must provide an access_schedule that defines when and how much credit becomes available to the customer over time. This usually is aligned to the contract schedule or starts immediately and is set to expire in the future.
+  ####Access Schedule Required:
+  You must provide an `access_schedule` that defines when and how much credit becomes available to the customer over time. This usually is aligned to the contract schedule or starts immediately and is set to expire in the future.
 
   ### Usage Guidelines:
 
@@ -771,15 +778,15 @@ The following tools are available in this MCP server.
 
   - Pagination: Results limited to 25 commits per page; use next_page for more
   - Date filtering options:
-    - covering_date: Credits active on a specific date
-    - starting_at: Credits with access on/after a date
-    - effective_before: Credits with access before a date (exclusive)
+    - `covering_date`: Credits active on a specific date
+    - `starting_at`: Credits with access on/after a date
+    - `effective_before`: Credits with access before a date (exclusive)
   - Scope options:
     - `include_contract_credits`: Include contract-level credits (not just customer-level)
     - `include_archived`: Include archived credits and credits from archived contracts
   - Performance considerations:
-    - include_ledgers: Adds detailed transaction history (slower)
-    - include_balance: Adds current balance calculation (slower)
+    - `include_ledgers`: Adds detailed transaction history (slower)
+    - `include_balance`: Adds current balance calculation (slower)
   - Optional filtering: Use credit_id to retrieve a specific commit
 
 - `update_end_date_customers_v1_credits` (`write`): Shortens the end date of an existing customer credit to terminate it earlier than originally scheduled. Only allows moving end dates forward (earlier), not extending them.
@@ -809,11 +816,11 @@ The following tools are available in this MCP server.
 
   ### Usage guidelines:
 
-  - Dashboard types: Choose from invoices, usage, or commits_and_credits
+  - Dashboard types: Choose from `invoices`, `usage`, or `commits_and_credits`
   - Customization options:
-    - dashboard_options: Configure whether you want invoices to show zero usage line items
-    - color_overrides: Match your brand's color palette
-    - bm_group_key_overrides: Customize how dimensions are displayed (for the usage embeddable dashboard)
+    - `dashboard_options`: Configure whether you want invoices to show zero usage line items
+    - `color_overrides`: Match your brand's color palette
+    - `bm_group_key_overrides`: Customize how dimensions are displayed (for the usage embeddable dashboard)
   - Iframe implementation: Embed the returned URL directly in an iframe element
   - Responsive design: Dashboards automatically adapt to container dimensions
 
@@ -830,23 +837,23 @@ The following tools are available in this MCP server.
 
   ### Key response fields:
 
-  An array of UsageBatchAggregate objects containing:
+  An array of `UsageBatchAggregate` objects containing:
 
-  - customer_id: The customer this usage belongs to
-  - billable_metric_id and billable_metric_name: What was measured
-  - start_timestamp and end_timestamp: Time window for this data point
-  - value: Aggregated usage amount for the period
-  - groups (optional): Usage broken down by group keys with values
-    -next_page: Pagination cursor for large result sets
+  - `customer_id`: The customer this usage belongs to
+  - `billable_metric_id` and `billable_metric_name`: What was measured
+  - `start_timestamp` and `end_timestamp`: Time window for this data point
+  - `value`: Aggregated usage amount for the period
+  - `groups` (optional): Usage broken down by group keys with values
+  - `next_page`: Pagination cursor for large result sets
 
   ### Usage guidelines:
 
-  - Time windows: Set window_size to hour, day, or none (entire period)
+  - Time windows: Set `window_size` to `hour`, `day`, or `none` (entire period)
   - Required parameters: Must specify `starting_on`, `ending_before`, and `window_size`
   - Filtering options:
-    - customer_ids: Limit to specific customers (omit for all customers)
-    - billable_metrics: Limit to specific metrics (omit for all metrics)
-  - Pagination: Use next_page cursor to retrieve large datasets
+    - `customer_ids`: Limit to specific customers (omit for all customers)
+    - `billable_metrics`: Limit to specific metrics (omit for all metrics)
+  - Pagination: Use `next_page` cursor to retrieve large datasets
   - Null values: Group values may be null when no usage matches that group
 
 - `ingest_v1_usage` (`write`): The ingest endpoint is the primary method for sending usage events to Metronome, serving as the foundation for all billing calculations in your usage-based pricing model. This high-throughput endpoint is designed for real-time streaming ingestion, supports backdating 34 days, and is built to handle mission-critical usage data with enterprise-grade reliability. Metronome supports 100,000 events per second without requiring pre-aggregation or rollups and can scale up from there. See [Getting usage into Metronome](https://docs.metronome.com/connect-metronome/) to learn more about usage events.
@@ -855,7 +862,7 @@ The following tools are available in this MCP server.
 
   Create a customer usage pipeline into Metronome that drives billable metrics, credit drawdown, and invoicing. Track customer behavior, resource consumption, and feature usage
 
-  What happens when you send events:
+  ### What happens when you send events:
 
   - Events are validated and processed in real-time
   - Events are matched to customers using customer IDs or customer ingest aliases
@@ -866,7 +873,8 @@ The following tools are available in this MCP server.
   - Historical events can be backdated up to 34 days and will immediately impact live customer spend
   - Duplicate events are automatically detected and ignored (34-day deduplication window)
 
-  Event structure:
+  #### Event structure:
+
   Usage events are simple JSON objects designed for flexibility and ease of integration:
 
   ```json
@@ -884,26 +892,30 @@ The following tools are available in this MCP server.
   }
   ```
 
-  - Transaction ID\
-    The transaction_id serves as your idempotency key, ensuring events are processed exactly once. Metronome maintains a 34-day deduplication window - significantly longer than typical 12-hour windows - enabling robust backfill scenarios without duplicate billing.
+  #### Transaction ID\
 
-    - Best Practices:
-      - Use UUIDs for one-time events: uuid4()
-      - For heartbeat events, use deterministic IDs
-      - Include enough context to avoid collisions across different event sources
+  The transaction_id serves as your idempotency key, ensuring events are processed exactly once. Metronome maintains a 34-day deduplication window - significantly longer than typical 12-hour windows - enabling robust backfill scenarios without duplicate billing.
 
-  - Customer ID\
-    Identifies which customer should be billed for this usage. Supports two identification methods:
-    - Metronome Customer ID: The UUID returned when creating a customer
-    - Ingest Alias: Your system's identifier (email, account number, etc.)
+  - Best Practices:
+    - Use UUIDs for one-time events: uuid4()
+    - For heartbeat events, use deterministic IDs
+    - Include enough context to avoid collisions across different event sources
+
+  ####Customer ID\
+  Identifies which customer should be billed for this usage. Supports two identification methods:
+
+  - Metronome Customer ID: The UUID returned when creating a customer
+  - Ingest Alias: Your system's identifier (email, account number, etc.)
 
   Ingest aliases enable seamless integration without requiring ID mapping, and customers can have multiple aliases for flexibility.
 
-  - Event Type:
-    Categorizes the event type for billable metric matching. Choose descriptive names that aligns with the product surface area.
+  #### Event Type:
 
-  - Properties:
-    Flexible metadata also used to match billable metrics or to be used to serve as group keys to create multiple pricing dimensions or breakdown costs by novel properties for end customers or internal finance teams measuring underlying COGs.
+  Categorizes the event type for billable metric matching. Choose descriptive names that aligns with the product surface area.
+
+  #### Properties:
+
+  Flexible metadata also used to match billable metrics or to be used to serve as group keys to create multiple pricing dimensions or breakdown costs by novel properties for end customers or internal finance teams measuring underlying COGs.
 
 - `list_with_groups_v1_usage` (`write`): Retrieve granular usage data for a specific customer and billable metric, with the ability to break down usage by custom grouping dimensions. This endpoint enables deep usage analytics by segmenting data across attributes like region, user, model type, or any custom dimension defined in your billable metrics.
 
@@ -915,12 +927,12 @@ The following tools are available in this MCP server.
 
   ### Key response fields:
 
-  An array of PagedUsageAggregate objects containing:
+  An array of `PagedUsageAggregate` objects containing:
 
   - `starting_on` and `ending_before`: Time window boundaries
   - `group_key`: The dimension being grouped by (e.g., "region")
   - `group_value`: The specific value for this group (e.g., "US-East")
-  - value: Aggregated usage for this group and time window
+  - `value`: Aggregated usage for this group and time window
   - `next_page`: Pagination cursor for large datasets
 
   ### Usage guidelines:
@@ -978,10 +990,10 @@ The following tools are available in this MCP server.
   - timestamp: When the action occurred (RFC 3339 format)
   - actor: Information about who performed the action
   - request: Details including request ID, IP address, and user agent
-  - resource_type: The type of resource affected (e.g., customer, contract, invoice)
-  - resource_id: The specific resource identifier
-  - action: The operation performed
-  - next_page: Cursor for continuous log retrieval
+  - `resource_type`: The type of resource affected (e.g., customer, contract, invoice)
+  - `resource_id`: The specific resource identifier
+  - `action`: The operation performed
+  - `next_page`: Cursor for continuous log retrieval
 
   ### Usage guidelines:
 
@@ -991,8 +1003,8 @@ The following tools are available in this MCP server.
     - `starting_on`: Earliest logs to return (inclusive)
     - `ending_before`: Latest logs to return (exclusive)
     - Cannot be used with `next_page`
-  - Resource filtering: Must specify both resource_type and resource_id together
-  - Sort order: Default is date_asc; use date_desc for newest first
+  - Resource filtering: Must specify both `resource_type` and `resource_id` together
+  - Sort order: Default is `date_asc`; use `date_desc` for newest first
 
 ### Resource `v1.custom_fields`:
 
@@ -1007,7 +1019,7 @@ The following tools are available in this MCP server.
 
   ### Usage guidelines:
 
-  - Custom fields set on commits, credits, and contracts can be used to scope alert evaluation. For example, you can create a spend threshold alert that only considers spend associated with contracts with custom field key contract_type and value paygo
+  - Custom fields set on commits, credits, and contracts can be used to scope alert evaluation. For example, you can create a spend threshold alert that only considers spend associated with contracts with custom field key `contract_type` and value `paygo`
   - Custom fields set on products can be used in the Stripe integration to set metadata on invoices.
   - Custom fields for customers, contracts, invoices, products, commits, scheduled charges, and subscriptions are passed down to the invoice.
 
@@ -1038,9 +1050,17 @@ The following tools are available in this MCP server.
   - Metrics defined using standard filtering and aggregation are Streaming billable metrics, which have been optimized for ultra low latency and high throughput workflows.
   - Use SQL billable metrics if you require more flexible aggregation options.
 
-- `retrieve_v1_billable_metrics` (`read`): Retrieves the complete configuration for a specific billable metric by its ID. Use this to review billable metric setup before associating it with products. Returns the metric's name, event type, properties, aggregation_type, aggregation_key, group_keys, custom fields, and SQL query (if it's a SQL billable metric). Important: Archived billable metrics will include an archived_at timestamp; they no longer process new usage events but remain accessible for historical reference.
-- `list_v1_billable_metrics` (`read`): Retrieves all billable metrics with their complete configurations. Use this for programmatic discovery and management of billable metrics, such as associating metrics to products and auditing for orphaned or archived metrics. Important: Archived metrics are excluded by default; use `include_archived=true` parameter to include them.
-- `archive_v1_billable_metrics` (`write`): Use this endpoint to retire billable metrics that are no longer used. After a billable metric is archived, that billable metric can no longer be used in any new Products to define how that product should be metered. If you archive a billable metric that is already associated with a Product, the Product will continue to function as usual, metering based on the definition of the archived billable metric. Archived billable metrics will be returned on the getBillableMetric and listBillableMetrics endpoints with a populated archived_at field.
+- `retrieve_v1_billable_metrics` (`read`): Retrieves the complete configuration for a specific billable metric by its ID. Use this to review billable metric setup before associating it with products. Returns the metric's `name`, `event_type_filter`, `property_filters`, `aggregation_type`, `aggregation_key`, `group_keys`, `custom fields`, and `SQL query` (if it's a SQL billable metric).
+
+  Important:
+
+  - Archived billable metrics will include an `archived_at` timestamp; they no longer process new usage events but remain accessible for historical reference.
+
+- `list_v1_billable_metrics` (`read`): Retrieves all billable metrics with their complete configurations. Use this for programmatic discovery and management of billable metrics, such as associating metrics to products and auditing for orphaned or archived metrics.
+  Important: Archived metrics are excluded by default; use `include_archived`=`true` parameter to include them.
+- `archive_v1_billable_metrics` (`write`): Use this endpoint to retire billable metrics that are no longer used. After a billable metric is archived, that billable metric can no longer be used in any new Products to define how that product should be metered. If you archive a billable metric that is already associated with a Product, the Product will continue to function as usual, metering based on the definition of the archived billable metric.
+
+  Archived billable metrics will be returned on the `getBillableMetric` and `listBillableMetrics` endpoints with a populated `archived_at` field.
 
 ### Resource `v1.services`:
 
@@ -1052,7 +1072,7 @@ The following tools are available in this MCP server.
 
   ### Use this endpoint to:
 
-  - Recalculate an invoice with updated rate terms, available balance, and fees to correct billing disputes or discrepancies
+  Recalculate an invoice with updated rate terms, available balance, and fees to correct billing disputes or discrepancies
 
   ### Key response fields:
 
@@ -1068,30 +1088,30 @@ The following tools are available in this MCP server.
 
 - `create_v1_contracts` (`write`): Contracts define a customer's products, pricing, discounts, access duration, and billing configuration. Contracts serve as the central billing agreement for both PLG and Enterprise customers, you can automatically customers access to your products and services directly from your product or CRM.
 
-  Common Use Cases:
+  ###Use this endpoint to:
 
   - PLG onboarding: Automatically provision new self-serve customers with contracts when they sign up.
   - Enterprise sales: Push negotiated contracts from Salesforce with custom pricing and commitments
   - Promotional pricing: Implement time-limited discounts and free trials through overrides
 
-  Key Components:
+  ###Key components:
 
   - Contract Term and Billing Schedule
   - Set contract duration using `starting_at` and `ending_before` fields. PLG contracts typically use perpetual agreements (no end date), while Enterprise contracts have fixed end dates which can be edited over time in the case of co-term upsells.
 
-  Rate Card\
-  If you are offering usage based pricing, you can set a rate card for the contract to reference through `rate_card_id` or `rate_card_alias`. The rate card is a store of all of your usage based products and their centralized pricing. Any new products or price changes on the rate card can be set to automatically propagate to all associated contracts - this ensures consistent pricing and product launches flow to contracts without manual updates and migrations. The usage_statement_schedule determines the cadence on which Metronome will finalize a usage invoice for the customer. This defaults to monthly on the 1st, with options for custom dates, quarterly, or annual cadences. Note: Most usage based billing companies align usage statements to be evaluated aligned to the first of the month.
-  Read more about [Create and Manage Rate Cards](https://docs.metronome.com/pricing-packaging/create-manage-rate-cards/).
+  ####Rate Card
+  If you are offering usage based pricing, you can set a rate card for the contract to reference through `rate_card_id` or `rate_card_alias`. The rate card is a store of all of your usage based products and their centralized pricing. Any new products or price changes on the rate card can be set to automatically propagate to all associated contracts - this ensures consistent pricing and product launches flow to contracts without manual updates and migrations. The `usage_statement_schedule` determines the cadence on which Metronome will finalize a usage invoice for the customer. This defaults to monthly on the 1st, with options for custom dates, quarterly, or annual cadences. Note: Most usage based billing companies align usage statements to be evaluated aligned to the first of the month.
+  Read more about [Rate Cards](https://docs.metronome.com/pricing-packaging/create-manage-rate-cards/).
 
-  Overrides and discounts\
+  ####Overrides and discounts
   Customize pricing on the contract through time-bounded overrides that can target specific products, product families, or complex usage scenarios. Overrides enable two key capabilities:
 
   - Discounts: Apply percentage discounts, fixed rate reductions, or quantity-based pricing tiers
   - Entitlements: Provide special pricing or access to specific products for negotiated deals
 
-  Read more about [Add Contract Overrides](https://docs.metronome.com/manage-product-access/add-contract-override/).
+  Read more about [Contract Overrides](https://docs.metronome.com/manage-product-access/add-contract-override/).
 
-  Commits and Credits\
+  ####Commits and Credits
   Using commits, configure prepaid or postpaid spending commitments where customers promise to spend a certain amount over the contract period paid in advance or in arrears. Use credits to provide free spending allowances. Under the hood these are the same mechanisms, however, credits are typically offered for free (SLA or promotional) or as a part of an allotment associated with a Subscription.
 
   In Metronome, you can set commits and credits to only be applicable for a subset of usage. Use `applicable_product_ids` or `applicable_product_tags` to create product or product-family specific commits or credits, or you can build complex boolean logic specifiers to target usage based on pricing and presentation group values using `override_specifiers`.
@@ -1100,9 +1120,9 @@ The following tools are available in this MCP server.
 
   Commits support rollover settings (`rollover_fraction`) to transfer unused balances between contract periods, either entirely or as a percentage.
 
-  Read more about [Apply Credits and Commits](https://docs.metronome.com/pricing-packaging/apply-credits-commits/).
+  Read more about [Credits and Commits](https://docs.metronome.com/pricing-packaging/apply-credits-commits/).
 
-  Subscriptions\
+  ####Subscriptions
   You can add a fixed recurring charge to a contract, like monthly licenses or seat-based fees, using the subscription charge. Subscription charges are defined on your rate card and you can select which subscription is applicable to add to each contract. When you add a subscription to a contract you need to:
 
   - Define whether the subscription is paid for in-advance or in-arrears (`collection_schedule`)
@@ -1110,12 +1130,12 @@ The following tools are available in this MCP server.
   - Specify an initial quantity (`initial_quantity`)
   - Define which subscription rate on the rate card should be used (`subscription_rate`)
 
-  Read more about [Create Subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/).
+  Read more about [Subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/).
 
-  Scheduled Charges\
+  ####Scheduled Charges
   Set up one-time, recurring, or entirely custom charges that occur on specific dates, separate from usage-based billing or commitments. These can be used to model non-recurring platform charges or professional services.
 
-  Threshold Billing\
+  ####Threshold Billing
   Metronome allows you to configure automatic billing triggers when customers reach spending thresholds to prevent fraud and manage risk. You can use `spend_threshold_configuration` to trigger an invoice to cover current charges whenever the threshold is reached or you can ensure the customer maintains a minimum prepaid balance using the `prepaid_balance_configuration`.
 
   Read more about [Spend Threshold](https://docs.metronome.com/manage-product-access/spend-thresholds/) and [Prepaid Balance Thresholds](https://docs.metronome.com/manage-product-access/prepaid-balance-thresholds/).
@@ -1145,11 +1165,10 @@ The following tools are available in this MCP server.
 - `amend_v1_contracts` (`write`): Amendments will be replaced by Contract editing. New clients should implement using the `editContract` endpoint. Read more about the migration to contract editing [here](https://docs.metronome.com/migrate-amendments-to-edits/) and reach out to your Metronome representative for more details. Once contract editing is enabled, access to this endpoint will be removed.
 - `archive_v1_contracts` (`write`): Permanently end and archive a contract along with all its terms. Any draft invoices will be canceled, and all upcoming scheduled invoices will be voided–also all finalized invoices can optionally be voided. Use this in the event a contract was incorrectly created and needed to be removed from a customer.
 
-  Impact on commits and credits:
+  ####Impact on commits and credits:
+  When archiving a contract, all associated commits and credits are also archived. For prepaid commits with active segments, Metronome automatically generates expiration ledger entries to close out any remaining balances, ensuring accurate accounting of unused prepaid amounts. These ledger entries will appear in the commit's transaction history with type `PREPAID_COMMIT_EXPIRATION`.
 
-  When archiving a contract, all associated commits and credits are also archived. For prepaid commits with active segments, Metronome automatically generates expiration ledger entries to close out any remaining balances, ensuring accurate accounting of unused prepaid amounts. These ledger entries will appear in the commit's transaction history with type PREPAID_COMMIT_EXPIRATION.
-
-  Archived contract visibility:
+  #### Archived contract visibility:
 
   Archived contracts remain accessible for historical reporting and audit purposes. They can be retrieved using the `ListContracts` endpoint by setting the `include_archived` parameter to `true` or in the Metronome UI when the "Show archived" option is enabled.
 
@@ -1182,16 +1201,19 @@ The following tools are available in this MCP server.
   - Balance logic: Reflects currently accessible amounts, excluding expired/future segments
   - Manual adjustments: Includes all manual ledger entries, even future-dated ones
 
-- `retrieve_rate_schedule_v1_contracts` (`write`): For a specific customer and contract, get the rates at a specific point in time. This endpoint takes the contract's rate card into consideration, including scheduled changes. It also takes into account overrides on the contract. For example, if you want to show your customer a summary of the prices they are paying, inclusive of any negotiated discounts or promotions, use this endpoint. This endpoint only returns rates that are entitled.
-- `retrieve_subscription_quantity_history_v1_contracts` (`write`): Get the history of subscription quantities and prices over time for a given subscription_id. This endpoint can be used to power an in-product experience where you show a customer their historical changes to seat count. Future changes are not included in this endpoint - use the getContract endpoint to view the future scheduled changes to a subscription's quantity.
+- `retrieve_rate_schedule_v1_contracts` (`write`): For a specific customer and contract, get the rates at a specific point in time. This endpoint takes the contract's rate card into consideration, including scheduled changes. It also takes into account overrides on the contract.
+
+  For example, if you want to show your customer a summary of the prices they are paying, inclusive of any negotiated discounts or promotions, use this endpoint. This endpoint only returns rates that are entitled.
+
+- `retrieve_subscription_quantity_history_v1_contracts` (`write`): Get the history of subscription quantities and prices over time for a given `subscription_id`. This endpoint can be used to power an in-product experience where you show a customer their historical changes to seat count. Future changes are not included in this endpoint - use the `getContract` endpoint to view the future scheduled changes to a subscription's quantity.
 
   Subscriptions are used to model fixed recurring fees as well as seat-based recurring fees. To model changes to the number of seats in Metronome, you can increment or decrement the quantity on a subscription at any point in the past or future.
 
 - `schedule_pro_services_invoice_v1_contracts` (`write`): Create a new scheduled invoice for Professional Services terms on a contract. This endpoint's availability is dependent on your client's configuration.
 - `set_usage_filter_v1_contracts` (`write`): If a customer has multiple contracts with overlapping rates, the usage filter routes usage to the appropriate contract based on a predefined group key.
 
-  As an example, imagine you have a customer associated with two projects. Each project is associated with its own contract. You can create a usage filter with group key project_id
-  on each contract, and route usage for project_1 to the first contract and project_2 to the second contract.
+  As an example, imagine you have a customer associated with two projects. Each project is associated with its own contract. You can create a usage filter with group key `project_id`
+  on each contract, and route usage for `project_1` to the first contract and `project_2` to the second contract.
 
   ### Use this endpoint to:
 
@@ -1210,10 +1232,11 @@ The following tools are available in this MCP server.
 - `retrieve_contracts_v1_products` (`write`): Retrieve a product by its ID, including all metadata and historical changes.
 - `update_contracts_v1_products` (`write`): Updates a product's configuration while maintaining billing continuity for active customers. Use this endpoint to modify product names, metrics, pricing rules, and composite settings without disrupting ongoing billing cycles. Changes are scheduled using the starting_at timestamp, which must be on an hour boundary—set future dates to schedule updates ahead of time, or past dates for retroactive changes. Returns the updated product ID upon success.
 
-  Usage guidance:
-  Product type cannot be changed after creation. For incorrect product types, create a new product and archive the original instead.
+  ### Usage guidance:
 
-- `list_contracts_v1_products` (`write`): Get a paginated list of all products in your organization with their complete configuration, version history, and metadata. By default excludes archived products unless explicitly requested via the archive_filter parameter.
+  - Product type cannot be changed after creation. For incorrect product types, create a new product and archive the original instead.
+
+- `list_contracts_v1_products` (`write`): Get a paginated list of all products in your organization with their complete configuration, version history, and metadata. By default excludes archived products unless explicitly requested via the `archive_filter` parameter.
 - `archive_contracts_v1_products` (`write`): Archive a product. Any current rate cards associated with this product will continue to function as normal. However, it will no longer be available as an option for newly created rates. Once you archive a product, you can still retrieve it in the UI and API, but you cannot unarchive it.
 
 ### Resource `v1.contracts.rateCards`:
@@ -1238,7 +1261,6 @@ The following tools are available in this MCP server.
 - `retrieve_contracts_v1_rate_cards` (`write`): Return details for a specific rate card including name, description, and aliases. This endpoint does not return rates - use the dedicated getRates or getRateSchedule endpoints to understand the rates on a rate card.
 - `update_contracts_v1_rate_cards` (`write`): Update the metadata properties of an existing rate card, including its name, description, and aliases. This endpoint is designed for managing rate card identity and reference aliases rather than modifying pricing rates.
 
-  What This Endpoint Does:
   Modifies the descriptive properties and alias configuration of a rate card without affecting the underlying pricing rates or schedules. This allows you to update how a rate card is identified and referenced throughout your system.
 
   ### Use this endpoint to:
@@ -1248,26 +1270,26 @@ The following tools are available in this MCP server.
   - Documentation updates: Keep rate card descriptions current with business context
   - Self-serve provisioning setup: Configure aliases to enable code-free rate card transitions
 
-  Active contract impact:
+  #### Active contract impact:
 
   - Alias changes: Already-created contracts continue using their originally assigned rate cards.
   - Other changes made using this endpoint will only impact the Metronome UI.
 
-  Grandfathering existing PLG customer pricing:
+  #### Grandfathering existing PLG customer pricing:
 
   - Rate card aliases support scheduled transitions, enabling seamless rate card migrations for new customers, allowing existing customers to be grandfathered into their existing prices without code. Note that there are multiple mechanisms to support grandfathering in Metronome.
 
-  How scheduled aliases work for PLG grandfathering:
+  ####How scheduled aliases work for PLG grandfathering:
   Initial setup:
 
   - Add alias to current rate card: Assign a stable alias (e.g., "standard-pricing") to your active rate card
   - Reference alias during contract creation: Configure your self-serve workflow to create contracts using `rate_card_alias` instead of direct `rate_card_id`
   - Automatic resolution: New contracts referencing the alias automatically resolve to the rate card associated with the alias at the point in time of provisioning
 
-  Grandfathering process:
+  ####Grandfathering process:
 
   - Create new rate card: Build your new rate card with updated pricing structure
-  - Schedule alias transition: Add the same alias to the new rate card with a starting_at timestamp
+  - Schedule alias transition: Add the same alias to the new rate card with a `starting_at` timestamp
   - Automatic cutover: Starting at the scheduled time, new contracts created in your PLG workflow using that alias will automatically reference the new rate card
 
 - `list_contracts_v1_rate_cards` (`write`): List all rate cards. Returns rate card IDs, names, descriptions, aliases, and other details. To view the rates associated with a given rate card, use the getRates or getRateSchedule endpoints.

@@ -21,7 +21,7 @@ export class Alerts extends APIResource {
    * ### Use this endpoint to:
    *
    * - Check if a specific customer is currently violating an alert threshold
-   *   (in_alarm status)
+   *   (`in_alarm` status)
    * - Verify alert configuration details and threshold values for a customer
    * - Integrate alert status checks into customer support tools or admin interfaces
    *
@@ -29,15 +29,15 @@ export class Alerts extends APIResource {
    *
    * A CustomerAlert object containing:
    *
-   * customer_status: The current evaluation state
+   * - `customer_status`: The current evaluation state
    *
-   * - ok - Customer is within acceptable thresholds
-   * - in_alarm- Customer has breached the alert threshold
-   * - evaluating - Alert has yet to be evaluated (typically due to a customer or
+   * - `ok` - Customer is within acceptable thresholds
+   * - `in_alarm`- Customer has breached the alert threshold
+   * - `evaluating` - Alert has yet to be evaluated (typically due to a customer or
    *   alert having just been created)
-   * - null - Alert has been archived
-   * - triggered_by: Additional context about what caused the alert to trigger (when
-   *   applicable)
+   * - `null` - Alert has been archived
+   * - `triggered_by`: Additional context about what caused the alert to trigger
+   *   (when applicable)
    * - alert: Complete alert configuration including:
    *   - Alert ID, name, and type
    *   - Current threshold values and credit type information
@@ -84,16 +84,16 @@ export class Alerts extends APIResource {
    * ### Key response fields:
    *
    * - data: Array of CustomerAlert objects, each containing:
-   *   - Current evaluation status (ok, in_alarm, evaluating, or null)
+   *   - Current evaluation status (`ok`, `in_alarm`, `evaluating`, or `null`)
    *   - Complete alert configuration and threshold details
    *   - Alert metadata including type, name, and last update time
-   * - next_page: Pagination cursor for retrieving additional results
+   * - `next_page`: Pagination cursor for retrieving additional results
    *
    * ### Usage guidelines:
    *
    * - Default behavior: Returns only enabled alerts unless alert_statuses filter is
    *   specified
-   * - Pagination: Use the next_page cursor to retrieve all results for customers
+   * - Pagination: Use the `next_page` cursor to retrieve all results for customers
    *   with many alerts
    *
    * @example

@@ -51,8 +51,10 @@ export class Products extends APIResource {
    * boundary—set future dates to schedule updates ahead of time, or past dates for
    * retroactive changes. Returns the updated product ID upon success.
    *
-   * Usage guidance: Product type cannot be changed after creation. For incorrect
-   * product types, create a new product and archive the original instead.
+   * ### Usage guidance:
+   *
+   * - Product type cannot be changed after creation. For incorrect product types,
+   *   create a new product and archive the original instead.
    *
    * @example
    * ```ts
@@ -70,7 +72,7 @@ export class Products extends APIResource {
   /**
    * Get a paginated list of all products in your organization with their complete
    * configuration, version history, and metadata. By default excludes archived
-   * products unless explicitly requested via the archive_filter parameter.
+   * products unless explicitly requested via the `archive_filter` parameter.
    *
    * @example
    * ```ts

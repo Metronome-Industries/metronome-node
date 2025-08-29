@@ -104,7 +104,7 @@ export class Customers extends APIResource {
    * This end-point returns the `customer_id` created by the request. This id can be
    * used to fetch relevant billing configurations and create contracts.
    *
-   * Example workflow:
+   * ### Example workflow:
    *
    * - Generally, Metronome recommends first creating the customer in the downstream
    *   payment / ERP system when payment method is collected and then creating the
@@ -122,7 +122,7 @@ export class Customers extends APIResource {
    * ### Usage guidelines:
    *
    * For details on different billing configurations for different systems, review
-   * the /setCustomerBillingConfiguration end-point.
+   * the `/setCustomerBillingConfiguration` end-point.
    *
    * @example
    * ```ts
@@ -153,7 +153,7 @@ export class Customers extends APIResource {
    * customer details for billing operations or account management.
    *
    * Note: If searching for a customer billing configuration, use the
-   * /getCustomerBillingConfigurations end-point.
+   * `/getCustomerBillingConfigurations` endpoint.
    *
    * @example
    * ```ts
@@ -341,17 +341,17 @@ export class Customers extends APIResource {
    *   AWS). Once created, the new configuration can then be associated to the
    *   customer's contract.
    *
-   * Delivery Method Options:
+   * ### Delivery method options:
    *
-   * - direct_to_billing_provider: Use when Metronome should send invoices directly
+   * - `direct_to_billing_provider`: Use when Metronome should send invoices directly
    *   to the billing provider's API (e.g., Stripe, NetSuite). This is the most
    *   common method for automated billing workflows.
-   * - tackle: Use specifically for AWS Marketplace transactions that require
+   * - `tackle`: Use specifically for AWS Marketplace transactions that require
    *   Tackle's co-selling platform for partner attribution and commission tracking.
-   * - aws_sqs: Use when you want invoice data delivered to an AWS SQS queue for
+   * - `aws_sqs`: Use when you want invoice data delivered to an AWS SQS queue for
    *   custom processing before sending to your billing system.
-   * - aws_sns: Use when you want invoice notifications published to an AWS SNS topic
-   *   for event-driven billing workflows.
+   * - `aws_sns`: Use when you want invoice notifications published to an AWS SNS
+   *   topic for event-driven billing workflows.
    *
    * ### Key response fields:
    *
@@ -360,7 +360,7 @@ export class Customers extends APIResource {
    *
    * ### Usage guidelines:
    *
-   * Must use the delivery_method_id if you have multiple Stripe accounts connected
+   * Must use the `delivery_method_id` if you have multiple Stripe accounts connected
    * to Metronome.
    *
    * @example

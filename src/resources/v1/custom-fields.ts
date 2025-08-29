@@ -36,7 +36,7 @@ export class CustomFields extends APIResource {
    * - Custom fields set on commits, credits, and contracts can be used to scope
    *   alert evaluation. For example, you can create a spend threshold alert that
    *   only considers spend associated with contracts with custom field key
-   *   contract_type and value paygo
+   *   `contract_type` and value `paygo`
    * - Custom fields set on products can be used in the Stripe integration to set
    *   metadata on invoices.
    * - Custom fields for customers, contracts, invoices, products, commits, scheduled
