@@ -649,28 +649,31 @@ The following tools are available in this MCP server.
   - Multi-contract volume commitments with shared spending pools
   - Cross-contract discount tiers based on aggregate usage
 
-  ####Commit type Requirements:
+  #### Commit type Requirements:
 
   - You must specify either "prepaid" or "postpaid" as the commit type:
   - Prepaid commits: Customer pays upfront; invoice_schedule is optional (if omitted, creates a commit without an invoice)
   - Postpaid commits: Customer pays when the commitment expires (the end of the access_schedule); invoice_schedule is required and must match access_schedule totals.
 
-  ####Billing configuration:
+  #### Billing configuration:
 
   - invoice_contract_id is required for postpaid commits and for prepaid commits with billing (only optional for free prepaid commits)
   - For postpaid commits: access_schedule and invoice_schedule must have matching amounts
   - For postpaid commits: only one schedule item is allowed in both schedules.
 
-  ####Scoping flexibility:
+  #### Scoping flexibility:
+
   Customer-level commits can be configured in a few ways:
 
   - Contract-specific: Use the `applicable_contract_ids` field to limit the commit to specific contracts
   - Cross-contract: Leave `applicable_contract_ids` empty to allow the commit to be used across all of the customer's contracts
 
-  ####Product targeting:
+  #### Product targeting:
+
   Commits can be scoped to specific products using applicable_product_ids, applicable_product_tags, or specifiers, or left unrestricted to apply to all products.
 
-  ####Priority considerations:
+  #### Priority considerations:
+
   When multiple commits are applicable, the one with the lower priority value will be consumed first. If there is a tie, contract level commits and credits will be applied before customer level commits and credits. Plan your priority scheme carefully to ensure commits are applied in the desired order.
 
   ### Usage guidelines:
@@ -726,26 +729,31 @@ The following tools are available in this MCP server.
 
 - `create_customers_v1_credits` (`write`): Creates customer-level credits that provide spending allowances or free credit balances for customers across their Metronome usage. Note: In most cases, you should add credits directly to customer contracts using the contract/create or contract/edit APIs.
 
-  ###Use this endpoint to:
+  ### Use this endpoint to:
+
   Use this endpoint when you need to provision credits directly at the customer level that can be applied across multiple contracts or scoped to specific contracts. Customer-level credits are ideal for:
 
   - Customer onboarding incentives that apply globally
   - Flexible spending allowances that aren't tied to a single contract
   - Migration scenarios where you need to preserve existing customer balances
 
-  ####Scoping flexibility:
+  #### Scoping flexibility:
+
   Customer-level credits can be configured in two ways:
 
   - Contract-specific: Use the applicable_contract_ids field to limit the credit to specific contracts
   - Cross-contract: Leave applicable_contract_ids empty to allow the credit to be used across all of the customer's contracts
 
-  ####Product Targeting:
+  #### Product Targeting:
+
   Credits can be scoped to specific products using `applicable_product_ids` or `applicable_product_tags`, or left unrestricted to apply to all products.
 
-  ####Priority considerations:
+  #### Priority considerations:
+
   When multiple credits are applicable, the one with the lower priority value will be consumed first. If there is a tie, contract level commits and credits will be applied before customer level commits and credits. Plan your priority scheme carefully to ensure credits are applied in the desired order.
 
-  ####Access Schedule Required:
+  #### Access Schedule Required:
+
   You must provide an `access_schedule` that defines when and how much credit becomes available to the customer over time. This usually is aligned to the contract schedule or starts immediately and is set to expire in the future.
 
   ### Usage Guidelines:
@@ -892,7 +900,7 @@ The following tools are available in this MCP server.
   }
   ```
 
-  #### Transaction ID\
+  #### Transaction ID
 
   The transaction_id serves as your idempotency key, ensuring events are processed exactly once. Metronome maintains a 34-day deduplication window - significantly longer than typical 12-hour windows - enabling robust backfill scenarios without duplicate billing.
 
@@ -901,7 +909,8 @@ The following tools are available in this MCP server.
     - For heartbeat events, use deterministic IDs
     - Include enough context to avoid collisions across different event sources
 
-  ####Customer ID\
+  #### Customer ID
+
   Identifies which customer should be billed for this usage. Supports two identification methods:
 
   - Metronome Customer ID: The UUID returned when creating a customer
@@ -1088,22 +1097,24 @@ The following tools are available in this MCP server.
 
 - `create_v1_contracts` (`write`): Contracts define a customer's products, pricing, discounts, access duration, and billing configuration. Contracts serve as the central billing agreement for both PLG and Enterprise customers, you can automatically customers access to your products and services directly from your product or CRM.
 
-  ###Use this endpoint to:
+  ### Use this endpoint to:
 
   - PLG onboarding: Automatically provision new self-serve customers with contracts when they sign up.
   - Enterprise sales: Push negotiated contracts from Salesforce with custom pricing and commitments
   - Promotional pricing: Implement time-limited discounts and free trials through overrides
 
-  ###Key components:
+  ### Key components:
 
   - Contract Term and Billing Schedule
   - Set contract duration using `starting_at` and `ending_before` fields. PLG contracts typically use perpetual agreements (no end date), while Enterprise contracts have fixed end dates which can be edited over time in the case of co-term upsells.
 
-  ####Rate Card
+  #### Rate Card
+
   If you are offering usage based pricing, you can set a rate card for the contract to reference through `rate_card_id` or `rate_card_alias`. The rate card is a store of all of your usage based products and their centralized pricing. Any new products or price changes on the rate card can be set to automatically propagate to all associated contracts - this ensures consistent pricing and product launches flow to contracts without manual updates and migrations. The `usage_statement_schedule` determines the cadence on which Metronome will finalize a usage invoice for the customer. This defaults to monthly on the 1st, with options for custom dates, quarterly, or annual cadences. Note: Most usage based billing companies align usage statements to be evaluated aligned to the first of the month.
   Read more about [Rate Cards](https://docs.metronome.com/pricing-packaging/create-manage-rate-cards/).
 
-  ####Overrides and discounts
+  #### Overrides and discounts
+
   Customize pricing on the contract through time-bounded overrides that can target specific products, product families, or complex usage scenarios. Overrides enable two key capabilities:
 
   - Discounts: Apply percentage discounts, fixed rate reductions, or quantity-based pricing tiers
@@ -1111,7 +1122,8 @@ The following tools are available in this MCP server.
 
   Read more about [Contract Overrides](https://docs.metronome.com/manage-product-access/add-contract-override/).
 
-  ####Commits and Credits
+  #### Commits and Credits
+
   Using commits, configure prepaid or postpaid spending commitments where customers promise to spend a certain amount over the contract period paid in advance or in arrears. Use credits to provide free spending allowances. Under the hood these are the same mechanisms, however, credits are typically offered for free (SLA or promotional) or as a part of an allotment associated with a Subscription.
 
   In Metronome, you can set commits and credits to only be applicable for a subset of usage. Use `applicable_product_ids` or `applicable_product_tags` to create product or product-family specific commits or credits, or you can build complex boolean logic specifiers to target usage based on pricing and presentation group values using `override_specifiers`.
@@ -1122,7 +1134,8 @@ The following tools are available in this MCP server.
 
   Read more about [Credits and Commits](https://docs.metronome.com/pricing-packaging/apply-credits-commits/).
 
-  ####Subscriptions
+  #### Subscriptions
+
   You can add a fixed recurring charge to a contract, like monthly licenses or seat-based fees, using the subscription charge. Subscription charges are defined on your rate card and you can select which subscription is applicable to add to each contract. When you add a subscription to a contract you need to:
 
   - Define whether the subscription is paid for in-advance or in-arrears (`collection_schedule`)
@@ -1132,10 +1145,12 @@ The following tools are available in this MCP server.
 
   Read more about [Subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/).
 
-  ####Scheduled Charges
+  #### Scheduled Charges
+
   Set up one-time, recurring, or entirely custom charges that occur on specific dates, separate from usage-based billing or commitments. These can be used to model non-recurring platform charges or professional services.
 
-  ####Threshold Billing
+  #### Threshold Billing
+
   Metronome allows you to configure automatic billing triggers when customers reach spending thresholds to prevent fraud and manage risk. You can use `spend_threshold_configuration` to trigger an invoice to cover current charges whenever the threshold is reached or you can ensure the customer maintains a minimum prepaid balance using the `prepaid_balance_configuration`.
 
   Read more about [Spend Threshold](https://docs.metronome.com/manage-product-access/spend-thresholds/) and [Prepaid Balance Thresholds](https://docs.metronome.com/manage-product-access/prepaid-balance-thresholds/).
@@ -1165,7 +1180,8 @@ The following tools are available in this MCP server.
 - `amend_v1_contracts` (`write`): Amendments will be replaced by Contract editing. New clients should implement using the `editContract` endpoint. Read more about the migration to contract editing [here](https://docs.metronome.com/migrate-amendments-to-edits/) and reach out to your Metronome representative for more details. Once contract editing is enabled, access to this endpoint will be removed.
 - `archive_v1_contracts` (`write`): Permanently end and archive a contract along with all its terms. Any draft invoices will be canceled, and all upcoming scheduled invoices will be voided–also all finalized invoices can optionally be voided. Use this in the event a contract was incorrectly created and needed to be removed from a customer.
 
-  ####Impact on commits and credits:
+  #### Impact on commits and credits:
+
   When archiving a contract, all associated commits and credits are also archived. For prepaid commits with active segments, Metronome automatically generates expiration ledger entries to close out any remaining balances, ensuring accurate accounting of unused prepaid amounts. These ledger entries will appear in the commit's transaction history with type `PREPAID_COMMIT_EXPIRATION`.
 
   #### Archived contract visibility:
@@ -1279,14 +1295,15 @@ The following tools are available in this MCP server.
 
   - Rate card aliases support scheduled transitions, enabling seamless rate card migrations for new customers, allowing existing customers to be grandfathered into their existing prices without code. Note that there are multiple mechanisms to support grandfathering in Metronome.
 
-  ####How scheduled aliases work for PLG grandfathering:
+  #### How scheduled aliases work for PLG grandfathering:
+
   Initial setup:
 
   - Add alias to current rate card: Assign a stable alias (e.g., "standard-pricing") to your active rate card
   - Reference alias during contract creation: Configure your self-serve workflow to create contracts using `rate_card_alias` instead of direct `rate_card_id`
   - Automatic resolution: New contracts referencing the alias automatically resolve to the rate card associated with the alias at the point in time of provisioning
 
-  ####Grandfathering process:
+  #### Grandfathering process:
 
   - Create new rate card: Build your new rate card with updated pricing structure
   - Schedule alias transition: Add the same alias to the new rate card with a `starting_at` timestamp
