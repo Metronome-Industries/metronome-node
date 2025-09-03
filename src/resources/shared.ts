@@ -553,6 +553,8 @@ export namespace Contract {
    * The billing provider configuration associated with a contract.
    */
   export interface CustomerBillingProviderConfiguration {
+    archived_at: string | null;
+
     billing_provider:
       | 'aws_marketplace'
       | 'stripe'
