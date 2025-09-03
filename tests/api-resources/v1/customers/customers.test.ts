@@ -201,6 +201,7 @@ describe('resource customers', () => {
   test('retrieveBillingConfigurations: required and optional params', async () => {
     const response = await client.v1.customers.retrieveBillingConfigurations({
       customer_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+      include_archived: true,
     });
   });
 

@@ -706,6 +706,8 @@ export namespace CustomerRetrieveBillingConfigurationsResponse {
      */
     id: string;
 
+    archived_at: string | null;
+
     /**
      * The billing provider set for this configuration.
      */
@@ -977,6 +979,8 @@ export namespace CustomerPreviewEventsParams {
 
 export interface CustomerRetrieveBillingConfigurationsParams {
   customer_id: string;
+
+  include_archived?: boolean;
 }
 
 export interface CustomerSetBillingConfigurationsParams {
