@@ -1,7 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import * as Core from '../../../core';
+import { APIResource } from '../../../core/resource';
+import { APIPromise } from '../../../core/api-promise';
+import { buildHeaders } from '../../../internal/headers';
+import { RequestOptions } from '../../../internal/request-options';
+import { path } from '../../../internal/utils/path';
 
 export class BillingConfig extends APIResource {
   /**
@@ -17,12 +20,12 @@ export class BillingConfig extends APIResource {
    * });
    * ```
    */
-  create(params: BillingConfigCreateParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+  create(params: BillingConfigCreateParams, options?: RequestOptions): APIPromise<void> {
     const { customer_id, billing_provider_type, ...body } = params;
-    return this._client.post(`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, {
+    return this._client.post(path`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
@@ -40,10 +43,13 @@ export class BillingConfig extends APIResource {
    */
   retrieve(
     params: BillingConfigRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillingConfigRetrieveResponse> {
+    options?: RequestOptions,
+  ): APIPromise<BillingConfigRetrieveResponse> {
     const { customer_id, billing_provider_type } = params;
-    return this._client.get(`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, options);
+    return this._client.get(
+      path`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`,
+      options,
+    );
   }
 
   /**
@@ -58,11 +64,11 @@ export class BillingConfig extends APIResource {
    * });
    * ```
    */
-  delete(params: BillingConfigDeleteParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+  delete(params: BillingConfigDeleteParams, options?: RequestOptions): APIPromise<void> {
     const { customer_id, billing_provider_type } = params;
-    return this._client.delete(`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, {
+    return this._client.delete(path`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, {
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 }

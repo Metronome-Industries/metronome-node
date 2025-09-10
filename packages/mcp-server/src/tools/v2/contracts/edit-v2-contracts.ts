@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'edit_v2_contracts',
-  description: 'Edit a contract. Contract editing must be enabled to use this endpoint.',
+  description:
+    'The ability to edit a contract helps you react quickly to the needs of your customers and your business.\n\n### Use this endpoint to:\n- Encode mid-term commitment and discount changes\n- Fix configuration mistakes and easily roll back packaging changes\n\n### Key response fields:\n- The `id` of the edit\n- Complete edit details. For example, if you edited the contract to add new overrides and credits, you will receive the IDs of those overrides and credits in the response.\n\n### Usage guidelines:\n- When you edit a contract, any draft invoices update immediately to reflect that edit. Finalized invoices remain unchanged - you must void and regenerate them in the UI or API to reflect the edit.\n- Contract editing must be enabled to use this endpoint. Reach out to your Metronome representative to learn more.\n',
   inputSchema: {
     type: 'object',
     properties: {
@@ -95,6 +96,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             description: {
@@ -102,51 +104,7 @@ export const tool: Tool = {
               description: 'Used only in UI/API. It is not exposed to end customers.',
             },
             hierarchy_configuration: {
-              type: 'object',
-              description: 'Optional configuration for commit hierarchy access control',
-              properties: {
-                child_access: {
-                  anyOf: [
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['ALL'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['NONE'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        contract_ids: {
-                          type: 'array',
-                          items: {
-                            type: 'string',
-                          },
-                        },
-                        type: {
-                          type: 'string',
-                          enum: ['CONTRACT_IDS'],
-                        },
-                      },
-                      required: ['contract_ids', 'type'],
-                    },
-                  ],
-                },
-              },
-              required: ['child_access'],
+              $ref: '#/$defs/commit_hierarchy_configuration',
             },
             invoice_schedule: {
               type: 'object',
@@ -320,30 +278,7 @@ export const tool: Tool = {
               description:
                 "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
               items: {
-                type: 'object',
-                properties: {
-                  presentation_group_values: {
-                    type: 'object',
-                    additionalProperties: true,
-                  },
-                  pricing_group_values: {
-                    type: 'object',
-                    additionalProperties: true,
-                  },
-                  product_id: {
-                    type: 'string',
-                    description:
-                      'If provided, the specifier will only apply to the product with the specified ID.',
-                  },
-                  product_tags: {
-                    type: 'array',
-                    description:
-                      'If provided, the specifier will only apply to products with all the specified tags.',
-                    items: {
-                      type: 'string',
-                    },
-                  },
-                },
+                $ref: '#/$defs/commit_specifier_input',
               },
             },
             temporary_id: {
@@ -413,6 +348,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             description: {
@@ -420,51 +356,7 @@ export const tool: Tool = {
               description: 'Used only in UI/API. It is not exposed to end customers.',
             },
             hierarchy_configuration: {
-              type: 'object',
-              description: 'Optional configuration for credit hierarchy access control',
-              properties: {
-                child_access: {
-                  anyOf: [
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['ALL'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['NONE'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        contract_ids: {
-                          type: 'array',
-                          items: {
-                            type: 'string',
-                          },
-                        },
-                        type: {
-                          type: 'string',
-                          enum: ['CONTRACT_IDS'],
-                        },
-                      },
-                      required: ['contract_ids', 'type'],
-                    },
-                  ],
-                },
-              },
-              required: ['child_access'],
+              $ref: '#/$defs/commit_hierarchy_configuration',
             },
             name: {
               type: 'string',
@@ -488,30 +380,7 @@ export const tool: Tool = {
               description:
                 "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
               items: {
-                type: 'object',
-                properties: {
-                  presentation_group_values: {
-                    type: 'object',
-                    additionalProperties: true,
-                  },
-                  pricing_group_values: {
-                    type: 'object',
-                    additionalProperties: true,
-                  },
-                  product_id: {
-                    type: 'string',
-                    description:
-                      'If provided, the specifier will only apply to the product with the specified ID.',
-                  },
-                  product_tags: {
-                    type: 'array',
-                    description:
-                      'If provided, the specifier will only apply to products with all the specified tags.',
-                    items: {
-                      type: 'string',
-                    },
-                  },
-                },
+                $ref: '#/$defs/commit_specifier_input',
               },
             },
           },
@@ -614,6 +483,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             name: {
@@ -807,148 +677,7 @@ export const tool: Tool = {
         },
       },
       add_prepaid_balance_threshold_configuration: {
-        type: 'object',
-        properties: {
-          commit: {
-            type: 'object',
-            properties: {
-              product_id: {
-                type: 'string',
-                description:
-                  'The commit product that will be used to generate the line item for commit payment.',
-              },
-              applicable_product_ids: {
-                type: 'array',
-                description:
-                  'Which products the threshold commit applies to. If applicable_product_ids, applicable_product_tags or specifiers are not provided, the commit applies to all products.',
-                items: {
-                  type: 'string',
-                },
-              },
-              applicable_product_tags: {
-                type: 'array',
-                description:
-                  'Which tags the threshold commit applies to. If applicable_product_ids, applicable_product_tags or specifiers are not provided, the commit applies to all products.',
-                items: {
-                  type: 'string',
-                },
-              },
-              description: {
-                type: 'string',
-              },
-              name: {
-                type: 'string',
-                description:
-                  'Specify the name of the line item for the threshold charge. If left blank, it will default to the commit product name.',
-              },
-              specifiers: {
-                type: 'array',
-                description:
-                  "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
-                items: {
-                  type: 'object',
-                  properties: {
-                    presentation_group_values: {
-                      type: 'object',
-                      additionalProperties: true,
-                    },
-                    pricing_group_values: {
-                      type: 'object',
-                      additionalProperties: true,
-                    },
-                    product_id: {
-                      type: 'string',
-                      description:
-                        'If provided, the specifier will only apply to the product with the specified ID.',
-                    },
-                    product_tags: {
-                      type: 'array',
-                      description:
-                        'If provided, the specifier will only apply to products with all the specified tags.',
-                      items: {
-                        type: 'string',
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            required: ['product_id'],
-          },
-          is_enabled: {
-            type: 'boolean',
-            description:
-              'When set to false, the contract will not be evaluated against the threshold_amount. Toggling to true will result an immediate evaluation, regardless of prior state.',
-          },
-          payment_gate_config: {
-            type: 'object',
-            properties: {
-              payment_gate_type: {
-                type: 'string',
-                description:
-                  'Gate access to the commit balance based on successful collection of payment. Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to facilitate payment using your own payment integration. Select NONE if you do not wish to payment gate the commit balance.',
-                enum: ['NONE', 'STRIPE', 'EXTERNAL'],
-              },
-              precalculated_tax_config: {
-                type: 'object',
-                description: 'Only applicable if using PRECALCULATED as your tax type.',
-                properties: {
-                  tax_amount: {
-                    type: 'number',
-                    description:
-                      "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
-                  },
-                  tax_name: {
-                    type: 'string',
-                    description:
-                      'Name of the tax to be applied. This may be used in an invoice line item description.',
-                  },
-                },
-                required: ['tax_amount'],
-              },
-              stripe_config: {
-                type: 'object',
-                description: 'Only applicable if using STRIPE as your payment gateway type.',
-                properties: {
-                  payment_type: {
-                    type: 'string',
-                    description: 'If left blank, will default to INVOICE',
-                    enum: ['INVOICE', 'PAYMENT_INTENT'],
-                  },
-                  invoice_metadata: {
-                    type: 'object',
-                    description:
-                      'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
-                    additionalProperties: true,
-                  },
-                },
-                required: ['payment_type'],
-              },
-              tax_type: {
-                type: 'string',
-                description:
-                  'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish  Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
-              },
-            },
-            required: ['payment_gate_type'],
-          },
-          recharge_to_amount: {
-            type: 'number',
-            description: 'Specify the amount the balance should be recharged to.',
-          },
-          threshold_amount: {
-            type: 'number',
-            description:
-              "Specify the threshold amount for the contract. Each time the contract's balance lowers to this amount, a threshold charge will be initiated.",
-          },
-          custom_credit_type_id: {
-            type: 'string',
-            description:
-              'If provided, the threshold, recharge-to amount, and the resulting threshold commit amount will be in terms of this credit type instead of the fiat currency.',
-          },
-        },
-        required: ['commit', 'is_enabled', 'payment_gate_config', 'recharge_to_amount', 'threshold_amount'],
+        $ref: '#/$defs/prepaid_balance_threshold_configuration_v2',
       },
       add_professional_services: {
         type: 'array',
@@ -975,6 +704,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             description: {
@@ -1062,51 +792,7 @@ export const tool: Tool = {
               format: 'date-time',
             },
             hierarchy_configuration: {
-              type: 'object',
-              description: 'Optional configuration for recurring credit hierarchy access control',
-              properties: {
-                child_access: {
-                  anyOf: [
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['ALL'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['NONE'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        contract_ids: {
-                          type: 'array',
-                          items: {
-                            type: 'string',
-                          },
-                        },
-                        type: {
-                          type: 'string',
-                          enum: ['CONTRACT_IDS'],
-                        },
-                      },
-                      required: ['contract_ids', 'type'],
-                    },
-                  ],
-                },
-              },
-              required: ['child_access'],
+              $ref: '#/$defs/commit_hierarchy_configuration',
             },
             invoice_amount: {
               type: 'object',
@@ -1159,30 +845,7 @@ export const tool: Tool = {
               description:
                 "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
               items: {
-                type: 'object',
-                properties: {
-                  presentation_group_values: {
-                    type: 'object',
-                    additionalProperties: true,
-                  },
-                  pricing_group_values: {
-                    type: 'object',
-                    additionalProperties: true,
-                  },
-                  product_id: {
-                    type: 'string',
-                    description:
-                      'If provided, the specifier will only apply to the product with the specified ID.',
-                  },
-                  product_tags: {
-                    type: 'array',
-                    description:
-                      'If provided, the specifier will only apply to products with all the specified tags.',
-                    items: {
-                      type: 'string',
-                    },
-                  },
-                },
+                $ref: '#/$defs/commit_specifier_input',
               },
             },
             subscription_config: {
@@ -1206,7 +869,7 @@ export const tool: Tool = {
                 allocation: {
                   type: 'string',
                   description: 'If set to POOLED, allocation added per seat is pooled across the account.',
-                  enum: ['POOLED'],
+                  enum: ['POOLED', 'INDIVIDUAL'],
                 },
               },
               required: ['apply_seat_increase_config', 'subscription_id'],
@@ -1294,51 +957,7 @@ export const tool: Tool = {
               format: 'date-time',
             },
             hierarchy_configuration: {
-              type: 'object',
-              description: 'Optional configuration for recurring credit hierarchy access control',
-              properties: {
-                child_access: {
-                  anyOf: [
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['ALL'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['NONE'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        contract_ids: {
-                          type: 'array',
-                          items: {
-                            type: 'string',
-                          },
-                        },
-                        type: {
-                          type: 'string',
-                          enum: ['CONTRACT_IDS'],
-                        },
-                      },
-                      required: ['contract_ids', 'type'],
-                    },
-                  ],
-                },
-              },
-              required: ['child_access'],
+              $ref: '#/$defs/commit_hierarchy_configuration',
             },
             name: {
               type: 'string',
@@ -1375,30 +994,7 @@ export const tool: Tool = {
               description:
                 "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
               items: {
-                type: 'object',
-                properties: {
-                  presentation_group_values: {
-                    type: 'object',
-                    additionalProperties: true,
-                  },
-                  pricing_group_values: {
-                    type: 'object',
-                    additionalProperties: true,
-                  },
-                  product_id: {
-                    type: 'string',
-                    description:
-                      'If provided, the specifier will only apply to the product with the specified ID.',
-                  },
-                  product_tags: {
-                    type: 'array',
-                    description:
-                      'If provided, the specifier will only apply to products with all the specified tags.',
-                    items: {
-                      type: 'string',
-                    },
-                  },
-                },
+                $ref: '#/$defs/commit_specifier_input',
               },
             },
             subscription_config: {
@@ -1422,7 +1018,7 @@ export const tool: Tool = {
                 allocation: {
                   type: 'string',
                   description: 'If set to POOLED, allocation added per seat is pooled across the account.',
-                  enum: ['POOLED'],
+                  enum: ['POOLED', 'INDIVIDUAL'],
                 },
               },
               required: ['apply_seat_increase_config', 'subscription_id'],
@@ -1602,6 +1198,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             name: {
@@ -1617,92 +1214,7 @@ export const tool: Tool = {
         },
       },
       add_spend_threshold_configuration: {
-        type: 'object',
-        properties: {
-          commit: {
-            type: 'object',
-            properties: {
-              product_id: {
-                type: 'string',
-                description:
-                  'The commit product that will be used to generate the line item for commit payment.',
-              },
-              description: {
-                type: 'string',
-              },
-              name: {
-                type: 'string',
-                description:
-                  'Specify the name of the line item for the threshold charge. If left blank, it will default to the commit product name.',
-              },
-            },
-            required: ['product_id'],
-          },
-          is_enabled: {
-            type: 'boolean',
-            description:
-              'When set to false, the contract will not be evaluated against the threshold_amount. Toggling to true will result an immediate evaluation, regardless of prior state.',
-          },
-          payment_gate_config: {
-            type: 'object',
-            properties: {
-              payment_gate_type: {
-                type: 'string',
-                description:
-                  'Gate access to the commit balance based on successful collection of payment. Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to facilitate payment using your own payment integration. Select NONE if you do not wish to payment gate the commit balance.',
-                enum: ['NONE', 'STRIPE', 'EXTERNAL'],
-              },
-              precalculated_tax_config: {
-                type: 'object',
-                description: 'Only applicable if using PRECALCULATED as your tax type.',
-                properties: {
-                  tax_amount: {
-                    type: 'number',
-                    description:
-                      "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
-                  },
-                  tax_name: {
-                    type: 'string',
-                    description:
-                      'Name of the tax to be applied. This may be used in an invoice line item description.',
-                  },
-                },
-                required: ['tax_amount'],
-              },
-              stripe_config: {
-                type: 'object',
-                description: 'Only applicable if using STRIPE as your payment gateway type.',
-                properties: {
-                  payment_type: {
-                    type: 'string',
-                    description: 'If left blank, will default to INVOICE',
-                    enum: ['INVOICE', 'PAYMENT_INTENT'],
-                  },
-                  invoice_metadata: {
-                    type: 'object',
-                    description:
-                      'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
-                    additionalProperties: true,
-                  },
-                },
-                required: ['payment_type'],
-              },
-              tax_type: {
-                type: 'string',
-                description:
-                  'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish  Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
-              },
-            },
-            required: ['payment_gate_type'],
-          },
-          threshold_amount: {
-            type: 'number',
-            description:
-              "Specify the threshold amount for the contract. Each time the contract's usage hits this amount, a threshold charge will be initiated.",
-          },
-        },
-        required: ['commit', 'is_enabled', 'payment_gate_config', 'threshold_amount'],
+        $ref: '#/$defs/spend_threshold_configuration_v2',
       },
       add_subscriptions: {
         type: 'array',
@@ -1714,9 +1226,6 @@ export const tool: Tool = {
             collection_schedule: {
               type: 'string',
               enum: ['ADVANCE', 'ARREARS'],
-            },
-            initial_quantity: {
-              type: 'number',
             },
             proration: {
               type: 'object',
@@ -1751,6 +1260,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             description: {
@@ -1762,8 +1272,19 @@ export const tool: Tool = {
                 'Exclusive end time for the subscription. If not provided, subscription inherits contract end date.',
               format: 'date-time',
             },
+            initial_quantity: {
+              type: 'number',
+              description:
+                'The initial quantity for the subscription. It must be non-negative value. Required if quantity_management_mode is QUANTITY_ONLY.',
+            },
             name: {
               type: 'string',
+            },
+            quantity_management_mode: {
+              type: 'string',
+              description:
+                "Determines how the subscription's quantity is controlled. Defaults to QUANTITY_ONLY. **QUANTITY_ONLY**: The subscription quantity is specified directly on the subscription. `initial_quantity` must be provided with this option. Compatible with recurring commits/credits that use POOLED allocation.",
+              enum: ['SEAT_BASED', 'QUANTITY_ONLY'],
             },
             starting_at: {
               type: 'string',
@@ -1777,7 +1298,7 @@ export const tool: Tool = {
                 'A temporary ID used to reference the subscription in recurring commit/credit subscription configs created within the same payload.',
             },
           },
-          required: ['collection_schedule', 'initial_quantity', 'proration', 'subscription_rate'],
+          required: ['collection_schedule', 'proration', 'subscription_rate'],
         },
       },
       allow_contract_ending_before_finalized_invoice: {
@@ -1836,6 +1357,10 @@ export const tool: Tool = {
           },
           required: ['id'],
         },
+      },
+      uniqueness_key: {
+        type: 'string',
+        description: 'Optional uniqueness key to prevent duplicate contract edits.',
       },
       update_commits: {
         type: 'array',
@@ -1922,51 +1447,7 @@ export const tool: Tool = {
               },
             },
             hierarchy_configuration: {
-              type: 'object',
-              description: 'Optional configuration for commit hierarchy access control',
-              properties: {
-                child_access: {
-                  anyOf: [
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['ALL'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['NONE'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        contract_ids: {
-                          type: 'array',
-                          items: {
-                            type: 'string',
-                          },
-                        },
-                        type: {
-                          type: 'string',
-                          enum: ['CONTRACT_IDS'],
-                        },
-                      },
-                      required: ['contract_ids', 'type'],
-                    },
-                  ],
-                },
-              },
-              required: ['child_access'],
+              $ref: '#/$defs/commit_hierarchy_configuration',
             },
             invoice_schedule: {
               type: 'object',
@@ -2040,6 +1521,12 @@ export const tool: Tool = {
             },
             product_id: {
               type: 'string',
+            },
+            rate_type: {
+              type: 'string',
+              description:
+                'If provided, updates the commit to use the specified rate type for current and future invoices. Previously finalized invoices will need to be voided and regenerated to reflect the rate type change.',
+              enum: ['LIST_RATE', 'COMMIT_RATE'],
             },
             rollover_fraction: {
               type: 'number',
@@ -2143,51 +1630,7 @@ export const tool: Tool = {
               },
             },
             hierarchy_configuration: {
-              type: 'object',
-              description: 'Optional configuration for commit hierarchy access control',
-              properties: {
-                child_access: {
-                  anyOf: [
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['ALL'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['NONE'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        contract_ids: {
-                          type: 'array',
-                          items: {
-                            type: 'string',
-                          },
-                        },
-                        type: {
-                          type: 'string',
-                          enum: ['CONTRACT_IDS'],
-                        },
-                      },
-                      required: ['contract_ids', 'type'],
-                    },
-                  ],
-                },
-              },
-              required: ['child_access'],
+              $ref: '#/$defs/commit_hierarchy_configuration',
             },
             netsuite_sales_order_id: {
               type: 'string',
@@ -2198,6 +1641,12 @@ export const tool: Tool = {
             product_id: {
               type: 'string',
             },
+            rate_type: {
+              type: 'string',
+              description:
+                'If provided, updates the credit to use the specified rate type for current and future invoices. Previously finalized invoices will need to be voided and regenerated to reflect the rate type change.',
+              enum: ['LIST_RATE', 'COMMIT_RATE'],
+            },
           },
           required: ['credit_id'],
         },
@@ -2206,69 +1655,11 @@ export const tool: Tool = {
         type: 'object',
         properties: {
           commit: {
-            type: 'object',
-            properties: {
-              applicable_product_ids: {
-                type: 'array',
-                description:
-                  'Which products the threshold commit applies to. If both applicable_product_ids and applicable_product_tags are not provided, the commit applies to all products.',
-                items: {
-                  type: 'string',
-                },
+            allOf: [
+              {
+                $ref: '#/$defs/update_base_threshold_commit',
               },
-              applicable_product_tags: {
-                type: 'array',
-                description:
-                  'Which tags the threshold commit applies to. If both applicable_product_ids and applicable_product_tags are not provided, the commit applies to all products.',
-                items: {
-                  type: 'string',
-                },
-              },
-              description: {
-                type: 'string',
-              },
-              name: {
-                type: 'string',
-                description:
-                  'Specify the name of the line item for the threshold charge. If left blank, it will default to the commit product name.',
-              },
-              product_id: {
-                type: 'string',
-                description:
-                  'The commit product that will be used to generate the line item for commit payment.',
-              },
-              specifiers: {
-                type: 'array',
-                description:
-                  "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`. Instead, to target usage by product or product tag, pass those values in the body of `specifiers`.",
-                items: {
-                  type: 'object',
-                  properties: {
-                    presentation_group_values: {
-                      type: 'object',
-                      additionalProperties: true,
-                    },
-                    pricing_group_values: {
-                      type: 'object',
-                      additionalProperties: true,
-                    },
-                    product_id: {
-                      type: 'string',
-                      description:
-                        'If provided, the specifier will only apply to the product with the specified ID.',
-                    },
-                    product_tags: {
-                      type: 'array',
-                      description:
-                        'If provided, the specifier will only apply to products with all the specified tags.',
-                      items: {
-                        type: 'string',
-                      },
-                    },
-                  },
-                },
-              },
-            },
+            ],
           },
           custom_credit_type_id: {
             type: 'string',
@@ -2281,57 +1672,7 @@ export const tool: Tool = {
               'When set to false, the contract will not be evaluated against the threshold_amount. Toggling to true will result an immediate evaluation, regardless of prior state.',
           },
           payment_gate_config: {
-            type: 'object',
-            properties: {
-              payment_gate_type: {
-                type: 'string',
-                description:
-                  'Gate access to the commit balance based on successful collection of payment. Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to facilitate payment using your own payment integration. Select NONE if you do not wish to payment gate the commit balance.',
-                enum: ['NONE', 'STRIPE', 'EXTERNAL'],
-              },
-              precalculated_tax_config: {
-                type: 'object',
-                description: 'Only applicable if using PRECALCULATED as your tax type.',
-                properties: {
-                  tax_amount: {
-                    type: 'number',
-                    description:
-                      "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
-                  },
-                  tax_name: {
-                    type: 'string',
-                    description:
-                      'Name of the tax to be applied. This may be used in an invoice line item description.',
-                  },
-                },
-                required: ['tax_amount'],
-              },
-              stripe_config: {
-                type: 'object',
-                description: 'Only applicable if using STRIPE as your payment gateway type.',
-                properties: {
-                  payment_type: {
-                    type: 'string',
-                    description: 'If left blank, will default to INVOICE',
-                    enum: ['INVOICE', 'PAYMENT_INTENT'],
-                  },
-                  invoice_metadata: {
-                    type: 'object',
-                    description:
-                      'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
-                    additionalProperties: true,
-                  },
-                },
-                required: ['payment_type'],
-              },
-              tax_type: {
-                type: 'string',
-                description:
-                  'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish  Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
-              },
-            },
-            required: ['payment_gate_type'],
+            $ref: '#/$defs/payment_gate_config_v2',
           },
           recharge_to_amount: {
             type: 'number',
@@ -2496,22 +1837,7 @@ export const tool: Tool = {
         type: 'object',
         properties: {
           commit: {
-            type: 'object',
-            properties: {
-              description: {
-                type: 'string',
-              },
-              name: {
-                type: 'string',
-                description:
-                  'Specify the name of the line item for the threshold charge. If left blank, it will default to the commit product name.',
-              },
-              product_id: {
-                type: 'string',
-                description:
-                  'The commit product that will be used to generate the line item for commit payment.',
-              },
-            },
+            $ref: '#/$defs/update_base_threshold_commit',
           },
           is_enabled: {
             type: 'boolean',
@@ -2519,57 +1845,7 @@ export const tool: Tool = {
               'When set to false, the contract will not be evaluated against the threshold_amount. Toggling to true will result an immediate evaluation, regardless of prior state.',
           },
           payment_gate_config: {
-            type: 'object',
-            properties: {
-              payment_gate_type: {
-                type: 'string',
-                description:
-                  'Gate access to the commit balance based on successful collection of payment. Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to facilitate payment using your own payment integration. Select NONE if you do not wish to payment gate the commit balance.',
-                enum: ['NONE', 'STRIPE', 'EXTERNAL'],
-              },
-              precalculated_tax_config: {
-                type: 'object',
-                description: 'Only applicable if using PRECALCULATED as your tax type.',
-                properties: {
-                  tax_amount: {
-                    type: 'number',
-                    description:
-                      "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
-                  },
-                  tax_name: {
-                    type: 'string',
-                    description:
-                      'Name of the tax to be applied. This may be used in an invoice line item description.',
-                  },
-                },
-                required: ['tax_amount'],
-              },
-              stripe_config: {
-                type: 'object',
-                description: 'Only applicable if using STRIPE as your payment gateway type.',
-                properties: {
-                  payment_type: {
-                    type: 'string',
-                    description: 'If left blank, will default to INVOICE',
-                    enum: ['INVOICE', 'PAYMENT_INTENT'],
-                  },
-                  invoice_metadata: {
-                    type: 'object',
-                    description:
-                      'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
-                    additionalProperties: true,
-                  },
-                },
-                required: ['payment_type'],
-              },
-              tax_type: {
-                type: 'string',
-                description:
-                  'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish  Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
-              },
-            },
-            required: ['payment_gate_type'],
+            $ref: '#/$defs/payment_gate_config_v2',
           },
           threshold_amount: {
             type: 'number',
@@ -2623,6 +1899,77 @@ export const tool: Tool = {
     },
     required: ['contract_id', 'customer_id'],
     $defs: {
+      commit_hierarchy_configuration: {
+        type: 'object',
+        properties: {
+          child_access: {
+            anyOf: [
+              {
+                type: 'object',
+                properties: {
+                  type: {
+                    type: 'string',
+                    enum: ['ALL'],
+                  },
+                },
+                required: ['type'],
+              },
+              {
+                type: 'object',
+                properties: {
+                  type: {
+                    type: 'string',
+                    enum: ['NONE'],
+                  },
+                },
+                required: ['type'],
+              },
+              {
+                type: 'object',
+                properties: {
+                  contract_ids: {
+                    type: 'array',
+                    items: {
+                      type: 'string',
+                    },
+                  },
+                  type: {
+                    type: 'string',
+                    enum: ['CONTRACT_IDS'],
+                  },
+                },
+                required: ['contract_ids', 'type'],
+              },
+            ],
+          },
+        },
+        required: ['child_access'],
+      },
+      commit_specifier_input: {
+        type: 'object',
+        properties: {
+          presentation_group_values: {
+            type: 'object',
+            additionalProperties: true,
+          },
+          pricing_group_values: {
+            type: 'object',
+            additionalProperties: true,
+          },
+          product_id: {
+            type: 'string',
+            description: 'If provided, the specifier will only apply to the product with the specified ID.',
+          },
+          product_tags: {
+            type: 'array',
+            description:
+              'If provided, the specifier will only apply to products with all the specified tags.',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+      },
       tier: {
         type: 'object',
         properties: {
@@ -2634,6 +1981,133 @@ export const tool: Tool = {
           },
         },
         required: ['price'],
+      },
+      prepaid_balance_threshold_configuration_v2: {
+        type: 'object',
+        properties: {
+          commit: {
+            allOf: [
+              {
+                $ref: '#/$defs/update_base_threshold_commit',
+              },
+            ],
+          },
+          is_enabled: {
+            type: 'boolean',
+            description:
+              'When set to false, the contract will not be evaluated against the threshold_amount. Toggling to true will result an immediate evaluation, regardless of prior state.',
+          },
+          payment_gate_config: {
+            $ref: '#/$defs/payment_gate_config_v2',
+          },
+          recharge_to_amount: {
+            type: 'number',
+            description: 'Specify the amount the balance should be recharged to.',
+          },
+          threshold_amount: {
+            type: 'number',
+            description:
+              "Specify the threshold amount for the contract. Each time the contract's balance lowers to this amount, a threshold charge will be initiated.",
+          },
+          custom_credit_type_id: {
+            type: 'string',
+            description:
+              'If provided, the threshold, recharge-to amount, and the resulting threshold commit amount will be in terms of this credit type instead of the fiat currency.',
+          },
+        },
+        required: ['commit', 'is_enabled', 'payment_gate_config', 'recharge_to_amount', 'threshold_amount'],
+      },
+      update_base_threshold_commit: {
+        type: 'object',
+        properties: {
+          description: {
+            type: 'string',
+          },
+          name: {
+            type: 'string',
+            description:
+              'Specify the name of the line item for the threshold charge. If left blank, it will default to the commit product name.',
+          },
+          product_id: {
+            type: 'string',
+            description: 'The commit product that will be used to generate the line item for commit payment.',
+          },
+        },
+      },
+      payment_gate_config_v2: {
+        type: 'object',
+        properties: {
+          payment_gate_type: {
+            type: 'string',
+            description:
+              'Gate access to the commit balance based on successful collection of payment. Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to facilitate payment using your own payment integration. Select NONE if you do not wish to payment gate the commit balance.',
+            enum: ['NONE', 'STRIPE', 'EXTERNAL'],
+          },
+          precalculated_tax_config: {
+            type: 'object',
+            description: 'Only applicable if using PRECALCULATED as your tax type.',
+            properties: {
+              tax_amount: {
+                type: 'number',
+                description:
+                  "Amount of tax to be applied. This should be in the same currency and denomination  as the commit's invoice schedule",
+              },
+              tax_name: {
+                type: 'string',
+                description:
+                  'Name of the tax to be applied. This may be used in an invoice line item description.',
+              },
+            },
+            required: ['tax_amount'],
+          },
+          stripe_config: {
+            type: 'object',
+            description: 'Only applicable if using STRIPE as your payment gateway type.',
+            properties: {
+              payment_type: {
+                type: 'string',
+                description: 'If left blank, will default to INVOICE',
+                enum: ['INVOICE', 'PAYMENT_INTENT'],
+              },
+              invoice_metadata: {
+                type: 'object',
+                description:
+                  'Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as your payment type.',
+                additionalProperties: true,
+              },
+            },
+            required: ['payment_type'],
+          },
+          tax_type: {
+            type: 'string',
+            description:
+              'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish  Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
+            enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
+          },
+        },
+        required: ['payment_gate_type'],
+      },
+      spend_threshold_configuration_v2: {
+        type: 'object',
+        properties: {
+          commit: {
+            $ref: '#/$defs/update_base_threshold_commit',
+          },
+          is_enabled: {
+            type: 'boolean',
+            description:
+              'When set to false, the contract will not be evaluated against the threshold_amount. Toggling to true will result an immediate evaluation, regardless of prior state.',
+          },
+          payment_gate_config: {
+            $ref: '#/$defs/payment_gate_config_v2',
+          },
+          threshold_amount: {
+            type: 'number',
+            description:
+              "Specify the threshold amount for the contract. Each time the contract's usage hits this amount, a threshold charge will be initiated.",
+          },
+        },
+        required: ['commit', 'is_enabled', 'payment_gate_config', 'threshold_amount'],
       },
     },
   },

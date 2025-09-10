@@ -1,16 +1,50 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
-import { CursorPage, type CursorPageParams } from '../../pagination';
+import { APIResource } from '../../core/resource';
+import { CursorPage, type CursorPageParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
 
 export class AuditLogs extends APIResource {
   /**
-   * Retrieves a range of audit logs. If no further audit logs are currently
-   * available, the data array will be empty. As new audit logs are created,
-   * subsequent requests using the same next_page value will be in the returned data
-   * array, ensuring a continuous and uninterrupted reading of audit logs.
+   * Get a comprehensive audit trail of all operations performed in your Metronome
+   * account, whether initiated through the API, web interface, or automated
+   * processes. This endpoint provides detailed logs of who did what and when,
+   * enabling compliance reporting, security monitoring, and operational
+   * troubleshooting across all interaction channels.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Monitor all account activity for security and compliance purposes
+   * - Track configuration changes regardless of source (API, UI, or system)
+   * - Investigate issues by reviewing historical operations
+   *
+   * ### Key response fields:
+   *
+   * An array of AuditLog objects containing:
+   *
+   * - id: Unique identifier for the audit log entry
+   * - timestamp: When the action occurred (RFC 3339 format)
+   * - actor: Information about who performed the action
+   * - request: Details including request ID, IP address, and user agent
+   * - `resource_type`: The type of resource affected (e.g., customer, contract,
+   *   invoice)
+   * - `resource_id`: The specific resource identifier
+   * - `action`: The operation performed
+   * - `next_page`: Cursor for continuous log retrieval
+   *
+   * ### Usage guidelines:
+   *
+   * - Continuous retrieval: The next_page token enables uninterrupted log
+   *   streaming—save it between requests to ensure no logs are missed
+   * - Empty responses: An empty data array means no new logs yet; continue polling
+   *   with the same next_page token
+   * - Date filtering:
+   *   - `starting_on`: Earliest logs to return (inclusive)
+   *   - `ending_before`: Latest logs to return (exclusive)
+   *   - Cannot be used with `next_page`
+   * - Resource filtering: Must specify both `resource_type` and `resource_id`
+   *   together
+   * - Sort order: Default is `date_asc`; use `date_desc` for newest first
    *
    * @example
    * ```ts
@@ -21,24 +55,14 @@ export class AuditLogs extends APIResource {
    * ```
    */
   list(
-    query?: AuditLogListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AuditLogListResponsesCursorPage, AuditLogListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AuditLogListResponsesCursorPage, AuditLogListResponse>;
-  list(
-    query: AuditLogListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AuditLogListResponsesCursorPage, AuditLogListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/v1/auditLogs', AuditLogListResponsesCursorPage, { query, ...options });
+    query: AuditLogListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<AuditLogListResponsesCursorPage, AuditLogListResponse> {
+    return this._client.getAPIList('/v1/auditLogs', CursorPage<AuditLogListResponse>, { query, ...options });
   }
 }
 
-export class AuditLogListResponsesCursorPage extends CursorPage<AuditLogListResponse> {}
+export type AuditLogListResponsesCursorPage = CursorPage<AuditLogListResponse>;
 
 export interface AuditLogListResponse {
   id: string;
@@ -108,12 +132,10 @@ export interface AuditLogListParams extends CursorPageParams {
   starting_on?: string;
 }
 
-AuditLogs.AuditLogListResponsesCursorPage = AuditLogListResponsesCursorPage;
-
 export declare namespace AuditLogs {
   export {
     type AuditLogListResponse as AuditLogListResponse,
-    AuditLogListResponsesCursorPage as AuditLogListResponsesCursorPage,
+    type AuditLogListResponsesCursorPage as AuditLogListResponsesCursorPage,
     type AuditLogListParams as AuditLogListParams,
   };
 }

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'list_v1_contracts',
   description:
-    'This is the v1 endpoint to list all contracts for a customer. New clients should implement using the v2 endpoint.',
+    "Retrieves all contracts for a specific customer, including pricing, terms, credits, and commitments. Use this to view a customer's contract history and current agreements for billing management. Returns contract details with optional ledgers and balance information. \n\n⚠️ Note: This is the legacy v1 endpoint - new integrations should use the v2 endpoint for enhanced features.\n",
   inputSchema: {
     type: 'object',
     properties: {

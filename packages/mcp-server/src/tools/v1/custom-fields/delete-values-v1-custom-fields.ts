@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'delete_values_v1_custom_fields',
-  description: 'Deletes one or more custom fields on an instance of a Metronome entity.\n',
+  description:
+    'Remove specific custom field values from a Metronome entity instance by specifying the field keys to delete. Use this endpoint to clean up unwanted custom field data while preserving other fields on the same entity. Requires the entity type, entity ID, and array of keys to remove.\n',
   inputSchema: {
     type: 'object',
     properties: {

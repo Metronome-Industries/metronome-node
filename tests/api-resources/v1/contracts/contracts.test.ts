@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import Metronome from '@metronome/sdk';
-import { Response } from 'node-fetch';
 
 const client = new Metronome({
   bearerToken: 'My Bearer Token',
@@ -201,10 +200,10 @@ describe('resource contracts', () => {
       prepaid_balance_threshold_configuration: {
         commit: {
           product_id: 'product_id',
-          applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
-          applicable_product_tags: ['string'],
           description: 'description',
           name: 'name',
+          applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+          applicable_product_tags: ['string'],
           specifiers: [
             {
               presentation_group_values: { foo: 'string' },
@@ -277,7 +276,7 @@ describe('resource contracts', () => {
           subscription_config: {
             apply_seat_increase_config: { is_prorated: true },
             subscription_id: 'subscription_id',
-            allocation: 'POOLED',
+            allocation: 'INDIVIDUAL',
           },
           temporary_id: 'temporary_id',
         },
@@ -315,7 +314,7 @@ describe('resource contracts', () => {
           subscription_config: {
             apply_seat_increase_config: { is_prorated: true },
             subscription_id: 'subscription_id',
-            allocation: 'POOLED',
+            allocation: 'INDIVIDUAL',
           },
           temporary_id: 'temporary_id',
         },
@@ -378,7 +377,6 @@ describe('resource contracts', () => {
       subscriptions: [
         {
           collection_schedule: 'ADVANCE',
-          initial_quantity: 0,
           proration: { invoice_behavior: 'BILL_IMMEDIATELY', is_prorated: true },
           subscription_rate: {
             billing_frequency: 'MONTHLY',
@@ -387,7 +385,9 @@ describe('resource contracts', () => {
           custom_fields: { foo: 'string' },
           description: 'description',
           ending_before: '2019-12-27T18:11:19.117Z',
+          initial_quantity: 0,
           name: 'name',
+          quantity_management_mode: 'SEAT_BASED',
           starting_at: '2019-12-27T18:11:19.117Z',
           temporary_id: 'temporary_id',
         },

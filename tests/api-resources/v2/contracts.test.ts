@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import Metronome from '@metronome/sdk';
-import { Response } from 'node-fetch';
 
 const client = new Metronome({
   bearerToken: 'My Bearer Token',
@@ -229,11 +228,11 @@ describe('resource contracts', () => {
       ],
       add_prepaid_balance_threshold_configuration: {
         commit: {
+          description: 'description',
+          name: 'name',
           product_id: 'product_id',
           applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
           applicable_product_tags: ['string'],
-          description: 'description',
-          name: 'name',
           specifiers: [
             {
               presentation_group_values: { foo: 'string' },
@@ -389,7 +388,7 @@ describe('resource contracts', () => {
         },
       ],
       add_spend_threshold_configuration: {
-        commit: { product_id: 'product_id', description: 'description', name: 'name' },
+        commit: { description: 'description', name: 'name', product_id: 'product_id' },
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',
@@ -402,7 +401,6 @@ describe('resource contracts', () => {
       add_subscriptions: [
         {
           collection_schedule: 'ADVANCE',
-          initial_quantity: 0,
           proration: { invoice_behavior: 'BILL_IMMEDIATELY', is_prorated: true },
           subscription_rate: {
             billing_frequency: 'MONTHLY',
@@ -411,7 +409,9 @@ describe('resource contracts', () => {
           custom_fields: { foo: 'string' },
           description: 'description',
           ending_before: '2019-12-27T18:11:19.117Z',
+          initial_quantity: 0,
           name: 'name',
+          quantity_management_mode: 'SEAT_BASED',
           starting_at: '2019-12-27T18:11:19.117Z',
           temporary_id: 'temporary_id',
         },
@@ -421,6 +421,7 @@ describe('resource contracts', () => {
       archive_credits: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
       archive_scheduled_charges: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
       remove_overrides: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
+      uniqueness_key: 'x',
       update_commits: [
         {
           commit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -463,6 +464,7 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          rate_type: 'LIST_RATE',
           rollover_fraction: 0,
         },
       ],
@@ -495,15 +497,16 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          rate_type: 'LIST_RATE',
         },
       ],
       update_prepaid_balance_threshold_configuration: {
         commit: {
-          applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
-          applicable_product_tags: ['string'],
           description: 'description',
           name: 'name',
           product_id: 'product_id',
+          applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+          applicable_product_tags: ['string'],
           specifiers: [
             {
               presentation_group_values: { foo: 'string' },
@@ -633,6 +636,7 @@ describe('resource contracts', () => {
       },
       priority: 0,
       product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      rate_type: 'LIST_RATE',
       specifiers: [
         {
           presentation_group_values: { foo: 'string' },
@@ -680,6 +684,7 @@ describe('resource contracts', () => {
       applicable_product_tags: ['string'],
       priority: 0,
       product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      rate_type: 'LIST_RATE',
       specifiers: [
         {
           presentation_group_values: { foo: 'string' },

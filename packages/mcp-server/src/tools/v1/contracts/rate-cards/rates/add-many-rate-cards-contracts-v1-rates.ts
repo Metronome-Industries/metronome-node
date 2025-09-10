@@ -53,27 +53,7 @@ export const tool: Tool = {
               enum: ['MONTHLY', 'QUARTERLY', 'ANNUAL', 'WEEKLY'],
             },
             commit_rate: {
-              type: 'object',
-              description:
-                'A distinct rate on the rate card. You can choose to use this rate rather than list rate when consuming a credit or commit.',
-              properties: {
-                rate_type: {
-                  type: 'string',
-                  enum: ['FLAT', 'PERCENTAGE', 'SUBSCRIPTION', 'TIERED', 'CUSTOM'],
-                },
-                price: {
-                  type: 'number',
-                  description: 'Commit rate price. For FLAT rate_type, this must be >=0.',
-                },
-                tiers: {
-                  type: 'array',
-                  description: 'Only set for TIERED rate_type.',
-                  items: {
-                    $ref: '#/$defs/tier',
-                  },
-                },
-              },
-              required: ['rate_type'],
+              $ref: '#/$defs/commit_rate',
             },
             credit_type_id: {
               type: 'string',
@@ -136,6 +116,29 @@ export const tool: Tool = {
     },
     required: ['rate_card_id', 'rates'],
     $defs: {
+      commit_rate: {
+        type: 'object',
+        description:
+          'A distinct rate on the rate card. You can choose to use this rate rather than list rate when consuming a credit or commit.',
+        properties: {
+          rate_type: {
+            type: 'string',
+            enum: ['FLAT', 'PERCENTAGE', 'SUBSCRIPTION', 'TIERED', 'CUSTOM'],
+          },
+          price: {
+            type: 'number',
+            description: 'Commit rate price. For FLAT rate_type, this must be >=0.',
+          },
+          tiers: {
+            type: 'array',
+            description: 'Only set for TIERED rate_type.',
+            items: {
+              $ref: '#/$defs/tier',
+            },
+          },
+        },
+        required: ['rate_type'],
+      },
       tier: {
         type: 'object',
         properties: {
