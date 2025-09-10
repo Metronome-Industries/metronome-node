@@ -37,6 +37,7 @@ describe('resource customers', () => {
           configuration: { stripe_customer_id: 'bar', stripe_collection_method: 'bar' },
           delivery_method: 'direct_to_billing_provider',
           delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          tax_provider: 'anrok',
         },
       ],
       external_id: 'x',
@@ -236,6 +237,7 @@ describe('resource customers', () => {
           },
           delivery_method: 'direct_to_billing_provider',
           delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          tax_provider: 'anrok',
         },
         {
           billing_provider: 'aws_marketplace',
@@ -243,6 +245,7 @@ describe('resource customers', () => {
           configuration: { aws_customer_id: 'bar', aws_product_code: 'bar', aws_region: 'bar' },
           delivery_method: 'direct_to_billing_provider',
           delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          tax_provider: 'anrok',
         },
         {
           billing_provider: 'azure_marketplace',
@@ -250,6 +253,7 @@ describe('resource customers', () => {
           configuration: { azure_subscription_id: 'bar' },
           delivery_method: 'direct_to_billing_provider',
           delivery_method_id: '5b9e3072-415b-4842-94f0-0b6700c8b6be',
+          tax_provider: 'anrok',
         },
         {
           billing_provider: 'aws_marketplace',
@@ -262,6 +266,7 @@ describe('resource customers', () => {
           },
           delivery_method: 'direct_to_billing_provider',
           delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          tax_provider: 'anrok',
         },
       ],
     });

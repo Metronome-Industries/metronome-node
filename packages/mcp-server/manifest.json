@@ -9,9 +9,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stainless-sdks/metronome-typescript.git"
+    "url": "git+https://github.com/Metronome-Industries/metronome-node.git"
   },
-  "homepage": "https://github.com/stainless-sdks/metronome-typescript/tree/main/packages/mcp-server#readme",
+  "homepage": "https://github.com/Metronome-Industries/metronome-node/tree/main/packages/mcp-server#readme",
   "documentation": "https://docs.metronome.com",
   "server": {
     "type": "node",
