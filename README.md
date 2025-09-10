@@ -9,11 +9,8 @@ The REST API documentation can be found on [docs.metronome.com](https://docs.met
 ## Installation
 
 ```sh
-npm install git+ssh://git@github.com:stainless-sdks/metronome-typescript.git
+npm install @metronome/sdk
 ```
-
-> [!NOTE]
-> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npm install @metronome/sdk`
 
 ## Usage
 
@@ -382,7 +379,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/metronome-typescript/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/Metronome-Industries/metronome-node/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 

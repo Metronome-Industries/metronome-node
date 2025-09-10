@@ -60,6 +60,12 @@ export const tool: Tool = {
               description:
                 'ID of the delivery method to use for this customer. If not provided, the `delivery_method` must be provided.',
             },
+            tax_provider: {
+              type: 'string',
+              description:
+                'Specifies which tax provider Metronome should use for tax calculation when billing through Stripe. This is only supported for Stripe billing provider configurations with auto_charge_payment_intent or manual_charge_payment_intent collection methods.',
+              enum: ['anrok', 'avalara', 'stripe'],
+            },
           },
           required: ['billing_provider', 'customer_id'],
         },

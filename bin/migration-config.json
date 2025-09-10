@@ -1,6 +1,6 @@
 {
   "pkg": "@metronome/sdk",
-  "githubRepo": "https://github.com/stainless-sdks/metronome-typescript",
+  "githubRepo": "https://github.com/Metronome-Industries/metronome-node",
   "clientClass": "Metronome",
   "methods": []
 }

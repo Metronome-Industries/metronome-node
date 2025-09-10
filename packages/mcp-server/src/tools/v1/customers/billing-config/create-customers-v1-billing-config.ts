@@ -76,7 +76,12 @@ export const tool: Tool = {
       },
       stripe_collection_method: {
         type: 'string',
-        enum: ['charge_automatically', 'send_invoice'],
+        enum: [
+          'charge_automatically',
+          'send_invoice',
+          'auto_charge_payment_intent',
+          'manually_charge_payment_intent',
+        ],
       },
     },
     required: ['customer_id', 'billing_provider_type', 'billing_provider_customer_id'],
