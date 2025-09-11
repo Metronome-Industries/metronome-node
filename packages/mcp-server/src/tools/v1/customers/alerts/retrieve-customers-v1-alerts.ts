@@ -30,6 +30,25 @@ export const tool: Tool = {
         type: 'string',
         description: 'The Metronome ID of the customer',
       },
+      group_values: {
+        type: 'array',
+        description:
+          'Only present for `spend_threshold_reached` alerts. Retrieve the alert for a specific group key-value pair.',
+        items: {
+          type: 'object',
+          description:
+            'Scopes alert evaluation to a specific presentation group key on individual line items. Only present for spend alerts.',
+          properties: {
+            key: {
+              type: 'string',
+            },
+            value: {
+              type: 'string',
+            },
+          },
+          required: ['key', 'value'],
+        },
+      },
       plans_or_contracts: {
         type: 'string',
         description:

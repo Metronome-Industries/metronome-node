@@ -312,10 +312,28 @@ export interface AlertRetrieveParams {
   customer_id: string;
 
   /**
+   * Only present for `spend_threshold_reached` alerts. Retrieve the alert for a
+   * specific group key-value pair.
+   */
+  group_values?: Array<AlertRetrieveParams.GroupValue>;
+
+  /**
    * When parallel alerts are enabled during migration, this flag denotes whether to
    * fetch alerts for plans or contracts.
    */
   plans_or_contracts?: 'PLANS' | 'CONTRACTS';
+}
+
+export namespace AlertRetrieveParams {
+  /**
+   * Scopes alert evaluation to a specific presentation group key on individual line
+   * items. Only present for spend alerts.
+   */
+  export interface GroupValue {
+    key: string;
+
+    value: string;
+  }
 }
 
 export interface AlertListParams extends CursorPageWithoutLimitParams {
