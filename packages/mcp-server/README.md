@@ -1086,7 +1086,8 @@ The following tools are available in this MCP server.
 
   ### Key components:
 
-  - Contract Term and Billing Schedule
+  #### Contract Term and Billing Schedule
+
   - Set contract duration using `starting_at` and `ending_before` fields. PLG contracts typically use perpetual agreements (no end date), while Enterprise contracts have fixed end dates which can be edited over time in the case of co-term upsells.
 
   #### Rate Card
