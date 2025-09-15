@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.3.0 (2025-09-15)
+
+Full Changelog: [v0.2.0...v0.3.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.2.0...v0.3.0)
+
+### Features
+
+* **api:** api update ([6053d58](https://github.com/Metronome-Industries/metronome-node/commit/6053d586c4fc67e770fad2f9bc9de1706ec363a7))
+* **api:** api update ([1be7b2d](https://github.com/Metronome-Industries/metronome-node/commit/1be7b2d4cc78f10f17cd4021287410c4996900ac))
+* **api:** api update ([fcc3172](https://github.com/Metronome-Industries/metronome-node/commit/fcc3172129d07d7da715b4982acbfb96664f7518))
+
+
+### Bug Fixes
+
+* coerce nullable values to undefined ([db26826](https://github.com/Metronome-Industries/metronome-node/commit/db268263220cb5cacfd6a55ff04de39d2477b323))
+* **mcp:** fix query options parsing ([a680969](https://github.com/Metronome-Industries/metronome-node/commit/a68096999d241b3a6dff06115a76e9c1bacb2fbe))
+* **mcp:** fix uploading dxt release assets ([d2bd1f5](https://github.com/Metronome-Industries/metronome-node/commit/d2bd1f5b6640c9bebf047089347401a2786046d4))
+
+
+### Chores
+
+* **internal:** codegen related update ([191878f](https://github.com/Metronome-Industries/metronome-node/commit/191878f4c0c324365353e04f32dcdb12db6d5308))
+* **mcp:** upload dxt as release asset ([870849d](https://github.com/Metronome-Industries/metronome-node/commit/870849d07517ee4e94c9d5f6afc05c46d1a71958))
+* sync repo ([86f91c5](https://github.com/Metronome-Industries/metronome-node/commit/86f91c5d57c205949c945d058c931353b64147fa))
+
 ## 0.2.0 (2025-07-31)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.1.0...v0.2.0)
