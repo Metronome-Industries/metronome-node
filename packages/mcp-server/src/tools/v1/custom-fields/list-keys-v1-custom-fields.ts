@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'list_keys_v1_custom_fields',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nList all active custom field keys, optionally filtered by entity type.\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      type: 'array',\n      items: {\n        type: 'object',\n        properties: {\n          enforce_uniqueness: {\n            type: 'boolean'\n          },\n          entity: {\n            type: 'string',\n            enum: [              'alert',\n              'billable_metric',\n              'charge',\n              'commit',\n              'contract_credit',\n              'contract_product',\n              'contract',\n              'credit_grant',\n              'customer_plan',\n              'customer',\n              'discount',\n              'invoice',\n              'plan',\n              'professional_service',\n              'product',\n              'rate_card',\n              'scheduled_charge',\n              'subscription'\n            ]\n          },\n          key: {\n            type: 'string'\n          }\n        },\n        required: [          'enforce_uniqueness',\n          'entity',\n          'key'\n        ]\n      }\n    },\n    next_page: {\n      type: 'string'\n    }\n  },\n  required: [    'data',\n    'next_page'\n  ]\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nRetrieve all your active custom field keys, with optional filtering by entity type (customer, contract, product, etc.). Use this endpoint to discover what custom field keys are available before setting values on entities or to audit your custom field configuration across different entity types.\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      type: 'array',\n      items: {\n        type: 'object',\n        properties: {\n          enforce_uniqueness: {\n            type: 'boolean'\n          },\n          entity: {\n            type: 'string',\n            enum: [              'alert',\n              'billable_metric',\n              'charge',\n              'commit',\n              'contract_credit',\n              'contract_product',\n              'contract',\n              'credit_grant',\n              'customer_plan',\n              'customer',\n              'discount',\n              'invoice',\n              'plan',\n              'professional_service',\n              'product',\n              'rate_card',\n              'scheduled_charge',\n              'subscription'\n            ]\n          },\n          key: {\n            type: 'string'\n          }\n        },\n        required: [          'enforce_uniqueness',\n          'entity',\n          'key'\n        ]\n      }\n    },\n    next_page: {\n      type: 'string'\n    }\n  },\n  required: [    'data',\n    'next_page'\n  ]\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
@@ -67,7 +67,8 @@ export const tool: Tool = {
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const { jq_filter, ...body } = args as any;
-  return asTextContentResult(await maybeFilter(jq_filter, await client.v1.customFields.listKeys(body)));
+  const response = await client.v1.customFields.listKeys(body).asResponse();
+  return asTextContentResult(await maybeFilter(jq_filter, await response.json()));
 };
 
 export default { metadata, tool, handler };

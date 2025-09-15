@@ -1,13 +1,61 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import * as Core from '../../../core';
+import { APIResource } from '../../../core/resource';
 import * as Shared from '../../shared';
+import { APIPromise } from '../../../core/api-promise';
+import {
+  CursorPageWithoutLimit,
+  type CursorPageWithoutLimitParams,
+  PagePromise,
+} from '../../../core/pagination';
+import { buildHeaders } from '../../../internal/headers';
+import { RequestOptions } from '../../../internal/request-options';
 
 export class Alerts extends APIResource {
   /**
-   * Get the customer alert status and alert information for the specified customer
-   * and alert
+   * Retrieve the real-time evaluation status for a specific alert-customer pair.
+   * This endpoint provides instant visibility into whether a customer has triggered
+   * an alert condition, enabling you to monitor account health and take proactive
+   * action based on current alert states.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Check if a specific customer is currently violating an alert threshold
+   *   (`in_alarm` status)
+   * - Verify alert configuration details and threshold values for a customer
+   * - Integrate alert status checks into customer support tools or admin interfaces
+   *
+   * ### Key response fields:
+   *
+   * A CustomerAlert object containing:
+   *
+   * - `customer_status`: The current evaluation state
+   *
+   * - `ok` - Customer is within acceptable thresholds
+   * - `in_alarm`- Customer has breached the alert threshold
+   * - `evaluating` - Alert has yet to be evaluated (typically due to a customer or
+   *   alert having just been created)
+   * - `null` - Alert has been archived
+   * - `triggered_by`: Additional context about what caused the alert to trigger
+   *   (when applicable)
+   * - alert: Complete alert configuration including:
+   *   - Alert ID, name, and type
+   *   - Current threshold values and credit type information
+   *   - Alert status (enabled, disabled, or archived)
+   *   - Last update timestamp
+   *   - Any applied filters (credit grant types, custom fields, group values)
+   *
+   * ### Usage guidelines:
+   *
+   * - Customer status: Returns the current evaluation state, not historical data.
+   *   For alert history, use webhook notifications or event logs
+   * - Archived alerts: Returns null for customer_status if the alert has been
+   *   archived, but still includes the alert configuration details
+   * - Integration patterns: This endpoint can be used to check a customer's alert
+   *   status, but shouldn't be scraped. You should instead rely on the webhook
+   *   notification to understand when customers are moved to IN_ALARM.
+   * - Error handling: Returns 404 if either the customer or alert ID doesn't exist
+   *   or isn't accessible to your organization
    *
    * @example
    * ```ts
@@ -17,27 +65,89 @@ export class Alerts extends APIResource {
    * });
    * ```
    */
-  retrieve(body: AlertRetrieveParams, options?: Core.RequestOptions): Core.APIPromise<AlertRetrieveResponse> {
+  retrieve(body: AlertRetrieveParams, options?: RequestOptions): APIPromise<AlertRetrieveResponse> {
     return this._client.post('/v1/customer-alerts/get', { body, ...options });
   }
 
   /**
-   * Fetch all customer alert statuses and alert information for a customer
+   * Retrieve all alert configurations and their current statuses for a specific
+   * customer in a single API call. This endpoint provides a comprehensive view of
+   * all alerts monitoring a customer account.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Display all active alerts for a customer in dashboards or admin panels
+   * - Quickly identify which alerts a customer is currently triggering
+   * - Audit alert coverage for specific accounts
+   * - Filter alerts by status (enabled, disabled, or archived)
+   *
+   * ### Key response fields:
+   *
+   * - data: Array of CustomerAlert objects, each containing:
+   *   - Current evaluation status (`ok`, `in_alarm`, `evaluating`, or `null`)
+   *   - Complete alert configuration and threshold details
+   *   - Alert metadata including type, name, and last update time
+   * - `next_page`: Pagination cursor for retrieving additional results
+   *
+   * ### Usage guidelines:
+   *
+   * - Default behavior: Returns only enabled alerts unless alert_statuses filter is
+   *   specified
+   * - Pagination: Use the `next_page` cursor to retrieve all results for customers
+   *   with many alerts
    *
    * @example
    * ```ts
-   * const alerts = await client.v1.customers.alerts.list({
-   *   customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
-   * });
+   * // Automatically fetches more pages as needed.
+   * for await (const customerAlert of client.v1.customers.alerts.list(
+   *   { customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1' },
+   * )) {
+   *   // ...
+   * }
    * ```
    */
-  list(params: AlertListParams, options?: Core.RequestOptions): Core.APIPromise<AlertListResponse> {
+  list(
+    params: AlertListParams,
+    options?: RequestOptions,
+  ): PagePromise<CustomerAlertsCursorPageWithoutLimit, CustomerAlert> {
     const { next_page, ...body } = params;
-    return this._client.post('/v1/customer-alerts/list', { query: { next_page }, body, ...options });
+    return this._client.getAPIList('/v1/customer-alerts/list', CursorPageWithoutLimit<CustomerAlert>, {
+      query: { next_page },
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
-   * Reset state for an alert by customer id and force re-evaluation
+   * Force an immediate re-evaluation of a specific alert for a customer, clearing
+   * any previous state and triggering a fresh assessment against current thresholds.
+   * This endpoint ensures alert accuracy after configuration changes or data
+   * corrections.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Clear false positive alerts after fixing data issues
+   * - Re-evaluate alerts after adjusting customer balances or credits
+   * - Test alert behavior during development and debugging
+   * - Resolve stuck alerts that may be in an incorrect state
+   * - Trigger immediate evaluation after threshold modifications
+   *
+   * ### Key response fields:
+   *
+   * - 200 Success: Confirmation that the alert has been reset and re-evaluation
+   *   initiated
+   * - No response body is returned - the operation completes asynchronously
+   *
+   * ### Usage guidelines:
+   *
+   * - Immediate effect: Triggers re-evaluation instantly, which may result in new
+   *   webhook notifications if thresholds are breached
+   * - State clearing: Removes any cached evaluation state, ensuring a fresh
+   *   assessment
+   * - Use sparingly: Intended for exceptional cases, not routine operations
+   * - Asynchronous processing: The reset completes immediately, but re-evaluation
+   *   happens in the background
    *
    * @example
    * ```ts
@@ -47,14 +157,16 @@ export class Alerts extends APIResource {
    * });
    * ```
    */
-  reset(body: AlertResetParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+  reset(body: AlertResetParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/v1/customer-alerts/reset', {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 }
+
+export type CustomerAlertsCursorPageWithoutLimit = CursorPageWithoutLimit<CustomerAlert>;
 
 export interface CustomerAlert {
   alert: CustomerAlert.Alert;
@@ -179,19 +291,13 @@ export namespace CustomerAlert {
     export interface GroupValue {
       key: string;
 
-      value: string;
+      value?: string;
     }
   }
 }
 
 export interface AlertRetrieveResponse {
   data: CustomerAlert;
-}
-
-export interface AlertListResponse {
-  data: Array<CustomerAlert>;
-
-  next_page: string | null;
 }
 
 export interface AlertRetrieveParams {
@@ -206,22 +312,35 @@ export interface AlertRetrieveParams {
   customer_id: string;
 
   /**
+   * Only present for `spend_threshold_reached` alerts. Retrieve the alert for a
+   * specific group key-value pair.
+   */
+  group_values?: Array<AlertRetrieveParams.GroupValue>;
+
+  /**
    * When parallel alerts are enabled during migration, this flag denotes whether to
    * fetch alerts for plans or contracts.
    */
   plans_or_contracts?: 'PLANS' | 'CONTRACTS';
 }
 
-export interface AlertListParams {
+export namespace AlertRetrieveParams {
+  /**
+   * Scopes alert evaluation to a specific presentation group key on individual line
+   * items. Only present for spend alerts.
+   */
+  export interface GroupValue {
+    key: string;
+
+    value: string;
+  }
+}
+
+export interface AlertListParams extends CursorPageWithoutLimitParams {
   /**
    * Body param: The Metronome ID of the customer
    */
   customer_id: string;
-
-  /**
-   * Query param: Cursor that indicates where the next page of results should start.
-   */
-  next_page?: string;
 
   /**
    * Body param: Optionally filter by alert status. If absent, only enabled alerts
@@ -246,7 +365,7 @@ export declare namespace Alerts {
   export {
     type CustomerAlert as CustomerAlert,
     type AlertRetrieveResponse as AlertRetrieveResponse,
-    type AlertListResponse as AlertListResponse,
+    type CustomerAlertsCursorPageWithoutLimit as CustomerAlertsCursorPageWithoutLimit,
     type AlertRetrieveParams as AlertRetrieveParams,
     type AlertListParams as AlertListParams,
     type AlertResetParams as AlertResetParams,

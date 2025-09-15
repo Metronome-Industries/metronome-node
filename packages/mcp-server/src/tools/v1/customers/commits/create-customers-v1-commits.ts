@@ -1,6 +1,5 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { maybeFilter } from '@metronome/mcp/filtering';
 import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'create_customers_v1_commits',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nCreate a new commit at the customer level.\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      $ref: '#/$defs/id'\n    }\n  },\n  required: [    'data'\n  ],\n  $defs: {\n    id: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  }\n}\n```",
+    'Creates customer-level commits that establish spending commitments for customers across their Metronome usage. Commits represent contracted spending obligations that can be either prepaid (paid upfront) or postpaid (billed later). \n\nNote: In most cases, you should add commitments directly to customer contracts using the contract/create or contract/edit APIs.\n\n### Use this endpoint to:\nUse this endpoint when you need to establish customer-level spending commitments that can be applied across multiple contracts or scoped to specific contracts. Customer-level commits are ideal for:\n- Enterprise-wide minimum spending agreements that span multiple contracts\n- Multi-contract volume commitments with shared spending pools\n- Cross-contract discount tiers based on aggregate usage\n\n#### Commit type Requirements: \n- You must specify either "prepaid" or "postpaid" as the commit type:\n- Prepaid commits: Customer pays upfront; invoice_schedule is optional (if omitted, creates a commit without an invoice)\n- Postpaid commits: Customer pays when the commitment expires (the end of the access_schedule); invoice_schedule is required and must match access_schedule totals. \n\n#### Billing configuration:\n- invoice_contract_id is required for postpaid commits and for prepaid commits with billing (only optional for free prepaid commits)\n- For postpaid commits: access_schedule and invoice_schedule must have matching amounts\n- For postpaid commits: only one schedule item is allowed in both schedules.\n\n#### Scoping flexibility:\nCustomer-level commits can be configured in a few ways:\n- Contract-specific: Use the `applicable_contract_ids` field to limit the commit to specific contracts\n- Cross-contract: Leave `applicable_contract_ids` empty to allow the commit to be used across all of the customer\'s contracts\n\n#### Product targeting:\nCommits can be scoped to specific products using applicable_product_ids, applicable_product_tags, or specifiers, or left unrestricted to apply to all products.\n\n#### Priority considerations:\nWhen multiple commits are applicable, the one with the lower priority value will be consumed first. If there is a tie, contract level commits and credits will be applied before customer level commits and credits. Plan your priority scheme carefully to ensure commits are applied in the desired order.\n\n### Usage guidelines:\n⚠️ Preferred Alternative: In most cases, you should add commits directly to contracts using the create contract or edit contract APIs instead of creating customer-level commits. Contract-level commits provide better organization and are the recommended approach for standard use cases.\n',
   inputSchema: {
     type: 'object',
     properties: {
@@ -99,6 +98,7 @@ export const tool: Tool = {
       },
       custom_fields: {
         type: 'object',
+        description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
         additionalProperties: true,
       },
       description: {
@@ -218,29 +218,7 @@ export const tool: Tool = {
         description:
           "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`.",
         items: {
-          type: 'object',
-          properties: {
-            presentation_group_values: {
-              type: 'object',
-              additionalProperties: true,
-            },
-            pricing_group_values: {
-              type: 'object',
-              additionalProperties: true,
-            },
-            product_id: {
-              type: 'string',
-              description: 'If provided, the specifier will only apply to the product with the specified ID.',
-            },
-            product_tags: {
-              type: 'array',
-              description:
-                'If provided, the specifier will only apply to products with all the specified tags.',
-              items: {
-                type: 'string',
-              },
-            },
-          },
+          $ref: '#/$defs/commit_specifier_input',
         },
       },
       uniqueness_key: {
@@ -248,21 +226,42 @@ export const tool: Tool = {
         description:
           'Prevents the creation of duplicates. If a request to create a commit or credit is made with a uniqueness key that was previously used to create a commit or credit, a new record will not be created and the request will fail with a 409 error.',
       },
-      jq_filter: {
-        type: 'string',
-        title: 'jq Filter',
-        description:
-          'A jq filter to apply to the response to include certain fields. Consult the output schema in the tool description to see the fields that are available.\n\nFor example: to include only the `name` field in every object of a results array, you can provide ".results[].name".\n\nFor more information, see the [jq documentation](https://jqlang.org/manual/).',
-      },
     },
     required: ['access_schedule', 'customer_id', 'priority', 'product_id', 'type'],
+    $defs: {
+      commit_specifier_input: {
+        type: 'object',
+        properties: {
+          presentation_group_values: {
+            type: 'object',
+            additionalProperties: true,
+          },
+          pricing_group_values: {
+            type: 'object',
+            additionalProperties: true,
+          },
+          product_id: {
+            type: 'string',
+            description: 'If provided, the specifier will only apply to the product with the specified ID.',
+          },
+          product_tags: {
+            type: 'array',
+            description:
+              'If provided, the specifier will only apply to products with all the specified tags.',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
   },
   annotations: {},
 };
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
-  const { jq_filter, ...body } = args as any;
-  return asTextContentResult(await maybeFilter(jq_filter, await client.v1.customers.commits.create(body)));
+  const body = args as any;
+  return asTextContentResult(await client.v1.customers.commits.create(body));
 };
 
 export default { metadata, tool, handler };

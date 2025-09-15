@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'amend_v1_contracts',
   description:
-    'Amendments will be replaced by Contract editing. New clients should implement using the editContract endpoint. Read more about the migration to contract editing [here](https://docs.metronome.com/migrate-amendments-to-edits/) and reach out to your Metronome representative for more details. Once contract editing is enabled, access to this endpoint will be removed.\n',
+    'Amendments will be replaced by Contract editing. New clients should implement using the `editContract` endpoint. Read more about the migration to contract editing [here](https://docs.metronome.com/migrate-amendments-to-edits/) and reach out to your Metronome representative for more details. Once contract editing is enabled, access to this endpoint will be removed.\n',
   inputSchema: {
     type: 'object',
     properties: {
@@ -102,6 +102,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             description: {
@@ -109,51 +110,7 @@ export const tool: Tool = {
               description: 'Used only in UI/API. It is not exposed to end customers.',
             },
             hierarchy_configuration: {
-              type: 'object',
-              description: 'Optional configuration for commit hierarchy access control',
-              properties: {
-                child_access: {
-                  anyOf: [
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['ALL'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['NONE'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        contract_ids: {
-                          type: 'array',
-                          items: {
-                            type: 'string',
-                          },
-                        },
-                        type: {
-                          type: 'string',
-                          enum: ['CONTRACT_IDS'],
-                        },
-                      },
-                      required: ['contract_ids', 'type'],
-                    },
-                  ],
-                },
-              },
-              required: ['child_access'],
+              $ref: '#/$defs/commit_hierarchy_configuration',
             },
             invoice_schedule: {
               type: 'object',
@@ -327,30 +284,7 @@ export const tool: Tool = {
               description:
                 "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`.",
               items: {
-                type: 'object',
-                properties: {
-                  presentation_group_values: {
-                    type: 'object',
-                    additionalProperties: true,
-                  },
-                  pricing_group_values: {
-                    type: 'object',
-                    additionalProperties: true,
-                  },
-                  product_id: {
-                    type: 'string',
-                    description:
-                      'If provided, the specifier will only apply to the product with the specified ID.',
-                  },
-                  product_tags: {
-                    type: 'array',
-                    description:
-                      'If provided, the specifier will only apply to products with all the specified tags.',
-                    items: {
-                      type: 'string',
-                    },
-                  },
-                },
+                $ref: '#/$defs/commit_specifier_input',
               },
             },
             temporary_id: {
@@ -421,6 +355,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             description: {
@@ -428,51 +363,7 @@ export const tool: Tool = {
               description: 'Used only in UI/API. It is not exposed to end customers.',
             },
             hierarchy_configuration: {
-              type: 'object',
-              description: 'Optional configuration for credit hierarchy access control',
-              properties: {
-                child_access: {
-                  anyOf: [
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['ALL'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        type: {
-                          type: 'string',
-                          enum: ['NONE'],
-                        },
-                      },
-                      required: ['type'],
-                    },
-                    {
-                      type: 'object',
-                      properties: {
-                        contract_ids: {
-                          type: 'array',
-                          items: {
-                            type: 'string',
-                          },
-                        },
-                        type: {
-                          type: 'string',
-                          enum: ['CONTRACT_IDS'],
-                        },
-                      },
-                      required: ['contract_ids', 'type'],
-                    },
-                  ],
-                },
-              },
-              required: ['child_access'],
+              $ref: '#/$defs/commit_hierarchy_configuration',
             },
             name: {
               type: 'string',
@@ -496,30 +387,7 @@ export const tool: Tool = {
               description:
                 "List of filters that determine what kind of customer usage draws down a commit or credit. A customer's usage needs to meet the condition of at least one of the specifiers to contribute to a commit's or credit's drawdown. This field cannot be used together with `applicable_product_ids` or `applicable_product_tags`.",
               items: {
-                type: 'object',
-                properties: {
-                  presentation_group_values: {
-                    type: 'object',
-                    additionalProperties: true,
-                  },
-                  pricing_group_values: {
-                    type: 'object',
-                    additionalProperties: true,
-                  },
-                  product_id: {
-                    type: 'string',
-                    description:
-                      'If provided, the specifier will only apply to the product with the specified ID.',
-                  },
-                  product_tags: {
-                    type: 'array',
-                    description:
-                      'If provided, the specifier will only apply to products with all the specified tags.',
-                    items: {
-                      type: 'string',
-                    },
-                  },
-                },
+                $ref: '#/$defs/commit_specifier_input',
               },
             },
           },
@@ -528,6 +396,7 @@ export const tool: Tool = {
       },
       custom_fields: {
         type: 'object',
+        description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
         additionalProperties: true,
       },
       discounts: {
@@ -627,6 +496,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             name: {
@@ -694,7 +564,7 @@ export const tool: Tool = {
                   commit_ids: {
                     type: 'array',
                     description:
-                      'Can only be used for commit specific overrides. Must be used in conjunction with one of product_id, product_tags, pricing_group_values, or presentation_group_values. If provided, the override will only apply to the specified commits. If not provided, the override will apply to all commits.',
+                      'Can only be used for commit specific overrides. Must be used in conjunction with one of `product_id`, `product_tags`, `pricing_group_values`, or `presentation_group_values`. If provided, the override will only apply to the specified commits. If not provided, the override will apply to all commits.',
                     items: {
                       type: 'string',
                     },
@@ -727,7 +597,7 @@ export const tool: Tool = {
                   recurring_commit_ids: {
                     type: 'array',
                     description:
-                      'Can only be used for commit specific overrides. Must be used in conjunction with one of product_id, product_tags, pricing_group_values, or presentation_group_values. If provided, the override will only apply to commits created by the specified recurring commit ids.',
+                      'Can only be used for commit specific overrides. Must be used in conjunction with one of `product_id`, `product_tags`, `pricing_group_values`, or `presentation_group_values`. If provided, the override will only apply to commits created by the specified recurring commit ids.',
                     items: {
                       type: 'string',
                     },
@@ -735,7 +605,7 @@ export const tool: Tool = {
                   recurring_credit_ids: {
                     type: 'array',
                     description:
-                      'Can only be used for commit specific overrides. Must be used in conjunction with one of product_id, product_tags, pricing_group_values, or presentation_group_values. If provided, the override will only apply to credits created by the specified recurring credit ids.',
+                      'Can only be used for commit specific overrides. Must be used in conjunction with one of `product_id`, `product_tags`, `pricing_group_values`, or `presentation_group_values`. If provided, the override will only apply to credits created by the specified recurring credit ids.',
                     items: {
                       type: 'string',
                     },
@@ -850,6 +720,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             description: {
@@ -1034,6 +905,7 @@ export const tool: Tool = {
             },
             custom_fields: {
               type: 'object',
+              description: 'Custom fields to be added eg. { "key1": "value1", "key2": "value2" }',
               additionalProperties: true,
             },
             name: {
@@ -1055,6 +927,77 @@ export const tool: Tool = {
     },
     required: ['contract_id', 'customer_id', 'starting_at'],
     $defs: {
+      commit_hierarchy_configuration: {
+        type: 'object',
+        properties: {
+          child_access: {
+            anyOf: [
+              {
+                type: 'object',
+                properties: {
+                  type: {
+                    type: 'string',
+                    enum: ['ALL'],
+                  },
+                },
+                required: ['type'],
+              },
+              {
+                type: 'object',
+                properties: {
+                  type: {
+                    type: 'string',
+                    enum: ['NONE'],
+                  },
+                },
+                required: ['type'],
+              },
+              {
+                type: 'object',
+                properties: {
+                  contract_ids: {
+                    type: 'array',
+                    items: {
+                      type: 'string',
+                    },
+                  },
+                  type: {
+                    type: 'string',
+                    enum: ['CONTRACT_IDS'],
+                  },
+                },
+                required: ['contract_ids', 'type'],
+              },
+            ],
+          },
+        },
+        required: ['child_access'],
+      },
+      commit_specifier_input: {
+        type: 'object',
+        properties: {
+          presentation_group_values: {
+            type: 'object',
+            additionalProperties: true,
+          },
+          pricing_group_values: {
+            type: 'object',
+            additionalProperties: true,
+          },
+          product_id: {
+            type: 'string',
+            description: 'If provided, the specifier will only apply to the product with the specified ID.',
+          },
+          product_tags: {
+            type: 'array',
+            description:
+              'If provided, the specifier will only apply to products with all the specified tags.',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+      },
       tier: {
         type: 'object',
         properties: {

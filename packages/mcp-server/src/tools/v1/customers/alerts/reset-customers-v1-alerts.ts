@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'reset_customers_v1_alerts',
-  description: 'Reset state for an alert by customer id and force re-evaluation',
+  description:
+    'Force an immediate re-evaluation of a specific alert for a customer, clearing any previous state and triggering a fresh assessment against current thresholds. This endpoint ensures alert accuracy after configuration changes or data corrections.\n\n### Use this endpoint to:\n- Clear false positive alerts after fixing data issues\n- Re-evaluate alerts after adjusting customer balances or credits\n- Test alert behavior during development and debugging\n- Resolve stuck alerts that may be in an incorrect state\n- Trigger immediate evaluation after threshold modifications\n\n### Key response fields: \n- 200 Success: Confirmation that the alert has been reset and re-evaluation initiated\n- No response body is returned - the operation completes asynchronously\n\n### Usage guidelines:\n- Immediate effect: Triggers re-evaluation instantly, which may result in new webhook notifications if thresholds are breached\n- State clearing: Removes any cached evaluation state, ensuring a fresh assessment\n- Use sparingly: Intended for exceptional cases, not routine operations\n- Asynchronous processing: The reset completes immediately, but re-evaluation happens in the background\n',
   inputSchema: {
     type: 'object',
     properties: {

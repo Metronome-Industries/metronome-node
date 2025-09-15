@@ -1,14 +1,43 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as Shared from '../shared';
-import { CursorPage, type CursorPageParams } from '../../pagination';
+import { APIPromise } from '../../core/api-promise';
+import { CursorPage, type CursorPageParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class BillableMetrics extends APIResource {
   /**
-   * Creates a new Billable Metric.
+   * Create billable metrics programmatically with this endpoint—an essential step in
+   * configuring your pricing and packaging in Metronome.
+   *
+   * A billable metric is a customizable query that filters and aggregates events
+   * from your event stream. These metrics are continuously tracked as usage data
+   * enters Metronome through the ingestion pipeline. The ingestion process
+   * transforms raw usage data into actionable pricing metrics, enabling accurate
+   * metering and billing for your products.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Create individual or multiple billable metrics as part of a setup workflow.
+   * - Automate the entire pricing configuration process, from metric creation to
+   *   customer contract setup.
+   * - Define metrics using either standard filtering/aggregation or a custom SQL
+   *   query.
+   *
+   * ### Key response fields:
+   *
+   * - The ID of the billable metric that was created
+   * - The created billable metric will be available to be used in Products, usage
+   *   endpoints, and alerts.
+   *
+   * ### Usage guidelines:
+   *
+   * - Metrics defined using standard filtering and aggregation are Streaming
+   *   billable metrics, which have been optimized for ultra low latency and high
+   *   throughput workflows.
+   * - Use SQL billable metrics if you require more flexible aggregation options.
    *
    * @example
    * ```ts
@@ -37,13 +66,23 @@ export class BillableMetrics extends APIResource {
    */
   create(
     body: BillableMetricCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillableMetricCreateResponse> {
+    options?: RequestOptions,
+  ): APIPromise<BillableMetricCreateResponse> {
     return this._client.post('/v1/billable-metrics/create', { body, ...options });
   }
 
   /**
-   * Get a billable metric.
+   * Retrieves the complete configuration for a specific billable metric by its ID.
+   * Use this to review billable metric setup before associating it with products.
+   * Returns the metric's `name`, `event_type_filter`, `property_filters`,
+   * `aggregation_type`, `aggregation_key`, `group_keys`, `custom fields`, and
+   * `SQL query` (if it's a SQL billable metric).
+   *
+   * Important:
+   *
+   * - Archived billable metrics will include an `archived_at` timestamp; they no
+   *   longer process new usage events but remain accessible for historical
+   *   reference.
    *
    * @example
    * ```ts
@@ -56,14 +95,18 @@ export class BillableMetrics extends APIResource {
    */
   retrieve(
     params: BillableMetricRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillableMetricRetrieveResponse> {
+    options?: RequestOptions,
+  ): APIPromise<BillableMetricRetrieveResponse> {
     const { billable_metric_id } = params;
-    return this._client.get(`/v1/billable-metrics/${billable_metric_id}`, options);
+    return this._client.get(path`/v1/billable-metrics/${billable_metric_id}`, options);
   }
 
   /**
-   * List all billable metrics.
+   * Retrieves all billable metrics with their complete configurations. Use this for
+   * programmatic discovery and management of billable metrics, such as associating
+   * metrics to products and auditing for orphaned or archived metrics. Important:
+   * Archived metrics are excluded by default; use `include_archived`=`true`
+   * parameter to include them.
    *
    * @example
    * ```ts
@@ -74,27 +117,25 @@ export class BillableMetrics extends APIResource {
    * ```
    */
   list(
-    query?: BillableMetricListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse>;
-  list(
-    query: BillableMetricListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/v1/billable-metrics', BillableMetricListResponsesCursorPage, {
+    query: BillableMetricListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse> {
+    return this._client.getAPIList('/v1/billable-metrics', CursorPage<BillableMetricListResponse>, {
       query,
       ...options,
     });
   }
 
   /**
-   * Archive an existing billable metric.
+   * Use this endpoint to retire billable metrics that are no longer used. After a
+   * billable metric is archived, that billable metric can no longer be used in any
+   * new Products to define how that product should be metered. If you archive a
+   * billable metric that is already associated with a Product, the Product will
+   * continue to function as usual, metering based on the definition of the archived
+   * billable metric.
+   *
+   * Archived billable metrics will be returned on the `getBillableMetric` and
+   * `listBillableMetrics` endpoints with a populated `archived_at` field.
    *
    * @example
    * ```ts
@@ -105,13 +146,13 @@ export class BillableMetrics extends APIResource {
    */
   archive(
     body: BillableMetricArchiveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillableMetricArchiveResponse> {
+    options?: RequestOptions,
+  ): APIPromise<BillableMetricArchiveResponse> {
     return this._client.post('/v1/billable-metrics/archive', { body, ...options });
   }
 }
 
-export class BillableMetricListResponsesCursorPage extends CursorPage<BillableMetricListResponse> {}
+export type BillableMetricListResponsesCursorPage = CursorPage<BillableMetricListResponse>;
 
 export interface BillableMetricCreateResponse {
   data: Shared.ID;
@@ -151,6 +192,9 @@ export namespace BillableMetricRetrieveResponse {
      */
     archived_at?: string;
 
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
     custom_fields?: { [key: string]: string };
 
     /**
@@ -207,6 +251,9 @@ export interface BillableMetricListResponse {
    */
   archived_at?: string;
 
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
   custom_fields?: { [key: string]: string };
 
   /**
@@ -301,15 +348,13 @@ export interface BillableMetricArchiveParams {
   id: string;
 }
 
-BillableMetrics.BillableMetricListResponsesCursorPage = BillableMetricListResponsesCursorPage;
-
 export declare namespace BillableMetrics {
   export {
     type BillableMetricCreateResponse as BillableMetricCreateResponse,
     type BillableMetricRetrieveResponse as BillableMetricRetrieveResponse,
     type BillableMetricListResponse as BillableMetricListResponse,
     type BillableMetricArchiveResponse as BillableMetricArchiveResponse,
-    BillableMetricListResponsesCursorPage as BillableMetricListResponsesCursorPage,
+    type BillableMetricListResponsesCursorPage as BillableMetricListResponsesCursorPage,
     type BillableMetricCreateParams as BillableMetricCreateParams,
     type BillableMetricRetrieveParams as BillableMetricRetrieveParams,
     type BillableMetricListParams as BillableMetricListParams,

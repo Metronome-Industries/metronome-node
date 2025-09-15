@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'set_usage_filter_v1_contracts',
-  description: 'Set usage filter for a contract\n',
+  description:
+    'If a customer has multiple contracts with overlapping rates, the usage filter routes usage to the appropriate contract based on a predefined group key. \n\nAs an example, imagine you have a customer associated with two projects. Each project is associated with its own contract. You can create a usage filter with group key `project_id`\non each contract, and route usage for `project_1` to the first contract and `project_2` to the second contract. \n\n### Use this endpoint to:\n- Support enterprise contracting scenarios where multiple contracts are associated to the same customer with the same rates.\n- Update the usage filter associated with the contract over time. \n\n### Usage guidelines:\nTo use usage filters, the `group_key` must be defined on the billable metrics underlying the rate card on the contracts.\n',
   inputSchema: {
     type: 'object',
     properties: {

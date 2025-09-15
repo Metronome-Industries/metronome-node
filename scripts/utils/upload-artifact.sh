@@ -12,13 +12,13 @@ if [[ "$SIGNED_URL" == "null" ]]; then
   exit 1
 fi
 
-UPLOAD_RESPONSE=$(tar -cz dist | curl -v -X PUT \
+UPLOAD_RESPONSE=$(tar "${BASE_PATH:+-C$BASE_PATH}" -cz "${ARTIFACT_PATH:-dist}" | curl -v -X PUT \
   -H "Content-Type: application/gzip" \
   --data-binary @- "$SIGNED_URL" 2>&1)
 
 if echo "$UPLOAD_RESPONSE" | grep -q "HTTP/[0-9.]* 200"; then
   echo -e "\033[32mUploaded build to Stainless storage.\033[0m"
-  echo -e "\033[32mInstallation: npm install 'https://pkg.stainless.com/s/metronome-node/$SHA'\033[0m"
+  echo -e "\033[32mInstallation: npm install 'https://pkg.stainless.com/s/metronome-typescript/$SHA'\033[0m"
 else
   echo -e "\033[31mFailed to upload artifact.\033[0m"
   exit 1

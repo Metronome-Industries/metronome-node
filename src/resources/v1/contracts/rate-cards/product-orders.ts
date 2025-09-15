@@ -1,12 +1,16 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../../resource';
-import * as Core from '../../../../core';
+import { APIResource } from '../../../../core/resource';
 import * as Shared from '../../../shared';
+import { APIPromise } from '../../../../core/api-promise';
+import { RequestOptions } from '../../../../internal/request-options';
 
 export class ProductOrders extends APIResource {
   /**
-   * Updates ordering of specified products
+   * The ordering of products on a rate card determines the order in which the
+   * products will appear on customers' invoices. Use this endpoint to set the order
+   * of specific products on the rate card by moving them relative to their current
+   * location.
    *
    * @example
    * ```ts
@@ -26,15 +30,14 @@ export class ProductOrders extends APIResource {
    *   });
    * ```
    */
-  update(
-    body: ProductOrderUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ProductOrderUpdateResponse> {
+  update(body: ProductOrderUpdateParams, options?: RequestOptions): APIPromise<ProductOrderUpdateResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/moveRateCardProducts', { body, ...options });
   }
 
   /**
-   * Sets the ordering of products within a rate card
+   * The ordering of products on a rate card determines the order in which the
+   * products will appear on customers' invoices. Use this endpoint to set the order
+   * of products on the rate card.
    *
    * @example
    * ```ts
@@ -48,7 +51,7 @@ export class ProductOrders extends APIResource {
    *   });
    * ```
    */
-  set(body: ProductOrderSetParams, options?: Core.RequestOptions): Core.APIPromise<ProductOrderSetResponse> {
+  set(body: ProductOrderSetParams, options?: RequestOptions): APIPromise<ProductOrderSetResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/setRateCardProductsOrder', {
       body,
       ...options,

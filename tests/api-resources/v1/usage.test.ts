@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import Metronome from '@metronome/sdk';
-import { Response } from 'node-fetch';
 
 const client = new Metronome({
   bearerToken: 'My Bearer Token',
@@ -48,26 +47,21 @@ describe('resource usage', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('ingest: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.v1.usage.ingest({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      Metronome.NotFoundError,
-    );
-  });
-
   test('ingest: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.v1.usage.ingest(
-        [
-          {
-            customer_id: 'team@example.com',
-            event_type: 'heartbeat',
-            timestamp: '2021-01-01T00:00:00Z',
-            transaction_id: '2021-01-01T00:00:00Z_cluster42',
-            properties: { cluster_id: 'bar', cpu_seconds: 'bar', region: 'bar' },
-          },
-        ],
+        {
+          usage: [
+            {
+              customer_id: 'team@example.com',
+              event_type: 'heartbeat',
+              timestamp: '2021-01-01T00:00:00Z',
+              transaction_id: '2021-01-01T00:00:00Z_cluster42',
+              properties: { cluster_id: 'bar', cpu_seconds: 'bar', region: 'bar' },
+            },
+          ],
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
