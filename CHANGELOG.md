@@ -1,5 +1,43 @@
 # Changelog
 
+## 1.0.0 (2025-09-15)
+
+Full Changelog: [v0.3.0...v1.0.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.3.0...v1.0.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** add pagination support to multiple endpoints - Added pagination to CustomerList, AlertList, InvoiceList, CommitList, CreditList, CreditGrantList, CustomerAlerts, UsageList, CustomFields list, and ContractListBalances endpoints.
+* **api:** enhance subscriptions and commits/credits - Added Individual enum to SubscriptionConfig and rate_type enums to UpdateCredit/UpdateCommit.
+* **typescript-sdk:** migrate to latest SDK version - Migrated TypeScript SDK with improved type safety, enhanced error handling, updated method signatures, and restructured package exports. Existing TypeScript SDK integrations will require updates to import paths, method calls, and configuration options. See our Migration Guide for detailed step-by-step instructions.
+* **api:** add comprehensive shared types to SDK - Added 34 new shared types including BaseThresholdCommit, BaseUsageFilter, Commit, CommitHierarchyConfiguration, CommitRate, CommitSpecifier, CommitSpecifierInput, Contract, ContractV2, ContractWithoutAmendments, Credit, CreditTypeData, Discount, EventTypeFilter, HierarchyConfiguration, ID, Override, OverrideTier, OverwriteRate, PaymentGateConfig, PaymentGateConfigV2, PrepaidBalanceThresholdConfiguration, PrepaidBalanceThresholdConfigurationV2, PropertyFilter, ProService, Rate, RecurringCommitSubscriptionConfig, ScheduledCharge, ScheduleDuration, SchedulePointInTime, SpendThresholdConfiguration, SpendThresholdConfigurationV2, Subscription, Tier, and UpdateBaseThresholdCommit.
+
+### Features
+
+* **api:** add archived_at field to CustomerBillingConfiguration ([70c82e0](https://github.com/Metronome-Industries/metronome-node/commit/70c82e0b5b0df3a3031f6a4264c0d00e063bf868))
+* **api:** add comprehensive shared types to SDK - Added 34 new shared types including BaseThresholdCommit, BaseUsageFilter, Commit, CommitHierarchyConfiguration, CommitRate, CommitSpecifier, CommitSpecifierInput, Contract, ContractV2, ContractWithoutAmendments, Credit, CreditTypeData, Discount, EventTypeFilter, HierarchyConfiguration, ID, Override, OverrideTier, OverwriteRate, PaymentGateConfig, PaymentGateConfigV2, PrepaidBalanceThresholdConfiguration, PrepaidBalanceThresholdConfigurationV2, PropertyFilter, ProService, Rate, RecurringCommitSubscriptionConfig, ScheduledCharge, ScheduleDuration, SchedulePointInTime, SpendThresholdConfiguration, SpendThresholdConfigurationV2, Subscription, Tier, and UpdateBaseThresholdCommit. ([70c82e0](https://github.com/Metronome-Industries/metronome-node/commit/70c82e0b5b0df3a3031f6a4264c0d00e063bf868))
+* **api:** add created_at field to Commit ([70c82e0](https://github.com/Metronome-Industries/metronome-node/commit/70c82e0b5b0df3a3031f6a4264c0d00e063bf868))
+* **api:** add customer billing configuration endpoints - Added set and retrieve endpoints for customer billing configurations. ([70c82e0](https://github.com/Metronome-Industries/metronome-node/commit/70c82e0b5b0df3a3031f6a4264c0d00e063bf868))
+* **api:** add pagination support to multiple endpoints - Added pagination to CustomerList, AlertList, InvoiceList, CommitList, CreditList, CreditGrantList, CustomerAlerts, UsageList, CustomFields list, and ContractListBalances endpoints. ([70c82e0](https://github.com/Metronome-Industries/metronome-node/commit/70c82e0b5b0df3a3031f6a4264c0d00e063bf868))
+* **api:** Add support for granular spend threshold alerts with group key filters. ([70c82e0](https://github.com/Metronome-Industries/metronome-node/commit/70c82e0b5b0df3a3031f6a4264c0d00e063bf868))
+* **api:** enhance subscriptions and commits/credits - Added Individual enum to SubscriptionConfig and rate_type enums to UpdateCredit/UpdateCommit. ([70c82e0](https://github.com/Metronome-Industries/metronome-node/commit/70c82e0b5b0df3a3031f6a4264c0d00e063bf868))
+* **typescript-sdk:** migrate to latest SDK version - Migrated TypeScript SDK with improved type safety, enhanced error handling, updated method signatures, and restructured package exports. Existing TypeScript SDK integrations will require updates to import paths, method calls, and configuration options. See our Migration Guide for detailed step-by-step instructions. ([70c82e0](https://github.com/Metronome-Industries/metronome-node/commit/70c82e0b5b0df3a3031f6a4264c0d00e063bf868))
+
+
+### Bug Fixes
+
+* **mcp:** fix query options parsing ([70c82e0](https://github.com/Metronome-Industries/metronome-node/commit/70c82e0b5b0df3a3031f6a4264c0d00e063bf868))
+* **mcp:** fix uploading dxt release assets ([70c82e0](https://github.com/Metronome-Industries/metronome-node/commit/70c82e0b5b0df3a3031f6a4264c0d00e063bf868))
+
+
+### Chores
+
+* coerce nullable values to undefined ([70c82e0](https://github.com/Metronome-Industries/metronome-node/commit/70c82e0b5b0df3a3031f6a4264c0d00e063bf868))
+
+
+### Documentation
+
+* enhance API documentation - Added more detailed descriptions and styling improvements, and enhanced usage filter documentation with additional context. ([70c82e0](https://github.com/Metronome-Industries/metronome-node/commit/70c82e0b5b0df3a3031f6a4264c0d00e063bf868))
+
 ## 0.3.0 (2025-09-15)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.2.0...v0.3.0)
