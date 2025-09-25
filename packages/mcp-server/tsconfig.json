@@ -7,10 +7,9 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "baseUrl": "./",
     "paths": {
-      "@metronome/mcp/*": ["src/*"],
-      "@metronome/mcp": ["src/index.ts"]
+      "@metronome/mcp/*": ["./src/*"],
+      "@metronome/mcp": ["./src/index.ts"]
     },
     "noEmit": true,
 
