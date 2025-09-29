@@ -13,6 +13,12 @@ export {
   type NotificationArchiveParams,
 } from './notifications/notifications';
 export { Packages, type PackageCreateResponse, type PackageCreateParams } from './packages';
+export {
+  Payments,
+  type PaymentListResponse,
+  type PaymentListParams,
+  type PaymentListResponsesBodyCursorPage,
+} from './payments';
 export { V1 } from './v1/v1';
 export { V2 } from './v2/v2';
 export { Webhooks } from './webhooks';
