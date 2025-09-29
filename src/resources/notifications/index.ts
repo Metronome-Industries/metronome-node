@@ -1,6 +1,5 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export * from './shared';
 export {
   Notifications,
   type NotificationCreateResponse,
@@ -11,7 +10,6 @@ export {
   type NotificationRetrieveParams,
   type NotificationUpdateParams,
   type NotificationArchiveParams,
-} from './notifications/notifications';
-export { Packages, type PackageCreateResponse, type PackageCreateParams } from './packages';
-export { V1 } from './v1/v1';
-export { V2 } from './v2/v2';
+} from './notifications';
+export { Offset, type OffsetListResponse, type OffsetListParams } from './offset';
+export { System, type SystemListResponse } from './system';

@@ -495,7 +495,7 @@ export namespace ContractGetEditHistoryResponse {
 
       override_tiers?: Array<Shared.OverrideTier>;
 
-      overwrite_rate?: Shared.OverwriteRate;
+      overwrite_rate?: AddOverride.OverwriteRate;
 
       priority?: number;
 
@@ -523,6 +523,40 @@ export namespace ContractGetEditHistoryResponse {
         recurring_commit_ids?: Array<string>;
 
         recurring_credit_ids?: Array<string>;
+      }
+
+      export interface OverwriteRate {
+        rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+
+        credit_type?: Shared.CreditTypeData;
+
+        /**
+         * Only set for CUSTOM rate_type. This field is interpreted by custom rate
+         * processors.
+         */
+        custom_rate?: { [key: string]: unknown };
+
+        /**
+         * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+         * set to true.
+         */
+        is_prorated?: boolean;
+
+        /**
+         * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
+         * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
+         */
+        price?: number;
+
+        /**
+         * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
+         */
+        quantity?: number;
+
+        /**
+         * Only set for TIERED rate_type.
+         */
+        tiers?: Array<Shared.Tier>;
       }
 
       export interface Product {
@@ -1301,6 +1335,8 @@ export namespace ContractGetEditHistoryResponse {
       ending_before?: string;
 
       invoice_amount?: UpdateRecurringCommit.InvoiceAmount;
+
+      rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
     }
 
     export namespace UpdateRecurringCommit {
@@ -1323,6 +1359,8 @@ export namespace ContractGetEditHistoryResponse {
       access_amount?: UpdateRecurringCredit.AccessAmount;
 
       ending_before?: string;
+
+      rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
     }
 
     export namespace UpdateRecurringCredit {
@@ -1494,6 +1532,13 @@ export interface ContractEditParams {
    */
   customer_id: string;
 
+  /**
+   * Update the billing provider configuration on the contract. Currently only
+   * supports adding a billing provider configuration to a contract that does not
+   * already have one.
+   */
+  add_billing_provider_configuration_update?: ContractEditParams.AddBillingProviderConfigurationUpdate;
+
   add_commits?: Array<ContractEditParams.AddCommit>;
 
   add_credits?: Array<ContractEditParams.AddCredit>;
@@ -1601,6 +1646,50 @@ export interface ContractEditParams {
 }
 
 export namespace ContractEditParams {
+  /**
+   * Update the billing provider configuration on the contract. Currently only
+   * supports adding a billing provider configuration to a contract that does not
+   * already have one.
+   */
+  export interface AddBillingProviderConfigurationUpdate {
+    billing_provider_configuration: AddBillingProviderConfigurationUpdate.BillingProviderConfiguration;
+
+    /**
+     * Indicates when the billing provider will be active on the contract. Any charges
+     * accrued during the schedule will be billed to the indicated billing provider.
+     */
+    schedule: AddBillingProviderConfigurationUpdate.Schedule;
+  }
+
+  export namespace AddBillingProviderConfigurationUpdate {
+    export interface BillingProviderConfiguration {
+      billing_provider?:
+        | 'aws_marketplace'
+        | 'stripe'
+        | 'netsuite'
+        | 'custom'
+        | 'azure_marketplace'
+        | 'quickbooks_online'
+        | 'workday'
+        | 'gcp_marketplace';
+
+      billing_provider_configuration_id?: string;
+
+      delivery_method?: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+    }
+
+    /**
+     * Indicates when the billing provider will be active on the contract. Any charges
+     * accrued during the schedule will be billed to the indicated billing provider.
+     */
+    export interface Schedule {
+      /**
+       * When the billing provider update will take effect.
+       */
+      effective_at: 'START_OF_CURRENT_PERIOD';
+    }
+  }
+
   export interface AddCommit {
     product_id: string;
 
@@ -3187,6 +3276,12 @@ export namespace ContractEditParams {
     ending_before?: string | null;
 
     invoice_amount?: UpdateRecurringCommit.InvoiceAmount;
+
+    /**
+     * If provided, updates the recurring commit to use the specified rate type when
+     * generating future commits.
+     */
+    rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
   }
 
   export namespace UpdateRecurringCommit {
@@ -3209,6 +3304,12 @@ export namespace ContractEditParams {
     access_amount?: UpdateRecurringCredit.AccessAmount;
 
     ending_before?: string | null;
+
+    /**
+     * If provided, updates the recurring credit to use the specified rate type when
+     * generating future credits.
+     */
+    rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
   }
 
   export namespace UpdateRecurringCredit {
@@ -3345,6 +3446,11 @@ export interface ContractEditCommitParams {
   applicable_product_tags?: Array<string> | null;
 
   /**
+   * Optional configuration for commit hierarchy access control
+   */
+  hierarchy_configuration?: Shared.CommitHierarchyConfiguration;
+
+  /**
    * ID of contract to use for invoicing
    */
   invoice_contract_id?: string;
@@ -3471,6 +3577,11 @@ export interface ContractEditCreditParams {
    * applicable_product_tags are not provided, the credit applies to all products.
    */
   applicable_product_tags?: Array<string> | null;
+
+  /**
+   * Optional configuration for credit hierarchy access control
+   */
+  hierarchy_configuration?: Shared.CommitHierarchyConfiguration;
 
   /**
    * If multiple commits are applicable, the one with the lower priority will apply

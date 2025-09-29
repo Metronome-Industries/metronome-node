@@ -18,13 +18,13 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'create_v1_alerts',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nCreate a new alert to monitor customer spending, balances, and billing metrics in real-time. Metronome's alert system provides industry-leading speed with immediate evaluation capabilities, enabling you to proactively manage customer accounts and prevent revenue leakage.\n\nThis endpoint creates configurable alerts that continuously monitor various billing thresholds including spend limits, credit balances, commitment utilization, and invoice totals. Alerts can be configured globally for all customers or targeted to specific customer accounts. Custom fields can be used on certain alert types to further target alerts to groups of customers.\n\n### Use this endpoint to:\n- Proactively monitor customer spending patterns to prevent unexpected overages or credit exhaustion\n- Automate notifications when customers approach commitment limits or credit thresholds\n- Enable real-time intervention for accounts at risk of churn or payment issues\n- Scale billing operations by automating threshold-based workflows and notifications\n\n### Key response fields: \nA successful response returns a CustomerAlert object containing:\n\n- The alert configuration with its unique ID and current status\n- The customer's evaluation status (ok, in_alarm, or evaluating)\n- Alert metadata including type, threshold values, and update timestamps\n\n### Usage guidelines:\n- Immediate evaluation: Set `evaluate_on_create` : `true` (default) for instant evaluation against existing customers\n- Uniqueness constraints: Each alert must have a unique `uniqueness_key` within your organization. Use `release_uniqueness_key` : `true` when archiving to reuse keys\n- Alert type requirements: Different alert types require specific fields (e.g., `billable_metric_id` for usage alerts, `credit_type_id` for credit-based alerts)\n- Webhook delivery: Alerts trigger webhook notifications for real-time integration with your systems. Configure webhook endpoints before creating alerts\n- Performance at scale: Metronome's event-driven architecture processes alert evaluations in real-time as usage events stream in, unlike competitors who rely on periodic polling or batch evaluation cycles\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      $ref: '#/$defs/id'\n    }\n  },\n  required: [    'data'\n  ],\n  $defs: {\n    id: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  }\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nCreate a new threshold notification to monitor customer spending, balances, and billing metrics in real-time. Metronome's notification system provides industry-leading speed with immediate evaluation capabilities, enabling you to proactively manage customer accounts and prevent revenue leakage.\n\nThis endpoint creates configurable threshold notifications that continuously monitor various billing thresholds including spend limits, credit balances, commitment utilization, and invoice totals. Threshold notifications can be configured globally for all customers or targeted to specific customer accounts.\n\n### Use this endpoint to:\n- Proactively monitor customer spending patterns to prevent unexpected overages or credit exhaustion\n- Automate notifications when customers approach commitment limits or credit thresholds\n- Enable real-time intervention for accounts at risk of churn or payment issues\n- Scale billing operations by automating threshold-based workflows and notifications\n\n### Key response fields: \nA successful response returns a CustomerAlert object containing:\n\n- The threshold notification configuration with its unique ID and current status\n- The customer's evaluation status (ok, in_alarm, or evaluating)\n- Threshold notification metadata including type, threshold values, and update timestamps\n\n### Usage guidelines:\n- Immediate evaluation: Set `evaluate_on_create` : `true` (default) for instant evaluation against existing customers\n- Uniqueness constraints: Each threshold notification must have a unique `uniqueness_key` within your organization. Use `release_uniqueness_key` : `true` when archiving to reuse keys\n- Notification type requirements: Different threshold notification types require specific fields (e.g., `billable_metric_id` for usage notifications, `credit_type_id` for credit-based threshold notifications)\n- Webhook delivery: Threshold notifications trigger webhook notifications for real-time integration with your systems. Configure webhook endpoints before creating threshold notifications\n- Performance at scale: Metronome's event-driven architecture processes threshold notification evaluations in real-time as usage events stream in, unlike competitors who rely on periodic polling or batch evaluation cycles\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      $ref: '#/$defs/id'\n    }\n  },\n  required: [    'data'\n  ],\n  $defs: {\n    id: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  }\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
       alert_type: {
         type: 'string',
-        description: 'Type of the alert',
+        description: 'Type of the threshold notification',
         enum: [
           'low_credit_balance_reached',
           'spend_threshold_reached',
@@ -44,22 +44,22 @@ export const tool: Tool = {
       },
       name: {
         type: 'string',
-        description: 'Name of the alert',
+        description: 'Name of the threshold notification',
       },
       threshold: {
         type: 'number',
         description:
-          'Threshold value of the alert policy.  Depending upon the alert type, this number may represent a financial amount, the days remaining, or a percentage reached.',
+          'Threshold value of the notification policy.  Depending upon the notification type, this number may represent a financial amount, the days remaining, or a percentage reached.',
       },
       billable_metric_id: {
         type: 'string',
         description:
-          'For alerts of type `usage_threshold_reached`, specifies which billable metric to track the usage for.',
+          'For threshold notifications of type `usage_threshold_reached`, specifies which billable metric to track the usage for.',
       },
       credit_grant_type_filters: {
         type: 'array',
         description:
-          'An array of strings, representing a way to filter the credit grant this alert applies to, by looking at the credit_grant_type field on the credit grant. This field is only defined for CreditPercentage and CreditBalance alerts',
+          'An array of strings, representing a way to filter the credit grant this threshold notification applies to, by looking at the credit_grant_type field on the credit grant. This field is only defined for CreditPercentage and CreditBalance notifications',
         items: {
           type: 'string',
         },
@@ -67,12 +67,12 @@ export const tool: Tool = {
       credit_type_id: {
         type: 'string',
         description:
-          "ID of the credit's currency, defaults to USD. If the specific alert type requires a pricing unit/currency, find the ID in the [Metronome app](https://app.metronome.com/offering/pricing-units).",
+          "ID of the credit's currency, defaults to USD. If the specific notification type requires a pricing unit/currency, find the ID in the [Metronome app](https://app.metronome.com/offering/pricing-units).",
       },
       custom_field_filters: {
         type: 'array',
         description:
-          'A list of custom field filters for alert types that support advanced filtering. Only present for contract invoices.',
+          'A list of custom field filters for threshold notification types that support advanced filtering. Only present for contract invoices.',
         items: {
           type: 'object',
           properties: {
@@ -93,17 +93,17 @@ export const tool: Tool = {
       customer_id: {
         type: 'string',
         description:
-          'If provided, will create this alert for this specific customer. To create an alert for all customers, do not specify a `customer_id`.',
+          'If provided, will create this threshold notification for this specific customer. To create a notification for all customers, do not specify a `customer_id`.',
       },
       evaluate_on_create: {
         type: 'boolean',
         description:
-          'If true, the alert will evaluate immediately on customers that already meet the alert threshold. If false, it will only evaluate on future customers that trigger the alert threshold. Defaults to true.',
+          'If true, the threshold notification will evaluate immediately on customers that already meet the notification threshold. If false, it will only evaluate on future customers that trigger the threshold. Defaults to true.',
       },
       group_values: {
         type: 'array',
         description:
-          'Only present for `spend_threshold_reached` alerts. Scope alert to a specific group key on individual line items.',
+          'Only present for `spend_threshold_reached` notifications. Scope notification to a specific group key on individual line items.',
         items: {
           type: 'object',
           properties: {
@@ -119,7 +119,8 @@ export const tool: Tool = {
       },
       invoice_types_filter: {
         type: 'array',
-        description: 'Only supported for invoice_total_reached alerts. A list of invoice types to evaluate.',
+        description:
+          'Only supported for invoice_total_reached threshold notifications. A list of invoice types to evaluate.',
         items: {
           type: 'string',
         },
@@ -127,7 +128,7 @@ export const tool: Tool = {
       plan_id: {
         type: 'string',
         description:
-          'If provided, will create this alert for this specific plan. To create an alert for all customers, do not specify a `plan_id`.',
+          'If provided, will create this threshold notification for this specific plan. To create a notification for all customers, do not specify a `plan_id`.',
       },
       uniqueness_key: {
         type: 'string',

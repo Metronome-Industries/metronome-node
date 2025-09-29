@@ -27,6 +27,18 @@ import {
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
+import { PackageCreateParams, PackageCreateResponse, Packages } from './resources/packages';
+import {
+  NotificationArchiveParams,
+  NotificationArchiveResponse,
+  NotificationCreateParams,
+  NotificationCreateResponse,
+  NotificationRetrieveParams,
+  NotificationRetrieveResponse,
+  NotificationUpdateParams,
+  NotificationUpdateResponse,
+  Notifications,
+} from './resources/notifications/notifications';
 import { V1 } from './resources/v1/v1';
 import { V2 } from './resources/v2/v2';
 import { type Fetch } from './internal/builtin-types';
@@ -742,10 +754,14 @@ export class Metronome {
 
   v2: API.V2 = new API.V2(this);
   v1: API.V1 = new API.V1(this);
+  packages: API.Packages = new API.Packages(this);
+  notifications: API.Notifications = new API.Notifications(this);
 }
 
 Metronome.V2 = V2;
 Metronome.V1 = V1;
+Metronome.Packages = Packages;
+Metronome.Notifications = Notifications;
 
 export declare namespace Metronome {
   export type RequestOptions = Opts.RequestOptions;
@@ -768,6 +784,24 @@ export declare namespace Metronome {
   export { V2 as V2 };
 
   export { V1 as V1 };
+
+  export {
+    Packages as Packages,
+    type PackageCreateResponse as PackageCreateResponse,
+    type PackageCreateParams as PackageCreateParams,
+  };
+
+  export {
+    Notifications as Notifications,
+    type NotificationCreateResponse as NotificationCreateResponse,
+    type NotificationRetrieveResponse as NotificationRetrieveResponse,
+    type NotificationUpdateResponse as NotificationUpdateResponse,
+    type NotificationArchiveResponse as NotificationArchiveResponse,
+    type NotificationCreateParams as NotificationCreateParams,
+    type NotificationRetrieveParams as NotificationRetrieveParams,
+    type NotificationUpdateParams as NotificationUpdateParams,
+    type NotificationArchiveParams as NotificationArchiveParams,
+  };
 
   export type BaseThresholdCommit = API.BaseThresholdCommit;
   export type BaseUsageFilter = API.BaseUsageFilter;

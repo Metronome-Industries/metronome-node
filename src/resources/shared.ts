@@ -1024,7 +1024,7 @@ export namespace ContractV2 {
 
     override_tiers?: Array<Shared.OverrideTier>;
 
-    overwrite_rate?: Shared.OverwriteRate;
+    overwrite_rate?: Override.OverwriteRate;
 
     priority?: number;
 
@@ -1052,6 +1052,40 @@ export namespace ContractV2 {
       recurring_commit_ids?: Array<string>;
 
       recurring_credit_ids?: Array<string>;
+    }
+
+    export interface OverwriteRate {
+      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+
+      credit_type?: Shared.CreditTypeData;
+
+      /**
+       * Only set for CUSTOM rate_type. This field is interpreted by custom rate
+       * processors.
+       */
+      custom_rate?: { [key: string]: unknown };
+
+      /**
+       * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+       * set to true.
+       */
+      is_prorated?: boolean;
+
+      /**
+       * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
+       * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
+       */
+      price?: number;
+
+      /**
+       * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
+       */
+      quantity?: number;
+
+      /**
+       * Only set for TIERED rate_type.
+       */
+      tiers?: Array<Shared.Tier>;
     }
 
     export interface Product {
@@ -1657,7 +1691,7 @@ export interface ContractWithoutAmendments {
   credits?: Array<Credit>;
 
   /**
-   * This field's availability is dependent on your client's configuration.
+   * This field's availability is dependent on your client's
    */
   discounts?: Array<Discount>;
 

@@ -13,17 +13,26 @@ import { RequestOptions } from '../../../internal/request-options';
 
 export class Alerts extends APIResource {
   /**
-   * Retrieve the real-time evaluation status for a specific alert-customer pair.
-   * This endpoint provides instant visibility into whether a customer has triggered
-   * an alert condition, enabling you to monitor account health and take proactive
-   * action based on current alert states.
+   * Retrieve the real-time evaluation status for a specific threshold
+   * notification-customer pair. This endpoint provides instant visibility into
+   * whether a customer has triggered a threshold notification condition, enabling
+   * you to monitor account health and take proactive action based on current
+   * threshold notification states.
    *
    * ### Use this endpoint to:
    *
-   * - Check if a specific customer is currently violating an alert threshold
+   * - Check if a specific customer is currently violating an threshold notification
    *   (`in_alarm` status)
-   * - Verify alert configuration details and threshold values for a customer
-   * - Integrate alert status checks into customer support tools or admin interfaces
+   * - Verify threshold notification configuration details and threshold values for a
+   *   customer
+   * - Monitor the evaluation state of newly created or recently modified threshold
+   *   notification
+   * - Build dashboards or automated workflows that respond to specific threshold
+   *   notification conditions
+   * - Validate threshold notification behavior before deploying to production
+   *   customers
+   * - Integrate threshold notification status checks into customer support tools or
+   *   admin interfaces
    *
    * ### Key response fields:
    *
@@ -32,29 +41,32 @@ export class Alerts extends APIResource {
    * - `customer_status`: The current evaluation state
    *
    * - `ok` - Customer is within acceptable thresholds
-   * - `in_alarm`- Customer has breached the alert threshold
-   * - `evaluating` - Alert has yet to be evaluated (typically due to a customer or
-   *   alert having just been created)
-   * - `null` - Alert has been archived
-   * - `triggered_by`: Additional context about what caused the alert to trigger
-   *   (when applicable)
-   * - alert: Complete alert configuration including:
-   *   - Alert ID, name, and type
+   * - `in_alarm` - Customer has breached the threshold for the notification
+   * - `evaluating` - Notification is currently being evaluated (typically during
+   *   initial setup)
+   * - `null` - Notification has been archived
+   * - `triggered_by`: Additional context about what caused the notification to
+   *   trigger (when applicable)
+   * - alert: Complete threshold notification configuration including:
+   *   - Notification ID, name, and type
    *   - Current threshold values and credit type information
-   *   - Alert status (enabled, disabled, or archived)
+   *   - Notification status (enabled, disabled, or archived)
    *   - Last update timestamp
    *   - Any applied filters (credit grant types, custom fields, group values)
    *
    * ### Usage guidelines:
    *
    * - Customer status: Returns the current evaluation state, not historical data.
-   *   For alert history, use webhook notifications or event logs
-   * - Archived alerts: Returns null for customer_status if the alert has been
-   *   archived, but still includes the alert configuration details
-   * - Integration patterns: This endpoint can be used to check a customer's alert
-   *   status, but shouldn't be scraped. You should instead rely on the webhook
-   *   notification to understand when customers are moved to IN_ALARM.
-   * - Error handling: Returns 404 if either the customer or alert ID doesn't exist
+   *   For threshold notification history, use webhook notifications or event logs
+   * - Required parameters: Both customer_id and alert_id must be valid UUIDs that
+   *   exist in your organization
+   * - Archived notifications: Returns null for customer_status if the notification
+   *   has been archived, but still includes the notification configuration details
+   * - Performance considerations: This endpoint queries live evaluation state,
+   *   making it ideal for real-time monitoring but not for bulk status checks
+   * - Integration patterns: Best used for on-demand status checks in response to
+   *   user actions or as part of targeted monitoring workflows
+   * - Error handling: Returns 404 if either the customer or alert_id doesn't exist
    *   or isn't accessible to your organization
    *
    * @example
@@ -70,31 +82,37 @@ export class Alerts extends APIResource {
   }
 
   /**
-   * Retrieve all alert configurations and their current statuses for a specific
-   * customer in a single API call. This endpoint provides a comprehensive view of
-   * all alerts monitoring a customer account.
+   * Retrieve all threshold notification configurations and their current statuses
+   * for a specific customer in a single API call. This endpoint provides a
+   * comprehensive view of all threshold notification monitoring a customer account.
    *
    * ### Use this endpoint to:
    *
-   * - Display all active alerts for a customer in dashboards or admin panels
-   * - Quickly identify which alerts a customer is currently triggering
-   * - Audit alert coverage for specific accounts
-   * - Filter alerts by status (enabled, disabled, or archived)
+   * - Display all active threshold notifications for a customer in dashboards or
+   *   admin panels
+   * - Quickly identify which threshold notifications a customer is currently
+   *   triggering
+   * - Audit threshold notification coverage for specific accounts
+   * - Filter threshold notifications by status (enabled, disabled, or archived)
    *
    * ### Key response fields:
    *
    * - data: Array of CustomerAlert objects, each containing:
    *   - Current evaluation status (`ok`, `in_alarm`, `evaluating`, or `null`)
-   *   - Complete alert configuration and threshold details
-   *   - Alert metadata including type, name, and last update time
-   * - `next_page`: Pagination cursor for retrieving additional results
+   *   - Complete threshold notification configuration and threshold details
+   *   - Threshold notification metadata including type, name, and last update time
+   * - next_page: Pagination cursor for retrieving additional results
    *
    * ### Usage guidelines:
    *
-   * - Default behavior: Returns only enabled alerts unless alert_statuses filter is
-   *   specified
+   * - Default behavior: Returns only enabled threshold notifications unless
+   *   `alert_statuses` filter is specified
    * - Pagination: Use the `next_page` cursor to retrieve all results for customers
-   *   with many alerts
+   *   with many notifications
+   * - Performance: Efficiently retrieves multiple threshold notification statuses in
+   *   a single request instead of making individual calls
+   * - Filtering: Pass the `alert_statuses` array to include disabled or archived
+   *   threshold notifications in results
    *
    * @example
    * ```ts
@@ -120,23 +138,24 @@ export class Alerts extends APIResource {
   }
 
   /**
-   * Force an immediate re-evaluation of a specific alert for a customer, clearing
-   * any previous state and triggering a fresh assessment against current thresholds.
-   * This endpoint ensures alert accuracy after configuration changes or data
-   * corrections.
+   * Force an immediate re-evaluation of a specific threshold notification for a
+   * customer, clearing any previous state and triggering a fresh assessment against
+   * current thresholds. This endpoint ensures threshold notification accuracy after
+   * configuration changes or data corrections.
    *
    * ### Use this endpoint to:
    *
-   * - Clear false positive alerts after fixing data issues
-   * - Re-evaluate alerts after adjusting customer balances or credits
-   * - Test alert behavior during development and debugging
-   * - Resolve stuck alerts that may be in an incorrect state
+   * - Clear false positive threshold notifications after fixing data issues
+   * - Re-evaluate threshold notifications after adjusting customer balances or
+   *   credits
+   * - Test threshold notification behavior during development and debugging
+   * - Resolve stuck threshold notification that may be in an incorrect state
    * - Trigger immediate evaluation after threshold modifications
    *
    * ### Key response fields:
    *
-   * - 200 Success: Confirmation that the alert has been reset and re-evaluation
-   *   initiated
+   * - 200 Success: Confirmation that the threshold notification has been reset and
+   *   re-evaluation initiated
    * - No response body is returned - the operation completes asynchronously
    *
    * ### Usage guidelines:
@@ -172,13 +191,13 @@ export interface CustomerAlert {
   alert: CustomerAlert.Alert;
 
   /**
-   * The status of the customer alert. If the alert is archived, null will be
-   * returned.
+   * The status of the threshold notification. If the notification is archived, null
+   * will be returned.
    */
   customer_status: 'ok' | 'in_alarm' | 'evaluating' | null;
 
   /**
-   * If present, indicates the reason the alert was triggered.
+   * If present, indicates the reason the threshold notification was triggered.
    */
   triggered_by?: string | null;
 }
@@ -186,27 +205,27 @@ export interface CustomerAlert {
 export namespace CustomerAlert {
   export interface Alert {
     /**
-     * the Metronome ID of the alert
+     * the Metronome ID of the threshold notification
      */
     id: string;
 
     /**
-     * Name of the alert
+     * Name of the threshold notification
      */
     name: string;
 
     /**
-     * Status of the alert
+     * Status of the threshold notification
      */
     status: 'enabled' | 'archived' | 'disabled';
 
     /**
-     * Threshold value of the alert policy
+     * Threshold value of the notification policy
      */
     threshold: number;
 
     /**
-     * Type of the alert
+     * Type of the threshold notification
      */
     type:
       | 'low_credit_balance_reached'
@@ -225,39 +244,41 @@ export namespace CustomerAlert {
       | 'invoice_total_reached';
 
     /**
-     * Timestamp for when the alert was last updated
+     * Timestamp for when the threshold notification was last updated
      */
     updated_at: string;
 
     /**
-     * An array of strings, representing a way to filter the credit grant this alert
-     * applies to, by looking at the credit_grant_type field on the credit grant. This
-     * field is only defined for CreditPercentage and CreditBalance alerts
+     * An array of strings, representing a way to filter the credit grant this
+     * threshold notification applies to, by looking at the credit_grant_type field on
+     * the credit grant. This field is only defined for CreditPercentage and
+     * CreditBalance notifications
      */
     credit_grant_type_filters?: Array<string>;
 
     credit_type?: Shared.CreditTypeData | null;
 
     /**
-     * A list of custom field filters for alert types that support advanced filtering
+     * A list of custom field filters for notification types that support advanced
+     * filtering
      */
     custom_field_filters?: Array<Alert.CustomFieldFilter>;
 
     /**
-     * Scopes alert evaluation to a specific presentation group key on individual line
-     * items. Only present for spend alerts.
+     * Scopes threshold notification evaluation to a specific presentation group key on
+     * individual line items. Only present for spend notifications.
      */
     group_key_filter?: Alert.GroupKeyFilter;
 
     /**
-     * Only present for `spend_threshold_reached` alerts. Scope alert to a specific
-     * group key on individual line items.
+     * Only present for `spend_threshold_reached` notifications. Scope notification to
+     * a specific group key on individual line items.
      */
     group_values?: Array<Alert.GroupValue>;
 
     /**
-     * Only supported for invoice_total_reached alerts. A list of invoice types to
-     * evaluate.
+     * Only supported for invoice_total_reached threshold notifications. A list of
+     * invoice types to evaluate.
      */
     invoice_types_filter?: Array<string>;
 
@@ -279,8 +300,8 @@ export namespace CustomerAlert {
     }
 
     /**
-     * Scopes alert evaluation to a specific presentation group key on individual line
-     * items. Only present for spend alerts.
+     * Scopes threshold notification evaluation to a specific presentation group key on
+     * individual line items. Only present for spend notifications.
      */
     export interface GroupKeyFilter {
       key: string;
@@ -302,7 +323,7 @@ export interface AlertRetrieveResponse {
 
 export interface AlertRetrieveParams {
   /**
-   * The Metronome ID of the alert
+   * The Metronome ID of the threshold notification
    */
   alert_id: string;
 
@@ -312,22 +333,22 @@ export interface AlertRetrieveParams {
   customer_id: string;
 
   /**
-   * Only present for `spend_threshold_reached` alerts. Retrieve the alert for a
-   * specific group key-value pair.
+   * Only present for `spend_threshold_reached` notifications. Retrieve the
+   * notification for a specific group key-value pair.
    */
   group_values?: Array<AlertRetrieveParams.GroupValue>;
 
   /**
-   * When parallel alerts are enabled during migration, this flag denotes whether to
-   * fetch alerts for plans or contracts.
+   * When parallel threshold notifications are enabled during migration, this flag
+   * denotes whether to fetch notifications for plans or contracts.
    */
   plans_or_contracts?: 'PLANS' | 'CONTRACTS';
 }
 
 export namespace AlertRetrieveParams {
   /**
-   * Scopes alert evaluation to a specific presentation group key on individual line
-   * items. Only present for spend alerts.
+   * Scopes threshold notification evaluation to a specific presentation group key on
+   * individual line items. Only present for spend notifications.
    */
   export interface GroupValue {
     key: string;
@@ -343,15 +364,15 @@ export interface AlertListParams extends CursorPageWithoutLimitParams {
   customer_id: string;
 
   /**
-   * Body param: Optionally filter by alert status. If absent, only enabled alerts
-   * will be returned.
+   * Body param: Optionally filter by threshold notification status. If absent, only
+   * enabled notifications will be returned.
    */
   alert_statuses?: Array<'ENABLED' | 'DISABLED' | 'ARCHIVED'>;
 }
 
 export interface AlertResetParams {
   /**
-   * The Metronome ID of the alert
+   * The Metronome ID of the threshold notification
    */
   alert_id: string;
 
