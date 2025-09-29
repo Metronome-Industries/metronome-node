@@ -29,6 +29,12 @@ import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import { PackageCreateParams, PackageCreateResponse, Packages } from './resources/packages';
 import {
+  PaymentListParams,
+  PaymentListResponse,
+  PaymentListResponsesBodyCursorPage,
+  Payments,
+} from './resources/payments';
+import {
   NotificationArchiveParams,
   NotificationArchiveResponse,
   NotificationCreateParams,
@@ -755,12 +761,14 @@ export class Metronome {
   v2: API.V2 = new API.V2(this);
   v1: API.V1 = new API.V1(this);
   packages: API.Packages = new API.Packages(this);
+  payments: API.Payments = new API.Payments(this);
   notifications: API.Notifications = new API.Notifications(this);
 }
 
 Metronome.V2 = V2;
 Metronome.V1 = V1;
 Metronome.Packages = Packages;
+Metronome.Payments = Payments;
 Metronome.Notifications = Notifications;
 
 export declare namespace Metronome {
@@ -789,6 +797,13 @@ export declare namespace Metronome {
     Packages as Packages,
     type PackageCreateResponse as PackageCreateResponse,
     type PackageCreateParams as PackageCreateParams,
+  };
+
+  export {
+    Payments as Payments,
+    type PaymentListResponse as PaymentListResponse,
+    type PaymentListResponsesBodyCursorPage as PaymentListResponsesBodyCursorPage,
+    type PaymentListParams as PaymentListParams,
   };
 
   export {
