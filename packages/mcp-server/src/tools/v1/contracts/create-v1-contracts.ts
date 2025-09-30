@@ -278,7 +278,7 @@ export const tool: Tool = {
                   type: 'string',
                   description:
                     'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                  enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
+                  enum: ['NONE', 'STRIPE', 'ANROK', 'AVALARA', 'PRECALCULATED'],
                 },
               },
               required: ['payment_gate_type'],
@@ -1665,7 +1665,7 @@ export const tool: Tool = {
             type: 'string',
             description:
               'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-            enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
+            enum: ['NONE', 'STRIPE', 'ANROK', 'AVALARA', 'PRECALCULATED'],
           },
         },
         required: ['payment_gate_type'],
