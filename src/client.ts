@@ -761,15 +761,15 @@ export class Metronome {
   v2: API.V2 = new API.V2(this);
   v1: API.V1 = new API.V1(this);
   packages: API.Packages = new API.Packages(this);
-  payments: API.Payments = new API.Payments(this);
   notifications: API.Notifications = new API.Notifications(this);
+  payments: API.Payments = new API.Payments(this);
 }
 
 Metronome.V2 = V2;
 Metronome.V1 = V1;
 Metronome.Packages = Packages;
-Metronome.Payments = Payments;
 Metronome.Notifications = Notifications;
+Metronome.Payments = Payments;
 
 export declare namespace Metronome {
   export type RequestOptions = Opts.RequestOptions;
@@ -800,13 +800,6 @@ export declare namespace Metronome {
   };
 
   export {
-    Payments as Payments,
-    type PaymentListResponse as PaymentListResponse,
-    type PaymentListResponsesBodyCursorPage as PaymentListResponsesBodyCursorPage,
-    type PaymentListParams as PaymentListParams,
-  };
-
-  export {
     Notifications as Notifications,
     type NotificationCreateResponse as NotificationCreateResponse,
     type NotificationRetrieveResponse as NotificationRetrieveResponse,
@@ -816,6 +809,13 @@ export declare namespace Metronome {
     type NotificationRetrieveParams as NotificationRetrieveParams,
     type NotificationUpdateParams as NotificationUpdateParams,
     type NotificationArchiveParams as NotificationArchiveParams,
+  };
+
+  export {
+    Payments as Payments,
+    type PaymentListResponse as PaymentListResponse,
+    type PaymentListResponsesBodyCursorPage as PaymentListResponsesBodyCursorPage,
+    type PaymentListParams as PaymentListParams,
   };
 
   export type BaseThresholdCommit = API.BaseThresholdCommit;

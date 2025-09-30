@@ -1332,10 +1332,6 @@ The following tools are available in this MCP server.
 
 - `create_packages` (`write`): Create a new package
 
-### Resource `payments`:
-
-- `list_payments` (`write`): Fetch all payment attempts for the given invoice.
-
 ### Resource `notifications`:
 
 - `create_notifications` (`write`): Create an offset lifecycle event notification configuration. The lifecycle event type is inferred from the policy.type field.
@@ -1350,3 +1346,7 @@ The following tools are available in this MCP server.
 ### Resource `notifications.system`:
 
 - `list_notifications_system` (`write`): List available system lifecycle event types for notifications. These are read-only event types that can be used when creating offset notifications.
+
+### Resource `payments`:
+
+- `list_payments` (`write`): Fetch all payment attempts for the given invoice.
