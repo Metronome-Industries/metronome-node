@@ -2628,7 +2628,7 @@ export interface PaymentGateConfig {
    * not wish Metronome to calculate tax on your behalf. Leaving this field blank
    * will default to NONE.
    */
-  tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
+  tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'AVALARA' | 'PRECALCULATED';
 }
 
 export namespace PaymentGateConfig {
@@ -2690,7 +2690,7 @@ export interface PaymentGateConfigV2 {
    * not wish Metronome to calculate tax on your behalf. Leaving this field blank
    * will default to NONE.
    */
-  tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
+  tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'AVALARA' | 'PRECALCULATED';
 }
 
 export namespace PaymentGateConfigV2 {
