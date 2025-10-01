@@ -813,6 +813,34 @@ describe('resource contracts', () => {
     });
   });
 
+  test('getSubscriptionSeatsScheduleHistory: only required params', async () => {
+    const responsePromise = client.v1.contracts.getSubscriptionSeatsScheduleHistory({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('getSubscriptionSeatsScheduleHistory: required and optional params', async () => {
+    const response = await client.v1.contracts.getSubscriptionSeatsScheduleHistory({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
+      covering_date: '2024-01-15T00:00:00.000Z',
+      cursor: 'cursor',
+      ending_before: '2019-12-27T18:11:19.117Z',
+      limit: 10,
+      starting_at: '2019-12-27T18:11:19.117Z',
+    });
+  });
+
   test('listBalances: only required params', async () => {
     const responsePromise = client.v1.contracts.listBalances({
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
