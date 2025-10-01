@@ -29,6 +29,8 @@ import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import { PackageCreateParams, PackageCreateResponse, Packages } from './resources/packages';
 import {
+  PaymentAttemptParams,
+  PaymentAttemptResponse,
   PaymentListParams,
   PaymentListResponse,
   PaymentListResponsesBodyCursorPage,
@@ -814,8 +816,10 @@ export declare namespace Metronome {
   export {
     Payments as Payments,
     type PaymentListResponse as PaymentListResponse,
+    type PaymentAttemptResponse as PaymentAttemptResponse,
     type PaymentListResponsesBodyCursorPage as PaymentListResponsesBodyCursorPage,
     type PaymentListParams as PaymentListParams,
+    type PaymentAttemptParams as PaymentAttemptParams,
   };
 
   export type BaseThresholdCommit = API.BaseThresholdCommit;

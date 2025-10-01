@@ -1350,3 +1350,11 @@ The following tools are available in this MCP server.
 ### Resource `payments`:
 
 - `list_payments` (`write`): Fetch all payment attempts for the given invoice.
+- `attempt_payments` (`write`): Trigger a new attempt by canceling any existing attempts for this invoice and creating a new Payment. This will trigger another attempt to charge the Customer's configured Payment Gateway.
+  Payment can only be attempted if all of the following are true:
+
+  - The Metronome Invoice is finalized
+  - PLG Invoicing is configured for the Customer
+  - You cannot attempt payments for invoices that have already been `paid` or `voided`.
+
+  Attempting to payment on an ineligible Invoice or Customer will result in a `400` response.

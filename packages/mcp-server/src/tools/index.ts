@@ -115,6 +115,7 @@ import archive_notifications from './notifications/archive-notifications';
 import list_notifications_offset from './notifications/offset/list-notifications-offset';
 import list_notifications_system from './notifications/system/list-notifications-system';
 import list_payments from './payments/list-payments';
+import attempt_payments from './payments/attempt-payments';
 
 export const endpoints: Endpoint[] = [];
 
@@ -233,6 +234,7 @@ addEndpoint(archive_notifications);
 addEndpoint(list_notifications_offset);
 addEndpoint(list_notifications_system);
 addEndpoint(list_payments);
+addEndpoint(attempt_payments);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';
