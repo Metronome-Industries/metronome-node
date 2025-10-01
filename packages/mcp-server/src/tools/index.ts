@@ -109,14 +109,14 @@ import update_rate_cards_contracts_v1_named_schedules from './v1/contracts/rate-
 import retrieve_contracts_v1_named_schedules from './v1/contracts/named-schedules/retrieve-contracts-v1-named-schedules';
 import update_contracts_v1_named_schedules from './v1/contracts/named-schedules/update-contracts-v1-named-schedules';
 import create_packages from './packages/create-packages';
+import list_payments from './payments/list-payments';
+import attempt_payment_payments from './payments/attempt-payment-payments';
 import create_notifications from './notifications/create-notifications';
 import retrieve_notifications from './notifications/retrieve-notifications';
 import update_notifications from './notifications/update-notifications';
 import archive_notifications from './notifications/archive-notifications';
 import list_notifications_offset from './notifications/offset/list-notifications-offset';
 import list_notifications_system from './notifications/system/list-notifications-system';
-import list_payments from './payments/list-payments';
-import attempt_payments from './payments/attempt-payments';
 
 export const endpoints: Endpoint[] = [];
 
@@ -229,14 +229,14 @@ addEndpoint(update_rate_cards_contracts_v1_named_schedules);
 addEndpoint(retrieve_contracts_v1_named_schedules);
 addEndpoint(update_contracts_v1_named_schedules);
 addEndpoint(create_packages);
+addEndpoint(list_payments);
+addEndpoint(attempt_payment_payments);
 addEndpoint(create_notifications);
 addEndpoint(retrieve_notifications);
 addEndpoint(update_notifications);
 addEndpoint(archive_notifications);
 addEndpoint(list_notifications_offset);
 addEndpoint(list_notifications_system);
-addEndpoint(list_payments);
-addEndpoint(attempt_payments);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';

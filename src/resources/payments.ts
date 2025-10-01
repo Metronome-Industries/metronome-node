@@ -51,13 +51,16 @@ export class Payments extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.payments.attempt({
+   * const response = await client.payments.attemptPayment({
    *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
    *   invoice_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
    * });
    * ```
    */
-  attempt(body: PaymentAttemptParams, options?: RequestOptions): APIPromise<PaymentAttemptResponse> {
+  attemptPayment(
+    body: PaymentAttemptPaymentParams,
+    options?: RequestOptions,
+  ): APIPromise<PaymentAttemptPaymentResponse> {
     return this._client.post('/v1/payments/attempt', { body, ...options });
   }
 }
@@ -116,11 +119,11 @@ export namespace PaymentListResponse {
   }
 }
 
-export interface PaymentAttemptResponse {
-  data: PaymentAttemptResponse.Data;
+export interface PaymentAttemptPaymentResponse {
+  data: PaymentAttemptPaymentResponse.Data;
 }
 
-export namespace PaymentAttemptResponse {
+export namespace PaymentAttemptPaymentResponse {
   export interface Data {
     id: string;
 
@@ -182,7 +185,7 @@ export interface PaymentListParams extends BodyCursorPageParams {
   statuses?: Array<'pending' | 'requires_intervention' | 'paid' | 'canceled'>;
 }
 
-export interface PaymentAttemptParams {
+export interface PaymentAttemptPaymentParams {
   customer_id: string;
 
   invoice_id: string;
@@ -191,9 +194,9 @@ export interface PaymentAttemptParams {
 export declare namespace Payments {
   export {
     type PaymentListResponse as PaymentListResponse,
-    type PaymentAttemptResponse as PaymentAttemptResponse,
+    type PaymentAttemptPaymentResponse as PaymentAttemptPaymentResponse,
     type PaymentListResponsesBodyCursorPage as PaymentListResponsesBodyCursorPage,
     type PaymentListParams as PaymentListParams,
-    type PaymentAttemptParams as PaymentAttemptParams,
+    type PaymentAttemptPaymentParams as PaymentAttemptPaymentParams,
   };
 }

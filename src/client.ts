@@ -29,8 +29,8 @@ import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import { PackageCreateParams, PackageCreateResponse, Packages } from './resources/packages';
 import {
-  PaymentAttemptParams,
-  PaymentAttemptResponse,
+  PaymentAttemptPaymentParams,
+  PaymentAttemptPaymentResponse,
   PaymentListParams,
   PaymentListResponse,
   PaymentListResponsesBodyCursorPage,
@@ -763,15 +763,15 @@ export class Metronome {
   v2: API.V2 = new API.V2(this);
   v1: API.V1 = new API.V1(this);
   packages: API.Packages = new API.Packages(this);
-  notifications: API.Notifications = new API.Notifications(this);
   payments: API.Payments = new API.Payments(this);
+  notifications: API.Notifications = new API.Notifications(this);
 }
 
 Metronome.V2 = V2;
 Metronome.V1 = V1;
 Metronome.Packages = Packages;
-Metronome.Notifications = Notifications;
 Metronome.Payments = Payments;
+Metronome.Notifications = Notifications;
 
 export declare namespace Metronome {
   export type RequestOptions = Opts.RequestOptions;
@@ -802,6 +802,15 @@ export declare namespace Metronome {
   };
 
   export {
+    Payments as Payments,
+    type PaymentListResponse as PaymentListResponse,
+    type PaymentAttemptPaymentResponse as PaymentAttemptPaymentResponse,
+    type PaymentListResponsesBodyCursorPage as PaymentListResponsesBodyCursorPage,
+    type PaymentListParams as PaymentListParams,
+    type PaymentAttemptPaymentParams as PaymentAttemptPaymentParams,
+  };
+
+  export {
     Notifications as Notifications,
     type NotificationCreateResponse as NotificationCreateResponse,
     type NotificationRetrieveResponse as NotificationRetrieveResponse,
@@ -811,15 +820,6 @@ export declare namespace Metronome {
     type NotificationRetrieveParams as NotificationRetrieveParams,
     type NotificationUpdateParams as NotificationUpdateParams,
     type NotificationArchiveParams as NotificationArchiveParams,
-  };
-
-  export {
-    Payments as Payments,
-    type PaymentListResponse as PaymentListResponse,
-    type PaymentAttemptResponse as PaymentAttemptResponse,
-    type PaymentListResponsesBodyCursorPage as PaymentListResponsesBodyCursorPage,
-    type PaymentListParams as PaymentListParams,
-    type PaymentAttemptParams as PaymentAttemptParams,
   };
 
   export type BaseThresholdCommit = API.BaseThresholdCommit;
