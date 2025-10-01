@@ -16,7 +16,9 @@ export { Packages, type PackageCreateResponse, type PackageCreateParams } from '
 export {
   Payments,
   type PaymentListResponse,
+  type PaymentAttemptResponse,
   type PaymentListParams,
+  type PaymentAttemptParams,
   type PaymentListResponsesBodyCursorPage,
 } from './payments';
 export { V1 } from './v1/v1';
