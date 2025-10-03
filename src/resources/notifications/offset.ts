@@ -40,6 +40,11 @@ export namespace OffsetListResponse {
     id: string;
 
     /**
+     * When this notification configuration was archived
+     */
+    archived_at: string | null;
+
+    /**
      * RFC 3339 timestamp when this notification configuration was created.
      */
     created_at: string;
