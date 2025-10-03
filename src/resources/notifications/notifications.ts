@@ -92,6 +92,11 @@ export namespace NotificationCreateResponse {
     id: string;
 
     /**
+     * When this notification configuration was archived
+     */
+    archived_at: string | null;
+
+    /**
      * RFC 3339 timestamp when this notification configuration was created.
      */
     created_at: string;
@@ -147,6 +152,11 @@ export namespace NotificationRetrieveResponse {
      * ID for this offset notification configuration
      */
     id: string;
+
+    /**
+     * When this notification configuration was archived
+     */
+    archived_at: string | null;
 
     /**
      * RFC 3339 timestamp when this notification configuration was created.
@@ -231,6 +241,11 @@ export namespace NotificationUpdateResponse {
     id: string;
 
     /**
+     * When this notification configuration was archived
+     */
+    archived_at: string | null;
+
+    /**
      * RFC 3339 timestamp when this notification configuration was created.
      */
     created_at: string;
@@ -286,6 +301,11 @@ export namespace NotificationArchiveResponse {
      * ID for this offset notification configuration
      */
     id: string;
+
+    /**
+     * When this notification configuration was archived
+     */
+    archived_at: string | null;
 
     /**
      * RFC 3339 timestamp when this notification configuration was created.
