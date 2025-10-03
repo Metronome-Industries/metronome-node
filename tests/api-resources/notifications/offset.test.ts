@@ -23,7 +23,7 @@ describe('resource offset', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.notifications.offset.list(
-        { cursor: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', limit: 20 },
+        { archive_filter: 'NOT_ARCHIVED', cursor: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', limit: 20 },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
