@@ -1373,7 +1373,7 @@ The following tools are available in this MCP server.
 
 ### Resource `notifications.offset`:
 
-- `list_notifications_offset` (`write`): List offset lifecycle event notification configurations. These are user-created notifications that trigger at a specified time offset relative to lifecycle events.
+- `list_notifications_offset` (`write`): List offset lifecycle event notification configurations. These are user-created notifications that trigger at a specified time offset relative to lifecycle events. Returns a maximum of 400 results per request.
 
 ### Resource `notifications.system`:
 

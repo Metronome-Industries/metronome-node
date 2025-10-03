@@ -8,11 +8,12 @@ export class Offset extends APIResource {
   /**
    * List offset lifecycle event notification configurations. These are user-created
    * notifications that trigger at a specified time offset relative to lifecycle
-   * events.
+   * events. Returns a maximum of 400 results per request.
    *
    * @example
    * ```ts
    * const offsets = await client.notifications.offset.list({
+   *   archive_filter: 'NOT_ARCHIVED',
    *   cursor: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
    *   limit: 20,
    * });
@@ -91,6 +92,12 @@ export namespace OffsetListResponse {
 }
 
 export interface OffsetListParams {
+  /**
+   * Filter options for the notification configurations. If not provided, defaults to
+   * NOT_ARCHIVED.
+   */
+  archive_filter?: 'ARCHIVED' | 'NOT_ARCHIVED' | 'ALL';
+
   cursor?: string;
 
   limit?: number;
