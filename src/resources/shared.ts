@@ -3090,6 +3090,11 @@ export interface SpendThresholdConfigurationV2 {
 }
 
 export interface Subscription {
+  /**
+   * Previous, current, and next billing periods for the subscription.
+   */
+  billing_periods: Subscription.BillingPeriods;
+
   collection_schedule: 'ADVANCE' | 'ARREARS';
 
   proration: Subscription.Proration;
@@ -3129,6 +3134,37 @@ export interface Subscription {
 }
 
 export namespace Subscription {
+  /**
+   * Previous, current, and next billing periods for the subscription.
+   */
+  export interface BillingPeriods {
+    current?: BillingPeriods.Current;
+
+    next?: BillingPeriods.Next;
+
+    previous?: BillingPeriods.Previous;
+  }
+
+  export namespace BillingPeriods {
+    export interface Current {
+      ending_before: string;
+
+      starting_at: string;
+    }
+
+    export interface Next {
+      ending_before: string;
+
+      starting_at: string;
+    }
+
+    export interface Previous {
+      ending_before: string;
+
+      starting_at: string;
+    }
+  }
+
   export interface Proration {
     invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
 

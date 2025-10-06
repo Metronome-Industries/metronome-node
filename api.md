@@ -467,18 +467,6 @@ Methods:
 
 - <code title="post /v1/packages/create">client.packages.<a href="./src/resources/packages.ts">create</a>({ ...params }) -> PackageCreateResponse</code>
 
-# Payments
-
-Types:
-
-- <code><a href="./src/resources/payments.ts">PaymentListResponse</a></code>
-- <code><a href="./src/resources/payments.ts">PaymentAttemptPaymentResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/payments/list">client.payments.<a href="./src/resources/payments.ts">list</a>({ ...params }) -> PaymentListResponsesBodyCursorPage</code>
-- <code title="post /v1/payments/attempt">client.payments.<a href="./src/resources/payments.ts">attemptPayment</a>({ ...params }) -> PaymentAttemptPaymentResponse</code>
-
 # Notifications
 
 Types:

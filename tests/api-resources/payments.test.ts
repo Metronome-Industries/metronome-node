@@ -32,8 +32,8 @@ describe('resource payments', () => {
     });
   });
 
-  test('attemptPayment: only required params', async () => {
-    const responsePromise = client.payments.attemptPayment({
+  test('attempt: only required params', async () => {
+    const responsePromise = client.payments.attempt({
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
       invoice_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
     });
@@ -46,8 +46,8 @@ describe('resource payments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('attemptPayment: required and optional params', async () => {
-    const response = await client.payments.attemptPayment({
+  test('attempt: required and optional params', async () => {
+    const response = await client.payments.attempt({
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
       invoice_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
     });
