@@ -3513,7 +3513,8 @@ export interface ContractGetSubscriptionSeatsScheduleHistoryParams {
   ending_before?: string | null;
 
   /**
-   * Maximum number of seat schedule entries to return. Defaults to 10.
+   * Maximum number of seat schedule entries to return. Defaults to 10. Required
+   * range: 1 <= x <= 10.
    */
   limit?: number | null;
 

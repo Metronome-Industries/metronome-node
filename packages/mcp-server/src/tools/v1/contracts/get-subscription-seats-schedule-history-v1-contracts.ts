@@ -50,7 +50,8 @@ export const tool: Tool = {
       },
       limit: {
         type: 'integer',
-        description: 'Maximum number of seat schedule entries to return. Defaults to 10.',
+        description:
+          'Maximum number of seat schedule entries to return. Defaults to 10. Required range: 1 <= x <= 10.',
       },
       starting_at: {
         type: 'string',
