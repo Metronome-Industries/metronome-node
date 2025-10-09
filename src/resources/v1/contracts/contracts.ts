@@ -405,23 +405,20 @@ export class Contracts extends APIResource {
    * @example
    * ```ts
    * const response =
-   *   await client.v1.contracts.getSubscriptionSeatsScheduleHistory(
-   *     {
-   *       contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-   *       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-   *       subscription_id:
-   *         '1a824d53-bde6-4d82-96d7-6347ff227d5c',
-   *       covering_date: '2024-01-15T00:00:00.000Z',
-   *       limit: 10,
-   *     },
-   *   );
+   *   await client.v1.contracts.getSubscriptionSeatsHistory({
+   *     contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *     subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
+   *     covering_date: '2024-01-15T00:00:00.000Z',
+   *     limit: 10,
+   *   });
    * ```
    */
-  getSubscriptionSeatsScheduleHistory(
-    body: ContractGetSubscriptionSeatsScheduleHistoryParams,
+  getSubscriptionSeatsHistory(
+    body: ContractGetSubscriptionSeatsHistoryParams,
     options?: RequestOptions,
-  ): APIPromise<ContractGetSubscriptionSeatsScheduleHistoryResponse> {
-    return this._client.post('/v1/contracts/getSubscriptionSeatsScheduleHistory', { body, ...options });
+  ): APIPromise<ContractGetSubscriptionSeatsHistoryResponse> {
+    return this._client.post('/v1/contracts/getSubscriptionSeatsHistory', { body, ...options });
   }
 
   /**
@@ -674,8 +671,8 @@ export interface ContractCreateHistoricalInvoicesResponse {
   data: Array<InvoicesAPI.Invoice>;
 }
 
-export interface ContractGetSubscriptionSeatsScheduleHistoryResponse {
-  data: Array<ContractGetSubscriptionSeatsScheduleHistoryResponse.Data>;
+export interface ContractGetSubscriptionSeatsHistoryResponse {
+  data: Array<ContractGetSubscriptionSeatsHistoryResponse.Data>;
 
   /**
    * Cursor for the next page of results
@@ -683,7 +680,7 @@ export interface ContractGetSubscriptionSeatsScheduleHistoryResponse {
   next_page: string | null;
 }
 
-export namespace ContractGetSubscriptionSeatsScheduleHistoryResponse {
+export namespace ContractGetSubscriptionSeatsHistoryResponse {
   export interface Data {
     /**
      * Array of seat IDs that are assigned in this period
@@ -3486,7 +3483,7 @@ export namespace ContractCreateHistoricalInvoicesParams {
   }
 }
 
-export interface ContractGetSubscriptionSeatsScheduleHistoryParams {
+export interface ContractGetSubscriptionSeatsHistoryParams {
   contract_id: string;
 
   customer_id: string;
@@ -3767,7 +3764,7 @@ export declare namespace Contracts {
     type ContractAmendResponse as ContractAmendResponse,
     type ContractArchiveResponse as ContractArchiveResponse,
     type ContractCreateHistoricalInvoicesResponse as ContractCreateHistoricalInvoicesResponse,
-    type ContractGetSubscriptionSeatsScheduleHistoryResponse as ContractGetSubscriptionSeatsScheduleHistoryResponse,
+    type ContractGetSubscriptionSeatsHistoryResponse as ContractGetSubscriptionSeatsHistoryResponse,
     type ContractListBalancesResponse as ContractListBalancesResponse,
     type ContractRetrieveRateScheduleResponse as ContractRetrieveRateScheduleResponse,
     type ContractRetrieveSubscriptionQuantityHistoryResponse as ContractRetrieveSubscriptionQuantityHistoryResponse,
@@ -3781,7 +3778,7 @@ export declare namespace Contracts {
     type ContractAmendParams as ContractAmendParams,
     type ContractArchiveParams as ContractArchiveParams,
     type ContractCreateHistoricalInvoicesParams as ContractCreateHistoricalInvoicesParams,
-    type ContractGetSubscriptionSeatsScheduleHistoryParams as ContractGetSubscriptionSeatsScheduleHistoryParams,
+    type ContractGetSubscriptionSeatsHistoryParams as ContractGetSubscriptionSeatsHistoryParams,
     type ContractListBalancesParams as ContractListBalancesParams,
     type ContractRetrieveRateScheduleParams as ContractRetrieveRateScheduleParams,
     type ContractRetrieveSubscriptionQuantityHistoryParams as ContractRetrieveSubscriptionQuantityHistoryParams,

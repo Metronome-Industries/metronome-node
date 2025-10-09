@@ -813,8 +813,8 @@ describe('resource contracts', () => {
     });
   });
 
-  test('getSubscriptionSeatsScheduleHistory: only required params', async () => {
-    const responsePromise = client.v1.contracts.getSubscriptionSeatsScheduleHistory({
+  test('getSubscriptionSeatsHistory: only required params', async () => {
+    const responsePromise = client.v1.contracts.getSubscriptionSeatsHistory({
       contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
       subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
@@ -828,8 +828,8 @@ describe('resource contracts', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('getSubscriptionSeatsScheduleHistory: required and optional params', async () => {
-    const response = await client.v1.contracts.getSubscriptionSeatsScheduleHistory({
+  test('getSubscriptionSeatsHistory: required and optional params', async () => {
+    const response = await client.v1.contracts.getSubscriptionSeatsHistory({
       contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
       subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
