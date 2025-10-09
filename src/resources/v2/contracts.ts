@@ -373,7 +373,7 @@ export namespace ContractGetEditHistoryResponse {
       /**
        * The schedule that the customer will be invoiced for this commit.
        */
-      invoice_schedule?: Shared.SchedulePointInTime;
+      invoice_schedule?: AddCommit.InvoiceSchedule;
 
       name?: string;
 
@@ -413,6 +413,36 @@ export namespace ContractGetEditHistoryResponse {
         id: string;
 
         name: string;
+      }
+
+      /**
+       * The schedule that the customer will be invoiced for this commit.
+       */
+      export interface InvoiceSchedule {
+        credit_type?: Shared.CreditTypeData;
+
+        /**
+         * If true, this schedule will not generate an invoice.
+         */
+        do_not_invoice?: boolean;
+
+        schedule_items?: Array<InvoiceSchedule.ScheduleItem>;
+      }
+
+      export namespace InvoiceSchedule {
+        export interface ScheduleItem {
+          id: string;
+
+          timestamp: string;
+
+          amount?: number;
+
+          invoice_id?: string | null;
+
+          quantity?: number;
+
+          unit_price?: number;
+        }
       }
     }
 
