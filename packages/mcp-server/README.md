@@ -1178,7 +1178,7 @@ The following tools are available in this MCP server.
   Archived contracts remain accessible for historical reporting and audit purposes. They can be retrieved using the `ListContracts` endpoint by setting the `include_archived` parameter to `true` or in the Metronome UI when the "Show archived" option is enabled.
 
 - `create_historical_invoices_v1_contracts` (`write`): Create historical usage invoices for past billing periods on specific contracts. Use this endpoint to generate retroactive invoices with custom usage line items, quantities, and date ranges. Supports preview mode to validate invoice data before creation. Ideal for billing migrations or correcting past billing periods.
-- `get_subscription_seats_schedule_history_v1_contracts` (`write`): Get the history of subscription seats schedule over time for a given `subscription_id`. This endpoint provides information about seat assignments and total quantities for different time periods, allowing you to track how seat assignments have changed over time.
+- `get_subscription_seats_history_v1_contracts` (`write`): Get the history of subscription seats schedule over time for a given `subscription_id`. This endpoint provides information about seat assignments and total quantities for different time periods, allowing you to track how seat assignments have changed over time.
 
   ### Use this endpoint to:
 

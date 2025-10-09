@@ -343,7 +343,7 @@ Types:
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractAmendResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractArchiveResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractCreateHistoricalInvoicesResponse</a></code>
-- <code><a href="./src/resources/v1/contracts/contracts.ts">ContractGetSubscriptionSeatsScheduleHistoryResponse</a></code>
+- <code><a href="./src/resources/v1/contracts/contracts.ts">ContractGetSubscriptionSeatsHistoryResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractListBalancesResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractRetrieveRateScheduleResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractRetrieveSubscriptionQuantityHistoryResponse</a></code>
@@ -359,7 +359,7 @@ Methods:
 - <code title="post /v1/contracts/amend">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">amend</a>({ ...params }) -> ContractAmendResponse</code>
 - <code title="post /v1/contracts/archive">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">archive</a>({ ...params }) -> ContractArchiveResponse</code>
 - <code title="post /v1/contracts/createHistoricalInvoices">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">createHistoricalInvoices</a>({ ...params }) -> ContractCreateHistoricalInvoicesResponse</code>
-- <code title="post /v1/contracts/getSubscriptionSeatsScheduleHistory">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">getSubscriptionSeatsScheduleHistory</a>({ ...params }) -> ContractGetSubscriptionSeatsScheduleHistoryResponse</code>
+- <code title="post /v1/contracts/getSubscriptionSeatsHistory">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">getSubscriptionSeatsHistory</a>({ ...params }) -> ContractGetSubscriptionSeatsHistoryResponse</code>
 - <code title="post /v1/contracts/customerBalances/list">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">listBalances</a>({ ...params }) -> ContractListBalancesResponsesBodyCursorPage</code>
 - <code title="post /v1/contracts/getContractRateSchedule">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">retrieveRateSchedule</a>({ ...params }) -> ContractRetrieveRateScheduleResponse</code>
 - <code title="post /v1/contracts/getSubscriptionQuantityHistory">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">retrieveSubscriptionQuantityHistory</a>({ ...params }) -> ContractRetrieveSubscriptionQuantityHistoryResponse</code>
