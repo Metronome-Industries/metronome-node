@@ -57,6 +57,7 @@ This affects the following methods:
 - `client.v1.customers.plans.end()`
 - `client.v1.customers.plans.listPriceAdjustments()`
 - `client.v1.customers.invoices.retrieve()`
+- `client.v1.customers.invoices.retrievePdf()`
 - `client.v1.customers.billingConfig.create()`
 - `client.v1.customers.billingConfig.retrieve()`
 - `client.v1.customers.billingConfig.delete()`

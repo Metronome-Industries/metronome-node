@@ -70,6 +70,7 @@ export {
   type InvoiceListParams,
   type InvoiceAddChargeParams,
   type InvoiceListBreakdownsParams,
+  type InvoiceRetrievePdfParams,
   type InvoicesCursorPage,
   type InvoiceListBreakdownsResponsesCursorPage,
 } from './invoices';

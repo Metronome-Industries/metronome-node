@@ -69,6 +69,18 @@ import {
   InvoiceVoidResponse,
   Invoices,
 } from './invoices';
+import * as PaymentsAPI from './payments';
+import {
+  Payment,
+  PaymentAttemptParams,
+  PaymentAttemptResponse,
+  PaymentCancelParams,
+  PaymentCancelResponse,
+  PaymentListParams,
+  PaymentStatus,
+  Payments,
+  PaymentsBodyCursorPage,
+} from './payments';
 import * as PlansAPI from './plans';
 import {
   PlanDetail,
@@ -180,6 +192,7 @@ export class V1 extends APIResource {
   services: ServicesAPI.Services = new ServicesAPI.Services(this._client);
   invoices: InvoicesAPI.Invoices = new InvoicesAPI.Invoices(this._client);
   contracts: ContractsAPI.Contracts = new ContractsAPI.Contracts(this._client);
+  payments: PaymentsAPI.Payments = new PaymentsAPI.Payments(this._client);
 }
 
 V1.Alerts = Alerts;
@@ -195,6 +208,7 @@ V1.BillableMetrics = BillableMetrics;
 V1.Services = Services;
 V1.Invoices = Invoices;
 V1.Contracts = Contracts;
+V1.Payments = Payments;
 
 export declare namespace V1 {
   export {
@@ -363,5 +377,17 @@ export declare namespace V1 {
     type ContractScheduleProServicesInvoiceParams as ContractScheduleProServicesInvoiceParams,
     type ContractSetUsageFilterParams as ContractSetUsageFilterParams,
     type ContractUpdateEndDateParams as ContractUpdateEndDateParams,
+  };
+
+  export {
+    Payments as Payments,
+    type Payment as Payment,
+    type PaymentStatus as PaymentStatus,
+    type PaymentAttemptResponse as PaymentAttemptResponse,
+    type PaymentCancelResponse as PaymentCancelResponse,
+    type PaymentsBodyCursorPage as PaymentsBodyCursorPage,
+    type PaymentListParams as PaymentListParams,
+    type PaymentAttemptParams as PaymentAttemptParams,
+    type PaymentCancelParams as PaymentCancelParams,
   };
 }

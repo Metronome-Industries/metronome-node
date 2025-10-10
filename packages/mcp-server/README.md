@@ -615,6 +615,26 @@ The following tools are available in this MCP server.
   - Backdated usage: If usage events arrive after invoice finalization, breakdowns will reflect the updated usage
   - Zero quantity filtering: Use `skip_zero_qty_line_items=true` to exclude periods with no usage
 
+- `retrieve_pdf_customers_v1_invoices` (`read`): Retrieve a PDF version of a specific invoice by its unique identifier. This endpoint generates a professionally formatted invoice document suitable for sharing with customers, accounting teams, or for record-keeping purposes.
+
+  ### Use this endpoint to:
+
+  - Provide customers with downloadable or emailable copies of their invoices
+  - Support accounting and finance teams with official billing documents
+  - Maintain accurate records of billing transactions for audits and compliance
+
+  ### Key response details:
+
+  - The response is a binary PDF file representing the full invoice
+  - The PDF includes all standard invoice information such as line items, totals, billing period, and customer details
+  - The document is formatted for clarity and professionalism, suitable for official use
+
+  ### Usage guidelines:
+
+  - Ensure the `invoice_id` corresponds to an existing invoice for the specified `customer_id`
+  - The PDF is generated on-demand; frequent requests for the same invoice may impact performance
+  - Use appropriate headers to handle the binary response in your application (e.g., setting `Content-Type: application/pdf`)
+
 ### Resource `v1.customers.billing_config`:
 
 - `create_customers_v1_billing_config` (`write`): Set the billing configuration for a given customer.
@@ -1327,3 +1347,17 @@ The following tools are available in this MCP server.
 
 - `retrieve_contracts_v1_named_schedules` (`write`): Get a named schedule for the given rate card. This endpoint's availability is dependent on your client's configuration.
 - `update_contracts_v1_named_schedules` (`write`): Update a named schedule for the given rate card. This endpoint's availability is dependent on your client's configuration.
+
+### Resource `v1.payments`:
+
+- `list_v1_payments` (`write`): Fetch all payment attempts for the given invoice.
+- `attempt_v1_payments` (`write`): Trigger a new attempt by canceling any existing attempts for this invoice and creating a new Payment. This will trigger another attempt to charge the Customer's configured Payment Gateway.
+  Payment can only be attempted if all of the following are true:
+
+  - The Metronome Invoice is finalized
+  - PLG Invoicing is configured for the Customer
+  - You cannot attempt payments for invoices that have already been `paid` or `voided`.
+
+  Attempting to payment on an ineligible Invoice or Customer will result in a `400` response.
+
+- `cancel_v1_payments` (`write`): Cancel an existing payment attempt for an invoice.
