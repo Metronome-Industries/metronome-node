@@ -375,53 +375,6 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Get the history of subscription seats schedule over time for a given
-   * `subscription_id`. This endpoint provides information about seat assignments and
-   * total quantities for different time periods, allowing you to track how seat
-   * assignments have changed over time.
-   *
-   * ### Use this endpoint to:
-   *
-   * - Track changes to seat assignments over time
-   * - Get seat schedule for a specific date using the `covering_date` parameter
-   * - Get seat schedule history with optional date range filtering using
-   *   `starting_at` and `ending_before`
-   *
-   * ### Key response fields:
-   *
-   * - data: array of seat schedule entries with time periods, quantity, and
-   *   assignments
-   * - next_page: cursor for pagination to retrieve additional results
-   *
-   * ### Usage guidelines:
-   *
-   * - Use `covering_date` to get the active seats for a specific point in time.
-   *   `covering_date` cannot be used with `starting_at` or `ending_before`.
-   * - Use `starting_at` and `ending_before` to filter results by time range.
-   *   `starting_at` and `ending_before` cannot be used with `covering_date`.
-   * - Maximum limit is 10 seat schedule entries per request
-   * - Results are ordered by `starting_at` timestamp
-   *
-   * @example
-   * ```ts
-   * const response =
-   *   await client.v1.contracts.getSubscriptionSeatsHistory({
-   *     contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-   *     subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
-   *     covering_date: '2024-01-15T00:00:00.000Z',
-   *     limit: 10,
-   *   });
-   * ```
-   */
-  getSubscriptionSeatsHistory(
-    body: ContractGetSubscriptionSeatsHistoryParams,
-    options?: RequestOptions,
-  ): APIPromise<ContractGetSubscriptionSeatsHistoryResponse> {
-    return this._client.post('/v1/contracts/getSubscriptionSeatsHistory', { body, ...options });
-  }
-
-  /**
    * Retrieve a comprehensive view of all available balances (commits and credits)
    * for a customer. This endpoint provides real-time visibility into prepaid funds,
    * postpaid commitments, promotional credits, and other balance types that can
@@ -669,39 +622,6 @@ export interface ContractArchiveResponse {
 
 export interface ContractCreateHistoricalInvoicesResponse {
   data: Array<InvoicesAPI.Invoice>;
-}
-
-export interface ContractGetSubscriptionSeatsHistoryResponse {
-  data: Array<ContractGetSubscriptionSeatsHistoryResponse.Data>;
-
-  /**
-   * Cursor for the next page of results
-   */
-  next_page: string | null;
-}
-
-export namespace ContractGetSubscriptionSeatsHistoryResponse {
-  export interface Data {
-    /**
-     * Array of seat IDs that are assigned in this period
-     */
-    assigned_seat_ids: Array<string>;
-
-    /**
-     * The end time of this seat schedule period (null if ongoing)
-     */
-    ending_before: string | null;
-
-    /**
-     * The start time of this seat schedule period
-     */
-    starting_at: string;
-
-    /**
-     * Total number of assigned and unassigned seats in this period
-     */
-    total_quantity: number;
-  }
 }
 
 export type ContractListBalancesResponse = Shared.Commit | Shared.Credit;
@@ -3483,46 +3403,6 @@ export namespace ContractCreateHistoricalInvoicesParams {
   }
 }
 
-export interface ContractGetSubscriptionSeatsHistoryParams {
-  contract_id: string;
-
-  customer_id: string;
-
-  subscription_id: string;
-
-  /**
-   * Get the seats history segment for the covering date. Cannot be used with
-   * `starting_at` or `ending_before`.
-   */
-  covering_date?: string | null;
-
-  /**
-   * Cursor for pagination. Use the value from the `next_page` field of the previous
-   * response to retrieve the next page of results.
-   */
-  cursor?: string | null;
-
-  /**
-   * Include seats history segments that are active at or before this timestamp. Use
-   * with `starting_at` to get a specific time range. If not set, there's no upper
-   * bound.
-   */
-  ending_before?: string | null;
-
-  /**
-   * Maximum number of seat schedule entries to return. Defaults to 10. Required
-   * range: 1 <= x <= 10.
-   */
-  limit?: number | null;
-
-  /**
-   * Include seats history segments that are active at or after this timestamp. Use
-   * with `ending_before` to get a specific time range. If not set, there's no lower
-   * bound.
-   */
-  starting_at?: string | null;
-}
-
 export interface ContractListBalancesParams extends BodyCursorPageParams {
   customer_id: string;
 
@@ -3764,7 +3644,6 @@ export declare namespace Contracts {
     type ContractAmendResponse as ContractAmendResponse,
     type ContractArchiveResponse as ContractArchiveResponse,
     type ContractCreateHistoricalInvoicesResponse as ContractCreateHistoricalInvoicesResponse,
-    type ContractGetSubscriptionSeatsHistoryResponse as ContractGetSubscriptionSeatsHistoryResponse,
     type ContractListBalancesResponse as ContractListBalancesResponse,
     type ContractRetrieveRateScheduleResponse as ContractRetrieveRateScheduleResponse,
     type ContractRetrieveSubscriptionQuantityHistoryResponse as ContractRetrieveSubscriptionQuantityHistoryResponse,
@@ -3778,7 +3657,6 @@ export declare namespace Contracts {
     type ContractAmendParams as ContractAmendParams,
     type ContractArchiveParams as ContractArchiveParams,
     type ContractCreateHistoricalInvoicesParams as ContractCreateHistoricalInvoicesParams,
-    type ContractGetSubscriptionSeatsHistoryParams as ContractGetSubscriptionSeatsHistoryParams,
     type ContractListBalancesParams as ContractListBalancesParams,
     type ContractRetrieveRateScheduleParams as ContractRetrieveRateScheduleParams,
     type ContractRetrieveSubscriptionQuantityHistoryParams as ContractRetrieveSubscriptionQuantityHistoryParams,

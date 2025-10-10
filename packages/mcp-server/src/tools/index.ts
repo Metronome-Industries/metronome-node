@@ -81,7 +81,6 @@ import add_manual_balance_entry_v1_contracts from './v1/contracts/add-manual-bal
 import amend_v1_contracts from './v1/contracts/amend-v1-contracts';
 import archive_v1_contracts from './v1/contracts/archive-v1-contracts';
 import create_historical_invoices_v1_contracts from './v1/contracts/create-historical-invoices-v1-contracts';
-import get_subscription_seats_history_v1_contracts from './v1/contracts/get-subscription-seats-history-v1-contracts';
 import list_balances_v1_contracts from './v1/contracts/list-balances-v1-contracts';
 import retrieve_rate_schedule_v1_contracts from './v1/contracts/retrieve-rate-schedule-v1-contracts';
 import retrieve_subscription_quantity_history_v1_contracts from './v1/contracts/retrieve-subscription-quantity-history-v1-contracts';
@@ -108,16 +107,6 @@ import retrieve_rate_cards_contracts_v1_named_schedules from './v1/contracts/rat
 import update_rate_cards_contracts_v1_named_schedules from './v1/contracts/rate-cards/named-schedules/update-rate-cards-contracts-v1-named-schedules';
 import retrieve_contracts_v1_named_schedules from './v1/contracts/named-schedules/retrieve-contracts-v1-named-schedules';
 import update_contracts_v1_named_schedules from './v1/contracts/named-schedules/update-contracts-v1-named-schedules';
-import create_packages from './packages/create-packages';
-import create_notifications from './notifications/create-notifications';
-import retrieve_notifications from './notifications/retrieve-notifications';
-import update_notifications from './notifications/update-notifications';
-import archive_notifications from './notifications/archive-notifications';
-import list_notifications_offset from './notifications/offset/list-notifications-offset';
-import list_notifications_system from './notifications/system/list-notifications-system';
-import list_payments from './payments/list-payments';
-import attempt_payments from './payments/attempt-payments';
-import cancel_payments from './payments/cancel-payments';
 
 export const endpoints: Endpoint[] = [];
 
@@ -202,7 +191,6 @@ addEndpoint(add_manual_balance_entry_v1_contracts);
 addEndpoint(amend_v1_contracts);
 addEndpoint(archive_v1_contracts);
 addEndpoint(create_historical_invoices_v1_contracts);
-addEndpoint(get_subscription_seats_history_v1_contracts);
 addEndpoint(list_balances_v1_contracts);
 addEndpoint(retrieve_rate_schedule_v1_contracts);
 addEndpoint(retrieve_subscription_quantity_history_v1_contracts);
@@ -229,16 +217,6 @@ addEndpoint(retrieve_rate_cards_contracts_v1_named_schedules);
 addEndpoint(update_rate_cards_contracts_v1_named_schedules);
 addEndpoint(retrieve_contracts_v1_named_schedules);
 addEndpoint(update_contracts_v1_named_schedules);
-addEndpoint(create_packages);
-addEndpoint(create_notifications);
-addEndpoint(retrieve_notifications);
-addEndpoint(update_notifications);
-addEndpoint(archive_notifications);
-addEndpoint(list_notifications_offset);
-addEndpoint(list_notifications_system);
-addEndpoint(list_payments);
-addEndpoint(attempt_payments);
-addEndpoint(cancel_payments);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';
