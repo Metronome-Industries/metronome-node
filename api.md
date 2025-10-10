@@ -196,6 +196,7 @@ Methods:
 - <code title="get /v1/customers/{customer_id}/invoices">client.v1.customers.invoices.<a href="./src/resources/v1/customers/invoices.ts">list</a>({ ...params }) -> InvoicesCursorPage</code>
 - <code title="post /v1/customers/{customer_id}/addCharge">client.v1.customers.invoices.<a href="./src/resources/v1/customers/invoices.ts">addCharge</a>({ ...params }) -> InvoiceAddChargeResponse</code>
 - <code title="get /v1/customers/{customer_id}/invoices/breakdowns">client.v1.customers.invoices.<a href="./src/resources/v1/customers/invoices.ts">listBreakdowns</a>({ ...params }) -> InvoiceListBreakdownsResponsesCursorPage</code>
+- <code title="get /v1/customers/{customer_id}/invoices/{invoice_id}/pdf">client.v1.customers.invoices.<a href="./src/resources/v1/customers/invoices.ts">retrievePdf</a>({ ...params }) -> Response</code>
 
 ### BillingConfig
 
@@ -454,6 +455,20 @@ Methods:
 - <code title="post /v1/contract-pricing/rate-cards/getNamedSchedule">client.v1.contracts.namedSchedules.<a href="./src/resources/v1/contracts/named-schedules.ts">retrieve</a>({ ...params }) -> NamedScheduleRetrieveResponse</code>
 - <code title="post /v1/contract-pricing/rate-cards/updateNamedSchedule">client.v1.contracts.namedSchedules.<a href="./src/resources/v1/contracts/named-schedules.ts">update</a>({ ...params }) -> void</code>
 
+## Payments
+
+Types:
+
+- <code><a href="./src/resources/v1/payments.ts">Payment</a></code>
+- <code><a href="./src/resources/v1/payments.ts">PaymentStatus</a></code>
+- <code><a href="./src/resources/v1/payments.ts">PaymentAttemptResponse</a></code>
+- <code><a href="./src/resources/v1/payments.ts">PaymentCancelResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/payments/list">client.v1.payments.<a href="./src/resources/v1/payments.ts">list</a>({ ...params }) -> PaymentsBodyCursorPage</code>
+- <code title="post /v1/payments/attempt">client.v1.payments.<a href="./src/resources/v1/payments.ts">attempt</a>({ ...params }) -> PaymentAttemptResponse</code>
+- <code title="post /v1/payments/cancel">client.v1.payments.<a href="./src/resources/v1/payments.ts">cancel</a>({ ...params }) -> PaymentCancelResponse</code>
 # Payments
 
 Types:

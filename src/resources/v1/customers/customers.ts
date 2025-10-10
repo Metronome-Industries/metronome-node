@@ -48,6 +48,7 @@ import {
   InvoiceListBreakdownsResponsesCursorPage,
   InvoiceListParams,
   InvoiceRetrieveParams,
+  InvoiceRetrievePdfParams,
   InvoiceRetrieveResponse,
   Invoices,
   InvoicesCursorPage,
@@ -1170,6 +1171,7 @@ export declare namespace Customers {
     type InvoiceListParams as InvoiceListParams,
     type InvoiceAddChargeParams as InvoiceAddChargeParams,
     type InvoiceListBreakdownsParams as InvoiceListBreakdownsParams,
+    type InvoiceRetrievePdfParams as InvoiceRetrievePdfParams,
   };
 
   export {
