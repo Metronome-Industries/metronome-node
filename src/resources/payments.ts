@@ -60,6 +60,21 @@ export class Payments extends APIResource {
   attempt(body: PaymentAttemptParams, options?: RequestOptions): APIPromise<PaymentAttemptResponse> {
     return this._client.post('/v1/payments/attempt', { body, ...options });
   }
+
+  /**
+   * Cancel an existing payment attempt for an invoice.
+   *
+   * @example
+   * ```ts
+   * const response = await client.payments.cancel({
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   invoice_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+   * });
+   * ```
+   */
+  cancel(body: PaymentCancelParams, options?: RequestOptions): APIPromise<PaymentCancelResponse> {
+    return this._client.post('/v1/payments/cancel', { body, ...options });
+  }
 }
 
 export type PaymentListResponsesBodyCursorPage = BodyCursorPage<PaymentListResponse>;
@@ -174,6 +189,64 @@ export namespace PaymentAttemptResponse {
   }
 }
 
+export interface PaymentCancelResponse {
+  data: PaymentCancelResponse.Data;
+}
+
+export namespace PaymentCancelResponse {
+  export interface Data {
+    id: string;
+
+    amount?: number;
+
+    amount_paid?: number;
+
+    contract_id?: string;
+
+    created_at?: string;
+
+    customer_id?: string;
+
+    error_message?: string;
+
+    fiat_credit_type?: Shared.CreditTypeData;
+
+    invoice_id?: string;
+
+    payment_gateway?: Data.PaymentGateway;
+
+    status?: 'pending' | 'requires_intervention' | 'paid' | 'canceled';
+
+    updated_at?: string;
+  }
+
+  export namespace Data {
+    export interface PaymentGateway {
+      stripe: PaymentGateway.Stripe;
+
+      type: 'stripe';
+    }
+
+    export namespace PaymentGateway {
+      export interface Stripe {
+        payment_intent_id: string;
+
+        error?: Stripe.Error;
+      }
+
+      export namespace Stripe {
+        export interface Error {
+          code?: string;
+
+          decline_code?: string;
+
+          type?: string;
+        }
+      }
+    }
+  }
+}
+
 export interface PaymentListParams extends BodyCursorPageParams {
   customer_id: string;
 
@@ -188,12 +261,20 @@ export interface PaymentAttemptParams {
   invoice_id: string;
 }
 
+export interface PaymentCancelParams {
+  customer_id: string;
+
+  invoice_id: string;
+}
+
 export declare namespace Payments {
   export {
     type PaymentListResponse as PaymentListResponse,
     type PaymentAttemptResponse as PaymentAttemptResponse,
+    type PaymentCancelResponse as PaymentCancelResponse,
     type PaymentListResponsesBodyCursorPage as PaymentListResponsesBodyCursorPage,
     type PaymentListParams as PaymentListParams,
     type PaymentAttemptParams as PaymentAttemptParams,
+    type PaymentCancelParams as PaymentCancelParams,
   };
 }
