@@ -52,4 +52,25 @@ describe('resource payments', () => {
       invoice_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
     });
   });
+
+  test('cancel: only required params', async () => {
+    const responsePromise = client.payments.cancel({
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      invoice_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('cancel: required and optional params', async () => {
+    const response = await client.payments.cancel({
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      invoice_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+    });
+  });
 });

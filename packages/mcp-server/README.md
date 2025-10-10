@@ -1378,3 +1378,5 @@ The following tools are available in this MCP server.
   - You cannot attempt payments for invoices that have already been `paid` or `voided`.
 
   Attempting to payment on an ineligible Invoice or Customer will result in a `400` response.
+
+- `cancel_payments` (`write`): Cancel an existing payment attempt for an invoice.

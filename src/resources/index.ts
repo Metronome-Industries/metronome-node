@@ -17,8 +17,10 @@ export {
   Payments,
   type PaymentListResponse,
   type PaymentAttemptResponse,
+  type PaymentCancelResponse,
   type PaymentListParams,
   type PaymentAttemptParams,
+  type PaymentCancelParams,
   type PaymentListResponsesBodyCursorPage,
 } from './payments';
 export { V1 } from './v1/v1';

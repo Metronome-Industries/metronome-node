@@ -508,8 +508,10 @@ Types:
 
 - <code><a href="./src/resources/payments.ts">PaymentListResponse</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentAttemptResponse</a></code>
+- <code><a href="./src/resources/payments.ts">PaymentCancelResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/payments/list">client.payments.<a href="./src/resources/payments.ts">list</a>({ ...params }) -> PaymentListResponsesBodyCursorPage</code>
 - <code title="post /v1/payments/attempt">client.payments.<a href="./src/resources/payments.ts">attempt</a>({ ...params }) -> PaymentAttemptResponse</code>
+- <code title="post /v1/payments/cancel">client.payments.<a href="./src/resources/payments.ts">cancel</a>({ ...params }) -> PaymentCancelResponse</code>
