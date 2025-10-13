@@ -18,17 +18,17 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'archive_v1_alerts',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nPermanently disable an alert and remove it from active monitoring across all customers. Archived alerts stop evaluating immediately and can optionally release their uniqueness key for reuse in future alert configurations.\n\n### Use this endpoint to:\n- Decommission alerts that are no longer needed\n- Clean up test or deprecated alert configurations\n- Free up uniqueness keys for reuse with new alerts\n- Stop alert evaluations without losing historical configuration data\n- Disable outdated monitoring rules during pricing model transitions\n\n### Key response fields:\n- data: Object containing the archived alert's ID\n- Alert evaluation stops immediately for all affected customers\n- Historical alert data and configurations remain accessible for audit purposes\n\n### Usage guidelines:\n- Irreversible for evaluation: Archived alerts cannot be re-enabled; create a new alert to resume monitoring\n- Uniqueness key handling: Set `release_uniqueness_key` : `true` to reuse the key in future alerts\n- Immediate effect: Alert evaluation stops instantly across all customers\n- Historical preservation: Archive operation maintains alert history and configuration for compliance and auditing\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      $ref: '#/$defs/id'\n    }\n  },\n  required: [    'data'\n  ],\n  $defs: {\n    id: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  }\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nPermanently disable a threshold notification and remove it from active monitoring across all customers. Archived threshold notifications stop evaluating immediately and can optionally release their uniqueness key for reuse in future threshold notification configurations.\n\n### Use this endpoint to:\n- Decommission threshold notifications that are no longer needed\n- Clean up test or deprecated threshold notification configurations\n- Free up uniqueness keys for reuse with new threshold notifications\n- Stop threshold notification evaluations without losing historical configuration data\n- Disable outdated monitoring rules during pricing model transitions\n\n### Key response fields:\n- data: Object containing the archived threshold notification's ID\n\n### Usage guidelines:\n- Irreversible for evaluation: Archived threshold notifications cannot be re-enabled; create a new threshold notification to resume monitoring\n- Uniqueness key handling: Set `release_uniqueness_key` : `true` to reuse the key in future threshold notifications\n- Immediate effect: Threshold notification evaluation stops instantly across all customers\n- Historical preservation: Archive operation maintains threshold notification history and configuration for compliance and auditing\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      $ref: '#/$defs/id'\n    }\n  },\n  required: [    'data'\n  ],\n  $defs: {\n    id: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  }\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
       id: {
         type: 'string',
-        description: 'The Metronome ID of the alert',
+        description: 'The Metronome ID of the threshold notification',
       },
       release_uniqueness_key: {
         type: 'boolean',
-        description: 'If true, resets the uniqueness key on this alert so it can be re-used',
+        description: 'If true, resets the uniqueness key on this threshold notification so it can be re-used',
       },
       jq_filter: {
         type: 'string',

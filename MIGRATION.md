@@ -121,6 +121,7 @@ This affects the following methods:
 - `client.v1.billableMetrics.list()`
 - `client.v1.contracts.products.list()`
 - `client.v1.contracts.rateCards.list()`
+- `client.notifications.offset.list()`
 
 ### Removed `httpAgent` in favor of `fetchOptions`
 

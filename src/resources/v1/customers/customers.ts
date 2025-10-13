@@ -203,7 +203,7 @@ export class Customers extends APIResource {
    * - Ingest aliases remain idempotent for archived customers. In order to reuse an
    *   ingest alias, first remove the ingest alias from the customer prior to
    *   archiving.
-   * - Any alerts associated with the customer will no longer be triggered.
+   * - Any notifications associated with the customer will no longer be triggered.
    *
    * @example
    * ```ts
@@ -545,6 +545,11 @@ export interface CustomerDetail {
   ingest_aliases: Array<string>;
 
   name: string;
+
+  /**
+   * RFC 3339 timestamp indicating when the customer was last updated.
+   */
+  updated_at: string;
 
   /**
    * RFC 3339 timestamp indicating when the customer was archived. Null if the

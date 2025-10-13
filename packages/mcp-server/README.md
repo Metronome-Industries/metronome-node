@@ -283,9 +283,9 @@ The following tools are available in this MCP server.
 
 ### Resource `v1.alerts`:
 
-- `create_v1_alerts` (`write`): Create a new alert to monitor customer spending, balances, and billing metrics in real-time. Metronome's alert system provides industry-leading speed with immediate evaluation capabilities, enabling you to proactively manage customer accounts and prevent revenue leakage.
+- `create_v1_alerts` (`write`): Create a new threshold notification to monitor customer spending, balances, and billing metrics in real-time. Metronome's notification system provides industry-leading speed with immediate evaluation capabilities, enabling you to proactively manage customer accounts and prevent revenue leakage.
 
-  This endpoint creates configurable alerts that continuously monitor various billing thresholds including spend limits, credit balances, commitment utilization, and invoice totals. Alerts can be configured globally for all customers or targeted to specific customer accounts. Custom fields can be used on certain alert types to further target alerts to groups of customers.
+  This endpoint creates configurable threshold notifications that continuously monitor various billing thresholds including spend limits, credit balances, commitment utilization, and invoice totals. Threshold notifications can be configured globally for all customers or targeted to specific customer accounts.
 
   ### Use this endpoint to:
 
@@ -298,40 +298,38 @@ The following tools are available in this MCP server.
 
   A successful response returns a CustomerAlert object containing:
 
-  - The alert configuration with its unique ID and current status
+  - The threshold notification configuration with its unique ID and current status
   - The customer's evaluation status (ok, in_alarm, or evaluating)
-  - Alert metadata including type, threshold values, and update timestamps
+  - Threshold notification metadata including type, threshold values, and update timestamps
 
   ### Usage guidelines:
 
   - Immediate evaluation: Set `evaluate_on_create` : `true` (default) for instant evaluation against existing customers
-  - Uniqueness constraints: Each alert must have a unique `uniqueness_key` within your organization. Use `release_uniqueness_key` : `true` when archiving to reuse keys
-  - Alert type requirements: Different alert types require specific fields (e.g., `billable_metric_id` for usage alerts, `credit_type_id` for credit-based alerts)
-  - Webhook delivery: Alerts trigger webhook notifications for real-time integration with your systems. Configure webhook endpoints before creating alerts
-  - Performance at scale: Metronome's event-driven architecture processes alert evaluations in real-time as usage events stream in, unlike competitors who rely on periodic polling or batch evaluation cycles
+  - Uniqueness constraints: Each threshold notification must have a unique `uniqueness_key` within your organization. Use `release_uniqueness_key` : `true` when archiving to reuse keys
+  - Notification type requirements: Different threshold notification types require specific fields (e.g., `billable_metric_id` for usage notifications, `credit_type_id` for credit-based threshold notifications)
+  - Webhook delivery: Threshold notifications trigger webhook notifications for real-time integration with your systems. Configure webhook endpoints before creating threshold notifications
+  - Performance at scale: Metronome's event-driven architecture processes threshold notification evaluations in real-time as usage events stream in, unlike competitors who rely on periodic polling or batch evaluation cycles
 
-- `archive_v1_alerts` (`write`): Permanently disable an alert and remove it from active monitoring across all customers. Archived alerts stop evaluating immediately and can optionally release their uniqueness key for reuse in future alert configurations.
+- `archive_v1_alerts` (`write`): Permanently disable a threshold notification and remove it from active monitoring across all customers. Archived threshold notifications stop evaluating immediately and can optionally release their uniqueness key for reuse in future threshold notification configurations.
 
   ### Use this endpoint to:
 
-  - Decommission alerts that are no longer needed
-  - Clean up test or deprecated alert configurations
-  - Free up uniqueness keys for reuse with new alerts
-  - Stop alert evaluations without losing historical configuration data
+  - Decommission threshold notifications that are no longer needed
+  - Clean up test or deprecated threshold notification configurations
+  - Free up uniqueness keys for reuse with new threshold notifications
+  - Stop threshold notification evaluations without losing historical configuration data
   - Disable outdated monitoring rules during pricing model transitions
 
   ### Key response fields:
 
-  - data: Object containing the archived alert's ID
-  - Alert evaluation stops immediately for all affected customers
-  - Historical alert data and configurations remain accessible for audit purposes
+  - data: Object containing the archived threshold notification's ID
 
   ### Usage guidelines:
 
-  - Irreversible for evaluation: Archived alerts cannot be re-enabled; create a new alert to resume monitoring
-  - Uniqueness key handling: Set `release_uniqueness_key` : `true` to reuse the key in future alerts
-  - Immediate effect: Alert evaluation stops instantly across all customers
-  - Historical preservation: Archive operation maintains alert history and configuration for compliance and auditing
+  - Irreversible for evaluation: Archived threshold notifications cannot be re-enabled; create a new threshold notification to resume monitoring
+  - Uniqueness key handling: Set `release_uniqueness_key` : `true` to reuse the key in future threshold notifications
+  - Immediate effect: Threshold notification evaluation stops instantly across all customers
+  - Historical preservation: Archive operation maintains threshold notification history and configuration for compliance and auditing
 
 ### Resource `v1.plans`:
 
@@ -388,7 +386,7 @@ The following tools are available in this MCP server.
   - Once a customer is archived, it cannot be unarchived.
   - Archived customers can still be viewed through the API or the UI for audit purposes.
   - Ingest aliases remain idempotent for archived customers. In order to reuse an ingest alias, first remove the ingest alias from the customer prior to archiving.
-  - Any alerts associated with the customer will no longer be triggered.
+  - Any notifications associated with the customer will no longer be triggered.
 
 - `list_billable_metrics_v1_customers` (`read`): Get all billable metrics available for a specific customer. Supports pagination and filtering by current plan status or archived metrics. Use this endpoint to see which metrics are being tracked for billing calculations for a given customer.
 - `list_costs_v1_customers` (`read`): Fetch daily pending costs for the specified customer, broken down by credit type and line items. Note: this is not supported for customers whose plan includes a UNIQUE-type billable metric.
@@ -429,13 +427,16 @@ The following tools are available in this MCP server.
 
 ### Resource `v1.customers.alerts`:
 
-- `retrieve_customers_v1_alerts` (`write`): Retrieve the real-time evaluation status for a specific alert-customer pair. This endpoint provides instant visibility into whether a customer has triggered an alert condition, enabling you to monitor account health and take proactive action based on current alert states.
+- `retrieve_customers_v1_alerts` (`write`): Retrieve the real-time evaluation status for a specific threshold notification-customer pair. This endpoint provides instant visibility into whether a customer has triggered a threshold notification condition, enabling you to monitor account health and take proactive action based on current threshold notification states.
 
   ### Use this endpoint to:
 
-  - Check if a specific customer is currently violating an alert threshold (`in_alarm` status)
-  - Verify alert configuration details and threshold values for a customer
-  - Integrate alert status checks into customer support tools or admin interfaces
+  - Check if a specific customer is currently violating an threshold notification (`in_alarm` status)
+  - Verify threshold notification configuration details and threshold values for a customer
+  - Monitor the evaluation state of newly created or recently modified threshold notification
+  - Build dashboards or automated workflows that respond to specific threshold notification conditions
+  - Validate threshold notification behavior before deploying to production customers
+  - Integrate threshold notification status checks into customer support tools or admin interfaces
 
   ### Key response fields:
 
@@ -444,59 +445,63 @@ The following tools are available in this MCP server.
   - `customer_status`: The current evaluation state
 
   - `ok` - Customer is within acceptable thresholds
-  - `in_alarm`- Customer has breached the alert threshold
-  - `evaluating` - Alert has yet to be evaluated (typically due to a customer or alert having just been created)
-  - `null` - Alert has been archived
-  - `triggered_by`: Additional context about what caused the alert to trigger (when applicable)
-  - alert: Complete alert configuration including:
-    - Alert ID, name, and type
+  - `in_alarm` - Customer has breached the threshold for the notification
+  - `evaluating` - Notification is currently being evaluated (typically during initial setup)
+  - `null` - Notification has been archived
+  - `triggered_by`: Additional context about what caused the notification to trigger (when applicable)
+  - alert: Complete threshold notification configuration including:
+    - Notification ID, name, and type
     - Current threshold values and credit type information
-    - Alert status (enabled, disabled, or archived)
+    - Notification status (enabled, disabled, or archived)
     - Last update timestamp
     - Any applied filters (credit grant types, custom fields, group values)
 
   ### Usage guidelines:
 
-  - Customer status: Returns the current evaluation state, not historical data. For alert history, use webhook notifications or event logs
-  - Archived alerts: Returns null for customer_status if the alert has been archived, but still includes the alert configuration details
-  - Integration patterns: This endpoint can be used to check a customer's alert status, but shouldn't be scraped. You should instead rely on the webhook notification to understand when customers are moved to IN_ALARM.
-  - Error handling: Returns 404 if either the customer or alert ID doesn't exist or isn't accessible to your organization
+  - Customer status: Returns the current evaluation state, not historical data. For threshold notification history, use webhook notifications or event logs
+  - Required parameters: Both customer_id and alert_id must be valid UUIDs that exist in your organization
+  - Archived notifications: Returns null for customer_status if the notification has been archived, but still includes the notification configuration details
+  - Performance considerations: This endpoint queries live evaluation state, making it ideal for real-time monitoring but not for bulk status checks
+  - Integration patterns: Best used for on-demand status checks in response to user actions or as part of targeted monitoring workflows
+  - Error handling: Returns 404 if either the customer or alert_id doesn't exist or isn't accessible to your organization
 
-- `list_customers_v1_alerts` (`write`): Retrieve all alert configurations and their current statuses for a specific customer in a single API call. This endpoint provides a comprehensive view of all alerts monitoring a customer account.
+- `list_customers_v1_alerts` (`write`): Retrieve all threshold notification configurations and their current statuses for a specific customer in a single API call. This endpoint provides a comprehensive view of all threshold notification monitoring a customer account.
 
   ### Use this endpoint to:
 
-  - Display all active alerts for a customer in dashboards or admin panels
-  - Quickly identify which alerts a customer is currently triggering
-  - Audit alert coverage for specific accounts
-  - Filter alerts by status (enabled, disabled, or archived)
+  - Display all active threshold notifications for a customer in dashboards or admin panels
+  - Quickly identify which threshold notifications a customer is currently triggering
+  - Audit threshold notification coverage for specific accounts
+  - Filter threshold notifications by status (enabled, disabled, or archived)
 
   ### Key response fields:
 
   - data: Array of CustomerAlert objects, each containing:
     - Current evaluation status (`ok`, `in_alarm`, `evaluating`, or `null`)
-    - Complete alert configuration and threshold details
-    - Alert metadata including type, name, and last update time
-  - `next_page`: Pagination cursor for retrieving additional results
+    - Complete threshold notification configuration and threshold details
+    - Threshold notification metadata including type, name, and last update time
+  - next_page: Pagination cursor for retrieving additional results
 
   ### Usage guidelines:
 
-  - Default behavior: Returns only enabled alerts unless alert_statuses filter is specified
-  - Pagination: Use the `next_page` cursor to retrieve all results for customers with many alerts
+  - Default behavior: Returns only enabled threshold notifications unless `alert_statuses` filter is specified
+  - Pagination: Use the `next_page` cursor to retrieve all results for customers with many notifications
+  - Performance: Efficiently retrieves multiple threshold notification statuses in a single request instead of making individual calls
+  - Filtering: Pass the `alert_statuses` array to include disabled or archived threshold notifications in results
 
-- `reset_customers_v1_alerts` (`write`): Force an immediate re-evaluation of a specific alert for a customer, clearing any previous state and triggering a fresh assessment against current thresholds. This endpoint ensures alert accuracy after configuration changes or data corrections.
+- `reset_customers_v1_alerts` (`write`): Force an immediate re-evaluation of a specific threshold notification for a customer, clearing any previous state and triggering a fresh assessment against current thresholds. This endpoint ensures threshold notification accuracy after configuration changes or data corrections.
 
   ### Use this endpoint to:
 
-  - Clear false positive alerts after fixing data issues
-  - Re-evaluate alerts after adjusting customer balances or credits
-  - Test alert behavior during development and debugging
-  - Resolve stuck alerts that may be in an incorrect state
+  - Clear false positive threshold notifications after fixing data issues
+  - Re-evaluate threshold notifications after adjusting customer balances or credits
+  - Test threshold notification behavior during development and debugging
+  - Resolve stuck threshold notification that may be in an incorrect state
   - Trigger immediate evaluation after threshold modifications
 
   ### Key response fields:
 
-  - 200 Success: Confirmation that the alert has been reset and re-evaluation initiated
+  - 200 Success: Confirmation that the threshold notification has been reset and re-evaluation initiated
   - No response body is returned - the operation completes asynchronously
 
   ### Usage guidelines:
@@ -845,7 +850,7 @@ The following tools are available in this MCP server.
   - Pagination: Use `next_page` cursor to retrieve large datasets
   - Null values: Group values may be null when no usage matches that group
 
-- `ingest_v1_usage` (`write`): The ingest endpoint is the primary method for sending usage events to Metronome, serving as the foundation for all billing calculations in your usage-based pricing model. This high-throughput endpoint is designed for real-time streaming ingestion, supports backdating 34 days, and is built to handle mission-critical usage data with enterprise-grade reliability. Metronome supports 100,000 events per second without requiring pre-aggregation or rollups and can scale up from there. See [Getting usage into Metronome](https://docs.metronome.com/connect-metronome/) to learn more about usage events.
+- `ingest_v1_usage` (`write`): The ingest endpoint is the primary method for sending usage events to Metronome, serving as the foundation for all billing calculations in your usage-based pricing model. This high-throughput endpoint is designed for real-time streaming ingestion, supports backdating 34 days, and is built to handle mission-critical usage data with enterprise-grade reliability. Metronome supports 100,000 events per second without requiring pre-aggregation or rollups and can scale up from there. See the [Send usage events](/guides/events/send-usage-events) guide to learn more about usage events.
 
   ### Use this endpoint to:
 
@@ -880,6 +885,8 @@ The following tools are available in this MCP server.
     }
   }
   ```
+
+  Learn more about [usage event structure definitions](/guides/events/design-usage-events).
 
   #### Transaction ID
 
@@ -1222,7 +1229,7 @@ The following tools are available in this MCP server.
 
   To use usage filters, the `group_key` must be defined on the billable metrics underlying the rate card on the contracts.
 
-- `update_end_date_v1_contracts` (`write`): Update or and an end date to a contract. Ending a contract early will impact draft usage statements, truncate any terms, and remove upcoming scheduled invoices. Moving the date into the future will only extend the contract length. Terms and scheduled invoices are not extended. Use this if a contract's end date has changed or if a perpetual contract ends.
+- `update_end_date_v1_contracts` (`write`): Update or add an end date to a contract. Ending a contract early will impact draft usage statements, truncate any terms, and remove upcoming scheduled invoices. Moving the date into the future will only extend the contract length. Terms and scheduled invoices are not extended. In-advance subscriptions will not be extended. Use this if a contract's end date has changed or if a perpetual contract ends.
 
 ### Resource `v1.contracts.products`:
 
@@ -1320,3 +1327,22 @@ The following tools are available in this MCP server.
 
 - `retrieve_contracts_v1_named_schedules` (`write`): Get a named schedule for the given rate card. This endpoint's availability is dependent on your client's configuration.
 - `update_contracts_v1_named_schedules` (`write`): Update a named schedule for the given rate card. This endpoint's availability is dependent on your client's configuration.
+
+### Resource `packages`:
+
+- `create_packages` (`write`): Create a new package
+
+### Resource `notifications`:
+
+- `create_notifications` (`write`): Create an offset lifecycle event notification configuration. The lifecycle event type is inferred from the policy.type field.
+- `retrieve_notifications` (`write`): Retrieve a specific offset lifecycle event notification configuration by ID.
+- `update_notifications` (`write`): Edit an existing offset lifecycle event notification configuration.
+- `archive_notifications` (`write`): Archive an offset lifecycle event notification configuration. Archived notifications are not processed.
+
+### Resource `notifications.offset`:
+
+- `list_notifications_offset` (`write`): List offset lifecycle event notification configurations. These are user-created notifications that trigger at a specified time offset relative to lifecycle events.
+
+### Resource `notifications.system`:
+
+- `list_notifications_system` (`write`): List available system lifecycle event types for notifications. These are read-only event types that can be used when creating offset notifications.

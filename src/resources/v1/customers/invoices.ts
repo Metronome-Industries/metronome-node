@@ -245,7 +245,7 @@ export interface Invoice {
   /**
    * This field's availability is dependent on your client's configuration.
    */
-  billable_status?: 'billable' | 'unbillable';
+  billable_status?: unknown;
 
   /**
    * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
@@ -654,7 +654,49 @@ export namespace Invoice {
 
       invoice_id?: string;
 
+      /**
+       * The subtotal amount invoiced, if available from the billing provider.
+       */
+      invoiced_sub_total?: number;
+
+      /**
+       * The total amount invoiced, if available from the billing provider.
+       */
+      invoiced_total?: number;
+
       issued_at_timestamp?: string;
+
+      /**
+       * A URL to the PDF of the invoice, if available from the billing provider.
+       */
+      pdf_url?: string;
+
+      /**
+       * Tax details for the invoice, if available from the billing provider.
+       */
+      tax?: CorrectedExternalInvoice.Tax;
+    }
+
+    export namespace CorrectedExternalInvoice {
+      /**
+       * Tax details for the invoice, if available from the billing provider.
+       */
+      export interface Tax {
+        /**
+         * The total tax amount applied to the invoice.
+         */
+        total_tax_amount?: number;
+
+        /**
+         * The total taxable amount of the invoice.
+         */
+        total_taxable_amount?: number;
+
+        /**
+         * The transaction ID associated with the tax calculation.
+         */
+        transaction_id?: string;
+      }
     }
   }
 
@@ -684,7 +726,49 @@ export namespace Invoice {
 
     invoice_id?: string;
 
+    /**
+     * The subtotal amount invoiced, if available from the billing provider.
+     */
+    invoiced_sub_total?: number;
+
+    /**
+     * The total amount invoiced, if available from the billing provider.
+     */
+    invoiced_total?: number;
+
     issued_at_timestamp?: string;
+
+    /**
+     * A URL to the PDF of the invoice, if available from the billing provider.
+     */
+    pdf_url?: string;
+
+    /**
+     * Tax details for the invoice, if available from the billing provider.
+     */
+    tax?: ExternalInvoice.Tax;
+  }
+
+  export namespace ExternalInvoice {
+    /**
+     * Tax details for the invoice, if available from the billing provider.
+     */
+    export interface Tax {
+      /**
+       * The total tax amount applied to the invoice.
+       */
+      total_tax_amount?: number;
+
+      /**
+       * The total taxable amount of the invoice.
+       */
+      total_taxable_amount?: number;
+
+      /**
+       * The transaction ID associated with the tax calculation.
+       */
+      transaction_id?: string;
+    }
   }
 
   export interface InvoiceAdjustment {

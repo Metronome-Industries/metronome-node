@@ -574,11 +574,12 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Update or and an end date to a contract. Ending a contract early will impact
+   * Update or add an end date to a contract. Ending a contract early will impact
    * draft usage statements, truncate any terms, and remove upcoming scheduled
    * invoices. Moving the date into the future will only extend the contract length.
-   * Terms and scheduled invoices are not extended. Use this if a contract's end date
-   * has changed or if a perpetual contract ends.
+   * Terms and scheduled invoices are not extended. In-advance subscriptions will not
+   * be extended. Use this if a contract's end date has changed or if a perpetual
+   * contract ends.
    *
    * @example
    * ```ts

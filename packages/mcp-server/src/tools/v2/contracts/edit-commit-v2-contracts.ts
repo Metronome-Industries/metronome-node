@@ -106,6 +106,9 @@ export const tool: Tool = {
           type: 'string',
         },
       },
+      hierarchy_configuration: {
+        $ref: '#/$defs/commit_hierarchy_configuration',
+      },
       invoice_contract_id: {
         type: 'string',
         description: 'ID of contract to use for invoicing',
@@ -204,6 +207,52 @@ export const tool: Tool = {
     },
     required: ['commit_id', 'customer_id'],
     $defs: {
+      commit_hierarchy_configuration: {
+        type: 'object',
+        properties: {
+          child_access: {
+            anyOf: [
+              {
+                type: 'object',
+                properties: {
+                  type: {
+                    type: 'string',
+                    enum: ['ALL'],
+                  },
+                },
+                required: ['type'],
+              },
+              {
+                type: 'object',
+                properties: {
+                  type: {
+                    type: 'string',
+                    enum: ['NONE'],
+                  },
+                },
+                required: ['type'],
+              },
+              {
+                type: 'object',
+                properties: {
+                  contract_ids: {
+                    type: 'array',
+                    items: {
+                      type: 'string',
+                    },
+                  },
+                  type: {
+                    type: 'string',
+                    enum: ['CONTRACT_IDS'],
+                  },
+                },
+                required: ['contract_ids', 'type'],
+              },
+            ],
+          },
+        },
+        required: ['child_access'],
+      },
       commit_specifier_input: {
         type: 'object',
         properties: {
