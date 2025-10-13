@@ -1178,26 +1178,6 @@ The following tools are available in this MCP server.
   Archived contracts remain accessible for historical reporting and audit purposes. They can be retrieved using the `ListContracts` endpoint by setting the `include_archived` parameter to `true` or in the Metronome UI when the "Show archived" option is enabled.
 
 - `create_historical_invoices_v1_contracts` (`write`): Create historical usage invoices for past billing periods on specific contracts. Use this endpoint to generate retroactive invoices with custom usage line items, quantities, and date ranges. Supports preview mode to validate invoice data before creation. Ideal for billing migrations or correcting past billing periods.
-- `get_subscription_seats_history_v1_contracts` (`write`): Get the history of subscription seats schedule over time for a given `subscription_id`. This endpoint provides information about seat assignments and total quantities for different time periods, allowing you to track how seat assignments have changed over time.
-
-  ### Use this endpoint to:
-
-  - Track changes to seat assignments over time
-  - Get seat schedule for a specific date using the `covering_date` parameter
-  - Get seat schedule history with optional date range filtering using `starting_at` and `ending_before`
-
-  ### Key response fields:
-
-  - data: array of seat schedule entries with time periods, quantity, and assignments
-  - next_page: cursor for pagination to retrieve additional results
-
-  ### Usage guidelines:
-
-  - Use `covering_date` to get the active seats for a specific point in time. `covering_date` cannot be used with `starting_at` or `ending_before`.
-  - Use `starting_at` and `ending_before` to filter results by time range. `starting_at` and `ending_before` cannot be used with `covering_date`.
-  - Maximum limit is 10 seat schedule entries per request
-  - Results are ordered by `starting_at` timestamp
-
 - `list_balances_v1_contracts` (`write`): Retrieve a comprehensive view of all available balances (commits and credits) for a customer. This endpoint provides real-time visibility into prepaid funds, postpaid commitments, promotional credits, and other balance types that can offset usage charges, helping you build transparent billing experiences.
 
   ### Use this endpoint to:
@@ -1347,36 +1327,3 @@ The following tools are available in this MCP server.
 
 - `retrieve_contracts_v1_named_schedules` (`write`): Get a named schedule for the given rate card. This endpoint's availability is dependent on your client's configuration.
 - `update_contracts_v1_named_schedules` (`write`): Update a named schedule for the given rate card. This endpoint's availability is dependent on your client's configuration.
-
-### Resource `packages`:
-
-- `create_packages` (`write`): Create a new package
-
-### Resource `notifications`:
-
-- `create_notifications` (`write`): Create an offset lifecycle event notification configuration. The lifecycle event type is inferred from the policy.type field.
-- `retrieve_notifications` (`write`): Retrieve a specific offset lifecycle event notification configuration by ID.
-- `update_notifications` (`write`): Edit an existing offset lifecycle event notification configuration.
-- `archive_notifications` (`write`): Archive an offset lifecycle event notification configuration. Archived notifications are not processed.
-
-### Resource `notifications.offset`:
-
-- `list_notifications_offset` (`write`): List offset lifecycle event notification configurations. These are user-created notifications that trigger at a specified time offset relative to lifecycle events. Returns a maximum of 400 results per request.
-
-### Resource `notifications.system`:
-
-- `list_notifications_system` (`write`): List available system lifecycle event types for notifications. These are read-only event types that can be used when creating offset notifications.
-
-### Resource `payments`:
-
-- `list_payments` (`write`): Fetch all payment attempts for the given invoice.
-- `attempt_payments` (`write`): Trigger a new attempt by canceling any existing attempts for this invoice and creating a new Payment. This will trigger another attempt to charge the Customer's configured Payment Gateway.
-  Payment can only be attempted if all of the following are true:
-
-  - The Metronome Invoice is finalized
-  - PLG Invoicing is configured for the Customer
-  - You cannot attempt payments for invoices that have already been `paid` or `voided`.
-
-  Attempting to payment on an ineligible Invoice or Customer will result in a `400` response.
-
-- `cancel_payments` (`write`): Cancel an existing payment attempt for an invoice.

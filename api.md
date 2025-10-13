@@ -343,7 +343,6 @@ Types:
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractAmendResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractArchiveResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractCreateHistoricalInvoicesResponse</a></code>
-- <code><a href="./src/resources/v1/contracts/contracts.ts">ContractGetSubscriptionSeatsHistoryResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractListBalancesResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractRetrieveRateScheduleResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractRetrieveSubscriptionQuantityHistoryResponse</a></code>
@@ -359,7 +358,6 @@ Methods:
 - <code title="post /v1/contracts/amend">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">amend</a>({ ...params }) -> ContractAmendResponse</code>
 - <code title="post /v1/contracts/archive">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">archive</a>({ ...params }) -> ContractArchiveResponse</code>
 - <code title="post /v1/contracts/createHistoricalInvoices">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">createHistoricalInvoices</a>({ ...params }) -> ContractCreateHistoricalInvoicesResponse</code>
-- <code title="post /v1/contracts/getSubscriptionSeatsHistory">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">getSubscriptionSeatsHistory</a>({ ...params }) -> ContractGetSubscriptionSeatsHistoryResponse</code>
 - <code title="post /v1/contracts/customerBalances/list">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">listBalances</a>({ ...params }) -> ContractListBalancesResponsesBodyCursorPage</code>
 - <code title="post /v1/contracts/getContractRateSchedule">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">retrieveRateSchedule</a>({ ...params }) -> ContractRetrieveRateScheduleResponse</code>
 - <code title="post /v1/contracts/getSubscriptionQuantityHistory">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">retrieveSubscriptionQuantityHistory</a>({ ...params }) -> ContractRetrieveSubscriptionQuantityHistoryResponse</code>
@@ -455,53 +453,6 @@ Methods:
 
 - <code title="post /v1/contract-pricing/rate-cards/getNamedSchedule">client.v1.contracts.namedSchedules.<a href="./src/resources/v1/contracts/named-schedules.ts">retrieve</a>({ ...params }) -> NamedScheduleRetrieveResponse</code>
 - <code title="post /v1/contract-pricing/rate-cards/updateNamedSchedule">client.v1.contracts.namedSchedules.<a href="./src/resources/v1/contracts/named-schedules.ts">update</a>({ ...params }) -> void</code>
-
-
-# Packages
-
-Types:
-
-- <code><a href="./src/resources/packages.ts">PackageCreateResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/packages/create">client.packages.<a href="./src/resources/packages.ts">create</a>({ ...params }) -> PackageCreateResponse</code>
-
-# Notifications
-
-Types:
-
-- <code><a href="./src/resources/notifications/notifications.ts">NotificationCreateResponse</a></code>
-- <code><a href="./src/resources/notifications/notifications.ts">NotificationRetrieveResponse</a></code>
-- <code><a href="./src/resources/notifications/notifications.ts">NotificationUpdateResponse</a></code>
-- <code><a href="./src/resources/notifications/notifications.ts">NotificationArchiveResponse</a></code>
-
-Methods:
-
-- <code title="post /v2/notifications/create">client.notifications.<a href="./src/resources/notifications/notifications.ts">create</a>({ ...params }) -> NotificationCreateResponse</code>
-- <code title="post /v2/notifications/get">client.notifications.<a href="./src/resources/notifications/notifications.ts">retrieve</a>({ ...params }) -> NotificationRetrieveResponse</code>
-- <code title="post /v2/notifications/edit">client.notifications.<a href="./src/resources/notifications/notifications.ts">update</a>({ ...params }) -> NotificationUpdateResponse</code>
-- <code title="post /v2/notifications/archive">client.notifications.<a href="./src/resources/notifications/notifications.ts">archive</a>({ ...params }) -> NotificationArchiveResponse</code>
-
-## Offset
-
-Types:
-
-- <code><a href="./src/resources/notifications/offset.ts">OffsetListResponse</a></code>
-
-Methods:
-
-- <code title="post /v2/notifications/offset/list">client.notifications.offset.<a href="./src/resources/notifications/offset.ts">list</a>({ ...params }) -> OffsetListResponse</code>
-
-## System
-
-Types:
-
-- <code><a href="./src/resources/notifications/system.ts">SystemListResponse</a></code>
-
-Methods:
-
-- <code title="post /v2/notifications/system/list">client.notifications.system.<a href="./src/resources/notifications/system.ts">list</a>() -> SystemListResponse</code>
 
 # Payments
 
