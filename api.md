@@ -465,16 +465,6 @@ Methods:
 
 - <code title="post /v1/packages/create">client.packages.<a href="./src/resources/packages.ts">create</a>({ ...params }) -> PackageCreateResponse</code>
 
-# Payments
-
-Types:
-
-- <code><a href="./src/resources/payments.ts">PaymentListResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/payments/list">client.payments.<a href="./src/resources/payments.ts">list</a>({ ...params }) -> PaymentListResponsesBodyCursorPage</code>
-
 # Notifications
 
 Types:
@@ -511,10 +501,19 @@ Methods:
 
 - <code title="post /v2/notifications/system/list">client.notifications.system.<a href="./src/resources/notifications/system.ts">list</a>() -> SystemListResponse</code>
 
+# Payments
+
+Types:
+
+- <code><a href="./src/resources/payments.ts">PaymentListResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/payments/list">client.payments.<a href="./src/resources/payments.ts">list</a>({ ...params }) -> PaymentListResponsesBodyCursorPage</code>
+
 # Webhooks
 
 Methods:
 
 - <code>client.webhooks.<a href="./src/resources/webhooks.ts">unwrap</a>(payload, headers, secret) -> Object</code>
 - <code>client.webhooks.<a href="./src/resources/webhooks.ts">verifySignature</a>(body, headers, secret) -> void</code>
-
