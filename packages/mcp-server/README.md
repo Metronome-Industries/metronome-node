@@ -398,6 +398,7 @@ The following tools are available in this MCP server.
 
   - Add the initial configuration to an existing customer. Once created, the billing configuration can then be associated to the customer's contract.
   - Add a new configuration to an existing customer. This might be used as part of an upgrade or downgrade workflow where the customer was previously billed through system A (e.g. Stripe) but will now be billed through system B (e.g. AWS). Once created, the new configuration can then be associated to the customer's contract.
+  - Multiple configurations can be added per destination. For example, you can create two Stripe billing configurations for a Metronome customer that each have a distinct `collection_method`.
 
   ### Delivery method options:
 
