@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'add_charge_customers_v1_invoices',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nAdd a one time charge to the specified invoice\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {}\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nAdd a one time charge to the specified invoice\n\n# Response Schema\n```json\n{\n  $ref: '#/$defs/invoice_add_charge_response',\n  $defs: {\n    invoice_add_charge_response: {\n      type: 'object',\n      properties: {}\n    }\n  }\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {

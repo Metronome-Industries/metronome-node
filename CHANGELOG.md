@@ -1,5 +1,70 @@
 # Changelog
 
+## 2.0.0 (2025-10-16)
+
+Full Changelog: [v1.0.0...v2.0.0](https://github.com/Metronome-Industries/metronome-node/compare/v1.0.0...v2.0.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** Remove customer_id from preview events payload
+* **api:** in getEditHistory endpoint, commit invoice schedule amount, unit price, and quantity are now optional values
+* **api:** Added optional archive_filter param to /notifications/offset/list endpoint
+
+### Features
+
+* Add empty handler for cancelPayment ([8a9f2e8](https://github.com/Metronome-Industries/metronome-node/commit/8a9f2e800db4f6d977d8fade405836f91cf0ca9f))
+* Add payment + billing invoice APIs to the API reference docs ([8cd1d7a](https://github.com/Metronome-Industries/metronome-node/commit/8cd1d7a4678a3887a60fe26c6e6bda89fa4b9bec))
+* Add payment APIs to the SDK ([0adfefc](https://github.com/Metronome-Industries/metronome-node/commit/0adfefc9acf0ab3d480041495f2726446efb9cb4))
+* **api:** add billing_periods to Subscription ([9498382](https://github.com/Metronome-Industries/metronome-node/commit/9498382c48d925d2dc52fb5286d302009371751a))
+* **api:** add new payments/attempt v1 api endpoint ([51234ab](https://github.com/Metronome-Industries/metronome-node/commit/51234abdd9de4ed0a2733b3333e936abec7a4301))
+* **api:** Added optional archive_filter param to /notifications/offset/list endpoint ([efb0aa1](https://github.com/Metronome-Industries/metronome-node/commit/efb0aa188a8c2df9ec025e0f666886f3efd381a0))
+* **api:** Remove customer_id from preview events payload ([d80600b](https://github.com/Metronome-Industries/metronome-node/commit/d80600b4f3be4f9cfc3b94f6acbd13184c7e5c31))
+* Bump graphql version and fix type errors ([a6349d5](https://github.com/Metronome-Industries/metronome-node/commit/a6349d555d194b13a8f6fec4092e01dd49a4f7d4))
+* elia/orch 128 add external apis for payments ([637dc77](https://github.com/Metronome-Industries/metronome-node/commit/637dc77cdf4847ab2ab8458fc06f243d878db724))
+* feat(api):Allow clients retrieve archived config via `/notifications/get` ([ab0b0b1](https://github.com/Metronome-Industries/metronome-node/commit/ab0b0b10ab2102da479552ee5fc3155382085dbd))
+* internal: releasing x-mint ([6f0209a](https://github.com/Metronome-Industries/metronome-node/commit/6f0209a8aa776c96b61ca7bc93ad95b0704009b6))
+* internal: Skip retrieve_pdf API SDK tests ([47426e8](https://github.com/Metronome-Industries/metronome-node/commit/47426e8fea7aa2194c3e31d243becbda73295551))
+* internal(docs): adding confluent endpoints ([66682c2](https://github.com/Metronome-Industries/metronome-node/commit/66682c2705aa432cf5b42bf6c02da3aebbbc187b))
+* LAUNCH-516 add getSubscriptionSeatsScheduleHistory api ([87bffd4](https://github.com/Metronome-Industries/metronome-node/commit/87bffd4eef2a8bbe890d1efcdfddfd351236fa22))
+* **mcp:** add docs search tool ([5b2bce7](https://github.com/Metronome-Industries/metronome-node/commit/5b2bce751297111cae257591faa3da4546ff5065))
+* **mcp:** add option for including docs tools ([4e51097](https://github.com/Metronome-Industries/metronome-node/commit/4e51097669b68a0c473659530ff5920272db1559))
+* **mcp:** enable experimental docs search tool ([9f3a19d](https://github.com/Metronome-Industries/metronome-node/commit/9f3a19d6fd24629865c90ec943be13066929724c))
+* rename getSubscriptionSeatsScheduleHistory to getSubscriptionSeatsHistory ([2a45a7e](https://github.com/Metronome-Industries/metronome-node/commit/2a45a7ecf906d1e07d5530385138590f940626f7))
+* Return array of invoices instead of single invoice and handle multipl… ([843ca4c](https://github.com/Metronome-Industries/metronome-node/commit/843ca4c0cbb15c4bcb13a66ce783452adbad9316))
+* Set up contract get and create with new AH info ([2a15df8](https://github.com/Metronome-Industries/metronome-node/commit/2a15df82e9595ba74d5ca3625d8a582bd9838cb6))
+* update api docs ([ddc0510](https://github.com/Metronome-Industries/metronome-node/commit/ddc0510f876f3cdea0456301c0ec6ef4548100b5))
+
+
+### Bug Fixes
+
+* **api:** in getEditHistory endpoint, commit invoice schedule amount, unit price, and quantity are now optional values ([df927b1](https://github.com/Metronome-Industries/metronome-node/commit/df927b13491689eeb4fa6db96d0989c2e14b76d2))
+* **ci:** set permissions for DXT publish action ([b1bcdad](https://github.com/Metronome-Industries/metronome-node/commit/b1bcdadbf37415497c02cd83e38695be81ac7b44))
+* LAUNCH-1130 remove min and max in api spec for better valiation error message ([20b4d2c](https://github.com/Metronome-Industries/metronome-node/commit/20b4d2cba2d177a71bed7f9db62faabab028cc81))
+* **mcp:** fix cli argument parsing logic ([6db4b4a](https://github.com/Metronome-Industries/metronome-node/commit/6db4b4af661841fe68536cc086a270ea9b93d71f))
+
+
+### Performance Improvements
+
+* faster formatting ([08badd1](https://github.com/Metronome-Industries/metronome-node/commit/08badd16ee6d0a3594977c68540a233fabac163a))
+
+
+### Chores
+
+* **codegen:** internal codegen update ([1dc34a9](https://github.com/Metronome-Industries/metronome-node/commit/1dc34a9cc5066a72c19cfd382472d607effcde75))
+* do not install brew dependencies in ./scripts/bootstrap by default ([607b9b0](https://github.com/Metronome-Industries/metronome-node/commit/607b9b0ada5cb004718cd31c074333c6d9870bdf))
+* extract some types in mcp docs ([2f279f4](https://github.com/Metronome-Industries/metronome-node/commit/2f279f4edb3881f5b4b4ab8577497159915c6680))
+* **internal:** codegen related update ([dde1c3b](https://github.com/Metronome-Industries/metronome-node/commit/dde1c3bababf9ce3b224aa0bd8f69e6a395548e3))
+* **internal:** fix incremental formatting in some cases ([e6aa27e](https://github.com/Metronome-Industries/metronome-node/commit/e6aa27e75896fc2b10f8f0c3f890c839c812afc0))
+* **internal:** gitignore .mcpb files ([0e48487](https://github.com/Metronome-Industries/metronome-node/commit/0e48487bcbd06f3230acd0d9ffa44f9d684d2ae5))
+* **internal:** ignore .eslintcache ([63e1f8e](https://github.com/Metronome-Industries/metronome-node/commit/63e1f8e459f108f4f5d10e2e3a93c64ec090b006))
+* **internal:** remove .eslintcache ([68b87db](https://github.com/Metronome-Industries/metronome-node/commit/68b87dbb06b8b2d3ca403a713434b6daf4a6170b))
+* **internal:** remove deprecated `compilerOptions.baseUrl` from tsconfig.json ([da007e0](https://github.com/Metronome-Industries/metronome-node/commit/da007e0a5e459e623ed8fe8f9b255a70f29532d4))
+* **internal:** use npm pack for build uploads ([610d7b1](https://github.com/Metronome-Industries/metronome-node/commit/610d7b191822a83c6afdd9c4b67859a14b05f653))
+* **jsdoc:** fix [@link](https://github.com/link) annotations to refer only to parts of the package‘s public interface ([2192205](https://github.com/Metronome-Industries/metronome-node/commit/21922059a1991ea558e77aea79993685f873167f))
+* **mcp:** allow pointing `docs_search` tool at other URLs ([996112b](https://github.com/Metronome-Industries/metronome-node/commit/996112b87d1cf2cd7421f49143f40762e4b0b656))
+* **mcp:** rename dxt to mcpb ([f57db37](https://github.com/Metronome-Industries/metronome-node/commit/f57db3729eadc05ce4b806ff8748540abb7b04ff))
+* update lockfile ([1657600](https://github.com/Metronome-Industries/metronome-node/commit/16576000f23fe49205c7d4d9842416627a7ffbad))
+
 ## 1.0.0 (2025-09-15)
 
 Full Changelog: [v0.3.0...v1.0.0](https://github.com/Metronome-Industries/metronome-node/compare/v0.3.0...v1.0.0)

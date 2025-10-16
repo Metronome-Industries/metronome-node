@@ -29,6 +29,52 @@ export const tool: Tool = {
         type: 'string',
         description: 'ID of the customer whose contract is being edited',
       },
+      add_billing_provider_configuration_update: {
+        type: 'object',
+        description:
+          'Update the billing provider configuration on the contract. Currently only supports adding a billing provider configuration to a contract that does not already have one.',
+        properties: {
+          billing_provider_configuration: {
+            type: 'object',
+            properties: {
+              billing_provider: {
+                type: 'string',
+                enum: [
+                  'aws_marketplace',
+                  'stripe',
+                  'netsuite',
+                  'custom',
+                  'azure_marketplace',
+                  'quickbooks_online',
+                  'workday',
+                  'gcp_marketplace',
+                ],
+              },
+              billing_provider_configuration_id: {
+                type: 'string',
+              },
+              delivery_method: {
+                type: 'string',
+                enum: ['direct_to_billing_provider', 'aws_sqs', 'tackle', 'aws_sns'],
+              },
+            },
+          },
+          schedule: {
+            type: 'object',
+            description:
+              'Indicates when the billing provider will be active on the contract. Any charges accrued during the schedule will be billed to the indicated billing provider.',
+            properties: {
+              effective_at: {
+                type: 'string',
+                description: 'When the billing provider update will take effect.',
+                enum: ['START_OF_CURRENT_PERIOD'],
+              },
+            },
+            required: ['effective_at'],
+          },
+        },
+        required: ['billing_provider_configuration', 'schedule'],
+      },
       add_commits: {
         type: 'array',
         items: {
@@ -255,7 +301,7 @@ export const tool: Tool = {
                   type: 'string',
                   description:
                     'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-                  enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
+                  enum: ['NONE', 'STRIPE', 'ANROK', 'AVALARA', 'PRECALCULATED'],
                 },
               },
               required: ['payment_gate_type'],
@@ -1721,6 +1767,12 @@ export const tool: Tool = {
                 },
               },
             },
+            rate_type: {
+              type: 'string',
+              description:
+                'If provided, updates the recurring commit to use the specified rate type when generating future commits.',
+              enum: ['LIST_RATE', 'COMMIT_RATE'],
+            },
           },
           required: ['recurring_commit_id'],
         },
@@ -1749,6 +1801,12 @@ export const tool: Tool = {
             ending_before: {
               type: 'string',
               format: 'date-time',
+            },
+            rate_type: {
+              type: 'string',
+              description:
+                'If provided, updates the recurring credit to use the specified rate type when generating future credits.',
+              enum: ['LIST_RATE', 'COMMIT_RATE'],
             },
           },
           required: ['recurring_credit_id'],
@@ -2082,7 +2140,7 @@ export const tool: Tool = {
             type: 'string',
             description:
               'Stripe tax is only supported for Stripe payment gateway. Select NONE if you do not wish  Metronome to calculate tax on your behalf. Leaving this field blank will default to NONE.',
-            enum: ['NONE', 'STRIPE', 'ANROK', 'PRECALCULATED'],
+            enum: ['NONE', 'STRIPE', 'ANROK', 'AVALARA', 'PRECALCULATED'],
           },
         },
         required: ['payment_gate_type'],

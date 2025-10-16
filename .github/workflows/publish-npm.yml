@@ -16,6 +16,8 @@ jobs:
   publish:
     name: publish
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -43,4 +45,6 @@ jobs:
       - name: Upload MCP Server DXT GitHub release asset
         run: |
           gh release upload ${{ github.event.release.tag_name }} \
-            packages/mcp-server/metronome_sdk_api.dxt
+            packages/mcp-server/metronome_sdk_api.mcpb
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

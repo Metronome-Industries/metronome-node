@@ -4,6 +4,7 @@ import { APIResource } from '../../../core/resource';
 import * as Shared from '../../shared';
 import { APIPromise } from '../../../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../../../core/pagination';
+import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
@@ -219,6 +220,55 @@ export class Invoices extends APIResource {
       { query, ...options },
     );
   }
+
+  /**
+   * Retrieve a PDF version of a specific invoice by its unique identifier. This
+   * endpoint generates a professionally formatted invoice document suitable for
+   * sharing with customers, accounting teams, or for record-keeping purposes.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Provide customers with downloadable or emailable copies of their invoices
+   * - Support accounting and finance teams with official billing documents
+   * - Maintain accurate records of billing transactions for audits and compliance
+   *
+   * ### Key response details:
+   *
+   * - The response is a binary PDF file representing the full invoice
+   * - The PDF includes all standard invoice information such as line items, totals,
+   *   billing period, and customer details
+   * - The document is formatted for clarity and professionalism, suitable for
+   *   official use
+   *
+   * ### Usage guidelines:
+   *
+   * - Ensure the `invoice_id` corresponds to an existing invoice for the specified
+   *   `customer_id`
+   * - The PDF is generated on-demand; frequent requests for the same invoice may
+   *   impact performance
+   * - Use appropriate headers to handle the binary response in your application
+   *   (e.g., setting `Content-Type: application/pdf`)
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.customers.invoices.retrievePdf({
+   *     customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     invoice_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+   *   });
+   *
+   * const content = await response.blob();
+   * console.log(content);
+   * ```
+   */
+  retrievePdf(params: InvoiceRetrievePdfParams, options?: RequestOptions): APIPromise<Response> {
+    const { customer_id, invoice_id } = params;
+    return this._client.get(path`/v1/customers/${customer_id}/invoices/${invoice_id}/pdf`, {
+      ...options,
+      headers: buildHeaders([{ Accept: 'application/pdf' }, options?.headers]),
+      __binaryResponse: true,
+    });
+  }
 }
 
 export type InvoicesCursorPage = CursorPage<Invoice>;
@@ -245,7 +295,7 @@ export interface Invoice {
   /**
    * This field's availability is dependent on your client's configuration.
    */
-  billable_status?: 'billable' | 'unbillable';
+  billable_status?: unknown;
 
   /**
    * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
@@ -654,7 +704,49 @@ export namespace Invoice {
 
       invoice_id?: string;
 
+      /**
+       * The subtotal amount invoiced, if available from the billing provider.
+       */
+      invoiced_sub_total?: number;
+
+      /**
+       * The total amount invoiced, if available from the billing provider.
+       */
+      invoiced_total?: number;
+
       issued_at_timestamp?: string;
+
+      /**
+       * A URL to the PDF of the invoice, if available from the billing provider.
+       */
+      pdf_url?: string;
+
+      /**
+       * Tax details for the invoice, if available from the billing provider.
+       */
+      tax?: CorrectedExternalInvoice.Tax;
+    }
+
+    export namespace CorrectedExternalInvoice {
+      /**
+       * Tax details for the invoice, if available from the billing provider.
+       */
+      export interface Tax {
+        /**
+         * The total tax amount applied to the invoice.
+         */
+        total_tax_amount?: number;
+
+        /**
+         * The total taxable amount of the invoice.
+         */
+        total_taxable_amount?: number;
+
+        /**
+         * The transaction ID associated with the tax calculation.
+         */
+        transaction_id?: string;
+      }
     }
   }
 
@@ -684,7 +776,49 @@ export namespace Invoice {
 
     invoice_id?: string;
 
+    /**
+     * The subtotal amount invoiced, if available from the billing provider.
+     */
+    invoiced_sub_total?: number;
+
+    /**
+     * The total amount invoiced, if available from the billing provider.
+     */
+    invoiced_total?: number;
+
     issued_at_timestamp?: string;
+
+    /**
+     * A URL to the PDF of the invoice, if available from the billing provider.
+     */
+    pdf_url?: string;
+
+    /**
+     * Tax details for the invoice, if available from the billing provider.
+     */
+    tax?: ExternalInvoice.Tax;
+  }
+
+  export namespace ExternalInvoice {
+    /**
+     * Tax details for the invoice, if available from the billing provider.
+     */
+    export interface Tax {
+      /**
+       * The total tax amount applied to the invoice.
+       */
+      total_tax_amount?: number;
+
+      /**
+       * The total taxable amount of the invoice.
+       */
+      total_taxable_amount?: number;
+
+      /**
+       * The transaction ID associated with the tax calculation.
+       */
+      transaction_id?: string;
+    }
   }
 
   export interface InvoiceAdjustment {
@@ -891,6 +1025,12 @@ export interface InvoiceListBreakdownsParams extends CursorPageParams {
   window_size?: 'HOUR' | 'DAY';
 }
 
+export interface InvoiceRetrievePdfParams {
+  customer_id: string;
+
+  invoice_id: string;
+}
+
 export declare namespace Invoices {
   export {
     type Invoice as Invoice,
@@ -903,5 +1043,6 @@ export declare namespace Invoices {
     type InvoiceListParams as InvoiceListParams,
     type InvoiceAddChargeParams as InvoiceAddChargeParams,
     type InvoiceListBreakdownsParams as InvoiceListBreakdownsParams,
+    type InvoiceRetrievePdfParams as InvoiceRetrievePdfParams,
   };
 }

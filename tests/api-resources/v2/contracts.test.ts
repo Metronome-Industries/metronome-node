@@ -72,6 +72,14 @@ describe('resource contracts', () => {
     const response = await client.v2.contracts.edit({
       contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      add_billing_provider_configuration_update: {
+        billing_provider_configuration: {
+          billing_provider: 'aws_marketplace',
+          billing_provider_configuration_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          delivery_method: 'direct_to_billing_provider',
+        },
+        schedule: { effective_at: 'START_OF_CURRENT_PERIOD' },
+      },
       add_commits: [
         {
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -533,6 +541,7 @@ describe('resource contracts', () => {
           access_amount: { quantity: 0, unit_price: 0 },
           ending_before: '2019-12-27T18:11:19.117Z',
           invoice_amount: { quantity: 0, unit_price: 0 },
+          rate_type: 'LIST_RATE',
         },
       ],
       update_recurring_credits: [
@@ -540,6 +549,7 @@ describe('resource contracts', () => {
           recurring_credit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           access_amount: { quantity: 0, unit_price: 0 },
           ending_before: '2019-12-27T18:11:19.117Z',
+          rate_type: 'LIST_RATE',
         },
       ],
       update_scheduled_charges: [
@@ -618,6 +628,7 @@ describe('resource contracts', () => {
       },
       applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
       applicable_product_tags: ['string'],
+      hierarchy_configuration: { child_access: { type: 'ALL' } },
       invoice_contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       invoice_schedule: {
         add_schedule_items: [
@@ -682,6 +693,7 @@ describe('resource contracts', () => {
       },
       applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
       applicable_product_tags: ['string'],
+      hierarchy_configuration: { child_access: { type: 'ALL' } },
       priority: 0,
       product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       rate_type: 'LIST_RATE',

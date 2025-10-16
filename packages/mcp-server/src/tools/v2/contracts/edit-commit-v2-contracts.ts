@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'edit_commit_v2_contracts',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nEdit specific details for a contract-level or customer-level commit. Use this endpoint to modify individual commit access schedules, invoice schedules, applicable products, invoicing contracts, or other fields. \n\n### Usage guidelines:\n- As with all edits in Metronome, draft invoices will reflect the edit immediately, while finalized invoices are untouched unless voided and regenerated.\n- If a commit's invoice schedule item is associated with a finalized invoice, you cannot remove or update the invoice schedule item.\n- If a commit's invoice schedule item is associated with a voided invoice, you cannot remove the invoice schedule item.\n- You cannot remove an commit access schedule segment that was applied to a finalized invoice. You can void the invoice beforehand and then remove the access schedule segment.\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      $ref: '#/$defs/id'\n    }\n  },\n  required: [    'data'\n  ],\n  $defs: {\n    id: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  }\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nEdit specific details for a contract-level or customer-level commit. Use this endpoint to modify individual commit access schedules, invoice schedules, applicable products, invoicing contracts, or other fields. \n\n### Usage guidelines:\n- As with all edits in Metronome, draft invoices will reflect the edit immediately, while finalized invoices are untouched unless voided and regenerated.\n- If a commit's invoice schedule item is associated with a finalized invoice, you cannot remove or update the invoice schedule item.\n- If a commit's invoice schedule item is associated with a voided invoice, you cannot remove the invoice schedule item.\n- You cannot remove an commit access schedule segment that was applied to a finalized invoice. You can void the invoice beforehand and then remove the access schedule segment.\n\n\n# Response Schema\n```json\n{\n  $ref: '#/$defs/contract_edit_commit_response',\n  $defs: {\n    contract_edit_commit_response: {\n      type: 'object',\n      properties: {\n        data: {\n          $ref: '#/$defs/id'\n        }\n      },\n      required: [        'data'\n      ]\n    },\n    id: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        }\n      },\n      required: [        'id'\n      ]\n    }\n  }\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
@@ -105,6 +105,9 @@ export const tool: Tool = {
         items: {
           type: 'string',
         },
+      },
+      hierarchy_configuration: {
+        $ref: '#/$defs/commit_hierarchy_configuration',
       },
       invoice_contract_id: {
         type: 'string',
@@ -204,6 +207,52 @@ export const tool: Tool = {
     },
     required: ['commit_id', 'customer_id'],
     $defs: {
+      commit_hierarchy_configuration: {
+        type: 'object',
+        properties: {
+          child_access: {
+            anyOf: [
+              {
+                type: 'object',
+                properties: {
+                  type: {
+                    type: 'string',
+                    enum: ['ALL'],
+                  },
+                },
+                required: ['type'],
+              },
+              {
+                type: 'object',
+                properties: {
+                  type: {
+                    type: 'string',
+                    enum: ['NONE'],
+                  },
+                },
+                required: ['type'],
+              },
+              {
+                type: 'object',
+                properties: {
+                  contract_ids: {
+                    type: 'array',
+                    items: {
+                      type: 'string',
+                    },
+                  },
+                  type: {
+                    type: 'string',
+                    enum: ['CONTRACT_IDS'],
+                  },
+                },
+                required: ['contract_ids', 'type'],
+              },
+            ],
+          },
+        },
+        required: ['child_access'],
+      },
       commit_specifier_input: {
         type: 'object',
         properties: {

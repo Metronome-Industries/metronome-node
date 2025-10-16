@@ -45,6 +45,7 @@ import retrieve_customers_v1_invoices from './v1/customers/invoices/retrieve-cus
 import list_customers_v1_invoices from './v1/customers/invoices/list-customers-v1-invoices';
 import add_charge_customers_v1_invoices from './v1/customers/invoices/add-charge-customers-v1-invoices';
 import list_breakdowns_customers_v1_invoices from './v1/customers/invoices/list-breakdowns-customers-v1-invoices';
+import retrieve_pdf_customers_v1_invoices from './v1/customers/invoices/retrieve-pdf-customers-v1-invoices';
 import create_customers_v1_billing_config from './v1/customers/billing-config/create-customers-v1-billing-config';
 import retrieve_customers_v1_billing_config from './v1/customers/billing-config/retrieve-customers-v1-billing-config';
 import delete_customers_v1_billing_config from './v1/customers/billing-config/delete-customers-v1-billing-config';
@@ -107,6 +108,9 @@ import retrieve_rate_cards_contracts_v1_named_schedules from './v1/contracts/rat
 import update_rate_cards_contracts_v1_named_schedules from './v1/contracts/rate-cards/named-schedules/update-rate-cards-contracts-v1-named-schedules';
 import retrieve_contracts_v1_named_schedules from './v1/contracts/named-schedules/retrieve-contracts-v1-named-schedules';
 import update_contracts_v1_named_schedules from './v1/contracts/named-schedules/update-contracts-v1-named-schedules';
+import list_v1_payments from './v1/payments/list-v1-payments';
+import attempt_v1_payments from './v1/payments/attempt-v1-payments';
+import cancel_v1_payments from './v1/payments/cancel-v1-payments';
 
 export const endpoints: Endpoint[] = [];
 
@@ -155,6 +159,7 @@ addEndpoint(retrieve_customers_v1_invoices);
 addEndpoint(list_customers_v1_invoices);
 addEndpoint(add_charge_customers_v1_invoices);
 addEndpoint(list_breakdowns_customers_v1_invoices);
+addEndpoint(retrieve_pdf_customers_v1_invoices);
 addEndpoint(create_customers_v1_billing_config);
 addEndpoint(retrieve_customers_v1_billing_config);
 addEndpoint(delete_customers_v1_billing_config);
@@ -217,6 +222,9 @@ addEndpoint(retrieve_rate_cards_contracts_v1_named_schedules);
 addEndpoint(update_rate_cards_contracts_v1_named_schedules);
 addEndpoint(retrieve_contracts_v1_named_schedules);
 addEndpoint(update_contracts_v1_named_schedules);
+addEndpoint(list_v1_payments);
+addEndpoint(attempt_v1_payments);
+addEndpoint(cancel_v1_payments);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';

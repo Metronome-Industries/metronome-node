@@ -117,4 +117,12 @@ describe('resource invoices', () => {
       window_size: 'HOUR',
     });
   });
+
+  // prism mocking library in JS SDK doesnt support application/pdf
+  test.skip('retrievePdf: required and optional params', async () => {
+    const response = await client.v1.customers.invoices.retrievePdf({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      invoice_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+    });
+  });
 });

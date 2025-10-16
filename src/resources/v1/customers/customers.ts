@@ -48,6 +48,7 @@ import {
   InvoiceListBreakdownsResponsesCursorPage,
   InvoiceListParams,
   InvoiceRetrieveParams,
+  InvoiceRetrievePdfParams,
   InvoiceRetrieveResponse,
   Invoices,
   InvoicesCursorPage,
@@ -203,7 +204,7 @@ export class Customers extends APIResource {
    * - Ingest aliases remain idempotent for archived customers. In order to reuse an
    *   ingest alias, first remove the ingest alias from the customer prior to
    *   archiving.
-   * - Any alerts associated with the customer will no longer be triggered.
+   * - Any notifications associated with the customer will no longer be triggered.
    *
    * @example
    * ```ts
@@ -276,10 +277,10 @@ export class Customers extends APIResource {
   }
 
   /**
-   * Preview how a set of events will affect a customer's invoice. Generates a draft
-   * invoice for a customer using their current contract configuration and the
+   * Preview how a set of events will affect a customer's invoices. Generates draft
+   * invoices for a customer using their current contract configuration and the
    * provided events. This is useful for testing how new events will affect the
-   * customer's invoice before they are actually processed.
+   * customer's invoices before they are actually processed.
    *
    * @example
    * ```ts
@@ -340,6 +341,9 @@ export class Customers extends APIResource {
    *   through system A (e.g. Stripe) but will now be billed through system B (e.g.
    *   AWS). Once created, the new configuration can then be associated to the
    *   customer's contract.
+   * - Multiple configurations can be added per destination. For example, you can
+   *   create two Stripe billing configurations for a Metronome customer that each
+   *   have a distinct `collection_method`.
    *
    * ### Delivery method options:
    *
@@ -547,6 +551,11 @@ export interface CustomerDetail {
   name: string;
 
   /**
+   * RFC 3339 timestamp indicating when the customer was last updated.
+   */
+  updated_at: string;
+
+  /**
    * RFC 3339 timestamp indicating when the customer was archived. Null if the
    * customer is active.
    */
@@ -691,7 +700,7 @@ export namespace CustomerListCostsResponse {
 }
 
 export interface CustomerPreviewEventsResponse {
-  data: InvoicesAPI.Invoice;
+  data: Array<InvoicesAPI.Invoice>;
 }
 
 export interface CustomerRetrieveBillingConfigurationsResponse {
@@ -966,13 +975,6 @@ export namespace CustomerPreviewEventsParams {
   export interface Event {
     event_type: string;
 
-    /**
-     * This has no effect for preview events, but may be set for consistency with Event
-     * objects. They will be processed even if they do not match the customer's ID or
-     * ingest aliases.
-     */
-    customer_id?: string;
-
     properties?: { [key: string]: unknown };
 
     /**
@@ -981,9 +983,9 @@ export namespace CustomerPreviewEventsParams {
     timestamp?: string;
 
     /**
-     * This has no effect for preview events, but may be set for consistency with Event
-     * objects. Duplicate transaction_ids are NOT filtered out, even within the same
-     * request.
+     * Optional unique identifier for event deduplication. When provided, preview
+     * events are automatically deduplicated against historical events from the past 34
+     * days. Duplicate transaction IDs within the same request will return an error.
      */
     transaction_id?: string;
   }
@@ -1165,6 +1167,7 @@ export declare namespace Customers {
     type InvoiceListParams as InvoiceListParams,
     type InvoiceAddChargeParams as InvoiceAddChargeParams,
     type InvoiceListBreakdownsParams as InvoiceListBreakdownsParams,
+    type InvoiceRetrievePdfParams as InvoiceRetrievePdfParams,
   };
 
   export {
