@@ -34,7 +34,7 @@ export const newMcpServer = () =>
   new McpServer(
     {
       name: 'metronome_sdk_api',
-      version: '1.0.0',
+      version: '2.0.0',
     },
     { capabilities: { tools: {}, logging: {} } },
   );
