@@ -175,7 +175,6 @@ describe('resource customers', () => {
       events: [
         {
           event_type: 'heartbeat',
-          customer_id: 'x',
           properties: { cpu_hours: 'bar', memory_gb_hours: 'bar' },
           timestamp: '2021-01-01T00:00:00Z',
           transaction_id: 'x',
