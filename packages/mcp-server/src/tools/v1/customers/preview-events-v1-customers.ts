@@ -32,11 +32,6 @@ export const tool: Tool = {
             event_type: {
               type: 'string',
             },
-            customer_id: {
-              type: 'string',
-              description:
-                "This has no effect for preview events, but may be set for consistency with Event objects. They will be processed even if they do not match the customer's ID or ingest aliases.",
-            },
             properties: {
               type: 'object',
               additionalProperties: true,
@@ -48,7 +43,7 @@ export const tool: Tool = {
             transaction_id: {
               type: 'string',
               description:
-                'This has no effect for preview events, but may be set for consistency with Event objects. Duplicate transaction_ids are NOT filtered out, even within the same request.',
+                'Optional unique identifier for event deduplication. When provided, preview events are automatically deduplicated against historical events from the past 34 days.  Duplicate transaction IDs within the same request will return an error.\n',
             },
           },
           required: ['event_type'],
