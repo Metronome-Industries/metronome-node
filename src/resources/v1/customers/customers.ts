@@ -835,6 +835,10 @@ export namespace CustomerCreateParams {
       | 'us-west-1'
       | 'us-west-2';
 
+    /**
+     * The collection method for the customer's invoices. NOTE:
+     * `auto_charge_payment_intent` and `manually_charge_payment_intent` are in beta.
+     */
     stripe_collection_method?:
       | 'charge_automatically'
       | 'send_invoice'
