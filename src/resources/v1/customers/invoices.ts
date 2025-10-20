@@ -133,7 +133,8 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * Add a one time charge to the specified invoice
+   * Add a one time charge to the specified invoice. This is a Plans (deprecated)
+   * endpoint. New clients should implement using Contracts.
    *
    * @example
    * ```ts

@@ -333,18 +333,18 @@ The following tools are available in this MCP server.
 
 ### Resource `v1.plans`:
 
-- `list_v1_plans` (`read`): List all available plans.
-- `get_details_v1_plans` (`read`): Fetch high level details of a specific plan.
-- `list_charges_v1_plans` (`read`): Fetches a list of charges of a specific plan.
-- `list_customers_v1_plans` (`read`): Fetches a list of customers on a specific plan (by default, only currently active plans are included)
+- `list_v1_plans` (`read`): List all available plans. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
+- `get_details_v1_plans` (`read`): Fetch high level details of a specific plan. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
+- `list_charges_v1_plans` (`read`): Fetches a list of charges of a specific plan. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
+- `list_customers_v1_plans` (`read`): Fetches a list of customers on a specific plan (by default, only currently active plans are included). This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
 
 ### Resource `v1.credit_grants`:
 
-- `create_v1_credit_grants` (`write`): Create a new credit grant
-- `list_v1_credit_grants` (`write`): List credit grants. This list does not included voided grants.
-- `edit_v1_credit_grants` (`write`): Edit an existing credit grant
-- `list_entries_v1_credit_grants` (`write`): Fetches a list of credit ledger entries. Returns lists of ledgers per customer. Ledger entries are returned in chronological order. Ledger entries associated with voided credit grants are not included.
-- `void_v1_credit_grants` (`write`): Void a credit grant
+- `create_v1_credit_grants` (`write`): Create a new credit grant. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
+- `list_v1_credit_grants` (`write`): List credit grants. This list does not included voided grants. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
+- `edit_v1_credit_grants` (`write`): Edit an existing credit grant. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
+- `list_entries_v1_credit_grants` (`write`): Fetches a list of credit ledger entries. Returns lists of ledgers per customer. Ledger entries are returned in chronological order. Ledger entries associated with voided credit grants are not included. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
+- `void_v1_credit_grants` (`write`): Void a credit grant. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
 
 ### Resource `v1.pricing_units`:
 
@@ -389,7 +389,7 @@ The following tools are available in this MCP server.
   - Any notifications associated with the customer will no longer be triggered.
 
 - `list_billable_metrics_v1_customers` (`read`): Get all billable metrics available for a specific customer. Supports pagination and filtering by current plan status or archived metrics. Use this endpoint to see which metrics are being tracked for billing calculations for a given customer.
-- `list_costs_v1_customers` (`read`): Fetch daily pending costs for the specified customer, broken down by credit type and line items. Note: this is not supported for customers whose plan includes a UNIQUE-type billable metric.
+- `list_costs_v1_customers` (`read`): Fetch daily pending costs for the specified customer, broken down by credit type and line items. Note: this is not supported for customers whose plan includes a UNIQUE-type billable metric. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
 - `preview_events_v1_customers` (`write`): Preview how a set of events will affect a customer's invoices. Generates draft invoices for a customer using their current contract configuration and the provided events. This is useful for testing how new events will affect the customer's invoices before they are actually processed.
 - `retrieve_billing_configurations_v1_customers` (`write`): Returns all billing configurations previously set for the customer. Use during the contract provisioning process to fetch the `billing_provider_configuration_id` needed to set the contract billing configuration.
 - `set_billing_configurations_v1_customers` (`write`): Create a billing configuration for a customer. Once created, these configurations are available to associate to a contract and dictates which downstream system to collect payment in or send the invoice to. You can create multiple configurations per customer. The configuration formats are distinct for each downstream provider.
@@ -514,10 +514,10 @@ The following tools are available in this MCP server.
 
 ### Resource `v1.customers.plans`:
 
-- `list_customers_v1_plans` (`read`): List the given customer's plans in reverse-chronological order.
-- `add_customers_v1_plans` (`write`): Associate an existing customer with a plan for a specified date range. See the [price adjustments documentation](https://plans-docs.metronome.com/pricing/managing-plans/#price-adjustments) for details on the price adjustments.
-- `end_customers_v1_plans` (`write`): Change the end date of a customer's plan.
-- `list_price_adjustments_customers_v1_plans` (`read`): Lists a customer plans adjustments. See the [price adjustments documentation](https://plans-docs.metronome.com/pricing/managing-plans/#price-adjustments) for details.
+- `list_customers_v1_plans` (`read`): List the given customer's plans in reverse-chronological order. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
+- `add_customers_v1_plans` (`write`): Associate an existing customer with a plan for a specified date range. See the [price adjustments documentation](https://plans-docs.metronome.com/pricing/managing-plans/#price-adjustments) for details on the price adjustments. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
+- `end_customers_v1_plans` (`write`): Change the end date of a customer's plan. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
+- `list_price_adjustments_customers_v1_plans` (`read`): Lists a customer plans adjustments. See the [price adjustments documentation](https://plans-docs.metronome.com/pricing/managing-plans/#price-adjustments) for details. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
 
 ### Resource `v1.customers.invoices`:
 
@@ -586,7 +586,7 @@ The following tools are available in this MCP server.
     External billing provider statuses (like Stripe payment status) are included when applicable
   - Voided invoices are included in results by default unless filtered out by status
 
-- `add_charge_customers_v1_invoices` (`write`): Add a one time charge to the specified invoice
+- `add_charge_customers_v1_invoices` (`write`): Add a one time charge to the specified invoice. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
 - `list_breakdowns_customers_v1_invoices` (`read`): Retrieve granular time-series breakdowns of invoice data at hourly or daily intervals. This endpoint transforms standard invoices into detailed timelines, enabling you to track usage patterns, identify consumption spikes, and provide customers with transparency into their billing details throughout the billing period.
 
   ### Use this endpoint to:
@@ -638,9 +638,10 @@ The following tools are available in this MCP server.
 
 ### Resource `v1.customers.billing_config`:
 
-- `create_customers_v1_billing_config` (`write`): Set the billing configuration for a given customer.
-- `retrieve_customers_v1_billing_config` (`read`): Fetch the billing configuration for the given customer.
-- `delete_customers_v1_billing_config` (`write`): Delete the billing configuration for a given customer. Note: this is unsupported for Azure and AWS Marketplace customers.
+- `create_customers_v1_billing_config` (`write`): Set the billing configuration for a given customer. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
+- `retrieve_customers_v1_billing_config` (`read`): Fetch the billing configuration for the given customer. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
+- `delete_customers_v1_billing_config` (`write`): Delete the billing configuration for a given customer.
+  Note: this is unsupported for Azure and AWS Marketplace customers. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
 
 ### Resource `v1.customers.commits`:
 

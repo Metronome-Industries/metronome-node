@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'end_customers_v1_plans',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nChange the end date of a customer's plan.\n\n# Response Schema\n```json\n{\n  $ref: '#/$defs/plan_end_response',\n  $defs: {\n    plan_end_response: {\n      type: 'object',\n      properties: {}\n    }\n  }\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nChange the end date of a customer's plan. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.\n\n\n# Response Schema\n```json\n{\n  $ref: '#/$defs/plan_end_response',\n  $defs: {\n    plan_end_response: {\n      type: 'object',\n      properties: {}\n    }\n  }\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
