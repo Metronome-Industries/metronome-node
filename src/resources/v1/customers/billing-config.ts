@@ -8,7 +8,8 @@ import { path } from '../../../internal/utils/path';
 
 export class BillingConfig extends APIResource {
   /**
-   * Set the billing configuration for a given customer.
+   * Set the billing configuration for a given customer. This is a Plans (deprecated)
+   * endpoint. New clients should implement using Contracts.
    *
    * @example
    * ```ts
@@ -30,7 +31,8 @@ export class BillingConfig extends APIResource {
   }
 
   /**
-   * Fetch the billing configuration for the given customer.
+   * Fetch the billing configuration for the given customer. This is a Plans
+   * (deprecated) endpoint. New clients should implement using Contracts.
    *
    * @example
    * ```ts
@@ -54,7 +56,8 @@ export class BillingConfig extends APIResource {
 
   /**
    * Delete the billing configuration for a given customer. Note: this is unsupported
-   * for Azure and AWS Marketplace customers.
+   * for Azure and AWS Marketplace customers. This is a Plans (deprecated) endpoint.
+   * New clients should implement using Contracts.
    *
    * @example
    * ```ts

@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'create_customers_v1_billing_config',
-  description: 'Set the billing configuration for a given customer.',
+  description:
+    'Set the billing configuration for a given customer. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.\n',
   inputSchema: {
     type: 'object',
     properties: {

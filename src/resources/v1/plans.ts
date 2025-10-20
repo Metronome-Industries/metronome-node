@@ -10,7 +10,8 @@ import { path } from '../../internal/utils/path';
 
 export class Plans extends APIResource {
   /**
-   * List all available plans.
+   * List all available plans. This is a Plans (deprecated) endpoint. New clients
+   * should implement using Contracts.
    *
    * @example
    * ```ts
@@ -28,7 +29,8 @@ export class Plans extends APIResource {
   }
 
   /**
-   * Fetch high level details of a specific plan.
+   * Fetch high level details of a specific plan. This is a Plans (deprecated)
+   * endpoint. New clients should implement using Contracts.
    *
    * @example
    * ```ts
@@ -43,7 +45,8 @@ export class Plans extends APIResource {
   }
 
   /**
-   * Fetches a list of charges of a specific plan.
+   * Fetches a list of charges of a specific plan. This is a Plans (deprecated)
+   * endpoint. New clients should implement using Contracts.
    *
    * @example
    * ```ts
@@ -69,7 +72,8 @@ export class Plans extends APIResource {
 
   /**
    * Fetches a list of customers on a specific plan (by default, only currently
-   * active plans are included)
+   * active plans are included). This is a Plans (deprecated) endpoint. New clients
+   * should implement using Contracts.
    *
    * @example
    * ```ts
