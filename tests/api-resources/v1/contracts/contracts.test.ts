@@ -832,6 +832,7 @@ describe('resource contracts', () => {
       id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
       covering_date: '2019-12-27T18:11:19.117Z',
       effective_before: '2019-12-27T18:11:19.117Z',
+      exclude_zero_balances: true,
       include_archived: true,
       include_balance: true,
       include_contract_balances: true,
