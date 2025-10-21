@@ -3419,6 +3419,11 @@ export interface ContractListBalancesParams extends BodyCursorPageParams {
   effective_before?: string;
 
   /**
+   * Exclude balances with zero amounts from the response.
+   */
+  exclude_zero_balances?: boolean;
+
+  /**
    * Include archived credits and credits from archived contracts.
    */
   include_archived?: boolean;
