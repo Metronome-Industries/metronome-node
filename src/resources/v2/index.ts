@@ -15,4 +15,22 @@ export {
   type ContractEditCreditParams,
   type ContractGetEditHistoryParams,
 } from './contracts';
+export {
+  Notifications,
+  type LifecycleEventOffsetNotificationConfig,
+  type LifecycleEventOffsetPolicy,
+  type LifecycleEventSystemNotificationConfig,
+  type LifecycleEventSystemPolicy,
+  type NotificationCreateResponse,
+  type NotificationRetrieveResponse,
+  type NotificationArchiveResponse,
+  type NotificationEditResponse,
+  type NotificationListOffsetResponse,
+  type NotificationListSystemResponse,
+  type NotificationCreateParams,
+  type NotificationRetrieveParams,
+  type NotificationArchiveParams,
+  type NotificationEditParams,
+  type NotificationListOffsetParams,
+} from './notifications';
 export { V2 } from './v2';
