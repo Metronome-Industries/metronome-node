@@ -914,7 +914,8 @@ export const tool: Tool = {
                 },
                 allocation: {
                   type: 'string',
-                  description: 'If set to POOLED, allocation added per seat is pooled across the account.',
+                  description:
+                    'If set to POOLED, allocation added per seat is pooled across the account. (BETA) If set to INDIVIDUAL, each seat in the subscription will have its own allocation.',
                   enum: ['POOLED', 'INDIVIDUAL'],
                 },
               },
@@ -1063,7 +1064,8 @@ export const tool: Tool = {
                 },
                 allocation: {
                   type: 'string',
-                  description: 'If set to POOLED, allocation added per seat is pooled across the account.',
+                  description:
+                    'If set to POOLED, allocation added per seat is pooled across the account. (BETA) If set to INDIVIDUAL, each seat in the subscription will have its own allocation.',
                   enum: ['POOLED', 'INDIVIDUAL'],
                 },
               },
@@ -1329,7 +1331,7 @@ export const tool: Tool = {
             quantity_management_mode: {
               type: 'string',
               description:
-                "Determines how the subscription's quantity is controlled. Defaults to QUANTITY_ONLY. **QUANTITY_ONLY**: The subscription quantity is specified directly on the subscription. `initial_quantity` must be provided with this option. Compatible with recurring commits/credits that use POOLED allocation.",
+                "Determines how the subscription's quantity is controlled. Defaults to QUANTITY_ONLY. **QUANTITY_ONLY**: The subscription quantity is specified directly on the subscription. `initial_quantity` must be provided with this option. Compatible with recurring commits/credits that use POOLED allocation. **SEAT_BASED**: (BETA) Use when you want to pass specific seat identifiers (e.g. add user_123) to increment and decrement a subscription quantity, rather than directly providing the quantity. You must use a **SEAT_BASED** subscription to use a linked recurring credit with an allocation per seat. `seat_config` must be provided with this option.",
               enum: ['SEAT_BASED', 'QUANTITY_ONLY'],
             },
             starting_at: {
