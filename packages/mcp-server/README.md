@@ -281,6 +281,15 @@ The following tools are available in this MCP server.
   - An array of every edit ever made to the contract
   - Details on each individual edit - for example showing that in one edit, a user added two discounts and incremented a subscription quantity.
 
+### Resource `v2.notifications`:
+
+- `create_v2_notifications` (`write`): Create an offset lifecycle event notification configuration. The lifecycle event type is inferred from the policy.type field.
+- `retrieve_v2_notifications` (`write`): Retrieve a specific offset lifecycle event notification configuration by ID.
+- `archive_v2_notifications` (`write`): Archive an offset lifecycle event notification configuration. Archived notifications are not processed.
+- `edit_v2_notifications` (`write`): Edit an existing offset lifecycle event notification configuration.
+- `list_offset_v2_notifications` (`write`): List offset lifecycle event notification configurations. These are user-created notifications that trigger at a specified time offset relative to lifecycle events. Returns a maximum of 400 results per request.
+- `list_system_v2_notifications` (`write`): List available system lifecycle event types for notifications. These are read-only event types that can be used when creating offset notifications.
+
 ### Resource `v1.alerts`:
 
 - `create_v1_alerts` (`write`): Create a new threshold notification to monitor customer spending, balances, and billing metrics in real-time. Metronome's notification system provides industry-leading speed with immediate evaluation capabilities, enabling you to proactively manage customer accounts and prevent revenue leakage.
