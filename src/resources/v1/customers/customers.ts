@@ -294,6 +294,7 @@ export class Customers extends APIResource {
    *       properties: { cpu_hours: 100, memory_gb_hours: 200 },
    *     },
    *   ],
+   *   mode: 'replace',
    * });
    * ```
    */
@@ -957,20 +958,21 @@ export interface CustomerPreviewEventsParams {
   customer_id: string;
 
   /**
-   * Body param:
+   * Body param: Array of usage events to include in the preview calculation. Must
+   * contain at least one event in `merge` mode.
    */
   events: Array<CustomerPreviewEventsParams.Event>;
 
   /**
-   * Body param: If set to "replace", the preview will be generated as if those were
-   * the only events for the specified customer. If set to "merge", the events will
-   * be merged with any existing events for the specified customer. Defaults to
-   * "replace".
+   * Body param: Controls how the provided events are combined with existing usage
+   * data. Use `replace` to calculate the preview as if these are the only events for
+   * the customer, ignoring all historical usage. Use `merge` to combine these events
+   * with the customer's existing usage. Defaults to `replace`.
    */
   mode?: 'replace' | 'merge';
 
   /**
-   * Body param: If set, all zero quantity line items will be filtered out of the
+   * Body param: When `true`, line items with zero quantity are excluded from the
    * response.
    */
   skip_zero_qty_line_items?: boolean;

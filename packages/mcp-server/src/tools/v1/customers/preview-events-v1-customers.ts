@@ -26,6 +26,8 @@ export const tool: Tool = {
       },
       events: {
         type: 'array',
+        description:
+          'Array of usage events to include in the preview calculation. Must contain at least one event in `merge` mode.\n',
         items: {
           type: 'object',
           properties: {
@@ -52,12 +54,12 @@ export const tool: Tool = {
       mode: {
         type: 'string',
         description:
-          'If set to "replace", the preview will be generated as if those were the only events for the specified customer. If set to "merge", the events will be merged with any existing events for the specified customer. Defaults to "replace".',
+          "Controls how the provided events are combined with existing usage data. Use `replace` to calculate the preview as if these are the only events for the customer, ignoring all historical usage.  Use `merge` to combine these events with the customer's existing usage.  Defaults to `replace`.",
         enum: ['replace', 'merge'],
       },
       skip_zero_qty_line_items: {
         type: 'boolean',
-        description: 'If set, all zero quantity line items will be filtered out of the response.',
+        description: 'When `true`, line items with zero quantity are excluded from the response.',
       },
     },
     required: ['customer_id', 'events'],
