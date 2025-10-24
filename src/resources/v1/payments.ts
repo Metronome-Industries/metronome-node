@@ -112,6 +112,8 @@ export namespace Payment {
       payment_intent_id: string;
 
       error?: Stripe.Error;
+
+      payment_method_id?: string;
     }
 
     export namespace Stripe {
