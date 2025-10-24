@@ -279,7 +279,7 @@ export class Contracts extends APIResource {
   /**
    * Amendments will be replaced by Contract editing. New clients should implement
    * using the `editContract` endpoint. Read more about the migration to contract
-   * editing [here](https://docs.metronome.com/migrate-amendments-to-edits/) and
+   * editing [here](/guides/implement-metronome/migrate-amendments-to-edits/) and
    * reach out to your Metronome representative for more details. Once contract
    * editing is enabled, access to this endpoint will be removed.
    *
