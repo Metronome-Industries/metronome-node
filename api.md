@@ -60,30 +60,6 @@ Methods:
 - <code title="post /v2/contracts/credits/edit">client.v2.contracts.<a href="./src/resources/v2/contracts.ts">editCredit</a>({ ...params }) -> ContractEditCreditResponse</code>
 - <code title="post /v2/contracts/getEditHistory">client.v2.contracts.<a href="./src/resources/v2/contracts.ts">getEditHistory</a>({ ...params }) -> ContractGetEditHistoryResponse</code>
 
-## Notifications
-
-Types:
-
-- <code><a href="./src/resources/v2/notifications.ts">LifecycleEventOffsetNotificationConfig</a></code>
-- <code><a href="./src/resources/v2/notifications.ts">LifecycleEventOffsetPolicy</a></code>
-- <code><a href="./src/resources/v2/notifications.ts">LifecycleEventSystemNotificationConfig</a></code>
-- <code><a href="./src/resources/v2/notifications.ts">LifecycleEventSystemPolicy</a></code>
-- <code><a href="./src/resources/v2/notifications.ts">NotificationCreateResponse</a></code>
-- <code><a href="./src/resources/v2/notifications.ts">NotificationRetrieveResponse</a></code>
-- <code><a href="./src/resources/v2/notifications.ts">NotificationArchiveResponse</a></code>
-- <code><a href="./src/resources/v2/notifications.ts">NotificationEditResponse</a></code>
-- <code><a href="./src/resources/v2/notifications.ts">NotificationListOffsetResponse</a></code>
-- <code><a href="./src/resources/v2/notifications.ts">NotificationListSystemResponse</a></code>
-
-Methods:
-
-- <code title="post /v2/notifications/create">client.v2.notifications.<a href="./src/resources/v2/notifications.ts">create</a>({ ...params }) -> NotificationCreateResponse</code>
-- <code title="post /v2/notifications/get">client.v2.notifications.<a href="./src/resources/v2/notifications.ts">retrieve</a>({ ...params }) -> NotificationRetrieveResponse</code>
-- <code title="post /v2/notifications/archive">client.v2.notifications.<a href="./src/resources/v2/notifications.ts">archive</a>({ ...params }) -> NotificationArchiveResponse</code>
-- <code title="post /v2/notifications/edit">client.v2.notifications.<a href="./src/resources/v2/notifications.ts">edit</a>({ ...params }) -> NotificationEditResponse</code>
-- <code title="post /v2/notifications/offset/list">client.v2.notifications.<a href="./src/resources/v2/notifications.ts">listOffset</a>({ ...params }) -> NotificationListOffsetResponse</code>
-- <code title="post /v2/notifications/system/list">client.v2.notifications.<a href="./src/resources/v2/notifications.ts">listSystem</a>() -> NotificationListSystemResponse</code>
-
 # V1
 
 ## Alerts

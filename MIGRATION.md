@@ -111,7 +111,6 @@ client.example.list(undefined, { headers: { ... } });
 
 This affects the following methods:
 
-- `client.v2.notifications.listOffset()`
 - `client.v1.plans.list()`
 - `client.v1.creditGrants.list()`
 - `client.v1.creditGrants.listEntries()`

@@ -281,15 +281,6 @@ The following tools are available in this MCP server.
   - An array of every edit ever made to the contract
   - Details on each individual edit - for example showing that in one edit, a user added two discounts and incremented a subscription quantity.
 
-### Resource `v2.notifications`:
-
-- `create_v2_notifications` (`write`): Create an offset lifecycle event notification configuration. The lifecycle event type is inferred from the policy.type field.
-- `retrieve_v2_notifications` (`write`): Retrieve a specific offset lifecycle event notification configuration by ID.
-- `archive_v2_notifications` (`write`): Archive an offset lifecycle event notification configuration. Archived notifications are not processed.
-- `edit_v2_notifications` (`write`): Edit an existing offset lifecycle event notification configuration.
-- `list_offset_v2_notifications` (`write`): List offset lifecycle event notification configurations. These are user-created notifications that trigger at a specified time offset relative to lifecycle events. Returns a maximum of 400 results per request.
-- `list_system_v2_notifications` (`write`): List available system lifecycle event types for notifications. These are read-only event types that can be used when creating offset notifications.
-
 ### Resource `v1.alerts`:
 
 - `create_v1_alerts` (`write`): Create a new threshold notification to monitor customer spending, balances, and billing metrics in real-time. Metronome's notification system provides industry-leading speed with immediate evaluation capabilities, enabling you to proactively manage customer accounts and prevent revenue leakage.
@@ -399,7 +390,7 @@ The following tools are available in this MCP server.
 
 - `list_billable_metrics_v1_customers` (`read`): Get all billable metrics available for a specific customer. Supports pagination and filtering by current plan status or archived metrics. Use this endpoint to see which metrics are being tracked for billing calculations for a given customer.
 - `list_costs_v1_customers` (`read`): Fetch daily pending costs for the specified customer, broken down by credit type and line items. Note: this is not supported for customers whose plan includes a UNIQUE-type billable metric. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.
-- `preview_events_v1_customers` (`write`): Preview how a set of events will affect a customer's invoices. Generates draft invoices for a customer using their current contract configuration and the provided events. This is useful for testing how new events will affect the customer's invoices before they are actually processed.
+- `preview_events_v1_customers` (`write`): Preview how a set of events will affect a customer's invoices. Generates draft invoices for a customer using their current contract configuration and the provided events. This is useful for testing how new events will affect the customer's invoices before they are actually processed. Customers on contracts with SQL billable metrics are not supported.
 - `retrieve_billing_configurations_v1_customers` (`write`): Returns all billing configurations previously set for the customer. Use during the contract provisioning process to fetch the `billing_provider_configuration_id` needed to set the contract billing configuration.
 - `set_billing_configurations_v1_customers` (`write`): Create a billing configuration for a customer. Once created, these configurations are available to associate to a contract and dictates which downstream system to collect payment in or send the invoice to. You can create multiple configurations per customer. The configuration formats are distinct for each downstream provider.
 
