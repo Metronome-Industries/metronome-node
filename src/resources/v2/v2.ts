@@ -17,33 +17,12 @@ import {
   ContractRetrieveResponse,
   Contracts,
 } from './contracts';
-import * as NotificationsAPI from './notifications';
-import {
-  LifecycleEventOffsetNotificationConfig,
-  LifecycleEventOffsetPolicy,
-  LifecycleEventSystemNotificationConfig,
-  LifecycleEventSystemPolicy,
-  NotificationArchiveParams,
-  NotificationArchiveResponse,
-  NotificationCreateParams,
-  NotificationCreateResponse,
-  NotificationEditParams,
-  NotificationEditResponse,
-  NotificationListOffsetParams,
-  NotificationListOffsetResponse,
-  NotificationListSystemResponse,
-  NotificationRetrieveParams,
-  NotificationRetrieveResponse,
-  Notifications,
-} from './notifications';
 
 export class V2 extends APIResource {
   contracts: ContractsAPI.Contracts = new ContractsAPI.Contracts(this._client);
-  notifications: NotificationsAPI.Notifications = new NotificationsAPI.Notifications(this._client);
 }
 
 V2.Contracts = Contracts;
-V2.Notifications = Notifications;
 
 export declare namespace V2 {
   export {
@@ -60,24 +39,5 @@ export declare namespace V2 {
     type ContractEditCommitParams as ContractEditCommitParams,
     type ContractEditCreditParams as ContractEditCreditParams,
     type ContractGetEditHistoryParams as ContractGetEditHistoryParams,
-  };
-
-  export {
-    Notifications as Notifications,
-    type LifecycleEventOffsetNotificationConfig as LifecycleEventOffsetNotificationConfig,
-    type LifecycleEventOffsetPolicy as LifecycleEventOffsetPolicy,
-    type LifecycleEventSystemNotificationConfig as LifecycleEventSystemNotificationConfig,
-    type LifecycleEventSystemPolicy as LifecycleEventSystemPolicy,
-    type NotificationCreateResponse as NotificationCreateResponse,
-    type NotificationRetrieveResponse as NotificationRetrieveResponse,
-    type NotificationArchiveResponse as NotificationArchiveResponse,
-    type NotificationEditResponse as NotificationEditResponse,
-    type NotificationListOffsetResponse as NotificationListOffsetResponse,
-    type NotificationListSystemResponse as NotificationListSystemResponse,
-    type NotificationCreateParams as NotificationCreateParams,
-    type NotificationRetrieveParams as NotificationRetrieveParams,
-    type NotificationArchiveParams as NotificationArchiveParams,
-    type NotificationEditParams as NotificationEditParams,
-    type NotificationListOffsetParams as NotificationListOffsetParams,
   };
 }
