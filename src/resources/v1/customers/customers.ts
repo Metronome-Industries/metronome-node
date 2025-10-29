@@ -731,7 +731,8 @@ export namespace CustomerRetrieveBillingConfigurationsResponse {
       | 'azure_marketplace'
       | 'quickbooks_online'
       | 'workday'
-      | 'gcp_marketplace';
+      | 'gcp_marketplace'
+      | 'metronome';
 
     /**
      * Configuration for the billing provider. The structure of this object is specific
@@ -802,7 +803,8 @@ export namespace CustomerCreateParams {
       | 'azure_marketplace'
       | 'quickbooks_online'
       | 'workday'
-      | 'gcp_marketplace';
+      | 'gcp_marketplace'
+      | 'metronome';
 
     /**
      * True if the aws_product_code is a SAAS subscription product, false otherwise.
@@ -1022,7 +1024,8 @@ export namespace CustomerSetBillingConfigurationsParams {
       | 'azure_marketplace'
       | 'quickbooks_online'
       | 'workday'
-      | 'gcp_marketplace';
+      | 'gcp_marketplace'
+      | 'metronome';
 
     customer_id: string;
 
