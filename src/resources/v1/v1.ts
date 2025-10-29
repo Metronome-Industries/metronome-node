@@ -177,6 +177,12 @@ import {
   CustomerUpdateConfigParams,
   Customers,
 } from './customers/customers';
+import * as SettingsAPI from './settings/settings';
+import {
+  SettingUpsertAvalaraCredentialsParams,
+  SettingUpsertAvalaraCredentialsResponse,
+  Settings,
+} from './settings/settings';
 
 export class V1 extends APIResource {
   alerts: AlertsAPI.Alerts = new AlertsAPI.Alerts(this._client);
@@ -193,6 +199,7 @@ export class V1 extends APIResource {
   invoices: InvoicesAPI.Invoices = new InvoicesAPI.Invoices(this._client);
   contracts: ContractsAPI.Contracts = new ContractsAPI.Contracts(this._client);
   payments: PaymentsAPI.Payments = new PaymentsAPI.Payments(this._client);
+  settings: SettingsAPI.Settings = new SettingsAPI.Settings(this._client);
 }
 
 V1.Alerts = Alerts;
@@ -209,6 +216,7 @@ V1.Services = Services;
 V1.Invoices = Invoices;
 V1.Contracts = Contracts;
 V1.Payments = Payments;
+V1.Settings = Settings;
 
 export declare namespace V1 {
   export {
@@ -389,5 +397,11 @@ export declare namespace V1 {
     type PaymentListParams as PaymentListParams,
     type PaymentAttemptParams as PaymentAttemptParams,
     type PaymentCancelParams as PaymentCancelParams,
+  };
+
+  export {
+    Settings as Settings,
+    type SettingUpsertAvalaraCredentialsResponse as SettingUpsertAvalaraCredentialsResponse,
+    type SettingUpsertAvalaraCredentialsParams as SettingUpsertAvalaraCredentialsParams,
   };
 }

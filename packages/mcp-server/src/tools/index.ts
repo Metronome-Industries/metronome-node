@@ -111,6 +111,9 @@ import update_contracts_v1_named_schedules from './v1/contracts/named-schedules/
 import list_v1_payments from './v1/payments/list-v1-payments';
 import attempt_v1_payments from './v1/payments/attempt-v1-payments';
 import cancel_v1_payments from './v1/payments/cancel-v1-payments';
+import upsert_avalara_credentials_v1_settings from './v1/settings/upsert-avalara-credentials-v1-settings';
+import create_settings_v1_billing_providers from './v1/settings/billing-providers/create-settings-v1-billing-providers';
+import list_settings_v1_billing_providers from './v1/settings/billing-providers/list-settings-v1-billing-providers';
 
 export const endpoints: Endpoint[] = [];
 
@@ -225,6 +228,9 @@ addEndpoint(update_contracts_v1_named_schedules);
 addEndpoint(list_v1_payments);
 addEndpoint(attempt_v1_payments);
 addEndpoint(cancel_v1_payments);
+addEndpoint(upsert_avalara_credentials_v1_settings);
+addEndpoint(create_settings_v1_billing_providers);
+addEndpoint(list_settings_v1_billing_providers);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';
