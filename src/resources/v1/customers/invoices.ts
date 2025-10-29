@@ -730,7 +730,8 @@ export namespace Invoice {
         | 'azure_marketplace'
         | 'quickbooks_online'
         | 'workday'
-        | 'gcp_marketplace';
+        | 'gcp_marketplace'
+        | 'metronome';
 
       external_status?:
         | 'DRAFT'
@@ -802,7 +803,8 @@ export namespace Invoice {
       | 'azure_marketplace'
       | 'quickbooks_online'
       | 'workday'
-      | 'gcp_marketplace';
+      | 'gcp_marketplace'
+      | 'metronome';
 
     external_status?:
       | 'DRAFT'

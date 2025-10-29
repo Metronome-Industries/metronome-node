@@ -1701,7 +1701,8 @@ export namespace ContractEditParams {
         | 'azure_marketplace'
         | 'quickbooks_online'
         | 'workday'
-        | 'gcp_marketplace';
+        | 'gcp_marketplace'
+        | 'metronome';
 
       billing_provider_configuration_id?: string;
 

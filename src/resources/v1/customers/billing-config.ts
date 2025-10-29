@@ -172,7 +172,8 @@ export interface BillingConfigCreateParams {
     | 'azure_marketplace'
     | 'quickbooks_online'
     | 'workday'
-    | 'gcp_marketplace';
+    | 'gcp_marketplace'
+    | 'metronome';
 
   /**
    * Body param: The customer ID in the billing provider's system. For Azure, this is
@@ -240,7 +241,8 @@ export interface BillingConfigRetrieveParams {
     | 'azure_marketplace'
     | 'quickbooks_online'
     | 'workday'
-    | 'gcp_marketplace';
+    | 'gcp_marketplace'
+    | 'metronome';
 }
 
 export interface BillingConfigDeleteParams {
@@ -257,7 +259,8 @@ export interface BillingConfigDeleteParams {
     | 'azure_marketplace'
     | 'quickbooks_online'
     | 'workday'
-    | 'gcp_marketplace';
+    | 'gcp_marketplace'
+    | 'metronome';
 }
 
 export declare namespace BillingConfig {

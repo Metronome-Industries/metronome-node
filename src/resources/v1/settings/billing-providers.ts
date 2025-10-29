@@ -82,7 +82,8 @@ export namespace BillingProviderListResponse {
       | 'azure_marketplace'
       | 'quickbooks_online'
       | 'workday'
-      | 'gcp_marketplace';
+      | 'gcp_marketplace'
+      | 'metronome';
 
     /**
      * The method to use for delivering invoices to this customer.
