@@ -1363,3 +1363,12 @@ The following tools are available in this MCP server.
   Attempting to payment on an ineligible Invoice or Customer will result in a `400` response.
 
 - `cancel_v1_payments` (`write`): Cancel an existing payment attempt for an invoice.
+
+### Resource `v1.settings`:
+
+- `upsert_avalara_credentials_v1_settings` (`write`): Set the Avalara credentials for some specified `delivery_method_ids`, which can be found in the `/listConfiguredBillingProviders` response. This maps the Avalara credentials to the appropriate billing entity. These credentials are only used for PLG Invoicing today.
+
+### Resource `v1.settings.billing_providers`:
+
+- `create_settings_v1_billing_providers` (`write`): Set up account-level configuration for a billing provider. Once configured, individual contracts across customers can be mapped to this configuration using the returned delivery_method_id.
+- `list_settings_v1_billing_providers` (`write`): Lists all configured billing providers and their delivery method configurations for your account. Returns provider details, delivery method IDs, and configuration settings needed for mapping individual customer contracts to billing integrations.
