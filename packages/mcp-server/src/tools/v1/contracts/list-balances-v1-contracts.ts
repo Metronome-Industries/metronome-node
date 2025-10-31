@@ -37,6 +37,10 @@ export const tool: Tool = {
         description: 'Include only balances that have any access before the provided date (exclusive)',
         format: 'date-time',
       },
+      exclude_zero_balances: {
+        type: 'boolean',
+        description: 'Exclude balances with zero amounts from the response.',
+      },
       include_archived: {
         type: 'boolean',
         description: 'Include archived credits and credits from archived contracts.',

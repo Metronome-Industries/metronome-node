@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'delete_customers_v1_billing_config',
   description:
-    'Delete the billing configuration for a given customer. Note: this is unsupported for Azure and AWS Marketplace customers.\n',
+    'Delete the billing configuration for a given customer.\nNote: this is unsupported for Azure and AWS Marketplace customers. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.\n',
   inputSchema: {
     type: 'object',
     properties: {
@@ -35,6 +35,7 @@ export const tool: Tool = {
           'quickbooks_online',
           'workday',
           'gcp_marketplace',
+          'metronome',
         ],
       },
     },

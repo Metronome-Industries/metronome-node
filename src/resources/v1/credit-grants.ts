@@ -15,7 +15,8 @@ import { RequestOptions } from '../../internal/request-options';
 
 export class CreditGrants extends APIResource {
   /**
-   * Create a new credit grant
+   * Create a new credit grant. This is a Plans (deprecated) endpoint. New clients
+   * should implement using Contracts.
    *
    * @example
    * ```ts
@@ -43,7 +44,8 @@ export class CreditGrants extends APIResource {
   }
 
   /**
-   * List credit grants. This list does not included voided grants.
+   * List credit grants. This list does not included voided grants. This is a Plans
+   * (deprecated) endpoint. New clients should implement using Contracts.
    *
    * @example
    * ```ts
@@ -79,7 +81,8 @@ export class CreditGrants extends APIResource {
   }
 
   /**
-   * Edit an existing credit grant
+   * Edit an existing credit grant. This is a Plans (deprecated) endpoint. New
+   * clients should implement using Contracts.
    *
    * @example
    * ```ts
@@ -97,7 +100,8 @@ export class CreditGrants extends APIResource {
   /**
    * Fetches a list of credit ledger entries. Returns lists of ledgers per customer.
    * Ledger entries are returned in chronological order. Ledger entries associated
-   * with voided credit grants are not included.
+   * with voided credit grants are not included. This is a Plans (deprecated)
+   * endpoint. New clients should implement using Contracts.
    *
    * @example
    * ```ts
@@ -129,7 +133,8 @@ export class CreditGrants extends APIResource {
   }
 
   /**
-   * Void a credit grant
+   * Void a credit grant. This is a Plans (deprecated) endpoint. New clients should
+   * implement using Contracts.
    *
    * @example
    * ```ts

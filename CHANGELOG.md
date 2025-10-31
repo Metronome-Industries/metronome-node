@@ -1,5 +1,41 @@
 # Changelog
 
+## 2.1.0 (2025-10-31)
+
+Full Changelog: [v2.0.0...v2.1.0](https://github.com/Metronome-Industries/metronome-node/compare/v2.0.0...v2.1.0)
+
+### Features
+
+* [ORCH-282] plumb `payment_method_id` to the payment gateway object ([15c6c79](https://github.com/Metronome-Industries/metronome-node/commit/15c6c79a1e6bf2eb5d0f7b56f33ca1457dfb3bef))
+* [ORCH-797] add billing_provider_error to invoice.external_invoice ([c0420d3](https://github.com/Metronome-Industries/metronome-node/commit/c0420d37de98fae7d378b9182b09014cf859e245))
+* Add avalara creds + billing provider APIs to SDK. Add avalara creds API to docs. ([039521a](https://github.com/Metronome-Industries/metronome-node/commit/039521addeac2953ff0f30e0c8a08cb972d24c65))
+* add beta tag to stripe auto charge items ([f5e38e8](https://github.com/Metronome-Industries/metronome-node/commit/f5e38e8c777fe60778583c4574345ee631179383))
+* add exclude_zero_balances field behind a FF for anthropic ([c8c7c29](https://github.com/Metronome-Industries/metronome-node/commit/c8c7c299261e60bf7865046357608732ff26c65d))
+* add METRONOME to BillingProvider type ([e242daa](https://github.com/Metronome-Industries/metronome-node/commit/e242daa137de8488bf9e63a3273f2abe9ba9438b))
+* docs(api) Documentation for seat-based subscription linked recurring commits beta release ([667067a](https://github.com/Metronome-Industries/metronome-node/commit/667067a9507777f4d478efdd360da6d1243e92b2))
+* ignore_duplicates ([4ec20ce](https://github.com/Metronome-Industries/metronome-node/commit/4ec20cebb5aa8f1aaa6d7f36dac434eab4cba5e1))
+* internal: moving plans docs to deprecated section of new docs site ([f8c0abf](https://github.com/Metronome-Industries/metronome-node/commit/f8c0abf50cb4f7b2a4ccdbec271c775d769ddb04))
+* not ready for review ([82f5869](https://github.com/Metronome-Industries/metronome-node/commit/82f5869b1f602f9b3b5e9e6bbf29aac79ff576fb))
+* not ready for review ([c2db062](https://github.com/Metronome-Industries/metronome-node/commit/c2db06258d902bc794389c29ec6f751bc63e0a0f))
+* Relax requirement on customer level commits for invoice_contract_id if do_not_invoice is set to true ([fb89c8e](https://github.com/Metronome-Industries/metronome-node/commit/fb89c8ea130da2171c3c5f48944559588788215f))
+* update get customer alerts api to include low seat balance type ([9d9c44c](https://github.com/Metronome-Industries/metronome-node/commit/9d9c44cf27578836e60a4a81f0118b9f24c88f85))
+
+
+### Bug Fixes
+
+* **api:** Make id field required in /v2/notifications/edit ([afd6647](https://github.com/Metronome-Industries/metronome-node/commit/afd6647d668f6031892fa1cbd6323514ce375e94))
+* **mcpb:** pin @anthropic-ai/mcpb version ([4542481](https://github.com/Metronome-Industries/metronome-node/commit/454248130b0cdd15854808634fd0beb9210e3ef0))
+
+
+### Chores
+
+* **api:** Note SQL BM is not supported in previewCustomerEvents description ([ea70362](https://github.com/Metronome-Industries/metronome-node/commit/ea70362ab43c4505d92b382bca361f937d162d3a))
+
+
+### Documentation
+
+* add migrate amendments to edits page ([8553655](https://github.com/Metronome-Industries/metronome-node/commit/85536552c0f2ab2e5f5be34a16ec43c9df705a32))
+
 ## 2.0.0 (2025-10-16)
 
 Full Changelog: [v1.0.0...v2.0.0](https://github.com/Metronome-Industries/metronome-node/compare/v1.0.0...v2.0.0)

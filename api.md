@@ -469,6 +469,28 @@ Methods:
 - <code title="post /v1/payments/list">client.v1.payments.<a href="./src/resources/v1/payments.ts">list</a>({ ...params }) -> PaymentsBodyCursorPage</code>
 - <code title="post /v1/payments/attempt">client.v1.payments.<a href="./src/resources/v1/payments.ts">attempt</a>({ ...params }) -> PaymentAttemptResponse</code>
 - <code title="post /v1/payments/cancel">client.v1.payments.<a href="./src/resources/v1/payments.ts">cancel</a>({ ...params }) -> PaymentCancelResponse</code>
+
+## Settings
+
+Types:
+
+- <code><a href="./src/resources/v1/settings/settings.ts">SettingUpsertAvalaraCredentialsResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/upsertAvalaraCredentials">client.v1.settings.<a href="./src/resources/v1/settings/settings.ts">upsertAvalaraCredentials</a>({ ...params }) -> SettingUpsertAvalaraCredentialsResponse</code>
+
+### BillingProviders
+
+Types:
+
+- <code><a href="./src/resources/v1/settings/billing-providers.ts">BillingProviderCreateResponse</a></code>
+- <code><a href="./src/resources/v1/settings/billing-providers.ts">BillingProviderListResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/setUpBillingProvider">client.v1.settings.billingProviders.<a href="./src/resources/v1/settings/billing-providers.ts">create</a>({ ...params }) -> BillingProviderCreateResponse</code>
+- <code title="post /v1/listConfiguredBillingProviders">client.v1.settings.billingProviders.<a href="./src/resources/v1/settings/billing-providers.ts">list</a>({ ...params }) -> BillingProviderListResponse</code>
 # Payments
 
 Types:

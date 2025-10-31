@@ -133,7 +133,8 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * Add a one time charge to the specified invoice
+   * Add a one time charge to the specified invoice. This is a Plans (deprecated)
+   * endpoint. New clients should implement using Contracts.
    *
    * @example
    * ```ts
@@ -298,6 +299,12 @@ export interface Invoice {
   billable_status?: unknown;
 
   /**
+   * Account hierarchy M3 - Required on invoices with type USAGE_CONSOLIDATED. List
+   * of constituent invoices that were consolidated to create this invoice.
+   */
+  constituent_invoices?: Array<Invoice.ConstituentInvoice>;
+
+  /**
    * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
    */
   contract_custom_fields?: { [key: string]: string };
@@ -339,6 +346,12 @@ export interface Invoice {
    * This field's availability is dependent on your client's configuration.
    */
   netsuite_sales_order_id?: string;
+
+  /**
+   * Account hierarchy M3 - Required for account hierarchy usage invoices. An object
+   * containing the contract and customer UUIDs that pay for this invoice.
+   */
+  payer?: Invoice.Payer;
 
   /**
    * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
@@ -485,6 +498,13 @@ export namespace Invoice {
     netsuite_item_id?: string;
 
     /**
+     * Account hierarchy M3 - Present on line items from invoices with type
+     * USAGE_CONSOLIDATED. Indicates the original customer, contract, invoice and line
+     * item from which this line item was copied.
+     */
+    origin?: LineItem.Origin;
+
+    /**
      * Only present for line items paying for a postpaid commit true-up.
      */
     postpaid_commit?: LineItem.PostpaidCommit;
@@ -585,6 +605,21 @@ export namespace Invoice {
     }
 
     /**
+     * Account hierarchy M3 - Present on line items from invoices with type
+     * USAGE_CONSOLIDATED. Indicates the original customer, contract, invoice and line
+     * item from which this line item was copied.
+     */
+    export interface Origin {
+      contract_id: string;
+
+      customer_id: string;
+
+      invoice_id: string;
+
+      line_item_id: string;
+    }
+
+    /**
      * Only present for line items paying for a postpaid commit true-up.
      */
     export interface PostpaidCommit {
@@ -667,6 +702,14 @@ export namespace Invoice {
     }
   }
 
+  export interface ConstituentInvoice {
+    contract_id: string;
+
+    customer_id: string;
+
+    invoice_id: string;
+  }
+
   export interface CorrectionRecord {
     corrected_invoice_id: string;
 
@@ -687,7 +730,13 @@ export namespace Invoice {
         | 'azure_marketplace'
         | 'quickbooks_online'
         | 'workday'
-        | 'gcp_marketplace';
+        | 'gcp_marketplace'
+        | 'metronome';
+
+      /**
+       * Error message from the billing provider, if available.
+       */
+      billing_provider_error?: string;
 
       external_status?:
         | 'DRAFT'
@@ -759,7 +808,13 @@ export namespace Invoice {
       | 'azure_marketplace'
       | 'quickbooks_online'
       | 'workday'
-      | 'gcp_marketplace';
+      | 'gcp_marketplace'
+      | 'metronome';
+
+    /**
+     * Error message from the billing provider, if available.
+     */
+    billing_provider_error?: string;
 
     external_status?:
       | 'DRAFT'
@@ -834,6 +889,16 @@ export namespace Invoice {
     credit_grant_custom_fields?: { [key: string]: string };
 
     credit_grant_id?: string;
+  }
+
+  /**
+   * Account hierarchy M3 - Required for account hierarchy usage invoices. An object
+   * containing the contract and customer UUIDs that pay for this invoice.
+   */
+  export interface Payer {
+    contract_id: string;
+
+    customer_id: string;
   }
 
   /**

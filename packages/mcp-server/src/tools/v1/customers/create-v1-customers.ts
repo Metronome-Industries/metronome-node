@@ -43,6 +43,7 @@ export const tool: Tool = {
               'quickbooks_online',
               'workday',
               'gcp_marketplace',
+              'metronome',
             ],
           },
           aws_is_subscription_product: {
@@ -84,6 +85,8 @@ export const tool: Tool = {
           },
           stripe_collection_method: {
             type: 'string',
+            description:
+              "The collection method for the customer's invoices.\nNOTE: `auto_charge_payment_intent` and `manually_charge_payment_intent` are in beta.",
             enum: [
               'charge_automatically',
               'send_invoice',

@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'create_customers_v1_billing_config',
-  description: 'Set the billing configuration for a given customer.',
+  description:
+    'Set the billing configuration for a given customer. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.\n',
   inputSchema: {
     type: 'object',
     properties: {
@@ -34,6 +35,7 @@ export const tool: Tool = {
           'quickbooks_online',
           'workday',
           'gcp_marketplace',
+          'metronome',
         ],
       },
       billing_provider_customer_id: {
@@ -76,6 +78,8 @@ export const tool: Tool = {
       },
       stripe_collection_method: {
         type: 'string',
+        description:
+          "The collection method for the customer's invoices.\nNOTE: `auto_charge_payment_intent` and `manually_charge_payment_intent` are in beta.",
         enum: [
           'charge_automatically',
           'send_invoice',

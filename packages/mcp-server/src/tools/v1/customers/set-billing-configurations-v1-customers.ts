@@ -38,6 +38,7 @@ export const tool: Tool = {
                 'quickbooks_online',
                 'workday',
                 'gcp_marketplace',
+                'metronome',
               ],
             },
             customer_id: {

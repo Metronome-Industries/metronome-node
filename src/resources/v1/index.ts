@@ -155,6 +155,11 @@ export {
 } from './pricing-units';
 export { Services, type ServiceListResponse } from './services';
 export {
+  Settings,
+  type SettingUpsertAvalaraCredentialsResponse,
+  type SettingUpsertAvalaraCredentialsParams,
+} from './settings/index';
+export {
   Usage,
   type UsageListResponse,
   type UsageListWithGroupsResponse,

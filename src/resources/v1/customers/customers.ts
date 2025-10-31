@@ -248,7 +248,8 @@ export class Customers extends APIResource {
   /**
    * Fetch daily pending costs for the specified customer, broken down by credit type
    * and line items. Note: this is not supported for customers whose plan includes a
-   * UNIQUE-type billable metric.
+   * UNIQUE-type billable metric. This is a Plans (deprecated) endpoint. New clients
+   * should implement using Contracts.
    *
    * @example
    * ```ts
@@ -280,7 +281,8 @@ export class Customers extends APIResource {
    * Preview how a set of events will affect a customer's invoices. Generates draft
    * invoices for a customer using their current contract configuration and the
    * provided events. This is useful for testing how new events will affect the
-   * customer's invoices before they are actually processed.
+   * customer's invoices before they are actually processed. Customers on contracts
+   * with SQL billable metrics are not supported.
    *
    * @example
    * ```ts
@@ -293,6 +295,7 @@ export class Customers extends APIResource {
    *       properties: { cpu_hours: 100, memory_gb_hours: 200 },
    *     },
    *   ],
+   *   mode: 'replace',
    * });
    * ```
    */
@@ -728,7 +731,8 @@ export namespace CustomerRetrieveBillingConfigurationsResponse {
       | 'azure_marketplace'
       | 'quickbooks_online'
       | 'workday'
-      | 'gcp_marketplace';
+      | 'gcp_marketplace'
+      | 'metronome';
 
     /**
      * Configuration for the billing provider. The structure of this object is specific
@@ -799,7 +803,8 @@ export namespace CustomerCreateParams {
       | 'azure_marketplace'
       | 'quickbooks_online'
       | 'workday'
-      | 'gcp_marketplace';
+      | 'gcp_marketplace'
+      | 'metronome';
 
     /**
      * True if the aws_product_code is a SAAS subscription product, false otherwise.
@@ -835,6 +840,10 @@ export namespace CustomerCreateParams {
       | 'us-west-1'
       | 'us-west-2';
 
+    /**
+     * The collection method for the customer's invoices. NOTE:
+     * `auto_charge_payment_intent` and `manually_charge_payment_intent` are in beta.
+     */
     stripe_collection_method?:
       | 'charge_automatically'
       | 'send_invoice'
@@ -952,20 +961,21 @@ export interface CustomerPreviewEventsParams {
   customer_id: string;
 
   /**
-   * Body param:
+   * Body param: Array of usage events to include in the preview calculation. Must
+   * contain at least one event in `merge` mode.
    */
   events: Array<CustomerPreviewEventsParams.Event>;
 
   /**
-   * Body param: If set to "replace", the preview will be generated as if those were
-   * the only events for the specified customer. If set to "merge", the events will
-   * be merged with any existing events for the specified customer. Defaults to
-   * "replace".
+   * Body param: Controls how the provided events are combined with existing usage
+   * data. Use `replace` to calculate the preview as if these are the only events for
+   * the customer, ignoring all historical usage. Use `merge` to combine these events
+   * with the customer's existing usage. Defaults to `replace`.
    */
   mode?: 'replace' | 'merge';
 
   /**
-   * Body param: If set, all zero quantity line items will be filtered out of the
+   * Body param: When `true`, line items with zero quantity are excluded from the
    * response.
    */
   skip_zero_qty_line_items?: boolean;
@@ -1014,7 +1024,8 @@ export namespace CustomerSetBillingConfigurationsParams {
       | 'azure_marketplace'
       | 'quickbooks_online'
       | 'workday'
-      | 'gcp_marketplace';
+      | 'gcp_marketplace'
+      | 'metronome';
 
     customer_id: string;
 

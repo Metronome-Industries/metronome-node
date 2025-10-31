@@ -8,7 +8,8 @@ import { path } from '../../../internal/utils/path';
 
 export class BillingConfig extends APIResource {
   /**
-   * Set the billing configuration for a given customer.
+   * Set the billing configuration for a given customer. This is a Plans (deprecated)
+   * endpoint. New clients should implement using Contracts.
    *
    * @example
    * ```ts
@@ -30,7 +31,8 @@ export class BillingConfig extends APIResource {
   }
 
   /**
-   * Fetch the billing configuration for the given customer.
+   * Fetch the billing configuration for the given customer. This is a Plans
+   * (deprecated) endpoint. New clients should implement using Contracts.
    *
    * @example
    * ```ts
@@ -54,7 +56,8 @@ export class BillingConfig extends APIResource {
 
   /**
    * Delete the billing configuration for a given customer. Note: this is unsupported
-   * for Azure and AWS Marketplace customers.
+   * for Azure and AWS Marketplace customers. This is a Plans (deprecated) endpoint.
+   * New clients should implement using Contracts.
    *
    * @example
    * ```ts
@@ -140,6 +143,10 @@ export namespace BillingConfigRetrieveResponse {
 
     billing_provider_customer_id?: string;
 
+    /**
+     * The collection method for the customer's invoices. NOTE:
+     * `auto_charge_payment_intent` and `manually_charge_payment_intent` are in beta.
+     */
     stripe_collection_method?:
       | 'charge_automatically'
       | 'send_invoice'
@@ -165,7 +172,8 @@ export interface BillingConfigCreateParams {
     | 'azure_marketplace'
     | 'quickbooks_online'
     | 'workday'
-    | 'gcp_marketplace';
+    | 'gcp_marketplace'
+    | 'metronome';
 
   /**
    * Body param: The customer ID in the billing provider's system. For Azure, this is
@@ -209,7 +217,8 @@ export interface BillingConfigCreateParams {
     | 'us-west-2';
 
   /**
-   * Body param:
+   * Body param: The collection method for the customer's invoices. NOTE:
+   * `auto_charge_payment_intent` and `manually_charge_payment_intent` are in beta.
    */
   stripe_collection_method?:
     | 'charge_automatically'
@@ -232,7 +241,8 @@ export interface BillingConfigRetrieveParams {
     | 'azure_marketplace'
     | 'quickbooks_online'
     | 'workday'
-    | 'gcp_marketplace';
+    | 'gcp_marketplace'
+    | 'metronome';
 }
 
 export interface BillingConfigDeleteParams {
@@ -249,7 +259,8 @@ export interface BillingConfigDeleteParams {
     | 'azure_marketplace'
     | 'quickbooks_online'
     | 'workday'
-    | 'gcp_marketplace';
+    | 'gcp_marketplace'
+    | 'metronome';
 }
 
 export declare namespace BillingConfig {
