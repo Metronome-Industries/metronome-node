@@ -733,6 +733,11 @@ export namespace Invoice {
         | 'gcp_marketplace'
         | 'metronome';
 
+      /**
+       * Error message from the billing provider, if available.
+       */
+      billing_provider_error?: string;
+
       external_status?:
         | 'DRAFT'
         | 'FINALIZED'
@@ -805,6 +810,11 @@ export namespace Invoice {
       | 'workday'
       | 'gcp_marketplace'
       | 'metronome';
+
+    /**
+     * Error message from the billing provider, if available.
+     */
+    billing_provider_error?: string;
 
     external_status?:
       | 'DRAFT'
