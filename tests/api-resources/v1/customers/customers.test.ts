@@ -212,6 +212,7 @@ describe('resource customers', () => {
         { billing_provider: 'aws_marketplace', customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491' },
         { billing_provider: 'azure_marketplace', customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491' },
         { billing_provider: 'aws_marketplace', customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491' },
+        { billing_provider: 'gcp_marketplace', customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491' },
       ],
     });
     const rawResponse = await responsePromise.asResponse();
@@ -263,6 +264,14 @@ describe('resource customers', () => {
             aws_region: 'bar',
             aws_is_subscription_product: 'bar',
           },
+          delivery_method: 'direct_to_billing_provider',
+          delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          tax_provider: 'anrok',
+        },
+        {
+          billing_provider: 'gcp_marketplace',
+          customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
+          configuration: { gcp_entitlement_id: 'bar', gcp_service_name: 'bar' },
           delivery_method: 'direct_to_billing_provider',
           delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           tax_provider: 'anrok',

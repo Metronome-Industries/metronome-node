@@ -107,7 +107,7 @@ export interface BillingProviderCreateParams {
   /**
    * The billing provider set for this configuration.
    */
-  billing_provider: 'aws_marketplace' | 'azure_marketplace';
+  billing_provider: 'aws_marketplace' | 'azure_marketplace' | 'gcp_marketplace';
 
   /**
    * Account-level configuration for the billing provider. The structure of this

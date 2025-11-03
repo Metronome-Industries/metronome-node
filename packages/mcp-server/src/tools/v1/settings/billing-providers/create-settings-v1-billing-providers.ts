@@ -25,7 +25,7 @@ export const tool: Tool = {
       billing_provider: {
         type: 'string',
         description: 'The billing provider set for this configuration.',
-        enum: ['aws_marketplace', 'azure_marketplace'],
+        enum: ['aws_marketplace', 'azure_marketplace', 'gcp_marketplace'],
       },
       configuration: {
         type: 'object',
