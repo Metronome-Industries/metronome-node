@@ -40,6 +40,7 @@ export const tool: Tool = {
           'low_remaining_contract_credit_percentage_reached',
           'low_remaining_contract_credit_and_commit_balance_reached',
           'invoice_total_reached',
+          'low_remaining_seat_balance_reached',
         ],
       },
       name: {
