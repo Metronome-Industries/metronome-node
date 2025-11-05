@@ -2,6 +2,7 @@
 
 import util from 'node:util';
 
+import Fuse from 'fuse.js';
 import ts from 'typescript';
 
 import { WorkerInput, WorkerSuccess, WorkerError } from './code-tool-types';
@@ -39,8 +40,203 @@ function getRunFunctionNode(
   return null;
 }
 
+const fuse = new Fuse(
+  [
+    'client.v2.contracts.edit',
+    'client.v2.contracts.editCommit',
+    'client.v2.contracts.editCredit',
+    'client.v2.contracts.getEditHistory',
+    'client.v2.contracts.list',
+    'client.v2.contracts.retrieve',
+    'client.v1.alerts.archive',
+    'client.v1.alerts.create',
+    'client.v1.plans.getDetails',
+    'client.v1.plans.list',
+    'client.v1.plans.listCharges',
+    'client.v1.plans.listCustomers',
+    'client.v1.creditGrants.create',
+    'client.v1.creditGrants.edit',
+    'client.v1.creditGrants.list',
+    'client.v1.creditGrants.listEntries',
+    'client.v1.creditGrants.void',
+    'client.v1.pricingUnits.list',
+    'client.v1.customers.archive',
+    'client.v1.customers.create',
+    'client.v1.customers.list',
+    'client.v1.customers.listBillableMetrics',
+    'client.v1.customers.listCosts',
+    'client.v1.customers.previewEvents',
+    'client.v1.customers.retrieve',
+    'client.v1.customers.retrieveBillingConfigurations',
+    'client.v1.customers.setBillingConfigurations',
+    'client.v1.customers.setIngestAliases',
+    'client.v1.customers.setName',
+    'client.v1.customers.updateConfig',
+    'client.v1.customers.alerts.list',
+    'client.v1.customers.alerts.reset',
+    'client.v1.customers.alerts.retrieve',
+    'client.v1.customers.plans.add',
+    'client.v1.customers.plans.end',
+    'client.v1.customers.plans.list',
+    'client.v1.customers.plans.listPriceAdjustments',
+    'client.v1.customers.invoices.addCharge',
+    'client.v1.customers.invoices.list',
+    'client.v1.customers.invoices.listBreakdowns',
+    'client.v1.customers.invoices.retrieve',
+    'client.v1.customers.invoices.retrievePdf',
+    'client.v1.customers.billingConfig.create',
+    'client.v1.customers.billingConfig.delete',
+    'client.v1.customers.billingConfig.retrieve',
+    'client.v1.customers.commits.create',
+    'client.v1.customers.commits.list',
+    'client.v1.customers.commits.updateEndDate',
+    'client.v1.customers.credits.create',
+    'client.v1.customers.credits.list',
+    'client.v1.customers.credits.updateEndDate',
+    'client.v1.customers.namedSchedules.retrieve',
+    'client.v1.customers.namedSchedules.update',
+    'client.v1.dashboards.getEmbeddableURL',
+    'client.v1.usage.ingest',
+    'client.v1.usage.list',
+    'client.v1.usage.listWithGroups',
+    'client.v1.usage.search',
+    'client.v1.auditLogs.list',
+    'client.v1.customFields.addKey',
+    'client.v1.customFields.deleteValues',
+    'client.v1.customFields.listKeys',
+    'client.v1.customFields.removeKey',
+    'client.v1.customFields.setValues',
+    'client.v1.billableMetrics.archive',
+    'client.v1.billableMetrics.create',
+    'client.v1.billableMetrics.list',
+    'client.v1.billableMetrics.retrieve',
+    'client.v1.services.list',
+    'client.v1.invoices.regenerate',
+    'client.v1.invoices.void',
+    'client.v1.contracts.addManualBalanceEntry',
+    'client.v1.contracts.amend',
+    'client.v1.contracts.archive',
+    'client.v1.contracts.create',
+    'client.v1.contracts.createHistoricalInvoices',
+    'client.v1.contracts.list',
+    'client.v1.contracts.listBalances',
+    'client.v1.contracts.retrieve',
+    'client.v1.contracts.retrieveRateSchedule',
+    'client.v1.contracts.retrieveSubscriptionQuantityHistory',
+    'client.v1.contracts.scheduleProServicesInvoice',
+    'client.v1.contracts.setUsageFilter',
+    'client.v1.contracts.updateEndDate',
+    'client.v1.contracts.products.archive',
+    'client.v1.contracts.products.create',
+    'client.v1.contracts.products.list',
+    'client.v1.contracts.products.retrieve',
+    'client.v1.contracts.products.update',
+    'client.v1.contracts.rateCards.archive',
+    'client.v1.contracts.rateCards.create',
+    'client.v1.contracts.rateCards.list',
+    'client.v1.contracts.rateCards.retrieve',
+    'client.v1.contracts.rateCards.retrieveRateSchedule',
+    'client.v1.contracts.rateCards.update',
+    'client.v1.contracts.rateCards.productOrders.set',
+    'client.v1.contracts.rateCards.productOrders.update',
+    'client.v1.contracts.rateCards.rates.add',
+    'client.v1.contracts.rateCards.rates.addMany',
+    'client.v1.contracts.rateCards.rates.list',
+    'client.v1.contracts.rateCards.namedSchedules.retrieve',
+    'client.v1.contracts.rateCards.namedSchedules.update',
+    'client.v1.contracts.namedSchedules.retrieve',
+    'client.v1.contracts.namedSchedules.update',
+    'client.v1.payments.attempt',
+    'client.v1.payments.cancel',
+    'client.v1.payments.list',
+    'client.v1.settings.upsertAvalaraCredentials',
+    'client.v1.settings.billingProviders.create',
+    'client.v1.settings.billingProviders.list',
+  ],
+  { threshold: 1, shouldSort: true },
+);
+
+function getMethodSuggestions(fullyQualifiedMethodName: string): string[] {
+  return fuse
+    .search(fullyQualifiedMethodName)
+    .map(({ item }) => item)
+    .slice(0, 5);
+}
+
+const proxyToObj = new WeakMap<any, any>();
+const objToProxy = new WeakMap<any, any>();
+
+type ClientProxyConfig = {
+  path: string[];
+  isBelievedBad?: boolean;
+};
+
+function makeSdkProxy<T extends object>(obj: T, { path, isBelievedBad = false }: ClientProxyConfig): T {
+  let proxy: T = objToProxy.get(obj);
+
+  if (!proxy) {
+    proxy = new Proxy(obj, {
+      get(target, prop, receiver) {
+        const propPath = [...path, String(prop)];
+        const value = Reflect.get(target, prop, receiver);
+
+        if (isBelievedBad || (!(prop in target) && value === undefined)) {
+          // If we're accessing a path that doesn't exist, it will probably eventually error.
+          // Let's proxy it and mark it bad so that we can control the error message.
+          // We proxy an empty class so that an invocation or construction attempt is possible.
+          return makeSdkProxy(class {}, { path: propPath, isBelievedBad: true });
+        }
+
+        if (value !== null && (typeof value === 'object' || typeof value === 'function')) {
+          return makeSdkProxy(value, { path: propPath, isBelievedBad });
+        }
+
+        return value;
+      },
+
+      apply(target, thisArg, args) {
+        if (isBelievedBad || typeof target !== 'function') {
+          const fullyQualifiedMethodName = path.join('.');
+          const suggestions = getMethodSuggestions(fullyQualifiedMethodName);
+          throw new Error(
+            `${fullyQualifiedMethodName} is not a function. Did you mean: ${suggestions.join(', ')}`,
+          );
+        }
+
+        return Reflect.apply(target, proxyToObj.get(thisArg) ?? thisArg, args);
+      },
+
+      construct(target, args, newTarget) {
+        if (isBelievedBad || typeof target !== 'function') {
+          const fullyQualifiedMethodName = path.join('.');
+          const suggestions = getMethodSuggestions(fullyQualifiedMethodName);
+          throw new Error(
+            `${fullyQualifiedMethodName} is not a constructor. Did you mean: ${suggestions.join(', ')}`,
+          );
+        }
+
+        return Reflect.construct(target, args, newTarget);
+      },
+    });
+
+    objToProxy.set(obj, proxy);
+    proxyToObj.set(proxy, obj);
+  }
+
+  return proxy;
+}
+
 const fetch = async (req: Request): Promise<Response> => {
   const { opts, code } = (await req.json()) as WorkerInput;
+  if (code == null) {
+    return Response.json(
+      {
+        message:
+          'The code param is missing. Provide one containing a top-level `run` function. Write code within this template:\n\n```\nasync function run(client) {\n  // Fill this out\n}\n```',
+      } satisfies WorkerError,
+      { status: 400, statusText: 'Code execution error' },
+    );
+  }
 
   const runFunctionNode = getRunFunctionNode(code);
   if (!runFunctionNode) {
@@ -73,7 +269,7 @@ const fetch = async (req: Request): Promise<Response> => {
       ${code}
       run_ = run;
     `);
-    const result = await run_(client);
+    const result = await run_(makeSdkProxy(client, { path: ['client'] }));
     return Response.json({
       result,
       logLines,
