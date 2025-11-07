@@ -823,6 +823,11 @@ export namespace ContractV2 {
      * specifiers to contribute to a commit's or credit's drawdown.
      */
     specifiers?: Array<Shared.CommitSpecifier>;
+
+    /**
+     * Attach a subscription to the recurring commit/credit.
+     */
+    subscription_config?: Shared.RecurringCommitSubscriptionConfig;
   }
 
   export namespace Commit {
@@ -1166,6 +1171,14 @@ export namespace ContractV2 {
     contract?: Credit.Contract;
 
     /**
+     * Timestamp of when the credit was created.
+     *
+     * - Recurring credits: latter of credit service period date and parent credit
+     *   start date
+     */
+    created_at?: string;
+
+    /**
      * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
      */
     custom_fields?: { [key: string]: string };
@@ -1215,6 +1228,11 @@ export namespace ContractV2 {
      * specifiers to contribute to a commit's or credit's drawdown.
      */
     specifiers?: Array<Shared.CommitSpecifier>;
+
+    /**
+     * Attach a subscription to the recurring commit/credit.
+     */
+    subscription_config?: Shared.RecurringCommitSubscriptionConfig;
   }
 
   export namespace Credit {
