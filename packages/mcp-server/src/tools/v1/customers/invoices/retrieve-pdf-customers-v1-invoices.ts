@@ -37,7 +37,7 @@ export const tool: Tool = {
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return asBinaryContentResult(await client.v1.customers.invoices.retrievePdf(body));
+  return asBinaryContentResult(await client.v1.customers.invoices.retrievePdf(body).asResponse());
 };
 
 export default { metadata, tool, handler };
