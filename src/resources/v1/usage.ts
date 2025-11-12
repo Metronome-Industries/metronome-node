@@ -388,9 +388,10 @@ export namespace UsageSearchResponse {
       aggregation_key?: string;
 
       /**
-       * Specifies the type of aggregation performed on matching events.
+       * Specifies the type of aggregation performed on matching events. Includes
+       * "custom_sql" for events search endpoint responses.
        */
-      aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE';
+      aggregation_type?: 'COUNT' | 'LATEST' | 'MAX' | 'SUM' | 'UNIQUE' | 'custom_sql';
 
       /**
        * RFC 3339 timestamp indicating when the billable metric was archived. If not
