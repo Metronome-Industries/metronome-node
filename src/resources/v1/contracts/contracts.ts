@@ -793,6 +793,12 @@ export interface ContractCreateParams {
   reseller_royalties?: Array<ContractCreateParams.ResellerRoyalty>;
 
   /**
+   * The revenue system configuration associated with a contract. Provide either an
+   * ID or the provider and delivery method.
+   */
+  revenue_system_configuration?: ContractCreateParams.RevenueSystemConfiguration;
+
+  /**
    * This field's availability is dependent on your client's configuration.
    */
   salesforce_opportunity_id?: string;
@@ -2024,6 +2030,29 @@ export namespace ContractCreateParams {
 
       gcp_offer_id?: string;
     }
+  }
+
+  /**
+   * The revenue system configuration associated with a contract. Provide either an
+   * ID or the provider and delivery method.
+   */
+  export interface RevenueSystemConfiguration {
+    /**
+     * Do not specify if using revenue_system_configuration_id.
+     */
+    delivery_method?: 'direct_to_billing_provider';
+
+    /**
+     * Do not specify if using revenue_system_configuration_id.
+     */
+    provider?: 'netsuite';
+
+    /**
+     * The Metronome ID of the revenue system configuration. Use when a customer has
+     * multiple configurations with the same provider and delivery method. Otherwise,
+     * specify the provider and delivery_method.
+     */
+    revenue_system_configuration_id?: string;
   }
 
   export interface ScheduledCharge {

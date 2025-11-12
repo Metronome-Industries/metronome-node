@@ -785,6 +785,8 @@ export interface CustomerCreateParams {
 
   customer_billing_provider_configurations?: Array<CustomerCreateParams.CustomerBillingProviderConfiguration>;
 
+  customer_revenue_system_configurations?: Array<CustomerCreateParams.CustomerRevenueSystemConfiguration>;
+
   /**
    * (deprecated, use ingest_aliases instead) an alias that can be used to refer to
    * this customer in usage events
@@ -890,6 +892,32 @@ export namespace CustomerCreateParams {
      * collection methods.
      */
     tax_provider?: 'anrok' | 'avalara' | 'stripe';
+  }
+
+  export interface CustomerRevenueSystemConfiguration {
+    /**
+     * The revenue system provider set for this configuration.
+     */
+    provider: 'netsuite';
+
+    /**
+     * Configuration for the revenue system provider. The structure of this object is
+     * specific to the revenue system provider. For NetSuite, this should contain
+     * `netsuite_customer_id`.
+     */
+    configuration?: { [key: string]: unknown };
+
+    /**
+     * The method to use for delivering invoices to this customer. If not provided, the
+     * `delivery_method_id` must be provided.
+     */
+    delivery_method?: 'direct_to_billing_provider';
+
+    /**
+     * ID of the delivery method to use for this customer. If not provided, the
+     * `delivery_method` must be provided.
+     */
+    delivery_method_id?: string;
   }
 }
 

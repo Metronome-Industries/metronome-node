@@ -139,6 +139,37 @@ export const tool: Tool = {
           required: ['billing_provider'],
         },
       },
+      customer_revenue_system_configurations: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            provider: {
+              type: 'string',
+              description: 'The revenue system provider set for this configuration.',
+              enum: ['netsuite'],
+            },
+            configuration: {
+              type: 'object',
+              description:
+                'Configuration for the revenue system provider. The structure of this object is specific to the revenue system provider. For NetSuite, this should contain `netsuite_customer_id`.',
+              additionalProperties: true,
+            },
+            delivery_method: {
+              type: 'string',
+              description:
+                'The method to use for delivering invoices to this customer. If not provided, the `delivery_method_id` must be provided.',
+              enum: ['direct_to_billing_provider'],
+            },
+            delivery_method_id: {
+              type: 'string',
+              description:
+                'ID of the delivery method to use for this customer. If not provided, the `delivery_method` must be provided.',
+            },
+          },
+          required: ['provider'],
+        },
+      },
       external_id: {
         type: 'string',
         description:
