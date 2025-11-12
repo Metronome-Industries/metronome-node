@@ -1208,6 +1208,28 @@ export const tool: Tool = {
           required: ['fraction', 'netsuite_reseller_id', 'reseller_type', 'starting_at'],
         },
       },
+      revenue_system_configuration: {
+        type: 'object',
+        description:
+          'The revenue system configuration associated with a contract. Provide either an ID or the provider and delivery method.',
+        properties: {
+          delivery_method: {
+            type: 'string',
+            description: 'Do not specify if using revenue_system_configuration_id.',
+            enum: ['direct_to_billing_provider'],
+          },
+          provider: {
+            type: 'string',
+            description: 'Do not specify if using revenue_system_configuration_id.',
+            enum: ['netsuite'],
+          },
+          revenue_system_configuration_id: {
+            type: 'string',
+            description:
+              'The Metronome ID of the revenue system configuration. Use when a customer has multiple configurations with the same provider and delivery method. Otherwise, specify the provider and delivery_method.',
+          },
+        },
+      },
       salesforce_opportunity_id: {
         type: 'string',
         description: "This field's availability is dependent on your client's configuration.",

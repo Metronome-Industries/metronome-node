@@ -340,6 +340,11 @@ describe('resource contracts', () => {
           reseller_contract_value: 0,
         },
       ],
+      revenue_system_configuration: {
+        delivery_method: 'direct_to_billing_provider',
+        provider: 'netsuite',
+        revenue_system_configuration_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      },
       salesforce_opportunity_id: 'salesforce_opportunity_id',
       scheduled_charges: [
         {
