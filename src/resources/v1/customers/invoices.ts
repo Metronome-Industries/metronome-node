@@ -738,6 +738,11 @@ export namespace Invoice {
        */
       billing_provider_error?: string;
 
+      /**
+       * The ID of the payment in the external system, if available.
+       */
+      external_payment_id?: string;
+
       external_status?:
         | 'DRAFT'
         | 'FINALIZED'
@@ -815,6 +820,11 @@ export namespace Invoice {
      * Error message from the billing provider, if available.
      */
     billing_provider_error?: string;
+
+    /**
+     * The ID of the payment in the external system, if available.
+     */
+    external_payment_id?: string;
 
     external_status?:
       | 'DRAFT'
