@@ -1808,9 +1808,8 @@ export namespace ContractCreateParams {
       subscription_id: string;
 
       /**
-       * If set to POOLED, allocation added per seat is pooled across the account. (BETA)
-       * If set to INDIVIDUAL, each seat in the subscription will have its own
-       * allocation.
+       * If set to POOLED, allocation added per seat is pooled across the account. If set
+       * to INDIVIDUAL, each seat in the subscription will have its own allocation.
        */
       allocation?: 'INDIVIDUAL' | 'POOLED';
     }
@@ -1971,9 +1970,8 @@ export namespace ContractCreateParams {
       subscription_id: string;
 
       /**
-       * If set to POOLED, allocation added per seat is pooled across the account. (BETA)
-       * If set to INDIVIDUAL, each seat in the subscription will have its own
-       * allocation.
+       * If set to POOLED, allocation added per seat is pooled across the account. If set
+       * to INDIVIDUAL, each seat in the subscription will have its own allocation.
        */
       allocation?: 'INDIVIDUAL' | 'POOLED';
     }
@@ -2214,13 +2212,15 @@ export namespace ContractCreateParams {
      * QUANTITY_ONLY. **QUANTITY_ONLY**: The subscription quantity is specified
      * directly on the subscription. `initial_quantity` must be provided with this
      * option. Compatible with recurring commits/credits that use POOLED allocation.
-     * **SEAT_BASED**: (BETA) Use when you want to pass specific seat identifiers (e.g.
-     * add user_123) to increment and decrement a subscription quantity, rather than
+     * **SEAT_BASED**: Use when you want to pass specific seat identifiers (e.g. add
+     * user_123) to increment and decrement a subscription quantity, rather than
      * directly providing the quantity. You must use a **SEAT_BASED** subscription to
      * use a linked recurring credit with an allocation per seat. `seat_config` must be
      * provided with this option.
      */
     quantity_management_mode?: 'SEAT_BASED' | 'QUANTITY_ONLY';
+
+    seat_config?: Subscription.SeatConfig;
 
     /**
      * Inclusive start time for the subscription. If not provided, defaults to contract
@@ -2263,6 +2263,28 @@ export namespace ContractCreateParams {
        * Must be subscription type product
        */
       product_id: string;
+    }
+
+    export interface SeatConfig {
+      /**
+       * The initial assigned seats on this subscription.
+       */
+      initial_seat_ids: Array<string>;
+
+      /**
+       * The property name, sent on usage events, that identifies the seat ID associated
+       * with the usage event. For example, the property name might be seat_id or
+       * user_id. The property must be set as a group key on billable metrics and a
+       * presentation/pricing group key on contract products. This allows linked
+       * recurring credits with an allocation per seat to be consumed by only one seat's
+       * usage.
+       */
+      seat_group_key: string;
+
+      /**
+       * The initial amount of unassigned seats on this subscription.
+       */
+      initial_unassigned_seats?: number;
     }
   }
 

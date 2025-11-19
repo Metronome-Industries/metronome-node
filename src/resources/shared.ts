@@ -3145,8 +3145,8 @@ export interface Subscription {
    * QUANTITY_ONLY. **QUANTITY_ONLY**: The subscription quantity is specified
    * directly on the subscription. `initial_quantity` must be provided with this
    * option. Compatible with recurring commits/credits that use POOLED allocation.
-   * **SEAT_BASED**: (BETA) Use when you want to pass specific seat identifiers (e.g.
-   * add user_123) to increment and decrement a subscription quantity, rather than
+   * **SEAT_BASED**: Use when you want to pass specific seat identifiers (e.g. add
+   * user_123) to increment and decrement a subscription quantity, rather than
    * directly providing the quantity. You must use a **SEAT_BASED** subscription to
    * use a linked recurring credit with an allocation per seat. `seat_config` must be
    * provided with this option.
@@ -3177,6 +3177,8 @@ export interface Subscription {
   fiat_credit_type_id?: string;
 
   name?: string;
+
+  seat_config?: Subscription.SeatConfig;
 }
 
 export namespace Subscription {
@@ -3237,6 +3239,18 @@ export namespace Subscription {
 
       name: string;
     }
+  }
+
+  export interface SeatConfig {
+    /**
+     * The property name, sent on usage events, that identifies the seat ID associated
+     * with the usage event. For example, the property name might be seat_id or
+     * user_id. The property must be set as a group key on billable metrics and a
+     * presentation/pricing group key on contract products. This allows linked
+     * recurring credits with an allocation per seat to be consumed by only one seat's
+     * usage.
+     */
+    seat_group_key: string;
   }
 }
 
