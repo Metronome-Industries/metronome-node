@@ -1480,6 +1480,11 @@ export namespace ContractGetEditHistoryResponse {
       ending_before?: string;
 
       quantity_updates?: Array<UpdateSubscription.QuantityUpdate>;
+
+      /**
+       * Manage subscription seats for subscriptions in SEAT_BASED mode.
+       */
+      seat_updates?: UpdateSubscription.SeatUpdates;
     }
 
     export namespace UpdateSubscription {
@@ -1489,6 +1494,84 @@ export namespace ContractGetEditHistoryResponse {
         quantity?: number;
 
         quantity_delta?: number;
+      }
+
+      /**
+       * Manage subscription seats for subscriptions in SEAT_BASED mode.
+       */
+      export interface SeatUpdates {
+        /**
+         * Adds seat IDs to the subscription. If there are unassigned seats, the new seat
+         * IDs will fill these unassigned seats and not increase the total subscription
+         * quantity. Otherwise, if there are more new seat IDs than unassigned seats, the
+         * total subscription quantity will increase.
+         */
+        add_seat_ids?: Array<SeatUpdates.AddSeatID>;
+
+        /**
+         * Adds unassigned seats to the subscription. This will increase the total
+         * subscription quantity.
+         */
+        add_unassigned_seats?: Array<SeatUpdates.AddUnassignedSeat>;
+
+        /**
+         * Removes seat IDs from the subscription, if possible. If a seat ID is removed,
+         * the total subscription quantity will decrease. Otherwise, if the seat ID is not
+         * found on the subscription, this is a no-op.
+         */
+        remove_seat_ids?: Array<SeatUpdates.RemoveSeatID>;
+
+        /**
+         * Removes unassigned seats from the subscription. This will decrease the total
+         * subscription quantity if there are are unassigned seats.
+         */
+        remove_unassigned_seats?: Array<SeatUpdates.RemoveUnassignedSeat>;
+      }
+
+      export namespace SeatUpdates {
+        export interface AddSeatID {
+          seat_ids: Array<string>;
+
+          /**
+           * Assigned seats will be added/removed starting at this date.
+           */
+          starting_at: string;
+        }
+
+        export interface AddUnassignedSeat {
+          /**
+           * The number of unassigned seats on the subscription will increase/decrease by
+           * this delta. Must be greater than 0.
+           */
+          quantity: number;
+
+          /**
+           * Unassigned seats will be updated starting at this date.
+           */
+          starting_at: string;
+        }
+
+        export interface RemoveSeatID {
+          seat_ids: Array<string>;
+
+          /**
+           * Assigned seats will be added/removed starting at this date.
+           */
+          starting_at: string;
+        }
+
+        export interface RemoveUnassignedSeat {
+          /**
+           * The number of unassigned seats on the subscription will increase/decrease by
+           * this delta. Must be greater than 0.
+           */
+          quantity: number;
+
+          /**
+           * Unassigned seats will be updated starting at this date.
+           */
+          starting_at: string;
+        }
       }
     }
   }
@@ -2611,9 +2694,8 @@ export namespace ContractEditParams {
       subscription_id: string;
 
       /**
-       * If set to POOLED, allocation added per seat is pooled across the account. (BETA)
-       * If set to INDIVIDUAL, each seat in the subscription will have its own
-       * allocation.
+       * If set to POOLED, allocation added per seat is pooled across the account. If set
+       * to INDIVIDUAL, each seat in the subscription will have its own allocation.
        */
       allocation?: 'POOLED' | 'INDIVIDUAL';
     }
@@ -2776,9 +2858,8 @@ export namespace ContractEditParams {
       subscription_id: string;
 
       /**
-       * If set to POOLED, allocation added per seat is pooled across the account. (BETA)
-       * If set to INDIVIDUAL, each seat in the subscription will have its own
-       * allocation.
+       * If set to POOLED, allocation added per seat is pooled across the account. If set
+       * to INDIVIDUAL, each seat in the subscription will have its own allocation.
        */
       allocation?: 'POOLED' | 'INDIVIDUAL';
     }
@@ -2999,13 +3080,15 @@ export namespace ContractEditParams {
      * QUANTITY_ONLY. **QUANTITY_ONLY**: The subscription quantity is specified
      * directly on the subscription. `initial_quantity` must be provided with this
      * option. Compatible with recurring commits/credits that use POOLED allocation.
-     * **SEAT_BASED**: (BETA) Use when you want to pass specific seat identifiers (e.g.
-     * add user_123) to increment and decrement a subscription quantity, rather than
+     * **SEAT_BASED**: Use when you want to pass specific seat identifiers (e.g. add
+     * user_123) to increment and decrement a subscription quantity, rather than
      * directly providing the quantity. You must use a **SEAT_BASED** subscription to
      * use a linked recurring credit with an allocation per seat. `seat_config` must be
      * provided with this option.
      */
     quantity_management_mode?: 'SEAT_BASED' | 'QUANTITY_ONLY';
+
+    seat_config?: AddSubscription.SeatConfig;
 
     /**
      * Inclusive start time for the subscription. If not provided, defaults to contract
@@ -3048,6 +3131,28 @@ export namespace ContractEditParams {
        * Must be subscription type product
        */
       product_id: string;
+    }
+
+    export interface SeatConfig {
+      /**
+       * The initial assigned seats on this subscription.
+       */
+      initial_seat_ids: Array<string>;
+
+      /**
+       * The property name, sent on usage events, that identifies the seat ID associated
+       * with the usage event. For example, the property name might be seat_id or
+       * user_id. The property must be set as a group key on billable metrics and a
+       * presentation/pricing group key on contract products. This allows linked
+       * recurring credits with an allocation per seat to be consumed by only one seat's
+       * usage.
+       */
+      seat_group_key: string;
+
+      /**
+       * The initial amount of unassigned seats on this subscription.
+       */
+      initial_unassigned_seats?: number;
     }
   }
 
@@ -3436,6 +3541,8 @@ export namespace ContractEditParams {
      * scheduled a quantity delta change of -1, the result from that day would be 11.
      */
     quantity_updates?: Array<UpdateSubscription.QuantityUpdate>;
+
+    seat_updates?: UpdateSubscription.SeatUpdates;
   }
 
   export namespace UpdateSubscription {
@@ -3454,6 +3561,81 @@ export namespace ContractEditParams {
        * subscription.
        */
       quantity_delta?: number;
+    }
+
+    export interface SeatUpdates {
+      /**
+       * Adds seat IDs to the subscription. If there are unassigned seats, the new seat
+       * IDs will fill these unassigned seats and not increase the total subscription
+       * quantity. Otherwise, if there are more new seat IDs than unassigned seats, the
+       * total subscription quantity will increase.
+       */
+      add_seat_ids?: Array<SeatUpdates.AddSeatID>;
+
+      /**
+       * Adds unassigned seats to the subscription. This will increase the total
+       * subscription quantity.
+       */
+      add_unassigned_seats?: Array<SeatUpdates.AddUnassignedSeat>;
+
+      /**
+       * Removes seat IDs from the subscription, if possible. If a seat ID is removed,
+       * the total subscription quantity will decrease. Otherwise, if the seat ID is not
+       * found on the subscription, this is a no-op.
+       */
+      remove_seat_ids?: Array<SeatUpdates.RemoveSeatID>;
+
+      /**
+       * Removes unassigned seats from the subscription. This will decrease the total
+       * subscription quantity if there are are unassigned seats.
+       */
+      remove_unassigned_seats?: Array<SeatUpdates.RemoveUnassignedSeat>;
+    }
+
+    export namespace SeatUpdates {
+      export interface AddSeatID {
+        seat_ids: Array<string>;
+
+        /**
+         * Assigned seats will be added/removed starting at this date.
+         */
+        starting_at: string;
+      }
+
+      export interface AddUnassignedSeat {
+        /**
+         * The number of unassigned seats on the subscription will increase/decrease by
+         * this delta. Must be greater than 0.
+         */
+        quantity: number;
+
+        /**
+         * Unassigned seats will be updated starting at this date.
+         */
+        starting_at: string;
+      }
+
+      export interface RemoveSeatID {
+        seat_ids: Array<string>;
+
+        /**
+         * Assigned seats will be added/removed starting at this date.
+         */
+        starting_at: string;
+      }
+
+      export interface RemoveUnassignedSeat {
+        /**
+         * The number of unassigned seats on the subscription will increase/decrease by
+         * this delta. Must be greater than 0.
+         */
+        quantity: number;
+
+        /**
+         * Unassigned seats will be updated starting at this date.
+         */
+        starting_at: string;
+      }
     }
   }
 }
