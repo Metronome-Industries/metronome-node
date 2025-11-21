@@ -54,6 +54,22 @@ export const tool: Tool = {
           'When parallel threshold notifications are enabled during migration, this flag denotes whether to fetch notifications for plans or contracts.',
         enum: ['PLANS', 'CONTRACTS'],
       },
+      seat_filter: {
+        type: 'object',
+        description:
+          'Only allowed for `low_remaining_seat_balance_reached` notifications. This filters alerts by the seat group key-value pair.',
+        properties: {
+          seat_group_key: {
+            type: 'string',
+            description: 'The seat group key (e.g., "seat_id", "user_id")',
+          },
+          seat_group_value: {
+            type: 'string',
+            description: 'The specific seat identifier to filter by',
+          },
+        },
+        required: ['seat_group_key', 'seat_group_value'],
+      },
     },
     required: ['alert_id', 'customer_id'],
   },

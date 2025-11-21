@@ -28,6 +28,7 @@ describe('resource alerts', () => {
       customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
       group_values: [{ key: 'key', value: 'value' }],
       plans_or_contracts: 'PLANS',
+      seat_filter: { seat_group_key: 'seat_group_key', seat_group_value: 'seat_group_value' },
     });
   });
 

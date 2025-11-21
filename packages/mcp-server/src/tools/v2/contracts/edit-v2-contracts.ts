@@ -1950,6 +1950,27 @@ export const tool: Tool = {
               type: 'string',
               format: 'date-time',
             },
+            quantity_management_mode_update: {
+              type: 'object',
+              description:
+                "Update the subscription's quantity management mode from QUANTITY_ONLY to SEAT_BASED with the provided seat_group_key.",
+              properties: {
+                quantity_management_mode: {
+                  type: 'string',
+                  enum: ['SEAT_BASED'],
+                },
+                seat_config: {
+                  type: 'object',
+                  properties: {
+                    seat_group_key: {
+                      type: 'string',
+                    },
+                  },
+                  required: ['seat_group_key'],
+                },
+              },
+              required: ['quantity_management_mode', 'seat_config'],
+            },
             quantity_updates: {
               type: 'array',
               description:
