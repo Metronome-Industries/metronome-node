@@ -211,6 +211,12 @@ export interface AlertCreateParams {
   plan_id?: string;
 
   /**
+   * Required for `low_remaining_seat_balance_reached` notifications. The alert is
+   * scoped to this seat group key-value pair.
+   */
+  seat_filter?: AlertCreateParams.SeatFilter;
+
+  /**
    * Prevents the creation of duplicates. If a request to create a record is made
    * with a previously used uniqueness key, a new record will not be created and the
    * request will fail with a 409 error.
@@ -231,6 +237,22 @@ export namespace AlertCreateParams {
     key: string;
 
     value?: string;
+  }
+
+  /**
+   * Required for `low_remaining_seat_balance_reached` notifications. The alert is
+   * scoped to this seat group key-value pair.
+   */
+  export interface SeatFilter {
+    /**
+     * The seat group key (e.g., "seat_id", "user_id")
+     */
+    seat_group_key: string;
+
+    /**
+     * Optional seat identifier the alert is scoped to.
+     */
+    seat_group_value?: string;
   }
 }
 

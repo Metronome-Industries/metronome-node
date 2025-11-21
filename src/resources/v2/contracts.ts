@@ -3536,6 +3536,12 @@ export namespace ContractEditParams {
     ending_before?: string | null;
 
     /**
+     * Update the subscription's quantity management mode from QUANTITY_ONLY to
+     * SEAT_BASED with the provided seat_group_key.
+     */
+    quantity_management_mode_update?: UpdateSubscription.QuantityManagementModeUpdate;
+
+    /**
      * Quantity changes are applied on the effective date based on the order which they
      * are sent. For example, if I scheduled the quantity to be 12 on May 21 and then
      * scheduled a quantity delta change of -1, the result from that day would be 11.
@@ -3546,6 +3552,22 @@ export namespace ContractEditParams {
   }
 
   export namespace UpdateSubscription {
+    /**
+     * Update the subscription's quantity management mode from QUANTITY_ONLY to
+     * SEAT_BASED with the provided seat_group_key.
+     */
+    export interface QuantityManagementModeUpdate {
+      quantity_management_mode: 'SEAT_BASED';
+
+      seat_config: QuantityManagementModeUpdate.SeatConfig;
+    }
+
+    export namespace QuantityManagementModeUpdate {
+      export interface SeatConfig {
+        seat_group_key: string;
+      }
+    }
+
     export interface QuantityUpdate {
       starting_at: string;
 

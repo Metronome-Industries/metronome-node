@@ -2421,6 +2421,12 @@ export interface ContractAddManualBalanceEntryParams {
   contract_id?: string;
 
   /**
+   * If using individually configured commits/credits attached to seat managed
+   * subscriptions, the amount to add for each seat. Must sum to total amount.
+   */
+  per_group_amounts?: { [key: string]: number };
+
+  /**
    * RFC 3339 timestamp indicating when the manual adjustment takes place. If not
    * provided, it will default to the start of the segment.
    */

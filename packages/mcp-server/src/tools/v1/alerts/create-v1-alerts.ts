@@ -131,6 +131,22 @@ export const tool: Tool = {
         description:
           'If provided, will create this threshold notification for this specific plan. To create a notification for all customers, do not specify a `plan_id`.',
       },
+      seat_filter: {
+        type: 'object',
+        description:
+          'Required for `low_remaining_seat_balance_reached` notifications. The alert is scoped to this seat group key-value pair.',
+        properties: {
+          seat_group_key: {
+            type: 'string',
+            description: 'The seat group key (e.g., "seat_id", "user_id")',
+          },
+          seat_group_value: {
+            type: 'string',
+            description: 'Optional seat identifier the alert is scoped to.',
+          },
+        },
+        required: ['seat_group_key'],
+      },
       uniqueness_key: {
         type: 'string',
         description:
