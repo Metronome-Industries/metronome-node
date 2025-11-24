@@ -184,6 +184,8 @@ export namespace PlanListPriceAdjustmentsResponse {
      */
     adjustment_type: 'fixed' | 'quantity' | 'percentage' | 'override';
 
+    quantity?: number;
+
     /**
      * Used in pricing tiers. Indicates at what metric value the price applies.
      */
