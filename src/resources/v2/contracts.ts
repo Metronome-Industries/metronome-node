@@ -987,6 +987,8 @@ export namespace ContractGetEditHistoryResponse {
        */
       applicable_product_tags?: Array<string> | null;
 
+      description?: string;
+
       /**
        * Optional configuration for commit hierarchy access control
        */
@@ -1110,6 +1112,8 @@ export namespace ContractGetEditHistoryResponse {
       id: string;
 
       access_schedule?: UpdateCredit.AccessSchedule;
+
+      description?: string;
 
       /**
        * Optional configuration for credit hierarchy access control
@@ -3191,12 +3195,16 @@ export namespace ContractEditParams {
      */
     applicable_product_tags?: Array<string> | null;
 
+    description?: string;
+
     /**
      * Optional configuration for commit hierarchy access control
      */
     hierarchy_configuration?: Shared.CommitHierarchyConfiguration;
 
     invoice_schedule?: UpdateCommit.InvoiceSchedule;
+
+    name?: string;
 
     netsuite_sales_order_id?: string | null;
 
@@ -3303,10 +3311,14 @@ export namespace ContractEditParams {
      */
     applicable_product_tags?: Array<string> | null;
 
+    description?: string;
+
     /**
      * Optional configuration for commit hierarchy access control
      */
     hierarchy_configuration?: Shared.CommitHierarchyConfiguration;
+
+    name?: string;
 
     netsuite_sales_order_id?: string | null;
 
@@ -3690,6 +3702,11 @@ export interface ContractEditCommitParams {
   applicable_product_tags?: Array<string> | null;
 
   /**
+   * Updated description for the commit
+   */
+  description?: string;
+
+  /**
    * Optional configuration for commit hierarchy access control
    */
   hierarchy_configuration?: Shared.CommitHierarchyConfiguration;
@@ -3700,6 +3717,11 @@ export interface ContractEditCommitParams {
   invoice_contract_id?: string;
 
   invoice_schedule?: ContractEditCommitParams.InvoiceSchedule;
+
+  /**
+   * Updated name for the commit
+   */
+  name?: string;
 
   /**
    * If multiple commits are applicable, the one with the lower priority will apply
@@ -3823,9 +3845,19 @@ export interface ContractEditCreditParams {
   applicable_product_tags?: Array<string> | null;
 
   /**
+   * Updated description for the credit
+   */
+  description?: string;
+
+  /**
    * Optional configuration for credit hierarchy access control
    */
   hierarchy_configuration?: Shared.CommitHierarchyConfiguration;
+
+  /**
+   * Updated name for the credit
+   */
+  name?: string;
 
   /**
    * If multiple commits are applicable, the one with the lower priority will apply
