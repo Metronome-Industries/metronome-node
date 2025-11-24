@@ -1517,6 +1517,9 @@ export const tool: Tool = {
                 type: 'string',
               },
             },
+            description: {
+              type: 'string',
+            },
             hierarchy_configuration: {
               $ref: '#/$defs/commit_hierarchy_configuration',
             },
@@ -1583,6 +1586,9 @@ export const tool: Tool = {
                   },
                 },
               },
+            },
+            name: {
+              type: 'string',
             },
             netsuite_sales_order_id: {
               type: 'string',
@@ -1700,8 +1706,14 @@ export const tool: Tool = {
                 type: 'string',
               },
             },
+            description: {
+              type: 'string',
+            },
             hierarchy_configuration: {
               $ref: '#/$defs/commit_hierarchy_configuration',
+            },
+            name: {
+              type: 'string',
             },
             netsuite_sales_order_id: {
               type: 'string',

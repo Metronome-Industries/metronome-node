@@ -106,8 +106,16 @@ export const tool: Tool = {
           type: 'string',
         },
       },
+      description: {
+        type: 'string',
+        description: 'Updated description for the credit',
+      },
       hierarchy_configuration: {
         $ref: '#/$defs/commit_hierarchy_configuration',
+      },
+      name: {
+        type: 'string',
+        description: 'Updated name for the credit',
       },
       priority: {
         type: 'number',

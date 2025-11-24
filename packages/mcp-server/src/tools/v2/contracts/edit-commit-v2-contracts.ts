@@ -106,6 +106,10 @@ export const tool: Tool = {
           type: 'string',
         },
       },
+      description: {
+        type: 'string',
+        description: 'Updated description for the commit',
+      },
       hierarchy_configuration: {
         $ref: '#/$defs/commit_hierarchy_configuration',
       },
@@ -176,6 +180,10 @@ export const tool: Tool = {
             },
           },
         },
+      },
+      name: {
+        type: 'string',
+        description: 'Updated name for the commit',
       },
       priority: {
         type: 'number',
