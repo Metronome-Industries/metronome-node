@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
+import { Metadata, asErrorResult, asTextContentResult } from '@metronome/mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import Metronome from '@metronome/sdk';
@@ -35,7 +35,14 @@ export const tool: Tool = {
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return asTextContentResult(await client.v2.contracts.getEditHistory(body));
+  try {
+    return asTextContentResult(await client.v2.contracts.getEditHistory(body));
+  } catch (error) {
+    if (error instanceof Metronome.APIError) {
+      return asErrorResult(error.message);
+    }
+    throw error;
+  }
 };
 
 export default { metadata, tool, handler };
