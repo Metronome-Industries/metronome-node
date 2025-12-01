@@ -61,7 +61,7 @@ export const handler = async (client: Metronome, args: Record<string, unknown> |
       await maybeFilter(jq_filter, await client.v1.customers.commits.updateEndDate(body)),
     );
   } catch (error) {
-    if (isJqError(error)) {
+    if (error instanceof Metronome.APIError || isJqError(error)) {
       return asErrorResult(error.message);
     }
     throw error;
