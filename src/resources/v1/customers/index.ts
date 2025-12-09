@@ -43,6 +43,7 @@ export {
   type CustomerListCostsResponse,
   type CustomerPreviewEventsResponse,
   type CustomerRetrieveBillingConfigurationsResponse,
+  type CustomerSetBillingConfigurationsResponse,
   type CustomerSetNameResponse,
   type CustomerCreateParams,
   type CustomerRetrieveParams,
