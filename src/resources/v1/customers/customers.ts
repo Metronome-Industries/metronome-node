@@ -372,7 +372,7 @@ export class Customers extends APIResource {
    *
    * @example
    * ```ts
-   * await client.v1.customers.setBillingConfigurations({
+   * const response = await client.v1.customers.setBillingConfigurations({
    *   data: [
    *     {
    *       customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
@@ -411,12 +411,8 @@ export class Customers extends APIResource {
   setBillingConfigurations(
     body: CustomerSetBillingConfigurationsParams,
     options?: RequestOptions,
-  ): APIPromise<void> {
-    return this._client.post('/v1/setCustomerBillingProviderConfigurations', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  ): APIPromise<CustomerSetBillingConfigurationsResponse> {
+    return this._client.post('/v1/setCustomerBillingProviderConfigurations', { body, ...options });
   }
 
   /**
@@ -763,6 +759,54 @@ export namespace CustomerRetrieveBillingConfigurationsResponse {
      * ID of the delivery method to use for this customer.
      */
     delivery_method_id: string;
+  }
+}
+
+export interface CustomerSetBillingConfigurationsResponse {
+  data: Array<CustomerSetBillingConfigurationsResponse.Data>;
+}
+
+export namespace CustomerSetBillingConfigurationsResponse {
+  export interface Data {
+    /**
+     * ID of the created configuration
+     */
+    id?: string;
+
+    /**
+     * The billing provider set for this configuration.
+     */
+    billing_provider?:
+      | 'aws_marketplace'
+      | 'stripe'
+      | 'netsuite'
+      | 'custom'
+      | 'azure_marketplace'
+      | 'quickbooks_online'
+      | 'workday'
+      | 'gcp_marketplace'
+      | 'metronome';
+
+    /**
+     * Configuration for the billing provider. The structure of this object is specific
+     * to the billing provider and delivery method combination.
+     */
+    configuration?: { [key: string]: unknown };
+
+    /**
+     * ID of the customer this configuration is associated with.
+     */
+    customer_id?: string;
+
+    /**
+     * ID of the delivery method used for this customer configuration.
+     */
+    delivery_method_id?: string;
+
+    /**
+     * The tax provider set for this configuration.
+     */
+    tax_provider?: 'anrok' | 'avalara' | 'stripe';
   }
 }
 
@@ -1158,6 +1202,7 @@ export declare namespace Customers {
     type CustomerListCostsResponse as CustomerListCostsResponse,
     type CustomerPreviewEventsResponse as CustomerPreviewEventsResponse,
     type CustomerRetrieveBillingConfigurationsResponse as CustomerRetrieveBillingConfigurationsResponse,
+    type CustomerSetBillingConfigurationsResponse as CustomerSetBillingConfigurationsResponse,
     type CustomerSetNameResponse as CustomerSetNameResponse,
     type CustomerDetailsCursorPage as CustomerDetailsCursorPage,
     type CustomerListBillableMetricsResponsesCursorPage as CustomerListBillableMetricsResponsesCursorPage,
