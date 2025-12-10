@@ -42,6 +42,7 @@ export async function codeTool() {
       },
       body: JSON.stringify({
         project_name: 'metronome',
+        client_opts: {},
         code,
       }),
     });
