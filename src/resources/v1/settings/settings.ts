@@ -33,6 +33,7 @@ export class Settings extends APIResource {
    *     delivery_method_ids: [
    *       '9a906ebb-fbc7-42e8-8e29-53bfd2db3aca',
    *     ],
+   *     commit_transactions: true,
    *   });
    * ```
    */
@@ -67,6 +68,12 @@ export interface SettingUpsertAvalaraCredentialsParams {
    * found in the response of the `/listConfiguredBillingProviders` endpoint.
    */
   delivery_method_ids: Array<string>;
+
+  /**
+   * Commit transactions if you want Metronome tax calculations used for reporting
+   * and tax filings.
+   */
+  commit_transactions?: boolean;
 }
 
 Settings.BillingProviders = BillingProviders;
