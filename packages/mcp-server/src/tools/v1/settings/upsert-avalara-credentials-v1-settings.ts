@@ -43,6 +43,11 @@ export const tool: Tool = {
           type: 'string',
         },
       },
+      commit_transactions: {
+        type: 'boolean',
+        description:
+          'Commit transactions if you want Metronome tax calculations used for reporting and tax filings.',
+      },
       jq_filter: {
         type: 'string',
         title: 'jq Filter',

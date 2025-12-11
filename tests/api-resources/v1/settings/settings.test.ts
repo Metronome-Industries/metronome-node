@@ -30,6 +30,7 @@ describe('resource settings', () => {
       avalara_password: 'my_password_123',
       avalara_username: 'test@metronome.com',
       delivery_method_ids: ['9a906ebb-fbc7-42e8-8e29-53bfd2db3aca'],
+      commit_transactions: true,
     });
   });
 });
