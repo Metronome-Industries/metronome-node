@@ -858,6 +858,10 @@ export namespace CustomerCreateParams {
       | 'gcp_marketplace'
       | 'metronome';
 
+    aws_customer_account_id?: string;
+
+    aws_customer_id?: string;
+
     /**
      * True if the aws_product_code is a SAAS subscription product, false otherwise.
      */

@@ -46,6 +46,12 @@ export const tool: Tool = {
               'metronome',
             ],
           },
+          aws_customer_account_id: {
+            type: 'string',
+          },
+          aws_customer_id: {
+            type: 'string',
+          },
           aws_is_subscription_product: {
             type: 'boolean',
             description: 'True if the aws_product_code is a SAAS subscription product, false otherwise.',

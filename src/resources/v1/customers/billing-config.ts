@@ -82,6 +82,10 @@ export interface BillingConfigRetrieveResponse {
 
 export namespace BillingConfigRetrieveResponse {
   export interface Data {
+    aws_customer_account_id?: string;
+
+    aws_customer_id?: string;
+
     /**
      * Contract expiration date for the customer. The expected format is RFC 3339 and
      * can be retrieved from
@@ -180,6 +184,16 @@ export interface BillingConfigCreateParams {
    * the subscription ID.
    */
   billing_provider_customer_id: string;
+
+  /**
+   * Body param:
+   */
+  aws_customer_account_id?: string;
+
+  /**
+   * Body param:
+   */
+  aws_customer_id?: string;
 
   /**
    * Body param:
