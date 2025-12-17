@@ -38,6 +38,7 @@ export async function codeTool() {
         client_envs: JSON.stringify({
           METRONOME_BEARER_TOKEN: readEnv('METRONOME_BEARER_TOKEN'),
           METRONOME_WEBHOOK_SECRET: readEnv('METRONOME_WEBHOOK_SECRET'),
+          METRONOME_BASE_URL: readEnv('METRONOME_BASE_URL'),
         }),
       },
       body: JSON.stringify({
