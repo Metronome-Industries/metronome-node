@@ -2036,12 +2036,14 @@ export namespace ContractCreateParams {
    */
   export interface RevenueSystemConfiguration {
     /**
-     * Do not specify if using revenue_system_configuration_id.
+     * How revenue recognition records should be delivered to the revenue system. Do
+     * not specify if using revenue_system_configuration_id.
      */
     delivery_method?: 'direct_to_billing_provider';
 
     /**
-     * Do not specify if using revenue_system_configuration_id.
+     * The system that is providing services for revenue recognition. Do not specify if
+     * using revenue_system_configuration_id.
      */
     provider?: 'netsuite';
 
