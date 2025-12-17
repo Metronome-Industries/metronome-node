@@ -1215,12 +1215,14 @@ export const tool: Tool = {
         properties: {
           delivery_method: {
             type: 'string',
-            description: 'Do not specify if using revenue_system_configuration_id.',
+            description:
+              'How revenue recognition records should be delivered to the revenue system. Do not specify if using revenue_system_configuration_id.',
             enum: ['direct_to_billing_provider'],
           },
           provider: {
             type: 'string',
-            description: 'Do not specify if using revenue_system_configuration_id.',
+            description:
+              'The system that is providing services for revenue recognition. Do not specify if using revenue_system_configuration_id.',
             enum: ['netsuite'],
           },
           revenue_system_configuration_id: {
