@@ -420,6 +420,11 @@ describe('resource contracts', () => {
           initial_quantity: 0,
           name: 'name',
           quantity_management_mode: 'SEAT_BASED',
+          seat_config: {
+            initial_seat_ids: ['string'],
+            seat_group_key: 'seat_group_key',
+            initial_unassigned_seats: 0,
+          },
           starting_at: '2019-12-27T18:11:19.117Z',
           temporary_id: 'temporary_id',
         },
@@ -453,6 +458,7 @@ describe('resource contracts', () => {
           },
           applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
           applicable_product_tags: ['string'],
+          description: 'description',
           hierarchy_configuration: { child_access: { type: 'ALL' } },
           invoice_schedule: {
             add_schedule_items: [
@@ -469,6 +475,7 @@ describe('resource contracts', () => {
               },
             ],
           },
+          name: 'name',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -501,7 +508,9 @@ describe('resource contracts', () => {
           },
           applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
           applicable_product_tags: ['string'],
+          description: 'description',
           hierarchy_configuration: { child_access: { type: 'ALL' } },
+          name: 'name',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -588,7 +597,17 @@ describe('resource contracts', () => {
         {
           subscription_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           ending_before: '2019-12-27T18:11:19.117Z',
+          quantity_management_mode_update: {
+            quantity_management_mode: 'SEAT_BASED',
+            seat_config: { seat_group_key: 'seat_group_key' },
+          },
           quantity_updates: [{ starting_at: '2019-12-27T18:11:19.117Z', quantity: 0, quantity_delta: 0 }],
+          seat_updates: {
+            add_seat_ids: [{ seat_ids: ['string'], starting_at: '2019-12-27T18:11:19.117Z' }],
+            add_unassigned_seats: [{ quantity: 1, starting_at: '2019-12-27T18:11:19.117Z' }],
+            remove_seat_ids: [{ seat_ids: ['string'], starting_at: '2019-12-27T18:11:19.117Z' }],
+            remove_unassigned_seats: [{ quantity: 1, starting_at: '2019-12-27T18:11:19.117Z' }],
+          },
         },
       ],
     });
@@ -628,6 +647,7 @@ describe('resource contracts', () => {
       },
       applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
       applicable_product_tags: ['string'],
+      description: 'description',
       hierarchy_configuration: { child_access: { type: 'ALL' } },
       invoice_contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       invoice_schedule: {
@@ -645,6 +665,7 @@ describe('resource contracts', () => {
           },
         ],
       },
+      name: 'name',
       priority: 0,
       product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       rate_type: 'LIST_RATE',
@@ -693,7 +714,9 @@ describe('resource contracts', () => {
       },
       applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
       applicable_product_tags: ['string'],
+      description: 'description',
       hierarchy_configuration: { child_access: { type: 'ALL' } },
+      name: 'name',
       priority: 0,
       product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       rate_type: 'LIST_RATE',

@@ -793,6 +793,12 @@ export interface ContractCreateParams {
   reseller_royalties?: Array<ContractCreateParams.ResellerRoyalty>;
 
   /**
+   * The revenue system configuration associated with a contract. Provide either an
+   * ID or the provider and delivery method.
+   */
+  revenue_system_configuration?: ContractCreateParams.RevenueSystemConfiguration;
+
+  /**
    * This field's availability is dependent on your client's configuration.
    */
   salesforce_opportunity_id?: string;
@@ -1802,9 +1808,8 @@ export namespace ContractCreateParams {
       subscription_id: string;
 
       /**
-       * If set to POOLED, allocation added per seat is pooled across the account. (BETA)
-       * If set to INDIVIDUAL, each seat in the subscription will have its own
-       * allocation.
+       * If set to POOLED, allocation added per seat is pooled across the account. If set
+       * to INDIVIDUAL, each seat in the subscription will have its own allocation.
        */
       allocation?: 'INDIVIDUAL' | 'POOLED';
     }
@@ -1965,9 +1970,8 @@ export namespace ContractCreateParams {
       subscription_id: string;
 
       /**
-       * If set to POOLED, allocation added per seat is pooled across the account. (BETA)
-       * If set to INDIVIDUAL, each seat in the subscription will have its own
-       * allocation.
+       * If set to POOLED, allocation added per seat is pooled across the account. If set
+       * to INDIVIDUAL, each seat in the subscription will have its own allocation.
        */
       allocation?: 'INDIVIDUAL' | 'POOLED';
     }
@@ -2024,6 +2028,31 @@ export namespace ContractCreateParams {
 
       gcp_offer_id?: string;
     }
+  }
+
+  /**
+   * The revenue system configuration associated with a contract. Provide either an
+   * ID or the provider and delivery method.
+   */
+  export interface RevenueSystemConfiguration {
+    /**
+     * How revenue recognition records should be delivered to the revenue system. Do
+     * not specify if using revenue_system_configuration_id.
+     */
+    delivery_method?: 'direct_to_billing_provider';
+
+    /**
+     * The system that is providing services for revenue recognition. Do not specify if
+     * using revenue_system_configuration_id.
+     */
+    provider?: 'netsuite';
+
+    /**
+     * The Metronome ID of the revenue system configuration. Use when a customer has
+     * multiple configurations with the same provider and delivery method. Otherwise,
+     * specify the provider and delivery_method.
+     */
+    revenue_system_configuration_id?: string;
   }
 
   export interface ScheduledCharge {
@@ -2185,13 +2214,15 @@ export namespace ContractCreateParams {
      * QUANTITY_ONLY. **QUANTITY_ONLY**: The subscription quantity is specified
      * directly on the subscription. `initial_quantity` must be provided with this
      * option. Compatible with recurring commits/credits that use POOLED allocation.
-     * **SEAT_BASED**: (BETA) Use when you want to pass specific seat identifiers (e.g.
-     * add user_123) to increment and decrement a subscription quantity, rather than
+     * **SEAT_BASED**: Use when you want to pass specific seat identifiers (e.g. add
+     * user_123) to increment and decrement a subscription quantity, rather than
      * directly providing the quantity. You must use a **SEAT_BASED** subscription to
      * use a linked recurring credit with an allocation per seat. `seat_config` must be
      * provided with this option.
      */
     quantity_management_mode?: 'SEAT_BASED' | 'QUANTITY_ONLY';
+
+    seat_config?: Subscription.SeatConfig;
 
     /**
      * Inclusive start time for the subscription. If not provided, defaults to contract
@@ -2234,6 +2265,28 @@ export namespace ContractCreateParams {
        * Must be subscription type product
        */
       product_id: string;
+    }
+
+    export interface SeatConfig {
+      /**
+       * The initial assigned seats on this subscription.
+       */
+      initial_seat_ids: Array<string>;
+
+      /**
+       * The property name, sent on usage events, that identifies the seat ID associated
+       * with the usage event. For example, the property name might be seat_id or
+       * user_id. The property must be set as a group key on billable metrics and a
+       * presentation/pricing group key on contract products. This allows linked
+       * recurring credits with an allocation per seat to be consumed by only one seat's
+       * usage.
+       */
+      seat_group_key: string;
+
+      /**
+       * The initial amount of unassigned seats on this subscription.
+       */
+      initial_unassigned_seats?: number;
     }
   }
 
@@ -2368,6 +2421,12 @@ export interface ContractAddManualBalanceEntryParams {
    * ID of the contract to update. Leave blank to update a customer level balance.
    */
   contract_id?: string;
+
+  /**
+   * If using individually configured commits/credits attached to seat managed
+   * subscriptions, the amount to add for each seat. Must sum to total amount.
+   */
+  per_group_amounts?: { [key: string]: number };
 
   /**
    * RFC 3339 timestamp indicating when the manual adjustment takes place. If not

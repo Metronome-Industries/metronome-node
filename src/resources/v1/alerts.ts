@@ -137,7 +137,8 @@ export interface AlertCreateParams {
     | 'low_remaining_contract_credit_balance_reached'
     | 'low_remaining_contract_credit_percentage_reached'
     | 'low_remaining_contract_credit_and_commit_balance_reached'
-    | 'invoice_total_reached';
+    | 'invoice_total_reached'
+    | 'low_remaining_seat_balance_reached';
 
   /**
    * Name of the threshold notification
@@ -210,6 +211,12 @@ export interface AlertCreateParams {
   plan_id?: string;
 
   /**
+   * Required for `low_remaining_seat_balance_reached` notifications. The alert is
+   * scoped to this seat group key-value pair.
+   */
+  seat_filter?: AlertCreateParams.SeatFilter;
+
+  /**
    * Prevents the creation of duplicates. If a request to create a record is made
    * with a previously used uniqueness key, a new record will not be created and the
    * request will fail with a 409 error.
@@ -230,6 +237,22 @@ export namespace AlertCreateParams {
     key: string;
 
     value?: string;
+  }
+
+  /**
+   * Required for `low_remaining_seat_balance_reached` notifications. The alert is
+   * scoped to this seat group key-value pair.
+   */
+  export interface SeatFilter {
+    /**
+     * The seat group key (e.g., "seat_id", "user_id")
+     */
+    seat_group_key: string;
+
+    /**
+     * Optional seat identifier the alert is scoped to.
+     */
+    seat_group_value?: string;
   }
 }
 

@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { maybeFilter } from '@metronome/mcp/filtering';
-import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
+import { isJqError, maybeFilter } from '@metronome/mcp/filtering';
+import { Metadata, asErrorResult, asTextContentResult } from '@metronome/mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import Metronome from '@metronome/sdk';
@@ -106,6 +106,10 @@ export const tool: Tool = {
           type: 'string',
         },
       },
+      description: {
+        type: 'string',
+        description: 'Updated description for the commit',
+      },
       hierarchy_configuration: {
         $ref: '#/$defs/commit_hierarchy_configuration',
       },
@@ -176,6 +180,10 @@ export const tool: Tool = {
             },
           },
         },
+      },
+      name: {
+        type: 'string',
+        description: 'Updated name for the commit',
       },
       priority: {
         type: 'number',
@@ -285,7 +293,14 @@ export const tool: Tool = {
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const { jq_filter, ...body } = args as any;
-  return asTextContentResult(await maybeFilter(jq_filter, await client.v2.contracts.editCommit(body)));
+  try {
+    return asTextContentResult(await maybeFilter(jq_filter, await client.v2.contracts.editCommit(body)));
+  } catch (error) {
+    if (error instanceof Metronome.APIError || isJqError(error)) {
+      return asErrorResult(error.message);
+    }
+    throw error;
+  }
 };
 
 export default { metadata, tool, handler };

@@ -45,6 +45,12 @@ export const tool: Tool = {
         type: 'string',
         description: 'ID of the contract to update. Leave blank to update a customer level balance.',
       },
+      per_group_amounts: {
+        type: 'object',
+        description:
+          'If using individually configured commits/credits attached to seat managed subscriptions, the amount to add for each seat. Must sum to total amount.',
+        additionalProperties: true,
+      },
       timestamp: {
         type: 'string',
         description:

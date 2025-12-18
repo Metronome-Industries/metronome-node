@@ -43,6 +43,12 @@ export const tool: Tool = {
         description:
           "The customer ID in the billing provider's system. For Azure, this is the subscription ID.",
       },
+      aws_customer_account_id: {
+        type: 'string',
+      },
+      aws_customer_id: {
+        type: 'string',
+      },
       aws_product_code: {
         type: 'string',
       },

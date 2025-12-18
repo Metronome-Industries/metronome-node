@@ -738,10 +738,16 @@ export namespace Invoice {
        */
       billing_provider_error?: string;
 
+      /**
+       * The ID of the payment in the external system, if available.
+       */
+      external_payment_id?: string;
+
       external_status?:
         | 'DRAFT'
         | 'FINALIZED'
         | 'PAID'
+        | 'PARTIALLY_PAID'
         | 'UNCOLLECTIBLE'
         | 'VOID'
         | 'DELETED'
@@ -816,10 +822,16 @@ export namespace Invoice {
      */
     billing_provider_error?: string;
 
+    /**
+     * The ID of the payment in the external system, if available.
+     */
+    external_payment_id?: string;
+
     external_status?:
       | 'DRAFT'
       | 'FINALIZED'
       | 'PAID'
+      | 'PARTIALLY_PAID'
       | 'UNCOLLECTIBLE'
       | 'VOID'
       | 'DELETED'

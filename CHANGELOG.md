@@ -1,5 +1,68 @@
 # Changelog
 
+## 2.2.0 (2025-12-18)
+
+Full Changelog: [v2.1.0...v2.2.0](https://github.com/Metronome-Industries/metronome-node/compare/v2.1.0...v2.2.0)
+
+### Features
+
+* [ORCH-605] uses x-mint groups to enable conditional rendering of gated revenue system config apis ([5e19d47](https://github.com/Metronome-Industries/metronome-node/commit/5e19d47922164c03493c2e54b00874f81ce3d26e))
+* [ORCH-752] Update contract creation endpoints to allow setting revenue system configuration ([b51538e](https://github.com/Metronome-Industries/metronome-node/commit/b51538ed7538852afd7832797db54de114bec625))
+* [ORCH-757] Add route for get revenue system config resolver ([948e128](https://github.com/Metronome-Industries/metronome-node/commit/948e128a6c098364cc102d8a396604a3c525ab12))
+* Add `commit_transactions` to the body of `/upsertAvalaraCredentials` endpoint ([9f9f354](https://github.com/Metronome-Industries/metronome-node/commit/9f9f3547a4f39ff088627454652d9bdb413db7cd))
+* Add `seat_filter` field to creation request and response parameters of the alert object ([6481e56](https://github.com/Metronome-Industries/metronome-node/commit/6481e56dd39abb4c8e0e99074763212f6bb535bb))
+* add quantity to plan pricing adjustment response ([a28b851](https://github.com/Metronome-Industries/metronome-node/commit/a28b851c3aa76a31e1d5241cc026b6e8259994f2))
+* adds external_payment_id to ExternalInvoice ([4b24047](https://github.com/Metronome-Industries/metronome-node/commit/4b24047743727a1922ba5e15bfee9e5678bffcd7))
+* everything ([eaf9ff8](https://github.com/Metronome-Industries/metronome-node/commit/eaf9ff84a17973bbd0b2dcf3699117d88c35d00c))
+* GET-6845 get openapi specs ready for GA ([c68ea47](https://github.com/Metronome-Industries/metronome-node/commit/c68ea47d2643a7a998a687f473f07df9df02441b))
+* include aggregation BM info from searchEvents ([6183f83](https://github.com/Metronome-Industries/metronome-node/commit/6183f831e3b5be3115514ef930c835228c88601e))
+* **mcp:** add detail field to docs search tool ([8b55f02](https://github.com/Metronome-Industries/metronome-node/commit/8b55f02771ea52f51ab2c5fe7114ce9c52caadeb))
+* **mcp:** add typescript check to code execution tool ([d573759](https://github.com/Metronome-Industries/metronome-node/commit/d573759f6af9900761fa48c87eff4175b8152999))
+* **mcp:** enable optional code execution tool on http mcp servers ([8f9a3d6](https://github.com/Metronome-Industries/metronome-node/commit/8f9a3d6f93ebafd99996d745571575c1a3f3cf80))
+* **mcp:** handle code mode calls in the Stainless API ([518a64b](https://github.com/Metronome-Industries/metronome-node/commit/518a64b5e2f124165cb73b8240417b04e90c9dbb))
+* **mcp:** return logs on code tool errors ([40bb1da](https://github.com/Metronome-Industries/metronome-node/commit/40bb1da41899dd8997d45600250df1897cebf9e9))
+* ORCH-833/948/946/947 - updated the API to accept aws_customer_account_id all gated behind a feature flag ([c9f28c4](https://github.com/Metronome-Industries/metronome-node/commit/c9f28c4d05f8179e596c39af920b05932d2fbb6d))
+* remove beta language, FF, stainless skip ([e973ac4](https://github.com/Metronome-Industries/metronome-node/commit/e973ac43f0802423c303574235525adab09c3d2c))
+* Return values for set customer billing configuration endpoint ([1fe0c51](https://github.com/Metronome-Industries/metronome-node/commit/1fe0c518c752327cfb30d01b79aa3b8c0895e686))
+* update create alert api to allow LowRemainingSeatBalanceReached alert ([2bb6bd6](https://github.com/Metronome-Industries/metronome-node/commit/2bb6bd65be36cd330c798dda522f466a97ae955d))
+
+
+### Bug Fixes
+
+* **mcp:** add client instantiation options to code tool ([4559148](https://github.com/Metronome-Industries/metronome-node/commit/45591480032eeebfcc1919ec250023b2335413fc))
+* **mcp:** correct code tool API endpoint ([649ecde](https://github.com/Metronome-Industries/metronome-node/commit/649ecdeec840c231c17b77096bcac44bafab0af9))
+* **mcp:** pass base url to code tool ([c3ef781](https://github.com/Metronome-Industries/metronome-node/commit/c3ef781fe3ce706c646dd1741ecd06333d2b1616))
+* **mcp:** return correct lines on typescript errors ([87595a4](https://github.com/Metronome-Industries/metronome-node/commit/87595a4ba34a873cf2d3ccf34dd27e9e39c4ee11))
+* **mcp:** return tool execution error on api error ([737f9b4](https://github.com/Metronome-Industries/metronome-node/commit/737f9b4c4f08227272ed1411888d75d7e9b4290d))
+* **mcp:** return tool execution error on jq failure ([6839208](https://github.com/Metronome-Industries/metronome-node/commit/6839208fc93ac40b621c622eac59ca0bce18b251))
+* **mcp:** use raw responses for binary content ([1902de8](https://github.com/Metronome-Industries/metronome-node/commit/1902de8d17fcbe720dc4e24c8be512defc69d732))
+
+
+### Chores
+
+* **client:** fix logger property type ([3f869a0](https://github.com/Metronome-Industries/metronome-node/commit/3f869a03bd3bb48ed2d81e922bcb1db19a342f7f))
+* **internal:** codegen related update ([93f67ab](https://github.com/Metronome-Industries/metronome-node/commit/93f67abc273f86eadd29ae694e402cf7731d2721))
+* **internal:** codegen related update ([4cf2e06](https://github.com/Metronome-Industries/metronome-node/commit/4cf2e06a7b541c6d3afd6a62e6bf412d9e5ff97d))
+* **internal:** codegen related update ([69a5518](https://github.com/Metronome-Industries/metronome-node/commit/69a55182beef97182c46d1eff6e13c3be2f73ffb))
+* **internal:** codegen related update ([bcab2ec](https://github.com/Metronome-Industries/metronome-node/commit/bcab2ec5e0216180472d501264e6fdbec14598a1))
+* **internal:** grammar fix (it's -&gt; its) ([df4d335](https://github.com/Metronome-Industries/metronome-node/commit/df4d335e034ab20881ad861e19024538f515d7bd))
+* **internal:** upgrade eslint ([113a234](https://github.com/Metronome-Industries/metronome-node/commit/113a2343e89e5618283288faa9766cc5f8a64f9f))
+* mcp code tool explicit error message when missing a run function ([7282f4e](https://github.com/Metronome-Industries/metronome-node/commit/7282f4e612cac5ef53774ce2c0a8d32ebef35ebb))
+* **mcp:** add friendlier MCP code tool errors on incorrect method invocations ([80b8d3d](https://github.com/Metronome-Industries/metronome-node/commit/80b8d3d95570106145be81d7a3f2e096b665f9ce))
+* **mcp:** add line numbers to code tool errors ([1533915](https://github.com/Metronome-Industries/metronome-node/commit/1533915332ada4fb2485a679ec6d06629ab4aa75))
+* **mcp:** clarify http auth error ([a8370e1](https://github.com/Metronome-Industries/metronome-node/commit/a8370e1590bb8f411f0422f5a4e7c3c3d1fd67d4))
+* **mcp:** update lockfile ([a000fb6](https://github.com/Metronome-Industries/metronome-node/commit/a000fb6a4f10e86e6ae53b1d6c2125269aef963b))
+* **mcp:** upgrade jq-web ([9b4a075](https://github.com/Metronome-Industries/metronome-node/commit/9b4a0756a88bc0ee3453f82a17a7fac96f0d8408))
+* use latest @modelcontextprotocol/sdk ([b3cd983](https://github.com/Metronome-Industries/metronome-node/commit/b3cd98399ead98ed9b38f61da1aef6df972cbcf1))
+* use structured error when code execution tool errors ([439adb8](https://github.com/Metronome-Industries/metronome-node/commit/439adb8c14a6dfcdf9273b11d01b8f9799d89b3c))
+
+
+### Documentation
+
+* document missing fields for schemas related to recurring credits and commits ([09f78b2](https://github.com/Metronome-Industries/metronome-node/commit/09f78b23718f1229fc49295c005e84f53c130258))
+* **mcp:** add a README button for one-click add to Cursor ([5676f7b](https://github.com/Metronome-Industries/metronome-node/commit/5676f7b8e537ae9ed10829f455396c85504921c2))
+* **mcp:** add a README link to add server to VS Code or Claude Code ([4357246](https://github.com/Metronome-Industries/metronome-node/commit/4357246014d291c22e9e75baa14a83e2ecd81613))
+
 ## 2.1.0 (2025-10-31)
 
 Full Changelog: [v2.0.0...v2.1.0](https://github.com/Metronome-Industries/metronome-node/compare/v2.0.0...v2.1.0)

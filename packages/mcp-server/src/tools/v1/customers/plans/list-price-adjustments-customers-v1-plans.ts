@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { maybeFilter } from '@metronome/mcp/filtering';
-import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
+import { isJqError, maybeFilter } from '@metronome/mcp/filtering';
+import { Metadata, asErrorResult, asTextContentResult } from '@metronome/mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import Metronome from '@metronome/sdk';
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'list_price_adjustments_customers_v1_plans',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nLists a customer plans adjustments. See the [price adjustments documentation](https://plans-docs.metronome.com/pricing/managing-plans/#price-adjustments) for details. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      type: 'array',\n      items: {\n        $ref: '#/$defs/plan_list_price_adjustments_response'\n      }\n    },\n    next_page: {\n      type: 'string'\n    }\n  },\n  required: [    'data',\n    'next_page'\n  ],\n  $defs: {\n    plan_list_price_adjustments_response: {\n      type: 'object',\n      properties: {\n        charge_id: {\n          type: 'string'\n        },\n        charge_type: {\n          type: 'string',\n          enum: [            'usage',\n            'fixed',\n            'composite',\n            'minimum',\n            'seat'\n          ]\n        },\n        prices: {\n          type: 'array',\n          items: {\n            type: 'object',\n            properties: {\n              adjustment_type: {\n                type: 'string',\n                description: 'Determines how the value will be applied.',\n                enum: [                  'fixed',\n                  'quantity',\n                  'percentage',\n                  'override'\n                ]\n              },\n              tier: {\n                type: 'number',\n                description: 'Used in pricing tiers.  Indicates at what metric value the price applies.'\n              },\n              value: {\n                type: 'number'\n              }\n            },\n            required: [              'adjustment_type'\n            ]\n          }\n        },\n        start_period: {\n          type: 'number'\n        },\n        quantity: {\n          type: 'number'\n        }\n      },\n      required: [        'charge_id',\n        'charge_type',\n        'prices',\n        'start_period'\n      ]\n    }\n  }\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nLists a customer plans adjustments. See the [price adjustments documentation](https://plans-docs.metronome.com/pricing/managing-plans/#price-adjustments) for details. This is a Plans (deprecated) endpoint. New clients should implement using Contracts.\n\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    data: {\n      type: 'array',\n      items: {\n        $ref: '#/$defs/plan_list_price_adjustments_response'\n      }\n    },\n    next_page: {\n      type: 'string'\n    }\n  },\n  required: [    'data',\n    'next_page'\n  ],\n  $defs: {\n    plan_list_price_adjustments_response: {\n      type: 'object',\n      properties: {\n        charge_id: {\n          type: 'string'\n        },\n        charge_type: {\n          type: 'string',\n          enum: [            'usage',\n            'fixed',\n            'composite',\n            'minimum',\n            'seat'\n          ]\n        },\n        prices: {\n          type: 'array',\n          items: {\n            type: 'object',\n            properties: {\n              adjustment_type: {\n                type: 'string',\n                description: 'Determines how the value will be applied.',\n                enum: [                  'fixed',\n                  'quantity',\n                  'percentage',\n                  'override'\n                ]\n              },\n              quantity: {\n                type: 'number'\n              },\n              tier: {\n                type: 'number',\n                description: 'Used in pricing tiers.  Indicates at what metric value the price applies.'\n              },\n              value: {\n                type: 'number'\n              }\n            },\n            required: [              'adjustment_type'\n            ]\n          }\n        },\n        start_period: {\n          type: 'number'\n        },\n        quantity: {\n          type: 'number'\n        }\n      },\n      required: [        'charge_id',\n        'charge_type',\n        'prices',\n        'start_period'\n      ]\n    }\n  }\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
@@ -53,7 +53,14 @@ export const tool: Tool = {
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const { jq_filter, ...body } = args as any;
   const response = await client.v1.customers.plans.listPriceAdjustments(body).asResponse();
-  return asTextContentResult(await maybeFilter(jq_filter, await response.json()));
+  try {
+    return asTextContentResult(await maybeFilter(jq_filter, await response.json()));
+  } catch (error) {
+    if (error instanceof Metronome.APIError || isJqError(error)) {
+      return asErrorResult(error.message);
+    }
+    throw error;
+  }
 };
 
 export default { metadata, tool, handler };

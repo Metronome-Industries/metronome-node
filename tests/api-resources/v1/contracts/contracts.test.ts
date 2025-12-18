@@ -340,6 +340,11 @@ describe('resource contracts', () => {
           reseller_contract_value: 0,
         },
       ],
+      revenue_system_configuration: {
+        delivery_method: 'direct_to_billing_provider',
+        provider: 'netsuite',
+        revenue_system_configuration_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      },
       salesforce_opportunity_id: 'salesforce_opportunity_id',
       scheduled_charges: [
         {
@@ -391,6 +396,11 @@ describe('resource contracts', () => {
           initial_quantity: 0,
           name: 'name',
           quantity_management_mode: 'SEAT_BASED',
+          seat_config: {
+            initial_seat_ids: ['string'],
+            seat_group_key: 'seat_group_key',
+            initial_unassigned_seats: 0,
+          },
           starting_at: '2019-12-27T18:11:19.117Z',
           temporary_id: 'temporary_id',
         },
@@ -486,6 +496,7 @@ describe('resource contracts', () => {
       reason: 'Reason for entry',
       segment_id: '66368e29-3f97-4d15-a6e9-120897f0070a',
       contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      per_group_amounts: { foo: 0 },
       timestamp: '2019-12-27T18:11:19.117Z',
     });
   });

@@ -284,6 +284,12 @@ export namespace CustomerAlert {
     invoice_types_filter?: Array<string>;
 
     /**
+     * Only present for low_remaining_seat_balance_reached notifications. The seat
+     * group key or seat group key-value pair the alert is scoped to.
+     */
+    seat_filter?: Alert.SeatFilter;
+
+    /**
      * Prevents the creation of duplicates. If a request to create a record is made
      * with a previously used uniqueness key, a new record will not be created and the
      * request will fail with a 409 error.
@@ -315,6 +321,22 @@ export namespace CustomerAlert {
 
       value?: string;
     }
+
+    /**
+     * Only present for low_remaining_seat_balance_reached notifications. The seat
+     * group key or seat group key-value pair the alert is scoped to.
+     */
+    export interface SeatFilter {
+      /**
+       * The seat group key (e.g., "seat_id", "user_id") that the alert is scoped to.
+       */
+      seat_group_key: string;
+
+      /**
+       * The seat group value that the alert is scoped to.
+       */
+      seat_group_value?: string;
+    }
   }
 }
 
@@ -344,6 +366,12 @@ export interface AlertRetrieveParams {
    * denotes whether to fetch notifications for plans or contracts.
    */
   plans_or_contracts?: 'PLANS' | 'CONTRACTS';
+
+  /**
+   * Only allowed for `low_remaining_seat_balance_reached` notifications. This
+   * filters alerts by the seat group key-value pair.
+   */
+  seat_filter?: AlertRetrieveParams.SeatFilter;
 }
 
 export namespace AlertRetrieveParams {
@@ -355,6 +383,22 @@ export namespace AlertRetrieveParams {
     key: string;
 
     value: string;
+  }
+
+  /**
+   * Only allowed for `low_remaining_seat_balance_reached` notifications. This
+   * filters alerts by the seat group key-value pair.
+   */
+  export interface SeatFilter {
+    /**
+     * The seat group key (e.g., "seat_id", "user_id")
+     */
+    seat_group_key: string;
+
+    /**
+     * The specific seat identifier to filter by
+     */
+    seat_group_value: string;
   }
 }
 

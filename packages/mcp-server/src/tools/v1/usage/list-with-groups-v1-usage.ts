@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { maybeFilter } from '@metronome/mcp/filtering';
-import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
+import { isJqError, maybeFilter } from '@metronome/mcp/filtering';
+import { Metadata, asErrorResult, asTextContentResult } from '@metronome/mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import Metronome from '@metronome/sdk';
@@ -88,7 +88,14 @@ export const tool: Tool = {
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const { jq_filter, ...body } = args as any;
   const response = await client.v1.usage.listWithGroups(body).asResponse();
-  return asTextContentResult(await maybeFilter(jq_filter, await response.json()));
+  try {
+    return asTextContentResult(await maybeFilter(jq_filter, await response.json()));
+  } catch (error) {
+    if (error instanceof Metronome.APIError || isJqError(error)) {
+      return asErrorResult(error.message);
+    }
+    throw error;
+  }
 };
 
 export default { metadata, tool, handler };

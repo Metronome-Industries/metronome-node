@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { maybeFilter } from '@metronome/mcp/filtering';
-import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
+import { isJqError, maybeFilter } from '@metronome/mcp/filtering';
+import { Metadata, asErrorResult, asTextContentResult } from '@metronome/mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import Metronome from '@metronome/sdk';
@@ -45,6 +45,12 @@ export const tool: Tool = {
               'gcp_marketplace',
               'metronome',
             ],
+          },
+          aws_customer_account_id: {
+            type: 'string',
+          },
+          aws_customer_id: {
+            type: 'string',
           },
           aws_is_subscription_product: {
             type: 'boolean',
@@ -139,6 +145,37 @@ export const tool: Tool = {
           required: ['billing_provider'],
         },
       },
+      customer_revenue_system_configurations: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            provider: {
+              type: 'string',
+              description: 'The revenue system provider set for this configuration.',
+              enum: ['netsuite'],
+            },
+            configuration: {
+              type: 'object',
+              description:
+                'Configuration for the revenue system provider. The structure of this object is specific to the revenue system provider. For NetSuite, this should contain `netsuite_customer_id`.',
+              additionalProperties: true,
+            },
+            delivery_method: {
+              type: 'string',
+              description:
+                'The method to use for delivering invoices to this customer. If not provided, the `delivery_method_id` must be provided.',
+              enum: ['direct_to_billing_provider'],
+            },
+            delivery_method_id: {
+              type: 'string',
+              description:
+                'ID of the delivery method to use for this customer. If not provided, the `delivery_method` must be provided.',
+            },
+          },
+          required: ['provider'],
+        },
+      },
       external_id: {
         type: 'string',
         description:
@@ -165,7 +202,14 @@ export const tool: Tool = {
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const { jq_filter, ...body } = args as any;
-  return asTextContentResult(await maybeFilter(jq_filter, await client.v1.customers.create(body)));
+  try {
+    return asTextContentResult(await maybeFilter(jq_filter, await client.v1.customers.create(body)));
+  } catch (error) {
+    if (error instanceof Metronome.APIError || isJqError(error)) {
+      return asErrorResult(error.message);
+    }
+    throw error;
+  }
 };
 
 export default { metadata, tool, handler };

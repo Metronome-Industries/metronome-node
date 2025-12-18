@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { maybeFilter } from '@metronome/mcp/filtering';
-import { Metadata, asTextContentResult } from '@metronome/mcp/tools/types';
+import { isJqError, maybeFilter } from '@metronome/mcp/filtering';
+import { Metadata, asErrorResult, asTextContentResult } from '@metronome/mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import Metronome from '@metronome/sdk';
@@ -40,6 +40,7 @@ export const tool: Tool = {
           'low_remaining_contract_credit_percentage_reached',
           'low_remaining_contract_credit_and_commit_balance_reached',
           'invoice_total_reached',
+          'low_remaining_seat_balance_reached',
         ],
       },
       name: {
@@ -130,6 +131,22 @@ export const tool: Tool = {
         description:
           'If provided, will create this threshold notification for this specific plan. To create a notification for all customers, do not specify a `plan_id`.',
       },
+      seat_filter: {
+        type: 'object',
+        description:
+          'Required for `low_remaining_seat_balance_reached` notifications. The alert is scoped to this seat group key-value pair.',
+        properties: {
+          seat_group_key: {
+            type: 'string',
+            description: 'The seat group key (e.g., "seat_id", "user_id")',
+          },
+          seat_group_value: {
+            type: 'string',
+            description: 'Optional seat identifier the alert is scoped to.',
+          },
+        },
+        required: ['seat_group_key'],
+      },
       uniqueness_key: {
         type: 'string',
         description:
@@ -149,7 +166,14 @@ export const tool: Tool = {
 
 export const handler = async (client: Metronome, args: Record<string, unknown> | undefined) => {
   const { jq_filter, ...body } = args as any;
-  return asTextContentResult(await maybeFilter(jq_filter, await client.v1.alerts.create(body)));
+  try {
+    return asTextContentResult(await maybeFilter(jq_filter, await client.v1.alerts.create(body)));
+  } catch (error) {
+    if (error instanceof Metronome.APIError || isJqError(error)) {
+      return asErrorResult(error.message);
+    }
+    throw error;
+  }
 };
 
 export default { metadata, tool, handler };
