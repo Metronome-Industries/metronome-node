@@ -180,7 +180,11 @@ export interface CustomFieldListKeysResponse {
     | 'product'
     | 'rate_card'
     | 'scheduled_charge'
-    | 'subscription';
+    | 'subscription'
+    | 'package_commit'
+    | 'package_credit'
+    | 'package_subscription'
+    | 'package_scheduled_charge';
 
   key: string;
 }
@@ -206,7 +210,11 @@ export interface CustomFieldAddKeyParams {
     | 'product'
     | 'rate_card'
     | 'scheduled_charge'
-    | 'subscription';
+    | 'subscription'
+    | 'package_commit'
+    | 'package_credit'
+    | 'package_subscription'
+    | 'package_scheduled_charge';
 
   key: string;
 }
@@ -230,7 +238,11 @@ export interface CustomFieldDeleteValuesParams {
     | 'product'
     | 'rate_card'
     | 'scheduled_charge'
-    | 'subscription';
+    | 'subscription'
+    | 'package_commit'
+    | 'package_credit'
+    | 'package_subscription'
+    | 'package_scheduled_charge';
 
   entity_id: string;
 
@@ -260,6 +272,10 @@ export interface CustomFieldListKeysParams extends CursorPageWithoutLimitParams 
     | 'rate_card'
     | 'scheduled_charge'
     | 'subscription'
+    | 'package_commit'
+    | 'package_credit'
+    | 'package_subscription'
+    | 'package_scheduled_charge'
   >;
 }
 
@@ -282,7 +298,11 @@ export interface CustomFieldRemoveKeyParams {
     | 'product'
     | 'rate_card'
     | 'scheduled_charge'
-    | 'subscription';
+    | 'subscription'
+    | 'package_commit'
+    | 'package_credit'
+    | 'package_subscription'
+    | 'package_scheduled_charge';
 
   key: string;
 }
@@ -311,7 +331,11 @@ export interface CustomFieldSetValuesParams {
     | 'product'
     | 'rate_card'
     | 'scheduled_charge'
-    | 'subscription';
+    | 'subscription'
+    | 'package_commit'
+    | 'package_credit'
+    | 'package_subscription'
+    | 'package_scheduled_charge';
 
   entity_id: string;
 }
