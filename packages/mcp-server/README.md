@@ -41,7 +41,7 @@ For clients with a configuration JSON, it might look something like this:
 If you use Cursor, you can install the MCP server by using the button below. You will need to set your environment variables
 in Cursor's `mcp.json`, which can be found in Cursor Settings > Tools & MCP > New MCP Server.
 
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=@metronome/mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBtZXRyb25vbWUvbWNwIl0sImVudiI6eyJNRVRST05PTUVfQkVBUkVSX1RPS0VOIjoiU2V0IHlvdXIgTUVUUk9OT01FX0JFQVJFUl9UT0tFTiBoZXJlLiIsIk1FVFJPTk9NRV9XRUJIT09LX1NFQ1JFVCI6IlNldCB5b3VyIE1FVFJPTk9NRV9XRUJIT09LX1NFQ1JFVCBoZXJlLiJ9fQ)
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=%40metronome%2Fmcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBtZXRyb25vbWUvbWNwIl0sImVudiI6eyJNRVRST05PTUVfQkVBUkVSX1RPS0VOIjoiU2V0IHlvdXIgTUVUUk9OT01FX0JFQVJFUl9UT0tFTiBoZXJlLiIsIk1FVFJPTk9NRV9XRUJIT09LX1NFQ1JFVCI6IlNldCB5b3VyIE1FVFJPTk9NRV9XRUJIT09LX1NFQ1JFVCBoZXJlLiJ9fQ)
 
 ### VS Code
 
@@ -56,7 +56,7 @@ If you use Claude Code, you can install the MCP server by running the command be
 environment variables in Claude Code's `.claude.json`, which can be found in your home directory.
 
 ```
-claude mcp add --transport stdio metronome_sdk_api --env METRONOME_BEARER_TOKEN="Your METRONOME_BEARER_TOKEN here." METRONOME_WEBHOOK_SECRET="Your METRONOME_WEBHOOK_SECRET here." -- npx -y @metronome/mcp
+claude mcp add metronome_mcp_api --env METRONOME_BEARER_TOKEN="Your METRONOME_BEARER_TOKEN here." METRONOME_WEBHOOK_SECRET="Your METRONOME_WEBHOOK_SECRET here." -- npx -y @metronome/mcp
 ```
 
 ## Code Mode
