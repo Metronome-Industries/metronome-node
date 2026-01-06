@@ -30,7 +30,10 @@ describe('resource usage', () => {
       window_size: 'HOUR',
       next_page: 'next_page',
       billable_metrics: [
-        { id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', group_by: { key: 'key', values: ['x'] } },
+        {
+          id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          group_by: { key: 'key', values: ['x'] },
+        },
       ],
       customer_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
     });
@@ -58,7 +61,11 @@ describe('resource usage', () => {
               event_type: 'heartbeat',
               timestamp: '2021-01-01T00:00:00Z',
               transaction_id: '2021-01-01T00:00:00Z_cluster42',
-              properties: { cluster_id: 'bar', cpu_seconds: 'bar', region: 'bar' },
+              properties: {
+                cluster_id: 'bar',
+                cpu_seconds: 'bar',
+                region: 'bar',
+              },
             },
           ],
         },

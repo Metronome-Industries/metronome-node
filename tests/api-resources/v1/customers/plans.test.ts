@@ -68,7 +68,10 @@ describe('resource plans', () => {
           value: 0,
         },
       ],
-      trial_spec: { length_in_days: 0, spending_cap: { amount: 0, credit_type_id: 'credit_type_id' } },
+      trial_spec: {
+        length_in_days: 0,
+        spending_cap: { amount: 0, credit_type_id: 'credit_type_id' },
+      },
     });
   });
 

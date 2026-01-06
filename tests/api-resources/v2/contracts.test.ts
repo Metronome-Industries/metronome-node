@@ -113,7 +113,12 @@ describe('resource contracts', () => {
               unit_price: 0,
             },
             schedule_items: [
-              { timestamp: '2019-12-27T18:11:19.117Z', amount: 0, quantity: 0, unit_price: 0 },
+              {
+                timestamp: '2019-12-27T18:11:19.117Z',
+                amount: 0,
+                quantity: 0,
+                unit_price: 0,
+              },
             ],
           },
           name: 'x',
@@ -190,7 +195,12 @@ describe('resource contracts', () => {
               unit_price: 0,
             },
             schedule_items: [
-              { timestamp: '2019-12-27T18:11:19.117Z', amount: 0, quantity: 0, unit_price: 0 },
+              {
+                timestamp: '2019-12-27T18:11:19.117Z',
+                amount: 0,
+                quantity: 0,
+                unit_price: 0,
+              },
             ],
           },
           custom_fields: { foo: 'string' },
@@ -254,7 +264,10 @@ describe('resource contracts', () => {
         payment_gate_config: {
           payment_gate_type: 'NONE',
           precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
-          stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
+          stripe_config: {
+            payment_type: 'INVOICE',
+            invoice_metadata: { foo: 'string' },
+          },
           tax_type: 'NONE',
         },
         recharge_to_amount: 0,
@@ -387,7 +400,12 @@ describe('resource contracts', () => {
               unit_price: 0,
             },
             schedule_items: [
-              { timestamp: '2020-02-15T00:00:00.000Z', amount: 0, quantity: 1, unit_price: 1000000 },
+              {
+                timestamp: '2020-02-15T00:00:00.000Z',
+                amount: 0,
+                quantity: 1,
+                unit_price: 1000000,
+              },
             ],
           },
           custom_fields: { foo: 'string' },
@@ -396,12 +414,19 @@ describe('resource contracts', () => {
         },
       ],
       add_spend_threshold_configuration: {
-        commit: { description: 'description', name: 'name', product_id: 'product_id' },
+        commit: {
+          description: 'description',
+          name: 'name',
+          product_id: 'product_id',
+        },
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',
           precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
-          stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
+          stripe_config: {
+            payment_type: 'INVOICE',
+            invoice_metadata: { foo: 'string' },
+          },
           tax_type: 'NONE',
         },
         threshold_amount: 0,
@@ -462,7 +487,12 @@ describe('resource contracts', () => {
           hierarchy_configuration: { child_access: { type: 'ALL' } },
           invoice_schedule: {
             add_schedule_items: [
-              { timestamp: '2019-12-27T18:11:19.117Z', amount: 0, quantity: 0, unit_price: 0 },
+              {
+                timestamp: '2019-12-27T18:11:19.117Z',
+                amount: 0,
+                quantity: 0,
+                unit_price: 0,
+              },
             ],
             remove_schedule_items: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
             update_schedule_items: [
@@ -538,7 +568,10 @@ describe('resource contracts', () => {
         payment_gate_config: {
           payment_gate_type: 'NONE',
           precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
-          stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
+          stripe_config: {
+            payment_type: 'INVOICE',
+            invoice_metadata: { foo: 'string' },
+          },
           tax_type: 'NONE',
         },
         recharge_to_amount: 0,
@@ -566,7 +599,12 @@ describe('resource contracts', () => {
           scheduled_charge_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           invoice_schedule: {
             add_schedule_items: [
-              { timestamp: '2019-12-27T18:11:19.117Z', amount: 0, quantity: 0, unit_price: 0 },
+              {
+                timestamp: '2019-12-27T18:11:19.117Z',
+                amount: 0,
+                quantity: 0,
+                unit_price: 0,
+              },
             ],
             remove_schedule_items: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
             update_schedule_items: [
@@ -583,12 +621,19 @@ describe('resource contracts', () => {
         },
       ],
       update_spend_threshold_configuration: {
-        commit: { description: 'description', name: 'name', product_id: 'product_id' },
+        commit: {
+          description: 'description',
+          name: 'name',
+          product_id: 'product_id',
+        },
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',
           precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
-          stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
+          stripe_config: {
+            payment_type: 'INVOICE',
+            invoice_metadata: { foo: 'string' },
+          },
           tax_type: 'NONE',
         },
         threshold_amount: 0,
@@ -601,7 +646,13 @@ describe('resource contracts', () => {
             quantity_management_mode: 'SEAT_BASED',
             seat_config: { seat_group_key: 'seat_group_key' },
           },
-          quantity_updates: [{ starting_at: '2019-12-27T18:11:19.117Z', quantity: 0, quantity_delta: 0 }],
+          quantity_updates: [
+            {
+              starting_at: '2019-12-27T18:11:19.117Z',
+              quantity: 0,
+              quantity_delta: 0,
+            },
+          ],
           seat_updates: {
             add_seat_ids: [{ seat_ids: ['string'], starting_at: '2019-12-27T18:11:19.117Z' }],
             add_unassigned_seats: [{ quantity: 1, starting_at: '2019-12-27T18:11:19.117Z' }],
@@ -633,7 +684,11 @@ describe('resource contracts', () => {
       customer_id: '4c91c473-fc12-445a-9c38-40421d47023f',
       access_schedule: {
         add_schedule_items: [
-          { amount: 0, ending_before: '2019-12-27T18:11:19.117Z', starting_at: '2019-12-27T18:11:19.117Z' },
+          {
+            amount: 0,
+            ending_before: '2019-12-27T18:11:19.117Z',
+            starting_at: '2019-12-27T18:11:19.117Z',
+          },
         ],
         remove_schedule_items: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
         update_schedule_items: [
@@ -652,7 +707,12 @@ describe('resource contracts', () => {
       invoice_contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       invoice_schedule: {
         add_schedule_items: [
-          { timestamp: '2019-12-27T18:11:19.117Z', amount: 0, quantity: 0, unit_price: 0 },
+          {
+            timestamp: '2019-12-27T18:11:19.117Z',
+            amount: 0,
+            quantity: 0,
+            unit_price: 0,
+          },
         ],
         remove_schedule_items: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
         update_schedule_items: [
@@ -700,7 +760,11 @@ describe('resource contracts', () => {
       customer_id: '4c91c473-fc12-445a-9c38-40421d47023f',
       access_schedule: {
         add_schedule_items: [
-          { amount: 0, ending_before: '2019-12-27T18:11:19.117Z', starting_at: '2019-12-27T18:11:19.117Z' },
+          {
+            amount: 0,
+            ending_before: '2019-12-27T18:11:19.117Z',
+            starting_at: '2019-12-27T18:11:19.117Z',
+          },
         ],
         remove_schedule_items: [{ id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
         update_schedule_items: [
