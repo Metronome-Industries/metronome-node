@@ -33,7 +33,11 @@ describe('resource products', () => {
       netsuite_overage_item_id: 'netsuite_overage_item_id',
       presentation_group_key: ['string'],
       pricing_group_key: ['string'],
-      quantity_conversion: { conversion_factor: 0, operation: 'MULTIPLY', name: 'name' },
+      quantity_conversion: {
+        conversion_factor: 0,
+        operation: 'MULTIPLY',
+        name: 'name',
+      },
       quantity_rounding: { decimal_places: 0, rounding_method: 'ROUND_UP' },
       tags: ['string'],
     });
@@ -86,7 +90,11 @@ describe('resource products', () => {
       netsuite_overage_item_id: 'netsuite_overage_item_id',
       presentation_group_key: ['string'],
       pricing_group_key: ['string'],
-      quantity_conversion: { conversion_factor: 0, operation: 'MULTIPLY', name: 'name' },
+      quantity_conversion: {
+        conversion_factor: 0,
+        operation: 'MULTIPLY',
+        name: 'name',
+      },
       quantity_rounding: { decimal_places: 0, rounding_method: 'ROUND_UP' },
       tags: ['string'],
     });
@@ -107,7 +115,11 @@ describe('resource products', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.v1.contracts.products.list(
-        { limit: 1, next_page: 'next_page', archive_filter: 'NOT_ARCHIVED' },
+        {
+          limit: 1,
+          next_page: 'next_page',
+          archive_filter: 'NOT_ARCHIVED',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);

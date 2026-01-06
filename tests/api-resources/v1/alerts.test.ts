@@ -31,7 +31,13 @@ describe('resource alerts', () => {
       billable_metric_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       credit_grant_type_filters: ['enterprise'],
       credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
-      custom_field_filters: [{ entity: 'Contract', key: 'key', value: 'value' }],
+      custom_field_filters: [
+        {
+          entity: 'Contract',
+          key: 'key',
+          value: 'value',
+        },
+      ],
       customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
       evaluate_on_create: true,
       group_values: [{ key: 'key', value: 'value' }],

@@ -42,7 +42,11 @@ await client.v1.usage.ingest({
       customer_id: 'team@example.com',
       event_type: 'heartbeat',
       timestamp: '2024-01-01T00:00:00Z',
-      properties: { cluster_id: '42', cpu_seconds: 60, region: 'Europe' },
+      properties: {
+        cluster_id: '42',
+        cpu_seconds: 60,
+        region: 'Europe',
+      },
     },
   ],
 });
@@ -78,7 +82,10 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 const contract = await client.v1.contracts
-  .create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' })
+  .create({
+    customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    starting_at: '2020-01-01T00:00:00.000Z',
+  })
   .catch(async (err) => {
     if (err instanceof Metronome.APIError) {
       console.log(err.status); // 400
@@ -191,13 +198,19 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 const client = new Metronome();
 
 const response = await client.v1.contracts
-  .create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' })
+  .create({
+    customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    starting_at: '2020-01-01T00:00:00.000Z',
+  })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
 const { data: contract, response: raw } = await client.v1.contracts
-  .create({ customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d', starting_at: '2020-01-01T00:00:00.000Z' })
+  .create({
+    customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    starting_at: '2020-01-01T00:00:00.000Z',
+  })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(contract.data);
