@@ -138,6 +138,12 @@ export interface Commit {
 
   rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
 
+  /**
+   * The ID of the recurring commit that this commit was generated from, if
+   * applicable.
+   */
+  recurring_commit_id?: string;
+
   rolled_over_from?: Commit.RolledOverFrom;
 
   rollover_fraction?: number;
@@ -153,6 +159,12 @@ export interface Commit {
    * specifiers to contribute to a commit's or credit's drawdown.
    */
   specifiers?: Array<CommitSpecifier>;
+
+  /**
+   * The subscription configuration for this commit, if it was generated from a
+   * recurring commit with a subscription attached.
+   */
+  subscription_config?: Commit.SubscriptionConfig;
 
   /**
    * Prevents the creation of duplicates. If a request to create a commit or credit
@@ -343,6 +355,27 @@ export namespace Commit {
     commit_id: string;
 
     contract_id: string;
+  }
+
+  /**
+   * The subscription configuration for this commit, if it was generated from a
+   * recurring commit with a subscription attached.
+   */
+  export interface SubscriptionConfig {
+    allocation?: 'INDIVIDUAL' | 'POOLED';
+
+    apply_seat_increase_config?: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+    subscription_id?: string;
+  }
+
+  export namespace SubscriptionConfig {
+    export interface ApplySeatIncreaseConfig {
+      /**
+       * Indicates whether a mid-period seat increase should be prorated.
+       */
+      is_prorated: boolean;
+    }
   }
 }
 
@@ -808,6 +841,11 @@ export namespace ContractV2 {
 
     rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
 
+    /**
+     * The ID of the recurring commit that created this commit
+     */
+    recurring_commit_id?: string;
+
     rolled_over_from?: Commit.RolledOverFrom;
 
     rollover_fraction?: number;
@@ -1216,6 +1254,11 @@ export namespace ContractV2 {
      * will apply first.
      */
     priority?: number;
+
+    /**
+     * The ID of the recurring credit that created this credit
+     */
+    recurring_credit_id?: string;
 
     /**
      * This field's availability is dependent on your client's configuration.
@@ -2266,6 +2309,12 @@ export interface Credit {
   rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
 
   /**
+   * The ID of the recurring credit that this credit was generated from, if
+   * applicable.
+   */
+  recurring_credit_id?: string;
+
+  /**
    * This field's availability is dependent on your client's configuration.
    */
   salesforce_opportunity_id?: string;
@@ -2276,6 +2325,12 @@ export interface Credit {
    * specifiers to contribute to a commit's or credit's drawdown.
    */
   specifiers?: Array<CommitSpecifier>;
+
+  /**
+   * The subscription configuration for this credit, if it was generated from a
+   * recurring credit with a subscription attached.
+   */
+  subscription_config?: Credit.SubscriptionConfig;
 
   /**
    * Prevents the creation of duplicates. If a request to create a commit or credit
@@ -2377,6 +2432,27 @@ export namespace Credit {
     timestamp: string;
 
     type: 'CREDIT_SEAT_BASED_ADJUSTMENT';
+  }
+
+  /**
+   * The subscription configuration for this credit, if it was generated from a
+   * recurring credit with a subscription attached.
+   */
+  export interface SubscriptionConfig {
+    allocation?: 'INDIVIDUAL' | 'POOLED';
+
+    apply_seat_increase_config?: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+    subscription_id?: string;
+  }
+
+  export namespace SubscriptionConfig {
+    export interface ApplySeatIncreaseConfig {
+      /**
+       * Indicates whether a mid-period seat increase should be prorated.
+       */
+      is_prorated: boolean;
+    }
   }
 }
 
