@@ -95,6 +95,8 @@ export interface Payment {
 
   payment_gateway?: Payment.PaymentGateway;
 
+  revenue_system_payments?: Array<Payment.RevenueSystemPayment>;
+
   status?: PaymentStatus;
 
   updated_at?: string;
@@ -125,6 +127,19 @@ export namespace Payment {
         type?: string;
       }
     }
+  }
+
+  export interface RevenueSystemPayment {
+    revenue_system_provider: string;
+
+    sync_status: string;
+
+    /**
+     * The error message from the revenue system, if available.
+     */
+    error_message?: string;
+
+    revenue_system_external_payment_id?: string;
   }
 }
 
