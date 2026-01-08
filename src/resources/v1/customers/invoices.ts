@@ -367,6 +367,8 @@ export interface Invoice {
    */
   reseller_royalty?: Invoice.ResellerRoyalty;
 
+  revenue_system_invoices?: Array<Invoice.RevenueSystemInvoice> | null;
+
   /**
    * This field's availability is dependent on your client's configuration.
    */
@@ -942,6 +944,21 @@ export namespace Invoice {
 
       gcp_offer_id?: string;
     }
+  }
+
+  export interface RevenueSystemInvoice {
+    revenue_system_external_entity_type: string;
+
+    revenue_system_provider: string;
+
+    sync_status: string;
+
+    /**
+     * The error message from the revenue system, if available.
+     */
+    error_message?: string;
+
+    revenue_system_external_entity_id?: string;
   }
 }
 
