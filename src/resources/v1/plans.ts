@@ -306,14 +306,14 @@ export interface PlanGetDetailsParams {
 
 export interface PlanListChargesParams extends CursorPageParams {
   /**
-   * Path param:
+   * Path param
    */
   plan_id: string;
 }
 
 export interface PlanListCustomersParams extends CursorPageParams {
   /**
-   * Path param:
+   * Path param
    */
   plan_id: string;
 

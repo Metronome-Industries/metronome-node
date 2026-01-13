@@ -197,19 +197,19 @@ export namespace PlanListPriceAdjustmentsResponse {
 
 export interface PlanListParams extends CursorPageParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 }
 
 export interface PlanAddParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 
   /**
-   * Body param:
+   * Body param
    */
   plan_id: string;
 
@@ -326,7 +326,7 @@ export namespace PlanAddParams {
 
 export interface PlanEndParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 
@@ -359,7 +359,7 @@ export interface PlanEndParams {
 
 export interface PlanListPriceAdjustmentsParams extends CursorPageParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 

@@ -451,12 +451,12 @@ export namespace UsageSearchResponse {
 
 export interface UsageListParams extends CursorPageWithoutLimitParams {
   /**
-   * Body param:
+   * Body param
    */
   ending_before: string;
 
   /**
-   * Body param:
+   * Body param
    */
   starting_on: string;
 
@@ -527,12 +527,12 @@ export namespace UsageIngestParams {
 
 export interface UsageListWithGroupsParams extends CursorPageParams {
   /**
-   * Body param:
+   * Body param
    */
   billable_metric_id: string;
 
   /**
-   * Body param:
+   * Body param
    */
   customer_id: string;
 
@@ -552,17 +552,17 @@ export interface UsageListWithGroupsParams extends CursorPageParams {
   current_period?: boolean;
 
   /**
-   * Body param:
+   * Body param
    */
   ending_before?: string;
 
   /**
-   * Body param:
+   * Body param
    */
   group_by?: UsageListWithGroupsParams.GroupBy;
 
   /**
-   * Body param:
+   * Body param
    */
   starting_on?: string;
 }

@@ -494,7 +494,7 @@ export namespace RateCardUpdateParams {
 
 export interface RateCardListParams extends CursorPageParams {
   /**
-   * Body param:
+   * Body param
    */
   body?: unknown;
 }
