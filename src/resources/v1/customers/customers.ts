@@ -1003,7 +1003,7 @@ export interface CustomerArchiveParams {
 
 export interface CustomerListBillableMetricsParams extends CursorPageParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 
@@ -1021,7 +1021,7 @@ export interface CustomerListBillableMetricsParams extends CursorPageParams {
 
 export interface CustomerListCostsParams extends CursorPageParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 
@@ -1038,7 +1038,7 @@ export interface CustomerListCostsParams extends CursorPageParams {
 
 export interface CustomerPreviewEventsParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 
@@ -1146,19 +1146,19 @@ export namespace CustomerSetBillingConfigurationsParams {
 
 export interface CustomerSetIngestAliasesParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 
   /**
-   * Body param:
+   * Body param
    */
   ingest_aliases: Array<string>;
 }
 
 export interface CustomerSetNameParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 
@@ -1171,7 +1171,7 @@ export interface CustomerSetNameParams {
 
 export interface CustomerUpdateConfigParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 

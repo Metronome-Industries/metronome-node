@@ -976,12 +976,12 @@ export interface InvoiceListBreakdownsResponse extends Invoice {
 
 export interface InvoiceRetrieveParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 
   /**
-   * Path param:
+   * Path param
    */
   invoice_id: string;
 
@@ -994,7 +994,7 @@ export interface InvoiceRetrieveParams {
 
 export interface InvoiceListParams extends CursorPageParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 
@@ -1035,7 +1035,7 @@ export interface InvoiceListParams extends CursorPageParams {
 
 export interface InvoiceAddChargeParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 
@@ -1052,7 +1052,7 @@ export interface InvoiceAddChargeParams {
   customer_plan_id: string;
 
   /**
-   * Body param:
+   * Body param
    */
   description: string;
 
@@ -1068,14 +1068,14 @@ export interface InvoiceAddChargeParams {
   price: number;
 
   /**
-   * Body param:
+   * Body param
    */
   quantity: number;
 }
 
 export interface InvoiceListBreakdownsParams extends CursorPageParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 

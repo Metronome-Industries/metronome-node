@@ -161,7 +161,7 @@ export namespace BillingConfigRetrieveResponse {
 
 export interface BillingConfigCreateParams {
   /**
-   * Path param:
+   * Path param
    */
   customer_id: string;
 
@@ -186,22 +186,22 @@ export interface BillingConfigCreateParams {
   billing_provider_customer_id: string;
 
   /**
-   * Body param:
+   * Body param
    */
   aws_customer_account_id?: string;
 
   /**
-   * Body param:
+   * Body param
    */
   aws_customer_id?: string;
 
   /**
-   * Body param:
+   * Body param
    */
   aws_product_code?: string;
 
   /**
-   * Body param:
+   * Body param
    */
   aws_region?:
     | 'af-south-1'
