@@ -196,13 +196,6 @@ export namespace RateAddResponse {
      * Only set for TIERED rate_type.
      */
     tiers?: Array<Shared.Tier>;
-
-    /**
-     * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
-     * using list prices rather than the standard rates for this product on the
-     * contract.
-     */
-    use_list_prices?: boolean;
   }
 }
 
@@ -343,13 +336,6 @@ export interface RateAddParams {
    * Only set for TIERED rate_type.
    */
   tiers?: Array<Shared.Tier>;
-
-  /**
-   * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
-   * using list prices rather than the standard rates for this product on the
-   * contract.
-   */
-  use_list_prices?: boolean;
 }
 
 export interface RateAddManyParams {
@@ -432,13 +418,6 @@ export namespace RateAddManyParams {
      * Only set for TIERED rate_type.
      */
     tiers?: Array<Shared.Tier>;
-
-    /**
-     * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
-     * using list prices rather than the standard rates for this product on the
-     * contract.
-     */
-    use_list_prices?: boolean;
   }
 }
 

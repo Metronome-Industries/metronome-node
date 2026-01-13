@@ -78,7 +78,6 @@ describe('resource rates', () => {
       pricing_group_values: { foo: 'string' },
       quantity: 0,
       tiers: [{ price: 0, size: 0 }],
-      use_list_prices: true,
     });
   });
 
@@ -132,7 +131,6 @@ describe('resource rates', () => {
           pricing_group_values: { region: 'us-west-2', cloud: 'aws' },
           quantity: 0,
           tiers: [{ price: 0, size: 0 }],
-          use_list_prices: true,
         },
         {
           entitled: true,
@@ -153,7 +151,6 @@ describe('resource rates', () => {
           pricing_group_values: { region: 'us-east-2', cloud: 'aws' },
           quantity: 0,
           tiers: [{ price: 0, size: 0 }],
-          use_list_prices: true,
         },
       ],
     });

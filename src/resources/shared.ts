@@ -3063,13 +3063,6 @@ export interface Rate {
    * Only set for TIERED rate_type.
    */
   tiers?: Array<Tier>;
-
-  /**
-   * Only set for PERCENTAGE rate_type. Defaults to false. If true, rate is computed
-   * using list prices rather than the standard rates for this product on the
-   * contract.
-   */
-  use_list_prices?: boolean;
 }
 
 export interface RecurringCommitSubscriptionConfig {
