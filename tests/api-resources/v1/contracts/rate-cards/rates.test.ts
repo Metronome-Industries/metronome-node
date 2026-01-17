@@ -65,7 +65,11 @@ describe('resource rates', () => {
       rate_type: 'FLAT',
       starting_at: '2020-01-01T00:00:00.000Z',
       billing_frequency: 'MONTHLY',
-      commit_rate: { rate_type: 'FLAT', price: 0, tiers: [{ price: 0, size: 0 }] },
+      commit_rate: {
+        rate_type: 'FLAT',
+        price: 0,
+        tiers: [{ price: 0, size: 0 }],
+      },
       credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
       custom_rate: { foo: 'bar' },
       ending_before: '2019-12-27T18:11:19.117Z',
@@ -74,7 +78,6 @@ describe('resource rates', () => {
       pricing_group_values: { foo: 'string' },
       quantity: 0,
       tiers: [{ price: 0, size: 0 }],
-      use_list_prices: true,
     });
   });
 
@@ -115,7 +118,11 @@ describe('resource rates', () => {
           rate_type: 'FLAT',
           starting_at: '2020-01-01T00:00:00.000Z',
           billing_frequency: 'MONTHLY',
-          commit_rate: { rate_type: 'FLAT', price: 0, tiers: [{ price: 0, size: 0 }] },
+          commit_rate: {
+            rate_type: 'FLAT',
+            price: 0,
+            tiers: [{ price: 0, size: 0 }],
+          },
           credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
           custom_rate: { foo: 'bar' },
           ending_before: '2019-12-27T18:11:19.117Z',
@@ -124,7 +131,6 @@ describe('resource rates', () => {
           pricing_group_values: { region: 'us-west-2', cloud: 'aws' },
           quantity: 0,
           tiers: [{ price: 0, size: 0 }],
-          use_list_prices: true,
         },
         {
           entitled: true,
@@ -132,7 +138,11 @@ describe('resource rates', () => {
           rate_type: 'FLAT',
           starting_at: '2020-01-01T00:00:00.000Z',
           billing_frequency: 'MONTHLY',
-          commit_rate: { rate_type: 'FLAT', price: 0, tiers: [{ price: 0, size: 0 }] },
+          commit_rate: {
+            rate_type: 'FLAT',
+            price: 0,
+            tiers: [{ price: 0, size: 0 }],
+          },
           credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
           custom_rate: { foo: 'bar' },
           ending_before: '2019-12-27T18:11:19.117Z',
@@ -141,7 +151,6 @@ describe('resource rates', () => {
           pricing_group_values: { region: 'us-east-2', cloud: 'aws' },
           quantity: 0,
           tiers: [{ price: 0, size: 0 }],
-          use_list_prices: true,
         },
       ],
     });

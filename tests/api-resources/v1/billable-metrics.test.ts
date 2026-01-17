@@ -28,9 +28,24 @@ describe('resource billableMetrics', () => {
       event_type_filter: { in_values: ['cpu_usage'], not_in_values: ['string'] },
       group_keys: [['region'], ['machine_type']],
       property_filters: [
-        { name: 'cpu_hours', exists: true, in_values: ['string'], not_in_values: ['string'] },
-        { name: 'region', exists: true, in_values: ['EU', 'NA'], not_in_values: ['string'] },
-        { name: 'machine_type', exists: true, in_values: ['slow', 'fast'], not_in_values: ['string'] },
+        {
+          name: 'cpu_hours',
+          exists: true,
+          in_values: ['string'],
+          not_in_values: ['string'],
+        },
+        {
+          name: 'region',
+          exists: true,
+          in_values: ['EU', 'NA'],
+          not_in_values: ['string'],
+        },
+        {
+          name: 'machine_type',
+          exists: true,
+          in_values: ['slow', 'fast'],
+          not_in_values: ['string'],
+        },
       ],
       sql: 'sql',
     });
@@ -70,7 +85,11 @@ describe('resource billableMetrics', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.v1.billableMetrics.list(
-        { include_archived: true, limit: 1, next_page: 'next_page' },
+        {
+          include_archived: true,
+          limit: 1,
+          next_page: 'next_page',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);

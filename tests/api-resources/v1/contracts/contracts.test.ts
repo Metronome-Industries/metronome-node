@@ -64,7 +64,12 @@ describe('resource contracts', () => {
               unit_price: 0,
             },
             schedule_items: [
-              { timestamp: '2019-12-27T18:11:19.117Z', amount: 0, quantity: 0, unit_price: 0 },
+              {
+                timestamp: '2019-12-27T18:11:19.117Z',
+                amount: 0,
+                quantity: 0,
+                unit_price: 0,
+              },
             ],
           },
           name: 'x',
@@ -142,7 +147,12 @@ describe('resource contracts', () => {
               unit_price: 0,
             },
             schedule_items: [
-              { timestamp: '2019-12-27T18:11:19.117Z', amount: 0, quantity: 0, unit_price: 0 },
+              {
+                timestamp: '2019-12-27T18:11:19.117Z',
+                amount: 0,
+                quantity: 0,
+                unit_price: 0,
+              },
             ],
           },
           custom_fields: { foo: 'string' },
@@ -220,7 +230,10 @@ describe('resource contracts', () => {
         payment_gate_config: {
           payment_gate_type: 'NONE',
           precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
-          stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
+          stripe_config: {
+            payment_type: 'INVOICE',
+            invoice_metadata: { foo: 'string' },
+          },
           tax_type: 'NONE',
         },
         recharge_to_amount: 0,
@@ -362,7 +375,12 @@ describe('resource contracts', () => {
               unit_price: 0,
             },
             schedule_items: [
-              { timestamp: '2019-12-27T18:11:19.117Z', amount: 0, quantity: 0, unit_price: 0 },
+              {
+                timestamp: '2019-12-27T18:11:19.117Z',
+                amount: 0,
+                quantity: 0,
+                unit_price: 0,
+              },
             ],
           },
           custom_fields: { foo: 'string' },
@@ -372,12 +390,19 @@ describe('resource contracts', () => {
       ],
       scheduled_charges_on_usage_invoices: 'ALL',
       spend_threshold_configuration: {
-        commit: { product_id: 'product_id', description: 'description', name: 'name' },
+        commit: {
+          product_id: 'product_id',
+          description: 'description',
+          name: 'name',
+        },
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',
           precalculated_tax_config: { tax_amount: 0, tax_name: 'tax_name' },
-          stripe_config: { payment_type: 'INVOICE', invoice_metadata: { foo: 'string' } },
+          stripe_config: {
+            payment_type: 'INVOICE',
+            invoice_metadata: { foo: 'string' },
+          },
           tax_type: 'NONE',
         },
         threshold_amount: 0,
@@ -554,7 +579,12 @@ describe('resource contracts', () => {
               unit_price: 0,
             },
             schedule_items: [
-              { timestamp: '2019-12-27T18:11:19.117Z', amount: 0, quantity: 0, unit_price: 0 },
+              {
+                timestamp: '2019-12-27T18:11:19.117Z',
+                amount: 0,
+                quantity: 0,
+                unit_price: 0,
+              },
             ],
           },
           name: 'x',
@@ -632,7 +662,12 @@ describe('resource contracts', () => {
               unit_price: 0,
             },
             schedule_items: [
-              { timestamp: '2019-12-27T18:11:19.117Z', amount: 0, quantity: 0, unit_price: 0 },
+              {
+                timestamp: '2019-12-27T18:11:19.117Z',
+                amount: 0,
+                quantity: 0,
+                unit_price: 0,
+              },
             ],
           },
           custom_fields: { foo: 'string' },
@@ -723,7 +758,12 @@ describe('resource contracts', () => {
               unit_price: 0,
             },
             schedule_items: [
-              { timestamp: '2019-12-27T18:11:19.117Z', amount: 0, quantity: 0, unit_price: 0 },
+              {
+                timestamp: '2019-12-27T18:11:19.117Z',
+                amount: 0,
+                quantity: 0,
+                unit_price: 0,
+              },
             ],
           },
           custom_fields: { foo: 'string' },

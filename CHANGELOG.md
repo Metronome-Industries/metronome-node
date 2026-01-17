@@ -1,5 +1,51 @@
 # Changelog
 
+## 3.0.0 (2026-01-17)
+
+Full Changelog: [v2.2.0...v3.0.0](https://github.com/Metronome-Industries/metronome-node/compare/v2.2.0...v3.0.0)
+
+### ⚠ BREAKING CHANGES
+
+* **mcp:** remove deprecated tool schemes
+* **mcp:** **Migration:** To migrate, simply modify the command used to invoke the MCP server. Currently, the only supported tool scheme is code mode. Now, starting the server with just `node /path/to/mcp/server` or `npx package-name` will invoke code tools: changing your command to one of these is likely all you will need to do.
+
+### Features
+
+* [ORCH-739] expose rev rec data in api ([08d8c01](https://github.com/Metronome-Industries/metronome-node/commit/08d8c017253e732b43a1e06ecb46b92d9ec37e7c))
+* [ORCH-739] expose rev rec data in api ([25647cc](https://github.com/Metronome-Industries/metronome-node/commit/25647cccb2e88a5b155f09d03daf88d2b9386e0f))
+* add recurring commit ID and subscription config to commit/credit response schema ([ed08de6](https://github.com/Metronome-Industries/metronome-node/commit/ed08de6d7ef015c1470e55f635a03c064af10d13))
+* Add support for custom fields on package terms ([c16f6c3](https://github.com/Metronome-Industries/metronome-node/commit/c16f6c335ca0bd7204b26235b26c3680ff962d41))
+* remove use list prices config in requests and responses ([b56153d](https://github.com/Metronome-Industries/metronome-node/commit/b56153df24c55845b9d0f1572db7c06e7fbdc5e7))
+* Revert [ORCH-739] expose rev rec data in api ([857d544](https://github.com/Metronome-Industries/metronome-node/commit/857d5440d64b05fd1ce7d778a1fe2321795ec8f2))
+
+
+### Bug Fixes
+
+* **mcp:** correct code tool api output types ([94c7a2b](https://github.com/Metronome-Industries/metronome-node/commit/94c7a2b631a3954996dae6dd3c1ba007c3341418))
+* **mcp:** fix env parsing ([347d100](https://github.com/Metronome-Industries/metronome-node/commit/347d1001cfb49fb22f8451d6cbc9f5a225810895))
+* **mcp:** fix options parsing ([7c415fc](https://github.com/Metronome-Industries/metronome-node/commit/7c415fcc9e36d20b9eebe98caa499e449367578a))
+
+
+### Chores
+
+* break long lines in snippets into multiline ([553e045](https://github.com/Metronome-Industries/metronome-node/commit/553e0455495fbf42ff3a83533067b403e6f84197))
+* fix typo in descriptions ([955173f](https://github.com/Metronome-Industries/metronome-node/commit/955173fe565c023e5b5677d66d3a22adf2140fe8))
+* **internal:** codegen related update ([f1bc51f](https://github.com/Metronome-Industries/metronome-node/commit/f1bc51fc3b87434b31b0631bc09e7e427e5f3432))
+* **internal:** codegen related update ([7723521](https://github.com/Metronome-Industries/metronome-node/commit/7723521e9984d18f457b0b8db2a923e069409b06))
+* **internal:** configure MCP Server hosting ([1d192a8](https://github.com/Metronome-Industries/metronome-node/commit/1d192a84aa31197141dc76a0a13e9c92bb2793cc))
+* **internal:** update `actions/checkout` version ([bcc55a1](https://github.com/Metronome-Industries/metronome-node/commit/bcc55a1b569cf3e8e252bf6fd995445772359496))
+* **internal:** upgrade babel, qs, js-yaml ([1857b28](https://github.com/Metronome-Industries/metronome-node/commit/1857b288648df430cc7d1a98c1be8a9c11c6acfe))
+* **internal:** version bump ([4d0d6aa](https://github.com/Metronome-Industries/metronome-node/commit/4d0d6aac09b4a049e15cd795ced9ac2df58c6d98))
+* **mcp:** add intent param to execute tool ([87ac2c8](https://github.com/Metronome-Industries/metronome-node/commit/87ac2c8a35200c6f89bed43d4c269aa067969c6d))
+* **mcp:** pass intent param to execute handler ([edb60b3](https://github.com/Metronome-Industries/metronome-node/commit/edb60b340fcd85a138f4444807637319c32ff301))
+* **mcp:** remove deprecated tool schemes ([a708aed](https://github.com/Metronome-Industries/metronome-node/commit/a708aed0aabb76be7b401631a1a3703fba969e8a))
+* **mcp:** upgrade dependencies ([00d0f49](https://github.com/Metronome-Industries/metronome-node/commit/00d0f49987923b9713d671920e991d5d1036de93))
+
+
+### Documentation
+
+* prominently feature MCP server setup in root SDK readmes ([b589975](https://github.com/Metronome-Industries/metronome-node/commit/b589975eb7914476ea99588f963a801b1871620a))
+
 ## 2.2.0 (2025-12-18)
 
 Full Changelog: [v2.1.0...v2.2.0](https://github.com/Metronome-Industries/metronome-node/compare/v2.1.0...v2.2.0)
