@@ -1733,6 +1733,12 @@ export interface ContractEditParams {
 
   update_credits?: Array<ContractEditParams.UpdateCredit>;
 
+  /**
+   * Number of days after issuance of invoice after which the invoice is due (e.g.
+   * Net 30).
+   */
+  update_net_payment_terms_days?: number | null;
+
   update_prepaid_balance_threshold_configuration?: ContractEditParams.UpdatePrepaidBalanceThresholdConfiguration;
 
   /**

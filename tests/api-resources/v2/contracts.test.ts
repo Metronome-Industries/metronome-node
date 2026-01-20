@@ -547,6 +547,7 @@ describe('resource contracts', () => {
           rate_type: 'LIST_RATE',
         },
       ],
+      update_net_payment_terms_days: 0,
       update_prepaid_balance_threshold_configuration: {
         commit: {
           description: 'description',
