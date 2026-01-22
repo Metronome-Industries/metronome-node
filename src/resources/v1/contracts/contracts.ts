@@ -763,6 +763,19 @@ export interface ContractCreateParams {
 
   overrides?: Array<ContractCreateParams.Override>;
 
+  /**
+   * Selects the package linked to the specified alias as of the contract's start
+   * date. Mutually exclusive with package_id.
+   */
+  package_alias?: string;
+
+  /**
+   * If provided, provisions a customer on a package instead of creating a
+   * traditional contract. When specified, only customer_id, starting_at, package_id,
+   * and uniqueness_key are allowed.
+   */
+  package_id?: string;
+
   prepaid_balance_threshold_configuration?: Shared.PrepaidBalanceThresholdConfiguration;
 
   /**
