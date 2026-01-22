@@ -210,6 +210,8 @@ describe('resource contracts', () => {
           type: 'OVERWRITE',
         },
       ],
+      package_alias: 'package_alias',
+      package_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       prepaid_balance_threshold_configuration: {
         commit: {
           product_id: 'product_id',

@@ -481,6 +481,11 @@ export interface Contract {
    */
   customer_billing_provider_configuration?: Contract.CustomerBillingProviderConfiguration;
 
+  /**
+   * ID of the package this contract was created from, if applicable.
+   */
+  package_id?: string;
+
   prepaid_balance_threshold_configuration?: PrepaidBalanceThresholdConfiguration;
 
   /**
