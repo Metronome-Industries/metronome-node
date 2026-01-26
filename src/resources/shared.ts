@@ -407,7 +407,7 @@ export namespace CommitHierarchyConfiguration {
  * list rate when consuming a credit or commit.
  */
 export interface CommitRate {
-  rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+  rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
 
   /**
    * Commit rate price. For FLAT rate_type, this must be >=0.
@@ -1106,7 +1106,7 @@ export namespace ContractV2 {
     }
 
     export interface OverwriteRate {
-      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
 
       credit_type?: Shared.CreditTypeData;
 
@@ -2642,7 +2642,7 @@ export interface Override {
    */
   quantity?: number;
 
-  rate_type?: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+  rate_type?: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
 
   target?: 'COMMIT_RATE' | 'LIST_RATE';
 
@@ -2693,7 +2693,7 @@ export interface OverrideTier {
 }
 
 export interface OverwriteRate {
-  rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+  rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
 
   credit_type?: CreditTypeData;
 
@@ -3031,7 +3031,7 @@ export interface ProService {
 }
 
 export interface Rate {
-  rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
+  rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED' | 'TIERED_PERCENTAGE';
 
   credit_type?: CreditTypeData;
 

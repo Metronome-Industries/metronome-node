@@ -153,7 +153,7 @@ export interface RateAddResponse {
 
 export namespace RateAddResponse {
   export interface Data {
-    rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED';
+    rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'CUSTOM' | 'TIERED' | 'TIERED_PERCENTAGE';
 
     /**
      * A distinct rate on the rate card. You can choose to use this rate rather than
@@ -271,7 +271,7 @@ export interface RateAddParams {
    */
   rate_card_id: string;
 
-  rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+  rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
 
   /**
    * inclusive effective date
@@ -353,7 +353,7 @@ export namespace RateAddManyParams {
      */
     product_id: string;
 
-    rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+    rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
 
     /**
      * inclusive effective date

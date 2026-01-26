@@ -1,4 +1,4 @@
 configured_endpoints: 110
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/metronome%2Fmetronome-7accb74459a85a1b566df76af0d71bf0ea316e43bcc983d739462899a89c9b0b.yml
-openapi_spec_hash: 3a32bf1001648b0f2668c3ec7939fdf9
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/metronome%2Fmetronome-5b9f3de3b2fba442c7a9b39141dfeac320abd37ff2a801c467632c4c56366b83.yml
+openapi_spec_hash: 9abba3d035e5ea5f037b5eb3b9ab8e13
 config_hash: 5aa28b992429a1dddfb3c5b0d777d1ce

@@ -556,7 +556,7 @@ export namespace ContractGetEditHistoryResponse {
       }
 
       export interface OverwriteRate {
-        rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+        rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
 
         credit_type?: Shared.CreditTypeData;
 
@@ -2467,7 +2467,7 @@ export namespace ContractEditParams {
      * Required for OVERWRITE type.
      */
     export interface OverwriteRate {
-      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
 
       credit_type_id?: string;
 
