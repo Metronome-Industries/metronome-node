@@ -1674,6 +1674,13 @@ export interface ContractEditParams {
 
   add_reseller_royalties?: Array<ContractEditParams.AddResellerRoyalty>;
 
+  /**
+   * Update the revenue system configuration on the contract. Currently only supports
+   * adding a revenue system configuration to a contract that does not already have
+   * one.
+   */
+  add_revenue_system_configuration_update?: ContractEditParams.AddRevenueSystemConfigurationUpdate;
+
   add_scheduled_charges?: Array<ContractEditParams.AddScheduledCharge>;
 
   add_spend_threshold_configuration?: Shared.SpendThresholdConfigurationV2;
@@ -2925,6 +2932,37 @@ export namespace ContractEditParams {
       gcp_account_id?: string;
 
       gcp_offer_id?: string;
+    }
+  }
+
+  /**
+   * Update the revenue system configuration on the contract. Currently only supports
+   * adding a revenue system configuration to a contract that does not already have
+   * one.
+   */
+  export interface AddRevenueSystemConfigurationUpdate {
+    revenue_system_configuration: AddRevenueSystemConfigurationUpdate.RevenueSystemConfiguration;
+
+    schedule: AddRevenueSystemConfigurationUpdate.Schedule;
+  }
+
+  export namespace AddRevenueSystemConfigurationUpdate {
+    export interface RevenueSystemConfiguration {
+      delivery_method?: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+
+      /**
+       * The revenue system provider type.
+       */
+      provider?: 'netsuite';
+
+      revenue_system_configuration_id?: string;
+    }
+
+    export interface Schedule {
+      /**
+       * When the revenue system configuration update will take effect.
+       */
+      effective_at: 'START_OF_CURRENT_PERIOD';
     }
   }
 
