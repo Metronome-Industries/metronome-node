@@ -2,7 +2,7 @@
 
 import { McpTool, Metadata, ToolCallResult, asErrorResult, asTextContentResult } from './types';
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import { readEnv, readEnvOrError } from './server';
+import { readEnv, requireValue } from './server';
 import { WorkerInput, WorkerOutput } from './code-tool-types';
 import { Metronome } from '@metronome/sdk';
 
@@ -79,7 +79,10 @@ export function codeTool(): McpTool {
         ...(stainlessAPIKey && { Authorization: stainlessAPIKey }),
         'Content-Type': 'application/json',
         client_envs: JSON.stringify({
-          METRONOME_BEARER_TOKEN: readEnvOrError('METRONOME_BEARER_TOKEN') ?? client.bearerToken ?? undefined,
+          METRONOME_BEARER_TOKEN: requireValue(
+            readEnv('METRONOME_BEARER_TOKEN') ?? client.bearerToken,
+            'set METRONOME_BEARER_TOKEN environment variable or provide bearerToken client option',
+          ),
           METRONOME_WEBHOOK_SECRET: readEnv('METRONOME_WEBHOOK_SECRET') ?? client.webhookSecret ?? undefined,
           METRONOME_BASE_URL: readEnv('METRONOME_BASE_URL') ?? client.baseURL ?? undefined,
         }),
