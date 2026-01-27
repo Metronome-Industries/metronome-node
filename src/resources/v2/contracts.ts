@@ -76,10 +76,7 @@ export class Contracts extends APIResource {
    *
    * ### Key response fields:
    *
-   * - The `id` of the edit
-   * - Complete edit details. For example, if you edited the contract to add new
-   *   overrides and credits, you will receive the IDs of those overrides and credits
-   *   in the response.
+   * - The `id` of the contract that was edited
    *
    * ### Usage guidelines:
    *
