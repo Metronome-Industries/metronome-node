@@ -299,8 +299,8 @@ export interface Invoice {
   billable_status?: unknown;
 
   /**
-   * Account hierarchy M3 - Required on invoices with type USAGE_CONSOLIDATED. List
-   * of constituent invoices that were consolidated to create this invoice.
+   * Required on invoices with type USAGE_CONSOLIDATED. List of constituent invoices
+   * that were consolidated to create this invoice.
    */
   constituent_invoices?: Array<Invoice.ConstituentInvoice>;
 
@@ -348,8 +348,8 @@ export interface Invoice {
   netsuite_sales_order_id?: string;
 
   /**
-   * Account hierarchy M3 - Required for account hierarchy usage invoices. An object
-   * containing the contract and customer UUIDs that pay for this invoice.
+   * Required for account hierarchy usage invoices. An object containing the contract
+   * and customer UUIDs that pay for this invoice.
    */
   payer?: Invoice.Payer;
 
@@ -500,9 +500,9 @@ export namespace Invoice {
     netsuite_item_id?: string;
 
     /**
-     * Account hierarchy M3 - Present on line items from invoices with type
-     * USAGE_CONSOLIDATED. Indicates the original customer, contract, invoice and line
-     * item from which this line item was copied.
+     * Present on line items from invoices with type USAGE_CONSOLIDATED. Indicates the
+     * original customer, contract, invoice and line item from which this line item was
+     * copied.
      */
     origin?: LineItem.Origin;
 
@@ -607,9 +607,9 @@ export namespace Invoice {
     }
 
     /**
-     * Account hierarchy M3 - Present on line items from invoices with type
-     * USAGE_CONSOLIDATED. Indicates the original customer, contract, invoice and line
-     * item from which this line item was copied.
+     * Present on line items from invoices with type USAGE_CONSOLIDATED. Indicates the
+     * original customer, contract, invoice and line item from which this line item was
+     * copied.
      */
     export interface Origin {
       contract_id: string;
@@ -906,8 +906,8 @@ export namespace Invoice {
   }
 
   /**
-   * Account hierarchy M3 - Required for account hierarchy usage invoices. An object
-   * containing the contract and customer UUIDs that pay for this invoice.
+   * Required for account hierarchy usage invoices. An object containing the contract
+   * and customer UUIDs that pay for this invoice.
    */
   export interface Payer {
     contract_id: string;
