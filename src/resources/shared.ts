@@ -438,8 +438,16 @@ export interface CommitSpecifier {
 }
 
 export interface CommitSpecifierInput {
+  /**
+   * If provided, the specifier will apply to product usage with these set of
+   * presentation group values.
+   */
   presentation_group_values?: { [key: string]: string };
 
+  /**
+   * If provided, the specifier will apply to product usage with these set of pricing
+   * group values.
+   */
   pricing_group_values?: { [key: string]: string };
 
   /**
