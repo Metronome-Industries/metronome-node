@@ -866,6 +866,39 @@ describe('resource contracts', () => {
     });
   });
 
+  test('getNetBalance: only required params', async () => {
+    const responsePromise = client.v1.contracts.getNetBalance({
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('getNetBalance: required and optional params', async () => {
+    const response = await client.v1.contracts.getNetBalance({
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+      filters: [
+        {
+          balance_types: ['CREDIT'],
+          custom_fields: { campaign: 'free-trial' },
+          ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+        },
+        {
+          balance_types: ['PREPAID_COMMIT', 'POSTPAID_COMMIT'],
+          custom_fields: { campaign: 'signup-promotion' },
+          ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+        },
+      ],
+      invoice_inclusion_mode: 'FINALIZED',
+    });
+  });
+
   test('listBalances: only required params', async () => {
     const responsePromise = client.v1.contracts.listBalances({
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
