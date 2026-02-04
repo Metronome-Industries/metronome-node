@@ -553,7 +553,7 @@ export namespace ContractGetEditHistoryResponse {
       }
 
       export interface OverwriteRate {
-        rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+        rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
 
         credit_type?: Shared.CreditTypeData;
 
@@ -1674,6 +1674,13 @@ export interface ContractEditParams {
 
   add_reseller_royalties?: Array<ContractEditParams.AddResellerRoyalty>;
 
+  /**
+   * Update the revenue system configuration on the contract. Currently only supports
+   * adding a revenue system configuration to a contract that does not already have
+   * one.
+   */
+  add_revenue_system_configuration_update?: ContractEditParams.AddRevenueSystemConfigurationUpdate;
+
   add_scheduled_charges?: Array<ContractEditParams.AddScheduledCharge>;
 
   add_spend_threshold_configuration?: Shared.SpendThresholdConfigurationV2;
@@ -1732,6 +1739,12 @@ export interface ContractEditParams {
   update_contract_name?: string | null;
 
   update_credits?: Array<ContractEditParams.UpdateCredit>;
+
+  /**
+   * Number of days after issuance of invoice after which the invoice is due (e.g.
+   * Net 30).
+   */
+  update_net_payment_terms_days?: number | null;
 
   update_prepaid_balance_threshold_configuration?: ContractEditParams.UpdatePrepaidBalanceThresholdConfiguration;
 
@@ -2458,7 +2471,7 @@ export namespace ContractEditParams {
      * Required for OVERWRITE type.
      */
     export interface OverwriteRate {
-      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
 
       credit_type_id?: string;
 
@@ -2919,6 +2932,37 @@ export namespace ContractEditParams {
       gcp_account_id?: string;
 
       gcp_offer_id?: string;
+    }
+  }
+
+  /**
+   * Update the revenue system configuration on the contract. Currently only supports
+   * adding a revenue system configuration to a contract that does not already have
+   * one.
+   */
+  export interface AddRevenueSystemConfigurationUpdate {
+    revenue_system_configuration: AddRevenueSystemConfigurationUpdate.RevenueSystemConfiguration;
+
+    schedule: AddRevenueSystemConfigurationUpdate.Schedule;
+  }
+
+  export namespace AddRevenueSystemConfigurationUpdate {
+    export interface RevenueSystemConfiguration {
+      delivery_method?: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+
+      /**
+       * The revenue system provider type.
+       */
+      provider?: 'netsuite';
+
+      revenue_system_configuration_id?: string;
+    }
+
+    export interface Schedule {
+      /**
+       * When the revenue system configuration update will take effect.
+       */
+      effective_at: 'START_OF_CURRENT_PERIOD';
     }
   }
 

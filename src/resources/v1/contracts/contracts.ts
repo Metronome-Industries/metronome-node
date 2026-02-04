@@ -375,6 +375,79 @@ export class Contracts extends APIResource {
   }
 
   /**
+   * Retrieve the combined current balance across any grouping of credits and commits
+   * for a customer in a single API call.
+   *
+   * - Display real-time available balance to customers in billing dashboards
+   * - Build finance dashboards showing credit utilization across customer segments
+   * - Validate expected vs. actual balance during billing reconciliation
+   *
+   * ### Key response fields:
+   *
+   * - `balance`: The combined net balance available to use at this moment across all
+   *   matching commits and credits
+   * - `credit_type_id`: The credit type (fiat or custom pricing unit) the balance is
+   *   denominated in
+   *
+   * ### Filtering options:
+   *
+   * Balance filters allow you to scope the calculation to specific subsets of
+   * commits and credits. When using multiple filter objects, they are OR'd together
+   * — if a commit or credit matches any filter, it's included in the net balance.
+   * Within a single filter object, all specified conditions are AND'd together.
+   *
+   * - **Balance types**: Include any combination of `PREPAID_COMMIT`,
+   *   `POSTPAID_COMMIT`, and `CREDIT` (e.g., `["PREPAID_COMMIT", "CREDIT"]` to
+   *   exclude postpaid commits). If not specified, all balance types are included.
+   * - **Specific IDs**: Target exact commit or credit IDs for precise balance
+   *   queries
+   * - **Custom fields**: Filter by custom field key-value pairs; when multiple pairs
+   *   are provided, commits must match all of them
+   *
+   * **Example**: To get the balance of all free-trial credits OR all
+   * signup-promotion commits, you'd pass two filter objects — one filtering for
+   * CREDIT with custom field campaign: free-trial, and another filtering for
+   * PREPAID_COMMIT with custom field campaign: signup-promotion.
+   *
+   * ### Usage guidelines:
+   *
+   * - **Draft invoice handling**: Use `invoice_inclusion_mode` to control whether
+   *   pending draft invoice deductions are included (`FINALIZED_AND_DRAFT`, the
+   *   default) or excluded (`FINALIZED`) from the balance calculation
+   * - **Account hierarchies**: When querying a child customer, shared commits from
+   *   parent contracts are not included — query the parent customer directly to see
+   *   shared commit balances
+   * - **Negative balances**: Manual ledger entries can cause negative segment
+   *   balances; these are treated as zero when calculating the net balance
+   * - **Credit types**: If `credit_type_id` is not specified, the balance defaults
+   *   to USD (cents)
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.contracts.getNetBalance({
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *   credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+   *   filters: [
+   *     {
+   *       balance_types: ['CREDIT'],
+   *       custom_fields: { campaign: 'free-trial' },
+   *     },
+   *     {
+   *       balance_types: ['PREPAID_COMMIT', 'POSTPAID_COMMIT'],
+   *       custom_fields: { campaign: 'signup-promotion' },
+   *     },
+   *   ],
+   * });
+   * ```
+   */
+  getNetBalance(
+    body: ContractGetNetBalanceParams,
+    options?: RequestOptions,
+  ): APIPromise<ContractGetNetBalanceResponse> {
+    return this._client.post('/v1/contracts/customerBalances/getNetBalance', { body, ...options });
+  }
+
+  /**
    * Retrieve a comprehensive view of all available balances (commits and credits)
    * for a customer. This endpoint provides real-time visibility into prepaid funds,
    * postpaid commitments, promotional credits, and other balance types that can
@@ -624,6 +697,26 @@ export interface ContractCreateHistoricalInvoicesResponse {
   data: Array<InvoicesAPI.Invoice>;
 }
 
+export interface ContractGetNetBalanceResponse {
+  data: ContractGetNetBalanceResponse.Data;
+}
+
+export namespace ContractGetNetBalanceResponse {
+  export interface Data {
+    /**
+     * The combined net balance that the customer has access to use at this moment
+     * across all pertinent commits and credits.
+     */
+    balance: number;
+
+    /**
+     * The ID of the credit type (can be fiat or a custom pricing unit) that the
+     * balance is for.
+     */
+    credit_type_id: string;
+  }
+}
+
 export type ContractListBalancesResponse = Shared.Commit | Shared.Credit;
 
 export interface ContractRetrieveRateScheduleResponse {
@@ -762,6 +855,19 @@ export interface ContractCreateParams {
   netsuite_sales_order_id?: string;
 
   overrides?: Array<ContractCreateParams.Override>;
+
+  /**
+   * Selects the package linked to the specified alias as of the contract's start
+   * date. Mutually exclusive with package_id.
+   */
+  package_alias?: string;
+
+  /**
+   * If provided, provisions a customer on a package instead of creating a
+   * traditional contract. When specified, only customer_id, starting_at, package_id,
+   * and uniqueness_key are allowed.
+   */
+  package_id?: string;
 
   prepaid_balance_threshold_configuration?: Shared.PrepaidBalanceThresholdConfiguration;
 
@@ -1399,8 +1505,7 @@ export namespace ContractCreateParams {
     parent_behavior?: HierarchyConfiguration.ParentBehavior;
 
     /**
-     * Account hierarchy M3 - Indicates which customer should pay for the child's
-     * invoice charges
+     * Indicates which customer should pay for the child's invoice charges
      *
      * **SELF**: The child pays for its own invoice charges
      *
@@ -1409,8 +1514,8 @@ export namespace ContractCreateParams {
     payer?: 'SELF' | 'PARENT';
 
     /**
-     * Account hierarchy M3 - Indicates the behavior of the child's invoice statements
-     * on the parent's invoices.
+     * Indicates the behavior of the child's invoice statements on the parent's
+     * invoices.
      *
      * **CONSOLIDATE**: Child's invoice statements will be added to parent's
      * consolidated invoices
@@ -1430,8 +1535,8 @@ export namespace ContractCreateParams {
 
     export interface ParentBehavior {
       /**
-       * Account hierarchy M3 - Indicates the desired behavior of consolidated invoices
-       * generated by the parent in a customer hierarchy
+       * Indicates the desired behavior of consolidated invoices generated by the parent
+       * in a customer hierarchy
        *
        * **CONCATENATE**: Statements on the invoices of child customers will be appended
        * to the consolidated invoice
@@ -1573,7 +1678,7 @@ export namespace ContractCreateParams {
      * Required for OVERWRITE type.
      */
     export interface OverwriteRate {
-      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
 
       credit_type_id?: string;
 
@@ -3154,7 +3259,7 @@ export namespace ContractAmendParams {
      * Required for OVERWRITE type.
      */
     export interface OverwriteRate {
-      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'CUSTOM';
+      rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
 
       credit_type_id?: string;
 
@@ -3483,6 +3588,32 @@ export namespace ContractCreateHistoricalInvoicesParams {
   }
 }
 
+export interface ContractGetNetBalanceParams {
+  /**
+   * The ID of the customer.
+   */
+  customer_id: string;
+
+  /**
+   * The ID of the credit type (can be fiat or a custom pricing unit) to get the
+   * balance for. Defaults to USD (cents) if not specified.
+   */
+  credit_type_id?: string;
+
+  /**
+   * Balance filters are OR'd together, so if a given commit or credit matches any of
+   * the filters, it will be included in the net balance.
+   */
+  filters?: Array<Shared.BalanceFilter>;
+
+  /**
+   * Controls which invoices are considered when calculating the remaining balance.
+   * `FINALIZED` considers only deductions from finalized invoices.
+   * `FINALIZED_AND_DRAFT` also includes deductions from pending draft invoices.
+   */
+  invoice_inclusion_mode?: 'FINALIZED' | 'FINALIZED_AND_DRAFT';
+}
+
 export interface ContractListBalancesParams extends BodyCursorPageParams {
   customer_id: string;
 
@@ -3729,6 +3860,7 @@ export declare namespace Contracts {
     type ContractAmendResponse as ContractAmendResponse,
     type ContractArchiveResponse as ContractArchiveResponse,
     type ContractCreateHistoricalInvoicesResponse as ContractCreateHistoricalInvoicesResponse,
+    type ContractGetNetBalanceResponse as ContractGetNetBalanceResponse,
     type ContractListBalancesResponse as ContractListBalancesResponse,
     type ContractRetrieveRateScheduleResponse as ContractRetrieveRateScheduleResponse,
     type ContractRetrieveSubscriptionQuantityHistoryResponse as ContractRetrieveSubscriptionQuantityHistoryResponse,
@@ -3742,6 +3874,7 @@ export declare namespace Contracts {
     type ContractAmendParams as ContractAmendParams,
     type ContractArchiveParams as ContractArchiveParams,
     type ContractCreateHistoricalInvoicesParams as ContractCreateHistoricalInvoicesParams,
+    type ContractGetNetBalanceParams as ContractGetNetBalanceParams,
     type ContractListBalancesParams as ContractListBalancesParams,
     type ContractRetrieveRateScheduleParams as ContractRetrieveRateScheduleParams,
     type ContractRetrieveSubscriptionQuantityHistoryParams as ContractRetrieveSubscriptionQuantityHistoryParams,

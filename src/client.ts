@@ -515,9 +515,10 @@ export class Metronome {
     controller: AbortController,
   ): Promise<Response> {
     const { signal, method, ...options } = init || {};
-    if (signal) signal.addEventListener('abort', () => controller.abort());
+    const abort = this._makeAbort(controller);
+    if (signal) signal.addEventListener('abort', abort, { once: true });
 
-    const timeout = setTimeout(() => controller.abort(), ms);
+    const timeout = setTimeout(abort, ms);
 
     const isReadableBody =
       ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) ||
@@ -540,6 +541,7 @@ export class Metronome {
       return await this.fetch.call(undefined, url, fetchOptions);
     } finally {
       clearTimeout(timeout);
+      if (signal) signal.removeEventListener('abort', abort);
     }
   }
 
@@ -684,6 +686,12 @@ export class Metronome {
     return headers.values;
   }
 
+  private _makeAbort(controller: AbortController) {
+    // note: we can't just inline this method inside `fetchWithTimeout()` because then the closure
+    //       would capture all request options, and cause a memory leak.
+    return () => controller.abort();
+  }
+
   private buildBody({ options: { body, headers: rawHeaders } }: { options: FinalRequestOptions }): {
     bodyHeaders: HeadersLike;
     body: BodyInit | undefined;
@@ -771,6 +779,7 @@ export declare namespace Metronome {
 
   export { V1 as V1 };
 
+  export type BalanceFilter = API.BalanceFilter;
   export type BaseThresholdCommit = API.BaseThresholdCommit;
   export type BaseUsageFilter = API.BaseUsageFilter;
   export type Commit = API.Commit;

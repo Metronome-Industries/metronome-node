@@ -1,5 +1,46 @@
 # Changelog
 
+## 3.1.0 (2026-02-04)
+
+Full Changelog: [v3.0.0...v3.1.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.0.0...v3.1.0)
+
+### Features
+
+* Add `exclude` field to commit and override specifiers shape in the API ([1aa6154](https://github.com/Metronome-Industries/metronome-node/commit/1aa6154436d63c3903ba547080d849de47427406))
+* **api:** Add getNetBalance endpoint ([c6b7056](https://github.com/Metronome-Industries/metronome-node/commit/c6b70569327be251d02ffe3ec290c1247ca804f0))
+* bump schema version and update code to support TieredPercentage rate ([fcb0a20](https://github.com/Metronome-Industries/metronome-node/commit/fcb0a2062cfa0bd8fca4c0fc19f5c8fd7a5971d1))
+* Expose add revenue config in edit contract api ([b391d83](https://github.com/Metronome-Industries/metronome-node/commit/b391d837679a9af4a14980bcd3b41f7dffa8fc79))
+* **mcp:** add initial server instructions ([ed8001f](https://github.com/Metronome-Industries/metronome-node/commit/ed8001f6304584743d4e29c65d5f8b21623017ac))
+* release account hierarchy ([0b159d2](https://github.com/Metronome-Industries/metronome-node/commit/0b159d28d8b2f4ee441813d393c021905860f60e))
+* update api to allow editing net payment terms ([fbb5555](https://github.com/Metronome-Industries/metronome-node/commit/fbb555505a4cf9512eb9dbd0fce137e3e130cf7c))
+
+
+### Bug Fixes
+
+* **client:** avoid memory leak with abort signals ([1dd723e](https://github.com/Metronome-Industries/metronome-node/commit/1dd723e270715307246a54c266d191a81d7ad7d1))
+* **docs:** fix mcp installation instructions for remote servers ([4e9a230](https://github.com/Metronome-Industries/metronome-node/commit/4e9a230f83e4db28294992dbdff8ae570c2c751f))
+* **mcp:** allow falling back for required env variables ([496cbbd](https://github.com/Metronome-Industries/metronome-node/commit/496cbbd22051ba61d60057b995c6f4426b817789))
+* update v2 contract edit api endpoint description ([#249](https://github.com/Metronome-Industries/metronome-node/issues/249)) ([734099a](https://github.com/Metronome-Industries/metronome-node/commit/734099a8adf54d831174fb59d18a9e3c8ac43444))
+
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([a5276ac](https://github.com/Metronome-Industries/metronome-node/commit/a5276ac7c2536889660bb6ecbf2f714fb211b248))
+* **client:** do not parse responses with empty content-length ([143a4d0](https://github.com/Metronome-Industries/metronome-node/commit/143a4d0ce8f90faa061f92616a79d8843b99412f))
+* **client:** restructure abort controller binding ([7b1d306](https://github.com/Metronome-Industries/metronome-node/commit/7b1d306f0da887aece580eb46a79c5ef6bbd4dd5))
+* **internal:** codegen related update ([8e5a257](https://github.com/Metronome-Industries/metronome-node/commit/8e5a257b0f2d5977ff139315fe60c6bd5168a804))
+* **internal:** codegen related update ([98ab39f](https://github.com/Metronome-Industries/metronome-node/commit/98ab39fbf909fcbff84b3a4faffd0e1898bebffa))
+* **internal:** codegen related update ([28ca04e](https://github.com/Metronome-Industries/metronome-node/commit/28ca04ef5e0d000e61d244474f2390b662e36ef1))
+* **internal:** refactor flag parsing for MCP servers and add debug flag ([f7ee520](https://github.com/Metronome-Industries/metronome-node/commit/f7ee52044c1a55257ed8139977d68d3cc99502ec))
+* **internal:** support oauth authorization code flow for MCP servers ([2f1b80e](https://github.com/Metronome-Industries/metronome-node/commit/2f1b80e93e3ed5abe0fb9cd611623cd5e63ac946))
+* **internal:** update lock file ([f4fec3e](https://github.com/Metronome-Industries/metronome-node/commit/f4fec3e19677044aefb8ff484c5b0e6f1099c27a))
+* **mcp:** up tsconfig lib version to es2022 ([9767808](https://github.com/Metronome-Industries/metronome-node/commit/9767808fd168ea29b9033f870e33bf8806eb5661))
+
+
+### Documentation
+
+* Update package docs for GA ([ebbacb3](https://github.com/Metronome-Industries/metronome-node/commit/ebbacb30bfbb33cfde9c8e87c992ea56dec5b8a2))
+
 ## 3.0.0 (2026-01-17)
 
 Full Changelog: [v2.2.0...v3.0.0](https://github.com/Metronome-Industries/metronome-node/compare/v2.2.0...v3.0.0)
