@@ -3,6 +3,23 @@
 import * as Shared from './shared';
 import { BodyCursorPage } from '../core/pagination';
 
+export interface BalanceFilter {
+  /**
+   * The balance type to filter by.
+   */
+  balance_types?: Array<'PREPAID_COMMIT' | 'POSTPAID_COMMIT' | 'CREDIT'>;
+
+  /**
+   * Custom fields to compute balance across. Must match all custom fields
+   */
+  custom_fields?: { [key: string]: string };
+
+  /**
+   * Specific IDs to compute balance across.
+   */
+  ids?: Array<string>;
+}
+
 export interface BaseThresholdCommit {
   /**
    * The commit product that will be used to generate the line item for commit

@@ -779,6 +779,7 @@ export declare namespace Metronome {
 
   export { V1 as V1 };
 
+  export type BalanceFilter = API.BalanceFilter;
   export type BaseThresholdCommit = API.BaseThresholdCommit;
   export type BaseUsageFilter = API.BaseUsageFilter;
   export type Commit = API.Commit;
