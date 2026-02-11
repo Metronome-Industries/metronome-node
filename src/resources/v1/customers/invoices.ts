@@ -584,6 +584,12 @@ export namespace Invoice {
     subscription_custom_fields?: { [key: string]: string };
 
     /**
+     * ID of the subscription that this line item is associated with. Only present on
+     * line items with product of `SUBSCRIPTION` type.
+     */
+    subscription_id?: string;
+
+    /**
      * Populated if the line item has a tiered price.
      */
     tier?: LineItem.Tier;
