@@ -404,6 +404,12 @@ export class Customers extends APIResource {
    *       configuration: { ... },
    *       delivery_method: 'direct_to_billing_provider',
    *     },
+   *     {
+   *       customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
+   *       billing_provider: 'netsuite',
+   *       configuration: { ... },
+   *       delivery_method: 'direct_to_billing_provider',
+   *     },
    *   ],
    * });
    * ```
