@@ -872,11 +872,6 @@ export interface ContractCreateParams {
   prepaid_balance_threshold_configuration?: Shared.PrepaidBalanceThresholdConfiguration;
 
   /**
-   * Priority of the contract.
-   */
-  priority?: number;
-
-  /**
    * This field's availability is dependent on your client's configuration.
    */
   professional_services?: Array<ContractCreateParams.ProfessionalService>;
