@@ -29,7 +29,7 @@ cp tsconfig.dist-src.json dist/src/tsconfig.json
 
 chmod +x dist/index.js
 
-DIST_PATH=./dist PKG_IMPORT_PATH=@metronome/mcp/ node ../../scripts/utils/postprocess-files.cjs
+DIST_PATH=./dist PKG_IMPORT_PATH=@metronome/sdk-mcp/ node ../../scripts/utils/postprocess-files.cjs
 
 # mcp bundle
 rm -rf dist-bundle metronome_sdk_api.mcpb; mkdir dist-bundle
