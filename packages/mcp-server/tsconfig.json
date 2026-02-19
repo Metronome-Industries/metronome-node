@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "paths": {
-      "@metronome/sdk-mcp/*": ["./src/*"],
-      "@metronome/sdk-mcp": ["./src/index.ts"]
+      "@metronome/mcp/*": ["./src/*"],
+      "@metronome/mcp": ["./src/index.ts"]
     },
     "noEmit": true,
 

@@ -1,5 +1,5 @@
 {
-  "name": "@metronome/sdk-mcp",
+  "name": "@metronome/mcp",
   "version": "3.1.0",
   "description": "The official MCP Server for the Metronome API",
   "author": "Metronome <dev-feedback@metronome.com>",
@@ -74,8 +74,8 @@
     "tsconfig-paths": "^4.0.0"
   },
   "imports": {
-    "@metronome/sdk-mcp": ".",
-    "@metronome/sdk-mcp/*": "./src/*"
+    "@metronome/mcp": ".",
+    "@metronome/mcp/*": "./src/*"
   },
   "exports": {
     ".": {
