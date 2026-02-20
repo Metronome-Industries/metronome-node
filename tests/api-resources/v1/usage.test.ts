@@ -98,7 +98,9 @@ describe('resource usage', () => {
       next_page: 'next_page',
       current_period: true,
       ending_before: '2021-01-03T00:00:00Z',
-      group_by: { key: 'region', values: ['US-East', 'US-West', 'EU-Central'] },
+      group_by: { key: 'key', values: ['x'] },
+      group_filters: { region: ['us-east1', 'us-west1'] },
+      group_key: ['region'],
       starting_on: '2021-01-01T00:00:00Z',
     });
   });

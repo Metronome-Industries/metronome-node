@@ -197,8 +197,11 @@ export class Usage extends APIResource {
    * An array of `PagedUsageAggregate` objects containing:
    *
    * - `starting_on` and `ending_before`: Time window boundaries
-   * - `group_key`: The dimension being grouped by (e.g., "region")
-   * - `group_value`: The specific value for this group (e.g., "US-East")
+   * - `group`: Object mapping group keys to their values
+   *   - For simple groups, this will be a map with a single key-value pair (e.g.,
+   *     `{"region": "US-East"}`)
+   *   - For compound groups, this will be a map with multiple key-value pairs (e.g.,
+   *     `{"region": "US-East", "team": "engineering"}`)
    * - `value`: Aggregated usage for this group and time window
    * - `next_page`: Pagination cursor for large datasets
    *
@@ -208,12 +211,13 @@ export class Usage extends APIResource {
    *   `window_size`
    * - Time windows: Set `window_size` to hour, day, or none for different
    *   granularities
-   * - Group filtering: Use `group_by` to specify:
-   *   - key: The dimension to group by (must be set on the billable metric as a
-   *     group key)
-   *   - values: Optional array to filter to specific values only
+   * - Group filtering: Use `group_key` and `group_filters` to specify groups and
+   *   group filters
+   * - Limits: When using compound group keys (2+ keys in `group_key`), the default
+   *   and max limit is 100
    * - Pagination: Use limit and `next_page` for large result sets
-   * - Null handling: `group_value` may be null for unmatched data
+   * - Null handling: Group values may be null for events missing the group key
+   *   property
    *
    * @example
    * ```ts
@@ -225,10 +229,8 @@ export class Usage extends APIResource {
    *     customer_id: '04ca7e72-4229-4a6e-ab11-9f7376fccbcb',
    *     window_size: 'day',
    *     ending_before: '2021-01-03T00:00:00Z',
-   *     group_by: {
-   *       key: 'region',
-   *       values: ['US-East', 'US-West', 'EU-Central'],
-   *     },
+   *     group_filters: { region: ['us-east1', 'us-west1'] },
+   *     group_key: ['region'],
    *     starting_on: '2021-01-01T00:00:00Z',
    *   },
    * )) {
@@ -324,13 +326,27 @@ export interface UsageListResponse {
 export interface UsageListWithGroupsResponse {
   ending_before: string;
 
+  /**
+   * @deprecated Use `group` instead. The group key for single-key grouping.
+   */
   group_key: string | null;
 
+  /**
+   * @deprecated Use `group` instead. The group value for single-key grouping.
+   */
   group_value: string | null;
 
   starting_on: string;
 
   value: number | null;
+
+  /**
+   * Map of group key to their value for this usage aggregate. For simple group keys,
+   * this should be a single key e.g. `{"region": "US-East"}` For compound group
+   * keys, this should contain the values of each group key that forms the compound
+   * e.g. `{"region": "US-East", "team": "engineering"}`
+   */
+  group?: { [key: string]: string };
 }
 
 export type UsageSearchResponse = Array<UsageSearchResponse.UsageSearchResponseItem>;
@@ -557,9 +573,33 @@ export interface UsageListWithGroupsParams extends CursorPageParams {
   ending_before?: string;
 
   /**
-   * Body param
+   * @deprecated Body param: Use group_key and group_filters instead. Use a single
+   * group key to group by. Compound group keys are not supported.
    */
   group_by?: UsageListWithGroupsParams.GroupBy;
+
+  /**
+   * Body param: Object mapping group keys to arrays of values to filter on. Only
+   * usage matching these filter values will be returned. Keys must be present in
+   * group_key. Omit a key or use an empty array to include all values for that
+   * dimension.
+   */
+  group_filters?: { [key: string]: Array<string> };
+
+  /**
+   * Body param: Group key to group usage by. Supports both simple (single key) and
+   * compound (multiple keys) group keys.
+   *
+   * For simple group keys, provide a single key e.g. `["region"]`. For compound
+   * group keys, provide multiple keys e.g. `["region", "team"]`.
+   *
+   * For streaming metrics, the keys must be defined as a simple or compound group
+   * key on the billable metric. For compound group keys, all keys must match an
+   * exact compound group key definition — partial matches are not allowed.
+   *
+   * Cannot be used together with `group_by`.
+   */
+  group_key?: Array<string>;
 
   /**
    * Body param
@@ -568,6 +608,10 @@ export interface UsageListWithGroupsParams extends CursorPageParams {
 }
 
 export namespace UsageListWithGroupsParams {
+  /**
+   * @deprecated Use group_key and group_filters instead. Use a single group key to
+   * group by. Compound group keys are not supported.
+   */
   export interface GroupBy {
     /**
      * The name of the group_by key to use
