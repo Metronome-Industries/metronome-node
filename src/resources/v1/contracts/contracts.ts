@@ -1225,7 +1225,7 @@ export namespace ContractCreateParams {
        * not wish Metronome to calculate tax on your behalf. Leaving this field blank
        * will default to NONE.
        */
-      tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'AVALARA' | 'PRECALCULATED';
+      tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
     }
 
     export namespace PaymentGateConfig {
@@ -2854,7 +2854,7 @@ export namespace ContractAmendParams {
        * not wish Metronome to calculate tax on your behalf. Leaving this field blank
        * will default to NONE.
        */
-      tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'AVALARA' | 'PRECALCULATED';
+      tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
     }
 
     export namespace PaymentGateConfig {
