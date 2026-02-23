@@ -60,7 +60,7 @@ $ yarn link @metronome/sdk
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global @metronome/sdk
+$ pnpm link --global @metronome/sdk
 ```
 
 ## Running tests
