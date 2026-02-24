@@ -315,6 +315,11 @@ export interface RateAddParams {
   is_prorated?: boolean;
 
   /**
+   * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+   */
+  minimum_config?: RateAddParams.MinimumConfig;
+
+  /**
    * Default price. For FLAT and SUBSCRIPTION rate_type, this must be >=0. For
    * PERCENTAGE rate_type, this is a decimal fraction, e.g. use 0.1 for 10%; this
    * must be >=0 and <=1.
@@ -336,6 +341,15 @@ export interface RateAddParams {
    * Only set for TIERED rate_type.
    */
   tiers?: Array<Shared.Tier>;
+}
+
+export namespace RateAddParams {
+  /**
+   * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+   */
+  export interface MinimumConfig {
+    minimum: number;
+  }
 }
 
 export interface RateAddManyParams {
@@ -397,6 +411,11 @@ export namespace RateAddManyParams {
     is_prorated?: boolean;
 
     /**
+     * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+     */
+    minimum_config?: Rate.MinimumConfig;
+
+    /**
      * Default price. For FLAT and SUBSCRIPTION rate_type, this must be >=0. For
      * PERCENTAGE rate_type, this is a decimal fraction, e.g. use 0.1 for 10%; this
      * must be >=0 and <=1.
@@ -418,6 +437,15 @@ export namespace RateAddManyParams {
      * Only set for TIERED rate_type.
      */
     tiers?: Array<Shared.Tier>;
+  }
+
+  export namespace Rate {
+    /**
+     * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+     */
+    export interface MinimumConfig {
+      minimum: number;
+    }
   }
 }
 
