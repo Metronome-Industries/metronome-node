@@ -427,7 +427,14 @@ export interface CommitRate {
   rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
 
   /**
-   * Commit rate price. For FLAT rate_type, this must be >=0.
+   * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+   */
+  minimum_config?: CommitRate.MinimumConfig;
+
+  /**
+   * Commit rate price. For FLAT rate_type, this must be >=0. For PERCENTAGE
+   * rate_type, this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0
+   * and <=1.
    */
   price?: number;
 
@@ -435,6 +442,15 @@ export interface CommitRate {
    * Only set for TIERED rate_type.
    */
   tiers?: Array<Tier>;
+}
+
+export namespace CommitRate {
+  /**
+   * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+   */
+  export interface MinimumConfig {
+    minimum: number;
+  }
 }
 
 export interface CommitSpecifier {
@@ -3067,6 +3083,11 @@ export interface Rate {
   is_prorated?: boolean;
 
   /**
+   * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+   */
+  minimum_config?: Rate.MinimumConfig;
+
+  /**
    * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
    * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
    */
@@ -3087,6 +3108,15 @@ export interface Rate {
    * Only set for TIERED rate_type.
    */
   tiers?: Array<Tier>;
+}
+
+export namespace Rate {
+  /**
+   * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+   */
+  export interface MinimumConfig {
+    minimum: number;
+  }
 }
 
 export interface RecurringCommitSubscriptionConfig {
