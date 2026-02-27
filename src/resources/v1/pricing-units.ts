@@ -4,6 +4,9 @@ import { APIResource } from '../../core/resource';
 import { CursorPage, type CursorPageParams, PagePromise } from '../../core/pagination';
 import { RequestOptions } from '../../internal/request-options';
 
+/**
+ * Use these endpoints to configure a billing API key, a webhook secret, or invoice finalization behavior.
+ */
 export class PricingUnits extends APIResource {
   /**
    * List all pricing units. All fiat currency types (for example, USD or GBP) will

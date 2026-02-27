@@ -6,6 +6,9 @@ import { APIPromise } from '../../../../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../../../../core/pagination';
 import { RequestOptions } from '../../../../internal/request-options';
 
+/**
+ * Rate cards are used to define default pricing for products.
+ */
 export class Rates extends APIResource {
   /**
    * Understand the rate schedule at a given timestamp, optionally filtering the list

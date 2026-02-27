@@ -10,6 +10,9 @@ import {
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
+/**
+ * [Custom fields](https://docs.metronome.com/integrations/custom-fields/) enable adding additional data to Metronome entities. Use these endpoints to create, retrieve, update, and delete custom fields.
+ */
 export class CustomFields extends APIResource {
   /**
    * Creates a new custom field key for a given entity (e.g. billable metric,

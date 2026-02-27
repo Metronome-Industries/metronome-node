@@ -7,6 +7,9 @@ import { APIPromise } from '../../../core/api-promise';
 import { BodyCursorPage, type BodyCursorPageParams, PagePromise } from '../../../core/pagination';
 import { RequestOptions } from '../../../internal/request-options';
 
+/**
+ * Credits and commits are used to manage customer balances.
+ */
 export class Credits extends APIResource {
   /**
    * Creates customer-level credits that provide spending allowances or free credit

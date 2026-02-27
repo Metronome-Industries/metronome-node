@@ -7,6 +7,9 @@ import { APIPromise } from '../../../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../../../core/pagination';
 import { RequestOptions } from '../../../internal/request-options';
 
+/**
+ * Products are the items that customers purchase.
+ */
 export class Products extends APIResource {
   /**
    * Create a new product object. Products in Metronome represent your company's

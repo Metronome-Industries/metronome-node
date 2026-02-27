@@ -5,6 +5,9 @@ import { APIPromise } from '../../../../core/api-promise';
 import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 
+/**
+ * Named schedules are used for storing custom data that can change over time. Named schedules are often used in custom pricing logic.
+ */
 export class NamedSchedules extends APIResource {
   /**
    * Get a named schedule for the given contract. This endpoint's availability is
