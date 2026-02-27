@@ -641,6 +641,36 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/contract-pricing/rate-cards/updateNamedSchedule',
   },
   {
+    clientCallName: 'client.v1.packages.create',
+    fullyQualifiedName: 'v1.packages.create',
+    httpMethod: 'post',
+    httpPath: '/v1/packages/create',
+  },
+  {
+    clientCallName: 'client.v1.packages.retrieve',
+    fullyQualifiedName: 'v1.packages.retrieve',
+    httpMethod: 'post',
+    httpPath: '/v1/packages/get',
+  },
+  {
+    clientCallName: 'client.v1.packages.list',
+    fullyQualifiedName: 'v1.packages.list',
+    httpMethod: 'post',
+    httpPath: '/v1/packages/list',
+  },
+  {
+    clientCallName: 'client.v1.packages.archive',
+    fullyQualifiedName: 'v1.packages.archive',
+    httpMethod: 'post',
+    httpPath: '/v1/packages/archive',
+  },
+  {
+    clientCallName: 'client.v1.packages.listContractsOnPackage',
+    fullyQualifiedName: 'v1.packages.listContractsOnPackage',
+    httpMethod: 'post',
+    httpPath: '/v1/packages/listContractsOnPackage',
+  },
+  {
     clientCallName: 'client.v1.payments.list',
     fullyQualifiedName: 'v1.payments.list',
     httpMethod: 'post',
