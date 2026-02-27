@@ -4,6 +4,9 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
+/**
+ * [Customers](https://docs.metronome.com/provisioning/create-customers/) in Metronome represent your users for all billing and reporting. Use these endpoints to create, retrieve, update, and archive customers and their billing configuration.
+ */
 export class Dashboards extends APIResource {
   /**
    * Generate secure, embeddable dashboard URLs that allow you to seamlessly

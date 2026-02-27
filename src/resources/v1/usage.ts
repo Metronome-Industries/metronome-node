@@ -13,6 +13,9 @@ import {
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
+/**
+ * [Usage events](https://docs.metronome.com/connecting-metronome/send-usage-data/) are the basis for billable metrics. Use these endpoints to send usage events to Metronome and retrieve aggregated event data.
+ */
 export class Usage extends APIResource {
   /**
    * Retrieve aggregated usage data across multiple customers and billable metrics in

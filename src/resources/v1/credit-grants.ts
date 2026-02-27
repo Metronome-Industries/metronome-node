@@ -13,6 +13,9 @@ import {
 } from '../../core/pagination';
 import { RequestOptions } from '../../internal/request-options';
 
+/**
+ * [Credit grants](https://docs.metronome.com/invoicing/how-billing-works/manage-credits/) adjust a customer balance for prepayments, reimbursements, promotions, and so on. Use these endpoints to create, retrieve, update, and delete credit grants.
+ */
 export class CreditGrants extends APIResource {
   /**
    * Create a new credit grant. This is a Plans (deprecated) endpoint. New clients

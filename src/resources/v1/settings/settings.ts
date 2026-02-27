@@ -12,6 +12,9 @@ import {
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
+/**
+ * Use these endpoints to configure a billing API key, a webhook secret, or invoice finalization behavior.
+ */
 export class Settings extends APIResource {
   billingProviders: BillingProvidersAPI.BillingProviders = new BillingProvidersAPI.BillingProviders(
     this._client,

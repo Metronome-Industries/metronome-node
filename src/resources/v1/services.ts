@@ -4,6 +4,9 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
+/**
+ * [Security](https://docs.metronome.com/developer-resources/security/) endpoints allow you to retrieve security-related data.
+ */
 export class Services extends APIResource {
   /**
    * Gets Metronome's service registry with associated IP addresses for security

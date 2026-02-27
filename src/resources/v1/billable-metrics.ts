@@ -7,6 +7,9 @@ import { CursorPage, type CursorPageParams, PagePromise } from '../../core/pagin
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
+/**
+ * [Billable metrics](https://docs.metronome.com/understanding-metronome/how-metronome-works#billable-metrics) in Metronome represent the various consumption components that Metronome meters and aggregates.
+ */
 export class BillableMetrics extends APIResource {
   /**
    * Create billable metrics programmatically with this endpoint—an essential step in

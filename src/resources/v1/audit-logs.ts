@@ -4,6 +4,9 @@ import { APIResource } from '../../core/resource';
 import { CursorPage, type CursorPageParams, PagePromise } from '../../core/pagination';
 import { RequestOptions } from '../../internal/request-options';
 
+/**
+ * [Security](https://docs.metronome.com/developer-resources/security/) endpoints allow you to retrieve security-related data.
+ */
 export class AuditLogs extends APIResource {
   /**
    * Get a comprehensive audit trail of all operations performed in your Metronome
