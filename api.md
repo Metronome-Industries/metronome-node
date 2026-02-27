@@ -459,6 +459,24 @@ Methods:
 - <code title="post /v1/contract-pricing/rate-cards/getNamedSchedule">client.v1.contracts.namedSchedules.<a href="./src/resources/v1/contracts/named-schedules.ts">retrieve</a>({ ...params }) -> NamedScheduleRetrieveResponse</code>
 - <code title="post /v1/contract-pricing/rate-cards/updateNamedSchedule">client.v1.contracts.namedSchedules.<a href="./src/resources/v1/contracts/named-schedules.ts">update</a>({ ...params }) -> void</code>
 
+## Packages
+
+Types:
+
+- <code><a href="./src/resources/v1/packages.ts">PackageCreateResponse</a></code>
+- <code><a href="./src/resources/v1/packages.ts">PackageRetrieveResponse</a></code>
+- <code><a href="./src/resources/v1/packages.ts">PackageListResponse</a></code>
+- <code><a href="./src/resources/v1/packages.ts">PackageArchiveResponse</a></code>
+- <code><a href="./src/resources/v1/packages.ts">PackageListContractsOnPackageResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/packages/create">client.v1.packages.<a href="./src/resources/v1/packages.ts">create</a>({ ...params }) -> PackageCreateResponse</code>
+- <code title="post /v1/packages/get">client.v1.packages.<a href="./src/resources/v1/packages.ts">retrieve</a>({ ...params }) -> PackageRetrieveResponse</code>
+- <code title="post /v1/packages/list">client.v1.packages.<a href="./src/resources/v1/packages.ts">list</a>({ ...params }) -> PackageListResponsesCursorPage</code>
+- <code title="post /v1/packages/archive">client.v1.packages.<a href="./src/resources/v1/packages.ts">archive</a>({ ...params }) -> PackageArchiveResponse</code>
+- <code title="post /v1/packages/listContractsOnPackage">client.v1.packages.<a href="./src/resources/v1/packages.ts">listContractsOnPackage</a>({ ...params }) -> PackageListContractsOnPackageResponsesCursorPage</code>
+
 ## Payments
 
 Types:
