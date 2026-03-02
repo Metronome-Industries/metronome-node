@@ -5,6 +5,9 @@ import * as Shared from '../shared';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
+/**
+ * [Alerts](https://docs.metronome.com/connecting-metronome/alerts/) monitor customer spending, balances, and other billing factors. Use these endpoints to create, retrieve, and archive customer alerts. To view sample alert payloads by alert type, navigate [here.](https://docs.metronome.com/manage-product-access/create-manage-alerts/#webhook-notifications)
+ */
 export class Alerts extends APIResource {
   /**
    * Create a new threshold notification to monitor customer spending, balances, and

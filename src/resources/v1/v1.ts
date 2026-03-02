@@ -69,6 +69,22 @@ import {
   InvoiceVoidResponse,
   Invoices,
 } from './invoices';
+import * as PackagesAPI from './packages';
+import {
+  PackageArchiveParams,
+  PackageArchiveResponse,
+  PackageCreateParams,
+  PackageCreateResponse,
+  PackageListContractsOnPackageParams,
+  PackageListContractsOnPackageResponse,
+  PackageListContractsOnPackageResponsesCursorPage,
+  PackageListParams,
+  PackageListResponse,
+  PackageListResponsesCursorPage,
+  PackageRetrieveParams,
+  PackageRetrieveResponse,
+  Packages,
+} from './packages';
 import * as PaymentsAPI from './payments';
 import {
   Payment,
@@ -201,6 +217,7 @@ export class V1 extends APIResource {
   services: ServicesAPI.Services = new ServicesAPI.Services(this._client);
   invoices: InvoicesAPI.Invoices = new InvoicesAPI.Invoices(this._client);
   contracts: ContractsAPI.Contracts = new ContractsAPI.Contracts(this._client);
+  packages: PackagesAPI.Packages = new PackagesAPI.Packages(this._client);
   payments: PaymentsAPI.Payments = new PaymentsAPI.Payments(this._client);
   settings: SettingsAPI.Settings = new SettingsAPI.Settings(this._client);
 }
@@ -218,6 +235,7 @@ V1.BillableMetrics = BillableMetrics;
 V1.Services = Services;
 V1.Invoices = Invoices;
 V1.Contracts = Contracts;
+V1.Packages = Packages;
 V1.Payments = Payments;
 V1.Settings = Settings;
 
@@ -391,6 +409,22 @@ export declare namespace V1 {
     type ContractScheduleProServicesInvoiceParams as ContractScheduleProServicesInvoiceParams,
     type ContractSetUsageFilterParams as ContractSetUsageFilterParams,
     type ContractUpdateEndDateParams as ContractUpdateEndDateParams,
+  };
+
+  export {
+    Packages as Packages,
+    type PackageCreateResponse as PackageCreateResponse,
+    type PackageRetrieveResponse as PackageRetrieveResponse,
+    type PackageListResponse as PackageListResponse,
+    type PackageArchiveResponse as PackageArchiveResponse,
+    type PackageListContractsOnPackageResponse as PackageListContractsOnPackageResponse,
+    type PackageListResponsesCursorPage as PackageListResponsesCursorPage,
+    type PackageListContractsOnPackageResponsesCursorPage as PackageListContractsOnPackageResponsesCursorPage,
+    type PackageCreateParams as PackageCreateParams,
+    type PackageRetrieveParams as PackageRetrieveParams,
+    type PackageListParams as PackageListParams,
+    type PackageArchiveParams as PackageArchiveParams,
+    type PackageListContractsOnPackageParams as PackageListContractsOnPackageParams,
   };
 
   export {

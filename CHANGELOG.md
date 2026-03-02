@@ -1,5 +1,54 @@
 # Changelog
 
+## 3.2.0 (2026-03-02)
+
+Full Changelog: [v3.1.0...v3.2.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.1.0...v3.2.0)
+
+### Features
+
+* [ORCH-1333] removes AVALARA enum value from PaymetGateConfig ([8a25034](https://github.com/Metronome-Industries/metronome-node/commit/8a250343cd89cc68680f9cb1e2c876816f1f43af))
+* [orch-759] add `archiveCustomerRevenueSystemConfigurations` endpoint to API ([f4ba821](https://github.com/Metronome-Industries/metronome-node/commit/f4ba82148f1c97f2f860ed47626553457f6e5f87))
+* Add minimum config to percentage and tiered percentage overwrites ([8bfa0e0](https://github.com/Metronome-Industries/metronome-node/commit/8bfa0e0785928dab8bb81ad0b73d46a2052c33ec))
+* **api:** add minimum_config to rates/commits, specialized override tier types ([36f6467](https://github.com/Metronome-Industries/metronome-node/commit/36f646764d5839967509de55a1670504582a2827))
+* **api:** add subscription_id field to invoice line items ([5b83788](https://github.com/Metronome-Industries/metronome-node/commit/5b83788700ea3b6b186a8880cf4985b6ced0b57b))
+* **api:** support compound group keys in `v1/usage/groups` endpoint ([a93c3cb](https://github.com/Metronome-Industries/metronome-node/commit/a93c3cb131bd0a3b4015c6650db189ce91c76edb))
+* **mcp:** add an option to disable code tool ([cef59c7](https://github.com/Metronome-Industries/metronome-node/commit/cef59c79b02d672c1b4ae3450f85bcb40f1398cd))
+* update stainless sdk to include new package endpoints ([01b01ac](https://github.com/Metronome-Industries/metronome-node/commit/01b01ac0d80e6fb503dc83fad908a0cd2f8f4468))
+
+
+### Bug Fixes
+
+* **api:** remove priority field from contracts ([2f1356e](https://github.com/Metronome-Industries/metronome-node/commit/2f1356e65de6fecf63d1753f77f013b00d13d6f8))
+* **client:** avoid removing abort listener too early ([5f010ff](https://github.com/Metronome-Industries/metronome-node/commit/5f010ff5e7af65bdf8ac0704c636472f97f31022))
+* **docs/contributing:** correct pnpm link command ([f7bc6b6](https://github.com/Metronome-Industries/metronome-node/commit/f7bc6b616bdd3aca773a111a96ca4a54b70b0545))
+* **mcp:** initialize SDK lazily to avoid failing the connection on init errors ([be0f3ce](https://github.com/Metronome-Industries/metronome-node/commit/be0f3ce8836d31b2fef026fa6f0f7627e9af8a32))
+* **mcp:** update prompt ([266589e](https://github.com/Metronome-Industries/metronome-node/commit/266589e8362c12e133cee84263602cf08355f5c1))
+
+
+### Chores
+
+* configure new SDK language ([76292ee](https://github.com/Metronome-Industries/metronome-node/commit/76292ee62a97fc091adb86b1d0c509ad56edec8c))
+* **docs:** add missing descriptions ([561ba99](https://github.com/Metronome-Industries/metronome-node/commit/561ba998bf2edc412470dee592b754f3846b4396))
+* **internal/client:** fix form-urlencoded requests ([25936a0](https://github.com/Metronome-Industries/metronome-node/commit/25936a02a1234ab6b82244592be766e4ee51a2e0))
+* **internal:** add health check to MCP server when running in HTTP mode ([a592297](https://github.com/Metronome-Industries/metronome-node/commit/a5922977ab7250a61163399b43e905803a357a5b))
+* **internal:** allow basic filtering of methods allowed for MCP code mode ([4080a7b](https://github.com/Metronome-Industries/metronome-node/commit/4080a7b7bdd82626cafc8d128e5d1bee2661b7b9))
+* **internal:** allow setting x-stainless-api-key header on mcp server requests ([f5e13fa](https://github.com/Metronome-Industries/metronome-node/commit/f5e13fad01b449e2b72d65f5ef088e3e2b45d167))
+* **internal:** always generate MCP server dockerfiles and upgrade associated dependencies ([1983ed8](https://github.com/Metronome-Industries/metronome-node/commit/1983ed80a6d741df391df90bca9028d1cc3b1adb))
+* **internal:** avoid type checking errors with ts-reset ([84ce8b8](https://github.com/Metronome-Industries/metronome-node/commit/84ce8b8058b6d6e567313715edb4535e797b53f6))
+* **internal:** cache fetch instruction calls in MCP server ([621890b](https://github.com/Metronome-Industries/metronome-node/commit/621890b2a694b0b53d0142ef049ec8a7628166c1))
+* **internal:** fix MCP Dockerfiles so they can be built without buildkit ([b3b8095](https://github.com/Metronome-Industries/metronome-node/commit/b3b809531c69e5d68bccab436b2b5299df0b5ca8))
+* **internal:** fix MCP Dockerfiles so they can be built without buildkit ([00b6eeb](https://github.com/Metronome-Industries/metronome-node/commit/00b6eebe460cca9c268aa420d2ceeee7d693ab1b))
+* **internal:** fix pagination internals not accepting option promises ([4217c8f](https://github.com/Metronome-Industries/metronome-node/commit/4217c8f61bed1c9717cc411875165bc783a8db13))
+* **internal:** improve layout of generated MCP server files ([113bc6a](https://github.com/Metronome-Industries/metronome-node/commit/113bc6a9bcce94bd5a8f85e33cd262881f85fb2c))
+* **internal:** make MCP code execution location configurable via a flag ([e18ab57](https://github.com/Metronome-Industries/metronome-node/commit/e18ab571b155102b963ca01f19e13c5dcaf54d4d))
+* **internal:** move stringifyQuery implementation to internal function ([e54ad54](https://github.com/Metronome-Industries/metronome-node/commit/e54ad54f1845b81dbe486aa751d4df8e2a66458e))
+* **internal:** switch MCP servers to use pino for logging ([d74b7f2](https://github.com/Metronome-Industries/metronome-node/commit/d74b7f22a31a37e171d329242c5ad6f597fb2f50))
+* **internal:** upgrade @modelcontextprotocol/sdk and hono ([5881625](https://github.com/Metronome-Industries/metronome-node/commit/588162552888bfe9f34735fe201bbe39520fca34))
+* **mcp:** correctly update version in sync with sdk ([5432e2d](https://github.com/Metronome-Industries/metronome-node/commit/5432e2dfd5c059d6cd578c822507cfbf479fbcf3))
+* **mcp:** forward STAINLESS_API_KEY to docs search endpoint ([64973ff](https://github.com/Metronome-Industries/metronome-node/commit/64973ffc64c613f32c4808de52b712d04aef8b44))
+* **tests:** add netsuite billing provider test cases and examples ([dca79bf](https://github.com/Metronome-Industries/metronome-node/commit/dca79bf40399ba4102bea3a9990f05a8fa0fe95e))
+* update mock server docs ([c7c826a](https://github.com/Metronome-Industries/metronome-node/commit/c7c826a352a9fe4496dc13b755f9551ef7c31216))
+
 ## 3.1.0 (2026-02-04)
 
 Full Changelog: [v3.0.0...v3.1.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.0.0...v3.1.0)

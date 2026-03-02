@@ -11,7 +11,7 @@ import type { APIResponseProps } from './internal/parse';
 import { getPlatformHeaders } from './internal/detect-platform';
 import * as Shims from './internal/shims';
 import * as Opts from './internal/request-options';
-import * as qs from './internal/qs';
+import { stringifyQuery } from './internal/utils/query';
 import { VERSION } from './version';
 import * as Errors from './core/error';
 import * as Pagination from './core/pagination';
@@ -233,8 +233,8 @@ export class Metronome {
     return buildHeaders([{ Authorization: `Bearer ${this.bearerToken}` }]);
   }
 
-  protected stringifyQuery(query: Record<string, unknown>): string {
-    return qs.stringify(query, { arrayFormat: 'comma' });
+  protected stringifyQuery(query: object | Record<string, unknown>): string {
+    return stringifyQuery(query);
   }
 
   private getUserAgent(): string {
@@ -271,7 +271,7 @@ export class Metronome {
     }
 
     if (typeof query === 'object' && query && !Array.isArray(query)) {
-      url.search = this.stringifyQuery(query as Record<string, unknown>);
+      url.search = this.stringifyQuery(query);
     }
 
     return url.toString();
@@ -455,7 +455,7 @@ export class Metronome {
       loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
 
       const errText = await response.text().catch((err: any) => castToError(err).message);
-      const errJSON = safeJSON(errText);
+      const errJSON = safeJSON(errText) as any;
       const errMessage = errJSON ? undefined : errText;
 
       loggerFor(this).debug(
@@ -492,9 +492,14 @@ export class Metronome {
   getAPIList<Item, PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>>(
     path: string,
     Page: new (...args: any[]) => PageClass,
-    opts?: RequestOptions,
+    opts?: PromiseOrValue<RequestOptions>,
   ): Pagination.PagePromise<PageClass, Item> {
-    return this.requestAPIList(Page, { method: 'get', path, ...opts });
+    return this.requestAPIList(
+      Page,
+      opts && 'then' in opts ?
+        opts.then((opts) => ({ method: 'get', path, ...opts }))
+      : { method: 'get', path, ...opts },
+    );
   }
 
   requestAPIList<
@@ -502,7 +507,7 @@ export class Metronome {
     PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>,
   >(
     Page: new (...args: ConstructorParameters<typeof Pagination.AbstractPage>) => PageClass,
-    options: FinalRequestOptions,
+    options: PromiseOrValue<FinalRequestOptions>,
   ): Pagination.PagePromise<PageClass, Item> {
     const request = this.makeRequest(options, null, undefined);
     return new Pagination.PagePromise<PageClass, Item>(this as any as Metronome, request, Page);
@@ -541,7 +546,6 @@ export class Metronome {
       return await this.fetch.call(undefined, url, fetchOptions);
     } finally {
       clearTimeout(timeout);
-      if (signal) signal.removeEventListener('abort', abort);
     }
   }
 
@@ -724,6 +728,14 @@ export class Metronome {
         (Symbol.iterator in body && 'next' in body && typeof body.next === 'function'))
     ) {
       return { bodyHeaders: undefined, body: Shims.ReadableStreamFrom(body as AsyncIterable<Uint8Array>) };
+    } else if (
+      typeof body === 'object' &&
+      headers.values.get('content-type') === 'application/x-www-form-urlencoded'
+    ) {
+      return {
+        bodyHeaders: { 'content-type': 'application/x-www-form-urlencoded' },
+        body: this.stringifyQuery(body),
+      };
     } else {
       return this.#encoder({ body, headers });
     }

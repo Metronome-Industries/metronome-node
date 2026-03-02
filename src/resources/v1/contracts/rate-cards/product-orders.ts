@@ -5,6 +5,9 @@ import * as Shared from '../../../shared';
 import { APIPromise } from '../../../../core/api-promise';
 import { RequestOptions } from '../../../../internal/request-options';
 
+/**
+ * Rate cards are used to define default pricing for products.
+ */
 export class ProductOrders extends APIResource {
   /**
    * The ordering of products on a rate card determines the order in which the

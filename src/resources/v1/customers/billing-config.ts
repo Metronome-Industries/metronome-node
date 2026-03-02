@@ -6,6 +6,9 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
+/**
+ * [Customers](https://docs.metronome.com/provisioning/create-customers/) in Metronome represent your users for all billing and reporting. Use these endpoints to create, retrieve, update, and archive customers and their billing configuration.
+ */
 export class BillingConfig extends APIResource {
   /**
    * Set the billing configuration for a given customer. This is a Plans (deprecated)

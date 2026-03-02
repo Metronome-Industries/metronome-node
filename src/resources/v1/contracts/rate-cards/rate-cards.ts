@@ -32,6 +32,9 @@ import { APIPromise } from '../../../../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../../../../core/pagination';
 import { RequestOptions } from '../../../../internal/request-options';
 
+/**
+ * Rate cards are used to define default pricing for products.
+ */
 export class RateCards extends APIResource {
   productOrders: ProductOrdersAPI.ProductOrders = new ProductOrdersAPI.ProductOrders(this._client);
   rates: RatesAPI.Rates = new RatesAPI.Rates(this._client);

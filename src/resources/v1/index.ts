@@ -125,6 +125,21 @@ export {
   type InvoiceVoidParams,
 } from './invoices';
 export {
+  Packages,
+  type PackageCreateResponse,
+  type PackageRetrieveResponse,
+  type PackageListResponse,
+  type PackageArchiveResponse,
+  type PackageListContractsOnPackageResponse,
+  type PackageCreateParams,
+  type PackageRetrieveParams,
+  type PackageListParams,
+  type PackageArchiveParams,
+  type PackageListContractsOnPackageParams,
+  type PackageListResponsesCursorPage,
+  type PackageListContractsOnPackageResponsesCursorPage,
+} from './packages';
+export {
   Payments,
   type Payment,
   type PaymentStatus,

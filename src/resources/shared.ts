@@ -427,7 +427,14 @@ export interface CommitRate {
   rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
 
   /**
-   * Commit rate price. For FLAT rate_type, this must be >=0.
+   * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+   */
+  minimum_config?: CommitRate.MinimumConfig;
+
+  /**
+   * Commit rate price. For FLAT rate_type, this must be >=0. For PERCENTAGE
+   * rate_type, this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0
+   * and <=1.
    */
   price?: number;
 
@@ -435,6 +442,15 @@ export interface CommitRate {
    * Only set for TIERED rate_type.
    */
   tiers?: Array<Tier>;
+}
+
+export namespace CommitRate {
+  /**
+   * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+   */
+  export interface MinimumConfig {
+    minimum: number;
+  }
 }
 
 export interface CommitSpecifier {
@@ -512,11 +528,6 @@ export interface Contract {
   package_id?: string;
 
   prepaid_balance_threshold_configuration?: PrepaidBalanceThresholdConfiguration;
-
-  /**
-   * Priority of the contract.
-   */
-  priority?: number;
 
   /**
    * Determines which scheduled and commit charges to consolidate onto the Contract's
@@ -1148,6 +1159,11 @@ export namespace ContractV2 {
       is_prorated?: boolean;
 
       /**
+       * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+       */
+      minimum_config?: OverwriteRate.MinimumConfig;
+
+      /**
        * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
        * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
        */
@@ -1162,6 +1178,15 @@ export namespace ContractV2 {
        * Only set for TIERED rate_type.
        */
       tiers?: Array<Shared.Tier>;
+    }
+
+    export namespace OverwriteRate {
+      /**
+       * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+       */
+      export interface MinimumConfig {
+        minimum: number;
+      }
     }
 
     export interface Product {
@@ -2734,6 +2759,11 @@ export interface OverwriteRate {
   is_prorated?: boolean;
 
   /**
+   * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+   */
+  minimum_config?: OverwriteRate.MinimumConfig;
+
+  /**
    * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
    * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
    */
@@ -2748,6 +2778,15 @@ export interface OverwriteRate {
    * Only set for TIERED rate_type.
    */
   tiers?: Array<Tier>;
+}
+
+export namespace OverwriteRate {
+  /**
+   * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+   */
+  export interface MinimumConfig {
+    minimum: number;
+  }
 }
 
 export interface PaymentGateConfig {
@@ -2774,7 +2813,7 @@ export interface PaymentGateConfig {
    * not wish Metronome to calculate tax on your behalf. Leaving this field blank
    * will default to NONE.
    */
-  tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'AVALARA' | 'PRECALCULATED';
+  tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
 }
 
 export namespace PaymentGateConfig {
@@ -2836,7 +2875,7 @@ export interface PaymentGateConfigV2 {
    * not wish Metronome to calculate tax on your behalf. Leaving this field blank
    * will default to NONE.
    */
-  tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'AVALARA' | 'PRECALCULATED';
+  tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
 }
 
 export namespace PaymentGateConfigV2 {
@@ -3072,6 +3111,11 @@ export interface Rate {
   is_prorated?: boolean;
 
   /**
+   * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+   */
+  minimum_config?: Rate.MinimumConfig;
+
+  /**
    * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
    * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
    */
@@ -3092,6 +3136,15 @@ export interface Rate {
    * Only set for TIERED rate_type.
    */
   tiers?: Array<Tier>;
+}
+
+export namespace Rate {
+  /**
+   * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+   */
+  export interface MinimumConfig {
+    minimum: number;
+  }
 }
 
 export interface RecurringCommitSubscriptionConfig {
