@@ -233,6 +233,7 @@ describe('resource contracts', () => {
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             custom_rate: { foo: 'bar' },
             is_prorated: true,
+            minimum_config: { minimum: 0 },
             price: 0,
             quantity: 0,
             tiers: [{ price: 0, size: 0 }],

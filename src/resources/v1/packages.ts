@@ -2383,6 +2383,11 @@ export namespace PackageCreateParams {
       is_prorated?: boolean;
 
       /**
+       * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+       */
+      minimum_config?: OverwriteRate.MinimumConfig;
+
+      /**
        * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
        * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
        */
@@ -2397,6 +2402,15 @@ export namespace PackageCreateParams {
        * Only set for TIERED rate_type.
        */
       tiers?: Array<Shared.Tier>;
+    }
+
+    export namespace OverwriteRate {
+      /**
+       * Only set for TIERED_PERCENTAGE or PERCENTAGE rate_type.
+       */
+      export interface MinimumConfig {
+        minimum: number;
+      }
     }
 
     export interface Tier {
