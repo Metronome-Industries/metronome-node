@@ -20,7 +20,7 @@ export const newMcpServer = async (stainlessApiKey: string | undefined) =>
   new McpServer(
     {
       name: 'metronome_sdk_api',
-      version: '3.1.0',
+      version: '3.2.0',
     },
     {
       instructions: await getInstructions(stainlessApiKey),
