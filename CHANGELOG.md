@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.3.0 (2026-03-03)
+
+Full Changelog: [v3.2.0...v3.3.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.2.0...v3.3.0)
+
+### Features
+
+* Skip stainless for non-GA's minimum config ([606192b](https://github.com/Metronome-Industries/metronome-node/commit/606192b72ac7b06189a1fbbd6b901e0bfa0eef92))
+
+
+### Chores
+
+* **mcp-server:** return access instructions for 404 without API key ([a9be3e9](https://github.com/Metronome-Industries/metronome-node/commit/a9be3e955d18b99f20707ce76248c2332fd063c8))
+
 ## 3.2.0 (2026-03-02)
 
 Full Changelog: [v3.1.0...v3.2.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.1.0...v3.2.0)
