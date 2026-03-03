@@ -67,7 +67,6 @@ describe('resource rates', () => {
       billing_frequency: 'MONTHLY',
       commit_rate: {
         rate_type: 'FLAT',
-        minimum_config: { minimum: 0 },
         price: 0,
         tiers: [{ price: 0, size: 0 }],
       },
@@ -75,7 +74,6 @@ describe('resource rates', () => {
       custom_rate: { foo: 'bar' },
       ending_before: '2019-12-27T18:11:19.117Z',
       is_prorated: true,
-      minimum_config: { minimum: 0 },
       price: 100,
       pricing_group_values: { foo: 'string' },
       quantity: 0,
@@ -122,7 +120,6 @@ describe('resource rates', () => {
           billing_frequency: 'MONTHLY',
           commit_rate: {
             rate_type: 'FLAT',
-            minimum_config: { minimum: 0 },
             price: 0,
             tiers: [{ price: 0, size: 0 }],
           },
@@ -130,7 +127,6 @@ describe('resource rates', () => {
           custom_rate: { foo: 'bar' },
           ending_before: '2019-12-27T18:11:19.117Z',
           is_prorated: true,
-          minimum_config: { minimum: 0 },
           price: 100,
           pricing_group_values: { region: 'us-west-2', cloud: 'aws' },
           quantity: 0,
@@ -144,7 +140,6 @@ describe('resource rates', () => {
           billing_frequency: 'MONTHLY',
           commit_rate: {
             rate_type: 'FLAT',
-            minimum_config: { minimum: 0 },
             price: 0,
             tiers: [{ price: 0, size: 0 }],
           },
@@ -152,7 +147,6 @@ describe('resource rates', () => {
           custom_rate: { foo: 'bar' },
           ending_before: '2019-12-27T18:11:19.117Z',
           is_prorated: true,
-          minimum_config: { minimum: 0 },
           price: 120,
           pricing_group_values: { region: 'us-east-2', cloud: 'aws' },
           quantity: 0,
