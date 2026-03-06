@@ -117,6 +117,33 @@ describe('resource customers', () => {
     const response = await client.v1.customers.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
   });
 
+  test('archiveBillingConfigurations: only required params', async () => {
+    const responsePromise = client.v1.customers.archiveBillingConfigurations({
+      customer_billing_provider_configuration_ids: [
+        '4db51251-61de-4bfe-b9ce-495e244f3491',
+        '4db51251-61de-4bfe-b9ce-495e244f3491',
+      ],
+      customer_id: '20a060d1-aa80-41d4-8bb2-4f3091b93903',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('archiveBillingConfigurations: required and optional params', async () => {
+    const response = await client.v1.customers.archiveBillingConfigurations({
+      customer_billing_provider_configuration_ids: [
+        '4db51251-61de-4bfe-b9ce-495e244f3491',
+        '4db51251-61de-4bfe-b9ce-495e244f3491',
+      ],
+      customer_id: '20a060d1-aa80-41d4-8bb2-4f3091b93903',
+    });
+  });
+
   test('listBillableMetrics: only required params', async () => {
     const responsePromise = client.v1.customers.listBillableMetrics({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
