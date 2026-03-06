@@ -1330,6 +1330,11 @@ export namespace ContractCreateParams {
     rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
 
     /**
+     * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
+     */
+    rollover_fraction?: number;
+
+    /**
      * List of filters that determine what kind of customer usage draws down a commit
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
@@ -2957,6 +2962,11 @@ export namespace ContractAmendParams {
     priority?: number;
 
     rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
+    /**
+     * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
+     */
+    rollover_fraction?: number;
 
     /**
      * List of filters that determine what kind of customer usage draws down a commit
