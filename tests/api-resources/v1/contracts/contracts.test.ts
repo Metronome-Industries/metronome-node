@@ -120,6 +120,7 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
           rate_type: 'COMMIT_RATE',
+          rollover_fraction: 0,
           specifiers: [
             {
               presentation_group_values: { foo: 'string' },
@@ -636,6 +637,7 @@ describe('resource contracts', () => {
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           priority: 0,
           rate_type: 'COMMIT_RATE',
+          rollover_fraction: 0,
           specifiers: [
             {
               presentation_group_values: { foo: 'string' },
