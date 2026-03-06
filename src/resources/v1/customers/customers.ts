@@ -218,6 +218,57 @@ export class Customers extends APIResource {
   }
 
   /**
+   * Deprecate an existing billing configuration for a customer to handle churn or
+   * billing and collection preference changes. Archiving a billing configuration
+   * takes effect immediately. If there are active contracts using the configuration,
+   * Metronome will archive the configuration on the contract and immediately stop
+   * metering to downstream systems.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Remove billing provider customer data and configurations when no longer needed
+   * - Clean up test or deprecated billing provider configurations
+   * - Free up uniqueness keys for reuse with new billing provider configurations
+   * - Disable threshold recharge configurations associated with archived billing
+   *   providers
+   *
+   * ### Key response fields:
+   *
+   * A successful response returns:
+   *
+   * - `success`: Boolean indicating the operation completed successfully
+   * - `error`: Null on success, error message on failure
+   *
+   * ### Usage guidelines:
+   *
+   * - Archiving a contract configuration during a grace period will result in the
+   *   invoice not being sent to the customer
+   * - Automatically disables both spend-based and credit-based threshold recharge
+   *   configurations for contracts using the archived billing provider
+   * - You can archive multiple configurations for a single customer in a single
+   *   request, but any validation failures for an individual configuration will
+   *   prevent the entire operation from succeeding
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.customers.archiveBillingConfigurations({
+   *     customer_billing_provider_configuration_ids: [
+   *       '4db51251-61de-4bfe-b9ce-495e244f3491',
+   *       '4db51251-61de-4bfe-b9ce-495e244f3491',
+   *     ],
+   *     customer_id: '20a060d1-aa80-41d4-8bb2-4f3091b93903',
+   *   });
+   * ```
+   */
+  archiveBillingConfigurations(
+    body: CustomerArchiveBillingConfigurationsParams,
+    options?: RequestOptions,
+  ): APIPromise<CustomerArchiveBillingConfigurationsResponse> {
+    return this._client.post('/v1/archiveCustomerBillingProviderConfigurations', { body, ...options });
+  }
+
+  /**
    * Get all billable metrics available for a specific customer. Supports pagination
    * and filtering by current plan status or archived metrics. Use this endpoint to
    * see which metrics are being tracked for billing calculations for a given
@@ -606,6 +657,24 @@ export interface CustomerRetrieveResponse {
 
 export interface CustomerArchiveResponse {
   data: Shared.ID;
+}
+
+export interface CustomerArchiveBillingConfigurationsResponse {
+  data: CustomerArchiveBillingConfigurationsResponse.Data;
+}
+
+export namespace CustomerArchiveBillingConfigurationsResponse {
+  export interface Data {
+    /**
+     * Array of billing provider configuration IDs to archive
+     */
+    customer_billing_provider_configuration_ids: Array<string>;
+
+    /**
+     * The customer ID the billing provider configurations belong to
+     */
+    customer_id: string;
+  }
 }
 
 export interface CustomerListBillableMetricsResponse {
@@ -1007,6 +1076,18 @@ export interface CustomerArchiveParams {
   id: string;
 }
 
+export interface CustomerArchiveBillingConfigurationsParams {
+  /**
+   * Array of billing provider configuration IDs to archive
+   */
+  customer_billing_provider_configuration_ids: Array<string>;
+
+  /**
+   * The customer ID the billing provider configurations belong to
+   */
+  customer_id: string;
+}
+
 export interface CustomerListBillableMetricsParams extends CursorPageParams {
   /**
    * Path param
@@ -1208,6 +1289,7 @@ export declare namespace Customers {
     type CustomerCreateResponse as CustomerCreateResponse,
     type CustomerRetrieveResponse as CustomerRetrieveResponse,
     type CustomerArchiveResponse as CustomerArchiveResponse,
+    type CustomerArchiveBillingConfigurationsResponse as CustomerArchiveBillingConfigurationsResponse,
     type CustomerListBillableMetricsResponse as CustomerListBillableMetricsResponse,
     type CustomerListCostsResponse as CustomerListCostsResponse,
     type CustomerPreviewEventsResponse as CustomerPreviewEventsResponse,
@@ -1221,6 +1303,7 @@ export declare namespace Customers {
     type CustomerRetrieveParams as CustomerRetrieveParams,
     type CustomerListParams as CustomerListParams,
     type CustomerArchiveParams as CustomerArchiveParams,
+    type CustomerArchiveBillingConfigurationsParams as CustomerArchiveBillingConfigurationsParams,
     type CustomerListBillableMetricsParams as CustomerListBillableMetricsParams,
     type CustomerListCostsParams as CustomerListCostsParams,
     type CustomerPreviewEventsParams as CustomerPreviewEventsParams,

@@ -169,6 +169,8 @@ import {
 import * as CustomersAPI from './customers/customers';
 import {
   Customer,
+  CustomerArchiveBillingConfigurationsParams,
+  CustomerArchiveBillingConfigurationsResponse,
   CustomerArchiveParams,
   CustomerArchiveResponse,
   CustomerCreateParams,
@@ -297,6 +299,7 @@ export declare namespace V1 {
     type CustomerCreateResponse as CustomerCreateResponse,
     type CustomerRetrieveResponse as CustomerRetrieveResponse,
     type CustomerArchiveResponse as CustomerArchiveResponse,
+    type CustomerArchiveBillingConfigurationsResponse as CustomerArchiveBillingConfigurationsResponse,
     type CustomerListBillableMetricsResponse as CustomerListBillableMetricsResponse,
     type CustomerListCostsResponse as CustomerListCostsResponse,
     type CustomerPreviewEventsResponse as CustomerPreviewEventsResponse,
@@ -310,6 +313,7 @@ export declare namespace V1 {
     type CustomerRetrieveParams as CustomerRetrieveParams,
     type CustomerListParams as CustomerListParams,
     type CustomerArchiveParams as CustomerArchiveParams,
+    type CustomerArchiveBillingConfigurationsParams as CustomerArchiveBillingConfigurationsParams,
     type CustomerListBillableMetricsParams as CustomerListBillableMetricsParams,
     type CustomerListCostsParams as CustomerListCostsParams,
     type CustomerPreviewEventsParams as CustomerPreviewEventsParams,

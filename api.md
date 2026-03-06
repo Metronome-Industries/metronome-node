@@ -132,6 +132,7 @@ Types:
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerCreateResponse</a></code>
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerRetrieveResponse</a></code>
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerArchiveResponse</a></code>
+- <code><a href="./src/resources/v1/customers/customers.ts">CustomerArchiveBillingConfigurationsResponse</a></code>
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerListBillableMetricsResponse</a></code>
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerListCostsResponse</a></code>
 - <code><a href="./src/resources/v1/customers/customers.ts">CustomerPreviewEventsResponse</a></code>
@@ -145,6 +146,7 @@ Methods:
 - <code title="get /v1/customers/{customer_id}">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">retrieve</a>({ ...params }) -> CustomerRetrieveResponse</code>
 - <code title="get /v1/customers">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">list</a>({ ...params }) -> CustomerDetailsCursorPage</code>
 - <code title="post /v1/customers/archive">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">archive</a>({ ...params }) -> CustomerArchiveResponse</code>
+- <code title="post /v1/archiveCustomerBillingProviderConfigurations">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">archiveBillingConfigurations</a>({ ...params }) -> CustomerArchiveBillingConfigurationsResponse</code>
 - <code title="get /v1/customers/{customer_id}/billable-metrics">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">listBillableMetrics</a>({ ...params }) -> CustomerListBillableMetricsResponsesCursorPage</code>
 - <code title="get /v1/customers/{customer_id}/costs">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">listCosts</a>({ ...params }) -> CustomerListCostsResponsesCursorPage</code>
 - <code title="post /v1/customers/{customer_id}/previewEvents">client.v1.customers.<a href="./src/resources/v1/customers/customers.ts">previewEvents</a>({ ...params }) -> CustomerPreviewEventsResponse</code>
