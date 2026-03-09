@@ -195,6 +195,27 @@ export class Usage extends APIResource {
    * - Build detailed usage dashboards with dimensional filtering
    * - Identify high-usage segments for optimization opportunities
    *
+   * ### Request parameters
+   *
+   * Use [`group_key`](#body-group-key) and [`group_filters`](#body-group-filters) to
+   * group by one or more dimensions. This is required for compound group keys and
+   * recommended for all new integrations:
+   *
+   * ```json
+   * {
+   *   "group_key": ["region", "team"],
+   *   "group_filters": {
+   *     "region": ["US-East", "US-West"]
+   *   }
+   * }
+   * ```
+   *
+   * Important: For compound group keys, you must pass the complete set of keys that
+   * make up the compound key. Partial key combinations are not supported. For
+   * example, if your billable metric has a compound group key [region, team,
+   * environment], you must pass all three keys in group_key—you cannot pass just
+   * `[region]` or `[region, team]`.
+   *
    * ### Key response fields:
    *
    * An array of `PagedUsageAggregate` objects containing:
