@@ -1,5 +1,31 @@
 # Changelog
 
+## 3.4.0 (2026-03-11)
+
+Full Changelog: [v3.3.0...v3.4.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.3.0...v3.4.0)
+
+### Features
+
+* (docs): update documentation for /usage/groups ([89950be](https://github.com/Metronome-Industries/metronome-node/commit/89950becd5503f107b090b35827f7de43165545e))
+* Add archive_billing_configurations endpoint ([71a7c5e](https://github.com/Metronome-Industries/metronome-node/commit/71a7c5ef17b331ee14e285772017112ba540ec52))
+* Enable rollover fraction on credits ([0d78794](https://github.com/Metronome-Industries/metronome-node/commit/0d787948a196629f13e1c6be55992c2b8b1ba377))
+
+
+### Bug Fixes
+
+* **client:** preserve URL params already embedded in path ([08a285c](https://github.com/Metronome-Industries/metronome-node/commit/08a285c39f86806141009f3e3798b1d4ec9e56c9))
+* fix request delays for retrying to be more respectful of high requested delays ([31c0124](https://github.com/Metronome-Industries/metronome-node/commit/31c01244e64842acc5440f60f6793f5ac4310330))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([a1b3a15](https://github.com/Metronome-Industries/metronome-node/commit/a1b3a153007c0f9c581fcab49a828370c0b1d6c9))
+* **internal:** bump @modelcontextprotocol/sdk, @hono/node-server, and minimatch ([0f4a40a](https://github.com/Metronome-Industries/metronome-node/commit/0f4a40a863a570ecb434696363cc6c681fcf8205))
+* **internal:** update dependencies to address dependabot vulnerabilities ([a8d94ba](https://github.com/Metronome-Industries/metronome-node/commit/a8d94ba931718f879fa5bfd6eb4572ef3e3ebbdc))
+* **internal:** use x-stainless-mcp-client-envs header for MCP remote code tool calls ([7157b5b](https://github.com/Metronome-Industries/metronome-node/commit/7157b5babfc3aaed19102c3b8789c741c4d76e09))
+* **mcp-server:** improve instructions ([560a321](https://github.com/Metronome-Industries/metronome-node/commit/560a321d40d801988432f7f5fe11f19d5071ae9a))
+* **test:** do not count install time for mock server timeout ([54d1c5c](https://github.com/Metronome-Industries/metronome-node/commit/54d1c5cd8dd6a8d0456a1af885e22b6075dc0949))
+
 ## 3.3.0 (2026-03-03)
 
 Full Changelog: [v3.2.0...v3.3.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.2.0...v3.3.0)
