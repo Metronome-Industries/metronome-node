@@ -123,6 +123,7 @@ const fuse = new Fuse(
     'client.v1.creditGrants.void',
     'client.v1.pricingUnits.list',
     'client.v1.customers.archive',
+    'client.v1.customers.archiveBillingConfigurations',
     'client.v1.customers.create',
     'client.v1.customers.list',
     'client.v1.customers.listBillableMetrics',

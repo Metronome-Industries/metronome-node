@@ -1,6 +1,6 @@
 {
   "name": "@metronome/sdk",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "The official TypeScript library for the Metronome API",
   "author": "Metronome <dev-feedback@metronome.com>",
   "types": "dist/index.d.ts",
@@ -52,6 +52,17 @@
   },
   "bin": {
     "metronome-sdk": "bin/cli"
+  },
+  "overrides": {
+    "minimatch": "^9.0.5"
+  },
+  "pnpm": {
+    "overrides": {
+      "minimatch": "^9.0.5"
+    }
+  },
+  "resolutions": {
+    "minimatch": "^9.0.5"
   },
   "exports": {
     ".": {

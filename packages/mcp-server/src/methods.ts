@@ -143,6 +143,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/customers/archive',
   },
   {
+    clientCallName: 'client.v1.customers.archiveBillingConfigurations',
+    fullyQualifiedName: 'v1.customers.archiveBillingConfigurations',
+    httpMethod: 'post',
+    httpPath: '/v1/archiveCustomerBillingProviderConfigurations',
+  },
+  {
     clientCallName: 'client.v1.customers.listBillableMetrics',
     fullyQualifiedName: 'v1.customers.listBillableMetrics',
     httpMethod: 'get',

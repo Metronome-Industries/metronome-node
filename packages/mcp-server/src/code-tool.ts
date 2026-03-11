@@ -163,7 +163,7 @@ const remoteStainlessHandler = async ({
     headers: {
       ...(reqContext.stainlessApiKey && { Authorization: reqContext.stainlessApiKey }),
       'Content-Type': 'application/json',
-      client_envs: JSON.stringify({
+      'x-stainless-mcp-client-envs': JSON.stringify({
         METRONOME_BEARER_TOKEN: requireValue(
           readEnv('METRONOME_BEARER_TOKEN') ?? client.bearerToken,
           'set METRONOME_BEARER_TOKEN environment variable or provide bearerToken client option',
