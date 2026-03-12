@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.4.1 (2026-03-12)
+
+Full Changelog: [v3.4.0...v3.4.1](https://github.com/Metronome-Industries/metronome-node/compare/v3.4.0...v3.4.1)
+
+### Features
+
+* Enable OIDC auth for npm publisher ([deea86d](https://github.com/Metronome-Industries/metronome-node/commit/deea86d7d8b4cef2fc07c82a904ae5df3cdd56a4))
+
+
+### Chores
+
+* **internal:** configure MCP Server hosting ([af9cfed](https://github.com/Metronome-Industries/metronome-node/commit/af9cfeddb5f74f4c76f153455c658f6ecce7565b))
+
 ## 3.4.0 (2026-03-11)
 
 Full Changelog: [v3.3.0...v3.4.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.3.0...v3.4.0)
