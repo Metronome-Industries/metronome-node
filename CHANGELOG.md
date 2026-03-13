@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.4.2 (2026-03-13)
+
+Full Changelog: [v3.4.1...v3.4.2](https://github.com/Metronome-Industries/metronome-node/compare/v3.4.1...v3.4.2)
+
+### Chores
+
+* **internal:** make generated MCP servers compatible with Cloudflare worker environments ([e755b20](https://github.com/Metronome-Industries/metronome-node/commit/e755b20d45eb9b1e569466b3e1cbdbf2942d8432))
+* **internal:** support x-stainless-mcp-client-envs header in MCP servers ([3672f87](https://github.com/Metronome-Industries/metronome-node/commit/3672f87ef486c86f35fdd105d9918733c359838b))
+
 ## 3.4.1 (2026-03-12)
 
 Full Changelog: [v3.4.0...v3.4.1](https://github.com/Metronome-Industries/metronome-node/compare/v3.4.0...v3.4.1)
