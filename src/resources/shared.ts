@@ -1267,6 +1267,7 @@ export namespace ContractV2 {
       | Credit.CreditCreditedLedgerEntry
       | Credit.CreditManualLedgerEntry
       | Credit.CreditSeatBasedAdjustmentLedgerEntry
+      | Credit.CreditRolloverLedgerEntry
     >;
 
     name?: string;
@@ -1286,6 +1287,8 @@ export namespace ContractV2 {
      * The ID of the recurring credit that created this credit
      */
     recurring_credit_id?: string;
+
+    rolled_over_from?: Credit.RolledOverFrom;
 
     /**
      * This field's availability is dependent on your client's configuration.
@@ -1396,6 +1399,24 @@ export namespace ContractV2 {
       timestamp: string;
 
       type: 'CREDIT_SEAT_BASED_ADJUSTMENT';
+    }
+
+    export interface CreditRolloverLedgerEntry {
+      amount: number;
+
+      new_contract_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'CREDIT_ROLLOVER';
+    }
+
+    export interface RolledOverFrom {
+      contract_id: string;
+
+      credit_id: string;
     }
   }
 
@@ -2318,6 +2339,7 @@ export interface Credit {
     | Credit.CreditCreditedLedgerEntry
     | Credit.CreditManualLedgerEntry
     | Credit.CreditSeatBasedAdjustmentLedgerEntry
+    | Credit.CreditRolloverLedgerEntry
   >;
 
   name?: string;
@@ -2340,6 +2362,8 @@ export interface Credit {
    * applicable.
    */
   recurring_credit_id?: string;
+
+  rolled_over_from?: Credit.RolledOverFrom;
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -2459,6 +2483,24 @@ export namespace Credit {
     timestamp: string;
 
     type: 'CREDIT_SEAT_BASED_ADJUSTMENT';
+  }
+
+  export interface CreditRolloverLedgerEntry {
+    amount: number;
+
+    new_contract_id: string;
+
+    segment_id: string;
+
+    timestamp: string;
+
+    type: 'CREDIT_ROLLOVER';
+  }
+
+  export interface RolledOverFrom {
+    contract_id: string;
+
+    credit_id: string;
   }
 
   /**
