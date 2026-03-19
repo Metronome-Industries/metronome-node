@@ -1313,6 +1313,8 @@ export namespace ContractGetEditHistoryResponse {
        */
       custom_credit_type_id?: string | null;
 
+      discount_configuration?: UpdatePrepaidBalanceThresholdConfiguration.DiscountConfiguration | null;
+
       /**
        * When set to false, the contract will not be evaluated against the
        * threshold_amount. Toggling to true will result an immediate evaluation,
@@ -1358,6 +1360,15 @@ export namespace ContractGetEditHistoryResponse {
          * body of `specifiers`.
          */
         specifiers?: Array<Shared.CommitSpecifierInput> | null;
+      }
+
+      export interface DiscountConfiguration {
+        /**
+         * The fraction of the original amount that the customer pays after applying the
+         * discount. For example, 0.85 means the customer pays 85% of the original amount
+         * (a 15% discount).
+         */
+        payment_fraction: number;
       }
     }
 
@@ -1462,6 +1473,8 @@ export namespace ContractGetEditHistoryResponse {
     export interface UpdateSpendThresholdConfiguration {
       commit?: Shared.UpdateBaseThresholdCommit;
 
+      discount_configuration?: UpdateSpendThresholdConfiguration.DiscountConfiguration | null;
+
       /**
        * When set to false, the contract will not be evaluated against the
        * threshold_amount. Toggling to true will result an immediate evaluation,
@@ -1476,6 +1489,17 @@ export namespace ContractGetEditHistoryResponse {
        * hits this amount, a threshold charge will be initiated.
        */
       threshold_amount?: number;
+    }
+
+    export namespace UpdateSpendThresholdConfiguration {
+      export interface DiscountConfiguration {
+        /**
+         * The fraction of the original amount that the customer pays after applying the
+         * discount. For example, 0.85 means the customer pays 85% of the original amount
+         * (a 15% discount).
+         */
+        payment_fraction: number;
+      }
     }
 
     export interface UpdateSubscription {
@@ -3428,6 +3452,8 @@ export namespace ContractEditParams {
      */
     custom_credit_type_id?: string | null;
 
+    discount_configuration?: UpdatePrepaidBalanceThresholdConfiguration.DiscountConfiguration | null;
+
     /**
      * When set to false, the contract will not be evaluated against the
      * threshold_amount. Toggling to true will result an immediate evaluation,
@@ -3473,6 +3499,15 @@ export namespace ContractEditParams {
        * body of `specifiers`.
        */
       specifiers?: Array<Shared.CommitSpecifierInput> | null;
+    }
+
+    export interface DiscountConfiguration {
+      /**
+       * The fraction of the original amount that the customer pays after applying the
+       * discount. For example, 0.85 means the customer pays 85% of the original amount
+       * (a 15% discount).
+       */
+      payment_fraction: number;
     }
   }
 
@@ -3577,6 +3612,8 @@ export namespace ContractEditParams {
   export interface UpdateSpendThresholdConfiguration {
     commit?: Shared.UpdateBaseThresholdCommit;
 
+    discount_configuration?: UpdateSpendThresholdConfiguration.DiscountConfiguration | null;
+
     /**
      * When set to false, the contract will not be evaluated against the
      * threshold_amount. Toggling to true will result an immediate evaluation,
@@ -3591,6 +3628,17 @@ export namespace ContractEditParams {
      * hits this amount, a threshold charge will be initiated.
      */
     threshold_amount?: number;
+  }
+
+  export namespace UpdateSpendThresholdConfiguration {
+    export interface DiscountConfiguration {
+      /**
+       * The fraction of the original amount that the customer pays after applying the
+       * discount. For example, 0.85 means the customer pays 85% of the original amount
+       * (a 15% discount).
+       */
+      payment_fraction: number;
+    }
   }
 
   export interface UpdateSubscription {
