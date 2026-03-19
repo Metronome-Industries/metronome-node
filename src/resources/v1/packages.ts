@@ -437,8 +437,6 @@ export namespace PackageRetrieveResponse {
         product_tags?: Array<string>;
 
         recurring_commit_template_ids?: Array<string>;
-
-        recurring_credit_template_ids?: Array<string>;
       }
 
       export interface StartingAtOffset {
@@ -1259,8 +1257,6 @@ export namespace PackageListResponse {
       product_tags?: Array<string>;
 
       recurring_commit_template_ids?: Array<string>;
-
-      recurring_credit_template_ids?: Array<string>;
     }
 
     export interface StartingAtOffset {
@@ -2332,14 +2328,6 @@ export namespace PackageCreateParams {
        * commits created by the specified recurring commit ids.
        */
       recurring_commit_ids?: Array<string>;
-
-      /**
-       * Can only be used for commit specific overrides. Must be used in conjunction with
-       * one of `product_id`, `product_tags`, `pricing_group_values`, or
-       * `presentation_group_values`. If provided, the override will only apply to
-       * credits created by the specified recurring credit ids.
-       */
-      recurring_credit_ids?: Array<string>;
     }
 
     /**
