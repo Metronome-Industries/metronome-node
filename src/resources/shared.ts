@@ -1123,8 +1123,6 @@ export namespace ContractV2 {
       product_tags?: Array<string>;
 
       recurring_commit_ids?: Array<string>;
-
-      recurring_credit_ids?: Array<string>;
     }
 
     export interface OverwriteRate {
@@ -2738,8 +2736,6 @@ export namespace Override {
     product_tags?: Array<string>;
 
     recurring_commit_ids?: Array<string>;
-
-    recurring_credit_ids?: Array<string>;
   }
 
   export interface Product {
@@ -2942,7 +2938,7 @@ export interface PrepaidBalanceThresholdConfiguration {
    */
   custom_credit_type_id?: string;
 
-  discount_configuration?: PrepaidBalanceThresholdConfiguration.DiscountConfiguration | null;
+  discount_configuration?: PrepaidBalanceThresholdConfiguration.DiscountConfiguration;
 }
 
 export namespace PrepaidBalanceThresholdConfiguration {
@@ -3009,7 +3005,7 @@ export interface PrepaidBalanceThresholdConfigurationV2 {
    */
   custom_credit_type_id?: string;
 
-  discount_configuration?: PrepaidBalanceThresholdConfigurationV2.DiscountConfiguration | null;
+  discount_configuration?: PrepaidBalanceThresholdConfigurationV2.DiscountConfiguration;
 }
 
 export namespace PrepaidBalanceThresholdConfigurationV2 {
@@ -3269,7 +3265,7 @@ export interface SpendThresholdConfiguration {
    */
   threshold_amount: number;
 
-  discount_configuration?: SpendThresholdConfiguration.DiscountConfiguration | null;
+  discount_configuration?: SpendThresholdConfiguration.DiscountConfiguration;
 }
 
 export namespace SpendThresholdConfiguration {
@@ -3301,7 +3297,7 @@ export interface SpendThresholdConfigurationV2 {
    */
   threshold_amount: number;
 
-  discount_configuration?: SpendThresholdConfigurationV2.DiscountConfiguration | null;
+  discount_configuration?: SpendThresholdConfigurationV2.DiscountConfiguration;
 }
 
 export namespace SpendThresholdConfigurationV2 {
