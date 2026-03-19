@@ -548,8 +548,6 @@ export namespace ContractGetEditHistoryResponse {
         product_tags?: Array<string>;
 
         recurring_commit_ids?: Array<string>;
-
-        recurring_credit_ids?: Array<string>;
       }
 
       export interface OverwriteRate {
@@ -1310,7 +1308,7 @@ export namespace ContractGetEditHistoryResponse {
        */
       custom_credit_type_id?: string | null;
 
-      discount_configuration?: UpdatePrepaidBalanceThresholdConfiguration.DiscountConfiguration | null;
+      discount_configuration?: UpdatePrepaidBalanceThresholdConfiguration.DiscountConfiguration;
 
       /**
        * When set to false, the contract will not be evaluated against the
@@ -1470,7 +1468,7 @@ export namespace ContractGetEditHistoryResponse {
     export interface UpdateSpendThresholdConfiguration {
       commit?: Shared.UpdateBaseThresholdCommit;
 
-      discount_configuration?: UpdateSpendThresholdConfiguration.DiscountConfiguration | null;
+      discount_configuration?: UpdateSpendThresholdConfiguration.DiscountConfiguration;
 
       /**
        * When set to false, the contract will not be evaluated against the
@@ -2486,14 +2484,6 @@ export namespace ContractEditParams {
        * created by the specified recurring commit ids.
        */
       recurring_commit_ids?: Array<string>;
-
-      /**
-       * Can only be used for commit specific overrides. Must be used in conjunction with
-       * one of product_id, product_tags, pricing_group_values, or
-       * presentation_group_values. If provided, the override will only apply to commits
-       * created by the specified recurring credit ids.
-       */
-      recurring_credit_ids?: Array<string>;
     }
 
     /**
@@ -3449,7 +3439,7 @@ export namespace ContractEditParams {
      */
     custom_credit_type_id?: string | null;
 
-    discount_configuration?: UpdatePrepaidBalanceThresholdConfiguration.DiscountConfiguration | null;
+    discount_configuration?: UpdatePrepaidBalanceThresholdConfiguration.DiscountConfiguration;
 
     /**
      * When set to false, the contract will not be evaluated against the
@@ -3609,7 +3599,7 @@ export namespace ContractEditParams {
   export interface UpdateSpendThresholdConfiguration {
     commit?: Shared.UpdateBaseThresholdCommit;
 
-    discount_configuration?: UpdateSpendThresholdConfiguration.DiscountConfiguration | null;
+    discount_configuration?: UpdateSpendThresholdConfiguration.DiscountConfiguration;
 
     /**
      * When set to false, the contract will not be evaluated against the
