@@ -2941,6 +2941,8 @@ export interface PrepaidBalanceThresholdConfiguration {
    * commit amount will be in terms of this credit type instead of the fiat currency.
    */
   custom_credit_type_id?: string;
+
+  discount_configuration?: PrepaidBalanceThresholdConfiguration.DiscountConfiguration | null;
 }
 
 export namespace PrepaidBalanceThresholdConfiguration {
@@ -2966,6 +2968,15 @@ export namespace PrepaidBalanceThresholdConfiguration {
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
      */
     specifiers?: Array<Shared.CommitSpecifierInput>;
+  }
+
+  export interface DiscountConfiguration {
+    /**
+     * The fraction of the original amount that the customer pays after applying the
+     * discount. For example, 0.85 means the customer pays 85% of the original amount
+     * (a 15% discount).
+     */
+    payment_fraction: number;
   }
 }
 
@@ -2997,6 +3008,8 @@ export interface PrepaidBalanceThresholdConfigurationV2 {
    * commit amount will be in terms of this credit type instead of the fiat currency.
    */
   custom_credit_type_id?: string;
+
+  discount_configuration?: PrepaidBalanceThresholdConfigurationV2.DiscountConfiguration | null;
 }
 
 export namespace PrepaidBalanceThresholdConfigurationV2 {
@@ -3024,6 +3037,15 @@ export namespace PrepaidBalanceThresholdConfigurationV2 {
      * body of `specifiers`.
      */
     specifiers?: Array<Shared.CommitSpecifierInput>;
+  }
+
+  export interface DiscountConfiguration {
+    /**
+     * The fraction of the original amount that the customer pays after applying the
+     * discount. For example, 0.85 means the customer pays 85% of the original amount
+     * (a 15% discount).
+     */
+    payment_fraction: number;
   }
 }
 
@@ -3246,6 +3268,19 @@ export interface SpendThresholdConfiguration {
    * hits this amount, a threshold charge will be initiated.
    */
   threshold_amount: number;
+
+  discount_configuration?: SpendThresholdConfiguration.DiscountConfiguration | null;
+}
+
+export namespace SpendThresholdConfiguration {
+  export interface DiscountConfiguration {
+    /**
+     * The fraction of the original amount that the customer pays after applying the
+     * discount. For example, 0.85 means the customer pays 85% of the original amount
+     * (a 15% discount).
+     */
+    payment_fraction: number;
+  }
 }
 
 export interface SpendThresholdConfigurationV2 {
@@ -3265,6 +3300,19 @@ export interface SpendThresholdConfigurationV2 {
    * hits this amount, a threshold charge will be initiated.
    */
   threshold_amount: number;
+
+  discount_configuration?: SpendThresholdConfigurationV2.DiscountConfiguration | null;
+}
+
+export namespace SpendThresholdConfigurationV2 {
+  export interface DiscountConfiguration {
+    /**
+     * The fraction of the original amount that the customer pays after applying the
+     * discount. For example, 0.85 means the customer pays 85% of the original amount
+     * (a 15% discount).
+     */
+    payment_fraction: number;
+  }
 }
 
 export interface Subscription {
