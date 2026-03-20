@@ -1,5 +1,30 @@
 # Changelog
 
+## 3.5.0 (2026-03-20)
+
+Full Changelog: [v3.4.1...v3.5.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.4.1...v3.5.0)
+
+### Features
+
+* Add recurring_commit_ids and remove recurring_credit_ids from api ([1f00ed0](https://github.com/Metronome-Industries/metronome-node/commit/1f00ed061e715c95e56e89e071eb676899dacc5b))
+* External fixes for rollover credits ([5352f99](https://github.com/Metronome-Industries/metronome-node/commit/5352f99418137b8c5920ed39ab62d5a0dfd17164))
+* ORCH-1410: Add discount_configuration to POST v2/contracts/edit ([83665f0](https://github.com/Metronome-Industries/metronome-node/commit/83665f010c3a71f14be8c1a8c1b3f05ca932eab0))
+
+
+### Chores
+
+* **internal:** make generated MCP servers compatible with Cloudflare worker environments ([e755b20](https://github.com/Metronome-Industries/metronome-node/commit/e755b20d45eb9b1e569466b3e1cbdbf2942d8432))
+* **internal:** support x-stainless-mcp-client-envs header in MCP servers ([3672f87](https://github.com/Metronome-Industries/metronome-node/commit/3672f87ef486c86f35fdd105d9918733c359838b))
+* **internal:** support x-stainless-mcp-client-permissions headers in MCP servers ([9db3265](https://github.com/Metronome-Industries/metronome-node/commit/9db32650970d51ea29b0a51f67c6430cdd44e22d))
+* **internal:** tweak CI branches ([4b02649](https://github.com/Metronome-Industries/metronome-node/commit/4b02649b2e48bd1be8bdca94c825abe65be14851))
+* **tests:** bump steady to v0.19.4 ([ce83361](https://github.com/Metronome-Industries/metronome-node/commit/ce83361bd5001d5d79acb66bf26bcdb0df7f57de))
+* **tests:** bump steady to v0.19.5 ([cca8a83](https://github.com/Metronome-Industries/metronome-node/commit/cca8a8385f1da2c10354d4acb45e50c13ee486d2))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([48123fc](https://github.com/Metronome-Industries/metronome-node/commit/48123fc5cb9b57caca6196d4776899dcc9bbc435))
+
 ## 3.4.1 (2026-03-12)
 
 Full Changelog: [v3.4.0...v3.4.1](https://github.com/Metronome-Industries/metronome-node/compare/v3.4.0...v3.4.1)
