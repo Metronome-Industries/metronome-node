@@ -217,6 +217,11 @@ export namespace PackageRetrieveResponse {
       | 'gcp_marketplace'
       | 'metronome';
 
+    /**
+     * The name to use for contracts created from this package.
+     */
+    contract_name?: string;
+
     credits?: Array<Data.Credit>;
 
     delivery_method?: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
@@ -1036,6 +1041,11 @@ export interface PackageListResponse {
     | 'workday'
     | 'gcp_marketplace'
     | 'metronome';
+
+  /**
+   * The name to use for contracts created from this package.
+   */
+  contract_name?: string;
 
   credits?: Array<PackageListResponse.Credit>;
 
