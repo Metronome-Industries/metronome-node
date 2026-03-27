@@ -1308,7 +1308,7 @@ export namespace ContractGetEditHistoryResponse {
        */
       custom_credit_type_id?: string | null;
 
-      discount_configuration?: UpdatePrepaidBalanceThresholdConfiguration.DiscountConfiguration;
+      discount_configuration?: UpdatePrepaidBalanceThresholdConfiguration.DiscountConfiguration | null;
 
       /**
        * When set to false, the contract will not be evaluated against the
@@ -1360,10 +1360,10 @@ export namespace ContractGetEditHistoryResponse {
       export interface DiscountConfiguration {
         /**
          * The fraction of the original amount that the customer pays after applying the
-         * discount. For example, 0.85 means the customer pays 85% of the original amount
-         * (a 15% discount).
+         * discount. Set to null to remove the discount fraction. For example, 0.85 means
+         * the customer pays 85% of the original amount (a 15% discount).
          */
-        payment_fraction: number;
+        payment_fraction?: number | null;
       }
     }
 
@@ -1468,7 +1468,7 @@ export namespace ContractGetEditHistoryResponse {
     export interface UpdateSpendThresholdConfiguration {
       commit?: Shared.UpdateBaseThresholdCommit;
 
-      discount_configuration?: UpdateSpendThresholdConfiguration.DiscountConfiguration;
+      discount_configuration?: UpdateSpendThresholdConfiguration.DiscountConfiguration | null;
 
       /**
        * When set to false, the contract will not be evaluated against the
@@ -1490,10 +1490,10 @@ export namespace ContractGetEditHistoryResponse {
       export interface DiscountConfiguration {
         /**
          * The fraction of the original amount that the customer pays after applying the
-         * discount. For example, 0.85 means the customer pays 85% of the original amount
-         * (a 15% discount).
+         * discount. Set to null to remove the discount fraction. For example, 0.85 means
+         * the customer pays 85% of the original amount (a 15% discount).
          */
-        payment_fraction: number;
+        payment_fraction?: number | null;
       }
     }
 
@@ -3439,7 +3439,7 @@ export namespace ContractEditParams {
      */
     custom_credit_type_id?: string | null;
 
-    discount_configuration?: UpdatePrepaidBalanceThresholdConfiguration.DiscountConfiguration;
+    discount_configuration?: UpdatePrepaidBalanceThresholdConfiguration.DiscountConfiguration | null;
 
     /**
      * When set to false, the contract will not be evaluated against the
@@ -3491,10 +3491,10 @@ export namespace ContractEditParams {
     export interface DiscountConfiguration {
       /**
        * The fraction of the original amount that the customer pays after applying the
-       * discount. For example, 0.85 means the customer pays 85% of the original amount
-       * (a 15% discount).
+       * discount. Set to null to remove the discount fraction. For example, 0.85 means
+       * the customer pays 85% of the original amount (a 15% discount).
        */
-      payment_fraction: number;
+      payment_fraction?: number | null;
     }
   }
 
@@ -3599,7 +3599,7 @@ export namespace ContractEditParams {
   export interface UpdateSpendThresholdConfiguration {
     commit?: Shared.UpdateBaseThresholdCommit;
 
-    discount_configuration?: UpdateSpendThresholdConfiguration.DiscountConfiguration;
+    discount_configuration?: UpdateSpendThresholdConfiguration.DiscountConfiguration | null;
 
     /**
      * When set to false, the contract will not be evaluated against the
@@ -3621,10 +3621,10 @@ export namespace ContractEditParams {
     export interface DiscountConfiguration {
       /**
        * The fraction of the original amount that the customer pays after applying the
-       * discount. For example, 0.85 means the customer pays 85% of the original amount
-       * (a 15% discount).
+       * discount. Set to null to remove the discount fraction. For example, 0.85 means
+       * the customer pays 85% of the original amount (a 15% discount).
        */
-      payment_fraction: number;
+      payment_fraction?: number | null;
     }
   }
 
