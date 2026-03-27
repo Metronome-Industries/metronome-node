@@ -1,5 +1,41 @@
 # Changelog
 
+## 3.5.0 (2026-03-27)
+
+Full Changelog: [v3.4.1...v3.5.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.4.1...v3.5.0)
+
+### Features
+
+* Add recurring_commit_ids and remove recurring_credit_ids from api ([4fbf656](https://github.com/Metronome-Industries/metronome-node/commit/4fbf65650d9a2401189a41ec82ae16757d0ebfaa))
+* External fixes for rollover credits ([34205e6](https://github.com/Metronome-Industries/metronome-node/commit/34205e68e5720e43201db9d8647a433e38aea902))
+* Map missing `contract_name` when returning Packages ([c0ad984](https://github.com/Metronome-Industries/metronome-node/commit/c0ad98482d2154bd7a1a0e33e6aa6f942d0246c8))
+* ORCH-1410: Add discount_configuration to POST v2/contracts/edit ([09dbe83](https://github.com/Metronome-Industries/metronome-node/commit/09dbe83dfb1a38e2c858793b008e90361d4b892d))
+* Support nullable discount fraction on contract update inputs ([a661979](https://github.com/Metronome-Industries/metronome-node/commit/a661979abb8aa25db96fbf62f3621ee5516f0d8f))
+
+
+### Chores
+
+* **ci:** escape input path in publish-npm workflow ([6e331b9](https://github.com/Metronome-Industries/metronome-node/commit/6e331b993c4c8c8a459096907304673605c85955))
+* **ci:** skip lint on metadata-only changes ([9aabc93](https://github.com/Metronome-Industries/metronome-node/commit/9aabc938c4b3700e8d57b60d327b4405dccad999))
+* **internal:** fix MCP server TS errors that occur with required client options ([d445197](https://github.com/Metronome-Industries/metronome-node/commit/d445197f01167e43af754689e7077130ad1f1983))
+* **internal:** make generated MCP servers compatible with Cloudflare worker environments ([99bc3d8](https://github.com/Metronome-Industries/metronome-node/commit/99bc3d80b0b91a105ecdc1aa6c08bcbfda58206a))
+* **internal:** support custom-instructions-path flag in MCP servers ([aa69e67](https://github.com/Metronome-Industries/metronome-node/commit/aa69e677007c98d62d9ff3d9a29ec6262d57294e))
+* **internal:** support local docs search in MCP servers ([e08f978](https://github.com/Metronome-Industries/metronome-node/commit/e08f978c50a992bc9a74c44247ff2da8d35e1bfa))
+* **internal:** support x-stainless-mcp-client-envs header in MCP servers ([ff4584d](https://github.com/Metronome-Industries/metronome-node/commit/ff4584dde7f1dff1fd5ab2e69f2af1799054cfea))
+* **internal:** support x-stainless-mcp-client-permissions headers in MCP servers ([be7fa85](https://github.com/Metronome-Industries/metronome-node/commit/be7fa85cbeaaa761f104d9b1edca9b8e0e233efb))
+* **internal:** tweak CI branches ([9ae211b](https://github.com/Metronome-Industries/metronome-node/commit/9ae211b74d38184fbb328edbbec0104d7b565a19))
+* **internal:** update gitignore ([1257bb2](https://github.com/Metronome-Industries/metronome-node/commit/1257bb259439857b55c7f8941e1d77c91daae2bd))
+* **internal:** update multipart form array serialization ([f945b1b](https://github.com/Metronome-Industries/metronome-node/commit/f945b1bda52ce56ba03663c025fd649dff394145))
+* **tests:** bump steady to v0.19.4 ([7786c39](https://github.com/Metronome-Industries/metronome-node/commit/7786c3932d6d1504d9d2e64ff71cf17155b8c4a3))
+* **tests:** bump steady to v0.19.5 ([8da2df0](https://github.com/Metronome-Industries/metronome-node/commit/8da2df0b004d590a88d73ba375d4cdd812107bb7))
+* **tests:** bump steady to v0.19.6 ([f7cbb5e](https://github.com/Metronome-Industries/metronome-node/commit/f7cbb5ea6ab7afb39b5f6776e19ec161b7496291))
+* **tests:** bump steady to v0.19.7 ([5618d69](https://github.com/Metronome-Industries/metronome-node/commit/5618d6946db24e52d7f5ffd3833e8f146b8e6c08))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([87e39d3](https://github.com/Metronome-Industries/metronome-node/commit/87e39d3af18e5acd4b8dcb1704912bb7b9f6a50e))
+
 ## 3.4.1 (2026-03-12)
 
 Full Changelog: [v3.4.0...v3.4.1](https://github.com/Metronome-Industries/metronome-node/compare/v3.4.0...v3.4.1)
