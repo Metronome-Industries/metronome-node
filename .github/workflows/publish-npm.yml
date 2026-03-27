@@ -33,12 +33,9 @@ jobs:
           yarn install
 
       - name: Publish to NPM
+        # The `path` input is ignored here intentionally.
         run: |
-          if [ -n "${{ github.event.inputs.path }}" ]; then
-            PATHS_RELEASED='[\"${{ github.event.inputs.path }}\"]'
-          else
-            PATHS_RELEASED='[\".\", \"packages/mcp-server\"]'
-          fi
+          PATHS_RELEASED='[\".\", \"packages/mcp-server\"]'
           yarn tsn scripts/publish-packages.ts "{ \"paths_released\": \"$PATHS_RELEASED\" }"
 
       - name: Upload MCP Server DXT GitHub release asset
