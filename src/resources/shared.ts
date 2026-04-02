@@ -34,6 +34,12 @@ export interface BaseThresholdCommit {
    * will default to the commit product name.
    */
   name?: string;
+
+  /**
+   * The priority of the commit, used to determine drawdown order. Lower priority
+   * commits are consumed first. Defaults to 100 if not specified.
+   */
+  priority?: number;
 }
 
 export interface BaseUsageFilter {
@@ -3009,7 +3015,7 @@ export interface PrepaidBalanceThresholdConfigurationV2 {
 }
 
 export namespace PrepaidBalanceThresholdConfigurationV2 {
-  export interface Commit extends Shared.UpdateBaseThresholdCommit {
+  export interface Commit extends Shared.BaseThresholdCommit {
     /**
      * Which products the threshold commit applies to. If applicable_product_ids,
      * applicable_product_tags or specifiers are not provided, the commit applies to
@@ -3280,7 +3286,7 @@ export namespace SpendThresholdConfiguration {
 }
 
 export interface SpendThresholdConfigurationV2 {
-  commit: UpdateBaseThresholdCommit;
+  commit: BaseThresholdCommit;
 
   /**
    * When set to false, the contract will not be evaluated against the
@@ -3449,6 +3455,13 @@ export interface UpdateBaseThresholdCommit {
    * will default to the commit product name.
    */
   name?: string;
+
+  /**
+   * The priority of the commit, used to determine drawdown order. Lower priority
+   * commits are consumed first. Defaults to 100 if not specified. On updates, set to
+   * null to clear a previously configured priority.
+   */
+  priority?: number | null;
 
   /**
    * The commit product that will be used to generate the line item for commit
