@@ -516,6 +516,8 @@ export namespace PackageRetrieveResponse {
 
     export interface UsageStatementSchedule {
       frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+
+      day?: 'FIRST_OF_MONTH' | 'CONTRACT_START';
     }
 
     export interface Alias {
@@ -1341,6 +1343,8 @@ export namespace PackageListResponse {
 
   export interface UsageStatementSchedule {
     frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+
+    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START';
   }
 
   export interface Alias {
