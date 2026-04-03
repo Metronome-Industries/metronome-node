@@ -82,7 +82,7 @@ export class Webhooks extends APIResource {
   ): void {
     this.validateSecret(secret);
 
-    const msgDate = getRequiredHeader(headers, 'Date');
+    const msgDate = getRequiredHeader(headers, 'X-Metronome-Date');
     const msgSignature = getRequiredHeader(headers, 'Metronome-Webhook-Signature');
 
     const now = Date.now();
