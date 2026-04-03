@@ -20,7 +20,7 @@ describe('resource webhooks', () => {
   const signature = 'b82652fa2246cf1d8a27e591f155c865f68b46c19b9213fd9c052f2419b4742b';
   const date = 'Mon, 02 Jan 2006 22:04:05 GMT';
   const headers = {
-    Date: date,
+    'X-Metronome-Date': date,
     'Metronome-Webhook-Signature': signature,
   };
   const secret = 'correct-horse-battery-staple';
@@ -85,7 +85,7 @@ describe('resource webhooks', () => {
         payload,
         {
           ...headers,
-          Date: 'nan',
+          'X-Metronome-Date': 'nan',
         },
         secret,
       ),
