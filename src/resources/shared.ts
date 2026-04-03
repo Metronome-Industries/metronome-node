@@ -34,6 +34,12 @@ export interface BaseThresholdCommit {
    * will default to the commit product name.
    */
   name?: string;
+
+  /**
+   * The priority of the commit, used to determine drawdown order. Lower priority
+   * commits are consumed first. Defaults to 100 if not specified.
+   */
+  priority?: number;
 }
 
 export interface BaseUsageFilter {
@@ -1123,8 +1129,6 @@ export namespace ContractV2 {
       product_tags?: Array<string>;
 
       recurring_commit_ids?: Array<string>;
-
-      recurring_credit_ids?: Array<string>;
     }
 
     export interface OverwriteRate {
@@ -1267,6 +1271,7 @@ export namespace ContractV2 {
       | Credit.CreditCreditedLedgerEntry
       | Credit.CreditManualLedgerEntry
       | Credit.CreditSeatBasedAdjustmentLedgerEntry
+      | Credit.CreditRolloverLedgerEntry
     >;
 
     name?: string;
@@ -1286,6 +1291,8 @@ export namespace ContractV2 {
      * The ID of the recurring credit that created this credit
      */
     recurring_credit_id?: string;
+
+    rolled_over_from?: Credit.RolledOverFrom;
 
     /**
      * This field's availability is dependent on your client's configuration.
@@ -1396,6 +1403,24 @@ export namespace ContractV2 {
       timestamp: string;
 
       type: 'CREDIT_SEAT_BASED_ADJUSTMENT';
+    }
+
+    export interface CreditRolloverLedgerEntry {
+      amount: number;
+
+      new_contract_id: string;
+
+      segment_id: string;
+
+      timestamp: string;
+
+      type: 'CREDIT_ROLLOVER';
+    }
+
+    export interface RolledOverFrom {
+      contract_id: string;
+
+      credit_id: string;
     }
   }
 
@@ -2318,6 +2343,7 @@ export interface Credit {
     | Credit.CreditCreditedLedgerEntry
     | Credit.CreditManualLedgerEntry
     | Credit.CreditSeatBasedAdjustmentLedgerEntry
+    | Credit.CreditRolloverLedgerEntry
   >;
 
   name?: string;
@@ -2340,6 +2366,8 @@ export interface Credit {
    * applicable.
    */
   recurring_credit_id?: string;
+
+  rolled_over_from?: Credit.RolledOverFrom;
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -2459,6 +2487,24 @@ export namespace Credit {
     timestamp: string;
 
     type: 'CREDIT_SEAT_BASED_ADJUSTMENT';
+  }
+
+  export interface CreditRolloverLedgerEntry {
+    amount: number;
+
+    new_contract_id: string;
+
+    segment_id: string;
+
+    timestamp: string;
+
+    type: 'CREDIT_ROLLOVER';
+  }
+
+  export interface RolledOverFrom {
+    contract_id: string;
+
+    credit_id: string;
   }
 
   /**
@@ -2696,8 +2742,6 @@ export namespace Override {
     product_tags?: Array<string>;
 
     recurring_commit_ids?: Array<string>;
-
-    recurring_credit_ids?: Array<string>;
   }
 
   export interface Product {
@@ -2899,6 +2943,8 @@ export interface PrepaidBalanceThresholdConfiguration {
    * commit amount will be in terms of this credit type instead of the fiat currency.
    */
   custom_credit_type_id?: string;
+
+  discount_configuration?: PrepaidBalanceThresholdConfiguration.DiscountConfiguration;
 }
 
 export namespace PrepaidBalanceThresholdConfiguration {
@@ -2924,6 +2970,15 @@ export namespace PrepaidBalanceThresholdConfiguration {
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
      */
     specifiers?: Array<Shared.CommitSpecifierInput>;
+  }
+
+  export interface DiscountConfiguration {
+    /**
+     * The fraction of the original amount that the customer pays after applying the
+     * discount. For example, 0.85 means the customer pays 85% of the original amount
+     * (a 15% discount).
+     */
+    payment_fraction: number;
   }
 }
 
@@ -2955,10 +3010,12 @@ export interface PrepaidBalanceThresholdConfigurationV2 {
    * commit amount will be in terms of this credit type instead of the fiat currency.
    */
   custom_credit_type_id?: string;
+
+  discount_configuration?: PrepaidBalanceThresholdConfigurationV2.DiscountConfiguration;
 }
 
 export namespace PrepaidBalanceThresholdConfigurationV2 {
-  export interface Commit extends Shared.UpdateBaseThresholdCommit {
+  export interface Commit extends Shared.BaseThresholdCommit {
     /**
      * Which products the threshold commit applies to. If applicable_product_ids,
      * applicable_product_tags or specifiers are not provided, the commit applies to
@@ -2982,6 +3039,15 @@ export namespace PrepaidBalanceThresholdConfigurationV2 {
      * body of `specifiers`.
      */
     specifiers?: Array<Shared.CommitSpecifierInput>;
+  }
+
+  export interface DiscountConfiguration {
+    /**
+     * The fraction of the original amount that the customer pays after applying the
+     * discount. For example, 0.85 means the customer pays 85% of the original amount
+     * (a 15% discount).
+     */
+    payment_fraction: number;
   }
 }
 
@@ -3204,10 +3270,23 @@ export interface SpendThresholdConfiguration {
    * hits this amount, a threshold charge will be initiated.
    */
   threshold_amount: number;
+
+  discount_configuration?: SpendThresholdConfiguration.DiscountConfiguration;
+}
+
+export namespace SpendThresholdConfiguration {
+  export interface DiscountConfiguration {
+    /**
+     * The fraction of the original amount that the customer pays after applying the
+     * discount. For example, 0.85 means the customer pays 85% of the original amount
+     * (a 15% discount).
+     */
+    payment_fraction: number;
+  }
 }
 
 export interface SpendThresholdConfigurationV2 {
-  commit: UpdateBaseThresholdCommit;
+  commit: BaseThresholdCommit;
 
   /**
    * When set to false, the contract will not be evaluated against the
@@ -3223,6 +3302,19 @@ export interface SpendThresholdConfigurationV2 {
    * hits this amount, a threshold charge will be initiated.
    */
   threshold_amount: number;
+
+  discount_configuration?: SpendThresholdConfigurationV2.DiscountConfiguration;
+}
+
+export namespace SpendThresholdConfigurationV2 {
+  export interface DiscountConfiguration {
+    /**
+     * The fraction of the original amount that the customer pays after applying the
+     * discount. For example, 0.85 means the customer pays 85% of the original amount
+     * (a 15% discount).
+     */
+    payment_fraction: number;
+  }
 }
 
 export interface Subscription {
@@ -3363,6 +3455,13 @@ export interface UpdateBaseThresholdCommit {
    * will default to the commit product name.
    */
   name?: string;
+
+  /**
+   * The priority of the commit, used to determine drawdown order. Lower priority
+   * commits are consumed first. Defaults to 100 if not specified. On updates, set to
+   * null to clear a previously configured priority.
+   */
+  priority?: number | null;
 
   /**
    * The commit product that will be used to generate the line item for commit
