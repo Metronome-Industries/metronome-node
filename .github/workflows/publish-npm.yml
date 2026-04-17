@@ -37,6 +37,8 @@ jobs:
         run: |
           PATHS_RELEASED='[\".\", \"packages/mcp-server\"]'
           yarn tsn scripts/publish-packages.ts "{ \"paths_released\": \"$PATHS_RELEASED\" }"
+        env:
+          INPUT_PATH: ${{ github.event.inputs.path }}
 
       - name: Upload MCP Server DXT GitHub release asset
         run: |

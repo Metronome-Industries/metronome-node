@@ -479,6 +479,10 @@ export namespace ContractGetEditHistoryResponse {
        */
       priority?: number;
 
+      rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
+      rollover_fraction?: number;
+
       /**
        * This field's availability is dependent on your client's configuration.
        */
@@ -505,6 +509,8 @@ export namespace ContractGetEditHistoryResponse {
 
     export interface AddOverride {
       id: string;
+
+      created_at: string;
 
       starting_at: string;
 
@@ -548,8 +554,6 @@ export namespace ContractGetEditHistoryResponse {
         product_tags?: Array<string>;
 
         recurring_commit_ids?: Array<string>;
-
-        recurring_credit_ids?: Array<string>;
       }
 
       export interface OverwriteRate {
@@ -1110,6 +1114,20 @@ export namespace ContractGetEditHistoryResponse {
 
       access_schedule?: UpdateCredit.AccessSchedule;
 
+      /**
+       * Which products the credit applies to. If applicable_product_ids,
+       * applicable_product_tags or specifiers are not provided, the credit applies to
+       * all products.
+       */
+      applicable_product_ids?: Array<string> | null;
+
+      /**
+       * Which tags the credit applies to. If applicable_product_ids,
+       * applicable_product_tags or specifiers are not provided, the credit applies to
+       * all products.
+       */
+      applicable_product_tags?: Array<string> | null;
+
       description?: string;
 
       /**
@@ -1127,12 +1145,24 @@ export namespace ContractGetEditHistoryResponse {
        */
       priority?: number | null;
 
+      product_id?: string;
+
       /**
        * If set, the credit's rate type was updated to the specified value.
        */
       rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
 
       rollover_fraction?: number | null;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+       * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
+       */
+      specifiers?: Array<Shared.CommitSpecifierInput> | null;
     }
 
     export namespace UpdateCredit {
@@ -1310,6 +1340,8 @@ export namespace ContractGetEditHistoryResponse {
        */
       custom_credit_type_id?: string | null;
 
+      discount_configuration?: UpdatePrepaidBalanceThresholdConfiguration.DiscountConfiguration | null;
+
       /**
        * When set to false, the contract will not be evaluated against the
        * threshold_amount. Toggling to true will result an immediate evaluation,
@@ -1355,6 +1387,15 @@ export namespace ContractGetEditHistoryResponse {
          * body of `specifiers`.
          */
         specifiers?: Array<Shared.CommitSpecifierInput> | null;
+      }
+
+      export interface DiscountConfiguration {
+        /**
+         * The fraction of the original amount that the customer pays after applying the
+         * discount. Set to null to remove the discount fraction. For example, 0.85 means
+         * the customer pays 85% of the original amount (a 15% discount).
+         */
+        payment_fraction?: number | null;
       }
     }
 
@@ -1459,6 +1500,8 @@ export namespace ContractGetEditHistoryResponse {
     export interface UpdateSpendThresholdConfiguration {
       commit?: Shared.UpdateBaseThresholdCommit;
 
+      discount_configuration?: UpdateSpendThresholdConfiguration.DiscountConfiguration | null;
+
       /**
        * When set to false, the contract will not be evaluated against the
        * threshold_amount. Toggling to true will result an immediate evaluation,
@@ -1473,6 +1516,17 @@ export namespace ContractGetEditHistoryResponse {
        * hits this amount, a threshold charge will be initiated.
        */
       threshold_amount?: number;
+    }
+
+    export namespace UpdateSpendThresholdConfiguration {
+      export interface DiscountConfiguration {
+        /**
+         * The fraction of the original amount that the customer pays after applying the
+         * discount. Set to null to remove the discount fraction. For example, 0.85 means
+         * the customer pays 85% of the original amount (a 15% discount).
+         */
+        payment_fraction?: number | null;
+      }
     }
 
     export interface UpdateSubscription {
@@ -2462,14 +2516,6 @@ export namespace ContractEditParams {
        * created by the specified recurring commit ids.
        */
       recurring_commit_ids?: Array<string>;
-
-      /**
-       * Can only be used for commit specific overrides. Must be used in conjunction with
-       * one of product_id, product_tags, pricing_group_values, or
-       * presentation_group_values. If provided, the override will only apply to commits
-       * created by the specified recurring credit ids.
-       */
-      recurring_credit_ids?: Array<string>;
     }
 
     /**
@@ -3344,15 +3390,15 @@ export namespace ContractEditParams {
     access_schedule?: UpdateCredit.AccessSchedule;
 
     /**
-     * Which products the commit applies to. If applicable_product_ids,
-     * applicable_product_tags or specifiers are not provided, the commit applies to
+     * Which products the credit applies to. If applicable_product_ids,
+     * applicable_product_tags or specifiers are not provided, the credit applies to
      * all products.
      */
     applicable_product_ids?: Array<string> | null;
 
     /**
-     * Which tags the commit applies to. If applicable_product_ids,
-     * applicable_product_tags or specifiers are not provided, the commit applies to
+     * Which tags the credit applies to. If applicable_product_ids,
+     * applicable_product_tags or specifiers are not provided, the credit applies to
      * all products.
      */
     applicable_product_tags?: Array<string> | null;
@@ -3425,6 +3471,8 @@ export namespace ContractEditParams {
      */
     custom_credit_type_id?: string | null;
 
+    discount_configuration?: UpdatePrepaidBalanceThresholdConfiguration.DiscountConfiguration | null;
+
     /**
      * When set to false, the contract will not be evaluated against the
      * threshold_amount. Toggling to true will result an immediate evaluation,
@@ -3470,6 +3518,15 @@ export namespace ContractEditParams {
        * body of `specifiers`.
        */
       specifiers?: Array<Shared.CommitSpecifierInput> | null;
+    }
+
+    export interface DiscountConfiguration {
+      /**
+       * The fraction of the original amount that the customer pays after applying the
+       * discount. Set to null to remove the discount fraction. For example, 0.85 means
+       * the customer pays 85% of the original amount (a 15% discount).
+       */
+      payment_fraction?: number | null;
     }
   }
 
@@ -3574,6 +3631,8 @@ export namespace ContractEditParams {
   export interface UpdateSpendThresholdConfiguration {
     commit?: Shared.UpdateBaseThresholdCommit;
 
+    discount_configuration?: UpdateSpendThresholdConfiguration.DiscountConfiguration | null;
+
     /**
      * When set to false, the contract will not be evaluated against the
      * threshold_amount. Toggling to true will result an immediate evaluation,
@@ -3588,6 +3647,17 @@ export namespace ContractEditParams {
      * hits this amount, a threshold charge will be initiated.
      */
     threshold_amount?: number;
+  }
+
+  export namespace UpdateSpendThresholdConfiguration {
+    export interface DiscountConfiguration {
+      /**
+       * The fraction of the original amount that the customer pays after applying the
+       * discount. Set to null to remove the discount fraction. For example, 0.85 means
+       * the customer pays 85% of the original amount (a 15% discount).
+       */
+      payment_fraction?: number | null;
+    }
   }
 
   export interface UpdateSubscription {
