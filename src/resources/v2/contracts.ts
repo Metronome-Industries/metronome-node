@@ -482,6 +482,10 @@ export namespace ContractGetEditHistoryResponse {
        */
       priority?: number;
 
+      rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
+      rollover_fraction?: number;
+
       /**
        * This field's availability is dependent on your client's configuration.
        */
@@ -1111,6 +1115,20 @@ export namespace ContractGetEditHistoryResponse {
 
       access_schedule?: UpdateCredit.AccessSchedule;
 
+      /**
+       * Which products the credit applies to. If applicable_product_ids,
+       * applicable_product_tags or specifiers are not provided, the credit applies to
+       * all products.
+       */
+      applicable_product_ids?: Array<string> | null;
+
+      /**
+       * Which tags the credit applies to. If applicable_product_ids,
+       * applicable_product_tags or specifiers are not provided, the credit applies to
+       * all products.
+       */
+      applicable_product_tags?: Array<string> | null;
+
       description?: string;
 
       /**
@@ -1128,12 +1146,24 @@ export namespace ContractGetEditHistoryResponse {
        */
       priority?: number | null;
 
+      product_id?: string;
+
       /**
        * If set, the credit's rate type was updated to the specified value.
        */
       rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
 
       rollover_fraction?: number | null;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+       * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       * Instead, to target usage by product or product tag, pass those values in the
+       * body of `specifiers`.
+       */
+      specifiers?: Array<Shared.CommitSpecifierInput> | null;
     }
 
     export namespace UpdateCredit {
@@ -3361,15 +3391,15 @@ export namespace ContractEditParams {
     access_schedule?: UpdateCredit.AccessSchedule;
 
     /**
-     * Which products the commit applies to. If applicable_product_ids,
-     * applicable_product_tags or specifiers are not provided, the commit applies to
+     * Which products the credit applies to. If applicable_product_ids,
+     * applicable_product_tags or specifiers are not provided, the credit applies to
      * all products.
      */
     applicable_product_ids?: Array<string> | null;
 
     /**
-     * Which tags the commit applies to. If applicable_product_ids,
-     * applicable_product_tags or specifiers are not provided, the commit applies to
+     * Which tags the credit applies to. If applicable_product_ids,
+     * applicable_product_tags or specifiers are not provided, the credit applies to
      * all products.
      */
     applicable_product_tags?: Array<string> | null;
