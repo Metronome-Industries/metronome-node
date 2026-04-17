@@ -1087,6 +1087,8 @@ export namespace ContractV2 {
   export interface Override {
     id: string;
 
+    created_at: string;
+
     starting_at: string;
 
     applicable_product_tags?: Array<string>;
@@ -2667,6 +2669,8 @@ export interface ID {
 
 export interface Override {
   id: string;
+
+  created_at: string;
 
   starting_at: string;
 

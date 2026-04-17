@@ -510,6 +510,8 @@ export namespace ContractGetEditHistoryResponse {
     export interface AddOverride {
       id: string;
 
+      created_at: string;
+
       starting_at: string;
 
       applicable_product_tags?: Array<string>;
