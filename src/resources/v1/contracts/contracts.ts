@@ -411,6 +411,10 @@ export class Contracts extends APIResource {
    *
    * ### Usage guidelines:
    *
+   * - **Balance ledger details**: Use the
+   *   [listBalances](https://docs.metronome.com/api-reference/credits-and-commits/list-balances)
+   *   endpoint instead to understand detailed ledger drawdowns for each individual
+   *   balance
    * - **Draft invoice handling**: Use `invoice_inclusion_mode` to control whether
    *   pending draft invoice deductions are included (`FINALIZED_AND_DRAFT`, the
    *   default) or excluded (`FINALIZED`) from the balance calculation
@@ -473,6 +477,9 @@ export class Contracts extends APIResource {
    *
    * ### Usage guidelines:
    *
+   * - Use the
+   *   [getNetBalance](https://docs.metronome.com/api-reference/credits-and-commits/get-the-net-balance-of-a-customer)
+   *   endpoint to retrieve a single combined current balance
    * - Date filtering: Use `effective_before` to include only balances with access
    *   before a specific date (exclusive)
    * - Set `include_balance=true` for calculated balance amounts on each commit or
@@ -1664,14 +1671,6 @@ export namespace ContractCreateParams {
        * commits created by the specified recurring commit ids.
        */
       recurring_commit_ids?: Array<string>;
-
-      /**
-       * Can only be used for commit specific overrides. Must be used in conjunction with
-       * one of `product_id`, `product_tags`, `pricing_group_values`, or
-       * `presentation_group_values`. If provided, the override will only apply to
-       * credits created by the specified recurring credit ids.
-       */
-      recurring_credit_ids?: Array<string>;
     }
 
     /**
@@ -3250,14 +3249,6 @@ export namespace ContractAmendParams {
        * commits created by the specified recurring commit ids.
        */
       recurring_commit_ids?: Array<string>;
-
-      /**
-       * Can only be used for commit specific overrides. Must be used in conjunction with
-       * one of `product_id`, `product_tags`, `pricing_group_values`, or
-       * `presentation_group_values`. If provided, the override will only apply to
-       * credits created by the specified recurring credit ids.
-       */
-      recurring_credit_ids?: Array<string>;
     }
 
     /**

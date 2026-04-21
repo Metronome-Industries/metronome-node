@@ -226,7 +226,6 @@ describe('resource contracts', () => {
               product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
               product_tags: ['string'],
               recurring_commit_ids: ['string'],
-              recurring_credit_ids: ['string'],
             },
           ],
           overwrite_rate: {
@@ -247,9 +246,10 @@ describe('resource contracts', () => {
       ],
       add_prepaid_balance_threshold_configuration: {
         commit: {
+          product_id: 'product_id',
           description: 'description',
           name: 'name',
-          product_id: 'product_id',
+          priority: 0,
           applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
           applicable_product_tags: ['string'],
           specifiers: [
@@ -274,6 +274,7 @@ describe('resource contracts', () => {
         recharge_to_amount: 0,
         threshold_amount: 0,
         custom_credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        discount_configuration: { payment_fraction: 0 },
       },
       add_professional_services: [
         {
@@ -424,9 +425,10 @@ describe('resource contracts', () => {
       ],
       add_spend_threshold_configuration: {
         commit: {
+          product_id: 'product_id',
           description: 'description',
           name: 'name',
-          product_id: 'product_id',
+          priority: 0,
         },
         is_enabled: true,
         payment_gate_config: {
@@ -439,6 +441,7 @@ describe('resource contracts', () => {
           tax_type: 'NONE',
         },
         threshold_amount: 0,
+        discount_configuration: { payment_fraction: 0 },
       },
       add_subscriptions: [
         {
@@ -562,6 +565,7 @@ describe('resource contracts', () => {
         commit: {
           description: 'description',
           name: 'name',
+          priority: 0,
           product_id: 'product_id',
           applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
           applicable_product_tags: ['string'],
@@ -575,6 +579,7 @@ describe('resource contracts', () => {
           ],
         },
         custom_credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        discount_configuration: { payment_fraction: 0 },
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',
@@ -635,8 +640,10 @@ describe('resource contracts', () => {
         commit: {
           description: 'description',
           name: 'name',
+          priority: 0,
           product_id: 'product_id',
         },
+        discount_configuration: { payment_fraction: 0 },
         is_enabled: true,
         payment_gate_config: {
           payment_gate_type: 'NONE',
