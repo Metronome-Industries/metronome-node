@@ -29,7 +29,6 @@ describe('resource packages', () => {
           starting_at: '2019-12-27T18:11:19.117Z',
         },
       ],
-      billing_anchor_date: 'contract_start_date',
       billing_provider: 'stripe',
       commits: [
         {
