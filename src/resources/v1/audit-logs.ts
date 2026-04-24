@@ -57,15 +57,12 @@ export class AuditLogs extends APIResource {
    * }
    * ```
    */
-  list(
-    query: AuditLogListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<AuditLogListResponsesCursorPage, AuditLogListResponse> {
+  list(query: AuditLogListParams | null | undefined = {}, options?: RequestOptions): PagePromise<AuditLogListResponsesCursorPage, AuditLogListResponse> {
     return this._client.getAPIList('/v1/auditLogs', CursorPage<AuditLogListResponse>, { query, ...options });
   }
 }
 
-export type AuditLogListResponsesCursorPage = CursorPage<AuditLogListResponse>;
+export type AuditLogListResponsesCursorPage = CursorPage<AuditLogListResponse>
 
 export interface AuditLogListResponse {
   id: string;
@@ -139,6 +136,6 @@ export declare namespace AuditLogs {
   export {
     type AuditLogListResponse as AuditLogListResponse,
     type AuditLogListResponsesCursorPage as AuditLogListResponsesCursorPage,
-    type AuditLogListParams as AuditLogListParams,
+    type AuditLogListParams as AuditLogListParams
   };
 }

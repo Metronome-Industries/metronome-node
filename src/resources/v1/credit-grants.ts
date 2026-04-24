@@ -4,13 +4,7 @@ import { APIResource } from '../../core/resource';
 import * as CreditGrantsAPI from './credit-grants';
 import * as Shared from '../shared';
 import { APIPromise } from '../../core/api-promise';
-import {
-  CursorPage,
-  type CursorPageParams,
-  CursorPageWithoutLimit,
-  type CursorPageWithoutLimitParams,
-  PagePromise,
-} from '../../core/pagination';
+import { CursorPage, type CursorPageParams, CursorPageWithoutLimit, type CursorPageWithoutLimitParams, PagePromise } from '../../core/pagination';
 import { RequestOptions } from '../../internal/request-options';
 
 /**
@@ -70,17 +64,9 @@ export class CreditGrants extends APIResource {
    * }
    * ```
    */
-  list(
-    params: CreditGrantListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<CreditGrantListResponsesCursorPage, CreditGrantListResponse> {
-    const { limit, next_page, ...body } = params ?? {};
-    return this._client.getAPIList('/v1/credits/listGrants', CursorPage<CreditGrantListResponse>, {
-      query: { limit, next_page },
-      body,
-      method: 'post',
-      ...options,
-    });
+  list(params: CreditGrantListParams | null | undefined = {}, options?: RequestOptions): PagePromise<CreditGrantListResponsesCursorPage, CreditGrantListResponse> {
+    const { limit, next_page, ...body } = params ?? {}
+    return this._client.getAPIList('/v1/credits/listGrants', CursorPage<CreditGrantListResponse>, { query: { limit, next_page }, body, method: 'post', ...options });
   }
 
   /**
@@ -123,16 +109,9 @@ export class CreditGrants extends APIResource {
    * }
    * ```
    */
-  listEntries(
-    params: CreditGrantListEntriesParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<CreditGrantListEntriesResponsesCursorPageWithoutLimit, CreditGrantListEntriesResponse> {
-    const { next_page, sort, ...body } = params ?? {};
-    return this._client.getAPIList(
-      '/v1/credits/listEntries',
-      CursorPageWithoutLimit<CreditGrantListEntriesResponse>,
-      { query: { next_page, sort }, body, method: 'post', ...options },
-    );
+  listEntries(params: CreditGrantListEntriesParams | null | undefined = {}, options?: RequestOptions): PagePromise<CreditGrantListEntriesResponsesCursorPageWithoutLimit, CreditGrantListEntriesResponse> {
+    const { next_page, sort, ...body } = params ?? {}
+    return this._client.getAPIList('/v1/credits/listEntries', CursorPageWithoutLimit<CreditGrantListEntriesResponse>, { query: { next_page, sort }, body, method: 'post', ...options });
   }
 
   /**
@@ -151,10 +130,9 @@ export class CreditGrants extends APIResource {
   }
 }
 
-export type CreditGrantListResponsesCursorPage = CursorPage<CreditGrantListResponse>;
+export type CreditGrantListResponsesCursorPage = CursorPage<CreditGrantListResponse>
 
-export type CreditGrantListEntriesResponsesCursorPageWithoutLimit =
-  CursorPageWithoutLimit<CreditGrantListEntriesResponse>;
+export type CreditGrantListEntriesResponsesCursorPageWithoutLimit = CursorPageWithoutLimit<CreditGrantListEntriesResponse>
 
 export interface CreditLedgerEntry {
   /**
@@ -654,6 +632,6 @@ export declare namespace CreditGrants {
     type CreditGrantListParams as CreditGrantListParams,
     type CreditGrantEditParams as CreditGrantEditParams,
     type CreditGrantListEntriesParams as CreditGrantListEntriesParams,
-    type CreditGrantVoidParams as CreditGrantVoidParams,
+    type CreditGrantVoidParams as CreditGrantVoidParams
   };
 }

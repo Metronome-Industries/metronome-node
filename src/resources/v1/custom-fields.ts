@@ -2,11 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
-import {
-  CursorPageWithoutLimit,
-  type CursorPageWithoutLimitParams,
-  PagePromise,
-} from '../../core/pagination';
+import { CursorPageWithoutLimit, type CursorPageWithoutLimitParams, PagePromise } from '../../core/pagination';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
@@ -55,11 +51,7 @@ export class CustomFields extends APIResource {
    * ```
    */
   addKey(body: CustomFieldAddKeyParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/customFields/addKey', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post('/v1/customFields/addKey', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -78,11 +70,7 @@ export class CustomFields extends APIResource {
    * ```
    */
   deleteValues(body: CustomFieldDeleteValuesParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/customFields/deleteValues', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post('/v1/customFields/deleteValues', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -101,16 +89,9 @@ export class CustomFields extends APIResource {
    * }
    * ```
    */
-  listKeys(
-    params: CustomFieldListKeysParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<CustomFieldListKeysResponsesCursorPageWithoutLimit, CustomFieldListKeysResponse> {
-    const { next_page, ...body } = params ?? {};
-    return this._client.getAPIList(
-      '/v1/customFields/listKeys',
-      CursorPageWithoutLimit<CustomFieldListKeysResponse>,
-      { query: { next_page }, body, method: 'post', ...options },
-    );
+  listKeys(params: CustomFieldListKeysParams | null | undefined = {}, options?: RequestOptions): PagePromise<CustomFieldListKeysResponsesCursorPageWithoutLimit, CustomFieldListKeysResponse> {
+    const { next_page, ...body } = params ?? {}
+    return this._client.getAPIList('/v1/customFields/listKeys', CursorPageWithoutLimit<CustomFieldListKeysResponse>, { query: { next_page }, body, method: 'post', ...options });
   }
 
   /**
@@ -128,11 +109,7 @@ export class CustomFields extends APIResource {
    * ```
    */
   removeKey(body: CustomFieldRemoveKeyParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/customFields/removeKey', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post('/v1/customFields/removeKey', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -151,43 +128,16 @@ export class CustomFields extends APIResource {
    * ```
    */
   setValues(body: CustomFieldSetValuesParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/customFields/setValues', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post('/v1/customFields/setValues', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
-export type CustomFieldListKeysResponsesCursorPageWithoutLimit =
-  CursorPageWithoutLimit<CustomFieldListKeysResponse>;
+export type CustomFieldListKeysResponsesCursorPageWithoutLimit = CursorPageWithoutLimit<CustomFieldListKeysResponse>
 
 export interface CustomFieldListKeysResponse {
   enforce_uniqueness: boolean;
 
-  entity:
-    | 'alert'
-    | 'billable_metric'
-    | 'charge'
-    | 'commit'
-    | 'contract_credit'
-    | 'contract_product'
-    | 'contract'
-    | 'credit_grant'
-    | 'customer_plan'
-    | 'customer'
-    | 'discount'
-    | 'invoice'
-    | 'plan'
-    | 'professional_service'
-    | 'product'
-    | 'rate_card'
-    | 'scheduled_charge'
-    | 'subscription'
-    | 'package_commit'
-    | 'package_credit'
-    | 'package_subscription'
-    | 'package_scheduled_charge';
+  entity: 'alert' | 'billable_metric' | 'charge' | 'commit' | 'contract_credit' | 'contract_product' | 'contract' | 'credit_grant' | 'customer_plan' | 'customer' | 'discount' | 'invoice' | 'plan' | 'professional_service' | 'product' | 'rate_card' | 'scheduled_charge' | 'subscription' | 'package_commit' | 'package_credit' | 'package_subscription' | 'package_scheduled_charge';
 
   key: string;
 }
@@ -195,57 +145,13 @@ export interface CustomFieldListKeysResponse {
 export interface CustomFieldAddKeyParams {
   enforce_uniqueness: boolean;
 
-  entity:
-    | 'alert'
-    | 'billable_metric'
-    | 'charge'
-    | 'commit'
-    | 'contract_credit'
-    | 'contract_product'
-    | 'contract'
-    | 'credit_grant'
-    | 'customer_plan'
-    | 'customer'
-    | 'discount'
-    | 'invoice'
-    | 'plan'
-    | 'professional_service'
-    | 'product'
-    | 'rate_card'
-    | 'scheduled_charge'
-    | 'subscription'
-    | 'package_commit'
-    | 'package_credit'
-    | 'package_subscription'
-    | 'package_scheduled_charge';
+  entity: 'alert' | 'billable_metric' | 'charge' | 'commit' | 'contract_credit' | 'contract_product' | 'contract' | 'credit_grant' | 'customer_plan' | 'customer' | 'discount' | 'invoice' | 'plan' | 'professional_service' | 'product' | 'rate_card' | 'scheduled_charge' | 'subscription' | 'package_commit' | 'package_credit' | 'package_subscription' | 'package_scheduled_charge';
 
   key: string;
 }
 
 export interface CustomFieldDeleteValuesParams {
-  entity:
-    | 'alert'
-    | 'billable_metric'
-    | 'charge'
-    | 'commit'
-    | 'contract_credit'
-    | 'contract_product'
-    | 'contract'
-    | 'credit_grant'
-    | 'customer_plan'
-    | 'customer'
-    | 'discount'
-    | 'invoice'
-    | 'plan'
-    | 'professional_service'
-    | 'product'
-    | 'rate_card'
-    | 'scheduled_charge'
-    | 'subscription'
-    | 'package_commit'
-    | 'package_credit'
-    | 'package_subscription'
-    | 'package_scheduled_charge';
+  entity: 'alert' | 'billable_metric' | 'charge' | 'commit' | 'contract_credit' | 'contract_product' | 'contract' | 'credit_grant' | 'customer_plan' | 'customer' | 'discount' | 'invoice' | 'plan' | 'professional_service' | 'product' | 'rate_card' | 'scheduled_charge' | 'subscription' | 'package_commit' | 'package_credit' | 'package_subscription' | 'package_scheduled_charge';
 
   entity_id: string;
 
@@ -256,56 +162,11 @@ export interface CustomFieldListKeysParams extends CursorPageWithoutLimitParams 
   /**
    * Body param: Optional list of entity types to return keys for
    */
-  entities?: Array<
-    | 'alert'
-    | 'billable_metric'
-    | 'charge'
-    | 'commit'
-    | 'contract_credit'
-    | 'contract_product'
-    | 'contract'
-    | 'credit_grant'
-    | 'customer_plan'
-    | 'customer'
-    | 'discount'
-    | 'invoice'
-    | 'plan'
-    | 'professional_service'
-    | 'product'
-    | 'rate_card'
-    | 'scheduled_charge'
-    | 'subscription'
-    | 'package_commit'
-    | 'package_credit'
-    | 'package_subscription'
-    | 'package_scheduled_charge'
-  >;
+  entities?: Array<'alert' | 'billable_metric' | 'charge' | 'commit' | 'contract_credit' | 'contract_product' | 'contract' | 'credit_grant' | 'customer_plan' | 'customer' | 'discount' | 'invoice' | 'plan' | 'professional_service' | 'product' | 'rate_card' | 'scheduled_charge' | 'subscription' | 'package_commit' | 'package_credit' | 'package_subscription' | 'package_scheduled_charge'>;
 }
 
 export interface CustomFieldRemoveKeyParams {
-  entity:
-    | 'alert'
-    | 'billable_metric'
-    | 'charge'
-    | 'commit'
-    | 'contract_credit'
-    | 'contract_product'
-    | 'contract'
-    | 'credit_grant'
-    | 'customer_plan'
-    | 'customer'
-    | 'discount'
-    | 'invoice'
-    | 'plan'
-    | 'professional_service'
-    | 'product'
-    | 'rate_card'
-    | 'scheduled_charge'
-    | 'subscription'
-    | 'package_commit'
-    | 'package_credit'
-    | 'package_subscription'
-    | 'package_scheduled_charge';
+  entity: 'alert' | 'billable_metric' | 'charge' | 'commit' | 'contract_credit' | 'contract_product' | 'contract' | 'credit_grant' | 'customer_plan' | 'customer' | 'discount' | 'invoice' | 'plan' | 'professional_service' | 'product' | 'rate_card' | 'scheduled_charge' | 'subscription' | 'package_commit' | 'package_credit' | 'package_subscription' | 'package_scheduled_charge';
 
   key: string;
 }
@@ -316,29 +177,7 @@ export interface CustomFieldSetValuesParams {
    */
   custom_fields: { [key: string]: string };
 
-  entity:
-    | 'alert'
-    | 'billable_metric'
-    | 'charge'
-    | 'commit'
-    | 'contract_credit'
-    | 'contract_product'
-    | 'contract'
-    | 'credit_grant'
-    | 'customer_plan'
-    | 'customer'
-    | 'discount'
-    | 'invoice'
-    | 'plan'
-    | 'professional_service'
-    | 'product'
-    | 'rate_card'
-    | 'scheduled_charge'
-    | 'subscription'
-    | 'package_commit'
-    | 'package_credit'
-    | 'package_subscription'
-    | 'package_scheduled_charge';
+  entity: 'alert' | 'billable_metric' | 'charge' | 'commit' | 'contract_credit' | 'contract_product' | 'contract' | 'credit_grant' | 'customer_plan' | 'customer' | 'discount' | 'invoice' | 'plan' | 'professional_service' | 'product' | 'rate_card' | 'scheduled_charge' | 'subscription' | 'package_commit' | 'package_credit' | 'package_subscription' | 'package_scheduled_charge';
 
   entity_id: string;
 }
@@ -351,6 +190,6 @@ export declare namespace CustomFields {
     type CustomFieldDeleteValuesParams as CustomFieldDeleteValuesParams,
     type CustomFieldListKeysParams as CustomFieldListKeysParams,
     type CustomFieldRemoveKeyParams as CustomFieldRemoveKeyParams,
-    type CustomFieldSetValuesParams as CustomFieldSetValuesParams,
+    type CustomFieldSetValuesParams as CustomFieldSetValuesParams
   };
 }

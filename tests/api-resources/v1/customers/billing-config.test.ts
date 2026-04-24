@@ -2,18 +2,15 @@
 
 import Metronome from '@metronome/sdk';
 
-const client = new Metronome({
-  bearerToken: 'My Bearer Token',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new Metronome({ bearerToken: 'My Bearer Token', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
 describe('resource billingConfig', () => {
   test('create: only required params', async () => {
     const responsePromise = client.v1.customers.billingConfig.create({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      billing_provider_type: 'stripe',
-      billing_provider_customer_id: 'cus_AJ6y20bjkOOayM',
-    });
+    customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+    billing_provider_type: 'stripe',
+    billing_provider_customer_id: 'cus_AJ6y20bjkOOayM',
+  });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -25,22 +22,19 @@ describe('resource billingConfig', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.v1.customers.billingConfig.create({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      billing_provider_type: 'stripe',
-      billing_provider_customer_id: 'cus_AJ6y20bjkOOayM',
-      aws_customer_account_id: 'aws_customer_account_id',
-      aws_customer_id: 'aws_customer_id',
-      aws_product_code: 'aws_product_code',
-      aws_region: 'af-south-1',
-      stripe_collection_method: 'charge_automatically',
-    });
+    customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+    billing_provider_type: 'stripe',
+    billing_provider_customer_id: 'cus_AJ6y20bjkOOayM',
+    aws_customer_account_id: 'aws_customer_account_id',
+    aws_customer_id: 'aws_customer_id',
+    aws_product_code: 'aws_product_code',
+    aws_region: 'af-south-1',
+    stripe_collection_method: 'charge_automatically',
+  });
   });
 
   test('retrieve: only required params', async () => {
-    const responsePromise = client.v1.customers.billingConfig.retrieve({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      billing_provider_type: 'stripe',
-    });
+    const responsePromise = client.v1.customers.billingConfig.retrieve({ customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', billing_provider_type: 'stripe' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -51,17 +45,11 @@ describe('resource billingConfig', () => {
   });
 
   test('retrieve: required and optional params', async () => {
-    const response = await client.v1.customers.billingConfig.retrieve({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      billing_provider_type: 'stripe',
-    });
+    const response = await client.v1.customers.billingConfig.retrieve({ customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', billing_provider_type: 'stripe' });
   });
 
   test('delete: only required params', async () => {
-    const responsePromise = client.v1.customers.billingConfig.delete({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      billing_provider_type: 'stripe',
-    });
+    const responsePromise = client.v1.customers.billingConfig.delete({ customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', billing_provider_type: 'stripe' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -72,9 +60,6 @@ describe('resource billingConfig', () => {
   });
 
   test('delete: required and optional params', async () => {
-    const response = await client.v1.customers.billingConfig.delete({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      billing_provider_type: 'stripe',
-    });
+    const response = await client.v1.customers.billingConfig.delete({ customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', billing_provider_type: 'stripe' });
   });
 });

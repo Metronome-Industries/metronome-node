@@ -26,10 +26,7 @@ export class NamedSchedules extends APIResource {
    *   );
    * ```
    */
-  retrieve(
-    body: NamedScheduleRetrieveParams,
-    options?: RequestOptions,
-  ): APIPromise<NamedScheduleRetrieveResponse> {
+  retrieve(body: NamedScheduleRetrieveParams, options?: RequestOptions): APIPromise<NamedScheduleRetrieveResponse> {
     return this._client.post('/v1/contracts/getNamedSchedule', { body, ...options });
   }
 
@@ -50,11 +47,7 @@ export class NamedSchedules extends APIResource {
    * ```
    */
   update(body: NamedScheduleUpdateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/contracts/updateNamedSchedule', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post('/v1/contracts/updateNamedSchedule', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
@@ -126,6 +119,6 @@ export declare namespace NamedSchedules {
   export {
     type NamedScheduleRetrieveResponse as NamedScheduleRetrieveResponse,
     type NamedScheduleRetrieveParams as NamedScheduleRetrieveParams,
-    type NamedScheduleUpdateParams as NamedScheduleUpdateParams,
+    type NamedScheduleUpdateParams as NamedScheduleUpdateParams
   };
 }
