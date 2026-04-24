@@ -3,13 +3,7 @@
 import { APIResource } from '../../core/resource';
 import * as Shared from '../shared';
 import { APIPromise } from '../../core/api-promise';
-import {
-  CursorPage,
-  type CursorPageParams,
-  CursorPageWithoutLimit,
-  type CursorPageWithoutLimitParams,
-  PagePromise,
-} from '../../core/pagination';
+import { CursorPage, type CursorPageParams, CursorPageWithoutLimit, type CursorPageWithoutLimitParams, PagePromise } from '../../core/pagination';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
@@ -64,17 +58,9 @@ export class Usage extends APIResource {
    * }
    * ```
    */
-  list(
-    params: UsageListParams,
-    options?: RequestOptions,
-  ): PagePromise<UsageListResponsesCursorPageWithoutLimit, UsageListResponse> {
-    const { next_page, ...body } = params;
-    return this._client.getAPIList('/v1/usage', CursorPageWithoutLimit<UsageListResponse>, {
-      query: { next_page },
-      body,
-      method: 'post',
-      ...options,
-    });
+  list(params: UsageListParams, options?: RequestOptions): PagePromise<UsageListResponsesCursorPageWithoutLimit, UsageListResponse> {
+    const { next_page, ...body } = params
+    return this._client.getAPIList('/v1/usage', CursorPageWithoutLimit<UsageListResponse>, { query: { next_page }, body, method: 'post', ...options });
   }
 
   /**
@@ -170,16 +156,9 @@ export class Usage extends APIResource {
    * await client.v1.usage.ingest();
    * ```
    */
-  ingest(
-    params: UsageIngestParams | null | undefined = undefined,
-    options?: RequestOptions,
-  ): APIPromise<void> {
-    const { usage } = params ?? {};
-    return this._client.post('/v1/ingest', {
-      body: usage,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  ingest(params: UsageIngestParams | null | undefined = undefined, options?: RequestOptions): APIPromise<void> {
+    const { usage } = params ?? {}
+    return this._client.post('/v1/ingest', { body: usage, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -262,17 +241,9 @@ export class Usage extends APIResource {
    * }
    * ```
    */
-  listWithGroups(
-    params: UsageListWithGroupsParams,
-    options?: RequestOptions,
-  ): PagePromise<UsageListWithGroupsResponsesCursorPage, UsageListWithGroupsResponse> {
-    const { limit, next_page, ...body } = params;
-    return this._client.getAPIList('/v1/usage/groups', CursorPage<UsageListWithGroupsResponse>, {
-      query: { limit, next_page },
-      body,
-      method: 'post',
-      ...options,
-    });
+  listWithGroups(params: UsageListWithGroupsParams, options?: RequestOptions): PagePromise<UsageListWithGroupsResponsesCursorPage, UsageListWithGroupsResponse> {
+    const { limit, next_page, ...body } = params
+    return this._client.getAPIList('/v1/usage/groups', CursorPage<UsageListWithGroupsResponse>, { query: { limit, next_page }, body, method: 'post', ...options });
   }
 
   /**
@@ -323,9 +294,9 @@ export class Usage extends APIResource {
   }
 }
 
-export type UsageListResponsesCursorPageWithoutLimit = CursorPageWithoutLimit<UsageListResponse>;
+export type UsageListResponsesCursorPageWithoutLimit = CursorPageWithoutLimit<UsageListResponse>
 
-export type UsageListWithGroupsResponsesCursorPage = CursorPage<UsageListWithGroupsResponse>;
+export type UsageListWithGroupsResponsesCursorPage = CursorPage<UsageListWithGroupsResponse>
 
 export interface UsageListResponse {
   billable_metric_id: string;
@@ -373,7 +344,7 @@ export interface UsageListWithGroupsResponse {
   group?: { [key: string]: string };
 }
 
-export type UsageSearchResponse = Array<UsageSearchResponse.UsageSearchResponseItem>;
+export type UsageSearchResponse = Array<UsageSearchResponse.UsageSearchResponseItem>
 
 export namespace UsageSearchResponse {
   export interface UsageSearchResponseItem {
@@ -667,6 +638,6 @@ export declare namespace Usage {
     type UsageListParams as UsageListParams,
     type UsageIngestParams as UsageIngestParams,
     type UsageListWithGroupsParams as UsageListWithGroupsParams,
-    type UsageSearchParams as UsageSearchParams,
+    type UsageSearchParams as UsageSearchParams
   };
 }

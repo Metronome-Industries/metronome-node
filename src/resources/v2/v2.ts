@@ -2,21 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import * as ContractsAPI from './contracts';
-import {
-  ContractEditCommitParams,
-  ContractEditCommitResponse,
-  ContractEditCreditParams,
-  ContractEditCreditResponse,
-  ContractEditParams,
-  ContractEditResponse,
-  ContractGetEditHistoryParams,
-  ContractGetEditHistoryResponse,
-  ContractListParams,
-  ContractListResponse,
-  ContractRetrieveParams,
-  ContractRetrieveResponse,
-  Contracts,
-} from './contracts';
+import { ContractEditCommitParams, ContractEditCommitResponse, ContractEditCreditParams, ContractEditCreditResponse, ContractEditParams, ContractEditResponse, ContractGetEditHistoryParams, ContractGetEditHistoryResponse, ContractListParams, ContractListResponse, ContractRetrieveParams, ContractRetrieveResponse, Contracts } from './contracts';
 
 export class V2 extends APIResource {
   contracts: ContractsAPI.Contracts = new ContractsAPI.Contracts(this._client);
@@ -38,6 +24,6 @@ export declare namespace V2 {
     type ContractEditParams as ContractEditParams,
     type ContractEditCommitParams as ContractEditCommitParams,
     type ContractEditCreditParams as ContractEditCreditParams,
-    type ContractGetEditHistoryParams as ContractGetEditHistoryParams,
+    type ContractGetEditHistoryParams as ContractGetEditHistoryParams
   };
 }

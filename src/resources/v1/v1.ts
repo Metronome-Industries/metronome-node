@@ -2,208 +2,37 @@
 
 import { APIResource } from '../../core/resource';
 import * as AlertsAPI from './alerts';
-import {
-  AlertArchiveParams,
-  AlertArchiveResponse,
-  AlertCreateParams,
-  AlertCreateResponse,
-  Alerts,
-} from './alerts';
+import { AlertArchiveParams, AlertArchiveResponse, AlertCreateParams, AlertCreateResponse, Alerts } from './alerts';
 import * as AuditLogsAPI from './audit-logs';
-import {
-  AuditLogListParams,
-  AuditLogListResponse,
-  AuditLogListResponsesCursorPage,
-  AuditLogs,
-} from './audit-logs';
+import { AuditLogListParams, AuditLogListResponse, AuditLogListResponsesCursorPage, AuditLogs } from './audit-logs';
 import * as BillableMetricsAPI from './billable-metrics';
-import {
-  BillableMetricArchiveParams,
-  BillableMetricArchiveResponse,
-  BillableMetricCreateParams,
-  BillableMetricCreateResponse,
-  BillableMetricListParams,
-  BillableMetricListResponse,
-  BillableMetricListResponsesCursorPage,
-  BillableMetricRetrieveParams,
-  BillableMetricRetrieveResponse,
-  BillableMetrics,
-} from './billable-metrics';
+import { BillableMetricArchiveParams, BillableMetricArchiveResponse, BillableMetricCreateParams, BillableMetricCreateResponse, BillableMetricListParams, BillableMetricListResponse, BillableMetricListResponsesCursorPage, BillableMetricRetrieveParams, BillableMetricRetrieveResponse, BillableMetrics } from './billable-metrics';
 import * as CreditGrantsAPI from './credit-grants';
-import {
-  CreditGrantCreateParams,
-  CreditGrantCreateResponse,
-  CreditGrantEditParams,
-  CreditGrantEditResponse,
-  CreditGrantListEntriesParams,
-  CreditGrantListEntriesResponse,
-  CreditGrantListEntriesResponsesCursorPageWithoutLimit,
-  CreditGrantListParams,
-  CreditGrantListResponse,
-  CreditGrantListResponsesCursorPage,
-  CreditGrantVoidParams,
-  CreditGrantVoidResponse,
-  CreditGrants,
-  CreditLedgerEntry,
-  RolloverAmountMaxAmount,
-  RolloverAmountMaxPercentage,
-} from './credit-grants';
+import { CreditGrantCreateParams, CreditGrantCreateResponse, CreditGrantEditParams, CreditGrantEditResponse, CreditGrantListEntriesParams, CreditGrantListEntriesResponse, CreditGrantListEntriesResponsesCursorPageWithoutLimit, CreditGrantListParams, CreditGrantListResponse, CreditGrantListResponsesCursorPage, CreditGrantVoidParams, CreditGrantVoidResponse, CreditGrants, CreditLedgerEntry, RolloverAmountMaxAmount, RolloverAmountMaxPercentage } from './credit-grants';
 import * as CustomFieldsAPI from './custom-fields';
-import {
-  CustomFieldAddKeyParams,
-  CustomFieldDeleteValuesParams,
-  CustomFieldListKeysParams,
-  CustomFieldListKeysResponse,
-  CustomFieldListKeysResponsesCursorPageWithoutLimit,
-  CustomFieldRemoveKeyParams,
-  CustomFieldSetValuesParams,
-  CustomFields,
-} from './custom-fields';
+import { CustomFieldAddKeyParams, CustomFieldDeleteValuesParams, CustomFieldListKeysParams, CustomFieldListKeysResponse, CustomFieldListKeysResponsesCursorPageWithoutLimit, CustomFieldRemoveKeyParams, CustomFieldSetValuesParams, CustomFields } from './custom-fields';
 import * as DashboardsAPI from './dashboards';
 import { DashboardGetEmbeddableURLParams, DashboardGetEmbeddableURLResponse, Dashboards } from './dashboards';
 import * as InvoicesAPI from './invoices';
-import {
-  InvoiceRegenerateParams,
-  InvoiceRegenerateResponse,
-  InvoiceVoidParams,
-  InvoiceVoidResponse,
-  Invoices,
-} from './invoices';
+import { InvoiceRegenerateParams, InvoiceRegenerateResponse, InvoiceVoidParams, InvoiceVoidResponse, Invoices } from './invoices';
 import * as PackagesAPI from './packages';
-import {
-  PackageArchiveParams,
-  PackageArchiveResponse,
-  PackageCreateParams,
-  PackageCreateResponse,
-  PackageListContractsOnPackageParams,
-  PackageListContractsOnPackageResponse,
-  PackageListContractsOnPackageResponsesCursorPage,
-  PackageListParams,
-  PackageListResponse,
-  PackageListResponsesCursorPage,
-  PackageRetrieveParams,
-  PackageRetrieveResponse,
-  Packages,
-} from './packages';
+import { PackageArchiveParams, PackageArchiveResponse, PackageCreateParams, PackageCreateResponse, PackageListContractsOnPackageParams, PackageListContractsOnPackageResponse, PackageListContractsOnPackageResponsesCursorPage, PackageListParams, PackageListResponse, PackageListResponsesCursorPage, PackageRetrieveParams, PackageRetrieveResponse, Packages } from './packages';
 import * as PaymentsAPI from './payments';
-import {
-  Payment,
-  PaymentAttemptParams,
-  PaymentAttemptResponse,
-  PaymentCancelParams,
-  PaymentCancelResponse,
-  PaymentListParams,
-  PaymentStatus,
-  Payments,
-  PaymentsBodyCursorPage,
-} from './payments';
+import { Payment, PaymentAttemptParams, PaymentAttemptResponse, PaymentCancelParams, PaymentCancelResponse, PaymentListParams, PaymentStatus, Payments, PaymentsBodyCursorPage } from './payments';
 import * as PlansAPI from './plans';
-import {
-  PlanDetail,
-  PlanGetDetailsParams,
-  PlanGetDetailsResponse,
-  PlanListChargesParams,
-  PlanListChargesResponse,
-  PlanListChargesResponsesCursorPage,
-  PlanListCustomersParams,
-  PlanListCustomersResponse,
-  PlanListCustomersResponsesCursorPage,
-  PlanListParams,
-  PlanListResponse,
-  PlanListResponsesCursorPage,
-  Plans,
-} from './plans';
+import { PlanDetail, PlanGetDetailsParams, PlanGetDetailsResponse, PlanListChargesParams, PlanListChargesResponse, PlanListChargesResponsesCursorPage, PlanListCustomersParams, PlanListCustomersResponse, PlanListCustomersResponsesCursorPage, PlanListParams, PlanListResponse, PlanListResponsesCursorPage, Plans } from './plans';
 import * as PricingUnitsAPI from './pricing-units';
-import {
-  PricingUnitListParams,
-  PricingUnitListResponse,
-  PricingUnitListResponsesCursorPage,
-  PricingUnits,
-} from './pricing-units';
+import { PricingUnitListParams, PricingUnitListResponse, PricingUnitListResponsesCursorPage, PricingUnits } from './pricing-units';
 import * as ServicesAPI from './services';
 import { ServiceListResponse, Services } from './services';
 import * as UsageAPI from './usage';
-import {
-  Usage,
-  UsageIngestParams,
-  UsageListParams,
-  UsageListResponse,
-  UsageListResponsesCursorPageWithoutLimit,
-  UsageListWithGroupsParams,
-  UsageListWithGroupsResponse,
-  UsageListWithGroupsResponsesCursorPage,
-  UsageSearchParams,
-  UsageSearchResponse,
-} from './usage';
+import { Usage, UsageIngestParams, UsageListParams, UsageListResponse, UsageListResponsesCursorPageWithoutLimit, UsageListWithGroupsParams, UsageListWithGroupsResponse, UsageListWithGroupsResponsesCursorPage, UsageSearchParams, UsageSearchResponse } from './usage';
 import * as ContractsAPI from './contracts/contracts';
-import {
-  ContractAddManualBalanceEntryParams,
-  ContractAmendParams,
-  ContractAmendResponse,
-  ContractArchiveParams,
-  ContractArchiveResponse,
-  ContractCreateHistoricalInvoicesParams,
-  ContractCreateHistoricalInvoicesResponse,
-  ContractCreateParams,
-  ContractCreateResponse,
-  ContractGetNetBalanceParams,
-  ContractGetNetBalanceResponse,
-  ContractListBalancesParams,
-  ContractListBalancesResponse,
-  ContractListBalancesResponsesBodyCursorPage,
-  ContractListParams,
-  ContractListResponse,
-  ContractRetrieveParams,
-  ContractRetrieveRateScheduleParams,
-  ContractRetrieveRateScheduleResponse,
-  ContractRetrieveResponse,
-  ContractRetrieveSubscriptionQuantityHistoryParams,
-  ContractRetrieveSubscriptionQuantityHistoryResponse,
-  ContractScheduleProServicesInvoiceParams,
-  ContractScheduleProServicesInvoiceResponse,
-  ContractSetUsageFilterParams,
-  ContractUpdateEndDateParams,
-  ContractUpdateEndDateResponse,
-  Contracts,
-} from './contracts/contracts';
+import { ContractAddManualBalanceEntryParams, ContractAmendParams, ContractAmendResponse, ContractArchiveParams, ContractArchiveResponse, ContractCreateHistoricalInvoicesParams, ContractCreateHistoricalInvoicesResponse, ContractCreateParams, ContractCreateResponse, ContractGetNetBalanceParams, ContractGetNetBalanceResponse, ContractListBalancesParams, ContractListBalancesResponse, ContractListBalancesResponsesBodyCursorPage, ContractListParams, ContractListResponse, ContractRetrieveParams, ContractRetrieveRateScheduleParams, ContractRetrieveRateScheduleResponse, ContractRetrieveResponse, ContractRetrieveSubscriptionQuantityHistoryParams, ContractRetrieveSubscriptionQuantityHistoryResponse, ContractScheduleProServicesInvoiceParams, ContractScheduleProServicesInvoiceResponse, ContractSetUsageFilterParams, ContractUpdateEndDateParams, ContractUpdateEndDateResponse, Contracts } from './contracts/contracts';
 import * as CustomersAPI from './customers/customers';
-import {
-  Customer,
-  CustomerArchiveBillingConfigurationsParams,
-  CustomerArchiveBillingConfigurationsResponse,
-  CustomerArchiveParams,
-  CustomerArchiveResponse,
-  CustomerCreateParams,
-  CustomerCreateResponse,
-  CustomerDetail,
-  CustomerDetailsCursorPage,
-  CustomerListBillableMetricsParams,
-  CustomerListBillableMetricsResponse,
-  CustomerListBillableMetricsResponsesCursorPage,
-  CustomerListCostsParams,
-  CustomerListCostsResponse,
-  CustomerListCostsResponsesCursorPage,
-  CustomerListParams,
-  CustomerPreviewEventsParams,
-  CustomerPreviewEventsResponse,
-  CustomerRetrieveBillingConfigurationsParams,
-  CustomerRetrieveBillingConfigurationsResponse,
-  CustomerRetrieveParams,
-  CustomerRetrieveResponse,
-  CustomerSetBillingConfigurationsParams,
-  CustomerSetBillingConfigurationsResponse,
-  CustomerSetIngestAliasesParams,
-  CustomerSetNameParams,
-  CustomerSetNameResponse,
-  CustomerUpdateConfigParams,
-  Customers,
-} from './customers/customers';
+import { Customer, CustomerArchiveBillingConfigurationsParams, CustomerArchiveBillingConfigurationsResponse, CustomerArchiveParams, CustomerArchiveResponse, CustomerCreateParams, CustomerCreateResponse, CustomerDetail, CustomerDetailsCursorPage, CustomerListBillableMetricsParams, CustomerListBillableMetricsResponse, CustomerListBillableMetricsResponsesCursorPage, CustomerListCostsParams, CustomerListCostsResponse, CustomerListCostsResponsesCursorPage, CustomerListParams, CustomerPreviewEventsParams, CustomerPreviewEventsResponse, CustomerRetrieveBillingConfigurationsParams, CustomerRetrieveBillingConfigurationsResponse, CustomerRetrieveParams, CustomerRetrieveResponse, CustomerSetBillingConfigurationsParams, CustomerSetBillingConfigurationsResponse, CustomerSetIngestAliasesParams, CustomerSetNameParams, CustomerSetNameResponse, CustomerUpdateConfigParams, Customers } from './customers/customers';
 import * as SettingsAPI from './settings/settings';
-import {
-  SettingUpsertAvalaraCredentialsParams,
-  SettingUpsertAvalaraCredentialsResponse,
-  Settings,
-} from './settings/settings';
+import { SettingUpsertAvalaraCredentialsParams, SettingUpsertAvalaraCredentialsResponse, Settings } from './settings/settings';
 
 export class V1 extends APIResource {
   alerts: AlertsAPI.Alerts = new AlertsAPI.Alerts(this._client);
@@ -247,7 +76,7 @@ export declare namespace V1 {
     type AlertCreateResponse as AlertCreateResponse,
     type AlertArchiveResponse as AlertArchiveResponse,
     type AlertCreateParams as AlertCreateParams,
-    type AlertArchiveParams as AlertArchiveParams,
+    type AlertArchiveParams as AlertArchiveParams
   };
 
   export {
@@ -263,7 +92,7 @@ export declare namespace V1 {
     type PlanListParams as PlanListParams,
     type PlanGetDetailsParams as PlanGetDetailsParams,
     type PlanListChargesParams as PlanListChargesParams,
-    type PlanListCustomersParams as PlanListCustomersParams,
+    type PlanListCustomersParams as PlanListCustomersParams
   };
 
   export {
@@ -282,14 +111,14 @@ export declare namespace V1 {
     type CreditGrantListParams as CreditGrantListParams,
     type CreditGrantEditParams as CreditGrantEditParams,
     type CreditGrantListEntriesParams as CreditGrantListEntriesParams,
-    type CreditGrantVoidParams as CreditGrantVoidParams,
+    type CreditGrantVoidParams as CreditGrantVoidParams
   };
 
   export {
     PricingUnits as PricingUnits,
     type PricingUnitListResponse as PricingUnitListResponse,
     type PricingUnitListResponsesCursorPage as PricingUnitListResponsesCursorPage,
-    type PricingUnitListParams as PricingUnitListParams,
+    type PricingUnitListParams as PricingUnitListParams
   };
 
   export {
@@ -321,13 +150,13 @@ export declare namespace V1 {
     type CustomerSetBillingConfigurationsParams as CustomerSetBillingConfigurationsParams,
     type CustomerSetIngestAliasesParams as CustomerSetIngestAliasesParams,
     type CustomerSetNameParams as CustomerSetNameParams,
-    type CustomerUpdateConfigParams as CustomerUpdateConfigParams,
+    type CustomerUpdateConfigParams as CustomerUpdateConfigParams
   };
 
   export {
     Dashboards as Dashboards,
     type DashboardGetEmbeddableURLResponse as DashboardGetEmbeddableURLResponse,
-    type DashboardGetEmbeddableURLParams as DashboardGetEmbeddableURLParams,
+    type DashboardGetEmbeddableURLParams as DashboardGetEmbeddableURLParams
   };
 
   export {
@@ -340,14 +169,14 @@ export declare namespace V1 {
     type UsageListParams as UsageListParams,
     type UsageIngestParams as UsageIngestParams,
     type UsageListWithGroupsParams as UsageListWithGroupsParams,
-    type UsageSearchParams as UsageSearchParams,
+    type UsageSearchParams as UsageSearchParams
   };
 
   export {
     AuditLogs as AuditLogs,
     type AuditLogListResponse as AuditLogListResponse,
     type AuditLogListResponsesCursorPage as AuditLogListResponsesCursorPage,
-    type AuditLogListParams as AuditLogListParams,
+    type AuditLogListParams as AuditLogListParams
   };
 
   export {
@@ -358,7 +187,7 @@ export declare namespace V1 {
     type CustomFieldDeleteValuesParams as CustomFieldDeleteValuesParams,
     type CustomFieldListKeysParams as CustomFieldListKeysParams,
     type CustomFieldRemoveKeyParams as CustomFieldRemoveKeyParams,
-    type CustomFieldSetValuesParams as CustomFieldSetValuesParams,
+    type CustomFieldSetValuesParams as CustomFieldSetValuesParams
   };
 
   export {
@@ -371,17 +200,20 @@ export declare namespace V1 {
     type BillableMetricCreateParams as BillableMetricCreateParams,
     type BillableMetricRetrieveParams as BillableMetricRetrieveParams,
     type BillableMetricListParams as BillableMetricListParams,
-    type BillableMetricArchiveParams as BillableMetricArchiveParams,
+    type BillableMetricArchiveParams as BillableMetricArchiveParams
   };
 
-  export { Services as Services, type ServiceListResponse as ServiceListResponse };
+  export {
+    Services as Services,
+    type ServiceListResponse as ServiceListResponse
+  };
 
   export {
     Invoices as Invoices,
     type InvoiceRegenerateResponse as InvoiceRegenerateResponse,
     type InvoiceVoidResponse as InvoiceVoidResponse,
     type InvoiceRegenerateParams as InvoiceRegenerateParams,
-    type InvoiceVoidParams as InvoiceVoidParams,
+    type InvoiceVoidParams as InvoiceVoidParams
   };
 
   export {
@@ -412,7 +244,7 @@ export declare namespace V1 {
     type ContractRetrieveSubscriptionQuantityHistoryParams as ContractRetrieveSubscriptionQuantityHistoryParams,
     type ContractScheduleProServicesInvoiceParams as ContractScheduleProServicesInvoiceParams,
     type ContractSetUsageFilterParams as ContractSetUsageFilterParams,
-    type ContractUpdateEndDateParams as ContractUpdateEndDateParams,
+    type ContractUpdateEndDateParams as ContractUpdateEndDateParams
   };
 
   export {
@@ -428,7 +260,7 @@ export declare namespace V1 {
     type PackageRetrieveParams as PackageRetrieveParams,
     type PackageListParams as PackageListParams,
     type PackageArchiveParams as PackageArchiveParams,
-    type PackageListContractsOnPackageParams as PackageListContractsOnPackageParams,
+    type PackageListContractsOnPackageParams as PackageListContractsOnPackageParams
   };
 
   export {
@@ -440,12 +272,12 @@ export declare namespace V1 {
     type PaymentsBodyCursorPage as PaymentsBodyCursorPage,
     type PaymentListParams as PaymentListParams,
     type PaymentAttemptParams as PaymentAttemptParams,
-    type PaymentCancelParams as PaymentCancelParams,
+    type PaymentCancelParams as PaymentCancelParams
   };
 
   export {
     Settings as Settings,
     type SettingUpsertAvalaraCredentialsResponse as SettingUpsertAvalaraCredentialsResponse,
-    type SettingUpsertAvalaraCredentialsParams as SettingUpsertAvalaraCredentialsParams,
+    type SettingUpsertAvalaraCredentialsParams as SettingUpsertAvalaraCredentialsParams
   };
 }

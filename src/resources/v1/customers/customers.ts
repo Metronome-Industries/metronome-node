@@ -3,77 +3,19 @@
 import { APIResource } from '../../../core/resource';
 import * as Shared from '../../shared';
 import * as AlertsAPI from './alerts';
-import {
-  AlertListParams,
-  AlertResetParams,
-  AlertRetrieveParams,
-  AlertRetrieveResponse,
-  Alerts,
-  CustomerAlert,
-  CustomerAlertsCursorPageWithoutLimit,
-} from './alerts';
+import { AlertListParams, AlertResetParams, AlertRetrieveParams, AlertRetrieveResponse, Alerts, CustomerAlert, CustomerAlertsCursorPageWithoutLimit } from './alerts';
 import * as BillingConfigAPI from './billing-config';
-import {
-  BillingConfig as BillingConfigAPIBillingConfig,
-  BillingConfigCreateParams,
-  BillingConfigDeleteParams,
-  BillingConfigRetrieveParams,
-  BillingConfigRetrieveResponse,
-} from './billing-config';
+import { BillingConfig as BillingConfigAPIBillingConfig, BillingConfigCreateParams, BillingConfigDeleteParams, BillingConfigRetrieveParams, BillingConfigRetrieveResponse } from './billing-config';
 import * as CommitsAPI from './commits';
-import {
-  CommitCreateParams,
-  CommitCreateResponse,
-  CommitListParams,
-  CommitUpdateEndDateParams,
-  CommitUpdateEndDateResponse,
-  Commits,
-} from './commits';
+import { CommitCreateParams, CommitCreateResponse, CommitListParams, CommitUpdateEndDateParams, CommitUpdateEndDateResponse, Commits } from './commits';
 import * as CreditsAPI from './credits';
-import {
-  CreditCreateParams,
-  CreditCreateResponse,
-  CreditListParams,
-  CreditUpdateEndDateParams,
-  CreditUpdateEndDateResponse,
-  Credits,
-} from './credits';
+import { CreditCreateParams, CreditCreateResponse, CreditListParams, CreditUpdateEndDateParams, CreditUpdateEndDateResponse, Credits } from './credits';
 import * as InvoicesAPI from './invoices';
-import {
-  Invoice,
-  InvoiceAddChargeParams,
-  InvoiceAddChargeResponse,
-  InvoiceListBreakdownsParams,
-  InvoiceListBreakdownsResponse,
-  InvoiceListBreakdownsResponsesCursorPage,
-  InvoiceListParams,
-  InvoiceRetrieveParams,
-  InvoiceRetrievePdfParams,
-  InvoiceRetrieveResponse,
-  Invoices,
-  InvoicesCursorPage,
-} from './invoices';
+import { Invoice, InvoiceAddChargeParams, InvoiceAddChargeResponse, InvoiceListBreakdownsParams, InvoiceListBreakdownsResponse, InvoiceListBreakdownsResponsesCursorPage, InvoiceListParams, InvoiceRetrieveParams, InvoiceRetrievePdfParams, InvoiceRetrieveResponse, Invoices, InvoicesCursorPage } from './invoices';
 import * as NamedSchedulesAPI from './named-schedules';
-import {
-  NamedScheduleRetrieveParams,
-  NamedScheduleRetrieveResponse,
-  NamedScheduleUpdateParams,
-  NamedSchedules,
-} from './named-schedules';
+import { NamedScheduleRetrieveParams, NamedScheduleRetrieveResponse, NamedScheduleUpdateParams, NamedSchedules } from './named-schedules';
 import * as PlansAPI from './plans';
-import {
-  PlanAddParams,
-  PlanAddResponse,
-  PlanEndParams,
-  PlanEndResponse,
-  PlanListParams,
-  PlanListPriceAdjustmentsParams,
-  PlanListPriceAdjustmentsResponse,
-  PlanListPriceAdjustmentsResponsesCursorPage,
-  PlanListResponse,
-  PlanListResponsesCursorPage,
-  Plans,
-} from './plans';
+import { PlanAddParams, PlanAddResponse, PlanEndParams, PlanEndResponse, PlanListParams, PlanListPriceAdjustmentsParams, PlanListPriceAdjustmentsResponse, PlanListPriceAdjustmentsResponsesCursorPage, PlanListResponse, PlanListResponsesCursorPage, Plans } from './plans';
 import { APIPromise } from '../../../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../../../core/pagination';
 import { buildHeaders } from '../../../internal/headers';
@@ -164,7 +106,7 @@ export class Customers extends APIResource {
    * ```
    */
   retrieve(params: CustomerRetrieveParams, options?: RequestOptions): APIPromise<CustomerRetrieveResponse> {
-    const { customer_id } = params;
+    const { customer_id } = params
     return this._client.get(path`/v1/customers/${customer_id}`, options);
   }
 
@@ -183,10 +125,7 @@ export class Customers extends APIResource {
    * }
    * ```
    */
-  list(
-    query: CustomerListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<CustomerDetailsCursorPage, CustomerDetail> {
+  list(query: CustomerListParams | null | undefined = {}, options?: RequestOptions): PagePromise<CustomerDetailsCursorPage, CustomerDetail> {
     return this._client.getAPIList('/v1/customers', CursorPage<CustomerDetail>, { query, ...options });
   }
 
@@ -261,10 +200,7 @@ export class Customers extends APIResource {
    *   });
    * ```
    */
-  archiveBillingConfigurations(
-    body: CustomerArchiveBillingConfigurationsParams,
-    options?: RequestOptions,
-  ): APIPromise<CustomerArchiveBillingConfigurationsResponse> {
+  archiveBillingConfigurations(body: CustomerArchiveBillingConfigurationsParams, options?: RequestOptions): APIPromise<CustomerArchiveBillingConfigurationsResponse> {
     return this._client.post('/v1/archiveCustomerBillingProviderConfigurations', { body, ...options });
   }
 
@@ -284,16 +220,9 @@ export class Customers extends APIResource {
    * }
    * ```
    */
-  listBillableMetrics(
-    params: CustomerListBillableMetricsParams,
-    options?: RequestOptions,
-  ): PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse> {
-    const { customer_id, ...query } = params;
-    return this._client.getAPIList(
-      path`/v1/customers/${customer_id}/billable-metrics`,
-      CursorPage<CustomerListBillableMetricsResponse>,
-      { query, ...options },
-    );
+  listBillableMetrics(params: CustomerListBillableMetricsParams, options?: RequestOptions): PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse> {
+    const { customer_id, ...query } = params
+    return this._client.getAPIList(path`/v1/customers/${customer_id}/billable-metrics`, CursorPage<CustomerListBillableMetricsResponse>, { query, ...options });
   }
 
   /**
@@ -316,16 +245,9 @@ export class Customers extends APIResource {
    * }
    * ```
    */
-  listCosts(
-    params: CustomerListCostsParams,
-    options?: RequestOptions,
-  ): PagePromise<CustomerListCostsResponsesCursorPage, CustomerListCostsResponse> {
-    const { customer_id, ...query } = params;
-    return this._client.getAPIList(
-      path`/v1/customers/${customer_id}/costs`,
-      CursorPage<CustomerListCostsResponse>,
-      { query, ...options },
-    );
+  listCosts(params: CustomerListCostsParams, options?: RequestOptions): PagePromise<CustomerListCostsResponsesCursorPage, CustomerListCostsResponse> {
+    const { customer_id, ...query } = params
+    return this._client.getAPIList(path`/v1/customers/${customer_id}/costs`, CursorPage<CustomerListCostsResponse>, { query, ...options });
   }
 
   /**
@@ -350,11 +272,8 @@ export class Customers extends APIResource {
    * });
    * ```
    */
-  previewEvents(
-    params: CustomerPreviewEventsParams,
-    options?: RequestOptions,
-  ): APIPromise<CustomerPreviewEventsResponse> {
-    const { customer_id, ...body } = params;
+  previewEvents(params: CustomerPreviewEventsParams, options?: RequestOptions): APIPromise<CustomerPreviewEventsResponse> {
+    const { customer_id, ...body } = params
     return this._client.post(path`/v1/customers/${customer_id}/previewEvents`, { body, ...options });
   }
 
@@ -372,10 +291,7 @@ export class Customers extends APIResource {
    *   });
    * ```
    */
-  retrieveBillingConfigurations(
-    body: CustomerRetrieveBillingConfigurationsParams,
-    options?: RequestOptions,
-  ): APIPromise<CustomerRetrieveBillingConfigurationsResponse> {
+  retrieveBillingConfigurations(body: CustomerRetrieveBillingConfigurationsParams, options?: RequestOptions): APIPromise<CustomerRetrieveBillingConfigurationsResponse> {
     return this._client.post('/v1/getCustomerBillingProviderConfigurations', { body, ...options });
   }
 
@@ -465,10 +381,7 @@ export class Customers extends APIResource {
    * });
    * ```
    */
-  setBillingConfigurations(
-    body: CustomerSetBillingConfigurationsParams,
-    options?: RequestOptions,
-  ): APIPromise<CustomerSetBillingConfigurationsResponse> {
+  setBillingConfigurations(body: CustomerSetBillingConfigurationsParams, options?: RequestOptions): APIPromise<CustomerSetBillingConfigurationsResponse> {
     return this._client.post('/v1/setCustomerBillingProviderConfigurations', { body, ...options });
   }
 
@@ -496,12 +409,8 @@ export class Customers extends APIResource {
    * ```
    */
   setIngestAliases(params: CustomerSetIngestAliasesParams, options?: RequestOptions): APIPromise<void> {
-    const { customer_id, ...body } = params;
-    return this._client.post(path`/v1/customers/${customer_id}/setIngestAliases`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    const { customer_id, ...body } = params
+    return this._client.post(path`/v1/customers/${customer_id}/setIngestAliases`, { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -520,7 +429,7 @@ export class Customers extends APIResource {
    * ```
    */
   setName(params: CustomerSetNameParams, options?: RequestOptions): APIPromise<CustomerSetNameResponse> {
-    const { customer_id, ...body } = params;
+    const { customer_id, ...body } = params
     return this._client.post(path`/v1/customers/${customer_id}/setName`, { body, ...options });
   }
 
@@ -539,20 +448,16 @@ export class Customers extends APIResource {
    * ```
    */
   updateConfig(params: CustomerUpdateConfigParams, options?: RequestOptions): APIPromise<void> {
-    const { customer_id, ...body } = params;
-    return this._client.post(path`/v1/customers/${customer_id}/updateConfig`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    const { customer_id, ...body } = params
+    return this._client.post(path`/v1/customers/${customer_id}/updateConfig`, { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
-export type CustomerDetailsCursorPage = CursorPage<CustomerDetail>;
+export type CustomerDetailsCursorPage = CursorPage<CustomerDetail>
 
-export type CustomerListBillableMetricsResponsesCursorPage = CursorPage<CustomerListBillableMetricsResponse>;
+export type CustomerListBillableMetricsResponsesCursorPage = CursorPage<CustomerListBillableMetricsResponse>
 
-export type CustomerListCostsResponsesCursorPage = CursorPage<CustomerListCostsResponse>;
+export type CustomerListCostsResponsesCursorPage = CursorPage<CustomerListCostsResponse>
 
 export interface Customer {
   /**
@@ -800,16 +705,7 @@ export namespace CustomerRetrieveBillingConfigurationsResponse {
     /**
      * The billing provider set for this configuration.
      */
-    billing_provider:
-      | 'aws_marketplace'
-      | 'stripe'
-      | 'netsuite'
-      | 'custom'
-      | 'azure_marketplace'
-      | 'quickbooks_online'
-      | 'workday'
-      | 'gcp_marketplace'
-      | 'metronome';
+    billing_provider: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
 
     /**
      * Configuration for the billing provider. The structure of this object is specific
@@ -851,16 +747,7 @@ export namespace CustomerSetBillingConfigurationsResponse {
     /**
      * The billing provider set for this configuration.
      */
-    billing_provider?:
-      | 'aws_marketplace'
-      | 'stripe'
-      | 'netsuite'
-      | 'custom'
-      | 'azure_marketplace'
-      | 'quickbooks_online'
-      | 'workday'
-      | 'gcp_marketplace'
-      | 'metronome';
+    billing_provider?: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
 
     /**
      * Configuration for the billing provider. The structure of this object is specific
@@ -922,16 +809,7 @@ export namespace CustomerCreateParams {
   export interface BillingConfig {
     billing_provider_customer_id: string;
 
-    billing_provider_type:
-      | 'aws_marketplace'
-      | 'stripe'
-      | 'netsuite'
-      | 'custom'
-      | 'azure_marketplace'
-      | 'quickbooks_online'
-      | 'workday'
-      | 'gcp_marketplace'
-      | 'metronome';
+    billing_provider_type: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
 
     aws_customer_account_id?: string;
 
@@ -944,42 +822,13 @@ export namespace CustomerCreateParams {
 
     aws_product_code?: string;
 
-    aws_region?:
-      | 'af-south-1'
-      | 'ap-east-1'
-      | 'ap-northeast-1'
-      | 'ap-northeast-2'
-      | 'ap-northeast-3'
-      | 'ap-south-1'
-      | 'ap-southeast-1'
-      | 'ap-southeast-2'
-      | 'ca-central-1'
-      | 'cn-north-1'
-      | 'cn-northwest-1'
-      | 'eu-central-1'
-      | 'eu-north-1'
-      | 'eu-south-1'
-      | 'eu-west-1'
-      | 'eu-west-2'
-      | 'eu-west-3'
-      | 'me-south-1'
-      | 'sa-east-1'
-      | 'us-east-1'
-      | 'us-east-2'
-      | 'us-gov-east-1'
-      | 'us-gov-west-1'
-      | 'us-west-1'
-      | 'us-west-2';
+    aws_region?: 'af-south-1' | 'ap-east-1' | 'ap-northeast-1' | 'ap-northeast-2' | 'ap-northeast-3' | 'ap-south-1' | 'ap-southeast-1' | 'ap-southeast-2' | 'ca-central-1' | 'cn-north-1' | 'cn-northwest-1' | 'eu-central-1' | 'eu-north-1' | 'eu-south-1' | 'eu-west-1' | 'eu-west-2' | 'eu-west-3' | 'me-south-1' | 'sa-east-1' | 'us-east-1' | 'us-east-2' | 'us-gov-east-1' | 'us-gov-west-1' | 'us-west-1' | 'us-west-2';
 
     /**
      * The collection method for the customer's invoices. NOTE:
      * `auto_charge_payment_intent` and `manually_charge_payment_intent` are in beta.
      */
-    stripe_collection_method?:
-      | 'charge_automatically'
-      | 'send_invoice'
-      | 'auto_charge_payment_intent'
-      | 'manually_charge_payment_intent';
+    stripe_collection_method?: 'charge_automatically' | 'send_invoice' | 'auto_charge_payment_intent' | 'manually_charge_payment_intent';
   }
 
   export interface CustomerBillingProviderConfiguration {
@@ -1185,16 +1034,7 @@ export namespace CustomerSetBillingConfigurationsParams {
     /**
      * The billing provider set for this configuration.
      */
-    billing_provider:
-      | 'aws_marketplace'
-      | 'stripe'
-      | 'netsuite'
-      | 'custom'
-      | 'azure_marketplace'
-      | 'quickbooks_online'
-      | 'workday'
-      | 'gcp_marketplace'
-      | 'metronome';
+    billing_provider: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
 
     customer_id: string;
 
@@ -1311,7 +1151,7 @@ export declare namespace Customers {
     type CustomerSetBillingConfigurationsParams as CustomerSetBillingConfigurationsParams,
     type CustomerSetIngestAliasesParams as CustomerSetIngestAliasesParams,
     type CustomerSetNameParams as CustomerSetNameParams,
-    type CustomerUpdateConfigParams as CustomerUpdateConfigParams,
+    type CustomerUpdateConfigParams as CustomerUpdateConfigParams
   };
 
   export {
@@ -1321,7 +1161,7 @@ export declare namespace Customers {
     type CustomerAlertsCursorPageWithoutLimit as CustomerAlertsCursorPageWithoutLimit,
     type AlertRetrieveParams as AlertRetrieveParams,
     type AlertListParams as AlertListParams,
-    type AlertResetParams as AlertResetParams,
+    type AlertResetParams as AlertResetParams
   };
 
   export {
@@ -1335,7 +1175,7 @@ export declare namespace Customers {
     type PlanListParams as PlanListParams,
     type PlanAddParams as PlanAddParams,
     type PlanEndParams as PlanEndParams,
-    type PlanListPriceAdjustmentsParams as PlanListPriceAdjustmentsParams,
+    type PlanListPriceAdjustmentsParams as PlanListPriceAdjustmentsParams
   };
 
   export {
@@ -1350,7 +1190,7 @@ export declare namespace Customers {
     type InvoiceListParams as InvoiceListParams,
     type InvoiceAddChargeParams as InvoiceAddChargeParams,
     type InvoiceListBreakdownsParams as InvoiceListBreakdownsParams,
-    type InvoiceRetrievePdfParams as InvoiceRetrievePdfParams,
+    type InvoiceRetrievePdfParams as InvoiceRetrievePdfParams
   };
 
   export {
@@ -1358,7 +1198,7 @@ export declare namespace Customers {
     type BillingConfigRetrieveResponse as BillingConfigRetrieveResponse,
     type BillingConfigCreateParams as BillingConfigCreateParams,
     type BillingConfigRetrieveParams as BillingConfigRetrieveParams,
-    type BillingConfigDeleteParams as BillingConfigDeleteParams,
+    type BillingConfigDeleteParams as BillingConfigDeleteParams
   };
 
   export {
@@ -1367,7 +1207,7 @@ export declare namespace Customers {
     type CommitUpdateEndDateResponse as CommitUpdateEndDateResponse,
     type CommitCreateParams as CommitCreateParams,
     type CommitListParams as CommitListParams,
-    type CommitUpdateEndDateParams as CommitUpdateEndDateParams,
+    type CommitUpdateEndDateParams as CommitUpdateEndDateParams
   };
 
   export {
@@ -1376,13 +1216,13 @@ export declare namespace Customers {
     type CreditUpdateEndDateResponse as CreditUpdateEndDateResponse,
     type CreditCreateParams as CreditCreateParams,
     type CreditListParams as CreditListParams,
-    type CreditUpdateEndDateParams as CreditUpdateEndDateParams,
+    type CreditUpdateEndDateParams as CreditUpdateEndDateParams
   };
 
   export {
     NamedSchedules as NamedSchedules,
     type NamedScheduleRetrieveResponse as NamedScheduleRetrieveResponse,
     type NamedScheduleRetrieveParams as NamedScheduleRetrieveParams,
-    type NamedScheduleUpdateParams as NamedScheduleUpdateParams,
+    type NamedScheduleUpdateParams as NamedScheduleUpdateParams
   };
 }

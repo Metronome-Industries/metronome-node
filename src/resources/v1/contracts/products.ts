@@ -87,17 +87,9 @@ export class Products extends APIResource {
    * }
    * ```
    */
-  list(
-    params: ProductListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<ProductListResponsesCursorPage, ProductListResponse> {
-    const { limit, next_page, ...body } = params ?? {};
-    return this._client.getAPIList('/v1/contract-pricing/products/list', CursorPage<ProductListResponse>, {
-      query: { limit, next_page },
-      body,
-      method: 'post',
-      ...options,
-    });
+  list(params: ProductListParams | null | undefined = {}, options?: RequestOptions): PagePromise<ProductListResponsesCursorPage, ProductListResponse> {
+    const { limit, next_page, ...body } = params ?? {}
+    return this._client.getAPIList('/v1/contract-pricing/products/list', CursorPage<ProductListResponse>, { query: { limit, next_page }, body, method: 'post', ...options });
   }
 
   /**
@@ -118,7 +110,7 @@ export class Products extends APIResource {
   }
 }
 
-export type ProductListResponsesCursorPage = CursorPage<ProductListResponse>;
+export type ProductListResponsesCursorPage = CursorPage<ProductListResponse>
 
 export interface ProductListItemState {
   created_at: string;
@@ -640,6 +632,6 @@ export declare namespace Products {
     type ProductRetrieveParams as ProductRetrieveParams,
     type ProductUpdateParams as ProductUpdateParams,
     type ProductListParams as ProductListParams,
-    type ProductArchiveParams as ProductArchiveParams,
+    type ProductArchiveParams as ProductArchiveParams
   };
 }

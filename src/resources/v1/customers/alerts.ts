@@ -3,11 +3,7 @@
 import { APIResource } from '../../../core/resource';
 import * as Shared from '../../shared';
 import { APIPromise } from '../../../core/api-promise';
-import {
-  CursorPageWithoutLimit,
-  type CursorPageWithoutLimitParams,
-  PagePromise,
-} from '../../../core/pagination';
+import { CursorPageWithoutLimit, type CursorPageWithoutLimitParams, PagePromise } from '../../../core/pagination';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
@@ -127,17 +123,9 @@ export class Alerts extends APIResource {
    * }
    * ```
    */
-  list(
-    params: AlertListParams,
-    options?: RequestOptions,
-  ): PagePromise<CustomerAlertsCursorPageWithoutLimit, CustomerAlert> {
-    const { next_page, ...body } = params;
-    return this._client.getAPIList('/v1/customer-alerts/list', CursorPageWithoutLimit<CustomerAlert>, {
-      query: { next_page },
-      body,
-      method: 'post',
-      ...options,
-    });
+  list(params: AlertListParams, options?: RequestOptions): PagePromise<CustomerAlertsCursorPageWithoutLimit, CustomerAlert> {
+    const { next_page, ...body } = params
+    return this._client.getAPIList('/v1/customer-alerts/list', CursorPageWithoutLimit<CustomerAlert>, { query: { next_page }, body, method: 'post', ...options });
   }
 
   /**
@@ -180,15 +168,11 @@ export class Alerts extends APIResource {
    * ```
    */
   reset(body: AlertResetParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/customer-alerts/reset', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post('/v1/customer-alerts/reset', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
-export type CustomerAlertsCursorPageWithoutLimit = CursorPageWithoutLimit<CustomerAlert>;
+export type CustomerAlertsCursorPageWithoutLimit = CursorPageWithoutLimit<CustomerAlert>
 
 export interface CustomerAlert {
   alert: CustomerAlert.Alert;
@@ -230,22 +214,7 @@ export namespace CustomerAlert {
     /**
      * Type of the threshold notification
      */
-    type:
-      | 'low_credit_balance_reached'
-      | 'spend_threshold_reached'
-      | 'monthly_invoice_total_spend_threshold_reached'
-      | 'low_remaining_days_in_plan_reached'
-      | 'low_remaining_credit_percentage_reached'
-      | 'usage_threshold_reached'
-      | 'low_remaining_days_for_commit_segment_reached'
-      | 'low_remaining_commit_balance_reached'
-      | 'low_remaining_commit_percentage_reached'
-      | 'low_remaining_days_for_contract_credit_segment_reached'
-      | 'low_remaining_contract_credit_balance_reached'
-      | 'low_remaining_contract_credit_percentage_reached'
-      | 'low_remaining_contract_credit_and_commit_balance_reached'
-      | 'low_remaining_seat_balance_reached'
-      | 'invoice_total_reached';
+    type: 'low_credit_balance_reached' | 'spend_threshold_reached' | 'monthly_invoice_total_spend_threshold_reached' | 'low_remaining_days_in_plan_reached' | 'low_remaining_credit_percentage_reached' | 'usage_threshold_reached' | 'low_remaining_days_for_commit_segment_reached' | 'low_remaining_commit_balance_reached' | 'low_remaining_commit_percentage_reached' | 'low_remaining_days_for_contract_credit_segment_reached' | 'low_remaining_contract_credit_balance_reached' | 'low_remaining_contract_credit_percentage_reached' | 'low_remaining_contract_credit_and_commit_balance_reached' | 'low_remaining_seat_balance_reached' | 'invoice_total_reached';
 
     /**
      * Timestamp for when the threshold notification was last updated
@@ -437,6 +406,6 @@ export declare namespace Alerts {
     type CustomerAlertsCursorPageWithoutLimit as CustomerAlertsCursorPageWithoutLimit,
     type AlertRetrieveParams as AlertRetrieveParams,
     type AlertListParams as AlertListParams,
-    type AlertResetParams as AlertResetParams,
+    type AlertResetParams as AlertResetParams
   };
 }

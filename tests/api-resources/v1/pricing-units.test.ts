@@ -2,10 +2,7 @@
 
 import Metronome from '@metronome/sdk';
 
-const client = new Metronome({
-  bearerToken: 'My Bearer Token',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new Metronome({ bearerToken: 'My Bearer Token', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
 describe('resource pricingUnits', () => {
   test('list', async () => {
@@ -21,8 +18,8 @@ describe('resource pricingUnits', () => {
 
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.v1.pricingUnits.list({ limit: 1, next_page: 'next_page' }, { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Metronome.NotFoundError);
+    await expect(client.v1.pricingUnits.list({ limit: 1, next_page: 'next_page' }, { path: '/_stainless_unknown_path' }))
+      .rejects
+      .toThrow(Metronome.NotFoundError);
   });
 });

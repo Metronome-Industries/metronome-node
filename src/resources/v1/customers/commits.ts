@@ -174,11 +174,7 @@ export class Commits extends APIResource {
    * ```
    */
   list(body: CommitListParams, options?: RequestOptions): PagePromise<CommitsBodyCursorPage, Shared.Commit> {
-    return this._client.getAPIList('/v1/contracts/customerCommits/list', BodyCursorPage<Shared.Commit>, {
-      body,
-      method: 'post',
-      ...options,
-    });
+    return this._client.getAPIList('/v1/contracts/customerCommits/list', BodyCursorPage<Shared.Commit>, { body, method: 'post', ...options });
   }
 
   /**
@@ -203,10 +199,7 @@ export class Commits extends APIResource {
    *   });
    * ```
    */
-  updateEndDate(
-    body: CommitUpdateEndDateParams,
-    options?: RequestOptions,
-  ): APIPromise<CommitUpdateEndDateResponse> {
+  updateEndDate(body: CommitUpdateEndDateParams, options?: RequestOptions): APIPromise<CommitUpdateEndDateResponse> {
     return this._client.post('/v1/contracts/customerCommits/updateEndDate', { body, ...options });
   }
 }
@@ -529,8 +522,8 @@ export declare namespace Commits {
     type CommitUpdateEndDateResponse as CommitUpdateEndDateResponse,
     type CommitCreateParams as CommitCreateParams,
     type CommitListParams as CommitListParams,
-    type CommitUpdateEndDateParams as CommitUpdateEndDateParams,
+    type CommitUpdateEndDateParams as CommitUpdateEndDateParams
   };
 }
 
-export { type CommitsBodyCursorPage };
+export { type CommitsBodyCursorPage }

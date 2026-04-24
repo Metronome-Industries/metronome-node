@@ -24,10 +24,7 @@ export class Plans extends APIResource {
    * }
    * ```
    */
-  list(
-    query: PlanListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<PlanListResponsesCursorPage, PlanListResponse> {
+  list(query: PlanListParams | null | undefined = {}, options?: RequestOptions): PagePromise<PlanListResponsesCursorPage, PlanListResponse> {
     return this._client.getAPIList('/v1/plans', CursorPage<PlanListResponse>, { query, ...options });
   }
 
@@ -43,7 +40,7 @@ export class Plans extends APIResource {
    * ```
    */
   getDetails(params: PlanGetDetailsParams, options?: RequestOptions): APIPromise<PlanGetDetailsResponse> {
-    const { plan_id } = params;
+    const { plan_id } = params
     return this._client.get(path`/v1/planDetails/${plan_id}`, options);
   }
 
@@ -61,16 +58,9 @@ export class Plans extends APIResource {
    * }
    * ```
    */
-  listCharges(
-    params: PlanListChargesParams,
-    options?: RequestOptions,
-  ): PagePromise<PlanListChargesResponsesCursorPage, PlanListChargesResponse> {
-    const { plan_id, ...query } = params;
-    return this._client.getAPIList(
-      path`/v1/planDetails/${plan_id}/charges`,
-      CursorPage<PlanListChargesResponse>,
-      { query, ...options },
-    );
+  listCharges(params: PlanListChargesParams, options?: RequestOptions): PagePromise<PlanListChargesResponsesCursorPage, PlanListChargesResponse> {
+    const { plan_id, ...query } = params
+    return this._client.getAPIList(path`/v1/planDetails/${plan_id}/charges`, CursorPage<PlanListChargesResponse>, { query, ...options });
   }
 
   /**
@@ -88,24 +78,17 @@ export class Plans extends APIResource {
    * }
    * ```
    */
-  listCustomers(
-    params: PlanListCustomersParams,
-    options?: RequestOptions,
-  ): PagePromise<PlanListCustomersResponsesCursorPage, PlanListCustomersResponse> {
-    const { plan_id, ...query } = params;
-    return this._client.getAPIList(
-      path`/v1/planDetails/${plan_id}/customers`,
-      CursorPage<PlanListCustomersResponse>,
-      { query, ...options },
-    );
+  listCustomers(params: PlanListCustomersParams, options?: RequestOptions): PagePromise<PlanListCustomersResponsesCursorPage, PlanListCustomersResponse> {
+    const { plan_id, ...query } = params
+    return this._client.getAPIList(path`/v1/planDetails/${plan_id}/customers`, CursorPage<PlanListCustomersResponse>, { query, ...options });
   }
 }
 
-export type PlanListResponsesCursorPage = CursorPage<PlanListResponse>;
+export type PlanListResponsesCursorPage = CursorPage<PlanListResponse>
 
-export type PlanListChargesResponsesCursorPage = CursorPage<PlanListChargesResponse>;
+export type PlanListChargesResponsesCursorPage = CursorPage<PlanListChargesResponse>
 
-export type PlanListCustomersResponsesCursorPage = CursorPage<PlanListCustomersResponse>;
+export type PlanListCustomersResponsesCursorPage = CursorPage<PlanListCustomersResponse>
 
 export interface PlanDetail {
   id: string;
@@ -301,7 +284,8 @@ export namespace PlanListCustomersResponse {
   }
 }
 
-export interface PlanListParams extends CursorPageParams {}
+export interface PlanListParams extends CursorPageParams {
+}
 
 export interface PlanGetDetailsParams {
   plan_id: string;
@@ -347,6 +331,6 @@ export declare namespace Plans {
     type PlanListParams as PlanListParams,
     type PlanGetDetailsParams as PlanGetDetailsParams,
     type PlanListChargesParams as PlanListChargesParams,
-    type PlanListCustomersParams as PlanListCustomersParams,
+    type PlanListCustomersParams as PlanListCustomersParams
   };
 }
