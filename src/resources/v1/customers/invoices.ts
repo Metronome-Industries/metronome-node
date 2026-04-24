@@ -1008,6 +1008,11 @@ export interface InvoiceListParams extends CursorPageParams {
   customer_id: string;
 
   /**
+   * Query param: Only return invoices for the specified contract
+   */
+  contract_id?: string;
+
+  /**
    * Query param: Only return invoices for the specified credit type
    */
   credit_type_id?: string;
