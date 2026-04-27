@@ -87,7 +87,8 @@ export class PagePromise<
     super(
       client,
       request,
-      async (client, props) => new Page(client, props.response, await defaultParseResponse(client, props), props.options)
+      async (client, props) =>
+        new Page(client, props.response, await defaultParseResponse(client, props), props.options),
     );
   }
 
@@ -141,7 +142,12 @@ export class CursorPage<Item> extends AbstractPage<Item> implements CursorPageRe
    */
   data: Array<Item>;
 
-  constructor(client: Metronome, response: Response, body: CursorPageResponse<Item>, options: FinalRequestOptions) {
+  constructor(
+    client: Metronome,
+    response: Response,
+    body: CursorPageResponse<Item>,
+    options: FinalRequestOptions,
+  ) {
     super(client, response, body, options);
 
     this.next_page = body.next_page || '';
@@ -157,7 +163,7 @@ export class CursorPage<Item> extends AbstractPage<Item> implements CursorPageRe
   }
 
   nextPageRequestOptions(): PageRequestOptions | null {
-    const cursor = this.next_page
+    const cursor = this.next_page;
     if (!cursor) {
       return null;
     }
@@ -207,7 +213,12 @@ export class BodyCursorPage<Item> extends AbstractPage<Item> implements BodyCurs
    */
   data: Array<Item>;
 
-  constructor(client: Metronome, response: Response, body: BodyCursorPageResponse<Item>, options: FinalRequestOptions) {
+  constructor(
+    client: Metronome,
+    response: Response,
+    body: BodyCursorPageResponse<Item>,
+    options: FinalRequestOptions,
+  ) {
     super(client, response, body, options);
 
     this.next_page = body.next_page || '';
@@ -223,7 +234,7 @@ export class BodyCursorPage<Item> extends AbstractPage<Item> implements BodyCurs
   }
 
   nextPageRequestOptions(): PageRequestOptions | null {
-    const cursor = this.next_page
+    const cursor = this.next_page;
     if (!cursor) {
       return null;
     }
@@ -257,7 +268,10 @@ export interface CursorPageWithoutLimitParams {
   next_page?: string;
 }
 
-export class CursorPageWithoutLimit<Item> extends AbstractPage<Item> implements CursorPageWithoutLimitResponse<Item> {
+export class CursorPageWithoutLimit<Item>
+  extends AbstractPage<Item>
+  implements CursorPageWithoutLimitResponse<Item>
+{
   /**
    * Cursor to fetch the next page
    */
@@ -268,7 +282,12 @@ export class CursorPageWithoutLimit<Item> extends AbstractPage<Item> implements 
    */
   data: Array<Item>;
 
-  constructor(client: Metronome, response: Response, body: CursorPageWithoutLimitResponse<Item>, options: FinalRequestOptions) {
+  constructor(
+    client: Metronome,
+    response: Response,
+    body: CursorPageWithoutLimitResponse<Item>,
+    options: FinalRequestOptions,
+  ) {
     super(client, response, body, options);
 
     this.next_page = body.next_page || '';
@@ -284,7 +303,7 @@ export class CursorPageWithoutLimit<Item> extends AbstractPage<Item> implements 
   }
 
   nextPageRequestOptions(): PageRequestOptions | null {
-    const cursor = this.next_page
+    const cursor = this.next_page;
     if (!cursor) {
       return null;
     }

@@ -43,9 +43,17 @@ export class Rates extends APIResource {
    * }
    * ```
    */
-  list(params: RateListParams, options?: RequestOptions): PagePromise<RateListResponsesCursorPage, RateListResponse> {
-    const { limit, next_page, ...body } = params
-    return this._client.getAPIList('/v1/contract-pricing/rate-cards/getRates', CursorPage<RateListResponse>, { query: { limit, next_page }, body, method: 'post', ...options });
+  list(
+    params: RateListParams,
+    options?: RequestOptions,
+  ): PagePromise<RateListResponsesCursorPage, RateListResponse> {
+    const { limit, next_page, ...body } = params;
+    return this._client.getAPIList('/v1/contract-pricing/rate-cards/getRates', CursorPage<RateListResponse>, {
+      query: { limit, next_page },
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -109,7 +117,7 @@ export class Rates extends APIResource {
   }
 }
 
-export type RateListResponsesCursorPage = CursorPage<RateListResponse>
+export type RateListResponsesCursorPage = CursorPage<RateListResponse>;
 
 export interface RateListResponse {
   entitled: boolean;
@@ -424,6 +432,6 @@ export declare namespace Rates {
     type RateListResponsesCursorPage as RateListResponsesCursorPage,
     type RateListParams as RateListParams,
     type RateAddParams as RateAddParams,
-    type RateAddManyParams as RateAddManyParams
+    type RateAddManyParams as RateAddManyParams,
   };
 }

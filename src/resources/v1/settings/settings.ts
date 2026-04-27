@@ -2,7 +2,13 @@
 
 import { APIResource } from '../../../core/resource';
 import * as BillingProvidersAPI from './billing-providers';
-import { BillingProviderCreateParams, BillingProviderCreateResponse, BillingProviderListParams, BillingProviderListResponse, BillingProviders } from './billing-providers';
+import {
+  BillingProviderCreateParams,
+  BillingProviderCreateResponse,
+  BillingProviderListParams,
+  BillingProviderListResponse,
+  BillingProviders,
+} from './billing-providers';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
@@ -10,7 +16,9 @@ import { RequestOptions } from '../../../internal/request-options';
  * Use these endpoints to configure a billing API key, a webhook secret, or invoice finalization behavior.
  */
 export class Settings extends APIResource {
-  billingProviders: BillingProvidersAPI.BillingProviders = new BillingProvidersAPI.BillingProviders(this._client);
+  billingProviders: BillingProvidersAPI.BillingProviders = new BillingProvidersAPI.BillingProviders(
+    this._client,
+  );
 
   /**
    * Set the Avalara credentials for some specified `delivery_method_ids`, which can
@@ -32,13 +40,15 @@ export class Settings extends APIResource {
    *   });
    * ```
    */
-  upsertAvalaraCredentials(body: SettingUpsertAvalaraCredentialsParams, options?: RequestOptions): APIPromise<SettingUpsertAvalaraCredentialsResponse> {
+  upsertAvalaraCredentials(
+    body: SettingUpsertAvalaraCredentialsParams,
+    options?: RequestOptions,
+  ): APIPromise<SettingUpsertAvalaraCredentialsResponse> {
     return this._client.post('/v1/upsertAvalaraCredentials', { body, ...options });
   }
 }
 
-export interface SettingUpsertAvalaraCredentialsResponse {
-}
+export interface SettingUpsertAvalaraCredentialsResponse {}
 
 export interface SettingUpsertAvalaraCredentialsParams {
   /**
@@ -74,7 +84,7 @@ Settings.BillingProviders = BillingProviders;
 export declare namespace Settings {
   export {
     type SettingUpsertAvalaraCredentialsResponse as SettingUpsertAvalaraCredentialsResponse,
-    type SettingUpsertAvalaraCredentialsParams as SettingUpsertAvalaraCredentialsParams
+    type SettingUpsertAvalaraCredentialsParams as SettingUpsertAvalaraCredentialsParams,
   };
 
   export {
@@ -82,6 +92,6 @@ export declare namespace Settings {
     type BillingProviderCreateResponse as BillingProviderCreateResponse,
     type BillingProviderListResponse as BillingProviderListResponse,
     type BillingProviderCreateParams as BillingProviderCreateParams,
-    type BillingProviderListParams as BillingProviderListParams
+    type BillingProviderListParams as BillingProviderListParams,
   };
 }

@@ -55,7 +55,10 @@ export class ProductOrders extends APIResource {
    * ```
    */
   set(body: ProductOrderSetParams, options?: RequestOptions): APIPromise<ProductOrderSetResponse> {
-    return this._client.post('/v1/contract-pricing/rate-cards/setRateCardProductsOrder', { body, ...options });
+    return this._client.post('/v1/contract-pricing/rate-cards/setRateCardProductsOrder', {
+      body,
+      ...options,
+    });
   }
 }
 
@@ -104,6 +107,6 @@ export declare namespace ProductOrders {
     type ProductOrderUpdateResponse as ProductOrderUpdateResponse,
     type ProductOrderSetResponse as ProductOrderSetResponse,
     type ProductOrderUpdateParams as ProductOrderUpdateParams,
-    type ProductOrderSetParams as ProductOrderSetParams
+    type ProductOrderSetParams as ProductOrderSetParams,
   };
 }

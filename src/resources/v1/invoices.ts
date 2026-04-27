@@ -100,6 +100,6 @@ export declare namespace Invoices {
     type InvoiceRegenerateResponse as InvoiceRegenerateResponse,
     type InvoiceVoidResponse as InvoiceVoidResponse,
     type InvoiceRegenerateParams as InvoiceRegenerateParams,
-    type InvoiceVoidParams as InvoiceVoidParams
+    type InvoiceVoidParams as InvoiceVoidParams,
   };
 }
