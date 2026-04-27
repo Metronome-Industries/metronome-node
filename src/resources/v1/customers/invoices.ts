@@ -990,6 +990,11 @@ export interface InvoiceListParams extends CursorPageParams {
    * Query param: Invoice status, e.g. DRAFT, FINALIZED, or VOID
    */
   status?: string;
+
+  /**
+   * Query param: Filter invoices by type. Defaults to returning all invoice types.
+   */
+  type?: 'USAGE' | 'USAGE_CONSOLIDATED' | 'SCHEDULED';
 }
 
 export interface InvoiceAddChargeParams {

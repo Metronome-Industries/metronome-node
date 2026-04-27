@@ -47,6 +47,7 @@ describe('resource invoices', () => {
     sort: 'date_asc',
     starting_on: '2019-12-27T18:11:19.117Z',
     status: 'status',
+    type: 'USAGE',
   });
   });
 
