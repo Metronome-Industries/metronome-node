@@ -25,8 +25,12 @@ export class BillingConfig extends APIResource {
    * ```
    */
   create(params: BillingConfigCreateParams, options?: RequestOptions): APIPromise<void> {
-    const { customer_id, billing_provider_type, ...body } = params
-    return this._client.post(path`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { customer_id, billing_provider_type, ...body } = params;
+    return this._client.post(path`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   /**
@@ -42,9 +46,15 @@ export class BillingConfig extends APIResource {
    *   });
    * ```
    */
-  retrieve(params: BillingConfigRetrieveParams, options?: RequestOptions): APIPromise<BillingConfigRetrieveResponse> {
-    const { customer_id, billing_provider_type } = params
-    return this._client.get(path`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, options);
+  retrieve(
+    params: BillingConfigRetrieveParams,
+    options?: RequestOptions,
+  ): APIPromise<BillingConfigRetrieveResponse> {
+    const { customer_id, billing_provider_type } = params;
+    return this._client.get(
+      path`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`,
+      options,
+    );
   }
 
   /**
@@ -61,8 +71,11 @@ export class BillingConfig extends APIResource {
    * ```
    */
   delete(params: BillingConfigDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { customer_id, billing_provider_type } = params
-    return this._client.delete(path`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { customer_id, billing_provider_type } = params;
+    return this._client.delete(path`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 
@@ -90,7 +103,32 @@ export namespace BillingConfigRetrieveResponse {
 
     aws_product_code?: string;
 
-    aws_region?: 'af-south-1' | 'ap-east-1' | 'ap-northeast-1' | 'ap-northeast-2' | 'ap-northeast-3' | 'ap-south-1' | 'ap-southeast-1' | 'ap-southeast-2' | 'ca-central-1' | 'cn-north-1' | 'cn-northwest-1' | 'eu-central-1' | 'eu-north-1' | 'eu-south-1' | 'eu-west-1' | 'eu-west-2' | 'eu-west-3' | 'me-south-1' | 'sa-east-1' | 'us-east-1' | 'us-east-2' | 'us-gov-east-1' | 'us-gov-west-1' | 'us-west-1' | 'us-west-2';
+    aws_region?:
+      | 'af-south-1'
+      | 'ap-east-1'
+      | 'ap-northeast-1'
+      | 'ap-northeast-2'
+      | 'ap-northeast-3'
+      | 'ap-south-1'
+      | 'ap-southeast-1'
+      | 'ap-southeast-2'
+      | 'ca-central-1'
+      | 'cn-north-1'
+      | 'cn-northwest-1'
+      | 'eu-central-1'
+      | 'eu-north-1'
+      | 'eu-south-1'
+      | 'eu-west-1'
+      | 'eu-west-2'
+      | 'eu-west-3'
+      | 'me-south-1'
+      | 'sa-east-1'
+      | 'us-east-1'
+      | 'us-east-2'
+      | 'us-gov-east-1'
+      | 'us-gov-west-1'
+      | 'us-west-1'
+      | 'us-west-2';
 
     /**
      * Subscription term start/end date for the customer. The expected format is RFC
@@ -116,7 +154,11 @@ export namespace BillingConfigRetrieveResponse {
      * The collection method for the customer's invoices. NOTE:
      * `auto_charge_payment_intent` and `manually_charge_payment_intent` are in beta.
      */
-    stripe_collection_method?: 'charge_automatically' | 'send_invoice' | 'auto_charge_payment_intent' | 'manually_charge_payment_intent';
+    stripe_collection_method?:
+      | 'charge_automatically'
+      | 'send_invoice'
+      | 'auto_charge_payment_intent'
+      | 'manually_charge_payment_intent';
   }
 }
 
@@ -129,7 +171,16 @@ export interface BillingConfigCreateParams {
   /**
    * Path param: The billing provider (e.g. stripe)
    */
-  billing_provider_type: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
+  billing_provider_type:
+    | 'aws_marketplace'
+    | 'stripe'
+    | 'netsuite'
+    | 'custom'
+    | 'azure_marketplace'
+    | 'quickbooks_online'
+    | 'workday'
+    | 'gcp_marketplace'
+    | 'metronome';
 
   /**
    * Body param: The customer ID in the billing provider's system. For Azure, this is
@@ -155,13 +206,42 @@ export interface BillingConfigCreateParams {
   /**
    * Body param
    */
-  aws_region?: 'af-south-1' | 'ap-east-1' | 'ap-northeast-1' | 'ap-northeast-2' | 'ap-northeast-3' | 'ap-south-1' | 'ap-southeast-1' | 'ap-southeast-2' | 'ca-central-1' | 'cn-north-1' | 'cn-northwest-1' | 'eu-central-1' | 'eu-north-1' | 'eu-south-1' | 'eu-west-1' | 'eu-west-2' | 'eu-west-3' | 'me-south-1' | 'sa-east-1' | 'us-east-1' | 'us-east-2' | 'us-gov-east-1' | 'us-gov-west-1' | 'us-west-1' | 'us-west-2';
+  aws_region?:
+    | 'af-south-1'
+    | 'ap-east-1'
+    | 'ap-northeast-1'
+    | 'ap-northeast-2'
+    | 'ap-northeast-3'
+    | 'ap-south-1'
+    | 'ap-southeast-1'
+    | 'ap-southeast-2'
+    | 'ca-central-1'
+    | 'cn-north-1'
+    | 'cn-northwest-1'
+    | 'eu-central-1'
+    | 'eu-north-1'
+    | 'eu-south-1'
+    | 'eu-west-1'
+    | 'eu-west-2'
+    | 'eu-west-3'
+    | 'me-south-1'
+    | 'sa-east-1'
+    | 'us-east-1'
+    | 'us-east-2'
+    | 'us-gov-east-1'
+    | 'us-gov-west-1'
+    | 'us-west-1'
+    | 'us-west-2';
 
   /**
    * Body param: The collection method for the customer's invoices. NOTE:
    * `auto_charge_payment_intent` and `manually_charge_payment_intent` are in beta.
    */
-  stripe_collection_method?: 'charge_automatically' | 'send_invoice' | 'auto_charge_payment_intent' | 'manually_charge_payment_intent';
+  stripe_collection_method?:
+    | 'charge_automatically'
+    | 'send_invoice'
+    | 'auto_charge_payment_intent'
+    | 'manually_charge_payment_intent';
 }
 
 export interface BillingConfigRetrieveParams {
@@ -170,7 +250,16 @@ export interface BillingConfigRetrieveParams {
   /**
    * The billing provider (e.g. stripe)
    */
-  billing_provider_type: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
+  billing_provider_type:
+    | 'aws_marketplace'
+    | 'stripe'
+    | 'netsuite'
+    | 'custom'
+    | 'azure_marketplace'
+    | 'quickbooks_online'
+    | 'workday'
+    | 'gcp_marketplace'
+    | 'metronome';
 }
 
 export interface BillingConfigDeleteParams {
@@ -179,7 +268,16 @@ export interface BillingConfigDeleteParams {
   /**
    * The billing provider (e.g. stripe)
    */
-  billing_provider_type: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
+  billing_provider_type:
+    | 'aws_marketplace'
+    | 'stripe'
+    | 'netsuite'
+    | 'custom'
+    | 'azure_marketplace'
+    | 'quickbooks_online'
+    | 'workday'
+    | 'gcp_marketplace'
+    | 'metronome';
 }
 
 export declare namespace BillingConfig {
@@ -187,6 +285,6 @@ export declare namespace BillingConfig {
     type BillingConfigRetrieveResponse as BillingConfigRetrieveResponse,
     type BillingConfigCreateParams as BillingConfigCreateParams,
     type BillingConfigRetrieveParams as BillingConfigRetrieveParams,
-    type BillingConfigDeleteParams as BillingConfigDeleteParams
+    type BillingConfigDeleteParams as BillingConfigDeleteParams,
   };
 }

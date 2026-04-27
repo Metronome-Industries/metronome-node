@@ -24,12 +24,18 @@ export class PricingUnits extends APIResource {
    * }
    * ```
    */
-  list(query: PricingUnitListParams | null | undefined = {}, options?: RequestOptions): PagePromise<PricingUnitListResponsesCursorPage, PricingUnitListResponse> {
-    return this._client.getAPIList('/v1/credit-types/list', CursorPage<PricingUnitListResponse>, { query, ...options });
+  list(
+    query: PricingUnitListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<PricingUnitListResponsesCursorPage, PricingUnitListResponse> {
+    return this._client.getAPIList('/v1/credit-types/list', CursorPage<PricingUnitListResponse>, {
+      query,
+      ...options,
+    });
   }
 }
 
-export type PricingUnitListResponsesCursorPage = CursorPage<PricingUnitListResponse>
+export type PricingUnitListResponsesCursorPage = CursorPage<PricingUnitListResponse>;
 
 export interface PricingUnitListResponse {
   id?: string;
@@ -39,13 +45,12 @@ export interface PricingUnitListResponse {
   name?: string;
 }
 
-export interface PricingUnitListParams extends CursorPageParams {
-}
+export interface PricingUnitListParams extends CursorPageParams {}
 
 export declare namespace PricingUnits {
   export {
     type PricingUnitListResponse as PricingUnitListResponse,
     type PricingUnitListResponsesCursorPage as PricingUnitListResponsesCursorPage,
-    type PricingUnitListParams as PricingUnitListParams
+    type PricingUnitListParams as PricingUnitListParams,
   };
 }

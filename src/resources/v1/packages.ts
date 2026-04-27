@@ -101,9 +101,17 @@ export class Packages extends APIResource {
    * }
    * ```
    */
-  list(params: PackageListParams | null | undefined = {}, options?: RequestOptions): PagePromise<PackageListResponsesCursorPage, PackageListResponse> {
-    const { limit, next_page, ...body } = params ?? {}
-    return this._client.getAPIList('/v1/packages/list', CursorPage<PackageListResponse>, { query: { limit, next_page }, body, method: 'post', ...options });
+  list(
+    params: PackageListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<PackageListResponsesCursorPage, PackageListResponse> {
+    const { limit, next_page, ...body } = params ?? {};
+    return this._client.getAPIList('/v1/packages/list', CursorPage<PackageListResponse>, {
+      query: { limit, next_page },
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -152,15 +160,23 @@ export class Packages extends APIResource {
    * }
    * ```
    */
-  listContractsOnPackage(params: PackageListContractsOnPackageParams, options?: RequestOptions): PagePromise<PackageListContractsOnPackageResponsesCursorPage, PackageListContractsOnPackageResponse> {
-    const { limit, next_page, ...body } = params
-    return this._client.getAPIList('/v1/packages/listContractsOnPackage', CursorPage<PackageListContractsOnPackageResponse>, { query: { limit, next_page }, body, method: 'post', ...options });
+  listContractsOnPackage(
+    params: PackageListContractsOnPackageParams,
+    options?: RequestOptions,
+  ): PagePromise<PackageListContractsOnPackageResponsesCursorPage, PackageListContractsOnPackageResponse> {
+    const { limit, next_page, ...body } = params;
+    return this._client.getAPIList(
+      '/v1/packages/listContractsOnPackage',
+      CursorPage<PackageListContractsOnPackageResponse>,
+      { query: { limit, next_page }, body, method: 'post', ...options },
+    );
   }
 }
 
-export type PackageListResponsesCursorPage = CursorPage<PackageListResponse>
+export type PackageListResponsesCursorPage = CursorPage<PackageListResponse>;
 
-export type PackageListContractsOnPackageResponsesCursorPage = CursorPage<PackageListContractsOnPackageResponse>
+export type PackageListContractsOnPackageResponsesCursorPage =
+  CursorPage<PackageListContractsOnPackageResponse>;
 
 export interface PackageCreateResponse {
   data: Shared.ID;
@@ -190,7 +206,16 @@ export namespace PackageRetrieveResponse {
 
     archived_at?: string;
 
-    billing_provider?: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
+    billing_provider?:
+      | 'aws_marketplace'
+      | 'stripe'
+      | 'netsuite'
+      | 'custom'
+      | 'azure_marketplace'
+      | 'quickbooks_online'
+      | 'workday'
+      | 'gcp_marketplace'
+      | 'metronome';
 
     /**
      * The name to use for contracts created from this package.
@@ -1008,7 +1033,16 @@ export interface PackageListResponse {
 
   archived_at?: string;
 
-  billing_provider?: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
+  billing_provider?:
+    | 'aws_marketplace'
+    | 'stripe'
+    | 'netsuite'
+    | 'custom'
+    | 'azure_marketplace'
+    | 'quickbooks_online'
+    | 'workday'
+    | 'gcp_marketplace'
+    | 'metronome';
 
   /**
    * The name to use for contracts created from this package.
@@ -3018,6 +3052,6 @@ export declare namespace Packages {
     type PackageRetrieveParams as PackageRetrieveParams,
     type PackageListParams as PackageListParams,
     type PackageArchiveParams as PackageArchiveParams,
-    type PackageListContractsOnPackageParams as PackageListContractsOnPackageParams
+    type PackageListContractsOnPackageParams as PackageListContractsOnPackageParams,
   };
 }

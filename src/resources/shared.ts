@@ -129,7 +129,22 @@ export interface Commit {
    * A list of ordered events that impact the balance of a commit. For example, an
    * invoice deduction or a rollover.
    */
-  ledger?: Array<Commit.PrepaidCommitSegmentStartLedgerEntry | Commit.PrepaidCommitAutomatedInvoiceDeductionLedgerEntry | Commit.PrepaidCommitRolloverLedgerEntry | Commit.PrepaidCommitExpirationLedgerEntry | Commit.PrepaidCommitCanceledLedgerEntry | Commit.PrepaidCommitCreditedLedgerEntry | Commit.PrepaidCommitSeatBasedAdjustmentLedgerEntry | Commit.PostpaidCommitInitialBalanceLedgerEntry | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry | Commit.PostpaidCommitRolloverLedgerEntry | Commit.PostpaidCommitTrueupLedgerEntry | Commit.PrepaidCommitManualLedgerEntry | Commit.PostpaidCommitManualLedgerEntry | Commit.PostpaidCommitExpirationLedgerEntry>;
+  ledger?: Array<
+    | Commit.PrepaidCommitSegmentStartLedgerEntry
+    | Commit.PrepaidCommitAutomatedInvoiceDeductionLedgerEntry
+    | Commit.PrepaidCommitRolloverLedgerEntry
+    | Commit.PrepaidCommitExpirationLedgerEntry
+    | Commit.PrepaidCommitCanceledLedgerEntry
+    | Commit.PrepaidCommitCreditedLedgerEntry
+    | Commit.PrepaidCommitSeatBasedAdjustmentLedgerEntry
+    | Commit.PostpaidCommitInitialBalanceLedgerEntry
+    | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry
+    | Commit.PostpaidCommitRolloverLedgerEntry
+    | Commit.PostpaidCommitTrueupLedgerEntry
+    | Commit.PrepaidCommitManualLedgerEntry
+    | Commit.PostpaidCommitManualLedgerEntry
+    | Commit.PostpaidCommitExpirationLedgerEntry
+  >;
 
   name?: string;
 
@@ -388,7 +403,10 @@ export namespace Commit {
 }
 
 export interface CommitHierarchyConfiguration {
-  child_access: CommitHierarchyConfiguration.CommitHierarchyChildAccessAll | CommitHierarchyConfiguration.CommitHierarchyChildAccessNone | CommitHierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
+  child_access:
+    | CommitHierarchyConfiguration.CommitHierarchyChildAccessAll
+    | CommitHierarchyConfiguration.CommitHierarchyChildAccessNone
+    | CommitHierarchyConfiguration.CommitHierarchyChildAccessContractIDs;
 }
 
 export namespace CommitHierarchyConfiguration {
@@ -603,7 +621,16 @@ export namespace Contract {
   export interface CustomerBillingProviderConfiguration {
     archived_at: string | null;
 
-    billing_provider: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
+    billing_provider:
+      | 'aws_marketplace'
+      | 'stripe'
+      | 'netsuite'
+      | 'custom'
+      | 'azure_marketplace'
+      | 'quickbooks_online'
+      | 'workday'
+      | 'gcp_marketplace'
+      | 'metronome';
 
     delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
 
@@ -671,7 +698,9 @@ export interface ContractV2 {
    * Either a **parent** configuration with a list of children or a **child**
    * configuration with a single parent.
    */
-  hierarchy_configuration?: ContractV2.ParentHierarchyConfiguration | ContractV2.ChildHierarchyConfigurationV2;
+  hierarchy_configuration?:
+    | ContractV2.ParentHierarchyConfiguration
+    | ContractV2.ChildHierarchyConfigurationV2;
 
   /**
    * Defaults to LOWEST_MULTIPLIER, which applies the greatest discount to list
@@ -813,7 +842,22 @@ export namespace ContractV2 {
      * A list of ordered events that impact the balance of a commit. For example, an
      * invoice deduction or a rollover.
      */
-    ledger?: Array<Commit.PrepaidCommitSegmentStartLedgerEntry | Commit.PrepaidCommitAutomatedInvoiceDeductionLedgerEntry | Commit.PrepaidCommitRolloverLedgerEntry | Commit.PrepaidCommitExpirationLedgerEntry | Commit.PrepaidCommitCanceledLedgerEntry | Commit.PrepaidCommitCreditedLedgerEntry | Commit.PrepaidCommitSeatBasedAdjustmentLedgerEntry | Commit.PostpaidCommitInitialBalanceLedgerEntry | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry | Commit.PostpaidCommitRolloverLedgerEntry | Commit.PostpaidCommitTrueupLedgerEntry | Commit.PrepaidCommitManualLedgerEntry | Commit.PostpaidCommitManualLedgerEntry | Commit.PostpaidCommitExpirationLedgerEntry>;
+    ledger?: Array<
+      | Commit.PrepaidCommitSegmentStartLedgerEntry
+      | Commit.PrepaidCommitAutomatedInvoiceDeductionLedgerEntry
+      | Commit.PrepaidCommitRolloverLedgerEntry
+      | Commit.PrepaidCommitExpirationLedgerEntry
+      | Commit.PrepaidCommitCanceledLedgerEntry
+      | Commit.PrepaidCommitCreditedLedgerEntry
+      | Commit.PrepaidCommitSeatBasedAdjustmentLedgerEntry
+      | Commit.PostpaidCommitInitialBalanceLedgerEntry
+      | Commit.PostpaidCommitAutomatedInvoiceDeductionLedgerEntry
+      | Commit.PostpaidCommitRolloverLedgerEntry
+      | Commit.PostpaidCommitTrueupLedgerEntry
+      | Commit.PrepaidCommitManualLedgerEntry
+      | Commit.PostpaidCommitManualLedgerEntry
+      | Commit.PostpaidCommitExpirationLedgerEntry
+    >;
 
     name?: string;
 
@@ -1221,7 +1265,16 @@ export namespace ContractV2 {
      * A list of ordered events that impact the balance of a credit. For example, an
      * invoice deduction or an expiration.
      */
-    ledger?: Array<Credit.CreditSegmentStartLedgerEntry | Credit.CreditAutomatedInvoiceDeductionLedgerEntry | Credit.CreditExpirationLedgerEntry | Credit.CreditCanceledLedgerEntry | Credit.CreditCreditedLedgerEntry | Credit.CreditManualLedgerEntry | Credit.CreditSeatBasedAdjustmentLedgerEntry | Credit.CreditRolloverLedgerEntry>;
+    ledger?: Array<
+      | Credit.CreditSegmentStartLedgerEntry
+      | Credit.CreditAutomatedInvoiceDeductionLedgerEntry
+      | Credit.CreditExpirationLedgerEntry
+      | Credit.CreditCanceledLedgerEntry
+      | Credit.CreditCreditedLedgerEntry
+      | Credit.CreditManualLedgerEntry
+      | Credit.CreditSeatBasedAdjustmentLedgerEntry
+      | Credit.CreditRolloverLedgerEntry
+    >;
 
     name?: string;
 
@@ -1382,7 +1435,16 @@ export namespace ContractV2 {
      */
     id: string;
 
-    billing_provider: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
+    billing_provider:
+      | 'aws_marketplace'
+      | 'stripe'
+      | 'netsuite'
+      | 'custom'
+      | 'azure_marketplace'
+      | 'quickbooks_online'
+      | 'workday'
+      | 'gcp_marketplace'
+      | 'metronome';
 
     delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
   }
@@ -2275,7 +2337,16 @@ export interface Credit {
    * A list of ordered events that impact the balance of a credit. For example, an
    * invoice deduction or an expiration.
    */
-  ledger?: Array<Credit.CreditSegmentStartLedgerEntry | Credit.CreditAutomatedInvoiceDeductionLedgerEntry | Credit.CreditExpirationLedgerEntry | Credit.CreditCanceledLedgerEntry | Credit.CreditCreditedLedgerEntry | Credit.CreditManualLedgerEntry | Credit.CreditSeatBasedAdjustmentLedgerEntry | Credit.CreditRolloverLedgerEntry>;
+  ledger?: Array<
+    | Credit.CreditSegmentStartLedgerEntry
+    | Credit.CreditAutomatedInvoiceDeductionLedgerEntry
+    | Credit.CreditExpirationLedgerEntry
+    | Credit.CreditCanceledLedgerEntry
+    | Credit.CreditCreditedLedgerEntry
+    | Credit.CreditManualLedgerEntry
+    | Credit.CreditSeatBasedAdjustmentLedgerEntry
+    | Credit.CreditRolloverLedgerEntry
+  >;
 
   name?: string;
 
@@ -2517,7 +2588,9 @@ export interface EventTypeFilter {
  * Either a **parent** configuration with a list of children or a **child**
  * configuration with a single parent.
  */
-export type HierarchyConfiguration = HierarchyConfiguration.ParentHierarchyConfiguration | HierarchyConfiguration.ChildHierarchyConfiguration
+export type HierarchyConfiguration =
+  | HierarchyConfiguration.ParentHierarchyConfiguration
+  | HierarchyConfiguration.ChildHierarchyConfiguration;
 
 export namespace HierarchyConfiguration {
   export interface ParentHierarchyConfiguration {
@@ -3401,6 +3474,6 @@ export interface UpdateBaseThresholdCommit {
   product_id?: string;
 }
 
-export type CommitsBodyCursorPage = BodyCursorPage<Commit>
+export type CommitsBodyCursorPage = BodyCursorPage<Commit>;
 
-export type CreditsBodyCursorPage = BodyCursorPage<Credit>
+export type CreditsBodyCursorPage = BodyCursorPage<Credit>;

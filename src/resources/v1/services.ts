@@ -41,7 +41,5 @@ export namespace ServiceListResponse {
 }
 
 export declare namespace Services {
-  export {
-    type ServiceListResponse as ServiceListResponse
-  };
+  export { type ServiceListResponse as ServiceListResponse };
 }

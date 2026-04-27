@@ -65,7 +65,10 @@ export class Dashboards extends APIResource {
    *   });
    * ```
    */
-  getEmbeddableURL(body: DashboardGetEmbeddableURLParams, options?: RequestOptions): APIPromise<DashboardGetEmbeddableURLResponse> {
+  getEmbeddableURL(
+    body: DashboardGetEmbeddableURLParams,
+    options?: RequestOptions,
+  ): APIPromise<DashboardGetEmbeddableURLResponse> {
     return this._client.post('/v1/dashboards/getEmbeddableUrl', { body, ...options });
   }
 }
@@ -127,7 +130,28 @@ export namespace DashboardGetEmbeddableURLParams {
     /**
      * The color to override
      */
-    name?: 'Gray_dark' | 'Gray_medium' | 'Gray_light' | 'Gray_extralight' | 'White' | 'Primary_medium' | 'Primary_light' | 'UsageLine_0' | 'UsageLine_1' | 'UsageLine_2' | 'UsageLine_3' | 'UsageLine_4' | 'UsageLine_5' | 'UsageLine_6' | 'UsageLine_7' | 'UsageLine_8' | 'UsageLine_9' | 'Primary_green' | 'Primary_red' | 'Progress_bar' | 'Progress_bar_background';
+    name?:
+      | 'Gray_dark'
+      | 'Gray_medium'
+      | 'Gray_light'
+      | 'Gray_extralight'
+      | 'White'
+      | 'Primary_medium'
+      | 'Primary_light'
+      | 'UsageLine_0'
+      | 'UsageLine_1'
+      | 'UsageLine_2'
+      | 'UsageLine_3'
+      | 'UsageLine_4'
+      | 'UsageLine_5'
+      | 'UsageLine_6'
+      | 'UsageLine_7'
+      | 'UsageLine_8'
+      | 'UsageLine_9'
+      | 'Primary_green'
+      | 'Primary_red'
+      | 'Progress_bar'
+      | 'Progress_bar_background';
 
     /**
      * Hex value representation of the color
@@ -151,6 +175,6 @@ export namespace DashboardGetEmbeddableURLParams {
 export declare namespace Dashboards {
   export {
     type DashboardGetEmbeddableURLResponse as DashboardGetEmbeddableURLResponse,
-    type DashboardGetEmbeddableURLParams as DashboardGetEmbeddableURLParams
+    type DashboardGetEmbeddableURLParams as DashboardGetEmbeddableURLParams,
   };
 }

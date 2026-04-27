@@ -23,7 +23,11 @@ export class Payments extends APIResource {
    * ```
    */
   list(body: PaymentListParams, options?: RequestOptions): PagePromise<PaymentsBodyCursorPage, Payment> {
-    return this._client.getAPIList('/v1/payments/list', BodyCursorPage<Payment>, { body, method: 'post', ...options });
+    return this._client.getAPIList('/v1/payments/list', BodyCursorPage<Payment>, {
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -68,7 +72,7 @@ export class Payments extends APIResource {
   }
 }
 
-export type PaymentsBodyCursorPage = BodyCursorPage<Payment>
+export type PaymentsBodyCursorPage = BodyCursorPage<Payment>;
 
 export interface Payment {
   id: string;
@@ -139,7 +143,7 @@ export namespace Payment {
   }
 }
 
-export type PaymentStatus = 'pending' | 'requires_intervention' | 'paid' | 'canceled'
+export type PaymentStatus = 'pending' | 'requires_intervention' | 'paid' | 'canceled';
 
 export interface PaymentAttemptResponse {
   data: Payment;
@@ -178,6 +182,6 @@ export declare namespace Payments {
     type PaymentsBodyCursorPage as PaymentsBodyCursorPage,
     type PaymentListParams as PaymentListParams,
     type PaymentAttemptParams as PaymentAttemptParams,
-    type PaymentCancelParams as PaymentCancelParams
+    type PaymentCancelParams as PaymentCancelParams,
   };
 }

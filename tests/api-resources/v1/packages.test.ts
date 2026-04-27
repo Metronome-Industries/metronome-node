@@ -2,7 +2,10 @@
 
 import Metronome from '@metronome/sdk';
 
-const client = new Metronome({ bearerToken: 'My Bearer Token', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Metronome({
+  bearerToken: 'My Bearer Token',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 describe('resource packages', () => {
   test('create: only required params', async () => {
@@ -144,6 +147,7 @@ describe('resource packages', () => {
           product_id: 'product_id',
           description: 'description',
           name: 'name',
+          priority: 0,
           applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
           applicable_product_tags: ['string'],
           specifiers: [
@@ -272,6 +276,7 @@ describe('resource packages', () => {
           product_id: 'product_id',
           description: 'description',
           name: 'name',
+          priority: 0,
         },
         is_enabled: true,
         payment_gate_config: {
@@ -315,7 +320,9 @@ describe('resource packages', () => {
   });
 
   test('retrieve: only required params', async () => {
-    const responsePromise = client.v1.packages.retrieve({ package_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' });
+    const responsePromise = client.v1.packages.retrieve({
+      package_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -326,7 +333,9 @@ describe('resource packages', () => {
   });
 
   test('retrieve: required and optional params', async () => {
-    const response = await client.v1.packages.retrieve({ package_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' });
+    const response = await client.v1.packages.retrieve({
+      package_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+    });
   });
 
   test('list', async () => {
@@ -342,17 +351,22 @@ describe('resource packages', () => {
 
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.v1.packages.list({
-    limit: 1,
-    next_page: 'next_page',
-    archive_filter: 'ARCHIVED',
-  }, { path: '/_stainless_unknown_path' }))
-      .rejects
-      .toThrow(Metronome.NotFoundError);
+    await expect(
+      client.v1.packages.list(
+        {
+          limit: 1,
+          next_page: 'next_page',
+          archive_filter: 'ARCHIVED',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Metronome.NotFoundError);
   });
 
   test('archive: only required params', async () => {
-    const responsePromise = client.v1.packages.archive({ package_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' });
+    const responsePromise = client.v1.packages.archive({
+      package_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -367,7 +381,9 @@ describe('resource packages', () => {
   });
 
   test('listContractsOnPackage: only required params', async () => {
-    const responsePromise = client.v1.packages.listContractsOnPackage({ package_id: '13117714-3f05-48e5-a6e9-a66093f13b4d' });
+    const responsePromise = client.v1.packages.listContractsOnPackage({
+      package_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -379,12 +395,12 @@ describe('resource packages', () => {
 
   test('listContractsOnPackage: required and optional params', async () => {
     const response = await client.v1.packages.listContractsOnPackage({
-    package_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-    limit: 1,
-    next_page: 'next_page',
-    covering_date: '2019-12-27T18:11:19.117Z',
-    include_archived: true,
-    starting_at: '2019-12-27T18:11:19.117Z',
-  });
+      package_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      limit: 1,
+      next_page: 'next_page',
+      covering_date: '2019-12-27T18:11:19.117Z',
+      include_archived: true,
+      starting_at: '2019-12-27T18:11:19.117Z',
+    });
   });
 });
