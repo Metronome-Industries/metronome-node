@@ -1362,7 +1362,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       java: {
         method: 'v1().customers().archive',
         example:
-          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.customers.CustomerArchiveParams;\nimport com.metronome.api.models.v1.customers.CustomerArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("8deed800-1b7a-495d-a207-6c52bac54dc9")\n            .build();\n        CustomerArchiveResponse response = client.v1().customers().archive(params);\n    }\n}',
+          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.customers.CustomerArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("8deed800-1b7a-495d-a207-6c52bac54dc9")\n            .build();\n        CustomerArchiveResponse response = client.v1().customers().archive(params);\n    }\n}',
       },
       go: {
         method: 'client.V1.Customers.Archive',
@@ -3408,7 +3408,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       java: {
         method: 'v1().billableMetrics().archive',
         example:
-          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.billablemetrics.BillableMetricArchiveParams;\nimport com.metronome.api.models.v1.billablemetrics.BillableMetricArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("8deed800-1b7a-495d-a207-6c52bac54dc9")\n            .build();\n        BillableMetricArchiveResponse response = client.v1().billableMetrics().archive(params);\n    }\n}',
+          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.billablemetrics.BillableMetricArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("8deed800-1b7a-495d-a207-6c52bac54dc9")\n            .build();\n        BillableMetricArchiveResponse response = client.v1().billableMetrics().archive(params);\n    }\n}',
       },
       go: {
         method: 'client.V1.BillableMetrics.Archive',
@@ -4431,7 +4431,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       java: {
         method: 'v1().contracts().products().retrieve',
         example:
-          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.contracts.products.ProductRetrieveParams;\nimport com.metronome.api.models.v1.contracts.products.ProductRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("d84e7f4e-7a70-4fe4-be02-7a5027beffcc")\n            .build();\n        ProductRetrieveResponse product = client.v1().contracts().products().retrieve(params);\n    }\n}',
+          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.contracts.products.ProductRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("d84e7f4e-7a70-4fe4-be02-7a5027beffcc")\n            .build();\n        ProductRetrieveResponse product = client.v1().contracts().products().retrieve(params);\n    }\n}',
       },
       go: {
         method: 'client.V1.Contracts.Products.Get',
@@ -4747,7 +4747,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       java: {
         method: 'v1().contracts().rateCards().retrieve',
         example:
-          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardRetrieveParams;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe")\n            .build();\n        RateCardRetrieveResponse rateCard = client.v1().contracts().rateCards().retrieve(params);\n    }\n}',
+          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe")\n            .build();\n        RateCardRetrieveResponse rateCard = client.v1().contracts().rateCards().retrieve(params);\n    }\n}',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.Get',
@@ -4940,7 +4940,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       java: {
         method: 'v1().contracts().rateCards().archive',
         example:
-          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardArchiveParams;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("12b21470-4570-40df-8998-449d0b0bc52f")\n            .build();\n        RateCardArchiveResponse response = client.v1().contracts().rateCards().archive(params);\n    }\n}',
+          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("12b21470-4570-40df-8998-449d0b0bc52f")\n            .build();\n        RateCardArchiveResponse response = client.v1().contracts().rateCards().archive(params);\n    }\n}',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.Archive',
