@@ -872,7 +872,7 @@ export interface ContractCreateParams {
   /**
    * If provided, provisions a customer on a package instead of creating a
    * traditional contract. When specified, only customer_id, starting_at, package_id,
-   * and uniqueness_key are allowed.
+   * uniqueness_key, transition, and custom_fields are allowed.
    */
   package_id?: string;
 
