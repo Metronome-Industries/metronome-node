@@ -365,6 +365,8 @@ export interface Invoice {
 
   plan_name?: string;
 
+  regenerated_from_invoice_id?: string;
+
   /**
    * Only present for contract invoices with reseller royalties.
    */
