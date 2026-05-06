@@ -230,7 +230,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v2/contracts/edit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
+          'curl https://api.metronome.com/v2/contracts/edit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "add_overrides": [\n            {\n              "starting_at": "2024-11-02T00:00:00Z",\n              "multiplier": 2,\n              "priority": 100,\n              "product_id": "d4fc086c-d8e5-4091-a235-fbba5da4ec14",\n              "type": "MULTIPLIER"\n            }\n          ],\n          "add_scheduled_charges": [\n            {\n              "product_id": "2e30f074-d04c-412e-a134-851ebfa5ceb2",\n              "schedule": {\n                "schedule_items": [\n                  {\n                    "timestamp": "2020-02-15T00:00:00.000Z",\n                    "quantity": 1,\n                    "unit_price": 1000000\n                  }\n                ]\n              }\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -336,7 +336,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v2/contracts/commits/edit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "commit_id": "5e7e82cf-ccb7-428c-a96f-a8e4f67af822",\n          "customer_id": "4c91c473-fc12-445a-9c38-40421d47023f"\n        }\'',
+          'curl https://api.metronome.com/v2/contracts/commits/edit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "commit_id": "5e7e82cf-ccb7-428c-a96f-a8e4f67af822",\n          "customer_id": "4c91c473-fc12-445a-9c38-40421d47023f",\n          "access_schedule": {\n            "update_schedule_items": [\n              {\n                "id": "d5edbd32-c744-48cb-9475-a9bca0e6fa39",\n                "ending_before": "2025-03-12T00:00:00Z"\n              }\n            ]\n          }\n        }\'',
       },
     },
   },
@@ -394,7 +394,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v2/contracts/credits/edit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "credit_id": "5e7e82cf-ccb7-428c-a96f-a8e4f67af822",\n          "customer_id": "4c91c473-fc12-445a-9c38-40421d47023f"\n        }\'',
+          'curl https://api.metronome.com/v2/contracts/credits/edit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "credit_id": "5e7e82cf-ccb7-428c-a96f-a8e4f67af822",\n          "customer_id": "4c91c473-fc12-445a-9c38-40421d47023f",\n          "access_schedule": {\n            "update_schedule_items": [\n              {\n                "id": "d5edbd32-c744-48cb-9475-a9bca0e6fa39",\n                "ending_before": "2025-03-12T00:00:00Z"\n              }\n            ]\n          }\n        }\'',
       },
     },
   },
@@ -499,7 +499,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/alerts/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "alert_type": "spend_threshold_reached",\n          "name": "$100 spend threshold reached",\n          "threshold": 10000\n        }\'',
+          'curl https://api.metronome.com/v1/alerts/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "alert_type": "spend_threshold_reached",\n          "name": "$100 spend threshold reached",\n          "threshold": 10000,\n          "credit_grant_type_filters": [\n            "enterprise"\n          ],\n          "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n          "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491"\n        }\'',
       },
     },
   },
@@ -747,7 +747,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/credits/createGrant \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "expires_at": "2022-04-01T00:00:00Z",\n          "grant_amount": {\n            "amount": 1000,\n            "credit_type_id": "5ae401dc-a648-4b49-9ac3-391bb5bc4d7b"\n          },\n          "name": "Acme Corp Promotional Credit Grant",\n          "paid_amount": {\n            "amount": 5000,\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n          },\n          "priority": 0.5\n        }\'',
+          'curl https://api.metronome.com/v1/credits/createGrant \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "expires_at": "2022-04-01T00:00:00Z",\n          "grant_amount": {\n            "amount": 1000,\n            "credit_type_id": "5ae401dc-a648-4b49-9ac3-391bb5bc4d7b"\n          },\n          "name": "Acme Corp Promotional Credit Grant",\n          "paid_amount": {\n            "amount": 5000,\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n          },\n          "priority": 0.5,\n          "credit_grant_type": "trial",\n          "effective_at": "2022-02-01T00:00:00Z",\n          "reason": "Incentivize new customer"\n        }\'',
       },
     },
   },
@@ -792,7 +792,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/credits/editGrant \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "9b85c1c1-5238-4f2a-a409-61412905e1e1"\n        }\'',
+          'curl https://api.metronome.com/v1/credits/editGrant \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "expires_at": "2022-04-01T00:00:00Z",\n          "name": "Acme Corp Promotional Credit Grant"\n        }\'',
       },
     },
   },
@@ -1142,7 +1142,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/customers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "Example, Inc."\n        }\'',
+          'curl https://api.metronome.com/v1/customers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "Example, Inc.",\n          "customer_billing_provider_configurations": [\n            {\n              "billing_provider": "stripe",\n              "configuration": {\n                "stripe_customer_id": "bar",\n                "stripe_collection_method": "bar"\n              },\n              "delivery_method": "direct_to_billing_provider"\n            }\n          ],\n          "ingest_aliases": [\n            "team@example.com"\n          ]\n        }\'',
       },
     },
   },
@@ -1479,7 +1479,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/previewEvents \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "events": [\n            {\n              "event_type": "heartbeat",\n              "properties": {\n                "cpu_hours": "bar",\n                "memory_gb_hours": "bar"\n              },\n              "timestamp": "2021-01-01T00:00:00Z"\n            }\n          ]\n        }\'',
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/previewEvents \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "events": [\n            {\n              "event_type": "heartbeat",\n              "properties": {\n                "cpu_hours": "bar",\n                "memory_gb_hours": "bar"\n              },\n              "timestamp": "2021-01-01T00:00:00Z"\n            }\n          ],\n          "mode": "replace"\n        }\'',
       },
     },
   },
@@ -1864,7 +1864,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/plans/add \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "plan_id": "d2c06dae-9549-4d7d-bc04-b78dd3d241b8",\n          "starting_on": "2021-02-01T00:00:00Z"\n        }\'',
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/plans/add \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "plan_id": "d2c06dae-9549-4d7d-bc04-b78dd3d241b8",\n          "starting_on": "2021-02-01T00:00:00Z",\n          "ending_before": "2022-02-01T00:00:00Z"\n        }\'',
       },
     },
   },
@@ -2319,7 +2319,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/billing-config/$BILLING_PROVIDER_TYPE \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "billing_provider_customer_id": "cus_AJ6y20bjkOOayM"\n        }\'',
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/billing-config/$BILLING_PROVIDER_TYPE \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "billing_provider_customer_id": "cus_AJ6y20bjkOOayM",\n          "stripe_collection_method": "charge_automatically"\n        }\'',
       },
     },
   },
@@ -2421,7 +2421,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contracts/customerCommits/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
+          'curl https://api.metronome.com/v1/contracts/customerCommits/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "commit_id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "include_ledgers": true\n        }\'',
       },
     },
   },
@@ -2485,7 +2485,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contracts/customerCommits/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "access_schedule": {\n            "schedule_items": [\n              {\n                "amount": 1000,\n                "ending_before": "2020-02-01T00:00:00.000Z",\n                "starting_at": "2020-01-01T00:00:00.000Z"\n              }\n            ],\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n          },\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "priority": 100,\n          "product_id": "f14d6729-6a44-4b13-9908-9387f1918790",\n          "type": "PREPAID"\n        }\'',
+          'curl https://api.metronome.com/v1/contracts/customerCommits/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "access_schedule": {\n            "schedule_items": [\n              {\n                "amount": 1000,\n                "ending_before": "2020-02-01T00:00:00.000Z",\n                "starting_at": "2020-01-01T00:00:00.000Z"\n              }\n            ],\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n          },\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "priority": 100,\n          "product_id": "f14d6729-6a44-4b13-9908-9387f1918790",\n          "type": "PREPAID",\n          "invoice_contract_id": "e57d6929-c2f1-4796-a9a8-63cedefe848d",\n          "invoice_schedule": {\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n            "do_not_invoice": false,\n            "schedule_items": [\n              {\n                "timestamp": "2020-03-01T00:00:00.000Z",\n                "quantity": 1,\n                "unit_price": 10000000\n              }\n            ]\n          },\n          "name": "My Commit"\n        }\'',
       },
     },
   },
@@ -2535,7 +2535,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contracts/customerCommits/updateEndDate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "commit_id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
+          'curl https://api.metronome.com/v1/contracts/customerCommits/updateEndDate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "commit_id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "access_ending_before": "2020-01-01T00:00:00.000Z",\n          "invoices_ending_before": "2020-01-01T00:00:00.000Z"\n        }\'',
       },
     },
   },
@@ -2593,7 +2593,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contracts/customerCredits/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
+          'curl https://api.metronome.com/v1/contracts/customerCredits/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "credit_id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "include_ledgers": true\n        }\'',
       },
     },
   },
@@ -2654,7 +2654,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contracts/customerCredits/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "access_schedule": {\n            "schedule_items": [\n              {\n                "amount": 1000,\n                "ending_before": "2020-02-01T00:00:00.000Z",\n                "starting_at": "2020-01-01T00:00:00.000Z"\n              }\n            ],\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n          },\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "priority": 100,\n          "product_id": "f14d6729-6a44-4b13-9908-9387f1918790"\n        }\'',
+          'curl https://api.metronome.com/v1/contracts/customerCredits/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "access_schedule": {\n            "schedule_items": [\n              {\n                "amount": 1000,\n                "ending_before": "2020-02-01T00:00:00.000Z",\n                "starting_at": "2020-01-01T00:00:00.000Z"\n              }\n            ],\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n          },\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "priority": 100,\n          "product_id": "f14d6729-6a44-4b13-9908-9387f1918790",\n          "name": "My Credit"\n        }\'',
       },
     },
   },
@@ -2744,7 +2744,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/customers/getNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule"\n        }\'',
+          'curl https://api.metronome.com/v1/customers/getNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule",\n          "covering_date": "2022-02-15T00:00:00Z"\n        }\'',
       },
     },
   },
@@ -2794,7 +2794,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/customers/updateNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule",\n          "starting_at": "2022-02-01T00:00:00Z",\n          "value": {\n            "my_key": "my_value"\n          }\n        }\'',
+          'curl https://api.metronome.com/v1/customers/updateNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule",\n          "starting_at": "2022-02-01T00:00:00Z",\n          "value": {\n            "my_key": "my_value"\n          },\n          "ending_before": "2022-02-15T00:00:00Z"\n        }\'',
       },
     },
   },
@@ -2845,7 +2845,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/dashboards/getEmbeddableUrl \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n          "dashboard": "invoices"\n        }\'',
+          'curl https://api.metronome.com/v1/dashboards/getEmbeddableUrl \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n          "dashboard": "invoices",\n          "bm_group_key_overrides": [\n            {\n              "group_key_name": "tenant_id",\n              "display_name": "Org ID",\n              "value_display_names": {\n                "48ecb18f358f": "bar",\n                "e358f3ce242d": "bar"\n              }\n            }\n          ],\n          "color_overrides": [\n            {\n              "name": "Gray_dark",\n              "value": "#ff0000"\n            }\n          ],\n          "dashboard_options": [\n            {\n              "key": "show_zero_usage_line_items",\n              "value": "false"\n            },\n            {\n              "key": "hide_voided_invoices",\n              "value": "true"\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -3002,7 +3002,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/usage/groups \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "billable_metric_id": "222796fd-d29c-429e-89b2-549fabda4ed6",\n          "customer_id": "04ca7e72-4229-4a6e-ab11-9f7376fccbcb",\n          "window_size": "HOUR",\n          "group_filters": {\n            "region": [\n              "us-east1",\n              "us-west1"\n            ]\n          },\n          "group_key": [\n            "region"\n          ]\n        }\'',
+          'curl https://api.metronome.com/v1/usage/groups \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "billable_metric_id": "222796fd-d29c-429e-89b2-549fabda4ed6",\n          "customer_id": "04ca7e72-4229-4a6e-ab11-9f7376fccbcb",\n          "window_size": "HOUR",\n          "ending_before": "2021-01-03T00:00:00Z",\n          "group_filters": {\n            "region": [\n              "us-east1",\n              "us-west1"\n            ]\n          },\n          "group_key": [\n            "region"\n          ],\n          "starting_on": "2021-01-01T00:00:00Z"\n        }\'',
       },
     },
   },
@@ -3377,7 +3377,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/billable-metrics/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "CPU Hours"\n        }\'',
+          'curl https://api.metronome.com/v1/billable-metrics/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "CPU Hours",\n          "aggregation_key": "cpu_hours",\n          "aggregation_type": "SUM",\n          "event_type_filter": {\n            "in_values": [\n              "cpu_usage"\n            ]\n          },\n          "group_keys": [\n            [\n              "region"\n            ],\n            [\n              "machine_type"\n            ]\n          ],\n          "property_filters": [\n            {\n              "name": "cpu_hours",\n              "exists": true\n            },\n            {\n              "name": "region",\n              "exists": true,\n              "in_values": [\n                "EU",\n                "NA"\n              ]\n            },\n            {\n              "name": "machine_type",\n              "exists": true,\n              "in_values": [\n                "slow",\n                "fast"\n              ]\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -3833,7 +3833,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contracts/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "starting_at": "2020-01-01T00:00:00.000Z"\n        }\'',
+          'curl https://api.metronome.com/v1/contracts/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "starting_at": "2020-01-01T00:00:00.000Z",\n          "billing_provider_configuration": {\n            "billing_provider": "stripe",\n            "delivery_method": "direct_to_billing_provider"\n          },\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
       },
     },
   },
@@ -4041,7 +4041,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contracts/addManualBalanceLedgerEntry \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "amount": -1000,\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "reason": "Reason for entry",\n          "segment_id": "66368e29-3f97-4d15-a6e9-120897f0070a"\n        }\'',
+          'curl https://api.metronome.com/v1/contracts/addManualBalanceLedgerEntry \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "amount": -1000,\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "reason": "Reason for entry",\n          "segment_id": "66368e29-3f97-4d15-a6e9-120897f0070a",\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
       },
     },
   },
@@ -4091,7 +4091,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contracts/updateEndDate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
+          'curl https://api.metronome.com/v1/contracts/updateEndDate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "ending_before": "2020-01-01T00:00:00.000Z"\n        }\'',
       },
     },
   },
@@ -4144,7 +4144,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contracts/getContractRateSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
+          'curl https://api.metronome.com/v1/contracts/getContractRateSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "at": "2020-01-01T00:00:00.000Z",\n          "selectors": [\n            {\n              "partial_pricing_group_values": {\n                "region": "us-west-2",\n                "cloud": "aws"\n              },\n              "product_id": "d6300dbb-882e-4d2d-8dec-5125d16b65d0"\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -4202,7 +4202,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contracts/customerBalances/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
+          'curl https://api.metronome.com/v1/contracts/customerBalances/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "include_ledgers": true\n        }\'',
       },
     },
   },
@@ -4252,7 +4252,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contracts/customerBalances/getNetBalance \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
+          'curl https://api.metronome.com/v1/contracts/customerBalances/getNetBalance \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n          "filters": [\n            {\n              "balance_types": [\n                "CREDIT"\n              ],\n              "custom_fields": {\n                "campaign": "free-trial"\n              }\n            },\n            {\n              "balance_types": [\n                "PREPAID_COMMIT",\n                "POSTPAID_COMMIT"\n              ],\n              "custom_fields": {\n                "campaign": "signup-promotion"\n              }\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -4556,7 +4556,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contract-pricing/products/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "My Product",\n          "type": "USAGE"\n        }\'',
+          'curl https://api.metronome.com/v1/contract-pricing/products/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "My Product",\n          "type": "USAGE",\n          "billable_metric_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
       },
     },
   },
@@ -4617,7 +4617,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contract-pricing/products/update \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "product_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "starting_at": "2020-01-01T00:00:00.000Z"\n        }\'',
+          'curl https://api.metronome.com/v1/contract-pricing/products/update \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "product_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "starting_at": "2020-01-01T00:00:00.000Z",\n          "name": "My Updated Product"\n        }\'',
       },
     },
   },
@@ -4715,7 +4715,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/getRateSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe",\n          "starting_at": "2024-01-01T00:00:00.000Z"\n        }\'',
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/getRateSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe",\n          "starting_at": "2024-01-01T00:00:00.000Z",\n          "selectors": [\n            {\n              "partial_pricing_group_values": {\n                "region": "us-west-2",\n                "cloud": "aws"\n              },\n              "product_id": "d6300dbb-882e-4d2d-8dec-5125d16b65d0"\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -4859,7 +4859,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "My Rate Card",\n          "fiat_credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n        }\'',
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "My Rate Card",\n          "aliases": [\n            {\n              "name": "my-rate-card"\n            }\n          ],\n          "credit_type_conversions": [\n            {\n              "custom_credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n              "fiat_per_custom_credit": 2\n            }\n          ],\n          "description": "My Rate Card Description",\n          "fiat_credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n        }\'',
       },
     },
   },
@@ -4909,7 +4909,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/update \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/update \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "description": "My Updated Rate Card Description",\n          "name": "My Updated Rate Card"\n        }\'',
       },
     },
   },
@@ -5096,7 +5096,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/getRates \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "at": "2024-01-01T00:00:00.000Z",\n          "rate_card_id": "f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe"\n        }\'',
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/getRates \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "at": "2024-01-01T00:00:00.000Z",\n          "rate_card_id": "f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe",\n          "selectors": [\n            {\n              "partial_pricing_group_values": {\n                "region": "us-west-2",\n                "cloud": "aws"\n              },\n              "product_id": "d6300dbb-882e-4d2d-8dec-5125d16b65d0"\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -5157,7 +5157,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/addRate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "entitled": true,\n          "product_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "rate_type": "FLAT",\n          "starting_at": "2020-01-01T00:00:00.000Z",\n          "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n        }\'',
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/addRate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "entitled": true,\n          "product_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "rate_type": "FLAT",\n          "starting_at": "2020-01-01T00:00:00.000Z",\n          "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n          "price": 100\n        }\'',
       },
     },
   },
@@ -5254,7 +5254,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contracts/getNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule"\n        }\'',
+          'curl https://api.metronome.com/v1/contracts/getNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule",\n          "covering_date": "2022-02-15T00:00:00Z"\n        }\'',
       },
     },
   },
@@ -5305,7 +5305,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contracts/updateNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule",\n          "starting_at": "2022-02-01T00:00:00Z",\n          "value": {\n            "my_key": "my_value"\n          }\n        }\'',
+          'curl https://api.metronome.com/v1/contracts/updateNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule",\n          "starting_at": "2022-02-01T00:00:00Z",\n          "value": {\n            "my_key": "my_value"\n          },\n          "ending_before": "2022-02-15T00:00:00Z"\n        }\'',
       },
     },
   },
@@ -5350,7 +5350,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/getNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "schedule_name": "my-schedule"\n        }\'',
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/getNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "schedule_name": "my-schedule",\n          "covering_date": "2022-02-15T00:00:00Z"\n        }\'',
       },
     },
   },
@@ -5400,7 +5400,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/updateNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "schedule_name": "my-schedule",\n          "starting_at": "2022-02-01T00:00:00Z",\n          "value": {\n            "my_key": "my_value"\n          }\n        }\'',
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/updateNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "schedule_name": "my-schedule",\n          "starting_at": "2022-02-01T00:00:00Z",\n          "value": {\n            "my_key": "my_value"\n          },\n          "ending_before": "2022-02-15T00:00:00Z"\n        }\'',
       },
     },
   },
@@ -5468,7 +5468,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/packages/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "My package"\n        }\'',
+          'curl https://api.metronome.com/v1/packages/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "My package",\n          "billing_provider": "stripe",\n          "delivery_method": "direct_to_billing_provider",\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
       },
     },
   },
@@ -5713,7 +5713,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/payments/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "invoice_id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85"\n        }\'',
+          'curl https://api.metronome.com/v1/payments/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "invoice_id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "statuses": [\n            "pending",\n            "requires_intervention"\n          ]\n        }\'',
       },
     },
   },
@@ -5855,7 +5855,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.metronome.com/v1/upsertAvalaraCredentials \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "avalara_environment": "PRODUCTION",\n          "avalara_password": "my_password_123",\n          "avalara_username": "test@metronome.com",\n          "delivery_method_ids": [\n            "9a906ebb-fbc7-42e8-8e29-53bfd2db3aca"\n          ]\n        }\'',
+          'curl https://api.metronome.com/v1/upsertAvalaraCredentials \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "avalara_environment": "PRODUCTION",\n          "avalara_password": "my_password_123",\n          "avalara_username": "test@metronome.com",\n          "delivery_method_ids": [\n            "9a906ebb-fbc7-42e8-8e29-53bfd2db3aca"\n          ],\n          "commit_transactions": true\n        }\'',
       },
     },
   },
