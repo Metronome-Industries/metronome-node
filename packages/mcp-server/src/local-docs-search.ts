@@ -4207,6 +4207,64 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
+    name: 'list_seat_balances',
+    endpoint: '/v1/contracts/seatBalances/list',
+    httpMethod: 'post',
+    summary: 'List seat balances',
+    description:
+      "Retrieve detailed balance for seat-based credits and commits from the contract's subscriptions, broken down by individual seats.\n\n### Use this endpoint to:\n- Display per-seat balance information in customer dashboards\n- Filter balance data by subscription or specific seats\n\n### Key response fields:\nAn array of seat balance objects containing:\n- Seat id\n- Balance: current total balance across all commits and credits\n\n### Usage guidelines:\n- Date filtering: use `covering_date` OR `starting_at`/`ending_before` to filter balance data by time range\n- Set `include_credits_and_commits=true` for detailed commits and credits breakdown per seat\n- Set `include_ledgers=true` for detailed transaction history per commit/credit per seat\n",
+    stainlessPath: '(resource) v1.contracts > (method) list_seat_balances',
+    qualified: 'client.v1.contracts.listSeatBalances',
+    params: [
+      'contract_id: string;',
+      'customer_id: string;',
+      'covering_date?: string;',
+      'cursor?: string;',
+      'effective_before?: string;',
+      'include_credits_and_commits?: boolean;',
+      'include_ledgers?: boolean;',
+      'limit?: number;',
+      'seat_ids?: string[];',
+      'starting_at?: string;',
+      'subscription_ids?: string[];',
+    ],
+    response:
+      '{ data: { balances: { balance: number; credit_type_id: string; starting_balance: number; }[]; seat_id: string; commits?: { id: string; balance: number; start_date: string; end_date?: string; ledger_entries?: object[]; }[]; credits?: { id: string; balance: number; start_date: string; end_date?: string; ledger_entries?: object[]; }[]; }[]; pagination: { seats_available_for_next_page: number; seats_included: number; next_page?: string; }; }',
+    markdown:
+      "## list_seat_balances\n\n`client.v1.contracts.listSeatBalances(contract_id: string, customer_id: string, covering_date?: string, cursor?: string, effective_before?: string, include_credits_and_commits?: boolean, include_ledgers?: boolean, limit?: number, seat_ids?: string[], starting_at?: string, subscription_ids?: string[]): { data: object[]; pagination: object; }`\n\n**post** `/v1/contracts/seatBalances/list`\n\nRetrieve detailed balance for seat-based credits and commits from the contract's subscriptions, broken down by individual seats.\n\n### Use this endpoint to:\n- Display per-seat balance information in customer dashboards\n- Filter balance data by subscription or specific seats\n\n### Key response fields:\nAn array of seat balance objects containing:\n- Seat id\n- Balance: current total balance across all commits and credits\n\n### Usage guidelines:\n- Date filtering: use `covering_date` OR `starting_at`/`ending_before` to filter balance data by time range\n- Set `include_credits_and_commits=true` for detailed commits and credits breakdown per seat\n- Set `include_ledgers=true` for detailed transaction history per commit/credit per seat\n\n\n### Parameters\n\n- `contract_id: string`\n  The contract ID to retrieve seat balances for\n\n- `customer_id: string`\n  The customer ID to retrieve seat balances for\n\n- `covering_date?: string`\n  Include only commits or credits with access that cover this specific date (cannot be used with starting_at or ending_before).\n\n- `cursor?: string`\n  Page token from a previous response to retrieve the next page\n\n- `effective_before?: string`\n  Include only commits or credits with access effective on or before this date (cannot be used with covering_date).\n\n- `include_credits_and_commits?: boolean`\n  Include credits and commits in the response\n\n- `include_ledgers?: boolean`\n  Include ledger entries for each commit and commit. `include_credits_and_commits` must be set to `true` for `include_ledgers=true` to apply.\n\n- `limit?: number`\n  Maximum number of seats to return. Range: 1-100. Default: 25.\nWhen `include_credits_and_commits = true`, if the total commits/credits across all seats exceeds 100, a limit of 100 applies to the total credits and commits. Seats are included greedily to maximize the number of seats returned.\nExample: if seat 1 has 98 commits and seat 2 has 10 commits, both seats will be returned (total: 108 commits). Each returned seat includes all of its associated credits and commits.\n\n\n- `seat_ids?: string[]`\n  Optional filter to only include specific seats\n\n- `starting_at?: string`\n  Include only commits or credits with access effective on or after this date (cannot be used with covering_date).\n\n- `subscription_ids?: string[]`\n  Optional filter to only include seats from specific subscriptions. If subscriptions ids are not mapped to SEAT_BASED subscriptions, error will be returned.\n\n### Returns\n\n- `{ data: { balances: { balance: number; credit_type_id: string; starting_balance: number; }[]; seat_id: string; commits?: { id: string; balance: number; start_date: string; end_date?: string; ledger_entries?: object[]; }[]; credits?: { id: string; balance: number; start_date: string; end_date?: string; ledger_entries?: object[]; }[]; }[]; pagination: { seats_available_for_next_page: number; seats_included: number; next_page?: string; }; }`\n\n  - `data: { balances: { balance: number; credit_type_id: string; starting_balance: number; }[]; seat_id: string; commits?: { id: string; balance: number; start_date: string; end_date?: string; ledger_entries?: { amount: number; timestamp: string; type: string; }[]; }[]; credits?: { id: string; balance: number; start_date: string; end_date?: string; ledger_entries?: { amount: number; timestamp: string; type: string; }[]; }[]; }[]`\n  - `pagination: { seats_available_for_next_page: number; seats_included: number; next_page?: string; }`\n\n### Example\n\n```typescript\nimport Metronome from '@metronome/sdk';\n\nconst client = new Metronome();\n\nconst response = await client.v1.contracts.listSeatBalances({ contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc', customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d' });\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.v1.contracts.listSeatBalances',
+        example:
+          "import Metronome from '@metronome/sdk';\n\nconst client = new Metronome({\n  bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted\n});\n\nconst response = await client.v1.contracts.listSeatBalances({\n  contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',\n  customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',\n  covering_date: '2024-03-01T00:00:00.000Z',\n  include_credits_and_commits: true,\n  include_ledgers: true,\n  limit: 25,\n  subscription_ids: ['8deed800-1b7a-495d-a207-6c52bac54dc9'],\n});\n\nconsole.log(response.data);",
+      },
+      python: {
+        method: 'v1.contracts.list_seat_balances',
+        example:
+          'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.list_seat_balances(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    covering_date=datetime.fromisoformat("2024-03-01T00:00:00.000"),\n    include_credits_and_commits=True,\n    include_ledgers=True,\n    limit=25,\n    subscription_ids=["8deed800-1b7a-495d-a207-6c52bac54dc9"],\n)\nprint(response.data)',
+      },
+      java: {
+        method: 'v1().contracts().listSeatBalances',
+        example:
+          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractListSeatBalancesParams;\nimport com.metronome.api.models.v1.contracts.ContractListSeatBalancesResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractListSeatBalancesParams params = ContractListSeatBalancesParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        ContractListSeatBalancesResponse response = client.v1().contracts().listSeatBalances(params);\n    }\n}',
+      },
+      go: {
+        method: 'client.V1.Contracts.ListSeatBalances',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\t"time"\n\n\t"github.com/Metronome-Industries/metronome-go"\n\t"github.com/Metronome-Industries/metronome-go/option"\n)\n\nfunc main() {\n\tclient := metronome.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.V1.Contracts.ListSeatBalances(context.TODO(), metronome.V1ContractListSeatBalancesParams{\n\t\tContractID:               "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n\t\tCustomerID:               "13117714-3f05-48e5-a6e9-a66093f13b4d",\n\t\tCoveringDate:             metronome.Time(time.Now()),\n\t\tIncludeCreditsAndCommits: metronome.Bool(true),\n\t\tIncludeLedgers:           metronome.Bool(true),\n\t\tLimit:                    metronome.Int(25),\n\t\tSubscriptionIDs:          []string{"8deed800-1b7a-495d-a207-6c52bac54dc9"},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Data)\n}\n',
+      },
+      ruby: {
+        method: 'v1.contracts.list_seat_balances',
+        example:
+          'require "metronome_sdk"\n\nmetronome = MetronomeSDK::Client.new(bearer_token: "My Bearer Token")\n\nresponse = metronome.v1.contracts.list_seat_balances(\n  contract_id: "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n  customer_id: "13117714-3f05-48e5-a6e9-a66093f13b4d"\n)\n\nputs(response)',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/seatBalances/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "covering_date": "2024-03-01T00:00:00.000Z",\n          "include_credits_and_commits": true,\n          "include_ledgers": true,\n          "limit": 25,\n          "subscription_ids": [\n            "8deed800-1b7a-495d-a207-6c52bac54dc9"\n          ]\n        }\'',
+      },
+    },
+  },
+  {
     name: 'get_net_balance',
     endpoint: '/v1/contracts/customerBalances/getNetBalance',
     httpMethod: 'post',

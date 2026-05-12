@@ -516,6 +516,55 @@ export class Contracts extends APIResource {
   }
 
   /**
+   * Retrieve detailed balance for seat-based credits and commits from the contract's
+   * subscriptions, broken down by individual seats.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Display per-seat balance information in customer dashboards
+   * - Filter balance data by subscription or specific seats
+   *
+   * ### Key response fields:
+   *
+   * An array of seat balance objects containing:
+   *
+   * - Seat id
+   * - Balance: current total balance across all commits and credits
+   *
+   * ### Usage guidelines:
+   *
+   * - Date filtering: use `covering_date` OR `starting_at`/`ending_before` to filter
+   *   balance data by time range
+   * - Set `include_credits_and_commits=true` for detailed commits and credits
+   *   breakdown per seat
+   * - Set `include_ledgers=true` for detailed transaction history per commit/credit
+   *   per seat
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.contracts.listSeatBalances(
+   *   {
+   *     contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *     covering_date: '2024-03-01T00:00:00.000Z',
+   *     include_credits_and_commits: true,
+   *     include_ledgers: true,
+   *     limit: 25,
+   *     subscription_ids: [
+   *       '8deed800-1b7a-495d-a207-6c52bac54dc9',
+   *     ],
+   *   },
+   * );
+   * ```
+   */
+  listSeatBalances(
+    body: ContractListSeatBalancesParams,
+    options?: RequestOptions,
+  ): APIPromise<ContractListSeatBalancesResponse> {
+    return this._client.post('/v1/contracts/seatBalances/list', { body, ...options });
+  }
+
+  /**
    * For a specific customer and contract, get the rates at a specific point in time.
    * This endpoint takes the contract's rate card into consideration, including
    * scheduled changes. It also takes into account overrides on the contract.
@@ -725,6 +774,178 @@ export namespace ContractGetNetBalanceResponse {
 }
 
 export type ContractListBalancesResponse = Shared.Commit | Shared.Credit;
+
+export interface ContractListSeatBalancesResponse {
+  data: Array<ContractListSeatBalancesResponse.Data>;
+
+  pagination: ContractListSeatBalancesResponse.Pagination;
+}
+
+export namespace ContractListSeatBalancesResponse {
+  export interface Data {
+    balances: Array<Data.Balance>;
+
+    /**
+     * The unique identifier for the seat
+     */
+    seat_id: string;
+
+    /**
+     * Array of commits applicable to this seat with their balances
+     */
+    commits?: Array<Data.Commit> | null;
+
+    /**
+     * Array of credits applicable to this seat with their balances
+     */
+    credits?: Array<Data.Credit>;
+  }
+
+  export namespace Data {
+    export interface Balance {
+      /**
+       * The total balance across all commits and credits for this seat, of this credit
+       * type.
+       */
+      balance: number;
+
+      credit_type_id: string;
+
+      /**
+       * The total initial balances of all commits and credits for this seat, of this
+       * credit type.
+       */
+      starting_balance: number;
+    }
+
+    export interface Commit {
+      /**
+       * The commit or credit ID
+       */
+      id: string;
+
+      /**
+       * The current balance for this commit for this specific seat
+       */
+      balance: number;
+
+      /**
+       * The datetime when the commit becomes active
+       */
+      start_date: string;
+
+      /**
+       * The datetime when the commit expires
+       */
+      end_date?: string | null;
+
+      /**
+       * Transaction history for this commit for this seat (only included if
+       * include_ledgers=true)
+       */
+      ledger_entries?: Array<Commit.LedgerEntry>;
+    }
+
+    export namespace Commit {
+      export interface LedgerEntry {
+        /**
+         * Amount of the ledger entry
+         */
+        amount: number;
+
+        /**
+         * The datetime when the ledger is created
+         */
+        timestamp: string;
+
+        /**
+         * Commit ledger type
+         */
+        type:
+          | 'PREPAID_COMMIT_SEGMENT_START'
+          | 'PREPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION'
+          | 'PREPAID_COMMIT_ROLLOVER'
+          | 'PREPAID_COMMIT_EXPIRATION'
+          | 'PREPAID_COMMIT_CANCELED'
+          | 'PREPAID_COMMIT_CREDITED'
+          | 'PREPAID_COMMIT_MANUAL'
+          | 'PREPAID_COMMIT_SEAT_BASED_ADJUSTMENT';
+      }
+    }
+
+    export interface Credit {
+      /**
+       * The credit ID
+       */
+      id: string;
+
+      /**
+       * The current balance for this credit for this specific seat
+       */
+      balance: number;
+
+      /**
+       * The datetime when the credit becomes active
+       */
+      start_date: string;
+
+      /**
+       * The datetime when the credit expires
+       */
+      end_date?: string | null;
+
+      /**
+       * Transaction history for this credit for this seat (only included if
+       * include_ledgers=true)
+       */
+      ledger_entries?: Array<Credit.LedgerEntry>;
+    }
+
+    export namespace Credit {
+      export interface LedgerEntry {
+        /**
+         * Amount of the ledger entry
+         */
+        amount: number;
+
+        /**
+         * The datetime when the ledger is created
+         */
+        timestamp: string;
+
+        /**
+         * Credit ledger type
+         */
+        type:
+          | 'CREDIT_SEGMENT_START'
+          | 'CREDIT_AUTOMATED_INVOICE_DEDUCTION'
+          | 'CREDIT_EXPIRATION'
+          | 'CREDIT_CANCELED'
+          | 'CREDIT_CREDITED'
+          | 'CREDIT_MANUAL'
+          | 'CREDIT_SEAT_BASED_ADJUSTMENT'
+          | 'CREDIT_ROLLOVER';
+      }
+    }
+  }
+
+  export interface Pagination {
+    /**
+     * Number of seats available to fetch in the next page
+     */
+    seats_available_for_next_page: number;
+
+    /**
+     * Number of seats included in this response
+     */
+    seats_included: number;
+
+    /**
+     * Token to retrieve the next page of results. Null if no more pages available
+     */
+    next_page?: string | null;
+  }
+}
 
 export interface ContractRetrieveRateScheduleResponse {
   data: Array<ContractRetrieveRateScheduleResponse.Data>;
@@ -3658,6 +3879,75 @@ export interface ContractListBalancesParams extends BodyCursorPageParams {
   starting_at?: string;
 }
 
+export interface ContractListSeatBalancesParams {
+  /**
+   * The contract ID to retrieve seat balances for
+   */
+  contract_id: string;
+
+  /**
+   * The customer ID to retrieve seat balances for
+   */
+  customer_id: string;
+
+  /**
+   * Include only commits or credits with access that cover this specific date
+   * (cannot be used with starting_at or ending_before).
+   */
+  covering_date?: string;
+
+  /**
+   * Page token from a previous response to retrieve the next page
+   */
+  cursor?: string;
+
+  /**
+   * Include only commits or credits with access effective on or before this date
+   * (cannot be used with covering_date).
+   */
+  effective_before?: string;
+
+  /**
+   * Include credits and commits in the response
+   */
+  include_credits_and_commits?: boolean;
+
+  /**
+   * Include ledger entries for each commit and commit. `include_credits_and_commits`
+   * must be set to `true` for `include_ledgers=true` to apply.
+   */
+  include_ledgers?: boolean;
+
+  /**
+   * Maximum number of seats to return. Range: 1-100. Default: 25. When
+   * `include_credits_and_commits = true`, if the total commits/credits across all
+   * seats exceeds 100, a limit of 100 applies to the total credits and commits.
+   * Seats are included greedily to maximize the number of seats returned. Example:
+   * if seat 1 has 98 commits and seat 2 has 10 commits, both seats will be returned
+   * (total: 108 commits). Each returned seat includes all of its associated credits
+   * and commits.
+   */
+  limit?: number;
+
+  /**
+   * Optional filter to only include specific seats
+   */
+  seat_ids?: Array<string>;
+
+  /**
+   * Include only commits or credits with access effective on or after this date
+   * (cannot be used with covering_date).
+   */
+  starting_at?: string;
+
+  /**
+   * Optional filter to only include seats from specific subscriptions. If
+   * subscriptions ids are not mapped to SEAT_BASED subscriptions, error will be
+   * returned.
+   */
+  subscription_ids?: Array<string>;
+}
+
 export interface ContractRetrieveRateScheduleParams {
   /**
    * Body param: ID of the contract to get the rate schedule for.
@@ -3858,6 +4148,7 @@ export declare namespace Contracts {
     type ContractCreateHistoricalInvoicesResponse as ContractCreateHistoricalInvoicesResponse,
     type ContractGetNetBalanceResponse as ContractGetNetBalanceResponse,
     type ContractListBalancesResponse as ContractListBalancesResponse,
+    type ContractListSeatBalancesResponse as ContractListSeatBalancesResponse,
     type ContractRetrieveRateScheduleResponse as ContractRetrieveRateScheduleResponse,
     type ContractRetrieveSubscriptionQuantityHistoryResponse as ContractRetrieveSubscriptionQuantityHistoryResponse,
     type ContractScheduleProServicesInvoiceResponse as ContractScheduleProServicesInvoiceResponse,
@@ -3872,6 +4163,7 @@ export declare namespace Contracts {
     type ContractCreateHistoricalInvoicesParams as ContractCreateHistoricalInvoicesParams,
     type ContractGetNetBalanceParams as ContractGetNetBalanceParams,
     type ContractListBalancesParams as ContractListBalancesParams,
+    type ContractListSeatBalancesParams as ContractListSeatBalancesParams,
     type ContractRetrieveRateScheduleParams as ContractRetrieveRateScheduleParams,
     type ContractRetrieveSubscriptionQuantityHistoryParams as ContractRetrieveSubscriptionQuantityHistoryParams,
     type ContractScheduleProServicesInvoiceParams as ContractScheduleProServicesInvoiceParams,
