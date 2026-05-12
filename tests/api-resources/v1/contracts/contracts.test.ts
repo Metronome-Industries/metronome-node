@@ -932,6 +932,36 @@ describe('resource contracts', () => {
     });
   });
 
+  test('listSeatBalances: only required params', async () => {
+    const responsePromise = client.v1.contracts.listSeatBalances({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listSeatBalances: required and optional params', async () => {
+    const response = await client.v1.contracts.listSeatBalances({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      covering_date: '2024-03-01T00:00:00.000Z',
+      cursor: 'cursor',
+      effective_before: '2019-12-27T18:11:19.117Z',
+      include_credits_and_commits: true,
+      include_ledgers: true,
+      limit: 25,
+      seat_ids: ['string'],
+      starting_at: '2019-12-27T18:11:19.117Z',
+      subscription_ids: ['8deed800-1b7a-495d-a207-6c52bac54dc9'],
+    });
+  });
+
   test('retrieveRateSchedule: only required params', async () => {
     const responsePromise = client.v1.contracts.retrieveRateSchedule({
       contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',

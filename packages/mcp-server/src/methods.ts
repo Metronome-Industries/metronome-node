@@ -497,6 +497,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/contracts/customerBalances/list',
   },
   {
+    clientCallName: 'client.v1.contracts.listSeatBalances',
+    fullyQualifiedName: 'v1.contracts.listSeatBalances',
+    httpMethod: 'post',
+    httpPath: '/v1/contracts/seatBalances/list',
+  },
+  {
     clientCallName: 'client.v1.contracts.retrieveRateSchedule',
     fullyQualifiedName: 'v1.contracts.retrieveRateSchedule',
     httpMethod: 'post',

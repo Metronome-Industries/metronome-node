@@ -188,6 +188,7 @@ const fuse = new Fuse(
     'client.v1.contracts.getNetBalance',
     'client.v1.contracts.list',
     'client.v1.contracts.listBalances',
+    'client.v1.contracts.listSeatBalances',
     'client.v1.contracts.retrieve',
     'client.v1.contracts.retrieveRateSchedule',
     'client.v1.contracts.retrieveSubscriptionQuantityHistory',
