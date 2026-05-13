@@ -3930,7 +3930,7 @@ export interface ContractListSeatBalancesParams {
   limit?: number;
 
   /**
-   * Optional filter to only include specific seats
+   * Optional filter to only include specific seats.
    */
   seat_ids?: Array<string>;
 
