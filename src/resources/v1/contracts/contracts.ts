@@ -1260,11 +1260,6 @@ export namespace ContractCreateParams {
     netsuite_sales_order_id?: string;
 
     /**
-     * optionally payment gate this commit
-     */
-    payment_gate_config?: Commit.PaymentGateConfig;
-
-    /**
      * If multiple commits are applicable, the one with the lower priority will apply
      * first.
      */
@@ -1423,83 +1418,6 @@ export namespace ContractCreateParams {
          * provided.
          */
         unit_price?: number;
-      }
-    }
-
-    /**
-     * optionally payment gate this commit
-     */
-    export interface PaymentGateConfig {
-      /**
-       * Gate access to the commit balance based on successful collection of payment.
-       * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
-       * facilitate payment using your own payment integration. Select NONE if you do not
-       * wish to payment gate the commit balance.
-       */
-      payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
-
-      /**
-       * Only applicable if using PRECALCULATED as your tax type.
-       */
-      precalculated_tax_config?: PaymentGateConfig.PrecalculatedTaxConfig;
-
-      /**
-       * Only applicable if using STRIPE as your payment gate type.
-       */
-      stripe_config?: PaymentGateConfig.StripeConfig;
-
-      /**
-       * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
-       * not wish Metronome to calculate tax on your behalf. Leaving this field blank
-       * will default to NONE.
-       */
-      tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
-    }
-
-    export namespace PaymentGateConfig {
-      /**
-       * Only applicable if using PRECALCULATED as your tax type.
-       */
-      export interface PrecalculatedTaxConfig {
-        /**
-         * Amount of tax to be applied. This should be in the same currency and
-         * denomination as the commit's invoice schedule
-         */
-        tax_amount: number;
-
-        /**
-         * Name of the tax to be applied. This may be used in an invoice line item
-         * description.
-         */
-        tax_name?: string;
-      }
-
-      /**
-       * Only applicable if using STRIPE as your payment gate type.
-       */
-      export interface StripeConfig {
-        /**
-         * If left blank, will default to INVOICE
-         */
-        payment_type: 'INVOICE' | 'PAYMENT_INTENT';
-
-        /**
-         * Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as
-         * your payment type.
-         */
-        invoice_metadata?: { [key: string]: string };
-
-        /**
-         * If true, the payment will be made assuming the customer is present (i.e. on
-         * session).
-         *
-         * If false, the payment will be made assuming the customer is not present (i.e.
-         * off session). For cardholders from a country with an e-mandate requirement (e.g.
-         * India), the payment may be declined.
-         *
-         * If left blank, will default to false.
-         */
-        on_session_payment?: boolean;
       }
     }
   }
@@ -2886,11 +2804,6 @@ export namespace ContractAmendParams {
     netsuite_sales_order_id?: string;
 
     /**
-     * optionally payment gate this commit
-     */
-    payment_gate_config?: Commit.PaymentGateConfig;
-
-    /**
      * If multiple commits are applicable, the one with the lower priority will apply
      * first.
      */
@@ -3049,83 +2962,6 @@ export namespace ContractAmendParams {
          * provided.
          */
         unit_price?: number;
-      }
-    }
-
-    /**
-     * optionally payment gate this commit
-     */
-    export interface PaymentGateConfig {
-      /**
-       * Gate access to the commit balance based on successful collection of payment.
-       * Select STRIPE for Metronome to facilitate payment via Stripe. Select EXTERNAL to
-       * facilitate payment using your own payment integration. Select NONE if you do not
-       * wish to payment gate the commit balance.
-       */
-      payment_gate_type: 'NONE' | 'STRIPE' | 'EXTERNAL';
-
-      /**
-       * Only applicable if using PRECALCULATED as your tax type.
-       */
-      precalculated_tax_config?: PaymentGateConfig.PrecalculatedTaxConfig;
-
-      /**
-       * Only applicable if using STRIPE as your payment gate type.
-       */
-      stripe_config?: PaymentGateConfig.StripeConfig;
-
-      /**
-       * Stripe tax is only supported for Stripe payment gateway. Select NONE if you do
-       * not wish Metronome to calculate tax on your behalf. Leaving this field blank
-       * will default to NONE.
-       */
-      tax_type?: 'NONE' | 'STRIPE' | 'ANROK' | 'PRECALCULATED';
-    }
-
-    export namespace PaymentGateConfig {
-      /**
-       * Only applicable if using PRECALCULATED as your tax type.
-       */
-      export interface PrecalculatedTaxConfig {
-        /**
-         * Amount of tax to be applied. This should be in the same currency and
-         * denomination as the commit's invoice schedule
-         */
-        tax_amount: number;
-
-        /**
-         * Name of the tax to be applied. This may be used in an invoice line item
-         * description.
-         */
-        tax_name?: string;
-      }
-
-      /**
-       * Only applicable if using STRIPE as your payment gate type.
-       */
-      export interface StripeConfig {
-        /**
-         * If left blank, will default to INVOICE
-         */
-        payment_type: 'INVOICE' | 'PAYMENT_INTENT';
-
-        /**
-         * Metadata to be added to the Stripe invoice. Only applicable if using INVOICE as
-         * your payment type.
-         */
-        invoice_metadata?: { [key: string]: string };
-
-        /**
-         * If true, the payment will be made assuming the customer is present (i.e. on
-         * session).
-         *
-         * If false, the payment will be made assuming the customer is not present (i.e.
-         * off session). For cardholders from a country with an e-mandate requirement (e.g.
-         * India), the payment may be declined.
-         *
-         * If left blank, will default to false.
-         */
-        on_session_payment?: boolean;
       }
     }
   }
