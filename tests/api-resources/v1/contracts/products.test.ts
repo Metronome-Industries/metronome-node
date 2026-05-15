@@ -39,6 +39,7 @@ describe('resource products', () => {
         name: 'name',
       },
       quantity_rounding: { decimal_places: 0, rounding_method: 'ROUND_UP' },
+      sql_breakdown_granularity: 'HOUR',
       tags: ['string'],
     });
   });
@@ -96,6 +97,7 @@ describe('resource products', () => {
         name: 'name',
       },
       quantity_rounding: { decimal_places: 0, rounding_method: 'ROUND_UP' },
+      sql_breakdown_granularity: 'HOUR',
       tags: ['string'],
     });
   });

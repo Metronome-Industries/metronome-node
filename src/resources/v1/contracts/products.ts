@@ -503,6 +503,16 @@ export interface ProductCreateParams {
    */
   quantity_rounding?: QuantityRounding | null;
 
+  /**
+   * Defines the breakdown behavior when calculating usage from SQL Billable Metrics.
+   * If set to 'service_period' (default), the usage will be evaluated once for all
+   * events the invoice service period and the usage will be applied at the last
+   * instant of the invoice. If set to 'hour', it will be broken down and evaluated
+   * for each hour. For most use cases, 'hour' is recommended. The setting has no
+   * effect for Streaming Billable Metrics.
+   */
+  sql_breakdown_granularity?: 'HOUR' | 'SERVICE_PERIOD';
+
   tags?: Array<string>;
 }
 
@@ -603,6 +613,16 @@ export interface ProductUpdateParams {
    * rounded up to the nearest integer.
    */
   quantity_rounding?: QuantityRounding | null;
+
+  /**
+   * Defines the breakdown behavior when calculating usage from SQL Billable Metrics.
+   * If set to 'service_period' (default), the usage will be evaluated once for all
+   * events the invoice service period and the usage will be applied at the last
+   * instant of the invoice. If set to 'hour', it will be broken down and evaluated
+   * for each hour. For most use cases, 'hour' is recommended. The setting has no
+   * effect for Streaming Billable Metrics.
+   */
+  sql_breakdown_granularity?: 'HOUR' | 'SERVICE_PERIOD';
 
   /**
    * If not provided, defaults to product's current tags
