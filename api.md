@@ -517,6 +517,7 @@ Methods:
 
 - <code title="post /v1/setUpBillingProvider">client.v1.settings.billingProviders.<a href="./src/resources/v1/settings/billing-providers.ts">create</a>({ ...params }) -> BillingProviderCreateResponse</code>
 - <code title="post /v1/listConfiguredBillingProviders">client.v1.settings.billingProviders.<a href="./src/resources/v1/settings/billing-providers.ts">list</a>({ ...params }) -> BillingProviderListResponse</code>
+
 # Payments
 
 Types:
