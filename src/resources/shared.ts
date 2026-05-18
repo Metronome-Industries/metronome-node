@@ -1227,6 +1227,8 @@ export namespace ContractV2 {
 
     applicable_product_tags?: Array<string>;
 
+    archived_at?: string;
+
     /**
      * The current balance of the credit or commit. This balance reflects the amount of
      * credit or commit that the customer has access to use at this moment - thus,
