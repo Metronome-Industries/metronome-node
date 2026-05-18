@@ -761,7 +761,7 @@ export interface ContractV2 {
   /**
    * List of subscriptions on the contract.
    */
-  subscriptions?: Array<Subscription>;
+  subscriptions?: Array<ContractV2.Subscription>;
 
   total_contract_value?: number;
 
@@ -1226,6 +1226,8 @@ export namespace ContractV2 {
     applicable_product_ids?: Array<string>;
 
     applicable_product_tags?: Array<string>;
+
+    archived_at?: string;
 
     /**
      * The current balance of the credit or commit. This balance reflects the amount of
@@ -1853,6 +1855,130 @@ export namespace ContractV2 {
       gcp_offer_id?: string;
 
       reseller_contract_value?: number;
+    }
+  }
+
+  export interface Subscription {
+    /**
+     * Previous, current, and next billing periods for the subscription.
+     */
+    billing_periods: Subscription.BillingPeriods;
+
+    collection_schedule: 'ADVANCE' | 'ARREARS';
+
+    proration: Subscription.Proration;
+
+    /**
+     * Determines how the subscription's quantity is controlled. Defaults to
+     * QUANTITY_ONLY. **QUANTITY_ONLY**: The subscription quantity is specified
+     * directly on the subscription. `initial_quantity` must be provided with this
+     * option. Compatible with recurring commits/credits that use POOLED allocation.
+     * **SEAT_BASED**: Use when you want to pass specific seat identifiers (e.g. add
+     * user_123) to increment and decrement a subscription quantity, rather than
+     * directly providing the quantity. You must use a **SEAT_BASED** subscription to
+     * use a linked recurring credit with an allocation per seat. `seat_config` must be
+     * provided with this option.
+     */
+    quantity_management_mode: 'SEAT_BASED' | 'QUANTITY_ONLY';
+
+    /**
+     * List of quantity schedule items for the subscription. Only includes the current
+     * quantity and future quantity changes.
+     */
+    quantity_schedule: Array<Subscription.QuantitySchedule>;
+
+    starting_at: string;
+
+    subscription_rate: Subscription.SubscriptionRate;
+
+    id?: string;
+
+    /**
+     * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+     */
+    custom_fields?: { [key: string]: string };
+
+    description?: string;
+
+    ending_before?: string;
+
+    fiat_credit_type_id?: string;
+
+    name?: string;
+
+    seat_config?: Subscription.SeatConfig;
+  }
+
+  export namespace Subscription {
+    /**
+     * Previous, current, and next billing periods for the subscription.
+     */
+    export interface BillingPeriods {
+      current?: BillingPeriods.Current;
+
+      next?: BillingPeriods.Next;
+
+      previous?: BillingPeriods.Previous;
+    }
+
+    export namespace BillingPeriods {
+      export interface Current {
+        ending_before: string;
+
+        starting_at: string;
+      }
+
+      export interface Next {
+        ending_before: string;
+
+        starting_at: string;
+      }
+
+      export interface Previous {
+        ending_before: string;
+
+        starting_at: string;
+      }
+    }
+
+    export interface Proration {
+      invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
+
+      is_prorated: boolean;
+    }
+
+    export interface QuantitySchedule {
+      quantity: number;
+
+      starting_at: string;
+
+      ending_before?: string;
+    }
+
+    export interface SubscriptionRate {
+      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+
+      product: SubscriptionRate.Product;
+    }
+
+    export namespace SubscriptionRate {
+      export interface Product {
+        id: string;
+
+        name: string;
+      }
+    }
+
+    export interface SeatConfig {
+      /**
+       * The property name, sent on usage events, that identifies the seat ID associated
+       * with the usage event. For example, the property name might be seat_id or
+       * user_id. The property must be set as a group key on billable metrics and a
+       * presentation/pricing group key on contract products. This allows linked
+       * recurring credits with an allocation per seat to be consumed by only one seat's
+       * usage.
+       */
+      seat_group_key: string;
     }
   }
 }

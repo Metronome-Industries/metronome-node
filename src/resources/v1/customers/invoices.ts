@@ -365,6 +365,8 @@ export interface Invoice {
 
   plan_name?: string;
 
+  regenerated_from_invoice_id?: string;
+
   /**
    * Only present for contract invoices with reseller royalties.
    */
@@ -1008,6 +1010,11 @@ export interface InvoiceListParams extends CursorPageParams {
   customer_id: string;
 
   /**
+   * Query param: Only return invoices for the specified contract
+   */
+  contract_id?: string;
+
+  /**
    * Query param: Only return invoices for the specified credit type
    */
   credit_type_id?: string;
@@ -1040,6 +1047,11 @@ export interface InvoiceListParams extends CursorPageParams {
    * Query param: Invoice status, e.g. DRAFT, FINALIZED, or VOID
    */
   status?: string;
+
+  /**
+   * Query param: Filter invoices by type. Defaults to returning all invoice types.
+   */
+  type?: 'USAGE' | 'USAGE_CONSOLIDATED' | 'SCHEDULED';
 }
 
 export interface InvoiceAddChargeParams {

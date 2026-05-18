@@ -302,7 +302,7 @@ export namespace CustomerAlert {
 
   export namespace Alert {
     export interface CustomFieldFilter {
-      entity: 'Contract' | 'Commit' | 'ContractCredit';
+      entity: 'Contract' | 'Commit' | 'ContractCredit' | 'ContractCreditOrCommit';
 
       key: string;
 

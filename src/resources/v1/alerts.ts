@@ -229,7 +229,7 @@ export interface AlertCreateParams {
 
 export namespace AlertCreateParams {
   export interface CustomFieldFilter {
-    entity: 'Contract' | 'Commit' | 'ContractCredit';
+    entity: 'Contract' | 'Commit' | 'ContractCredit' | 'ContractCreditOrCommit';
 
     key: string;
 

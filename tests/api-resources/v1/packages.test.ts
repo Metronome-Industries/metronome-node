@@ -29,7 +29,6 @@ describe('resource packages', () => {
           starting_at: '2019-12-27T18:11:19.117Z',
         },
       ],
-      billing_anchor_date: 'contract_start_date',
       billing_provider: 'stripe',
       commits: [
         {
@@ -148,6 +147,7 @@ describe('resource packages', () => {
           product_id: 'product_id',
           description: 'description',
           name: 'name',
+          priority: 0,
           applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
           applicable_product_tags: ['string'],
           specifiers: [
@@ -276,6 +276,7 @@ describe('resource packages', () => {
           product_id: 'product_id',
           description: 'description',
           name: 'name',
+          priority: 0,
         },
         is_enabled: true,
         payment_gate_config: {

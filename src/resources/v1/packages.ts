@@ -1866,8 +1866,6 @@ export interface PackageCreateParams {
    */
   aliases?: Array<PackageCreateParams.Alias>;
 
-  billing_anchor_date?: 'contract_start_date' | 'first_billing_period';
-
   billing_provider?: 'aws_marketplace' | 'azure_marketplace' | 'gcp_marketplace' | 'stripe' | 'netsuite';
 
   commits?: Array<PackageCreateParams.Commit>;

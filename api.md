@@ -350,6 +350,7 @@ Types:
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractCreateHistoricalInvoicesResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractGetNetBalanceResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractListBalancesResponse</a></code>
+- <code><a href="./src/resources/v1/contracts/contracts.ts">ContractListSeatBalancesResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractRetrieveRateScheduleResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractRetrieveSubscriptionQuantityHistoryResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractScheduleProServicesInvoiceResponse</a></code>
@@ -366,6 +367,7 @@ Methods:
 - <code title="post /v1/contracts/createHistoricalInvoices">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">createHistoricalInvoices</a>({ ...params }) -> ContractCreateHistoricalInvoicesResponse</code>
 - <code title="post /v1/contracts/customerBalances/getNetBalance">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">getNetBalance</a>({ ...params }) -> ContractGetNetBalanceResponse</code>
 - <code title="post /v1/contracts/customerBalances/list">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">listBalances</a>({ ...params }) -> ContractListBalancesResponsesBodyCursorPage</code>
+- <code title="post /v1/contracts/seatBalances/list">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">listSeatBalances</a>({ ...params }) -> ContractListSeatBalancesResponse</code>
 - <code title="post /v1/contracts/getContractRateSchedule">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">retrieveRateSchedule</a>({ ...params }) -> ContractRetrieveRateScheduleResponse</code>
 - <code title="post /v1/contracts/getSubscriptionQuantityHistory">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">retrieveSubscriptionQuantityHistory</a>({ ...params }) -> ContractRetrieveSubscriptionQuantityHistoryResponse</code>
 - <code title="post /v1/contracts/scheduleProServicesInvoice">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">scheduleProServicesInvoice</a>({ ...params }) -> ContractScheduleProServicesInvoiceResponse</code>
@@ -515,6 +517,7 @@ Methods:
 
 - <code title="post /v1/setUpBillingProvider">client.v1.settings.billingProviders.<a href="./src/resources/v1/settings/billing-providers.ts">create</a>({ ...params }) -> BillingProviderCreateResponse</code>
 - <code title="post /v1/listConfiguredBillingProviders">client.v1.settings.billingProviders.<a href="./src/resources/v1/settings/billing-providers.ts">list</a>({ ...params }) -> BillingProviderListResponse</code>
+
 # Payments
 
 Types:

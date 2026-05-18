@@ -1,5 +1,61 @@
 # Changelog
 
+## 3.6.0 (2026-05-18)
+
+Full Changelog: [v3.5.0...v3.6.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.5.0...v3.6.0)
+
+### Features
+
+* [docs] fix typo in "Create a Contract" [1] page ([6a60d22](https://github.com/Metronome-Industries/metronome-node/commit/6a60d229e2cddcbb00beb374d0aa478cdad43baf))
+* [orch-383] fix API docs for one-off payment-gated commits ([45eede3](https://github.com/Metronome-Industries/metronome-node/commit/45eede35bb9a5684b64b2ecda36566b6a2fe6def))
+* Add alert specifiers to contract create API ([d602713](https://github.com/Metronome-Industries/metronome-node/commit/d6027136f64a6556e1677ee1ad2763c64b3f87f1))
+* add contract_id filter to list invoices endpoint ([d5f9d09](https://github.com/Metronome-Industries/metronome-node/commit/d5f9d097cda65cb60e4faad5a554fc5b433f47f4))
+* add invoice type filter for list invoices api ([e27af18](https://github.com/Metronome-Industries/metronome-node/commit/e27af18c5c2d2c9200d27fa4a239cb75f38cb8d5))
+* Add list seat balances API endpoint to SDK ([60133b6](https://github.com/Metronome-Industries/metronome-node/commit/60133b65a6d667d0f7df3f4c3318899723ae30f6))
+* Add regenerated_from_invoice_id to getInvoice response ([43507a5](https://github.com/Metronome-Industries/metronome-node/commit/43507a549c3018ca6c8dd1da03b519d45a72fa6f))
+* Add sql_breakdown_granularity flag to product create/edit ([c43c40b](https://github.com/Metronome-Industries/metronome-node/commit/c43c40b33687972f5bdadba49c30888b8c0d76af))
+* added custom fields to create contract with package ([67d7fd3](https://github.com/Metronome-Industries/metronome-node/commit/67d7fd34ff8f2aa15d517bd0ed4b4c7737ab39ac))
+* **api:** Adding one skip logic to remove timeout issues for Java list ([58d2b46](https://github.com/Metronome-Industries/metronome-node/commit/58d2b46e26647f1565869414fe9e3f9d5bba5c43))
+* doc updates ([6821afa](https://github.com/Metronome-Industries/metronome-node/commit/6821afa871d3cc026a2f641877cfcca0562bf863))
+* Limit spend breakdown/seat balances to 100 vals ([d6dee53](https://github.com/Metronome-Industries/metronome-node/commit/d6dee53e53183aabc01692fb02117c086222bb2a))
+* Pranadreddy/launch 2486 remove dead billing anchor date field from api ([575f29b](https://github.com/Metronome-Industries/metronome-node/commit/575f29bf0a73556b6cafbf2f08e7e1f2d0accc64))
+* support setting headers via env ([849392e](https://github.com/Metronome-Industries/metronome-node/commit/849392e22b3f7718565e98b2ce5b2f6a34b1ba70))
+* Update stainless.yml to include Java configuration logic ([433ca0d](https://github.com/Metronome-Industries/metronome-node/commit/433ca0dba88262755fd9efe952c605dc69a7407e))
+* wip ([031cf01](https://github.com/Metronome-Industries/metronome-node/commit/031cf014b88c734f445662dcf29233ac5694e89d))
+
+
+### Bug Fixes
+
+* add archived_at to Credit schema (parity with Commit) ([cfaba9b](https://github.com/Metronome-Industries/metronome-node/commit/cfaba9be9f76c32105f7bc5b951bf234e5285ca8))
+
+
+### Chores
+
+* avoid formatting file that gets changed during releases ([0b995ff](https://github.com/Metronome-Industries/metronome-node/commit/0b995ff32ec3d367ae792abe7ee1853a0c62eba2))
+* configure new SDK language ([ecfb751](https://github.com/Metronome-Industries/metronome-node/commit/ecfb751f91cd7e8800ef377916c41c5e9e81df04))
+* configure new SDK language ([76a0031](https://github.com/Metronome-Industries/metronome-node/commit/76a00311082791a57bb245daee6035e371c98bde))
+* configure new SDK language ([1b487c2](https://github.com/Metronome-Industries/metronome-node/commit/1b487c2997cfe498c5bd1b61787d4f6a19d525d3))
+* configure new SDK language ([350b9f0](https://github.com/Metronome-Industries/metronome-node/commit/350b9f062ed88597558e6d9d7285e60aba57fe87))
+* **format:** run eslint and prettier separately ([0389bbe](https://github.com/Metronome-Industries/metronome-node/commit/0389bbe07c0ad22652c128e9c3282ab9081827e7))
+* **formatter:** run prettier and eslint separately ([d41424c](https://github.com/Metronome-Industries/metronome-node/commit/d41424c2828ddb85df1c91194c99a70aedcb7bd0))
+* **internal:** codegen related update ([462c56f](https://github.com/Metronome-Industries/metronome-node/commit/462c56f69d31a9c2d2c5681136b8c0f14068c446))
+* **internal:** codegen related update ([eddf929](https://github.com/Metronome-Industries/metronome-node/commit/eddf929f744954b48617c0f05b4ceaa4e9577f90))
+* **internal:** more robust bootstrap script ([eb22d81](https://github.com/Metronome-Industries/metronome-node/commit/eb22d818d4f326622fb6b77daae65ae2c0eeeac4))
+* **internal:** update docs ordering ([d176e84](https://github.com/Metronome-Industries/metronome-node/commit/d176e847a10483ce4a3ba3ba88d8d0acc355652f))
+* redact api-key headers in debug logs ([35102ad](https://github.com/Metronome-Industries/metronome-node/commit/35102addb800796b37235792a2ff086e21e600d4))
+* restructure docs search code ([4f7af22](https://github.com/Metronome-Industries/metronome-node/commit/4f7af226545ca63e81e7559f0fddd97139bbd7ab))
+* **tests:** remove redundant File import ([e7233f7](https://github.com/Metronome-Industries/metronome-node/commit/e7233f7fac50e14069269ca93979bf1ece303f53))
+* update SDK settings ([5915497](https://github.com/Metronome-Industries/metronome-node/commit/59154971ba808f684b8ee759f2c576692488a7a0))
+* update SDK settings ([994d000](https://github.com/Metronome-Industries/metronome-node/commit/994d0004906fb95da9d794f6897f82df08105ccc))
+
+
+### Documentation
+
+* clarify forwards compat behavior ([c45057b](https://github.com/Metronome-Industries/metronome-node/commit/c45057b3d1cf2f2ff64ad0042d3abbf1d17c7970))
+* update http mcp docs ([a4df3eb](https://github.com/Metronome-Industries/metronome-node/commit/a4df3eb5136fd56fbfa84b8293f29ae489ba0d93))
+* update logging docs ([d4537e1](https://github.com/Metronome-Industries/metronome-node/commit/d4537e1a4150db9a83261afbcf7e8b1bb7d40dde))
+* update with proxy auth info ([a411bd7](https://github.com/Metronome-Industries/metronome-node/commit/a411bd755ead41e095e6ffa7aa08ee5c745bf1f4))
+
 ## 3.5.0 (2026-04-17)
 
 Full Changelog: [v3.4.1...v3.5.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.4.1...v3.5.0)
