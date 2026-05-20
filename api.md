@@ -481,21 +481,6 @@ Methods:
 - <code title="post /v1/packages/archive">client.v1.packages.<a href="./src/resources/v1/packages.ts">archive</a>({ ...params }) -> PackageArchiveResponse</code>
 - <code title="post /v1/packages/listContractsOnPackage">client.v1.packages.<a href="./src/resources/v1/packages.ts">listContractsOnPackage</a>({ ...params }) -> PackageListContractsOnPackageResponsesCursorPage</code>
 
-## Payments
-
-Types:
-
-- <code><a href="./src/resources/v1/payments.ts">Payment</a></code>
-- <code><a href="./src/resources/v1/payments.ts">PaymentStatus</a></code>
-- <code><a href="./src/resources/v1/payments.ts">PaymentAttemptResponse</a></code>
-- <code><a href="./src/resources/v1/payments.ts">PaymentCancelResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/payments/list">client.v1.payments.<a href="./src/resources/v1/payments.ts">list</a>({ ...params }) -> PaymentsBodyCursorPage</code>
-- <code title="post /v1/payments/attempt">client.v1.payments.<a href="./src/resources/v1/payments.ts">attempt</a>({ ...params }) -> PaymentAttemptResponse</code>
-- <code title="post /v1/payments/cancel">client.v1.payments.<a href="./src/resources/v1/payments.ts">cancel</a>({ ...params }) -> PaymentCancelResponse</code>
-
 ## Settings
 
 Types:

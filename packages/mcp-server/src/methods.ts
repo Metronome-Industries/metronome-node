@@ -683,24 +683,6 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/packages/listContractsOnPackage',
   },
   {
-    clientCallName: 'client.v1.payments.list',
-    fullyQualifiedName: 'v1.payments.list',
-    httpMethod: 'post',
-    httpPath: '/v1/payments/list',
-  },
-  {
-    clientCallName: 'client.v1.payments.attempt',
-    fullyQualifiedName: 'v1.payments.attempt',
-    httpMethod: 'post',
-    httpPath: '/v1/payments/attempt',
-  },
-  {
-    clientCallName: 'client.v1.payments.cancel',
-    fullyQualifiedName: 'v1.payments.cancel',
-    httpMethod: 'post',
-    httpPath: '/v1/payments/cancel',
-  },
-  {
     clientCallName: 'client.v1.settings.upsertAvalaraCredentials',
     fullyQualifiedName: 'v1.settings.upsertAvalaraCredentials',
     httpMethod: 'post',
