@@ -1515,11 +1515,33 @@ export namespace ContractGetEditHistoryResponse {
 
       export interface DiscountConfiguration {
         /**
+         * Update the discount cap. Set to null to remove an existing cap.
+         */
+        cap?: DiscountConfiguration.Cap | null;
+
+        /**
          * The fraction of the original amount that the customer pays after applying the
          * discount. Set to null to remove the discount fraction. For example, 0.85 means
          * the customer pays 85% of the original amount (a 15% discount).
          */
         payment_fraction?: number | null;
+      }
+
+      export namespace DiscountConfiguration {
+        /**
+         * Update the discount cap. Set to null to remove an existing cap.
+         */
+        export interface Cap {
+          /**
+           * Accumulated spend ceiling above which the discount stops applying.
+           */
+          amount: number;
+
+          /**
+           * Alias of the spend tracker this cap is measured against.
+           */
+          spend_tracker_alias: string;
+        }
       }
     }
 
@@ -1645,11 +1667,33 @@ export namespace ContractGetEditHistoryResponse {
     export namespace UpdateSpendThresholdConfiguration {
       export interface DiscountConfiguration {
         /**
+         * Update the discount cap. Set to null to remove an existing cap.
+         */
+        cap?: DiscountConfiguration.Cap | null;
+
+        /**
          * The fraction of the original amount that the customer pays after applying the
          * discount. Set to null to remove the discount fraction. For example, 0.85 means
          * the customer pays 85% of the original amount (a 15% discount).
          */
         payment_fraction?: number | null;
+      }
+
+      export namespace DiscountConfiguration {
+        /**
+         * Update the discount cap. Set to null to remove an existing cap.
+         */
+        export interface Cap {
+          /**
+           * Accumulated spend ceiling above which the discount stops applying.
+           */
+          amount: number;
+
+          /**
+           * Alias of the spend tracker this cap is measured against.
+           */
+          spend_tracker_alias: string;
+        }
       }
     }
 
@@ -1864,6 +1908,12 @@ export interface ContractEditParams {
   add_spend_threshold_configuration?: Shared.SpendThresholdConfigurationV2;
 
   /**
+   * Spend trackers to add to this contract. Aliases must be unique within a
+   * contract.
+   */
+  add_spend_trackers?: Array<ContractEditParams.AddSpendTracker>;
+
+  /**
    * Optional list of
    * [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/)
    * to add to the contract.
@@ -1892,6 +1942,11 @@ export interface ContractEditParams {
    * IDs of scheduled charges to archive
    */
   archive_scheduled_charges?: Array<ContractEditParams.ArchiveScheduledCharge>;
+
+  /**
+   * Aliases of spend trackers to archive.
+   */
+  archive_spend_trackers?: Array<string>;
 
   /**
    * IDs of overrides to remove
@@ -2087,6 +2142,11 @@ export namespace ContractEditParams {
      * body of `specifiers`.
      */
     specifiers?: Array<Shared.CommitSpecifierInput>;
+
+    /**
+     * Optional attributes for spend tracker integration. Immutable after creation.
+     */
+    spend_tracker_attributes?: AddCommit.SpendTrackerAttributes;
 
     /**
      * A temporary ID for the commit that can be used to reference the commit for
@@ -2301,6 +2361,17 @@ export namespace ContractEditParams {
          */
         on_session_payment?: boolean;
       }
+    }
+
+    /**
+     * Optional attributes for spend tracker integration. Immutable after creation.
+     */
+    export interface SpendTrackerAttributes {
+      /**
+       * If true, this commit will be included in spend trackers with discounted set to
+       * DISCOUNTED_ONLY
+       */
+      counts_as_discounted: boolean;
     }
   }
 
@@ -3267,6 +3338,32 @@ export namespace ContractEditParams {
     }
   }
 
+  export interface AddSpendTracker {
+    /**
+     * Human-readable identifier, unique per contract.
+     */
+    alias: string;
+
+    applicable_spend_specifiers: Array<AddSpendTracker.ApplicableSpendSpecifier>;
+
+    credit_type_id: string;
+
+    reset_frequency: 'BILLING_PERIOD';
+  }
+
+  export namespace AddSpendTracker {
+    export interface ApplicableSpendSpecifier {
+      sources: Array<'THRESHOLD_RECHARGE' | 'MANUAL'>;
+
+      spend_type: 'COMMIT_PURCHASE';
+
+      /**
+       * Filter by whether the spend was discounted. Defaults to ANY if omitted.
+       */
+      discounted?: 'ANY' | 'DISCOUNTED_ONLY' | 'UNDISCOUNTED_ONLY';
+    }
+  }
+
   export interface AddSubscription {
     collection_schedule: 'ADVANCE' | 'ARREARS';
 
@@ -3646,11 +3743,33 @@ export namespace ContractEditParams {
 
     export interface DiscountConfiguration {
       /**
+       * Update the discount cap. Set to null to remove an existing cap.
+       */
+      cap?: DiscountConfiguration.Cap | null;
+
+      /**
        * The fraction of the original amount that the customer pays after applying the
        * discount. Set to null to remove the discount fraction. For example, 0.85 means
        * the customer pays 85% of the original amount (a 15% discount).
        */
       payment_fraction?: number | null;
+    }
+
+    export namespace DiscountConfiguration {
+      /**
+       * Update the discount cap. Set to null to remove an existing cap.
+       */
+      export interface Cap {
+        /**
+         * Accumulated spend ceiling above which the discount stops applying.
+         */
+        amount: number;
+
+        /**
+         * Alias of the spend tracker this cap is measured against.
+         */
+        spend_tracker_alias: string;
+      }
     }
   }
 
@@ -3776,11 +3895,33 @@ export namespace ContractEditParams {
   export namespace UpdateSpendThresholdConfiguration {
     export interface DiscountConfiguration {
       /**
+       * Update the discount cap. Set to null to remove an existing cap.
+       */
+      cap?: DiscountConfiguration.Cap | null;
+
+      /**
        * The fraction of the original amount that the customer pays after applying the
        * discount. Set to null to remove the discount fraction. For example, 0.85 means
        * the customer pays 85% of the original amount (a 15% discount).
        */
       payment_fraction?: number | null;
+    }
+
+    export namespace DiscountConfiguration {
+      /**
+       * Update the discount cap. Set to null to remove an existing cap.
+       */
+      export interface Cap {
+        /**
+         * Accumulated spend ceiling above which the discount stops applying.
+         */
+        amount: number;
+
+        /**
+         * Alias of the spend tracker this cap is measured against.
+         */
+        spend_tracker_alias: string;
+      }
     }
   }
 

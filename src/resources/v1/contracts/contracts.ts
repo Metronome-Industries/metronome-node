@@ -1146,6 +1146,12 @@ export interface ContractCreateParams {
   spend_threshold_configuration?: Shared.SpendThresholdConfiguration;
 
   /**
+   * Spend trackers to attach to this contract. Aliases must be unique within a
+   * contract.
+   */
+  spend_trackers?: Array<ContractCreateParams.SpendTracker>;
+
+  /**
    * Optional list of
    * [subscriptions](https://docs.metronome.com/manage-product-access/create-subscription/)
    * to add to the contract.
@@ -1279,6 +1285,11 @@ export namespace ContractCreateParams {
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
      */
     specifiers?: Array<Shared.CommitSpecifierInput>;
+
+    /**
+     * Optional attributes for spend tracker integration. Immutable after creation.
+     */
+    spend_tracker_attributes?: Commit.SpendTrackerAttributes;
 
     /**
      * A temporary ID for the commit that can be used to reference the commit for
@@ -1419,6 +1430,17 @@ export namespace ContractCreateParams {
          */
         unit_price?: number;
       }
+    }
+
+    /**
+     * Optional attributes for spend tracker integration. Immutable after creation.
+     */
+    export interface SpendTrackerAttributes {
+      /**
+       * If true, this commit will be included in spend trackers with discounted set to
+       * DISCOUNTED_ONLY
+       */
+      counts_as_discounted: boolean;
     }
   }
 
@@ -2424,6 +2446,32 @@ export namespace ContractCreateParams {
     }
   }
 
+  export interface SpendTracker {
+    /**
+     * Human-readable identifier, unique per contract.
+     */
+    alias: string;
+
+    applicable_spend_specifiers: Array<SpendTracker.ApplicableSpendSpecifier>;
+
+    credit_type_id: string;
+
+    reset_frequency: 'BILLING_PERIOD';
+  }
+
+  export namespace SpendTracker {
+    export interface ApplicableSpendSpecifier {
+      sources: Array<'THRESHOLD_RECHARGE' | 'MANUAL'>;
+
+      spend_type: 'COMMIT_PURCHASE';
+
+      /**
+       * Filter by whether the spend was discounted. Defaults to ANY if omitted.
+       */
+      discounted?: 'ANY' | 'DISCOUNTED_ONLY' | 'UNDISCOUNTED_ONLY';
+    }
+  }
+
   export interface Subscription {
     collection_schedule: 'ADVANCE' | 'ARREARS';
 
@@ -2825,6 +2873,11 @@ export namespace ContractAmendParams {
     specifiers?: Array<Shared.CommitSpecifierInput>;
 
     /**
+     * Optional attributes for spend tracker integration. Immutable after creation.
+     */
+    spend_tracker_attributes?: Commit.SpendTrackerAttributes;
+
+    /**
      * A temporary ID for the commit that can be used to reference the commit for
      * commit specific overrides.
      */
@@ -2963,6 +3016,17 @@ export namespace ContractAmendParams {
          */
         unit_price?: number;
       }
+    }
+
+    /**
+     * Optional attributes for spend tracker integration. Immutable after creation.
+     */
+    export interface SpendTrackerAttributes {
+      /**
+       * If true, this commit will be included in spend trackers with discounted set to
+       * DISCOUNTED_ONLY
+       */
+      counts_as_discounted: boolean;
     }
   }
 
