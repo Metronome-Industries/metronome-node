@@ -279,6 +279,21 @@ describe('resource contracts', () => {
           payment_fraction: 0,
           cap: { amount: 0, spend_tracker_alias: 'spend_tracker_alias' },
         },
+        threshold_balance_specifiers: [
+          {
+            exclude: [
+              {
+                custom_field_filters: [
+                  {
+                    entity: 'Commit',
+                    key: 'key',
+                    value: 'value',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
       add_professional_services: [
         {
@@ -617,6 +632,21 @@ describe('resource contracts', () => {
         },
         recharge_to_amount: 0,
         threshold_amount: 0,
+        threshold_balance_specifiers: [
+          {
+            exclude: [
+              {
+                custom_field_filters: [
+                  {
+                    entity: 'Commit',
+                    key: 'key',
+                    value: 'value',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
       update_recurring_commits: [
         {
