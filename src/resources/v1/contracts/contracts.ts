@@ -730,7 +730,472 @@ export class Contracts extends APIResource {
 export type ContractListBalancesResponsesBodyCursorPage = BodyCursorPage<ContractListBalancesResponse>;
 
 export interface ContractCreateResponse {
-  data: Shared.ID;
+  data: ContractCreateResponse.Data;
+}
+
+export namespace ContractCreateResponse {
+  export interface Data {
+    id: string;
+
+    /**
+     * The created contract.
+     */
+    contract?: Data.Contract;
+  }
+
+  export namespace Data {
+    /**
+     * The created contract.
+     */
+    export interface Contract {
+      id: string;
+
+      commits: Array<Shared.Commit>;
+
+      created_at: string;
+
+      created_by: string;
+
+      customer_id: string;
+
+      overrides: Array<Shared.Override>;
+
+      scheduled_charges: Array<Shared.ScheduledCharge>;
+
+      starting_at: string;
+
+      transitions: Array<Contract.Transition>;
+
+      usage_filter: Array<Contract.UsageFilter>;
+
+      usage_statement_schedule: Contract.UsageStatementSchedule;
+
+      credits?: Array<Shared.Credit>;
+
+      /**
+       * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+       */
+      custom_fields?: { [key: string]: string };
+
+      /**
+       * The billing provider configuration associated with the contract.
+       */
+      customer_billing_provider_configuration?: Contract.CustomerBillingProviderConfiguration;
+
+      ending_before?: string;
+
+      /**
+       * Indicates whether there are more items than the limit for this endpoint. Use the
+       * respective list endpoints to get the full lists.
+       */
+      has_more?: Contract.HasMore;
+
+      /**
+       * Either a **parent** configuration with a list of children or a **child**
+       * configuration with a single parent.
+       */
+      hierarchy_configuration?: Shared.HierarchyConfiguration;
+
+      /**
+       * Defaults to LOWEST_MULTIPLIER, which applies the greatest discount to list
+       * prices automatically. EXPLICIT prioritization requires specifying priorities for
+       * each multiplier; the one with the lowest priority value will be prioritized
+       * first.
+       */
+      multiplier_override_prioritization?: 'LOWEST_MULTIPLIER' | 'EXPLICIT';
+
+      name?: string;
+
+      net_payment_terms_days?: number;
+
+      /**
+       * ID of the package this contract was created from, if applicable.
+       */
+      package_id?: string;
+
+      prepaid_balance_threshold_configuration?: Shared.PrepaidBalanceThresholdConfiguration;
+
+      rate_card_id?: string;
+
+      recurring_commits?: Array<Contract.RecurringCommit>;
+
+      recurring_credits?: Array<Contract.RecurringCredit>;
+
+      /**
+       * Determines which scheduled and commit charges to consolidate onto the Contract's
+       * usage invoice. The charge's `timestamp` must match the usage invoice's
+       * `ending_before` date for consolidation to occur. This field cannot be modified
+       * after a Contract has been created. If this field is omitted, charges will appear
+       * on a separate invoice from usage charges.
+       */
+      scheduled_charges_on_usage_invoices?: 'ALL';
+
+      spend_threshold_configuration?: Shared.SpendThresholdConfiguration;
+
+      /**
+       * List of subscriptions on the contract.
+       */
+      subscriptions?: Array<Shared.Subscription>;
+
+      /**
+       * Optional uniqueness key to prevent duplicate contract creations.
+       */
+      uniqueness_key?: string;
+    }
+
+    export namespace Contract {
+      export interface Transition {
+        from_contract_id: string;
+
+        to_contract_id: string;
+
+        type: 'SUPERSEDE' | 'RENEWAL';
+      }
+
+      export interface UsageFilter {
+        group_key: string;
+
+        group_values: Array<string>;
+
+        starting_at: string;
+
+        ending_before?: string;
+      }
+
+      export interface UsageStatementSchedule {
+        /**
+         * Contract usage statements follow a selected cadence based on this date.
+         */
+        billing_anchor_date: string;
+
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      }
+
+      /**
+       * The billing provider configuration associated with the contract.
+       */
+      export interface CustomerBillingProviderConfiguration {
+        id?: string;
+
+        billing_provider?:
+          | 'aws_marketplace'
+          | 'stripe'
+          | 'netsuite'
+          | 'custom'
+          | 'azure_marketplace'
+          | 'quickbooks_online'
+          | 'workday'
+          | 'gcp_marketplace'
+          | 'metronome';
+
+        delivery_method?: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+      }
+
+      /**
+       * Indicates whether there are more items than the limit for this endpoint. Use the
+       * respective list endpoints to get the full lists.
+       */
+      export interface HasMore {
+        /**
+         * Whether there are more commits on this contract than the limit for this
+         * endpoint. Use the /contracts/customerCommits/list endpoint to get the full list
+         * of commits.
+         */
+        commits: boolean;
+
+        /**
+         * Whether there are more credits on this contract than the limit for this
+         * endpoint. Use the /contracts/customerCredits/list endpoint to get the full list
+         * of credits.
+         */
+        credits: boolean;
+      }
+
+      export interface RecurringCommit {
+        id: string;
+
+        /**
+         * The amount of commit to grant.
+         */
+        access_amount: RecurringCommit.AccessAmount;
+
+        /**
+         * The amount of time the created commits will be valid for
+         */
+        commit_duration: RecurringCommit.CommitDuration;
+
+        /**
+         * Will be passed down to the individual commits
+         */
+        priority: number;
+
+        product: RecurringCommit.Product;
+
+        /**
+         * Whether the created commits will use the commit rate or list rate
+         */
+        rate_type: 'COMMIT_RATE' | 'LIST_RATE';
+
+        /**
+         * Determines the start time for the first commit
+         */
+        starting_at: string;
+
+        /**
+         * Will be passed down to the individual commits
+         */
+        applicable_product_ids?: Array<string>;
+
+        /**
+         * Will be passed down to the individual commits
+         */
+        applicable_product_tags?: Array<string>;
+
+        contract?: RecurringCommit.Contract;
+
+        /**
+         * Will be passed down to the individual commits
+         */
+        description?: string;
+
+        /**
+         * Determines when the contract will stop creating recurring commits. Optional
+         */
+        ending_before?: string;
+
+        /**
+         * Optional configuration for recurring commit/credit hierarchy access control
+         */
+        hierarchy_configuration?: Shared.CommitHierarchyConfiguration;
+
+        /**
+         * The amount the customer should be billed for the commit. Not required.
+         */
+        invoice_amount?: RecurringCommit.InvoiceAmount;
+
+        /**
+         * Displayed on invoices. Will be passed through to the individual commits
+         */
+        name?: string;
+
+        /**
+         * Will be passed down to the individual commits
+         */
+        netsuite_sales_order_id?: string;
+
+        /**
+         * Determines whether the first and last commit will be prorated. If not provided,
+         * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+         */
+        proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
+
+        /**
+         * The frequency at which the recurring commits will be created. If not provided: -
+         * The commits will be created on the usage invoice frequency. If provided: - The
+         * period defined in the duration will correspond to this frequency. - Commits will
+         * be created aligned with the recurring commit's starting_at rather than the usage
+         * invoice dates.
+         */
+        recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+
+        /**
+         * Will be passed down to the individual commits. This controls how much of an
+         * individual unexpired commit will roll over upon contract transition. Must be
+         * between 0 and 1.
+         */
+        rollover_fraction?: number;
+
+        /**
+         * List of filters that determine what kind of customer usage draws down a commit
+         * or credit. A customer's usage needs to meet the condition of at least one of the
+         * specifiers to contribute to a commit's or credit's drawdown.
+         */
+        specifiers?: Array<Shared.CommitSpecifier>;
+
+        /**
+         * Attach a subscription to the recurring commit/credit.
+         */
+        subscription_config?: Shared.RecurringCommitSubscriptionConfig;
+      }
+
+      export namespace RecurringCommit {
+        /**
+         * The amount of commit to grant.
+         */
+        export interface AccessAmount {
+          credit_type_id: string;
+
+          unit_price: number;
+
+          quantity?: number;
+        }
+
+        /**
+         * The amount of time the created commits will be valid for
+         */
+        export interface CommitDuration {
+          value: number;
+
+          unit?: 'PERIODS';
+        }
+
+        export interface Product {
+          id: string;
+
+          name: string;
+        }
+
+        export interface Contract {
+          id: string;
+        }
+
+        /**
+         * The amount the customer should be billed for the commit. Not required.
+         */
+        export interface InvoiceAmount {
+          credit_type_id: string;
+
+          quantity: number;
+
+          unit_price: number;
+        }
+      }
+
+      export interface RecurringCredit {
+        id: string;
+
+        /**
+         * The amount of commit to grant.
+         */
+        access_amount: RecurringCredit.AccessAmount;
+
+        /**
+         * The amount of time the created commits will be valid for
+         */
+        commit_duration: RecurringCredit.CommitDuration;
+
+        /**
+         * Will be passed down to the individual commits
+         */
+        priority: number;
+
+        product: RecurringCredit.Product;
+
+        /**
+         * Whether the created commits will use the commit rate or list rate
+         */
+        rate_type: 'COMMIT_RATE' | 'LIST_RATE';
+
+        /**
+         * Determines the start time for the first commit
+         */
+        starting_at: string;
+
+        /**
+         * Will be passed down to the individual commits
+         */
+        applicable_product_ids?: Array<string>;
+
+        /**
+         * Will be passed down to the individual commits
+         */
+        applicable_product_tags?: Array<string>;
+
+        contract?: RecurringCredit.Contract;
+
+        /**
+         * Will be passed down to the individual commits
+         */
+        description?: string;
+
+        /**
+         * Determines when the contract will stop creating recurring commits. Optional
+         */
+        ending_before?: string;
+
+        /**
+         * Optional configuration for recurring commit/credit hierarchy access control
+         */
+        hierarchy_configuration?: Shared.CommitHierarchyConfiguration;
+
+        /**
+         * Displayed on invoices. Will be passed through to the individual commits
+         */
+        name?: string;
+
+        /**
+         * Will be passed down to the individual commits
+         */
+        netsuite_sales_order_id?: string;
+
+        /**
+         * Determines whether the first and last commit will be prorated. If not provided,
+         * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+         */
+        proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
+
+        /**
+         * The frequency at which the recurring commits will be created. If not provided: -
+         * The commits will be created on the usage invoice frequency. If provided: - The
+         * period defined in the duration will correspond to this frequency. - Commits will
+         * be created aligned with the recurring commit's starting_at rather than the usage
+         * invoice dates.
+         */
+        recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+
+        /**
+         * Will be passed down to the individual commits. This controls how much of an
+         * individual unexpired commit will roll over upon contract transition. Must be
+         * between 0 and 1.
+         */
+        rollover_fraction?: number;
+
+        /**
+         * List of filters that determine what kind of customer usage draws down a commit
+         * or credit. A customer's usage needs to meet the condition of at least one of the
+         * specifiers to contribute to a commit's or credit's drawdown.
+         */
+        specifiers?: Array<Shared.CommitSpecifier>;
+
+        /**
+         * Attach a subscription to the recurring commit/credit.
+         */
+        subscription_config?: Shared.RecurringCommitSubscriptionConfig;
+      }
+
+      export namespace RecurringCredit {
+        /**
+         * The amount of commit to grant.
+         */
+        export interface AccessAmount {
+          credit_type_id: string;
+
+          unit_price: number;
+
+          quantity?: number;
+        }
+
+        /**
+         * The amount of time the created commits will be valid for
+         */
+        export interface CommitDuration {
+          value: number;
+
+          unit?: 'PERIODS';
+        }
+
+        export interface Product {
+          id: string;
+
+          name: string;
+        }
+
+        export interface Contract {
+          id: string;
+        }
+      }
+    }
+  }
 }
 
 export interface ContractRetrieveResponse {
