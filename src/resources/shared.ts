@@ -3221,6 +3221,8 @@ export interface PrepaidBalanceThresholdConfiguration {
   custom_credit_type_id?: string;
 
   discount_configuration?: PrepaidBalanceThresholdConfiguration.DiscountConfiguration;
+
+  threshold_balance_specifiers?: Array<PrepaidBalanceThresholdConfiguration.ThresholdBalanceSpecifier>;
 }
 
 export namespace PrepaidBalanceThresholdConfiguration {
@@ -3280,6 +3282,30 @@ export namespace PrepaidBalanceThresholdConfiguration {
       spend_tracker_alias: string;
     }
   }
+
+  export interface ThresholdBalanceSpecifier {
+    exclude: Array<ThresholdBalanceSpecifier.Exclude>;
+  }
+
+  export namespace ThresholdBalanceSpecifier {
+    export interface Exclude {
+      /**
+       * If provided, balances with all the custom fields will not be considered when
+       * evaluating threshold billing
+       */
+      custom_field_filters: Array<Exclude.CustomFieldFilter>;
+    }
+
+    export namespace Exclude {
+      export interface CustomFieldFilter {
+        entity: 'Commit' | 'ContractCredit' | 'ContractCreditOrCommit';
+
+        key: string;
+
+        value: string;
+      }
+    }
+  }
 }
 
 export interface PrepaidBalanceThresholdConfigurationV2 {
@@ -3312,6 +3338,8 @@ export interface PrepaidBalanceThresholdConfigurationV2 {
   custom_credit_type_id?: string;
 
   discount_configuration?: PrepaidBalanceThresholdConfigurationV2.DiscountConfiguration;
+
+  threshold_balance_specifiers?: Array<PrepaidBalanceThresholdConfigurationV2.ThresholdBalanceSpecifier>;
 }
 
 export namespace PrepaidBalanceThresholdConfigurationV2 {
@@ -3371,6 +3399,26 @@ export namespace PrepaidBalanceThresholdConfigurationV2 {
        * Alias of the spend tracker this cap is measured against.
        */
       spend_tracker_alias: string;
+    }
+  }
+
+  export interface ThresholdBalanceSpecifier {
+    exclude: Array<ThresholdBalanceSpecifier.Exclude>;
+  }
+
+  export namespace ThresholdBalanceSpecifier {
+    export interface Exclude {
+      custom_field_filters: Array<Exclude.CustomFieldFilter>;
+    }
+
+    export namespace Exclude {
+      export interface CustomFieldFilter {
+        entity: 'Commit' | 'ContractCredit' | 'ContractCreditOrCommit';
+
+        key: string;
+
+        value: string;
+      }
     }
   }
 }
