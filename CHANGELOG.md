@@ -1,5 +1,27 @@
 # Changelog
 
+## 3.7.0 (2026-05-29)
+
+Full Changelog: [v3.6.0...v3.7.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.6.0...v3.7.0)
+
+### Features
+
+* [LAUNCH-2814] editContract returns full edit in the response ([197a27a](https://github.com/Metronome-Industries/metronome-node/commit/197a27ad6de47af9b3c725ec79f296e567238f41))
+* [orch-1860] remove all deprecated `/payments/*` endpoints from API ([03d2179](https://github.com/Metronome-Industries/metronome-node/commit/03d217925dad440f11f078606bd6387ed97371cb))
+* create contract returns contract data ([b6530d4](https://github.com/Metronome-Industries/metronome-node/commit/b6530d4c04ad0aebca11493212cf952f9a07b51d))
+* nikku-orch-1723-update-create-contract ([fc920c3](https://github.com/Metronome-Industries/metronome-node/commit/fc920c36a4cb7262cf70ae3b895b4e129b4a2f8b))
+
+
+### Bug Fixes
+
+* **mcp:** use `pure-lockfile` when building mcp server ([df0ff5b](https://github.com/Metronome-Industries/metronome-node/commit/df0ff5b4c9e7591145369af6a2b862fc4f0d3fb3))
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([ed31463](https://github.com/Metronome-Industries/metronome-node/commit/ed314636e08ca6002585211a9814bb60522fc614))
+
+
+### Chores
+
+* (internal) Add threshold balance specifier to contract create & edit, package create and both contract and package retrievals ([07eb0fe](https://github.com/Metronome-Industries/metronome-node/commit/07eb0fe97fee540544e5ce3b68109a3345c13854))
+
 ## 3.6.0 (2026-05-18)
 
 Full Changelog: [v3.5.0...v3.6.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.5.0...v3.6.0)
