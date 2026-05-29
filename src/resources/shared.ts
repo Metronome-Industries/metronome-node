@@ -184,6 +184,11 @@ export interface Commit {
   specifiers?: Array<CommitSpecifier>;
 
   /**
+   * Optional attributes controlling how this commit interacts with spend trackers.
+   */
+  spend_tracker_attributes?: Commit.SpendTrackerAttributes;
+
+  /**
    * The subscription configuration for this commit, if it was generated from a
    * recurring commit with a subscription attached.
    */
@@ -381,6 +386,17 @@ export namespace Commit {
   }
 
   /**
+   * Optional attributes controlling how this commit interacts with spend trackers.
+   */
+  export interface SpendTrackerAttributes {
+    /**
+     * If true, this commit is included in spend trackers with discounted set to
+     * DISCOUNTED_ONLY
+     */
+    counts_as_discounted: boolean;
+  }
+
+  /**
    * The subscription configuration for this commit, if it was generated from a
    * recurring commit with a subscription attached.
    */
@@ -533,6 +549,11 @@ export interface Contract {
   spend_threshold_configuration?: SpendThresholdConfiguration;
 
   /**
+   * Spend trackers attached to this contract.
+   */
+  spend_trackers?: Array<Contract.SpendTracker>;
+
+  /**
    * List of subscriptions on the contract.
    */
   subscriptions?: Array<Subscription>;
@@ -641,6 +662,39 @@ export namespace Contract {
      * to the billing provider.
      */
     configuration?: { [key: string]: unknown };
+  }
+
+  export interface SpendTracker {
+    /**
+     * Human-readable identifier, unique per contract.
+     */
+    alias: string;
+
+    applicable_spend_specifiers: Array<SpendTracker.ApplicableSpendSpecifier>;
+
+    credit_type_id: string;
+
+    reset_frequency: 'BILLING_PERIOD';
+
+    accumulated_spend?: SpendTracker.AccumulatedSpend;
+  }
+
+  export namespace SpendTracker {
+    export interface ApplicableSpendSpecifier {
+      sources: Array<'THRESHOLD_RECHARGE' | 'MANUAL'>;
+
+      spend_type: 'COMMIT_PURCHASE';
+
+      discounted?: 'ANY' | 'DISCOUNTED_ONLY' | 'UNDISCOUNTED_ONLY';
+    }
+
+    export interface AccumulatedSpend {
+      amount: number;
+
+      period_ending_before: string;
+
+      period_starting_at: string;
+    }
   }
 }
 
@@ -757,6 +811,11 @@ export interface ContractV2 {
   scheduled_charges_on_usage_invoices?: 'ALL';
 
   spend_threshold_configuration?: SpendThresholdConfigurationV2;
+
+  /**
+   * Spend trackers attached to this contract.
+   */
+  spend_trackers?: Array<ContractV2.SpendTracker>;
 
   /**
    * List of subscriptions on the contract.
@@ -894,6 +953,11 @@ export namespace ContractV2 {
      * specifiers to contribute to a commit's or credit's drawdown.
      */
     specifiers?: Array<Shared.CommitSpecifier>;
+
+    /**
+     * Optional attributes controlling how this commit interacts with spend trackers.
+     */
+    spend_tracker_attributes?: Commit.SpendTrackerAttributes;
 
     /**
      * Attach a subscription to the recurring commit/credit.
@@ -1081,6 +1145,17 @@ export namespace ContractV2 {
       commit_id: string;
 
       contract_id: string;
+    }
+
+    /**
+     * Optional attributes controlling how this commit interacts with spend trackers.
+     */
+    export interface SpendTrackerAttributes {
+      /**
+       * If true, this commit is included in spend trackers with discounted set to
+       * DISCOUNTED_ONLY
+       */
+      counts_as_discounted: boolean;
     }
   }
 
@@ -1858,6 +1933,39 @@ export namespace ContractV2 {
     }
   }
 
+  export interface SpendTracker {
+    /**
+     * Human-readable identifier, unique per contract.
+     */
+    alias: string;
+
+    applicable_spend_specifiers: Array<SpendTracker.ApplicableSpendSpecifier>;
+
+    credit_type_id: string;
+
+    reset_frequency: 'BILLING_PERIOD';
+
+    accumulated_spend?: SpendTracker.AccumulatedSpend;
+  }
+
+  export namespace SpendTracker {
+    export interface ApplicableSpendSpecifier {
+      sources: Array<'THRESHOLD_RECHARGE' | 'MANUAL'>;
+
+      spend_type: 'COMMIT_PURCHASE';
+
+      discounted?: 'ANY' | 'DISCOUNTED_ONLY' | 'UNDISCOUNTED_ONLY';
+    }
+
+    export interface AccumulatedSpend {
+      amount: number;
+
+      period_ending_before: string;
+
+      period_starting_at: string;
+    }
+  }
+
   export interface Subscription {
     /**
      * Previous, current, and next billing periods for the subscription.
@@ -2057,6 +2165,11 @@ export interface ContractWithoutAmendments {
   scheduled_charges_on_usage_invoices?: 'ALL';
 
   spend_threshold_configuration?: SpendThresholdConfiguration;
+
+  /**
+   * Spend trackers attached to this contract.
+   */
+  spend_trackers?: Array<ContractWithoutAmendments.SpendTracker>;
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -2394,6 +2507,39 @@ export namespace ContractWithoutAmendments {
     gcp_offer_id?: string;
 
     reseller_contract_value?: number;
+  }
+
+  export interface SpendTracker {
+    /**
+     * Human-readable identifier, unique per contract.
+     */
+    alias: string;
+
+    applicable_spend_specifiers: Array<SpendTracker.ApplicableSpendSpecifier>;
+
+    credit_type_id: string;
+
+    reset_frequency: 'BILLING_PERIOD';
+
+    accumulated_spend?: SpendTracker.AccumulatedSpend;
+  }
+
+  export namespace SpendTracker {
+    export interface ApplicableSpendSpecifier {
+      sources: Array<'THRESHOLD_RECHARGE' | 'MANUAL'>;
+
+      spend_type: 'COMMIT_PURCHASE';
+
+      discounted?: 'ANY' | 'DISCOUNTED_ONLY' | 'UNDISCOUNTED_ONLY';
+    }
+
+    export interface AccumulatedSpend {
+      amount: number;
+
+      period_ending_before: string;
+
+      period_starting_at: string;
+    }
   }
 
   export interface UsageFilter {
@@ -3075,6 +3221,8 @@ export interface PrepaidBalanceThresholdConfiguration {
   custom_credit_type_id?: string;
 
   discount_configuration?: PrepaidBalanceThresholdConfiguration.DiscountConfiguration;
+
+  threshold_balance_specifiers?: Array<PrepaidBalanceThresholdConfiguration.ThresholdBalanceSpecifier>;
 }
 
 export namespace PrepaidBalanceThresholdConfiguration {
@@ -3109,6 +3257,54 @@ export namespace PrepaidBalanceThresholdConfiguration {
      * (a 15% discount).
      */
     payment_fraction: number;
+
+    /**
+     * If provided, the discount stops applying once the spend tracker has accumulated
+     * this much spend in the billing period.
+     */
+    cap?: DiscountConfiguration.Cap;
+  }
+
+  export namespace DiscountConfiguration {
+    /**
+     * If provided, the discount stops applying once the spend tracker has accumulated
+     * this much spend in the billing period.
+     */
+    export interface Cap {
+      /**
+       * Accumulated spend ceiling above which the discount stops applying.
+       */
+      amount: number;
+
+      /**
+       * Alias of the spend tracker this cap is measured against.
+       */
+      spend_tracker_alias: string;
+    }
+  }
+
+  export interface ThresholdBalanceSpecifier {
+    exclude: Array<ThresholdBalanceSpecifier.Exclude>;
+  }
+
+  export namespace ThresholdBalanceSpecifier {
+    export interface Exclude {
+      /**
+       * If provided, balances with all the custom fields will not be considered when
+       * evaluating threshold billing
+       */
+      custom_field_filters: Array<Exclude.CustomFieldFilter>;
+    }
+
+    export namespace Exclude {
+      export interface CustomFieldFilter {
+        entity: 'Commit' | 'ContractCredit' | 'ContractCreditOrCommit';
+
+        key: string;
+
+        value: string;
+      }
+    }
   }
 }
 
@@ -3142,6 +3338,8 @@ export interface PrepaidBalanceThresholdConfigurationV2 {
   custom_credit_type_id?: string;
 
   discount_configuration?: PrepaidBalanceThresholdConfigurationV2.DiscountConfiguration;
+
+  threshold_balance_specifiers?: Array<PrepaidBalanceThresholdConfigurationV2.ThresholdBalanceSpecifier>;
 }
 
 export namespace PrepaidBalanceThresholdConfigurationV2 {
@@ -3178,6 +3376,50 @@ export namespace PrepaidBalanceThresholdConfigurationV2 {
      * (a 15% discount).
      */
     payment_fraction: number;
+
+    /**
+     * If provided, the discount stops applying once the spend tracker has accumulated
+     * this much spend in the billing period.
+     */
+    cap?: DiscountConfiguration.Cap;
+  }
+
+  export namespace DiscountConfiguration {
+    /**
+     * If provided, the discount stops applying once the spend tracker has accumulated
+     * this much spend in the billing period.
+     */
+    export interface Cap {
+      /**
+       * Accumulated spend ceiling above which the discount stops applying.
+       */
+      amount: number;
+
+      /**
+       * Alias of the spend tracker this cap is measured against.
+       */
+      spend_tracker_alias: string;
+    }
+  }
+
+  export interface ThresholdBalanceSpecifier {
+    exclude: Array<ThresholdBalanceSpecifier.Exclude>;
+  }
+
+  export namespace ThresholdBalanceSpecifier {
+    export interface Exclude {
+      custom_field_filters: Array<Exclude.CustomFieldFilter>;
+    }
+
+    export namespace Exclude {
+      export interface CustomFieldFilter {
+        entity: 'Commit' | 'ContractCredit' | 'ContractCreditOrCommit';
+
+        key: string;
+
+        value: string;
+      }
+    }
   }
 }
 
@@ -3412,6 +3654,30 @@ export namespace SpendThresholdConfiguration {
      * (a 15% discount).
      */
     payment_fraction: number;
+
+    /**
+     * If provided, the discount stops applying once the spend tracker has accumulated
+     * this much spend in the billing period.
+     */
+    cap?: DiscountConfiguration.Cap;
+  }
+
+  export namespace DiscountConfiguration {
+    /**
+     * If provided, the discount stops applying once the spend tracker has accumulated
+     * this much spend in the billing period.
+     */
+    export interface Cap {
+      /**
+       * Accumulated spend ceiling above which the discount stops applying.
+       */
+      amount: number;
+
+      /**
+       * Alias of the spend tracker this cap is measured against.
+       */
+      spend_tracker_alias: string;
+    }
   }
 }
 
@@ -3444,6 +3710,30 @@ export namespace SpendThresholdConfigurationV2 {
      * (a 15% discount).
      */
     payment_fraction: number;
+
+    /**
+     * If provided, the discount stops applying once the spend tracker has accumulated
+     * this much spend in the billing period.
+     */
+    cap?: DiscountConfiguration.Cap;
+  }
+
+  export namespace DiscountConfiguration {
+    /**
+     * If provided, the discount stops applying once the spend tracker has accumulated
+     * this much spend in the billing period.
+     */
+    export interface Cap {
+      /**
+       * Accumulated spend ceiling above which the discount stops applying.
+       */
+      amount: number;
+
+      /**
+       * Alias of the spend tracker this cap is measured against.
+       */
+      spend_tracker_alias: string;
+    }
   }
 }
 

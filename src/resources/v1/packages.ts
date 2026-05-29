@@ -145,10 +145,9 @@ export class Packages extends APIResource {
    *
    * ### **Usage guidelines:**
    *
-   * Use the **`starting_at`**, **`covering_date`**,
-   * and **`include_archived`** parameters to filter the list of returned contracts.
-   * For example, to list only currently active contracts,
-   * pass **`covering_date`** equal to the current time.
+   * Use the **`starting_at`**, **`covering_date`**, and **`include_archived`**
+   * parameters to filter the list of returned contracts. For example, to list only
+   * currently active contracts, pass **`covering_date`** equal to the current time.
    *
    * @example
    * ```ts
@@ -258,6 +257,8 @@ export namespace PackageRetrieveResponse {
     scheduled_charges_on_usage_invoices?: 'ALL';
 
     spend_threshold_configuration?: Shared.SpendThresholdConfiguration;
+
+    spend_trackers?: Array<Data.SpendTracker>;
 
     subscriptions?: Array<Data.Subscription>;
 
@@ -924,6 +925,29 @@ export namespace PackageRetrieveResponse {
       }
     }
 
+    export interface SpendTracker {
+      /**
+       * Human-readable identifier, unique per contract.
+       */
+      alias: string;
+
+      applicable_spend_specifiers: Array<SpendTracker.ApplicableSpendSpecifier>;
+
+      credit_type_id: string;
+
+      reset_frequency: 'BILLING_PERIOD';
+    }
+
+    export namespace SpendTracker {
+      export interface ApplicableSpendSpecifier {
+        sources: Array<'THRESHOLD_RECHARGE' | 'MANUAL'>;
+
+        spend_type: 'COMMIT_PURCHASE';
+
+        discounted?: 'ANY' | 'DISCOUNTED_ONLY' | 'UNDISCOUNTED_ONLY';
+      }
+    }
+
     export interface Subscription {
       collection_schedule: 'ADVANCE' | 'ARREARS';
 
@@ -1085,6 +1109,8 @@ export interface PackageListResponse {
   scheduled_charges_on_usage_invoices?: 'ALL';
 
   spend_threshold_configuration?: Shared.SpendThresholdConfiguration;
+
+  spend_trackers?: Array<PackageListResponse.SpendTracker>;
 
   subscriptions?: Array<PackageListResponse.Subscription>;
 
@@ -1751,6 +1777,29 @@ export namespace PackageListResponse {
     }
   }
 
+  export interface SpendTracker {
+    /**
+     * Human-readable identifier, unique per contract.
+     */
+    alias: string;
+
+    applicable_spend_specifiers: Array<SpendTracker.ApplicableSpendSpecifier>;
+
+    credit_type_id: string;
+
+    reset_frequency: 'BILLING_PERIOD';
+  }
+
+  export namespace SpendTracker {
+    export interface ApplicableSpendSpecifier {
+      sources: Array<'THRESHOLD_RECHARGE' | 'MANUAL'>;
+
+      spend_type: 'COMMIT_PURCHASE';
+
+      discounted?: 'ANY' | 'DISCOUNTED_ONLY' | 'UNDISCOUNTED_ONLY';
+    }
+  }
+
   export interface Subscription {
     collection_schedule: 'ADVANCE' | 'ARREARS';
 
@@ -1916,6 +1965,8 @@ export interface PackageCreateParams {
   scheduled_charges_on_usage_invoices?: 'ALL';
 
   spend_threshold_configuration?: Shared.SpendThresholdConfiguration;
+
+  spend_trackers?: Array<PackageCreateParams.SpendTracker>;
 
   subscriptions?: Array<PackageCreateParams.Subscription>;
 
@@ -2835,6 +2886,32 @@ export namespace PackageCreateParams {
           value: number;
         }
       }
+    }
+  }
+
+  export interface SpendTracker {
+    /**
+     * Human-readable identifier, unique per contract.
+     */
+    alias: string;
+
+    applicable_spend_specifiers: Array<SpendTracker.ApplicableSpendSpecifier>;
+
+    credit_type_id: string;
+
+    reset_frequency: 'BILLING_PERIOD';
+  }
+
+  export namespace SpendTracker {
+    export interface ApplicableSpendSpecifier {
+      sources: Array<'THRESHOLD_RECHARGE' | 'MANUAL'>;
+
+      spend_type: 'COMMIT_PURCHASE';
+
+      /**
+       * Filter by whether the spend was discounted. Defaults to ANY if omitted.
+       */
+      discounted?: 'ANY' | 'DISCOUNTED_ONLY' | 'UNDISCOUNTED_ONLY';
     }
   }
 
