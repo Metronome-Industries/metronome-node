@@ -674,11 +674,6 @@ export namespace ContractEditResponse {
         proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
         /**
-         * Rounding configuration for prorated recurring commit amounts.
-         */
-        proration_rounding?: AddRecurringCommit.ProrationRounding | null;
-
-        /**
          * The frequency at which the recurring commits will be created. If not provided: -
          * The commits will be created on the usage invoice frequency. If provided: - The
          * period defined in the duration will correspond to this frequency. - Commits will
@@ -747,39 +742,6 @@ export namespace ContractEditResponse {
           quantity: number;
 
           unit_price: number;
-        }
-
-        /**
-         * Rounding configuration for prorated recurring commit amounts.
-         */
-        export interface ProrationRounding {
-          access?: ProrationRounding.Access;
-
-          invoice?: ProrationRounding.Invoice;
-        }
-
-        export namespace ProrationRounding {
-          export interface Access {
-            /**
-             * Number of decimal places to round to. Applied directly to the stored monetary
-             * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-             * nearest 100 in the stored unit).
-             */
-            decimal_places: number;
-
-            rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-          }
-
-          export interface Invoice {
-            /**
-             * Number of decimal places to round to. Applied directly to the stored monetary
-             * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-             * nearest 100 in the stored unit).
-             */
-            decimal_places: number;
-
-            rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-          }
         }
       }
 
@@ -857,11 +819,6 @@ export namespace ContractEditResponse {
         proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
         /**
-         * Rounding configuration for prorated recurring credit amounts.
-         */
-        proration_rounding?: AddRecurringCredit.ProrationRounding | null;
-
-        /**
          * The frequency at which the recurring commits will be created. If not provided: -
          * The commits will be created on the usage invoice frequency. If provided: - The
          * period defined in the duration will correspond to this frequency. - Commits will
@@ -919,26 +876,6 @@ export namespace ContractEditResponse {
 
         export interface Contract {
           id: string;
-        }
-
-        /**
-         * Rounding configuration for prorated recurring credit amounts.
-         */
-        export interface ProrationRounding {
-          access?: ProrationRounding.Access;
-        }
-
-        export namespace ProrationRounding {
-          export interface Access {
-            /**
-             * Number of decimal places to round to. Applied directly to the stored monetary
-             * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-             * nearest 100 in the stored unit).
-             */
-            decimal_places: number;
-
-            rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-          }
         }
       }
 
@@ -1031,8 +968,6 @@ export namespace ContractEditResponse {
 
         id?: string;
 
-        billing_cycle_config?: AddSubscription.BillingCycleConfig;
-
         /**
          * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
          */
@@ -1085,21 +1020,6 @@ export namespace ContractEditResponse {
           invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
 
           is_prorated: boolean;
-
-          rounding?: Proration.Rounding;
-        }
-
-        export namespace Proration {
-          export interface Rounding {
-            /**
-             * Number of decimal places to round to. Applied directly to the stored monetary
-             * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-             * nearest 100 in the stored unit).
-             */
-            decimal_places: number;
-
-            rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-          }
         }
 
         export interface QuantitySchedule {
@@ -1122,19 +1042,6 @@ export namespace ContractEditResponse {
 
             name: string;
           }
-        }
-
-        export interface BillingCycleConfig {
-          /**
-           * The date this subscription's billing cycle is anchored to.
-           */
-          anchor_date: string;
-
-          /**
-           * Controls whether this subscription consolidates onto usage invoices or gets its
-           * own scheduled invoice.
-           */
-          invoice_placement: 'ON_SCHEDULED_INVOICE' | 'ON_USAGE_INVOICE';
         }
 
         export interface SeatConfig {
@@ -1667,11 +1574,6 @@ export namespace ContractEditResponse {
 
         invoice_amount?: UpdateRecurringCommit.InvoiceAmount;
 
-        /**
-         * Rounding configuration for prorated recurring commit amounts.
-         */
-        proration_rounding?: UpdateRecurringCommit.ProrationRounding | null;
-
         rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
       }
 
@@ -1687,39 +1589,6 @@ export namespace ContractEditResponse {
 
           unit_price?: number;
         }
-
-        /**
-         * Rounding configuration for prorated recurring commit amounts.
-         */
-        export interface ProrationRounding {
-          access?: ProrationRounding.Access;
-
-          invoice?: ProrationRounding.Invoice;
-        }
-
-        export namespace ProrationRounding {
-          export interface Access {
-            /**
-             * Number of decimal places to round to. Applied directly to the stored monetary
-             * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-             * nearest 100 in the stored unit).
-             */
-            decimal_places: number;
-
-            rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-          }
-
-          export interface Invoice {
-            /**
-             * Number of decimal places to round to. Applied directly to the stored monetary
-             * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-             * nearest 100 in the stored unit).
-             */
-            decimal_places: number;
-
-            rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-          }
-        }
       }
 
       export interface UpdateRecurringCredit {
@@ -1729,11 +1598,6 @@ export namespace ContractEditResponse {
 
         ending_before?: string;
 
-        /**
-         * Rounding configuration for prorated recurring credit amounts.
-         */
-        proration_rounding?: UpdateRecurringCredit.ProrationRounding | null;
-
         rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
       }
 
@@ -1742,26 +1606,6 @@ export namespace ContractEditResponse {
           quantity?: number;
 
           unit_price?: number;
-        }
-
-        /**
-         * Rounding configuration for prorated recurring credit amounts.
-         */
-        export interface ProrationRounding {
-          access?: ProrationRounding.Access;
-        }
-
-        export namespace ProrationRounding {
-          export interface Access {
-            /**
-             * Number of decimal places to round to. Applied directly to the stored monetary
-             * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-             * nearest 100 in the stored unit).
-             */
-            decimal_places: number;
-
-            rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-          }
         }
       }
 
@@ -2405,11 +2249,6 @@ export namespace ContractGetEditHistoryResponse {
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
       /**
-       * Rounding configuration for prorated recurring commit amounts.
-       */
-      proration_rounding?: AddRecurringCommit.ProrationRounding | null;
-
-      /**
        * The frequency at which the recurring commits will be created. If not provided: -
        * The commits will be created on the usage invoice frequency. If provided: - The
        * period defined in the duration will correspond to this frequency. - Commits will
@@ -2478,39 +2317,6 @@ export namespace ContractGetEditHistoryResponse {
         quantity: number;
 
         unit_price: number;
-      }
-
-      /**
-       * Rounding configuration for prorated recurring commit amounts.
-       */
-      export interface ProrationRounding {
-        access?: ProrationRounding.Access;
-
-        invoice?: ProrationRounding.Invoice;
-      }
-
-      export namespace ProrationRounding {
-        export interface Access {
-          /**
-           * Number of decimal places to round to. Applied directly to the stored monetary
-           * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-           * nearest 100 in the stored unit).
-           */
-          decimal_places: number;
-
-          rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-        }
-
-        export interface Invoice {
-          /**
-           * Number of decimal places to round to. Applied directly to the stored monetary
-           * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-           * nearest 100 in the stored unit).
-           */
-          decimal_places: number;
-
-          rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-        }
       }
     }
 
@@ -2588,11 +2394,6 @@ export namespace ContractGetEditHistoryResponse {
       proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
       /**
-       * Rounding configuration for prorated recurring credit amounts.
-       */
-      proration_rounding?: AddRecurringCredit.ProrationRounding | null;
-
-      /**
        * The frequency at which the recurring commits will be created. If not provided: -
        * The commits will be created on the usage invoice frequency. If provided: - The
        * period defined in the duration will correspond to this frequency. - Commits will
@@ -2650,26 +2451,6 @@ export namespace ContractGetEditHistoryResponse {
 
       export interface Contract {
         id: string;
-      }
-
-      /**
-       * Rounding configuration for prorated recurring credit amounts.
-       */
-      export interface ProrationRounding {
-        access?: ProrationRounding.Access;
-      }
-
-      export namespace ProrationRounding {
-        export interface Access {
-          /**
-           * Number of decimal places to round to. Applied directly to the stored monetary
-           * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-           * nearest 100 in the stored unit).
-           */
-          decimal_places: number;
-
-          rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-        }
       }
     }
 
@@ -2762,8 +2543,6 @@ export namespace ContractGetEditHistoryResponse {
 
       id?: string;
 
-      billing_cycle_config?: AddSubscription.BillingCycleConfig;
-
       /**
        * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
        */
@@ -2816,21 +2595,6 @@ export namespace ContractGetEditHistoryResponse {
         invoice_behavior: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
 
         is_prorated: boolean;
-
-        rounding?: Proration.Rounding;
-      }
-
-      export namespace Proration {
-        export interface Rounding {
-          /**
-           * Number of decimal places to round to. Applied directly to the stored monetary
-           * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-           * nearest 100 in the stored unit).
-           */
-          decimal_places: number;
-
-          rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-        }
       }
 
       export interface QuantitySchedule {
@@ -2853,19 +2617,6 @@ export namespace ContractGetEditHistoryResponse {
 
           name: string;
         }
-      }
-
-      export interface BillingCycleConfig {
-        /**
-         * The date this subscription's billing cycle is anchored to.
-         */
-        anchor_date: string;
-
-        /**
-         * Controls whether this subscription consolidates onto usage invoices or gets its
-         * own scheduled invoice.
-         */
-        invoice_placement: 'ON_SCHEDULED_INVOICE' | 'ON_USAGE_INVOICE';
       }
 
       export interface SeatConfig {
@@ -3398,11 +3149,6 @@ export namespace ContractGetEditHistoryResponse {
 
       invoice_amount?: UpdateRecurringCommit.InvoiceAmount;
 
-      /**
-       * Rounding configuration for prorated recurring commit amounts.
-       */
-      proration_rounding?: UpdateRecurringCommit.ProrationRounding | null;
-
       rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
     }
 
@@ -3418,39 +3164,6 @@ export namespace ContractGetEditHistoryResponse {
 
         unit_price?: number;
       }
-
-      /**
-       * Rounding configuration for prorated recurring commit amounts.
-       */
-      export interface ProrationRounding {
-        access?: ProrationRounding.Access;
-
-        invoice?: ProrationRounding.Invoice;
-      }
-
-      export namespace ProrationRounding {
-        export interface Access {
-          /**
-           * Number of decimal places to round to. Applied directly to the stored monetary
-           * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-           * nearest 100 in the stored unit).
-           */
-          decimal_places: number;
-
-          rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-        }
-
-        export interface Invoice {
-          /**
-           * Number of decimal places to round to. Applied directly to the stored monetary
-           * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-           * nearest 100 in the stored unit).
-           */
-          decimal_places: number;
-
-          rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-        }
-      }
     }
 
     export interface UpdateRecurringCredit {
@@ -3460,11 +3173,6 @@ export namespace ContractGetEditHistoryResponse {
 
       ending_before?: string;
 
-      /**
-       * Rounding configuration for prorated recurring credit amounts.
-       */
-      proration_rounding?: UpdateRecurringCredit.ProrationRounding | null;
-
       rate_type?: 'LIST_RATE' | 'COMMIT_RATE';
     }
 
@@ -3473,26 +3181,6 @@ export namespace ContractGetEditHistoryResponse {
         quantity?: number;
 
         unit_price?: number;
-      }
-
-      /**
-       * Rounding configuration for prorated recurring credit amounts.
-       */
-      export interface ProrationRounding {
-        access?: ProrationRounding.Access;
-      }
-
-      export namespace ProrationRounding {
-        export interface Access {
-          /**
-           * Number of decimal places to round to. Applied directly to the stored monetary
-           * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-           * nearest 100 in the stored unit).
-           */
-          decimal_places: number;
-
-          rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-        }
       }
     }
 
@@ -4769,11 +4457,6 @@ export namespace ContractEditParams {
     proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
     /**
-     * Optional rounding configuration for prorated recurring commit amounts.
-     */
-    proration_rounding?: AddRecurringCommit.ProrationRounding;
-
-    /**
      * Whether the created commits will use the commit rate or list rate
      */
     rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
@@ -4852,39 +4535,6 @@ export namespace ContractEditParams {
       quantity: number;
 
       unit_price: number;
-    }
-
-    /**
-     * Optional rounding configuration for prorated recurring commit amounts.
-     */
-    export interface ProrationRounding {
-      access?: ProrationRounding.Access;
-
-      invoice?: ProrationRounding.Invoice;
-    }
-
-    export namespace ProrationRounding {
-      export interface Access {
-        /**
-         * Number of decimal places to round to. Applied directly to the stored monetary
-         * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-         * nearest 100 in the stored unit).
-         */
-        decimal_places: number;
-
-        rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-      }
-
-      export interface Invoice {
-        /**
-         * Number of decimal places to round to. Applied directly to the stored monetary
-         * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-         * nearest 100 in the stored unit).
-         */
-        decimal_places: number;
-
-        rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-      }
     }
 
     /**
@@ -4982,11 +4632,6 @@ export namespace ContractEditParams {
     proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
     /**
-     * Optional rounding configuration for prorated recurring credit amounts.
-     */
-    proration_rounding?: AddRecurringCredit.ProrationRounding;
-
-    /**
      * Whether the created commits will use the commit rate or list rate
      */
     rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
@@ -5054,26 +4699,6 @@ export namespace ContractEditParams {
       value: number;
 
       unit?: 'PERIODS';
-    }
-
-    /**
-     * Optional rounding configuration for prorated recurring credit amounts.
-     */
-    export interface ProrationRounding {
-      access?: ProrationRounding.Access;
-    }
-
-    export namespace ProrationRounding {
-      export interface Access {
-        /**
-         * Number of decimal places to round to. Applied directly to the stored monetary
-         * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-         * nearest 100 in the stored unit).
-         */
-        decimal_places: number;
-
-        rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-      }
     }
 
     /**
@@ -5341,8 +4966,6 @@ export namespace ContractEditParams {
 
     subscription_rate: AddSubscription.SubscriptionRate;
 
-    billing_cycle_config?: AddSubscription.BillingCycleConfig;
-
     /**
      * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
      */
@@ -5407,21 +5030,6 @@ export namespace ContractEditParams {
        * Indicates if the partial period will be prorated or charged a full amount.
        */
       is_prorated?: boolean;
-
-      rounding?: Proration.Rounding;
-    }
-
-    export namespace Proration {
-      export interface Rounding {
-        /**
-         * Number of decimal places to round to. Applied directly to the stored monetary
-         * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-         * nearest 100 in the stored unit).
-         */
-        decimal_places: number;
-
-        rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-      }
     }
 
     export interface SubscriptionRate {
@@ -5435,20 +5043,6 @@ export namespace ContractEditParams {
        * Must be subscription type product
        */
       product_id: string;
-    }
-
-    export interface BillingCycleConfig {
-      /**
-       * The date to anchor the billing cycle to. If omitted, defaults to the contract's
-       * usage invoice billing cycle anchor date.
-       */
-      anchor_date?: string;
-
-      /**
-       * Controls whether this subscription consolidates onto usage invoices or gets its
-       * own scheduled invoice. Defaults to ON_USAGE_INVOICE if omitted.
-       */
-      invoice_placement?: 'ON_SCHEDULED_INVOICE' | 'ON_USAGE_INVOICE';
     }
 
     export interface SeatConfig {
@@ -5806,12 +5400,6 @@ export namespace ContractEditParams {
     invoice_amount?: UpdateRecurringCommit.InvoiceAmount;
 
     /**
-     * If provided, updates the rounding config on the recurring commit. Set to null to
-     * clear rounding. Omit to leave unchanged.
-     */
-    proration_rounding?: UpdateRecurringCommit.ProrationRounding | null;
-
-    /**
      * If provided, updates the recurring commit to use the specified rate type when
      * generating future commits.
      */
@@ -5830,40 +5418,6 @@ export namespace ContractEditParams {
 
       unit_price?: number;
     }
-
-    /**
-     * If provided, updates the rounding config on the recurring commit. Set to null to
-     * clear rounding. Omit to leave unchanged.
-     */
-    export interface ProrationRounding {
-      access?: ProrationRounding.Access | null;
-
-      invoice?: ProrationRounding.Invoice | null;
-    }
-
-    export namespace ProrationRounding {
-      export interface Access {
-        /**
-         * Number of decimal places to round to. Applied directly to the stored monetary
-         * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-         * nearest 100 in the stored unit).
-         */
-        decimal_places: number;
-
-        rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-      }
-
-      export interface Invoice {
-        /**
-         * Number of decimal places to round to. Applied directly to the stored monetary
-         * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-         * nearest 100 in the stored unit).
-         */
-        decimal_places: number;
-
-        rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-      }
-    }
   }
 
   export interface UpdateRecurringCredit {
@@ -5872,12 +5426,6 @@ export namespace ContractEditParams {
     access_amount?: UpdateRecurringCredit.AccessAmount;
 
     ending_before?: string | null;
-
-    /**
-     * If provided, updates the rounding config on the recurring credit. Set to null to
-     * clear rounding. Omit to leave unchanged.
-     */
-    proration_rounding?: UpdateRecurringCredit.ProrationRounding | null;
 
     /**
      * If provided, updates the recurring credit to use the specified rate type when
@@ -5891,27 +5439,6 @@ export namespace ContractEditParams {
       quantity?: number;
 
       unit_price?: number;
-    }
-
-    /**
-     * If provided, updates the rounding config on the recurring credit. Set to null to
-     * clear rounding. Omit to leave unchanged.
-     */
-    export interface ProrationRounding {
-      access?: ProrationRounding.Access | null;
-    }
-
-    export namespace ProrationRounding {
-      export interface Access {
-        /**
-         * Number of decimal places to round to. Applied directly to the stored monetary
-         * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-         * nearest 100 in the stored unit).
-         */
-        decimal_places: number;
-
-        rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-      }
     }
   }
 
@@ -6020,8 +5547,6 @@ export namespace ContractEditParams {
 
     ending_before?: string | null;
 
-    proration_rounding?: UpdateSubscription.ProrationRounding | null;
-
     /**
      * Update the subscription's quantity management mode from QUANTITY_ONLY to
      * SEAT_BASED with the provided seat_group_key.
@@ -6039,17 +5564,6 @@ export namespace ContractEditParams {
   }
 
   export namespace UpdateSubscription {
-    export interface ProrationRounding {
-      /**
-       * Number of decimal places to round to. Applied directly to the stored monetary
-       * representation. Negative values round to powers of 10 (e.g., -2 rounds to
-       * nearest 100 in the stored unit).
-       */
-      decimal_places: number;
-
-      rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
-    }
-
     /**
      * Update the subscription's quantity management mode from QUANTITY_ONLY to
      * SEAT_BASED with the provided seat_group_key.
