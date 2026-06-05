@@ -330,6 +330,10 @@ describe('resource contracts', () => {
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           proration: 'NONE',
+          proration_rounding: {
+            access: { decimal_places: -5, rounding_method: 'HALF_UP' },
+            invoice: { decimal_places: -5, rounding_method: 'HALF_UP' },
+          },
           rate_type: 'COMMIT_RATE',
           recurrence_frequency: 'MONTHLY',
           rollover_fraction: 0,
@@ -368,6 +372,7 @@ describe('resource contracts', () => {
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           proration: 'NONE',
+          proration_rounding: { access: { decimal_places: -5, rounding_method: 'HALF_UP' } },
           rate_type: 'COMMIT_RATE',
           recurrence_frequency: 'MONTHLY',
           rollover_fraction: 0,
@@ -482,10 +487,18 @@ describe('resource contracts', () => {
       add_subscriptions: [
         {
           collection_schedule: 'ADVANCE',
-          proration: { invoice_behavior: 'BILL_IMMEDIATELY', is_prorated: true },
+          proration: {
+            invoice_behavior: 'BILL_IMMEDIATELY',
+            is_prorated: true,
+            rounding: { decimal_places: -5, rounding_method: 'HALF_UP' },
+          },
           subscription_rate: {
             billing_frequency: 'MONTHLY',
             product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          },
+          billing_cycle_config: {
+            anchor_date: '2019-12-27T18:11:19.117Z',
+            invoice_placement: 'ON_SCHEDULED_INVOICE',
           },
           custom_fields: { foo: 'string' },
           description: 'description',
@@ -654,6 +667,10 @@ describe('resource contracts', () => {
           access_amount: { quantity: 0, unit_price: 0 },
           ending_before: '2019-12-27T18:11:19.117Z',
           invoice_amount: { quantity: 0, unit_price: 0 },
+          proration_rounding: {
+            access: { decimal_places: -5, rounding_method: 'HALF_UP' },
+            invoice: { decimal_places: -5, rounding_method: 'HALF_UP' },
+          },
           rate_type: 'LIST_RATE',
         },
       ],
@@ -662,6 +679,7 @@ describe('resource contracts', () => {
           recurring_credit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           access_amount: { quantity: 0, unit_price: 0 },
           ending_before: '2019-12-27T18:11:19.117Z',
+          proration_rounding: { access: { decimal_places: -5, rounding_method: 'HALF_UP' } },
           rate_type: 'LIST_RATE',
         },
       ],
@@ -718,6 +736,7 @@ describe('resource contracts', () => {
         {
           subscription_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           ending_before: '2019-12-27T18:11:19.117Z',
+          proration_rounding: { decimal_places: -5, rounding_method: 'HALF_UP' },
           quantity_management_mode_update: {
             quantity_management_mode: 'SEAT_BASED',
             seat_config: { seat_group_key: 'seat_group_key' },
