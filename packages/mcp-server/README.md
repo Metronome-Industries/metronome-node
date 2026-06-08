@@ -82,9 +82,9 @@ Launching the client with `--transport=http` launches the server as a remote ser
 
 Your Metronome API credentials can be provided to the server via the `Authorization` header using the Bearer scheme, or via the following headers:
 
-| Header | Equivalent client option | Security scheme |
+| Header                     | Equivalent client option | Security scheme |
 | -------------------------- | ------------------------ | --------------- |
-| `x-metronome-bearer-token` | `bearerToken` | bearerAuth |
+| `x-metronome-bearer-token` | `bearerToken`            | bearerAuth      |
 
 These headers forward your Metronome API token to the upstream Metronome API. They are **not** authentication to the MCP server itself — the HTTP transport has no built-in access control.
 
