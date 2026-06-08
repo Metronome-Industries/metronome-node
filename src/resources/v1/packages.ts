@@ -430,6 +430,8 @@ export namespace PackageRetrieveResponse {
 
     export namespace Override {
       export interface OverrideSpecifier {
+        any_commit_or_credit_template_ids?: Array<string>;
+
         billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
         commit_template_ids?: Array<string>;
@@ -1370,6 +1372,8 @@ export namespace PackageListResponse {
 
   export namespace Override {
     export interface OverrideSpecifier {
+      any_commit_or_credit_template_ids?: Array<string>;
+
       billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       commit_template_ids?: Array<string>;
@@ -2527,6 +2531,15 @@ export namespace PackageCreateParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
+      /**
+       * Can only be used for commit specific overrides. Must be used in conjunction with
+       * one of `product_id`, `product_tags`, `pricing_group_values`, or
+       * `presentation_group_values`. Must be used instead of both `commit_ids` and
+       * `recurring_commit_ids` If provided, the override will apply to any specified
+       * commit, credit, recurring commit or recurring credit IDs.
+       */
+      any_commit_or_credit_ids?: Array<string>;
+
       billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
