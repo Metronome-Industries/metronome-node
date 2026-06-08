@@ -1193,6 +1193,8 @@ export namespace ContractV2 {
 
   export namespace Override {
     export interface OverrideSpecifier {
+      any_commit_or_credit_ids?: Array<string>;
+
       billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       commit_ids?: Array<string>;
@@ -3164,6 +3166,8 @@ export interface Override {
 
 export namespace Override {
   export interface OverrideSpecifier {
+    any_commit_or_credit_ids?: Array<string>;
+
     billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
     commit_ids?: Array<string>;

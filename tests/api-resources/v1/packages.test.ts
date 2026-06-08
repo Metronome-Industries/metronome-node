@@ -113,6 +113,7 @@ describe('resource packages', () => {
         {
           override_specifiers: [
             {
+              any_commit_or_credit_ids: ['string'],
               billing_frequency: 'MONTHLY',
               commit_ids: ['string'],
               presentation_group_values: { foo: 'string' },
