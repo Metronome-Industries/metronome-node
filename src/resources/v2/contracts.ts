@@ -536,6 +536,8 @@ export namespace ContractEditResponse {
 
       export namespace AddOverride {
         export interface OverrideSpecifier {
+          any_commit_or_credit_ids?: Array<string>;
+
           billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
           commit_ids?: Array<string>;
@@ -2267,6 +2269,8 @@ export namespace ContractGetEditHistoryResponse {
 
     export namespace AddOverride {
       export interface OverrideSpecifier {
+        any_commit_or_credit_ids?: Array<string>;
+
         billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
         commit_ids?: Array<string>;
@@ -4575,6 +4579,15 @@ export namespace ContractEditParams {
 
   export namespace AddOverride {
     export interface OverrideSpecifier {
+      /**
+       * Can only be used for commit specific overrides. Must be used in conjunction with
+       * one of `product_id`, `product_tags`, `pricing_group_values`, or
+       * `presentation_group_values`. Must be used instead of both `commit_ids` and
+       * `recurring_commit_ids` If provided, the override will apply to any specified
+       * commit, credit, recurring commit or recurring credit IDs.
+       */
+      any_commit_or_credit_ids?: Array<string>;
+
       billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
