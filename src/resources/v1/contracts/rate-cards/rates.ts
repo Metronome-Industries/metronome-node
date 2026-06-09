@@ -59,6 +59,10 @@ export class Rates extends APIResource {
   /**
    * Add a new rate
    *
+   * This endpoint is heavily rate limited. For adding multiple rates, using the
+   * [addRates](https://docs.metronome.com/api-reference/rate-cards/add-rates)
+   * endpoint is strongly encouraged.
+   *
    * @example
    * ```ts
    * const response =
