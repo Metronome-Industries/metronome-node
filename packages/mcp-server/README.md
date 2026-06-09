@@ -80,12 +80,15 @@ and repeatably.
 
 Launching the client with `--transport=http` launches the server as a remote server using Streamable HTTP transport. The `--port` setting can choose the port it will run on, and the `--socket` setting allows it to run on a Unix socket.
 
-Authorization can be provided via the `Authorization` header using the Bearer scheme.
+Your Metronome API credentials can be provided to the server via the `Authorization` header using the Bearer scheme, or via the following headers:
 
-Additionally, authorization can be provided via the following headers:
-| Header | Equivalent client option | Security scheme |
+| Header                     | Equivalent client option | Security scheme |
 | -------------------------- | ------------------------ | --------------- |
-| `x-metronome-bearer-token` | `bearerToken` | bearerAuth |
+| `x-metronome-bearer-token` | `bearerToken`            | bearerAuth      |
+
+These headers forward your Metronome API token to the upstream Metronome API. They are **not** authentication to the MCP server itself — the HTTP transport has no built-in access control.
+
+**Security notice:** Do not expose the HTTP transport directly to the public internet. Because the server has no built-in authentication layer, any client that can reach the HTTP port can issue tool calls. Place the server behind a network-level control (VPN, firewall rule, or an authenticating reverse proxy) that restricts access to trusted clients only. This applies whether credentials are supplied by the client via headers or stored server-side via environment variables.
 
 A configuration JSON for this server might look like this, assuming the server is hosted at `http://localhost:3000`:
 
@@ -101,3 +104,7 @@ A configuration JSON for this server might look like this, assuming the server i
   }
 }
 ```
+
+### Local code execution over HTTP
+
+The `--code-execution-mode=local` flag runs agent-supplied code directly on the MCP server host using a local Deno process. Use this setting with caution, especially when combined with other configuration options. For example, when combined with `--transport=http`, any client that can reach the HTTP port can execute arbitrary code on the server machine.
