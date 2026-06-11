@@ -349,6 +349,7 @@ Types:
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractArchiveResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractCreateHistoricalInvoicesResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractGetNetBalanceResponse</a></code>
+- <code><a href="./src/resources/v1/contracts/contracts.ts">ContractGetSubscriptionSeatsHistoryResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractListBalancesResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractListSeatBalancesResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractRetrieveRateScheduleResponse</a></code>
@@ -366,6 +367,7 @@ Methods:
 - <code title="post /v1/contracts/archive">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">archive</a>({ ...params }) -> ContractArchiveResponse</code>
 - <code title="post /v1/contracts/createHistoricalInvoices">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">createHistoricalInvoices</a>({ ...params }) -> ContractCreateHistoricalInvoicesResponse</code>
 - <code title="post /v1/contracts/customerBalances/getNetBalance">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">getNetBalance</a>({ ...params }) -> ContractGetNetBalanceResponse</code>
+- <code title="post /v1/contracts/getSubscriptionSeatsHistory">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">getSubscriptionSeatsHistory</a>({ ...params }) -> ContractGetSubscriptionSeatsHistoryResponse</code>
 - <code title="post /v1/contracts/customerBalances/list">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">listBalances</a>({ ...params }) -> ContractListBalancesResponsesBodyCursorPage</code>
 - <code title="post /v1/contracts/seatBalances/list">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">listSeatBalances</a>({ ...params }) -> ContractListSeatBalancesResponse</code>
 - <code title="post /v1/contracts/getContractRateSchedule">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">retrieveRateSchedule</a>({ ...params }) -> ContractRetrieveRateScheduleResponse</code>
