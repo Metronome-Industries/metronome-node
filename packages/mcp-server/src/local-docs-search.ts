@@ -4468,6 +4468,61 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
+    name: 'get_subscription_seats_history',
+    endpoint: '/v1/contracts/getSubscriptionSeatsHistory',
+    httpMethod: 'post',
+    summary: 'Get subscription seats history',
+    description:
+      'Get the history of subscription seats schedule over time for a given `subscription_id`. This endpoint provides information about seat assignments and total quantities for different time periods, allowing you to track how seat assignments have changed over time.\n\n### Use this endpoint to:\n- Track changes to seat assignments over time\n- Get seat schedule for a specific date using the `covering_date` parameter\n- Get seat schedule history with optional date range filtering using `starting_at` and `ending_before`\n\n### Key response fields:\n- data: array of seat schedule entries with time periods, quantity, and assignments\n- next_page: cursor for pagination to retrieve additional results\n\n### Usage guidelines:\n- Use `covering_date` to get the active seats for a specific point in time. `covering_date` cannot be used with `starting_at` or `ending_before`.\n- Use `starting_at` and `ending_before` to filter results by time range. `starting_at` and `ending_before` cannot be used with `covering_date`.\n- Maximum limit is 10 seat schedule entries per request\n- Results are ordered by `starting_at` timestamp\n',
+    stainlessPath: '(resource) v1.contracts > (method) get_subscription_seats_history',
+    qualified: 'client.v1.contracts.getSubscriptionSeatsHistory',
+    params: [
+      'contract_id: string;',
+      'customer_id: string;',
+      'subscription_id: string;',
+      'covering_date?: string;',
+      'cursor?: string;',
+      'ending_before?: string;',
+      'limit?: number;',
+      'starting_at?: string;',
+    ],
+    response:
+      '{ data: { assigned_seat_ids: string[]; ending_before: string; starting_at: string; total_quantity: number; }[]; next_page: string; }',
+    markdown:
+      "## get_subscription_seats_history\n\n`client.v1.contracts.getSubscriptionSeatsHistory(contract_id: string, customer_id: string, subscription_id: string, covering_date?: string, cursor?: string, ending_before?: string, limit?: number, starting_at?: string): { data: object[]; next_page: string; }`\n\n**post** `/v1/contracts/getSubscriptionSeatsHistory`\n\nGet the history of subscription seats schedule over time for a given `subscription_id`. This endpoint provides information about seat assignments and total quantities for different time periods, allowing you to track how seat assignments have changed over time.\n\n### Use this endpoint to:\n- Track changes to seat assignments over time\n- Get seat schedule for a specific date using the `covering_date` parameter\n- Get seat schedule history with optional date range filtering using `starting_at` and `ending_before`\n\n### Key response fields:\n- data: array of seat schedule entries with time periods, quantity, and assignments\n- next_page: cursor for pagination to retrieve additional results\n\n### Usage guidelines:\n- Use `covering_date` to get the active seats for a specific point in time. `covering_date` cannot be used with `starting_at` or `ending_before`.\n- Use `starting_at` and `ending_before` to filter results by time range. `starting_at` and `ending_before` cannot be used with `covering_date`.\n- Maximum limit is 10 seat schedule entries per request\n- Results are ordered by `starting_at` timestamp\n\n\n### Parameters\n\n- `contract_id: string`\n\n- `customer_id: string`\n\n- `subscription_id: string`\n\n- `covering_date?: string`\n  Get the seats history segment for the covering date. Cannot be used with `starting_at` or `ending_before`.\n\n- `cursor?: string`\n  Cursor for pagination. Use the value from the `next_page` field of the previous response to retrieve the next page of results.\n\n- `ending_before?: string`\n  Include seats history segments that are active at or before this timestamp. Use with `starting_at` to get a specific time range. If not set, there's no upper bound.\n\n- `limit?: number`\n  Maximum number of seat schedule entries to return. Defaults to 10. Required range: 1 <= x <= 10.\n\n- `starting_at?: string`\n  Include seats history segments that are active at or after this timestamp. Use with `ending_before` to get a specific time range. If not set, there's no lower bound.\n\n### Returns\n\n- `{ data: { assigned_seat_ids: string[]; ending_before: string; starting_at: string; total_quantity: number; }[]; next_page: string; }`\n\n  - `data: { assigned_seat_ids: string[]; ending_before: string; starting_at: string; total_quantity: number; }[]`\n  - `next_page: string`\n\n### Example\n\n```typescript\nimport Metronome from '@metronome/sdk';\n\nconst client = new Metronome();\n\nconst response = await client.v1.contracts.getSubscriptionSeatsHistory({\n  contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',\n  customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',\n  subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',\n});\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.v1.contracts.getSubscriptionSeatsHistory',
+        example:
+          "import Metronome from '@metronome/sdk';\n\nconst client = new Metronome({\n  bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted\n});\n\nconst response = await client.v1.contracts.getSubscriptionSeatsHistory({\n  contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',\n  customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',\n  subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',\n  covering_date: '2024-01-15T00:00:00.000Z',\n  limit: 10,\n});\n\nconsole.log(response.data);",
+      },
+      python: {
+        method: 'v1.contracts.get_subscription_seats_history',
+        example:
+          'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.get_subscription_seats_history(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    subscription_id="1a824d53-bde6-4d82-96d7-6347ff227d5c",\n    covering_date=datetime.fromisoformat("2024-01-15T00:00:00.000"),\n    limit=10,\n)\nprint(response.data)',
+      },
+      java: {
+        method: 'v1().contracts().getSubscriptionSeatsHistory',
+        example:
+          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractGetSubscriptionSeatsHistoryParams;\nimport com.metronome.api.models.v1.contracts.ContractGetSubscriptionSeatsHistoryResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractGetSubscriptionSeatsHistoryParams params = ContractGetSubscriptionSeatsHistoryParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .subscriptionId("1a824d53-bde6-4d82-96d7-6347ff227d5c")\n            .build();\n        ContractGetSubscriptionSeatsHistoryResponse response = client.v1().contracts().getSubscriptionSeatsHistory(params);\n    }\n}',
+      },
+      go: {
+        method: 'client.V1.Contracts.GetSubscriptionSeatsHistory',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\t"time"\n\n\t"github.com/Metronome-Industries/metronome-go"\n\t"github.com/Metronome-Industries/metronome-go/option"\n)\n\nfunc main() {\n\tclient := metronome.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.V1.Contracts.GetSubscriptionSeatsHistory(context.TODO(), metronome.V1ContractGetSubscriptionSeatsHistoryParams{\n\t\tContractID:     "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n\t\tCustomerID:     "13117714-3f05-48e5-a6e9-a66093f13b4d",\n\t\tSubscriptionID: "1a824d53-bde6-4d82-96d7-6347ff227d5c",\n\t\tCoveringDate:   metronome.Time(time.Now()),\n\t\tLimit:          metronome.Int(10),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Data)\n}\n',
+      },
+      ruby: {
+        method: 'v1.contracts.get_subscription_seats_history',
+        example:
+          'require "metronome_sdk"\n\nmetronome = MetronomeSDK::Client.new(bearer_token: "My Bearer Token")\n\nresponse = metronome.v1.contracts.get_subscription_seats_history(\n  contract_id: "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n  customer_id: "13117714-3f05-48e5-a6e9-a66093f13b4d",\n  subscription_id: "1a824d53-bde6-4d82-96d7-6347ff227d5c"\n)\n\nputs(response)',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/getSubscriptionSeatsHistory \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "subscription_id": "1a824d53-bde6-4d82-96d7-6347ff227d5c",\n          "covering_date": "2024-01-15T00:00:00.000Z",\n          "limit": 10\n        }\'',
+      },
+    },
+  },
+  {
     name: 'retrieve',
     endpoint: '/v1/contract-pricing/products/get',
     httpMethod: 'post',
