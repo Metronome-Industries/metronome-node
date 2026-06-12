@@ -1052,6 +1052,12 @@ export interface InvoiceListParams extends CursorPageParams {
    * Query param: Filter invoices by type. Defaults to returning all invoice types.
    */
   type?: 'USAGE' | 'USAGE_CONSOLIDATED' | 'SCHEDULED';
+
+  /**
+   * Query param: Indicates that this API request was triggered by a webhook
+   * notification with the provided ID.
+   */
+  webhook_notification_id?: string;
 }
 
 export interface InvoiceAddChargeParams {
