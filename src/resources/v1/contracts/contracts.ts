@@ -4602,6 +4602,12 @@ export interface ContractListSeatBalancesParams {
   seat_ids?: Array<string>;
 
   /**
+   * When true, any seat_ids not found in contract subscriptions will be silently
+   * omitted from the response instead of returning a 400 error.
+   */
+  skip_missing_seat_ids?: boolean;
+
+  /**
    * Include only commits or credits with access effective on or after this date
    * (cannot be used with covering_date).
    */
