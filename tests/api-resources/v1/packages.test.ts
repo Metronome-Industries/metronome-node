@@ -113,6 +113,7 @@ describe('resource packages', () => {
         {
           override_specifiers: [
             {
+              any_commit_or_credit_ids: ['string'],
               billing_frequency: 'MONTHLY',
               commit_ids: ['string'],
               presentation_group_values: { foo: 'string' },
@@ -216,6 +217,10 @@ describe('resource packages', () => {
           },
           name: 'x',
           proration: 'NONE',
+          proration_rounding: {
+            access: { decimal_places: -5, rounding_method: 'HALF_UP' },
+            invoice: { decimal_places: -5, rounding_method: 'HALF_UP' },
+          },
           rate_type: 'COMMIT_RATE',
           recurrence_frequency: 'MONTHLY',
           rollover_fraction: 0,
@@ -252,6 +257,7 @@ describe('resource packages', () => {
           duration: { unit: 'DAYS', value: 0 },
           name: 'x',
           proration: 'NONE',
+          proration_rounding: { access: { decimal_places: -5, rounding_method: 'HALF_UP' } },
           rate_type: 'COMMIT_RATE',
           recurrence_frequency: 'MONTHLY',
           rollover_fraction: 0,
@@ -329,11 +335,16 @@ describe('resource packages', () => {
       subscriptions: [
         {
           collection_schedule: 'ADVANCE',
-          proration: { invoice_behavior: 'BILL_IMMEDIATELY', is_prorated: true },
+          proration: {
+            invoice_behavior: 'BILL_IMMEDIATELY',
+            is_prorated: true,
+            rounding: { decimal_places: -5, rounding_method: 'HALF_UP' },
+          },
           subscription_rate: {
             billing_frequency: 'MONTHLY',
             product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           },
+          billing_cycle_config: { invoice_placement: 'ON_SCHEDULED_INVOICE' },
           custom_fields: { foo: 'string' },
           description: 'description',
           duration: { unit: 'DAYS', value: 0 },

@@ -452,6 +452,53 @@ export class Contracts extends APIResource {
   }
 
   /**
+   * Get the history of subscription seats schedule over time for a given
+   * `subscription_id`. This endpoint provides information about seat assignments and
+   * total quantities for different time periods, allowing you to track how seat
+   * assignments have changed over time.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Track changes to seat assignments over time
+   * - Get seat schedule for a specific date using the `covering_date` parameter
+   * - Get seat schedule history with optional date range filtering using
+   *   `starting_at` and `ending_before`
+   *
+   * ### Key response fields:
+   *
+   * - data: array of seat schedule entries with time periods, quantity, and
+   *   assignments
+   * - next_page: cursor for pagination to retrieve additional results
+   *
+   * ### Usage guidelines:
+   *
+   * - Use `covering_date` to get the active seats for a specific point in time.
+   *   `covering_date` cannot be used with `starting_at` or `ending_before`.
+   * - Use `starting_at` and `ending_before` to filter results by time range.
+   *   `starting_at` and `ending_before` cannot be used with `covering_date`.
+   * - Maximum limit is 10 seat schedule entries per request
+   * - Results are ordered by `starting_at` timestamp
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.getSubscriptionSeatsHistory({
+   *     contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *     subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
+   *     covering_date: '2024-01-15T00:00:00.000Z',
+   *     limit: 10,
+   *   });
+   * ```
+   */
+  getSubscriptionSeatsHistory(
+    body: ContractGetSubscriptionSeatsHistoryParams,
+    options?: RequestOptions,
+  ): APIPromise<ContractGetSubscriptionSeatsHistoryResponse> {
+    return this._client.post('/v1/contracts/getSubscriptionSeatsHistory', { body, ...options });
+  }
+
+  /**
    * Retrieve a comprehensive view of all available balances (commits and credits)
    * for a customer. This endpoint provides real-time visibility into prepaid funds,
    * postpaid commitments, promotional credits, and other balance types that can
@@ -990,6 +1037,11 @@ export namespace ContractCreateResponse {
         proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
         /**
+         * Rounding configuration for prorated recurring commit amounts.
+         */
+        proration_rounding?: RecurringCommit.ProrationRounding | null;
+
+        /**
          * The frequency at which the recurring commits will be created. If not provided: -
          * The commits will be created on the usage invoice frequency. If provided: - The
          * period defined in the duration will correspond to this frequency. - Commits will
@@ -1058,6 +1110,41 @@ export namespace ContractCreateResponse {
           quantity: number;
 
           unit_price: number;
+        }
+
+        /**
+         * Rounding configuration for prorated recurring commit amounts.
+         */
+        export interface ProrationRounding {
+          access?: ProrationRounding.Access;
+
+          invoice?: ProrationRounding.Invoice;
+        }
+
+        export namespace ProrationRounding {
+          export interface Access {
+            /**
+             * Number of decimal places to round to. Applied directly to the stored monetary
+             * representation. Negative values round to powers of 10 (e.g., -2 rounds to
+             * nearest 100 in the stored unit. For USD, this means rounding to the nearest
+             * dollar).
+             */
+            decimal_places: number;
+
+            rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
+          }
+
+          export interface Invoice {
+            /**
+             * Number of decimal places to round to. Applied directly to the stored monetary
+             * representation. Negative values round to powers of 10 (e.g., -2 rounds to
+             * nearest 100 in the stored unit. For USD, this means rounding to the nearest
+             * dollar).
+             */
+            decimal_places: number;
+
+            rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
+          }
         }
       }
 
@@ -1135,6 +1222,11 @@ export namespace ContractCreateResponse {
         proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
         /**
+         * Rounding configuration for prorated recurring credit amounts.
+         */
+        proration_rounding?: RecurringCredit.ProrationRounding | null;
+
+        /**
          * The frequency at which the recurring commits will be created. If not provided: -
          * The commits will be created on the usage invoice frequency. If provided: - The
          * period defined in the duration will correspond to this frequency. - Commits will
@@ -1193,6 +1285,27 @@ export namespace ContractCreateResponse {
         export interface Contract {
           id: string;
         }
+
+        /**
+         * Rounding configuration for prorated recurring credit amounts.
+         */
+        export interface ProrationRounding {
+          access?: ProrationRounding.Access;
+        }
+
+        export namespace ProrationRounding {
+          export interface Access {
+            /**
+             * Number of decimal places to round to. Applied directly to the stored monetary
+             * representation. Negative values round to powers of 10 (e.g., -2 rounds to
+             * nearest 100 in the stored unit. For USD, this means rounding to the nearest
+             * dollar).
+             */
+            decimal_places: number;
+
+            rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
+          }
+        }
       }
     }
   }
@@ -1235,6 +1348,39 @@ export namespace ContractGetNetBalanceResponse {
      * balance is for.
      */
     credit_type_id: string;
+  }
+}
+
+export interface ContractGetSubscriptionSeatsHistoryResponse {
+  data: Array<ContractGetSubscriptionSeatsHistoryResponse.Data>;
+
+  /**
+   * Cursor for the next page of results
+   */
+  next_page: string | null;
+}
+
+export namespace ContractGetSubscriptionSeatsHistoryResponse {
+  export interface Data {
+    /**
+     * Array of seat IDs that are assigned in this period
+     */
+    assigned_seat_ids: Array<string>;
+
+    /**
+     * The end time of this seat schedule period (null if ongoing)
+     */
+    ending_before: string | null;
+
+    /**
+     * The start time of this seat schedule period
+     */
+    starting_at: string;
+
+    /**
+     * Total number of assigned and unassigned seats in this period
+     */
+    total_quantity: number;
   }
 }
 
@@ -2257,6 +2403,15 @@ export namespace ContractCreateParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
+      /**
+       * Can only be used for commit specific overrides. Must be used in conjunction with
+       * one of `product_id`, `product_tags`, `pricing_group_values`, or
+       * `presentation_group_values`. Must be used instead of both `commit_ids` and
+       * `recurring_commit_ids` If provided, the override will apply to any specified
+       * commit, credit, recurring commit or recurring credit IDs.
+       */
+      any_commit_or_credit_ids?: Array<string>;
+
       billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
@@ -2448,6 +2603,11 @@ export namespace ContractCreateParams {
     proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
     /**
+     * Optional rounding configuration for prorated recurring commit amounts.
+     */
+    proration_rounding?: RecurringCommit.ProrationRounding;
+
+    /**
      * Whether the created commits will use the commit rate or list rate
      */
     rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
@@ -2524,6 +2684,41 @@ export namespace ContractCreateParams {
       quantity: number;
 
       unit_price: number;
+    }
+
+    /**
+     * Optional rounding configuration for prorated recurring commit amounts.
+     */
+    export interface ProrationRounding {
+      access?: ProrationRounding.Access;
+
+      invoice?: ProrationRounding.Invoice;
+    }
+
+    export namespace ProrationRounding {
+      export interface Access {
+        /**
+         * Number of decimal places to round to. Applied directly to the stored monetary
+         * representation. Negative values round to powers of 10 (e.g., -2 rounds to
+         * nearest 100 in the stored unit. For USD, this means rounding to the nearest
+         * dollar).
+         */
+        decimal_places: number;
+
+        rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
+      }
+
+      export interface Invoice {
+        /**
+         * Number of decimal places to round to. Applied directly to the stored monetary
+         * representation. Negative values round to powers of 10 (e.g., -2 rounds to
+         * nearest 100 in the stored unit. For USD, this means rounding to the nearest
+         * dollar).
+         */
+        decimal_places: number;
+
+        rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
+      }
     }
 
     /**
@@ -2621,6 +2816,11 @@ export namespace ContractCreateParams {
     proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
 
     /**
+     * Optional rounding configuration for prorated recurring credit amounts.
+     */
+    proration_rounding?: RecurringCredit.ProrationRounding;
+
+    /**
      * Whether the created commits will use the commit rate or list rate
      */
     rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
@@ -2686,6 +2886,27 @@ export namespace ContractCreateParams {
       value: number;
 
       unit?: 'PERIODS';
+    }
+
+    /**
+     * Optional rounding configuration for prorated recurring credit amounts.
+     */
+    export interface ProrationRounding {
+      access?: ProrationRounding.Access;
+    }
+
+    export namespace ProrationRounding {
+      export interface Access {
+        /**
+         * Number of decimal places to round to. Applied directly to the stored monetary
+         * representation. Negative values round to powers of 10 (e.g., -2 rounds to
+         * nearest 100 in the stored unit. For USD, this means rounding to the nearest
+         * dollar).
+         */
+        decimal_places: number;
+
+        rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
+      }
     }
 
     /**
@@ -2944,6 +3165,8 @@ export namespace ContractCreateParams {
 
     subscription_rate: Subscription.SubscriptionRate;
 
+    billing_cycle_config?: Subscription.BillingCycleConfig;
+
     /**
      * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
      */
@@ -3008,6 +3231,22 @@ export namespace ContractCreateParams {
        * Indicates if the partial period will be prorated or charged a full amount.
        */
       is_prorated?: boolean;
+
+      rounding?: Proration.Rounding;
+    }
+
+    export namespace Proration {
+      export interface Rounding {
+        /**
+         * Number of decimal places to round to. Applied directly to the stored monetary
+         * representation. Negative values round to powers of 10 (e.g., -2 rounds to
+         * nearest 100 in the stored unit. For USD, this means rounding to the nearest
+         * dollar).
+         */
+        decimal_places: number;
+
+        rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
+      }
     }
 
     export interface SubscriptionRate {
@@ -3021,6 +3260,20 @@ export namespace ContractCreateParams {
        * Must be subscription type product
        */
       product_id: string;
+    }
+
+    export interface BillingCycleConfig {
+      /**
+       * The date to anchor the billing cycle to. If omitted, defaults to the contract's
+       * usage invoice billing cycle anchor date.
+       */
+      anchor_date?: string;
+
+      /**
+       * Controls whether this subscription consolidates onto usage invoices or gets its
+       * own scheduled invoice. Defaults to ON_USAGE_INVOICE if omitted.
+       */
+      invoice_placement?: 'ON_SCHEDULED_INVOICE' | 'ON_USAGE_INVOICE';
     }
 
     export interface SeatConfig {
@@ -3795,6 +4048,15 @@ export namespace ContractAmendParams {
 
   export namespace Override {
     export interface OverrideSpecifier {
+      /**
+       * Can only be used for commit specific overrides. Must be used in conjunction with
+       * one of `product_id`, `product_tags`, `pricing_group_values`, or
+       * `presentation_group_values`. Must be used instead of both `commit_ids` and
+       * `recurring_commit_ids` If provided, the override will apply to any specified
+       * commit, credit, recurring commit or recurring credit IDs.
+       */
+      any_commit_or_credit_ids?: Array<string>;
+
       billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
       /**
@@ -4196,6 +4458,46 @@ export interface ContractGetNetBalanceParams {
   invoice_inclusion_mode?: 'FINALIZED' | 'FINALIZED_AND_DRAFT';
 }
 
+export interface ContractGetSubscriptionSeatsHistoryParams {
+  contract_id: string;
+
+  customer_id: string;
+
+  subscription_id: string;
+
+  /**
+   * Get the seats history segment for the covering date. Cannot be used with
+   * `starting_at` or `ending_before`.
+   */
+  covering_date?: string | null;
+
+  /**
+   * Cursor for pagination. Use the value from the `next_page` field of the previous
+   * response to retrieve the next page of results.
+   */
+  cursor?: string | null;
+
+  /**
+   * Include seats history segments that are active at or before this timestamp. Use
+   * with `starting_at` to get a specific time range. If not set, there's no upper
+   * bound.
+   */
+  ending_before?: string | null;
+
+  /**
+   * Maximum number of seat schedule entries to return. Defaults to 10. Required
+   * range: 1 <= x <= 10.
+   */
+  limit?: number | null;
+
+  /**
+   * Include seats history segments that are active at or after this timestamp. Use
+   * with `ending_before` to get a specific time range. If not set, there's no lower
+   * bound.
+   */
+  starting_at?: string | null;
+}
+
 export interface ContractListBalancesParams extends BodyCursorPageParams {
   customer_id: string;
 
@@ -4298,6 +4600,12 @@ export interface ContractListSeatBalancesParams {
    * Optional filter to only include specific seats.
    */
   seat_ids?: Array<string>;
+
+  /**
+   * When true, any seat_ids not found in contract subscriptions will be silently
+   * omitted from the response instead of returning a 400 error.
+   */
+  skip_missing_seat_ids?: boolean;
 
   /**
    * Include only commits or credits with access effective on or after this date
@@ -4512,6 +4820,7 @@ export declare namespace Contracts {
     type ContractArchiveResponse as ContractArchiveResponse,
     type ContractCreateHistoricalInvoicesResponse as ContractCreateHistoricalInvoicesResponse,
     type ContractGetNetBalanceResponse as ContractGetNetBalanceResponse,
+    type ContractGetSubscriptionSeatsHistoryResponse as ContractGetSubscriptionSeatsHistoryResponse,
     type ContractListBalancesResponse as ContractListBalancesResponse,
     type ContractListSeatBalancesResponse as ContractListSeatBalancesResponse,
     type ContractRetrieveRateScheduleResponse as ContractRetrieveRateScheduleResponse,
@@ -4527,6 +4836,7 @@ export declare namespace Contracts {
     type ContractArchiveParams as ContractArchiveParams,
     type ContractCreateHistoricalInvoicesParams as ContractCreateHistoricalInvoicesParams,
     type ContractGetNetBalanceParams as ContractGetNetBalanceParams,
+    type ContractGetSubscriptionSeatsHistoryParams as ContractGetSubscriptionSeatsHistoryParams,
     type ContractListBalancesParams as ContractListBalancesParams,
     type ContractListSeatBalancesParams as ContractListSeatBalancesParams,
     type ContractRetrieveRateScheduleParams as ContractRetrieveRateScheduleParams,
