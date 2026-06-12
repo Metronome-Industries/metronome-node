@@ -1017,6 +1017,7 @@ describe('resource contracts', () => {
       include_ledgers: true,
       limit: 25,
       seat_ids: ['string'],
+      skip_missing_seat_ids: true,
       starting_at: '2019-12-27T18:11:19.117Z',
       subscription_ids: ['8deed800-1b7a-495d-a207-6c52bac54dc9'],
     });
