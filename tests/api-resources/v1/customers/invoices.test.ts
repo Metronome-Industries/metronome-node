@@ -56,6 +56,7 @@ describe('resource invoices', () => {
       starting_on: '2019-12-27T18:11:19.117Z',
       status: 'status',
       type: 'USAGE',
+      webhook_notification_id: 'webhook_notification_id',
     });
   });
 
