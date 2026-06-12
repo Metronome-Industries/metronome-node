@@ -104,6 +104,11 @@ export interface Commit {
   contract?: Commit.Contract;
 
   /**
+   * The actor who created this commit.
+   */
+  created_by?: string;
+
+  /**
    * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
    */
   custom_fields?: { [key: string]: string };
@@ -876,6 +881,11 @@ export namespace ContractV2 {
     contract?: Commit.Contract;
 
     /**
+     * The actor who created this commit.
+     */
+    created_by?: string;
+
+    /**
      * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
      */
     custom_fields?: { [key: string]: string };
@@ -1327,6 +1337,11 @@ export namespace ContractV2 {
      *   start date
      */
     created_at?: string;
+
+    /**
+     * The actor who created this credit.
+     */
+    created_by?: string;
 
     /**
      * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
@@ -2753,6 +2768,11 @@ export interface Credit {
   balance?: number;
 
   contract?: Credit.Contract;
+
+  /**
+   * The actor who created this credit.
+   */
+  created_by?: string;
 
   /**
    * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
