@@ -1,5 +1,26 @@
 # Changelog
 
+## 3.8.0 (2026-06-12)
+
+Full Changelog: [v3.7.0...v3.8.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.7.0...v3.8.0)
+
+### Features
+
+* [🪿] Remove `allow-subscriptions-custom-billing-anchor` feature flag ([0b2f187](https://github.com/Metronome-Industries/metronome-node/commit/0b2f1873c9fb8ff72f64a80635b946f9626914f9))
+* Add any_commit_and_credit_ids to override specifier fields ([e66aa3f](https://github.com/Metronome-Industries/metronome-node/commit/e66aa3fae34510ac2caf4929b20ac679e01bdc8c))
+* add getSubscriptionSeatsHistory to Node SDK ([afa25a4](https://github.com/Metronome-Industries/metronome-node/commit/afa25a4a6a688d4c5fcd3f479475b235e4cd62fd))
+* Add notification_metadata to four API endpoints (Anthropic-only) ([d5b978f](https://github.com/Metronome-Industries/metronome-node/commit/d5b978ff6519042acff005d77e3fa66ea1328782))
+* added created by to commits ([64441c6](https://github.com/Metronome-Industries/metronome-node/commit/64441c604b5ae9653c5eeed39b973be45f85c709))
+* Revert "[pgs] Remove `allow-subscriptions-custom-billing-anchor` and proration rounding feature flags" ([7db3ff6](https://github.com/Metronome-Industries/metronome-node/commit/7db3ff6c82d1260062e52a3ac37613f59b2dd993))
+* Revert "Revert "[pgs] Remove `allow-subscriptions-custom-billing-anchor` and proration rounding feature flags"" ([3d6181a](https://github.com/Metronome-Industries/metronome-node/commit/3d6181a35b2fb2c9159a52eedf43a7d5c274923d))
+* skip seat IDs from balances ([e716823](https://github.com/Metronome-Industries/metronome-node/commit/e71682323c5903d51eb34c2bb066209d9bce5f41))
+
+
+### Documentation
+
+* add RPS limit and batch recommendation to addRate endpoint ([8191088](https://github.com/Metronome-Industries/metronome-node/commit/8191088ec7eeab9c6cf2eb9f779fcd74fe8e81d3))
+* **mcp-server:** warn about HTTP transport auth and local code execution risks ([#262](https://github.com/Metronome-Industries/metronome-node/issues/262)) ([f541564](https://github.com/Metronome-Industries/metronome-node/commit/f541564bfd8b8be5ae0d46fe802921d938ee51b3))
+
 ## 3.7.0 (2026-05-29)
 
 Full Changelog: [v3.6.0...v3.7.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.6.0...v3.7.0)
