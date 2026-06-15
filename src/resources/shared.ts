@@ -104,7 +104,8 @@ export interface Commit {
   contract?: Commit.Contract;
 
   /**
-   * The actor who created this commit.
+   * The actor who created this commit. Omitted for system-generated commits such as
+   * recurring commits, rollover commits, and threshold commits.
    */
   created_by?: string;
 
@@ -881,7 +882,8 @@ export namespace ContractV2 {
     contract?: Commit.Contract;
 
     /**
-     * The actor who created this commit.
+     * The actor who created this commit. Omitted for system-generated commits such as
+     * recurring commits, rollover commits, and threshold commits.
      */
     created_by?: string;
 
@@ -1339,7 +1341,8 @@ export namespace ContractV2 {
     created_at?: string;
 
     /**
-     * The actor who created this credit.
+     * The actor who created this credit. Omitted for system-generated credits such as
+     * recurring credits.
      */
     created_by?: string;
 
@@ -2770,7 +2773,8 @@ export interface Credit {
   contract?: Credit.Contract;
 
   /**
-   * The actor who created this credit.
+   * The actor who created this credit. Omitted for system-generated credits such as
+   * recurring credits.
    */
   created_by?: string;
 
