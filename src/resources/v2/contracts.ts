@@ -684,7 +684,7 @@ export namespace ContractEditResponse {
          * be created aligned with the recurring commit's starting_at rather than the usage
          * invoice dates.
          */
-        recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+        recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
         /**
          * Will be passed down to the individual commits. This controls how much of an
@@ -867,7 +867,7 @@ export namespace ContractEditResponse {
          * be created aligned with the recurring commit's starting_at rather than the usage
          * invoice dates.
          */
-        recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+        recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
         /**
          * Will be passed down to the individual commits. This controls how much of an
@@ -2417,7 +2417,7 @@ export namespace ContractGetEditHistoryResponse {
        * be created aligned with the recurring commit's starting_at rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -2600,7 +2600,7 @@ export namespace ContractGetEditHistoryResponse {
        * be created aligned with the recurring commit's starting_at rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -4795,7 +4795,7 @@ export namespace ContractEditParams {
      * be created aligned with the recurring commit's starting_at rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -5008,7 +5008,7 @@ export namespace ContractEditParams {
      * be created aligned with the recurring commit's starting_at rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
