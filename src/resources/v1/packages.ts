@@ -680,7 +680,7 @@ export namespace PackageRetrieveResponse {
        * be created aligned with the recurring commit's starting_at rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -882,7 +882,7 @@ export namespace PackageRetrieveResponse {
        * be created aligned with the recurring commit's starting_at rather than the usage
        * invoice dates.
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -1622,7 +1622,7 @@ export namespace PackageListResponse {
      * be created aligned with the recurring commit's starting_at rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -1824,7 +1824,7 @@ export namespace PackageListResponse {
      * be created aligned with the recurring commit's starting_at rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -2727,7 +2727,7 @@ export namespace PackageCreateParams {
      * be created aligned with the recurring commit's starting_at rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -2952,7 +2952,7 @@ export namespace PackageCreateParams {
      * be created aligned with the recurring commit's starting_at rather than the usage
      * invoice dates.
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
