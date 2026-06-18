@@ -28,6 +28,28 @@ describe('resource alerts', () => {
       alert_type: 'spend_threshold_reached',
       name: '$100 spend threshold reached',
       threshold: 10000,
+      alert_specifiers: [
+        {
+          custom_field_filters: [
+            {
+              entity: 'Contract',
+              key: 'key',
+              value: 'value',
+            },
+          ],
+          exclude: [
+            {
+              custom_field_filters: [
+                {
+                  entity: 'Contract',
+                  key: 'key',
+                  value: 'value',
+                },
+              ],
+            },
+          ],
+        },
+      ],
       billable_metric_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       credit_grant_type_filters: ['enterprise'],
       credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
