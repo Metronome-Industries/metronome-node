@@ -253,6 +253,13 @@ export namespace CustomerAlert {
     updated_at: string;
 
     /**
+     * Present for `low_remaining_contract_credit_and_commit_balance_reached`
+     * notifications. The filters that define the balances that are considered when
+     * evaluating the alert.
+     */
+    alert_specifiers?: Array<Alert.AlertSpecifier>;
+
+    /**
      * An array of strings, representing a way to filter the credit grant this
      * threshold notification applies to, by looking at the credit_grant_type field on
      * the credit grant. This field is only defined for CreditPercentage and
@@ -301,6 +308,48 @@ export namespace CustomerAlert {
   }
 
   export namespace Alert {
+    export interface AlertSpecifier {
+      /**
+       * A list of custom field filters for notification types that support advanced
+       * filtering
+       */
+      custom_field_filters?: Array<AlertSpecifier.CustomFieldFilter>;
+
+      /**
+       * If provided, the specifier will not apply to balances that matches the inclusion
+       * criteria and any of the excluding values.
+       */
+      exclude?: Array<AlertSpecifier.Exclude>;
+    }
+
+    export namespace AlertSpecifier {
+      export interface CustomFieldFilter {
+        entity: 'Contract' | 'Commit' | 'ContractCredit' | 'ContractCreditOrCommit';
+
+        key: string;
+
+        value?: string;
+      }
+
+      export interface Exclude {
+        /**
+         * A list of custom field filters for notification types that support advanced
+         * filtering
+         */
+        custom_field_filters?: Array<Exclude.CustomFieldFilter>;
+      }
+
+      export namespace Exclude {
+        export interface CustomFieldFilter {
+          entity: 'Contract' | 'Commit' | 'ContractCredit' | 'ContractCreditOrCommit';
+
+          key: string;
+
+          value: string;
+        }
+      }
+    }
+
     export interface CustomFieldFilter {
       entity: 'Contract' | 'Commit' | 'ContractCredit' | 'ContractCreditOrCommit';
 
@@ -359,6 +408,12 @@ export interface AlertRetrieveParams {
   customer_id: string;
 
   /**
+   * Can be used with only `low_remaining_contract_credit_and_commit_balance_reached`
+   * notifications. Used to filter the alert by the custom field key-value pair.
+   */
+  alert_specifiers?: Array<AlertRetrieveParams.AlertSpecifier>;
+
+  /**
    * Only present for `spend_threshold_reached` notifications. Retrieve the
    * notification for a specific group key-value pair.
    */
@@ -378,6 +433,48 @@ export interface AlertRetrieveParams {
 }
 
 export namespace AlertRetrieveParams {
+  export interface AlertSpecifier {
+    /**
+     * A list of custom field filters for notification types that support advanced
+     * filtering
+     */
+    custom_field_filters: Array<AlertSpecifier.CustomFieldFilter>;
+
+    /**
+     * If provided, the specifier will not apply to balances that matches the inclusion
+     * criteria and any of the excluding values.
+     */
+    exclude?: Array<AlertSpecifier.Exclude>;
+  }
+
+  export namespace AlertSpecifier {
+    export interface CustomFieldFilter {
+      entity: 'Contract' | 'Commit' | 'ContractCredit' | 'ContractCreditOrCommit';
+
+      key: string;
+
+      value: string;
+    }
+
+    export interface Exclude {
+      /**
+       * A list of custom field filters for notification types that support advanced
+       * filtering
+       */
+      custom_field_filters?: Array<Exclude.CustomFieldFilter>;
+    }
+
+    export namespace Exclude {
+      export interface CustomFieldFilter {
+        entity: 'Contract' | 'Commit' | 'ContractCredit' | 'ContractCreditOrCommit';
+
+        key: string;
+
+        value: string;
+      }
+    }
+  }
+
   /**
    * Scopes threshold notification evaluation to a specific presentation group key on
    * individual line items. Only present for spend notifications.
