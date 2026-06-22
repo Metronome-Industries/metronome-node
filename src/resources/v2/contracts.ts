@@ -1579,6 +1579,10 @@ export namespace ContractEditResponse {
          */
         threshold_amount?: number;
 
+        /**
+         * Determines which balances are excluded from remaining balance calculation for
+         * threshold billing.
+         */
         threshold_balance_specifiers?: Array<UpdatePrepaidBalanceThresholdConfiguration.ThresholdBalanceSpecifier> | null;
       }
 
@@ -3312,6 +3316,10 @@ export namespace ContractGetEditHistoryResponse {
        */
       threshold_amount?: number;
 
+      /**
+       * Determines which balances are excluded from remaining balance calculation for
+       * threshold billing.
+       */
       threshold_balance_specifiers?: Array<UpdatePrepaidBalanceThresholdConfiguration.ThresholdBalanceSpecifier> | null;
     }
 
@@ -5728,6 +5736,10 @@ export namespace ContractEditParams {
      */
     threshold_amount?: number;
 
+    /**
+     * Determines which balances are excluded from remaining balance calculation for
+     * threshold billing.
+     */
     threshold_balance_specifiers?: Array<UpdatePrepaidBalanceThresholdConfiguration.ThresholdBalanceSpecifier> | null;
   }
 

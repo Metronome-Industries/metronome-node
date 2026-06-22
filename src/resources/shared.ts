@@ -3409,6 +3409,10 @@ export interface PrepaidBalanceThresholdConfiguration {
 
   discount_configuration?: PrepaidBalanceThresholdConfiguration.DiscountConfiguration;
 
+  /**
+   * Determines which balances are excluded from remaining balance calculation for
+   * threshold billing.
+   */
   threshold_balance_specifiers?: Array<PrepaidBalanceThresholdConfiguration.ThresholdBalanceSpecifier>;
 }
 
@@ -3471,6 +3475,10 @@ export namespace PrepaidBalanceThresholdConfiguration {
   }
 
   export interface ThresholdBalanceSpecifier {
+    /**
+     * If any of the exclude specifier is met, the balance is not considered when
+     * evaluating threshold billing
+     */
     exclude: Array<ThresholdBalanceSpecifier.Exclude>;
   }
 
@@ -3526,6 +3534,10 @@ export interface PrepaidBalanceThresholdConfigurationV2 {
 
   discount_configuration?: PrepaidBalanceThresholdConfigurationV2.DiscountConfiguration;
 
+  /**
+   * Determines which balances are excluded from remaining balance calculation for
+   * threshold billing.
+   */
   threshold_balance_specifiers?: Array<PrepaidBalanceThresholdConfigurationV2.ThresholdBalanceSpecifier>;
 }
 
