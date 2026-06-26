@@ -156,7 +156,9 @@ export namespace DashboardGetEmbeddableURLParams {
       | 'Primary_green'
       | 'Primary_red'
       | 'Progress_bar'
-      | 'Progress_bar_background';
+      | 'Progress_bar_background'
+      | 'Action'
+      | 'Action_hover';
 
     /**
      * Hex value representation of the color
