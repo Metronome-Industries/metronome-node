@@ -1,5 +1,7 @@
 # Metronome TypeScript MCP Server
 
+> **Deprecated:** This MCP server is no longer actively maintained and will not receive further updates. The npm package has also been [marked as deprecated](https://www.npmjs.com/package/@metronome/mcp).
+
 It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
