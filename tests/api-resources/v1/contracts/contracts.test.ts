@@ -176,6 +176,7 @@ describe('resource contracts', () => {
           multiplier: 0,
           override_specifiers: [
             {
+              any_commit_or_credit_ids: ['string'],
               billing_frequency: 'MONTHLY',
               commit_ids: ['string'],
               presentation_group_values: { foo: 'string' },
@@ -290,6 +291,10 @@ describe('resource contracts', () => {
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           proration: 'NONE',
+          proration_rounding: {
+            access: { decimal_places: -5, rounding_method: 'HALF_UP' },
+            invoice: { decimal_places: -5, rounding_method: 'HALF_UP' },
+          },
           rate_type: 'COMMIT_RATE',
           recurrence_frequency: 'MONTHLY',
           rollover_fraction: 0,
@@ -328,6 +333,7 @@ describe('resource contracts', () => {
           name: 'x',
           netsuite_sales_order_id: 'netsuite_sales_order_id',
           proration: 'NONE',
+          proration_rounding: { access: { decimal_places: -5, rounding_method: 'HALF_UP' } },
           rate_type: 'COMMIT_RATE',
           recurrence_frequency: 'MONTHLY',
           rollover_fraction: 0,
@@ -441,10 +447,18 @@ describe('resource contracts', () => {
       subscriptions: [
         {
           collection_schedule: 'ADVANCE',
-          proration: { invoice_behavior: 'BILL_IMMEDIATELY', is_prorated: true },
+          proration: {
+            invoice_behavior: 'BILL_IMMEDIATELY',
+            is_prorated: true,
+            rounding: { decimal_places: -5, rounding_method: 'HALF_UP' },
+          },
           subscription_rate: {
             billing_frequency: 'MONTHLY',
             product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          },
+          billing_cycle_config: {
+            anchor_date: '2019-12-27T18:11:19.117Z',
+            invoice_placement: 'ON_SCHEDULED_INVOICE',
           },
           custom_fields: { foo: 'string' },
           description: 'description',
@@ -709,6 +723,7 @@ describe('resource contracts', () => {
           multiplier: 0,
           override_specifiers: [
             {
+              any_commit_or_credit_ids: ['string'],
               billing_frequency: 'MONTHLY',
               commit_ids: ['string'],
               presentation_group_values: { foo: 'string' },
@@ -919,6 +934,34 @@ describe('resource contracts', () => {
     });
   });
 
+  test('getSubscriptionSeatsHistory: only required params', async () => {
+    const responsePromise = client.v1.contracts.getSubscriptionSeatsHistory({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('getSubscriptionSeatsHistory: required and optional params', async () => {
+    const response = await client.v1.contracts.getSubscriptionSeatsHistory({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
+      covering_date: '2024-01-15T00:00:00.000Z',
+      cursor: 'cursor',
+      ending_before: '2019-12-27T18:11:19.117Z',
+      limit: 10,
+      starting_at: '2019-12-27T18:11:19.117Z',
+    });
+  });
+
   test('listBalances: only required params', async () => {
     const responsePromise = client.v1.contracts.listBalances({
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
@@ -974,6 +1017,7 @@ describe('resource contracts', () => {
       include_ledgers: true,
       limit: 25,
       seat_ids: ['string'],
+      skip_missing_seat_ids: true,
       starting_at: '2019-12-27T18:11:19.117Z',
       subscription_ids: ['8deed800-1b7a-495d-a207-6c52bac54dc9'],
     });

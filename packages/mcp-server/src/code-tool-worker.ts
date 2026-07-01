@@ -186,6 +186,7 @@ const fuse = new Fuse(
     'client.v1.contracts.create',
     'client.v1.contracts.createHistoricalInvoices',
     'client.v1.contracts.getNetBalance',
+    'client.v1.contracts.getSubscriptionSeatsHistory',
     'client.v1.contracts.list',
     'client.v1.contracts.listBalances',
     'client.v1.contracts.listSeatBalances',

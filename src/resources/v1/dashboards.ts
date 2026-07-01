@@ -31,8 +31,13 @@ export class Dashboards extends APIResource {
    *
    * - Dashboard types: Choose from `invoices`, `usage`, or `commits_and_credits`
    * - Customization options:
-   *   - `dashboard_options`: Configure whether you want invoices to show zero usage
-   *     line items
+   *   - `dashboard_options`: Configure dashboard behavior. For the invoices
+   *     dashboard, supported keys include: `show_zero_usage_line_items`
+   *     ("true"/"false"), `hide_voided_invoices` ("true"/"false"), `contract_id`
+   *     (UUID, filters invoices by contract), `invoice_type` ("USAGE" or
+   *     "SCHEDULED", filters by invoice type), `invoice_status_filter` ("VOID",
+   *     "FINALIZED", "DRAFT", "FINALIZED_AND_DRAFT", or "ALL"), and
+   *     `billable_status_filter` ("BILLABLE", "UNBILLABLE", or "ALL")
    *   - `color_overrides`: Match your brand's color palette
    *   - `bm_group_key_overrides`: Customize how dimensions are displayed (for the
    *     usage embeddable dashboard)
@@ -151,7 +156,9 @@ export namespace DashboardGetEmbeddableURLParams {
       | 'Primary_green'
       | 'Primary_red'
       | 'Progress_bar'
-      | 'Progress_bar_background';
+      | 'Progress_bar_background'
+      | 'Action'
+      | 'Action_hover';
 
     /**
      * Hex value representation of the color

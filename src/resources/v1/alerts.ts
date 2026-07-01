@@ -156,6 +156,13 @@ export interface AlertCreateParams {
   threshold: number;
 
   /**
+   * Can be used with only `low_remaining_contract_credit_and_commit_balance_reached`
+   * notifications. Defines the balances that are considered when evaluating the
+   * alert.
+   */
+  alert_specifiers?: Array<AlertCreateParams.AlertSpecifier>;
+
+  /**
    * For threshold notifications of type `usage_threshold_reached`, specifies which
    * billable metric to track the usage for.
    */
@@ -228,6 +235,48 @@ export interface AlertCreateParams {
 }
 
 export namespace AlertCreateParams {
+  export interface AlertSpecifier {
+    /**
+     * A list of custom field filters for notification types that support advanced
+     * filtering
+     */
+    custom_field_filters?: Array<AlertSpecifier.CustomFieldFilter>;
+
+    /**
+     * If provided, the specifier will not apply to balances that matches the inclusion
+     * criteria and any of the excluding values.
+     */
+    exclude?: Array<AlertSpecifier.Exclude>;
+  }
+
+  export namespace AlertSpecifier {
+    export interface CustomFieldFilter {
+      entity: 'Contract' | 'Commit' | 'ContractCredit' | 'ContractCreditOrCommit';
+
+      key: string;
+
+      value?: string;
+    }
+
+    export interface Exclude {
+      /**
+       * A list of custom field filters for notification types that support advanced
+       * filtering
+       */
+      custom_field_filters?: Array<Exclude.CustomFieldFilter>;
+    }
+
+    export namespace Exclude {
+      export interface CustomFieldFilter {
+        entity: 'Contract' | 'Commit' | 'ContractCredit' | 'ContractCreditOrCommit';
+
+        key: string;
+
+        value: string;
+      }
+    }
+  }
+
   export interface CustomFieldFilter {
     entity: 'Contract' | 'Commit' | 'ContractCredit' | 'ContractCreditOrCommit';
 
