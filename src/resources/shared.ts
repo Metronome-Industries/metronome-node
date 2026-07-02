@@ -531,9 +531,6 @@ export interface Contract {
    */
   custom_fields?: { [key: string]: string };
 
-  /**
-   * The billing provider configuration associated with a contract.
-   */
   customer_billing_provider_configuration?: Contract.CustomerBillingProviderConfiguration;
 
   /**
@@ -642,12 +639,18 @@ export namespace Contract {
     }
   }
 
-  /**
-   * The billing provider configuration associated with a contract.
-   */
   export interface CustomerBillingProviderConfiguration {
+    /**
+     * ID of this configuration; can be provided as the
+     * billing_provider_configuration_id when creating a contract.
+     */
+    id: string;
+
     archived_at: string | null;
 
+    /**
+     * The billing provider set for this configuration.
+     */
     billing_provider:
       | 'aws_marketplace'
       | 'stripe'
@@ -659,15 +662,29 @@ export namespace Contract {
       | 'gcp_marketplace'
       | 'metronome';
 
-    delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
-
-    id?: string;
-
     /**
      * Configuration for the billing provider. The structure of this object is specific
      * to the billing provider.
      */
-    configuration?: { [key: string]: unknown };
+    configuration: { [key: string]: unknown };
+
+    customer_id: string;
+
+    /**
+     * The method to use for delivering invoices to this customer.
+     */
+    delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+
+    /**
+     * Configuration for the delivery method. The structure of this object is specific
+     * to the delivery method.
+     */
+    delivery_method_configuration: { [key: string]: unknown };
+
+    /**
+     * ID of the delivery method to use for this customer.
+     */
+    delivery_method_id: string;
   }
 
   export interface SpendTracker {
@@ -729,6 +746,12 @@ export interface ContractV2 {
 
   archived_at?: string;
 
+  /**
+   * The schedule of billing provider configuration changes on the contract, ordered
+   * by effective_at ascending.
+   */
+  billing_provider_configuration_schedule?: Array<ContractV2.BillingProviderConfigurationSchedule>;
+
   credits?: Array<ContractV2.Credit>;
 
   /**
@@ -736,9 +759,6 @@ export interface ContractV2 {
    */
   custom_fields?: { [key: string]: string };
 
-  /**
-   * This field's availability is dependent on your client's configuration.
-   */
   customer_billing_provider_configuration?: ContractV2.CustomerBillingProviderConfiguration;
 
   /**
@@ -801,6 +821,12 @@ export interface ContractV2 {
    * This field's availability is dependent on your client's configuration.
    */
   reseller_royalties?: Array<ContractV2.ResellerRoyalty>;
+
+  /**
+   * The schedule of revenue system configuration changes on the contract, ordered by
+   * effective_at ascending.
+   */
+  revenue_system_configuration_schedule?: Array<ContractV2.RevenueSystemConfigurationSchedule>;
 
   /**
    * This field's availability is dependent on your client's configuration.
@@ -1298,6 +1324,71 @@ export namespace ContractV2 {
     frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
   }
 
+  export interface BillingProviderConfigurationSchedule {
+    billing_provider_configuration: BillingProviderConfigurationSchedule.BillingProviderConfiguration;
+
+    /**
+     * The date this billing provider configuration became or becomes active.
+     */
+    effective_at: string;
+
+    /**
+     * The date this billing provider configuration is superseded by the next entry.
+     * Null for the last entry in the schedule.
+     */
+    effective_until?: string;
+  }
+
+  export namespace BillingProviderConfigurationSchedule {
+    export interface BillingProviderConfiguration {
+      /**
+       * ID of this configuration; can be provided as the
+       * billing_provider_configuration_id when creating a contract.
+       */
+      id: string;
+
+      archived_at: string | null;
+
+      /**
+       * The billing provider set for this configuration.
+       */
+      billing_provider:
+        | 'aws_marketplace'
+        | 'stripe'
+        | 'netsuite'
+        | 'custom'
+        | 'azure_marketplace'
+        | 'quickbooks_online'
+        | 'workday'
+        | 'gcp_marketplace'
+        | 'metronome';
+
+      /**
+       * Configuration for the billing provider. The structure of this object is specific
+       * to the billing provider.
+       */
+      configuration: { [key: string]: unknown };
+
+      customer_id: string;
+
+      /**
+       * The method to use for delivering invoices to this customer.
+       */
+      delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+
+      /**
+       * Configuration for the delivery method. The structure of this object is specific
+       * to the delivery method.
+       */
+      delivery_method_configuration: { [key: string]: unknown };
+
+      /**
+       * ID of the delivery method to use for this customer.
+       */
+      delivery_method_id: string;
+    }
+  }
+
   export interface Credit {
     id: string;
 
@@ -1523,15 +1614,18 @@ export namespace ContractV2 {
     }
   }
 
-  /**
-   * This field's availability is dependent on your client's configuration.
-   */
   export interface CustomerBillingProviderConfiguration {
     /**
-     * ID of Customer's billing provider configuration.
+     * ID of this configuration; can be provided as the
+     * billing_provider_configuration_id when creating a contract.
      */
     id: string;
 
+    archived_at: string | null;
+
+    /**
+     * The billing provider set for this configuration.
+     */
     billing_provider:
       | 'aws_marketplace'
       | 'stripe'
@@ -1543,7 +1637,29 @@ export namespace ContractV2 {
       | 'gcp_marketplace'
       | 'metronome';
 
+    /**
+     * Configuration for the billing provider. The structure of this object is specific
+     * to the billing provider.
+     */
+    configuration: { [key: string]: unknown };
+
+    customer_id: string;
+
+    /**
+     * The method to use for delivering invoices to this customer.
+     */
     delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+
+    /**
+     * Configuration for the delivery method. The structure of this object is specific
+     * to the delivery method.
+     */
+    delivery_method_configuration: { [key: string]: unknown };
+
+    /**
+     * ID of the delivery method to use for this customer.
+     */
+    delivery_method_id: string;
   }
 
   /**
@@ -2013,6 +2129,61 @@ export namespace ContractV2 {
       gcp_offer_id?: string;
 
       reseller_contract_value?: number;
+    }
+  }
+
+  export interface RevenueSystemConfigurationSchedule {
+    /**
+     * The date this revenue system configuration became or becomes active.
+     */
+    effective_at: string;
+
+    revenue_system_configuration: RevenueSystemConfigurationSchedule.RevenueSystemConfiguration;
+
+    /**
+     * The date this revenue system configuration is superseded by the next entry. Null
+     * for the last entry in the schedule.
+     */
+    effective_until?: string;
+  }
+
+  export namespace RevenueSystemConfigurationSchedule {
+    export interface RevenueSystemConfiguration {
+      /**
+       * ID of the revenue system configuration.
+       */
+      id: string;
+
+      /**
+       * Configuration for the revenue system. The structure of this object is specific
+       * to the provider.
+       */
+      configuration: { [key: string]: unknown };
+
+      customer_id: string;
+
+      /**
+       * ID of the delivery method used for this customer configuration.
+       */
+      delivery_method_id: string;
+
+      /**
+       * The revenue system provider (e.g. netsuite).
+       */
+      provider: 'netsuite';
+
+      archived_at?: string | null;
+
+      /**
+       * The method to use for delivering data to the revenue system.
+       */
+      delivery_method?: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+
+      /**
+       * Configuration for the delivery method. The structure of this object is specific
+       * to the delivery method.
+       */
+      delivery_method_configuration?: { [key: string]: unknown };
     }
   }
 

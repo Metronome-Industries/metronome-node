@@ -3963,7 +3963,7 @@ export namespace ContractEditParams {
       /**
        * When the billing provider update will take effect.
        */
-      effective_at: 'START_OF_CURRENT_PERIOD';
+      effective_at: 'START_OF_CURRENT_PERIOD' | 'START_OF_NEXT_PERIOD';
     }
   }
 
@@ -5196,7 +5196,7 @@ export namespace ContractEditParams {
       /**
        * When the revenue system configuration update will take effect.
        */
-      effective_at: 'START_OF_CURRENT_PERIOD';
+      effective_at: 'START_OF_CURRENT_PERIOD' | 'START_OF_NEXT_PERIOD';
     }
   }
 
