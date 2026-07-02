@@ -824,9 +824,6 @@ export namespace ContractCreateResponse {
        */
       custom_fields?: { [key: string]: string };
 
-      /**
-       * The billing provider configuration associated with the contract.
-       */
       customer_billing_provider_configuration?: Contract.CustomerBillingProviderConfiguration;
 
       ending_before?: string;
@@ -918,13 +915,19 @@ export namespace ContractCreateResponse {
         frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
       }
 
-      /**
-       * The billing provider configuration associated with the contract.
-       */
       export interface CustomerBillingProviderConfiguration {
-        id?: string;
+        /**
+         * ID of this configuration; can be provided as the
+         * billing_provider_configuration_id when creating a contract.
+         */
+        id: string;
 
-        billing_provider?:
+        archived_at: string | null;
+
+        /**
+         * The billing provider set for this configuration.
+         */
+        billing_provider:
           | 'aws_marketplace'
           | 'stripe'
           | 'netsuite'
@@ -935,7 +938,29 @@ export namespace ContractCreateResponse {
           | 'gcp_marketplace'
           | 'metronome';
 
-        delivery_method?: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+        /**
+         * Configuration for the billing provider. The structure of this object is specific
+         * to the billing provider.
+         */
+        configuration: { [key: string]: unknown };
+
+        customer_id: string;
+
+        /**
+         * The method to use for delivering invoices to this customer.
+         */
+        delivery_method: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
+
+        /**
+         * Configuration for the delivery method. The structure of this object is specific
+         * to the delivery method.
+         */
+        delivery_method_configuration: { [key: string]: unknown };
+
+        /**
+         * ID of the delivery method to use for this customer.
+         */
+        delivery_method_id: string;
       }
 
       /**
