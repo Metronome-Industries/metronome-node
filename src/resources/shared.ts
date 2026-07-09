@@ -1294,7 +1294,7 @@ export namespace ContractV2 {
 
     to_contract_id: string;
 
-    type: 'SUPERSEDE' | 'RENEWAL';
+    type: 'RENEWAL';
   }
 
   export interface UsageFilter {
@@ -2471,7 +2471,7 @@ export namespace ContractWithoutAmendments {
 
     to_contract_id: string;
 
-    type: 'SUPERSEDE' | 'RENEWAL';
+    type: 'RENEWAL';
   }
 
   export interface UsageStatementSchedule {
