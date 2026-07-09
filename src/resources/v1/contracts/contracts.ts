@@ -893,7 +893,7 @@ export namespace ContractCreateResponse {
 
         to_contract_id: string;
 
-        type: 'SUPERSEDE' | 'RENEWAL';
+        type: 'RENEWAL';
       }
 
       export interface UsageFilter {
@@ -3335,7 +3335,7 @@ export namespace ContractCreateParams {
     /**
      * This field's available values may vary based on your client's configuration.
      */
-    type: 'SUPERSEDE' | 'RENEWAL';
+    type: 'RENEWAL';
 
     future_invoice_behavior?: Transition.FutureInvoiceBehavior;
   }
