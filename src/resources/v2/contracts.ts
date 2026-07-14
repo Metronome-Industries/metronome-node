@@ -3957,7 +3957,7 @@ export namespace ContractEditParams {
         | 'gcp_marketplace'
         | 'metronome';
 
-      billing_provider_configuration_id?: string;
+      billing_provider_configuration_id?: string | null;
 
       delivery_method?: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
     }
@@ -5198,7 +5198,7 @@ export namespace ContractEditParams {
        */
       provider?: 'netsuite';
 
-      revenue_system_configuration_id?: string;
+      revenue_system_configuration_id?: string | null;
     }
 
     export interface Schedule {
