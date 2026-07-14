@@ -31,16 +31,13 @@ export class Dashboards extends APIResource {
    *
    * - Dashboard types: Choose from `invoices`, `usage`, or `commits_and_credits`
    * - Customization options:
-   *   - `dashboard_options`: Configure dashboard behavior. For the invoices
-   *     dashboard, supported keys include: `show_zero_usage_line_items`
-   *     ("true"/"false"), `hide_voided_invoices` ("true"/"false"), `contract_id`
-   *     (UUID, filters invoices by contract), `invoice_type` ("USAGE" or
-   *     "SCHEDULED", filters by invoice type), `invoice_status_filter` ("VOID",
-   *     "FINALIZED", "DRAFT", "FINALIZED_AND_DRAFT", or "ALL"), and
-   *     `billable_status_filter` ("BILLABLE", "UNBILLABLE", or "ALL")
+   *   - `dashboard_options`: Configure dashboard behavior. Supported for the
+   *     invoices dashboard only. Available keys include:
+   *     `show_zero_usage_line_items` ("true"/"false"), `contract_id` (UUID, filters
+   *     invoices by contract), `invoice_type` ("USAGE" or "SCHEDULED", filters by
+   *     invoice type), and `invoice_status_filter` ("VOID", "FINALIZED", "DRAFT",
+   *     "FINALIZED_AND_DRAFT", or "ALL")
    *   - `color_overrides`: Match your brand's color palette
-   *   - `bm_group_key_overrides`: Customize how dimensions are displayed (for the
-   *     usage embeddable dashboard)
    * - Iframe implementation: Embed the returned URL directly in an iframe element
    * - Responsive design: Dashboards automatically adapt to container dimensions
    *
@@ -50,22 +47,12 @@ export class Dashboards extends APIResource {
    *   await client.v1.dashboards.getEmbeddableURL({
    *     customer_id: '4db51251-61de-4bfe-b9ce-495e244f3491',
    *     dashboard: 'invoices',
-   *     bm_group_key_overrides: [
-   *       {
-   *         group_key_name: 'tenant_id',
-   *         display_name: 'Org ID',
-   *         value_display_names: {
-   *           '48ecb18f358f': 'Cluster EU',
-   *           e358f3ce242d: 'Cluster APAC',
-   *         },
-   *       },
-   *     ],
    *     color_overrides: [
    *       { name: 'Gray_dark', value: '#ff0000' },
    *     ],
    *     dashboard_options: [
    *       { key: 'show_zero_usage_line_items', value: 'false' },
-   *       { key: 'hide_voided_invoices', value: 'true' },
+   *       { key: 'invoice_status_filter', value: 'FINALIZED' },
    *     ],
    *   });
    * ```
@@ -170,10 +157,22 @@ export namespace DashboardGetEmbeddableURLParams {
     /**
      * The option key name
      */
-    key: string;
+    key:
+      | 'show_zero_usage_line_items'
+      | 'contract_id'
+      | 'invoice_type'
+      | 'invoice_status_filter'
+      | 'hide_voided_invoices'
+      | 'billable_status_filter'
+      | 'hide_grant_name'
+      | 'credit_ledger_credit_type_id';
 
     /**
-     * The option value
+     * The option value. For show_zero_usage_line_items: "true" or "false" (default
+     * "false"). For contract_id: a UUID filtering invoices to a specific contract. For
+     * invoice_type: "USAGE" or "SCHEDULED". For invoice_status_filter: "VOID",
+     * "FINALIZED", "DRAFT", "FINALIZED_AND_DRAFT", or "ALL". For hide_voided_invoices
+     * (deprecated): "true" or "false".
      */
     value: string;
   }
