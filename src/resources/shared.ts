@@ -1325,7 +1325,7 @@ export namespace ContractV2 {
   }
 
   export interface BillingProviderConfigurationSchedule {
-    billing_provider_configuration: BillingProviderConfigurationSchedule.BillingProviderConfiguration;
+    billing_provider_configuration: BillingProviderConfigurationSchedule.BillingProviderConfiguration | null;
 
     /**
      * The date this billing provider configuration became or becomes active.
@@ -2140,7 +2140,7 @@ export namespace ContractV2 {
      */
     effective_at: string;
 
-    revenue_system_configuration: RevenueSystemConfigurationSchedule.RevenueSystemConfiguration;
+    revenue_system_configuration: RevenueSystemConfigurationSchedule.RevenueSystemConfiguration | null;
 
     /**
      * The date this revenue system configuration is superseded by the next entry. Null
