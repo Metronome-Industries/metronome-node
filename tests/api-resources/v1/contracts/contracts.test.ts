@@ -8,6 +8,51 @@ const client = new Metronome({
 });
 
 describe('resource contracts', () => {
+  test('retrieve: only required params', async () => {
+    const responsePromise = client.v1.contracts.retrieve({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieve: required and optional params', async () => {
+    const response = await client.v1.contracts.retrieve({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      include_balance: true,
+      include_ledgers: true,
+    });
+  });
+
+  test('list: only required params', async () => {
+    const responsePromise = client.v1.contracts.list({ customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('list: required and optional params', async () => {
+    const response = await client.v1.contracts.list({
+      customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+      covering_date: '2019-12-27T18:11:19.117Z',
+      include_archived: true,
+      include_balance: true,
+      include_ledgers: true,
+      starting_at: '2019-12-27T18:11:19.117Z',
+    });
+  });
+
   test('create: only required params', async () => {
     const responsePromise = client.v1.contracts.create({
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
@@ -478,7 +523,7 @@ describe('resource contracts', () => {
       total_contract_value: 0,
       transition: {
         from_contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-        type: 'SUPERSEDE',
+        type: 'RENEWAL',
         future_invoice_behavior: { trueup: 'REMOVE' },
       },
       uniqueness_key: 'x',
@@ -493,81 +538,6 @@ describe('resource contracts', () => {
         day: 'FIRST_OF_MONTH',
         invoice_generation_starting_at: '2019-12-27T18:11:19.117Z',
       },
-    });
-  });
-
-  test('retrieve: only required params', async () => {
-    const responsePromise = client.v1.contracts.retrieve({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieve: required and optional params', async () => {
-    const response = await client.v1.contracts.retrieve({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      include_balance: true,
-      include_ledgers: true,
-    });
-  });
-
-  test('list: only required params', async () => {
-    const responsePromise = client.v1.contracts.list({ customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: required and optional params', async () => {
-    const response = await client.v1.contracts.list({
-      customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
-      covering_date: '2019-12-27T18:11:19.117Z',
-      include_archived: true,
-      include_balance: true,
-      include_ledgers: true,
-      starting_at: '2019-12-27T18:11:19.117Z',
-    });
-  });
-
-  test('addManualBalanceEntry: only required params', async () => {
-    const responsePromise = client.v1.contracts.addManualBalanceEntry({
-      id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
-      amount: -1000,
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      reason: 'Reason for entry',
-      segment_id: '66368e29-3f97-4d15-a6e9-120897f0070a',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('addManualBalanceEntry: required and optional params', async () => {
-    const response = await client.v1.contracts.addManualBalanceEntry({
-      id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
-      amount: -1000,
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      reason: 'Reason for entry',
-      segment_id: '66368e29-3f97-4d15-a6e9-120897f0070a',
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      per_group_amounts: { foo: 0 },
-      timestamp: '2019-12-27T18:11:19.117Z',
     });
   });
 
@@ -835,6 +805,251 @@ describe('resource contracts', () => {
     });
   });
 
+  test('setUsageFilter: only required params', async () => {
+    const responsePromise = client.v1.contracts.setUsageFilter({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      group_key: 'business_subscription_id',
+      group_values: ['ID-1', 'ID-2'],
+      starting_at: '2020-01-01T00:00:00.000Z',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('setUsageFilter: required and optional params', async () => {
+    const response = await client.v1.contracts.setUsageFilter({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      group_key: 'business_subscription_id',
+      group_values: ['ID-1', 'ID-2'],
+      starting_at: '2020-01-01T00:00:00.000Z',
+    });
+  });
+
+  test('addManualBalanceEntry: only required params', async () => {
+    const responsePromise = client.v1.contracts.addManualBalanceEntry({
+      id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+      amount: -1000,
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      reason: 'Reason for entry',
+      segment_id: '66368e29-3f97-4d15-a6e9-120897f0070a',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('addManualBalanceEntry: required and optional params', async () => {
+    const response = await client.v1.contracts.addManualBalanceEntry({
+      id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+      amount: -1000,
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      reason: 'Reason for entry',
+      segment_id: '66368e29-3f97-4d15-a6e9-120897f0070a',
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      per_group_amounts: { foo: 0 },
+      timestamp: '2019-12-27T18:11:19.117Z',
+    });
+  });
+
+  test('updateEndDate: only required params', async () => {
+    const responsePromise = client.v1.contracts.updateEndDate({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('updateEndDate: required and optional params', async () => {
+    const response = await client.v1.contracts.updateEndDate({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      allow_ending_before_finalized_invoice: true,
+      ending_before: '2020-01-01T00:00:00.000Z',
+    });
+  });
+
+  test('retrieveRateSchedule: only required params', async () => {
+    const responsePromise = client.v1.contracts.retrieveRateSchedule({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieveRateSchedule: required and optional params', async () => {
+    const response = await client.v1.contracts.retrieveRateSchedule({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      limit: 1,
+      next_page: 'next_page',
+      at: '2020-01-01T00:00:00.000Z',
+      selectors: [
+        {
+          billing_frequency: 'MONTHLY',
+          partial_pricing_group_values: { region: 'us-west-2', cloud: 'aws' },
+          pricing_group_values: { foo: 'string' },
+          product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
+          product_tags: ['string'],
+        },
+      ],
+    });
+  });
+
+  test('listBalances: only required params', async () => {
+    const responsePromise = client.v1.contracts.listBalances({
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listBalances: required and optional params', async () => {
+    const response = await client.v1.contracts.listBalances({
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+      covering_date: '2019-12-27T18:11:19.117Z',
+      effective_before: '2019-12-27T18:11:19.117Z',
+      exclude_zero_balances: true,
+      include_archived: true,
+      include_balance: true,
+      include_contract_balances: true,
+      include_ledgers: true,
+      limit: 1,
+      next_page: 'next_page',
+      starting_at: '2019-12-27T18:11:19.117Z',
+    });
+  });
+
+  test('listSeatBalances: only required params', async () => {
+    const responsePromise = client.v1.contracts.listSeatBalances({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listSeatBalances: required and optional params', async () => {
+    const response = await client.v1.contracts.listSeatBalances({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      covering_date: '2024-03-01T00:00:00.000Z',
+      cursor: 'cursor',
+      effective_before: '2019-12-27T18:11:19.117Z',
+      include_credits_and_commits: true,
+      include_ledgers: true,
+      limit: 25,
+      seat_ids: ['string'],
+      skip_missing_seat_ids: true,
+      starting_at: '2019-12-27T18:11:19.117Z',
+      subscription_ids: ['8deed800-1b7a-495d-a207-6c52bac54dc9'],
+    });
+  });
+
+  test('getNetBalance: only required params', async () => {
+    const responsePromise = client.v1.contracts.getNetBalance({
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('getNetBalance: required and optional params', async () => {
+    const response = await client.v1.contracts.getNetBalance({
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+      filters: [
+        {
+          balance_types: ['CREDIT'],
+          custom_fields: { campaign: 'free-trial' },
+          ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+        },
+        {
+          balance_types: ['PREPAID_COMMIT', 'POSTPAID_COMMIT'],
+          custom_fields: { campaign: 'signup-promotion' },
+          ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+        },
+      ],
+      invoice_inclusion_mode: 'FINALIZED',
+    });
+  });
+
+  test('scheduleProServicesInvoice: only required params', async () => {
+    const responsePromise = client.v1.contracts.scheduleProServicesInvoice({
+      contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      customer_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      issued_at: '2019-12-27T18:11:19.117Z',
+      line_items: [{ professional_service_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('scheduleProServicesInvoice: required and optional params', async () => {
+    const response = await client.v1.contracts.scheduleProServicesInvoice({
+      contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      customer_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      issued_at: '2019-12-27T18:11:19.117Z',
+      line_items: [
+        {
+          professional_service_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          amendment_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          amount: 0,
+          metadata: 'metadata',
+          netsuite_invoice_billing_end: '2019-12-27T18:11:19.117Z',
+          netsuite_invoice_billing_start: '2019-12-27T18:11:19.117Z',
+          quantity: 0,
+          unit_price: 0,
+        },
+      ],
+      netsuite_invoice_header_end: '2019-12-27T18:11:19.117Z',
+      netsuite_invoice_header_start: '2019-12-27T18:11:19.117Z',
+    });
+  });
+
   test('createHistoricalInvoices: only required params', async () => {
     const responsePromise = client.v1.contracts.createHistoricalInvoices({
       invoices: [
@@ -901,9 +1116,11 @@ describe('resource contracts', () => {
     });
   });
 
-  test('getNetBalance: only required params', async () => {
-    const responsePromise = client.v1.contracts.getNetBalance({
+  test('retrieveSubscriptionQuantityHistory: only required params', async () => {
+    const responsePromise = client.v1.contracts.retrieveSubscriptionQuantityHistory({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -914,23 +1131,11 @@ describe('resource contracts', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('getNetBalance: required and optional params', async () => {
-    const response = await client.v1.contracts.getNetBalance({
+  test('retrieveSubscriptionQuantityHistory: required and optional params', async () => {
+    const response = await client.v1.contracts.retrieveSubscriptionQuantityHistory({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
-      filters: [
-        {
-          balance_types: ['CREDIT'],
-          custom_fields: { campaign: 'free-trial' },
-          ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
-        },
-        {
-          balance_types: ['PREPAID_COMMIT', 'POSTPAID_COMMIT'],
-          custom_fields: { campaign: 'signup-promotion' },
-          ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
-        },
-      ],
-      invoice_inclusion_mode: 'FINALIZED',
+      subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
     });
   });
 
@@ -959,211 +1164,6 @@ describe('resource contracts', () => {
       ending_before: '2019-12-27T18:11:19.117Z',
       limit: 10,
       starting_at: '2019-12-27T18:11:19.117Z',
-    });
-  });
-
-  test('listBalances: only required params', async () => {
-    const responsePromise = client.v1.contracts.listBalances({
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('listBalances: required and optional params', async () => {
-    const response = await client.v1.contracts.listBalances({
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
-      covering_date: '2019-12-27T18:11:19.117Z',
-      effective_before: '2019-12-27T18:11:19.117Z',
-      exclude_zero_balances: true,
-      include_archived: true,
-      include_balance: true,
-      include_contract_balances: true,
-      include_ledgers: true,
-      limit: 1,
-      next_page: 'next_page',
-      starting_at: '2019-12-27T18:11:19.117Z',
-    });
-  });
-
-  test('listSeatBalances: only required params', async () => {
-    const responsePromise = client.v1.contracts.listSeatBalances({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('listSeatBalances: required and optional params', async () => {
-    const response = await client.v1.contracts.listSeatBalances({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      covering_date: '2024-03-01T00:00:00.000Z',
-      cursor: 'cursor',
-      effective_before: '2019-12-27T18:11:19.117Z',
-      include_credits_and_commits: true,
-      include_ledgers: true,
-      limit: 25,
-      seat_ids: ['string'],
-      skip_missing_seat_ids: true,
-      starting_at: '2019-12-27T18:11:19.117Z',
-      subscription_ids: ['8deed800-1b7a-495d-a207-6c52bac54dc9'],
-    });
-  });
-
-  test('retrieveRateSchedule: only required params', async () => {
-    const responsePromise = client.v1.contracts.retrieveRateSchedule({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieveRateSchedule: required and optional params', async () => {
-    const response = await client.v1.contracts.retrieveRateSchedule({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      limit: 1,
-      next_page: 'next_page',
-      at: '2020-01-01T00:00:00.000Z',
-      selectors: [
-        {
-          billing_frequency: 'MONTHLY',
-          partial_pricing_group_values: { region: 'us-west-2', cloud: 'aws' },
-          pricing_group_values: { foo: 'string' },
-          product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
-          product_tags: ['string'],
-        },
-      ],
-    });
-  });
-
-  test('retrieveSubscriptionQuantityHistory: only required params', async () => {
-    const responsePromise = client.v1.contracts.retrieveSubscriptionQuantityHistory({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieveSubscriptionQuantityHistory: required and optional params', async () => {
-    const response = await client.v1.contracts.retrieveSubscriptionQuantityHistory({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      subscription_id: '1a824d53-bde6-4d82-96d7-6347ff227d5c',
-    });
-  });
-
-  test('scheduleProServicesInvoice: only required params', async () => {
-    const responsePromise = client.v1.contracts.scheduleProServicesInvoice({
-      contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      customer_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      issued_at: '2019-12-27T18:11:19.117Z',
-      line_items: [{ professional_service_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' }],
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('scheduleProServicesInvoice: required and optional params', async () => {
-    const response = await client.v1.contracts.scheduleProServicesInvoice({
-      contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      customer_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      issued_at: '2019-12-27T18:11:19.117Z',
-      line_items: [
-        {
-          professional_service_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-          amendment_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-          amount: 0,
-          metadata: 'metadata',
-          netsuite_invoice_billing_end: '2019-12-27T18:11:19.117Z',
-          netsuite_invoice_billing_start: '2019-12-27T18:11:19.117Z',
-          quantity: 0,
-          unit_price: 0,
-        },
-      ],
-      netsuite_invoice_header_end: '2019-12-27T18:11:19.117Z',
-      netsuite_invoice_header_start: '2019-12-27T18:11:19.117Z',
-    });
-  });
-
-  test('setUsageFilter: only required params', async () => {
-    const responsePromise = client.v1.contracts.setUsageFilter({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      group_key: 'business_subscription_id',
-      group_values: ['ID-1', 'ID-2'],
-      starting_at: '2020-01-01T00:00:00.000Z',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('setUsageFilter: required and optional params', async () => {
-    const response = await client.v1.contracts.setUsageFilter({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      group_key: 'business_subscription_id',
-      group_values: ['ID-1', 'ID-2'],
-      starting_at: '2020-01-01T00:00:00.000Z',
-    });
-  });
-
-  test('updateEndDate: only required params', async () => {
-    const responsePromise = client.v1.contracts.updateEndDate({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('updateEndDate: required and optional params', async () => {
-    const response = await client.v1.contracts.updateEndDate({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      allow_ending_before_finalized_invoice: true,
-      ending_before: '2020-01-01T00:00:00.000Z',
     });
   });
 });

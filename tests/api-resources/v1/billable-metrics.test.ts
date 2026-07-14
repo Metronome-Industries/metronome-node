@@ -51,6 +51,21 @@ describe('resource billableMetrics', () => {
     });
   });
 
+  test('archive: only required params', async () => {
+    const responsePromise = client.v1.billableMetrics.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('archive: required and optional params', async () => {
+    const response = await client.v1.billableMetrics.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
+  });
+
   test('retrieve: only required params', async () => {
     const responsePromise = client.v1.billableMetrics.retrieve({
       billable_metric_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
@@ -93,20 +108,5 @@ describe('resource billableMetrics', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
-  });
-
-  test('archive: only required params', async () => {
-    const responsePromise = client.v1.billableMetrics.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('archive: required and optional params', async () => {
-    const response = await client.v1.billableMetrics.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
   });
 });

@@ -11,29 +11,6 @@ import { path } from '../../../internal/utils/path';
  */
 export class BillingConfig extends APIResource {
   /**
-   * Set the billing configuration for a given customer. This is a Plans (deprecated)
-   * endpoint. New clients should implement using Contracts.
-   *
-   * @example
-   * ```ts
-   * await client.v1.customers.billingConfig.create({
-   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-   *   billing_provider_type: 'stripe',
-   *   billing_provider_customer_id: 'cus_AJ6y20bjkOOayM',
-   *   stripe_collection_method: 'charge_automatically',
-   * });
-   * ```
-   */
-  create(params: BillingConfigCreateParams, options?: RequestOptions): APIPromise<void> {
-    const { customer_id, billing_provider_type, ...body } = params;
-    return this._client.post(path`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  /**
    * Fetch the billing configuration for the given customer. This is a Plans
    * (deprecated) endpoint. New clients should implement using Contracts.
    *
@@ -55,6 +32,29 @@ export class BillingConfig extends APIResource {
       path`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`,
       options,
     );
+  }
+
+  /**
+   * Set the billing configuration for a given customer. This is a Plans (deprecated)
+   * endpoint. New clients should implement using Contracts.
+   *
+   * @example
+   * ```ts
+   * await client.v1.customers.billingConfig.create({
+   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   billing_provider_type: 'stripe',
+   *   billing_provider_customer_id: 'cus_AJ6y20bjkOOayM',
+   *   stripe_collection_method: 'charge_automatically',
+   * });
+   * ```
+   */
+  create(params: BillingConfigCreateParams, options?: RequestOptions): APIPromise<void> {
+    const { customer_id, billing_provider_type, ...body } = params;
+    return this._client.post(path`/v1/customers/${customer_id}/billing-config/${billing_provider_type}`, {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   /**
@@ -162,6 +162,24 @@ export namespace BillingConfigRetrieveResponse {
   }
 }
 
+export interface BillingConfigRetrieveParams {
+  customer_id: string;
+
+  /**
+   * The billing provider (e.g. stripe)
+   */
+  billing_provider_type:
+    | 'aws_marketplace'
+    | 'stripe'
+    | 'netsuite'
+    | 'custom'
+    | 'azure_marketplace'
+    | 'quickbooks_online'
+    | 'workday'
+    | 'gcp_marketplace'
+    | 'metronome';
+}
+
 export interface BillingConfigCreateParams {
   /**
    * Path param
@@ -244,24 +262,6 @@ export interface BillingConfigCreateParams {
     | 'manually_charge_payment_intent';
 }
 
-export interface BillingConfigRetrieveParams {
-  customer_id: string;
-
-  /**
-   * The billing provider (e.g. stripe)
-   */
-  billing_provider_type:
-    | 'aws_marketplace'
-    | 'stripe'
-    | 'netsuite'
-    | 'custom'
-    | 'azure_marketplace'
-    | 'quickbooks_online'
-    | 'workday'
-    | 'gcp_marketplace'
-    | 'metronome';
-}
-
 export interface BillingConfigDeleteParams {
   customer_id: string;
 
@@ -283,8 +283,8 @@ export interface BillingConfigDeleteParams {
 export declare namespace BillingConfig {
   export {
     type BillingConfigRetrieveResponse as BillingConfigRetrieveResponse,
-    type BillingConfigCreateParams as BillingConfigCreateParams,
     type BillingConfigRetrieveParams as BillingConfigRetrieveParams,
+    type BillingConfigCreateParams as BillingConfigCreateParams,
     type BillingConfigDeleteParams as BillingConfigDeleteParams,
   };
 }

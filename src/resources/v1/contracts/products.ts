@@ -12,27 +12,6 @@ import { RequestOptions } from '../../../internal/request-options';
  */
 export class Products extends APIResource {
   /**
-   * Create a new product object. Products in Metronome represent your company's
-   * individual product or service offerings. A Product can be thought of as the
-   * basic unit of a line item on the invoice. This is analogous to SKUs or items in
-   * an ERP system. Give the product a meaningful name as they will appear on
-   * customer invoices.
-   *
-   * @example
-   * ```ts
-   * const product = await client.v1.contracts.products.create({
-   *   name: 'My Product',
-   *   type: 'USAGE',
-   *   billable_metric_id:
-   *     '13117714-3f05-48e5-a6e9-a66093f13b4d',
-   * });
-   * ```
-   */
-  create(body: ProductCreateParams, options?: RequestOptions): APIPromise<ProductCreateResponse> {
-    return this._client.post('/v1/contract-pricing/products/create', { body, ...options });
-  }
-
-  /**
    * Retrieve a product by its ID, including all metadata and historical changes.
    *
    * @example
@@ -44,32 +23,6 @@ export class Products extends APIResource {
    */
   retrieve(body: ProductRetrieveParams, options?: RequestOptions): APIPromise<ProductRetrieveResponse> {
     return this._client.post('/v1/contract-pricing/products/get', { body, ...options });
-  }
-
-  /**
-   * Updates a product's configuration while maintaining billing continuity for
-   * active customers. Use this endpoint to modify product names, metrics, pricing
-   * rules, and composite settings without disrupting ongoing billing cycles. Changes
-   * are scheduled using the starting_at timestamp, which must be on an hour
-   * boundary—set future dates to schedule updates ahead of time, or past dates for
-   * retroactive changes. Returns the updated product ID upon success.
-   *
-   * ### Usage guidance:
-   *
-   * - Product type cannot be changed after creation. For incorrect product types,
-   *   create a new product and archive the original instead.
-   *
-   * @example
-   * ```ts
-   * const product = await client.v1.contracts.products.update({
-   *   product_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-   *   starting_at: '2020-01-01T00:00:00.000Z',
-   *   name: 'My Updated Product',
-   * });
-   * ```
-   */
-  update(body: ProductUpdateParams, options?: RequestOptions): APIPromise<ProductUpdateResponse> {
-    return this._client.post('/v1/contract-pricing/products/update', { body, ...options });
   }
 
   /**
@@ -98,6 +51,53 @@ export class Products extends APIResource {
       method: 'post',
       ...options,
     });
+  }
+
+  /**
+   * Create a new product object. Products in Metronome represent your company's
+   * individual product or service offerings. A Product can be thought of as the
+   * basic unit of a line item on the invoice. This is analogous to SKUs or items in
+   * an ERP system. Give the product a meaningful name as they will appear on
+   * customer invoices.
+   *
+   * @example
+   * ```ts
+   * const product = await client.v1.contracts.products.create({
+   *   name: 'My Product',
+   *   type: 'USAGE',
+   *   billable_metric_id:
+   *     '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   * });
+   * ```
+   */
+  create(body: ProductCreateParams, options?: RequestOptions): APIPromise<ProductCreateResponse> {
+    return this._client.post('/v1/contract-pricing/products/create', { body, ...options });
+  }
+
+  /**
+   * Updates a product's configuration while maintaining billing continuity for
+   * active customers. Use this endpoint to modify product names, metrics, pricing
+   * rules, and composite settings without disrupting ongoing billing cycles. Changes
+   * are scheduled using the starting_at timestamp, which must be on an hour
+   * boundary—set future dates to schedule updates ahead of time, or past dates for
+   * retroactive changes. Returns the updated product ID upon success.
+   *
+   * ### Usage guidance:
+   *
+   * - Product type cannot be changed after creation. For incorrect product types,
+   *   create a new product and archive the original instead.
+   *
+   * @example
+   * ```ts
+   * const product = await client.v1.contracts.products.update({
+   *   product_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   starting_at: '2020-01-01T00:00:00.000Z',
+   *   name: 'My Updated Product',
+   * });
+   * ```
+   */
+  update(body: ProductUpdateParams, options?: RequestOptions): APIPromise<ProductUpdateResponse> {
+    return this._client.post('/v1/contract-pricing/products/update', { body, ...options });
   }
 
   /**
@@ -419,6 +419,18 @@ export interface ProductArchiveResponse {
   data: Shared.ID;
 }
 
+export interface ProductRetrieveParams {
+  id: string;
+}
+
+export interface ProductListParams extends CursorPageParams {
+  /**
+   * Body param: Filter options for the product list. If not provided, defaults to
+   * not archived.
+   */
+  archive_filter?: 'ARCHIVED' | 'NOT_ARCHIVED' | 'ALL';
+}
+
 export interface ProductCreateParams {
   /**
    * displayed on invoices
@@ -514,10 +526,6 @@ export interface ProductCreateParams {
   sql_breakdown_granularity?: 'HOUR' | 'SERVICE_PERIOD';
 
   tags?: Array<string>;
-}
-
-export interface ProductRetrieveParams {
-  id: string;
 }
 
 export interface ProductUpdateParams {
@@ -630,14 +638,6 @@ export interface ProductUpdateParams {
   tags?: Array<string>;
 }
 
-export interface ProductListParams extends CursorPageParams {
-  /**
-   * Body param: Filter options for the product list. If not provided, defaults to
-   * not archived.
-   */
-  archive_filter?: 'ARCHIVED' | 'NOT_ARCHIVED' | 'ALL';
-}
-
 export interface ProductArchiveParams {
   /**
    * ID of the product to be archived
@@ -656,10 +656,10 @@ export declare namespace Products {
     type ProductListResponse as ProductListResponse,
     type ProductArchiveResponse as ProductArchiveResponse,
     type ProductListResponsesCursorPage as ProductListResponsesCursorPage,
-    type ProductCreateParams as ProductCreateParams,
     type ProductRetrieveParams as ProductRetrieveParams,
-    type ProductUpdateParams as ProductUpdateParams,
     type ProductListParams as ProductListParams,
+    type ProductCreateParams as ProductCreateParams,
+    type ProductUpdateParams as ProductUpdateParams,
     type ProductArchiveParams as ProductArchiveParams,
   };
 }

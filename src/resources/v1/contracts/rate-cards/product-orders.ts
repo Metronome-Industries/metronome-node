@@ -12,6 +12,30 @@ export class ProductOrders extends APIResource {
   /**
    * The ordering of products on a rate card determines the order in which the
    * products will appear on customers' invoices. Use this endpoint to set the order
+   * of products on the rate card.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.rateCards.productOrders.set({
+   *     product_order: [
+   *       '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *       'b086f2f4-9851-4466-9ca0-30d53e6a42ac',
+   *     ],
+   *     rate_card_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   });
+   * ```
+   */
+  set(body: ProductOrderSetParams, options?: RequestOptions): APIPromise<ProductOrderSetResponse> {
+    return this._client.post('/v1/contract-pricing/rate-cards/setRateCardProductsOrder', {
+      body,
+      ...options,
+    });
+  }
+
+  /**
+   * The ordering of products on a rate card determines the order in which the
+   * products will appear on customers' invoices. Use this endpoint to set the order
    * of specific products on the rate card by moving them relative to their current
    * location.
    *
@@ -36,30 +60,6 @@ export class ProductOrders extends APIResource {
   update(body: ProductOrderUpdateParams, options?: RequestOptions): APIPromise<ProductOrderUpdateResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/moveRateCardProducts', { body, ...options });
   }
-
-  /**
-   * The ordering of products on a rate card determines the order in which the
-   * products will appear on customers' invoices. Use this endpoint to set the order
-   * of products on the rate card.
-   *
-   * @example
-   * ```ts
-   * const response =
-   *   await client.v1.contracts.rateCards.productOrders.set({
-   *     product_order: [
-   *       '13117714-3f05-48e5-a6e9-a66093f13b4d',
-   *       'b086f2f4-9851-4466-9ca0-30d53e6a42ac',
-   *     ],
-   *     rate_card_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-   *   });
-   * ```
-   */
-  set(body: ProductOrderSetParams, options?: RequestOptions): APIPromise<ProductOrderSetResponse> {
-    return this._client.post('/v1/contract-pricing/rate-cards/setRateCardProductsOrder', {
-      body,
-      ...options,
-    });
-  }
 }
 
 export interface ProductOrderUpdateResponse {
@@ -68,6 +68,15 @@ export interface ProductOrderUpdateResponse {
 
 export interface ProductOrderSetResponse {
   data: Shared.ID;
+}
+
+export interface ProductOrderSetParams {
+  product_order: Array<string>;
+
+  /**
+   * ID of the rate card to update
+   */
+  rate_card_id: string;
 }
 
 export interface ProductOrderUpdateParams {
@@ -93,20 +102,11 @@ export namespace ProductOrderUpdateParams {
   }
 }
 
-export interface ProductOrderSetParams {
-  product_order: Array<string>;
-
-  /**
-   * ID of the rate card to update
-   */
-  rate_card_id: string;
-}
-
 export declare namespace ProductOrders {
   export {
     type ProductOrderUpdateResponse as ProductOrderUpdateResponse,
     type ProductOrderSetResponse as ProductOrderSetResponse,
-    type ProductOrderUpdateParams as ProductOrderUpdateParams,
     type ProductOrderSetParams as ProductOrderSetParams,
+    type ProductOrderUpdateParams as ProductOrderUpdateParams,
   };
 }

@@ -41,6 +41,93 @@ export class RateCards extends APIResource {
   namedSchedules: NamedSchedulesAPI.NamedSchedules = new NamedSchedulesAPI.NamedSchedules(this._client);
 
   /**
+   * A rate card defines the prices that you charge for your products. Rate cards
+   * support scheduled changes over time, to allow you to easily roll out pricing
+   * changes and new product launches across your customer base. Use this endpoint to
+   * understand the rate schedule `starting_at` a given date, optionally filtering
+   * the list of rates returned based on product id or pricing group values. For
+   * example, you may want to display a schedule of upcoming price changes for a
+   * given product in your product experience - use this endpoint to fetch that
+   * information from its source of truth in Metronome.
+   *
+   * If you want to understand the rates for a specific customer's contract,
+   * inclusive of contract-level overrides, use the `getContractRateSchedule`
+   * endpoint.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.contracts.rateCards.retrieveRateSchedule({
+   *     rate_card_id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
+   *     starting_at: '2024-01-01T00:00:00.000Z',
+   *     selectors: [
+   *       {
+   *         product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
+   *         partial_pricing_group_values: {
+   *           region: 'us-west-2',
+   *           cloud: 'aws',
+   *         },
+   *       },
+   *     ],
+   *   });
+   * ```
+   */
+  retrieveRateSchedule(
+    params: RateCardRetrieveRateScheduleParams,
+    options?: RequestOptions,
+  ): APIPromise<RateCardRetrieveRateScheduleResponse> {
+    const { limit, next_page, ...body } = params;
+    return this._client.post('/v1/contract-pricing/rate-cards/getRateSchedule', {
+      query: { limit, next_page },
+      body,
+      ...options,
+    });
+  }
+
+  /**
+   * Return details for a specific rate card including name, description, and
+   * aliases. This endpoint does not return rates - use the dedicated getRates or
+   * getRateSchedule endpoints to understand the rates on a rate card.
+   *
+   * @example
+   * ```ts
+   * const rateCard =
+   *   await client.v1.contracts.rateCards.retrieve({
+   *     id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
+   *   });
+   * ```
+   */
+  retrieve(body: RateCardRetrieveParams, options?: RequestOptions): APIPromise<RateCardRetrieveResponse> {
+    return this._client.post('/v1/contract-pricing/rate-cards/get', { body, ...options });
+  }
+
+  /**
+   * List all rate cards. Returns rate card IDs, names, descriptions, aliases, and
+   * other details. To view the rates associated with a given rate card, use the
+   * getRates or getRateSchedule endpoints.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const rateCardListResponse of client.v1.contracts.rateCards.list()) {
+   *   // ...
+   * }
+   * ```
+   */
+  list(
+    params: RateCardListParams | null | undefined = undefined,
+    options?: RequestOptions,
+  ): PagePromise<RateCardListResponsesCursorPage, RateCardListResponse> {
+    const { limit, next_page, body } = params ?? {};
+    return this._client.getAPIList('/v1/contract-pricing/rate-cards/list', CursorPage<RateCardListResponse>, {
+      query: { limit, next_page },
+      body: body,
+      method: 'post',
+      ...options,
+    });
+  }
+
+  /**
    * In Metronome, the rate card is the central location for your pricing. Rate cards
    * were built with new product launches and pricing changes in mind - you can
    * update your products and pricing in one place, and that change will be
@@ -97,23 +184,6 @@ export class RateCards extends APIResource {
    */
   create(body: RateCardCreateParams, options?: RequestOptions): APIPromise<RateCardCreateResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/create', { body, ...options });
-  }
-
-  /**
-   * Return details for a specific rate card including name, description, and
-   * aliases. This endpoint does not return rates - use the dedicated getRates or
-   * getRateSchedule endpoints to understand the rates on a rate card.
-   *
-   * @example
-   * ```ts
-   * const rateCard =
-   *   await client.v1.contracts.rateCards.retrieve({
-   *     id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
-   *   });
-   * ```
-   */
-  retrieve(body: RateCardRetrieveParams, options?: RequestOptions): APIPromise<RateCardRetrieveResponse> {
-    return this._client.post('/v1/contract-pricing/rate-cards/get', { body, ...options });
   }
 
   /**
@@ -186,32 +256,6 @@ export class RateCards extends APIResource {
   }
 
   /**
-   * List all rate cards. Returns rate card IDs, names, descriptions, aliases, and
-   * other details. To view the rates associated with a given rate card, use the
-   * getRates or getRateSchedule endpoints.
-   *
-   * @example
-   * ```ts
-   * // Automatically fetches more pages as needed.
-   * for await (const rateCardListResponse of client.v1.contracts.rateCards.list()) {
-   *   // ...
-   * }
-   * ```
-   */
-  list(
-    params: RateCardListParams | null | undefined = undefined,
-    options?: RequestOptions,
-  ): PagePromise<RateCardListResponsesCursorPage, RateCardListResponse> {
-    const { limit, next_page, body } = params ?? {};
-    return this._client.getAPIList('/v1/contract-pricing/rate-cards/list', CursorPage<RateCardListResponse>, {
-      query: { limit, next_page },
-      body: body,
-      method: 'post',
-      ...options,
-    });
-  }
-
-  /**
    * Permanently disable a rate card by archiving it, preventing use in new contracts
    * while preserving existing contract pricing. Use this when retiring old pricing
    * models, consolidating rate cards, or removing outdated pricing structures.
@@ -228,50 +272,6 @@ export class RateCards extends APIResource {
    */
   archive(body: RateCardArchiveParams, options?: RequestOptions): APIPromise<RateCardArchiveResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/archive', { body, ...options });
-  }
-
-  /**
-   * A rate card defines the prices that you charge for your products. Rate cards
-   * support scheduled changes over time, to allow you to easily roll out pricing
-   * changes and new product launches across your customer base. Use this endpoint to
-   * understand the rate schedule `starting_at` a given date, optionally filtering
-   * the list of rates returned based on product id or pricing group values. For
-   * example, you may want to display a schedule of upcoming price changes for a
-   * given product in your product experience - use this endpoint to fetch that
-   * information from its source of truth in Metronome.
-   *
-   * If you want to understand the rates for a specific customer's contract,
-   * inclusive of contract-level overrides, use the `getContractRateSchedule`
-   * endpoint.
-   *
-   * @example
-   * ```ts
-   * const response =
-   *   await client.v1.contracts.rateCards.retrieveRateSchedule({
-   *     rate_card_id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
-   *     starting_at: '2024-01-01T00:00:00.000Z',
-   *     selectors: [
-   *       {
-   *         product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
-   *         partial_pricing_group_values: {
-   *           region: 'us-west-2',
-   *           cloud: 'aws',
-   *         },
-   *       },
-   *     ],
-   *   });
-   * ```
-   */
-  retrieveRateSchedule(
-    params: RateCardRetrieveRateScheduleParams,
-    options?: RequestOptions,
-  ): APIPromise<RateCardRetrieveRateScheduleResponse> {
-    const { limit, next_page, ...body } = params;
-    return this._client.post('/v1/contract-pricing/rate-cards/getRateSchedule', {
-      query: { limit, next_page },
-      body,
-      ...options,
-    });
   }
 }
 
@@ -412,100 +412,6 @@ export namespace RateCardRetrieveRateScheduleResponse {
   }
 }
 
-export interface RateCardCreateParams {
-  /**
-   * Used only in UI/API. It is not exposed to end customers.
-   */
-  name: string;
-
-  /**
-   * Reference this alias when creating a contract. If the same alias is assigned to
-   * multiple rate cards, it will reference the rate card to which it was most
-   * recently assigned. It is not exposed to end customers.
-   */
-  aliases?: Array<RateCardCreateParams.Alias>;
-
-  /**
-   * Required when using custom pricing units in rates.
-   */
-  credit_type_conversions?: Array<RateCardCreateParams.CreditTypeConversion>;
-
-  /**
-   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
-   */
-  custom_fields?: { [key: string]: string };
-
-  description?: string;
-
-  /**
-   * The Metronome ID of the credit type to associate with the rate card, defaults to
-   * USD (cents) if not passed.
-   */
-  fiat_credit_type_id?: string;
-}
-
-export namespace RateCardCreateParams {
-  export interface Alias {
-    name: string;
-
-    ending_before?: string;
-
-    starting_at?: string;
-  }
-
-  export interface CreditTypeConversion {
-    custom_credit_type_id: string;
-
-    fiat_per_custom_credit: number;
-  }
-}
-
-export interface RateCardRetrieveParams {
-  id: string;
-}
-
-export interface RateCardUpdateParams {
-  /**
-   * ID of the rate card to update
-   */
-  rate_card_id: string;
-
-  /**
-   * Reference this alias when creating a contract. If the same alias is assigned to
-   * multiple rate cards, it will reference the rate card to which it was most
-   * recently assigned. It is not exposed to end customers.
-   */
-  aliases?: Array<RateCardUpdateParams.Alias>;
-
-  description?: string;
-
-  /**
-   * Used only in UI/API. It is not exposed to end customers.
-   */
-  name?: string;
-}
-
-export namespace RateCardUpdateParams {
-  export interface Alias {
-    name: string;
-
-    ending_before?: string;
-
-    starting_at?: string;
-  }
-}
-
-export interface RateCardListParams extends CursorPageParams {
-  /**
-   * Body param
-   */
-  body?: unknown;
-}
-
-export interface RateCardArchiveParams {
-  id: string;
-}
-
 export interface RateCardRetrieveRateScheduleParams {
   /**
    * Body param: ID of the rate card to get the schedule for
@@ -568,6 +474,100 @@ export namespace RateCardRetrieveRateScheduleParams {
   }
 }
 
+export interface RateCardRetrieveParams {
+  id: string;
+}
+
+export interface RateCardListParams extends CursorPageParams {
+  /**
+   * Body param
+   */
+  body?: unknown;
+}
+
+export interface RateCardCreateParams {
+  /**
+   * Used only in UI/API. It is not exposed to end customers.
+   */
+  name: string;
+
+  /**
+   * Reference this alias when creating a contract. If the same alias is assigned to
+   * multiple rate cards, it will reference the rate card to which it was most
+   * recently assigned. It is not exposed to end customers.
+   */
+  aliases?: Array<RateCardCreateParams.Alias>;
+
+  /**
+   * Required when using custom pricing units in rates.
+   */
+  credit_type_conversions?: Array<RateCardCreateParams.CreditTypeConversion>;
+
+  /**
+   * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+   */
+  custom_fields?: { [key: string]: string };
+
+  description?: string;
+
+  /**
+   * The Metronome ID of the credit type to associate with the rate card, defaults to
+   * USD (cents) if not passed.
+   */
+  fiat_credit_type_id?: string;
+}
+
+export namespace RateCardCreateParams {
+  export interface Alias {
+    name: string;
+
+    ending_before?: string;
+
+    starting_at?: string;
+  }
+
+  export interface CreditTypeConversion {
+    custom_credit_type_id: string;
+
+    fiat_per_custom_credit: number;
+  }
+}
+
+export interface RateCardUpdateParams {
+  /**
+   * ID of the rate card to update
+   */
+  rate_card_id: string;
+
+  /**
+   * Reference this alias when creating a contract. If the same alias is assigned to
+   * multiple rate cards, it will reference the rate card to which it was most
+   * recently assigned. It is not exposed to end customers.
+   */
+  aliases?: Array<RateCardUpdateParams.Alias>;
+
+  description?: string;
+
+  /**
+   * Used only in UI/API. It is not exposed to end customers.
+   */
+  name?: string;
+}
+
+export namespace RateCardUpdateParams {
+  export interface Alias {
+    name: string;
+
+    ending_before?: string;
+
+    starting_at?: string;
+  }
+}
+
+export interface RateCardArchiveParams {
+  id: string;
+}
+
 RateCards.ProductOrders = ProductOrders;
 RateCards.Rates = Rates;
 RateCards.NamedSchedules = NamedSchedules;
@@ -581,20 +581,20 @@ export declare namespace RateCards {
     type RateCardArchiveResponse as RateCardArchiveResponse,
     type RateCardRetrieveRateScheduleResponse as RateCardRetrieveRateScheduleResponse,
     type RateCardListResponsesCursorPage as RateCardListResponsesCursorPage,
-    type RateCardCreateParams as RateCardCreateParams,
-    type RateCardRetrieveParams as RateCardRetrieveParams,
-    type RateCardUpdateParams as RateCardUpdateParams,
-    type RateCardListParams as RateCardListParams,
-    type RateCardArchiveParams as RateCardArchiveParams,
     type RateCardRetrieveRateScheduleParams as RateCardRetrieveRateScheduleParams,
+    type RateCardRetrieveParams as RateCardRetrieveParams,
+    type RateCardListParams as RateCardListParams,
+    type RateCardCreateParams as RateCardCreateParams,
+    type RateCardUpdateParams as RateCardUpdateParams,
+    type RateCardArchiveParams as RateCardArchiveParams,
   };
 
   export {
     ProductOrders as ProductOrders,
     type ProductOrderUpdateResponse as ProductOrderUpdateResponse,
     type ProductOrderSetResponse as ProductOrderSetResponse,
-    type ProductOrderUpdateParams as ProductOrderUpdateParams,
     type ProductOrderSetParams as ProductOrderSetParams,
+    type ProductOrderUpdateParams as ProductOrderUpdateParams,
   };
 
   export {

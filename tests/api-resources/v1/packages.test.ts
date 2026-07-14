@@ -409,23 +409,6 @@ describe('resource packages', () => {
     ).rejects.toThrow(Metronome.NotFoundError);
   });
 
-  test('archive: only required params', async () => {
-    const responsePromise = client.v1.packages.archive({
-      package_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('archive: required and optional params', async () => {
-    const response = await client.v1.packages.archive({ package_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' });
-  });
-
   test('listContractsOnPackage: only required params', async () => {
     const responsePromise = client.v1.packages.listContractsOnPackage({
       package_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
@@ -448,5 +431,22 @@ describe('resource packages', () => {
       include_archived: true,
       starting_at: '2019-12-27T18:11:19.117Z',
     });
+  });
+
+  test('archive: only required params', async () => {
+    const responsePromise = client.v1.packages.archive({
+      package_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('archive: required and optional params', async () => {
+    const response = await client.v1.packages.archive({ package_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' });
   });
 });

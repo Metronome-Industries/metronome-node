@@ -9,6 +9,24 @@ import { RequestOptions } from '../../internal/request-options';
  */
 export class Invoices extends APIResource {
   /**
+   * Permanently cancels an invoice by setting its status to voided, preventing
+   * collection and removing it from customer billing. Use this to correct billing
+   * errors, cancel incorrect charges, or handle disputed invoices that should not be
+   * collected. Returns the voided invoice ID with the status change applied
+   * immediately to stop any payment processing.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.invoices.void({
+   *   id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+   * });
+   * ```
+   */
+  void(body: InvoiceVoidParams, options?: RequestOptions): APIPromise<InvoiceVoidResponse> {
+    return this._client.post('/v1/invoices/void', { body, ...options });
+  }
+
+  /**
    * This endpoint regenerates a voided invoice and recalculates the invoice based on
    * up-to-date rates, available balances, and other fees regardless of the billing
    * period.
@@ -38,24 +56,6 @@ export class Invoices extends APIResource {
   regenerate(body: InvoiceRegenerateParams, options?: RequestOptions): APIPromise<InvoiceRegenerateResponse> {
     return this._client.post('/v1/invoices/regenerate', { body, ...options });
   }
-
-  /**
-   * Permanently cancels an invoice by setting its status to voided, preventing
-   * collection and removing it from customer billing. Use this to correct billing
-   * errors, cancel incorrect charges, or handle disputed invoices that should not be
-   * collected. Returns the voided invoice ID with the status change applied
-   * immediately to stop any payment processing.
-   *
-   * @example
-   * ```ts
-   * const response = await client.v1.invoices.void({
-   *   id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
-   * });
-   * ```
-   */
-  void(body: InvoiceVoidParams, options?: RequestOptions): APIPromise<InvoiceVoidResponse> {
-    return this._client.post('/v1/invoices/void', { body, ...options });
-  }
 }
 
 export interface InvoiceRegenerateResponse {
@@ -81,16 +81,16 @@ export namespace InvoiceVoidResponse {
   }
 }
 
-export interface InvoiceRegenerateParams {
+export interface InvoiceVoidParams {
   /**
-   * The invoice id to regenerate
+   * The invoice id to void
    */
   id: string;
 }
 
-export interface InvoiceVoidParams {
+export interface InvoiceRegenerateParams {
   /**
-   * The invoice id to void
+   * The invoice id to regenerate
    */
   id: string;
 }
@@ -99,7 +99,7 @@ export declare namespace Invoices {
   export {
     type InvoiceRegenerateResponse as InvoiceRegenerateResponse,
     type InvoiceVoidResponse as InvoiceVoidResponse,
-    type InvoiceRegenerateParams as InvoiceRegenerateParams,
     type InvoiceVoidParams as InvoiceVoidParams,
+    type InvoiceRegenerateParams as InvoiceRegenerateParams,
   };
 }

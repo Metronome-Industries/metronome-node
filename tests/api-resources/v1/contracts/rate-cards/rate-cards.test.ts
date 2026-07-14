@@ -8,6 +8,82 @@ const client = new Metronome({
 });
 
 describe('resource rateCards', () => {
+  test('retrieveRateSchedule: only required params', async () => {
+    const responsePromise = client.v1.contracts.rateCards.retrieveRateSchedule({
+      rate_card_id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
+      starting_at: '2024-01-01T00:00:00.000Z',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieveRateSchedule: required and optional params', async () => {
+    const response = await client.v1.contracts.rateCards.retrieveRateSchedule({
+      rate_card_id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
+      starting_at: '2024-01-01T00:00:00.000Z',
+      limit: 1,
+      next_page: 'next_page',
+      ending_before: '2019-12-27T18:11:19.117Z',
+      selectors: [
+        {
+          billing_frequency: 'MONTHLY',
+          partial_pricing_group_values: { region: 'us-west-2', cloud: 'aws' },
+          pricing_group_values: { foo: 'string' },
+          product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
+        },
+      ],
+    });
+  });
+
+  test('retrieve: only required params', async () => {
+    const responsePromise = client.v1.contracts.rateCards.retrieve({
+      id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieve: required and optional params', async () => {
+    const response = await client.v1.contracts.rateCards.retrieve({
+      id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
+    });
+  });
+
+  test('list', async () => {
+    const responsePromise = client.v1.contracts.rateCards.list();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.v1.contracts.rateCards.list(
+        {
+          limit: 1,
+          next_page: 'next_page',
+          body: {},
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Metronome.NotFoundError);
+  });
+
   test('create: only required params', async () => {
     const responsePromise = client.v1.contracts.rateCards.create({ name: 'My Rate Card' });
     const rawResponse = await responsePromise.asResponse();
@@ -35,25 +111,6 @@ describe('resource rateCards', () => {
       custom_fields: { foo: 'string' },
       description: 'My Rate Card Description',
       fiat_credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
-    });
-  });
-
-  test('retrieve: only required params', async () => {
-    const responsePromise = client.v1.contracts.rateCards.retrieve({
-      id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieve: required and optional params', async () => {
-    const response = await client.v1.contracts.rateCards.retrieve({
-      id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
     });
   });
 
@@ -85,31 +142,6 @@ describe('resource rateCards', () => {
     });
   });
 
-  test('list', async () => {
-    const responsePromise = client.v1.contracts.rateCards.list();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.v1.contracts.rateCards.list(
-        {
-          limit: 1,
-          next_page: 'next_page',
-          body: {},
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Metronome.NotFoundError);
-  });
-
   test('archive: only required params', async () => {
     const responsePromise = client.v1.contracts.rateCards.archive({
       id: '12b21470-4570-40df-8998-449d0b0bc52f',
@@ -126,38 +158,6 @@ describe('resource rateCards', () => {
   test('archive: required and optional params', async () => {
     const response = await client.v1.contracts.rateCards.archive({
       id: '12b21470-4570-40df-8998-449d0b0bc52f',
-    });
-  });
-
-  test('retrieveRateSchedule: only required params', async () => {
-    const responsePromise = client.v1.contracts.rateCards.retrieveRateSchedule({
-      rate_card_id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
-      starting_at: '2024-01-01T00:00:00.000Z',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieveRateSchedule: required and optional params', async () => {
-    const response = await client.v1.contracts.rateCards.retrieveRateSchedule({
-      rate_card_id: 'f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe',
-      starting_at: '2024-01-01T00:00:00.000Z',
-      limit: 1,
-      next_page: 'next_page',
-      ending_before: '2019-12-27T18:11:19.117Z',
-      selectors: [
-        {
-          billing_frequency: 'MONTHLY',
-          partial_pricing_group_values: { region: 'us-west-2', cloud: 'aws' },
-          pricing_group_values: { foo: 'string' },
-          product_id: 'd6300dbb-882e-4d2d-8dec-5125d16b65d0',
-        },
-      ],
     });
   });
 });
