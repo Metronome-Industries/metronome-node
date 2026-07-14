@@ -73,6 +73,9 @@ describe('resource rateCards', () => {
   test('update: required and optional params', async () => {
     const response = await client.v1.contracts.rateCards.update({
       rate_card_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      add_credit_type_conversions: [
+        { custom_credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', fiat_per_custom_credit: 0 },
+      ],
       aliases: [
         {
           name: 'name',
