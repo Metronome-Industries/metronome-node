@@ -6205,6 +6205,13 @@ export interface ContractEditCommitParams {
   access_schedule?: ContractEditCommitParams.AccessSchedule;
 
   /**
+   * Which contracts the customer-level commit applies to. If set to null, the commit
+   * applies to all of the customer's contracts. This field cannot be edited for
+   * POSTPAID commits or contract-level commits.
+   */
+  applicable_contract_ids?: Array<string> | null;
+
+  /**
    * Which products the commit applies to. If applicable_product_ids,
    * applicable_product_tags or specifiers are not provided, the commit applies to
    * all products.
@@ -6348,6 +6355,13 @@ export interface ContractEditCreditParams {
   customer_id: string;
 
   access_schedule?: ContractEditCreditParams.AccessSchedule;
+
+  /**
+   * Which contracts the customer-level credit applies to. If set to null, the credit
+   * applies to all of the customer's contracts. This field cannot be set on a
+   * contract-level credit.
+   */
+  applicable_contract_ids?: Array<string> | null;
 
   /**
    * Which products the credit applies to. If both applicable_product_ids and
