@@ -104,6 +104,11 @@ export interface Commit {
   contract?: Commit.Contract;
 
   /**
+   * The ratio of the amount paid for the commit to the amount of credit granted.
+   */
+  cost_basis?: number;
+
+  /**
    * The actor who created this commit. Omitted for system-generated commits such as
    * recurring commits, rollover commits, and threshold commits.
    */
@@ -906,6 +911,11 @@ export namespace ContractV2 {
     balance?: number;
 
     contract?: Commit.Contract;
+
+    /**
+     * The ratio of the amount paid for the commit to the amount of credit granted.
+     */
+    cost_basis?: number;
 
     /**
      * The actor who created this commit. Omitted for system-generated commits such as
