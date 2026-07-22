@@ -39,6 +39,8 @@ Types:
 - <code><a href="./src/resources/shared.ts">Tier</a></code>
 - <code><a href="./src/resources/shared.ts">UpdateBaseThresholdCommit</a></code>
 
+# Webhooks
+
 # V2
 
 ## Contracts
@@ -504,17 +506,3 @@ Methods:
 
 - <code title="post /v1/setUpBillingProvider">client.v1.settings.billingProviders.<a href="./src/resources/v1/settings/billing-providers.ts">create</a>({ ...params }) -> BillingProviderCreateResponse</code>
 - <code title="post /v1/listConfiguredBillingProviders">client.v1.settings.billingProviders.<a href="./src/resources/v1/settings/billing-providers.ts">list</a>({ ...params }) -> BillingProviderListResponse</code>
-
-# Payments
-
-Types:
-
-- <code><a href="./src/resources/payments.ts">PaymentListResponse</a></code>
-- <code><a href="./src/resources/payments.ts">PaymentAttemptResponse</a></code>
-- <code><a href="./src/resources/payments.ts">PaymentCancelResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/payments/list">client.payments.<a href="./src/resources/payments.ts">list</a>({ ...params }) -> PaymentListResponsesBodyCursorPage</code>
-- <code title="post /v1/payments/attempt">client.payments.<a href="./src/resources/payments.ts">attempt</a>({ ...params }) -> PaymentAttemptResponse</code>
-- <code title="post /v1/payments/cancel">client.payments.<a href="./src/resources/payments.ts">cancel</a>({ ...params }) -> PaymentCancelResponse</code>

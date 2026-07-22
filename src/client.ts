@@ -27,6 +27,7 @@ import {
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
+import { Webhooks } from './resources/webhooks';
 import { V1 } from './resources/v1/v1';
 import { V2 } from './resources/v2/v2';
 import { type Fetch } from './internal/builtin-types';
@@ -782,11 +783,11 @@ export class Metronome {
   static toFile = Uploads.toFile;
 
   webhooks: API.Webhooks = new API.Webhooks(this);
-
   v2: API.V2 = new API.V2(this);
   v1: API.V1 = new API.V1(this);
 }
 
+Metronome.Webhooks = Webhooks;
 Metronome.V2 = V2;
 Metronome.V1 = V1;
 
@@ -807,6 +808,8 @@ export declare namespace Metronome {
     type CursorPageWithoutLimitParams as CursorPageWithoutLimitParams,
     type CursorPageWithoutLimitResponse as CursorPageWithoutLimitResponse,
   };
+
+  export { Webhooks as Webhooks };
 
   export { V2 as V2 };
 
