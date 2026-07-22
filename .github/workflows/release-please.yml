@@ -1,0 +1,48 @@
+# Runs release-please on push to main to create/update release PRs and GitHub Releases.
+# Also re-runs when the release PR title is edited to pick up version overrides.
+# Built according to https://app.stainless.com/metronome/transition/docs/release
+#
+# Version override: edit the release PR title (e.g. "release: 5.0.0") and release-please
+# will re-run and update the PR with the new version.
+#
+# Required secret:
+#   RELEASE_PLEASE_TOKEN — fine-grained PAT with Contents:Read/Write and
+#   Pull requests:Read/Write on this repo. A PAT is needed (not GITHUB_TOKEN)
+#   because releases created by GITHUB_TOKEN don't trigger other workflows.
+
+name: Release Please
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [edited]
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    # Run on push to main, or when a release PR title is edited
+    if: >-
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.changes.title && startsWith(github.event.pull_request.title, 'release:'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Parse version from PR title
+        id: parse
+        if: github.event_name == 'pull_request'
+        run: |
+          title="${{ github.event.pull_request.title }}"
+          # Extract version from "release: X.Y.Z" format
+          version=$(echo "$title" | sed -n 's/^release: *\(.*\)$/\1/p')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Parsed version override: $version"
+
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          release-as: ${{ steps.parse.outputs.version || '' }}
