@@ -104,6 +104,11 @@ export interface Commit {
   contract?: Commit.Contract;
 
   /**
+   * The ratio of the amount paid for the commit to the amount of credit granted.
+   */
+  cost_basis?: number;
+
+  /**
    * The actor who created this commit. Omitted for system-generated commits such as
    * recurring commits, rollover commits, and threshold commits.
    */
@@ -908,6 +913,11 @@ export namespace ContractV2 {
     contract?: Commit.Contract;
 
     /**
+     * The ratio of the amount paid for the commit to the amount of credit granted.
+     */
+    cost_basis?: number;
+
+    /**
      * The actor who created this commit. Omitted for system-generated commits such as
      * recurring commits, rollover commits, and threshold commits.
      */
@@ -1294,7 +1304,7 @@ export namespace ContractV2 {
 
     to_contract_id: string;
 
-    type: 'SUPERSEDE' | 'RENEWAL';
+    type: 'RENEWAL';
   }
 
   export interface UsageFilter {
@@ -1325,7 +1335,7 @@ export namespace ContractV2 {
   }
 
   export interface BillingProviderConfigurationSchedule {
-    billing_provider_configuration: BillingProviderConfigurationSchedule.BillingProviderConfiguration;
+    billing_provider_configuration: BillingProviderConfigurationSchedule.BillingProviderConfiguration | null;
 
     /**
      * The date this billing provider configuration became or becomes active.
@@ -1837,7 +1847,8 @@ export namespace ContractV2 {
      * The commits will be created on the usage invoice frequency. If provided: - The
      * period defined in the duration will correspond to this frequency. - Commits will
      * be created aligned with the recurring commit's starting_at rather than the usage
-     * invoice dates.
+     * invoice dates. - Daily recurring commits have a limit of one per contract, and
+     * are unable to be created with seat-based subscriptions
      */
     recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
@@ -2020,7 +2031,8 @@ export namespace ContractV2 {
      * The commits will be created on the usage invoice frequency. If provided: - The
      * period defined in the duration will correspond to this frequency. - Commits will
      * be created aligned with the recurring commit's starting_at rather than the usage
-     * invoice dates.
+     * invoice dates. - Daily recurring commits have a limit of one per contract, and
+     * are unable to be created with seat-based subscriptions
      */
     recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
@@ -2138,7 +2150,7 @@ export namespace ContractV2 {
      */
     effective_at: string;
 
-    revenue_system_configuration: RevenueSystemConfigurationSchedule.RevenueSystemConfiguration;
+    revenue_system_configuration: RevenueSystemConfigurationSchedule.RevenueSystemConfiguration | null;
 
     /**
      * The date this revenue system configuration is superseded by the next entry. Null
@@ -2469,7 +2481,7 @@ export namespace ContractWithoutAmendments {
 
     to_contract_id: string;
 
-    type: 'SUPERSEDE' | 'RENEWAL';
+    type: 'RENEWAL';
   }
 
   export interface UsageStatementSchedule {
@@ -2569,7 +2581,8 @@ export namespace ContractWithoutAmendments {
      * The commits will be created on the usage invoice frequency. If provided: - The
      * period defined in the duration will correspond to this frequency. - Commits will
      * be created aligned with the recurring commit's starting_at rather than the usage
-     * invoice dates.
+     * invoice dates. - Daily recurring commits have a limit of one per contract, and
+     * are unable to be created with seat-based subscriptions
      */
     recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
@@ -2754,7 +2767,8 @@ export namespace ContractWithoutAmendments {
      * The commits will be created on the usage invoice frequency. If provided: - The
      * period defined in the duration will correspond to this frequency. - Commits will
      * be created aligned with the recurring commit's starting_at rather than the usage
-     * invoice dates.
+     * invoice dates. - Daily recurring commits have a limit of one per contract, and
+     * are unable to be created with seat-based subscriptions
      */
     recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 

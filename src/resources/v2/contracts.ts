@@ -682,7 +682,8 @@ export namespace ContractEditResponse {
          * The commits will be created on the usage invoice frequency. If provided: - The
          * period defined in the duration will correspond to this frequency. - Commits will
          * be created aligned with the recurring commit's starting_at rather than the usage
-         * invoice dates.
+         * invoice dates. - Daily recurring commits have a limit of one per contract, and
+         * are unable to be created with seat-based subscriptions
          */
         recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
@@ -865,7 +866,8 @@ export namespace ContractEditResponse {
          * The commits will be created on the usage invoice frequency. If provided: - The
          * period defined in the duration will correspond to this frequency. - Commits will
          * be created aligned with the recurring commit's starting_at rather than the usage
-         * invoice dates.
+         * invoice dates. - Daily recurring commits have a limit of one per contract, and
+         * are unable to be created with seat-based subscriptions
          */
         recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
@@ -2419,7 +2421,8 @@ export namespace ContractGetEditHistoryResponse {
        * The commits will be created on the usage invoice frequency. If provided: - The
        * period defined in the duration will correspond to this frequency. - Commits will
        * be created aligned with the recurring commit's starting_at rather than the usage
-       * invoice dates.
+       * invoice dates. - Daily recurring commits have a limit of one per contract, and
+       * are unable to be created with seat-based subscriptions
        */
       recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
@@ -2602,7 +2605,8 @@ export namespace ContractGetEditHistoryResponse {
        * The commits will be created on the usage invoice frequency. If provided: - The
        * period defined in the duration will correspond to this frequency. - Commits will
        * be created aligned with the recurring commit's starting_at rather than the usage
-       * invoice dates.
+       * invoice dates. - Daily recurring commits have a limit of one per contract, and
+       * are unable to be created with seat-based subscriptions
        */
       recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
@@ -3950,7 +3954,7 @@ export namespace ContractEditParams {
         | 'gcp_marketplace'
         | 'metronome';
 
-      billing_provider_configuration_id?: string;
+      billing_provider_configuration_id?: string | null;
 
       delivery_method?: 'direct_to_billing_provider' | 'aws_sqs' | 'tackle' | 'aws_sns';
     }
@@ -4801,7 +4805,8 @@ export namespace ContractEditParams {
      * The commits will be created on the usage invoice frequency. If provided: - The
      * period defined in the duration will correspond to this frequency. - Commits will
      * be created aligned with the recurring commit's starting_at rather than the usage
-     * invoice dates.
+     * invoice dates. - Daily recurring commits have a limit of one per contract, and
+     * are unable to be created with seat-based subscriptions
      */
     recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
@@ -5014,7 +5019,8 @@ export namespace ContractEditParams {
      * The commits will be created on the usage invoice frequency. If provided: - The
      * period defined in the duration will correspond to this frequency. - Commits will
      * be created aligned with the recurring commit's starting_at rather than the usage
-     * invoice dates.
+     * invoice dates. - Daily recurring commits have a limit of one per contract, and
+     * are unable to be created with seat-based subscriptions
      */
     recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
@@ -5189,7 +5195,7 @@ export namespace ContractEditParams {
        */
       provider?: 'netsuite';
 
-      revenue_system_configuration_id?: string;
+      revenue_system_configuration_id?: string | null;
     }
 
     export interface Schedule {
@@ -6196,6 +6202,13 @@ export interface ContractEditCommitParams {
   access_schedule?: ContractEditCommitParams.AccessSchedule;
 
   /**
+   * Which contracts the customer-level commit applies to. If set to null, the commit
+   * applies to all of the customer's contracts. This field cannot be edited for
+   * POSTPAID commits or contract-level commits.
+   */
+  applicable_contract_ids?: Array<string> | null;
+
+  /**
    * Which products the commit applies to. If applicable_product_ids,
    * applicable_product_tags or specifiers are not provided, the commit applies to
    * all products.
@@ -6339,6 +6352,13 @@ export interface ContractEditCreditParams {
   customer_id: string;
 
   access_schedule?: ContractEditCreditParams.AccessSchedule;
+
+  /**
+   * Which contracts the customer-level credit applies to. If set to null, the credit
+   * applies to all of the customer's contracts. This field cannot be set on a
+   * contract-level credit.
+   */
+  applicable_contract_ids?: Array<string> | null;
 
   /**
    * Which products the credit applies to. If both applicable_product_ids and

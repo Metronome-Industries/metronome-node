@@ -478,7 +478,7 @@ describe('resource contracts', () => {
       total_contract_value: 0,
       transition: {
         from_contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-        type: 'SUPERSEDE',
+        type: 'RENEWAL',
         future_invoice_behavior: { trueup: 'REMOVE' },
       },
       uniqueness_key: 'x',
