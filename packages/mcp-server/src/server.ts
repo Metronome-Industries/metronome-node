@@ -28,7 +28,7 @@ export const newMcpServer = async ({
   new McpServer(
     {
       name: 'metronome_sdk_api',
-      version: '3.9.0',
+      version: '3.10.0',
     },
     {
       instructions: await getInstructions({ stainlessApiKey, customInstructionsPath }),
