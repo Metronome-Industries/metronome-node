@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.10.1 (2026-07-24)
+
+Full Changelog: [v3.10.0...v3.10.1](https://github.com/Metronome-Industries/metronome-node/compare/v3.10.0...v3.10.1)
+
+### Chores
+
+* update tracking files for promote workflow ([205ae46](https://github.com/Metronome-Industries/metronome-node/commit/205ae46ec5f977428be4be90801c9df3bd9aefba))
+
 ## 3.10.0 (2026-07-22)
 
 Full Changelog: [v3.9.0...v3.10.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.9.0...v3.10.0)
