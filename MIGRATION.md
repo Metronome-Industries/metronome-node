@@ -185,16 +185,16 @@ If you were relying on anything that was only exported from `@metronome/sdk/core
 
 #### Resource classes
 
-Previously under certain circumstances it was possible to import resource classes like `Webhooks` directly from the root of the package. This was never valid at the type level and only worked in CommonJS files.
+Previously under certain circumstances it was possible to import resource classes like `V2` directly from the root of the package. This was never valid at the type level and only worked in CommonJS files.
 Now you must always either reference them as static class properties or import them directly from the files in which they are defined.
 
 ```typescript
 // Before
-const { Webhooks } = require('@metronome/sdk');
+const { V2 } = require('@metronome/sdk');
 
 // After
 const { Metronome } = require('@metronome/sdk');
-Metronome.Webhooks; // or import directly from @metronome/sdk/resources/webhooks
+Metronome.V2; // or import directly from @metronome/sdk/resources/v2/v2
 ```
 
 #### Cleaned up `uploads` exports

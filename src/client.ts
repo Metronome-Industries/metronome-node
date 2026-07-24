@@ -781,8 +781,6 @@ export class Metronome {
 
   static toFile = Uploads.toFile;
 
-  webhooks: API.Webhooks = new API.Webhooks(this);
-
   v2: API.V2 = new API.V2(this);
   v1: API.V1 = new API.V1(this);
 }

@@ -39,8 +39,6 @@ Types:
 - <code><a href="./src/resources/shared.ts">Tier</a></code>
 - <code><a href="./src/resources/shared.ts">UpdateBaseThresholdCommit</a></code>
 
-# Webhooks
-
 # V2
 
 ## Contracts

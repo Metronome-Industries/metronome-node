@@ -1,26 +1,5 @@
 # Changelog
 
-## 3.10.0 (2026-07-22)
-
-Full Changelog: [v3.9.0...v3.10.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.9.0...v3.10.0)
-
-### Features
-
-* [ORCH-2018] fixes type issues created from breaking gql changes ([88828d5](https://github.com/Metronome-Industries/metronome-node/commit/88828d57b9cc70d43c765d5956d5681981dfa60f))
-* Add add_credit_type_conversions field to update_rate_card ([46cee84](https://github.com/Metronome-Industries/metronome-node/commit/46cee84651469fa2a2e9586e1f2a8d4fa491f0d5))
-* Add cost_basis to commits ([1ff5569](https://github.com/Metronome-Industries/metronome-node/commit/1ff55690bb9283fb86b11bec0609634231b409fe))
-* Add daily recurring commit description to docs ([f8c0661](https://github.com/Metronome-Industries/metronome-node/commit/f8c0661d2a92edb9c42ce59cab7624a0a75e956a))
-* add stlc SDK generation workflow to api repo ([ebc8066](https://github.com/Metronome-Industries/metronome-node/commit/ebc8066c931547dcc71317b712b860c51ddeead5))
-* Docs: embeddable dashboard doc updates ([5543ec3](https://github.com/Metronome-Industries/metronome-node/commit/5543ec332a8ad40f71970b8c0613ec0afa6aa6db))
-* Kmd/remove supersede from contract transition ([9cbd75e](https://github.com/Metronome-Industries/metronome-node/commit/9cbd75ef1350c4e629142a4dec10ad1470d9638b))
-* Plumb applicable_contract_ids in edit customer commit ([f2ec444](https://github.com/Metronome-Industries/metronome-node/commit/f2ec4449d84c410c6e8c2b549b0d934d90db7942))
-* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([130adee](https://github.com/Metronome-Industries/metronome-node/commit/130adee546349b6ece3aabb6d72d38515f43b28e))
-
-
-### Bug Fixes
-
-* **ci:** bump @arethetypeswrong/cli to ^0.18.0 and run CI workflows on Node 24 ([59c6ed5](https://github.com/Metronome-Industries/metronome-node/commit/59c6ed54645fa45457a052f74ae0e319ed02489a))
-
 ## 3.9.0 (2026-07-02)
 
 Full Changelog: [v3.8.0...v3.9.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.8.0...v3.9.0)
