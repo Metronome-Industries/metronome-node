@@ -10,6 +10,47 @@ import { RequestOptions } from '../../internal/request-options';
  */
 export class Alerts extends APIResource {
   /**
+   * Permanently disable a threshold notification and remove it from active
+   * monitoring across all customers. Archived threshold notifications stop
+   * evaluating immediately and can optionally release their uniqueness key for reuse
+   * in future threshold notification configurations.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Decommission threshold notifications that are no longer needed
+   * - Clean up test or deprecated threshold notification configurations
+   * - Free up uniqueness keys for reuse with new threshold notifications
+   * - Stop threshold notification evaluations without losing historical
+   *   configuration data
+   * - Disable outdated monitoring rules during pricing model transitions
+   *
+   * ### Key response fields:
+   *
+   * - data: Object containing the archived threshold notification's ID
+   *
+   * ### Usage guidelines:
+   *
+   * - Irreversible for evaluation: Archived threshold notifications cannot be
+   *   re-enabled; create a new threshold notification to resume monitoring
+   * - Uniqueness key handling: Set `release_uniqueness_key` : `true` to reuse the
+   *   key in future threshold notifications
+   * - Immediate effect: Threshold notification evaluation stops instantly across all
+   *   customers
+   * - Historical preservation: Archive operation maintains threshold notification
+   *   history and configuration for compliance and auditing
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.alerts.archive({
+   *   id: '8deed800-1b7a-495d-a207-6c52bac54dc9',
+   * });
+   * ```
+   */
+  archive(body: AlertArchiveParams, options?: RequestOptions): APIPromise<AlertArchiveResponse> {
+    return this._client.post('/v1/alerts/archive', { body, ...options });
+  }
+
+  /**
    * Create a new threshold notification to monitor customer spending, balances, and
    * billing metrics in real-time. Metronome's notification system provides
    * industry-leading speed with immediate evaluation capabilities, enabling you to
@@ -71,47 +112,6 @@ export class Alerts extends APIResource {
   create(body: AlertCreateParams, options?: RequestOptions): APIPromise<AlertCreateResponse> {
     return this._client.post('/v1/alerts/create', { body, ...options });
   }
-
-  /**
-   * Permanently disable a threshold notification and remove it from active
-   * monitoring across all customers. Archived threshold notifications stop
-   * evaluating immediately and can optionally release their uniqueness key for reuse
-   * in future threshold notification configurations.
-   *
-   * ### Use this endpoint to:
-   *
-   * - Decommission threshold notifications that are no longer needed
-   * - Clean up test or deprecated threshold notification configurations
-   * - Free up uniqueness keys for reuse with new threshold notifications
-   * - Stop threshold notification evaluations without losing historical
-   *   configuration data
-   * - Disable outdated monitoring rules during pricing model transitions
-   *
-   * ### Key response fields:
-   *
-   * - data: Object containing the archived threshold notification's ID
-   *
-   * ### Usage guidelines:
-   *
-   * - Irreversible for evaluation: Archived threshold notifications cannot be
-   *   re-enabled; create a new threshold notification to resume monitoring
-   * - Uniqueness key handling: Set `release_uniqueness_key` : `true` to reuse the
-   *   key in future threshold notifications
-   * - Immediate effect: Threshold notification evaluation stops instantly across all
-   *   customers
-   * - Historical preservation: Archive operation maintains threshold notification
-   *   history and configuration for compliance and auditing
-   *
-   * @example
-   * ```ts
-   * const response = await client.v1.alerts.archive({
-   *   id: '8deed800-1b7a-495d-a207-6c52bac54dc9',
-   * });
-   * ```
-   */
-  archive(body: AlertArchiveParams, options?: RequestOptions): APIPromise<AlertArchiveResponse> {
-    return this._client.post('/v1/alerts/archive', { body, ...options });
-  }
 }
 
 export interface AlertCreateResponse {
@@ -120,6 +120,19 @@ export interface AlertCreateResponse {
 
 export interface AlertArchiveResponse {
   data: Shared.ID;
+}
+
+export interface AlertArchiveParams {
+  /**
+   * The Metronome ID of the threshold notification
+   */
+  id: string;
+
+  /**
+   * If true, resets the uniqueness key on this threshold notification so it can be
+   * re-used
+   */
+  release_uniqueness_key?: boolean;
 }
 
 export interface AlertCreateParams {
@@ -308,24 +321,11 @@ export namespace AlertCreateParams {
   }
 }
 
-export interface AlertArchiveParams {
-  /**
-   * The Metronome ID of the threshold notification
-   */
-  id: string;
-
-  /**
-   * If true, resets the uniqueness key on this threshold notification so it can be
-   * re-used
-   */
-  release_uniqueness_key?: boolean;
-}
-
 export declare namespace Alerts {
   export {
     type AlertCreateResponse as AlertCreateResponse,
     type AlertArchiveResponse as AlertArchiveResponse,
-    type AlertCreateParams as AlertCreateParams,
     type AlertArchiveParams as AlertArchiveParams,
+    type AlertCreateParams as AlertCreateParams,
   };
 }

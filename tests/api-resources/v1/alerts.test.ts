@@ -8,6 +8,24 @@ const client = new Metronome({
 });
 
 describe('resource alerts', () => {
+  test('archive: only required params', async () => {
+    const responsePromise = client.v1.alerts.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('archive: required and optional params', async () => {
+    const response = await client.v1.alerts.archive({
+      id: '8deed800-1b7a-495d-a207-6c52bac54dc9',
+      release_uniqueness_key: true,
+    });
+  });
+
   test('create: only required params', async () => {
     const responsePromise = client.v1.alerts.create({
       alert_type: 'spend_threshold_reached',
@@ -67,24 +85,6 @@ describe('resource alerts', () => {
       plan_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       seat_filter: { seat_group_key: 'seat_group_key', seat_group_value: 'seat_group_value' },
       uniqueness_key: 'x',
-    });
-  });
-
-  test('archive: only required params', async () => {
-    const responsePromise = client.v1.alerts.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('archive: required and optional params', async () => {
-    const response = await client.v1.alerts.archive({
-      id: '8deed800-1b7a-495d-a207-6c52bac54dc9',
-      release_uniqueness_key: true,
     });
   });
 });

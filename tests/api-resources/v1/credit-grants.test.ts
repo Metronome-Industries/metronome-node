@@ -49,6 +49,45 @@ describe('resource creditGrants', () => {
     });
   });
 
+  test('edit: only required params', async () => {
+    const responsePromise = client.v1.creditGrants.edit({ id: '9b85c1c1-5238-4f2a-a409-61412905e1e1' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('edit: required and optional params', async () => {
+    const response = await client.v1.creditGrants.edit({
+      id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+      credit_grant_type: 'credit_grant_type',
+      expires_at: '2022-04-01T00:00:00Z',
+      name: 'Acme Corp Promotional Credit Grant',
+    });
+  });
+
+  test('void: only required params', async () => {
+    const responsePromise = client.v1.creditGrants.void({ id: '9b85c1c1-5238-4f2a-a409-61412905e1e1' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('void: required and optional params', async () => {
+    const response = await client.v1.creditGrants.void({
+      id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+      release_uniqueness_key: true,
+      void_credit_purchase_invoice: true,
+    });
+  });
+
   test('list', async () => {
     const responsePromise = client.v1.creditGrants.list();
     const rawResponse = await responsePromise.asResponse();
@@ -78,26 +117,6 @@ describe('resource creditGrants', () => {
     ).rejects.toThrow(Metronome.NotFoundError);
   });
 
-  test('edit: only required params', async () => {
-    const responsePromise = client.v1.creditGrants.edit({ id: '9b85c1c1-5238-4f2a-a409-61412905e1e1' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('edit: required and optional params', async () => {
-    const response = await client.v1.creditGrants.edit({
-      id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
-      credit_grant_type: 'credit_grant_type',
-      expires_at: '2022-04-01T00:00:00Z',
-      name: 'Acme Corp Promotional Credit Grant',
-    });
-  });
-
   test('listEntries', async () => {
     const responsePromise = client.v1.creditGrants.listEntries();
     const rawResponse = await responsePromise.asResponse();
@@ -124,24 +143,5 @@ describe('resource creditGrants', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
-  });
-
-  test('void: only required params', async () => {
-    const responsePromise = client.v1.creditGrants.void({ id: '9b85c1c1-5238-4f2a-a409-61412905e1e1' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('void: required and optional params', async () => {
-    const response = await client.v1.creditGrants.void({
-      id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
-      release_uniqueness_key: true,
-      void_credit_purchase_invoice: true,
-    });
   });
 });

@@ -10,8 +10,8 @@ export {
   ProductOrders,
   type ProductOrderUpdateResponse,
   type ProductOrderSetResponse,
-  type ProductOrderUpdateParams,
   type ProductOrderSetParams,
+  type ProductOrderUpdateParams,
 } from './product-orders';
 export {
   RateCards,
@@ -21,12 +21,12 @@ export {
   type RateCardListResponse,
   type RateCardArchiveResponse,
   type RateCardRetrieveRateScheduleResponse,
-  type RateCardCreateParams,
-  type RateCardRetrieveParams,
-  type RateCardUpdateParams,
-  type RateCardListParams,
-  type RateCardArchiveParams,
   type RateCardRetrieveRateScheduleParams,
+  type RateCardRetrieveParams,
+  type RateCardListParams,
+  type RateCardCreateParams,
+  type RateCardUpdateParams,
+  type RateCardArchiveParams,
   type RateCardListResponsesCursorPage,
 } from './rate-cards';
 export {

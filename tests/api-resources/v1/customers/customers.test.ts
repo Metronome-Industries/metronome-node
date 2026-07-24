@@ -8,53 +8,6 @@ const client = new Metronome({
 });
 
 describe('resource customers', () => {
-  test('create: only required params', async () => {
-    const responsePromise = client.v1.customers.create({ name: 'Example, Inc.' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('create: required and optional params', async () => {
-    const response = await client.v1.customers.create({
-      name: 'Example, Inc.',
-      billing_config: {
-        billing_provider_customer_id: 'billing_provider_customer_id',
-        billing_provider_type: 'aws_marketplace',
-        aws_customer_account_id: 'aws_customer_account_id',
-        aws_customer_id: 'aws_customer_id',
-        aws_is_subscription_product: true,
-        aws_product_code: 'aws_product_code',
-        aws_region: 'af-south-1',
-        stripe_collection_method: 'charge_automatically',
-      },
-      custom_fields: { foo: 'string' },
-      customer_billing_provider_configurations: [
-        {
-          billing_provider: 'stripe',
-          configuration: { stripe_customer_id: 'bar', stripe_collection_method: 'bar' },
-          delivery_method: 'direct_to_billing_provider',
-          delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-          tax_provider: 'anrok',
-        },
-      ],
-      customer_revenue_system_configurations: [
-        {
-          provider: 'netsuite',
-          configuration: { foo: 'bar' },
-          delivery_method: 'direct_to_billing_provider',
-          delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-        },
-      ],
-      external_id: 'x',
-      ingest_aliases: ['team@example.com'],
-    });
-  });
-
   test('retrieve: only required params', async () => {
     const responsePromise = client.v1.customers.retrieve({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
@@ -102,8 +55,8 @@ describe('resource customers', () => {
     ).rejects.toThrow(Metronome.NotFoundError);
   });
 
-  test('archive: only required params', async () => {
-    const responsePromise = client.v1.customers.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
+  test('create: only required params', async () => {
+    const responsePromise = client.v1.customers.create({ name: 'Example, Inc.' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -113,17 +66,46 @@ describe('resource customers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('archive: required and optional params', async () => {
-    const response = await client.v1.customers.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
+  test('create: required and optional params', async () => {
+    const response = await client.v1.customers.create({
+      name: 'Example, Inc.',
+      billing_config: {
+        billing_provider_customer_id: 'billing_provider_customer_id',
+        billing_provider_type: 'aws_marketplace',
+        aws_customer_account_id: 'aws_customer_account_id',
+        aws_customer_id: 'aws_customer_id',
+        aws_is_subscription_product: true,
+        aws_product_code: 'aws_product_code',
+        aws_region: 'af-south-1',
+        stripe_collection_method: 'charge_automatically',
+      },
+      custom_fields: { foo: 'string' },
+      customer_billing_provider_configurations: [
+        {
+          billing_provider: 'stripe',
+          configuration: { stripe_customer_id: 'bar', stripe_collection_method: 'bar' },
+          delivery_method: 'direct_to_billing_provider',
+          delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          tax_provider: 'anrok',
+        },
+      ],
+      customer_revenue_system_configurations: [
+        {
+          provider: 'netsuite',
+          configuration: { foo: 'bar' },
+          delivery_method: 'direct_to_billing_provider',
+          delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        },
+      ],
+      external_id: 'x',
+      ingest_aliases: ['team@example.com'],
+    });
   });
 
-  test('archiveBillingConfigurations: only required params', async () => {
-    const responsePromise = client.v1.customers.archiveBillingConfigurations({
-      customer_billing_provider_configuration_ids: [
-        '4db51251-61de-4bfe-b9ce-495e244f3491',
-        '4db51251-61de-4bfe-b9ce-495e244f3491',
-      ],
-      customer_id: '20a060d1-aa80-41d4-8bb2-4f3091b93903',
+  test('setIngestAliases: only required params', async () => {
+    const responsePromise = client.v1.customers.setIngestAliases({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      ingest_aliases: ['team@example.com'],
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -134,18 +116,36 @@ describe('resource customers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('archiveBillingConfigurations: required and optional params', async () => {
-    const response = await client.v1.customers.archiveBillingConfigurations({
-      customer_billing_provider_configuration_ids: [
-        '4db51251-61de-4bfe-b9ce-495e244f3491',
-        '4db51251-61de-4bfe-b9ce-495e244f3491',
-      ],
-      customer_id: '20a060d1-aa80-41d4-8bb2-4f3091b93903',
+  test('setIngestAliases: required and optional params', async () => {
+    const response = await client.v1.customers.setIngestAliases({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      ingest_aliases: ['team@example.com'],
     });
   });
 
-  test('listBillableMetrics: only required params', async () => {
-    const responsePromise = client.v1.customers.listBillableMetrics({
+  test('setName: only required params', async () => {
+    const responsePromise = client.v1.customers.setName({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      name: 'Example, Inc.',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('setName: required and optional params', async () => {
+    const response = await client.v1.customers.setName({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      name: 'Example, Inc.',
+    });
+  });
+
+  test('updateConfig: only required params', async () => {
+    const responsePromise = client.v1.customers.updateConfig({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -157,13 +157,11 @@ describe('resource customers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('listBillableMetrics: required and optional params', async () => {
-    const response = await client.v1.customers.listBillableMetrics({
+  test('updateConfig: required and optional params', async () => {
+    const response = await client.v1.customers.updateConfig({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      include_archived: true,
-      limit: 1,
-      next_page: 'next_page',
-      on_current_plan: true,
+      leave_stripe_invoices_in_draft: true,
+      salesforce_account_id: '0015500001WO1ZiABL',
     });
   });
 
@@ -189,6 +187,44 @@ describe('resource customers', () => {
       starting_on: '2019-12-27T18:11:19.117Z',
       limit: 1,
       next_page: 'next_page',
+    });
+  });
+
+  test('archive: only required params', async () => {
+    const responsePromise = client.v1.customers.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('archive: required and optional params', async () => {
+    const response = await client.v1.customers.archive({ id: '8deed800-1b7a-495d-a207-6c52bac54dc9' });
+  });
+
+  test('listBillableMetrics: only required params', async () => {
+    const responsePromise = client.v1.customers.listBillableMetrics({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listBillableMetrics: required and optional params', async () => {
+    const response = await client.v1.customers.listBillableMetrics({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      include_archived: true,
+      limit: 1,
+      next_page: 'next_page',
+      on_current_plan: true,
     });
   });
 
@@ -219,26 +255,6 @@ describe('resource customers', () => {
       ],
       mode: 'replace',
       skip_zero_qty_line_items: true,
-    });
-  });
-
-  test('retrieveBillingConfigurations: only required params', async () => {
-    const responsePromise = client.v1.customers.retrieveBillingConfigurations({
-      customer_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieveBillingConfigurations: required and optional params', async () => {
-    const response = await client.v1.customers.retrieveBillingConfigurations({
-      customer_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
-      include_archived: true,
     });
   });
 
@@ -330,10 +346,9 @@ describe('resource customers', () => {
     });
   });
 
-  test('setIngestAliases: only required params', async () => {
-    const responsePromise = client.v1.customers.setIngestAliases({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      ingest_aliases: ['team@example.com'],
+  test('retrieveBillingConfigurations: only required params', async () => {
+    const responsePromise = client.v1.customers.retrieveBillingConfigurations({
+      customer_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -344,37 +359,20 @@ describe('resource customers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('setIngestAliases: required and optional params', async () => {
-    const response = await client.v1.customers.setIngestAliases({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      ingest_aliases: ['team@example.com'],
+  test('retrieveBillingConfigurations: required and optional params', async () => {
+    const response = await client.v1.customers.retrieveBillingConfigurations({
+      customer_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+      include_archived: true,
     });
   });
 
-  test('setName: only required params', async () => {
-    const responsePromise = client.v1.customers.setName({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      name: 'Example, Inc.',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('setName: required and optional params', async () => {
-    const response = await client.v1.customers.setName({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      name: 'Example, Inc.',
-    });
-  });
-
-  test('updateConfig: only required params', async () => {
-    const responsePromise = client.v1.customers.updateConfig({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+  test('archiveBillingConfigurations: only required params', async () => {
+    const responsePromise = client.v1.customers.archiveBillingConfigurations({
+      customer_billing_provider_configuration_ids: [
+        '4db51251-61de-4bfe-b9ce-495e244f3491',
+        '4db51251-61de-4bfe-b9ce-495e244f3491',
+      ],
+      customer_id: '20a060d1-aa80-41d4-8bb2-4f3091b93903',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -385,11 +383,13 @@ describe('resource customers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('updateConfig: required and optional params', async () => {
-    const response = await client.v1.customers.updateConfig({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      leave_stripe_invoices_in_draft: true,
-      salesforce_account_id: '0015500001WO1ZiABL',
+  test('archiveBillingConfigurations: required and optional params', async () => {
+    const response = await client.v1.customers.archiveBillingConfigurations({
+      customer_billing_provider_configuration_ids: [
+        '4db51251-61de-4bfe-b9ce-495e244f3491',
+        '4db51251-61de-4bfe-b9ce-495e244f3491',
+      ],
+      customer_id: '20a060d1-aa80-41d4-8bb2-4f3091b93903',
     });
   });
 });

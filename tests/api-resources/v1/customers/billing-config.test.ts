@@ -8,6 +8,27 @@ const client = new Metronome({
 });
 
 describe('resource billingConfig', () => {
+  test('retrieve: only required params', async () => {
+    const responsePromise = client.v1.customers.billingConfig.retrieve({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      billing_provider_type: 'stripe',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieve: required and optional params', async () => {
+    const response = await client.v1.customers.billingConfig.retrieve({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      billing_provider_type: 'stripe',
+    });
+  });
+
   test('create: only required params', async () => {
     const responsePromise = client.v1.customers.billingConfig.create({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
@@ -33,27 +54,6 @@ describe('resource billingConfig', () => {
       aws_product_code: 'aws_product_code',
       aws_region: 'af-south-1',
       stripe_collection_method: 'charge_automatically',
-    });
-  });
-
-  test('retrieve: only required params', async () => {
-    const responsePromise = client.v1.customers.billingConfig.retrieve({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      billing_provider_type: 'stripe',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieve: required and optional params', async () => {
-    const response = await client.v1.customers.billingConfig.retrieve({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      billing_provider_type: 'stripe',
     });
   });
 

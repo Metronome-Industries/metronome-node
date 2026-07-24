@@ -8,6 +8,35 @@ const client = new Metronome({
 });
 
 describe('resource credits', () => {
+  test('list: only required params', async () => {
+    const responsePromise = client.v1.customers.credits.list({
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('list: required and optional params', async () => {
+    const response = await client.v1.customers.credits.list({
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      covering_date: '2019-12-27T18:11:19.117Z',
+      credit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+      effective_before: '2019-12-27T18:11:19.117Z',
+      include_archived: true,
+      include_balance: true,
+      include_contract_credits: true,
+      include_ledgers: true,
+      limit: 1,
+      next_page: 'next_page',
+      starting_at: '2019-12-27T18:11:19.117Z',
+    });
+  });
+
   test('create: only required params', async () => {
     const responsePromise = client.v1.customers.credits.create({
       access_schedule: {
@@ -65,35 +94,6 @@ describe('resource credits', () => {
         },
       ],
       uniqueness_key: 'x',
-    });
-  });
-
-  test('list: only required params', async () => {
-    const responsePromise = client.v1.customers.credits.list({
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: required and optional params', async () => {
-    const response = await client.v1.customers.credits.list({
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-      covering_date: '2019-12-27T18:11:19.117Z',
-      credit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
-      effective_before: '2019-12-27T18:11:19.117Z',
-      include_archived: true,
-      include_balance: true,
-      include_contract_credits: true,
-      include_ledgers: true,
-      limit: 1,
-      next_page: 'next_page',
-      starting_at: '2019-12-27T18:11:19.117Z',
     });
   });
 

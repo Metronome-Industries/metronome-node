@@ -36,8 +36,8 @@ export declare namespace V2 {
     type ContractRetrieveParams as ContractRetrieveParams,
     type ContractListParams as ContractListParams,
     type ContractEditParams as ContractEditParams,
+    type ContractGetEditHistoryParams as ContractGetEditHistoryParams,
     type ContractEditCommitParams as ContractEditCommitParams,
     type ContractEditCreditParams as ContractEditCreditParams,
-    type ContractGetEditHistoryParams as ContractGetEditHistoryParams,
   };
 }

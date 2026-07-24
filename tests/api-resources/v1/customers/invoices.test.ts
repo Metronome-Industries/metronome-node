@@ -8,28 +8,6 @@ const client = new Metronome({
 });
 
 describe('resource invoices', () => {
-  test('retrieve: only required params', async () => {
-    const responsePromise = client.v1.customers.invoices.retrieve({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      invoice_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieve: required and optional params', async () => {
-    const response = await client.v1.customers.invoices.retrieve({
-      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      invoice_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
-      skip_zero_qty_line_items: true,
-    });
-  });
-
   test('list: only required params', async () => {
     const responsePromise = client.v1.customers.invoices.list({
       customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
@@ -57,6 +35,28 @@ describe('resource invoices', () => {
       status: 'status',
       type: 'USAGE',
       webhook_notification_id: 'webhook_notification_id',
+    });
+  });
+
+  test('retrieve: only required params', async () => {
+    const responsePromise = client.v1.customers.invoices.retrieve({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      invoice_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieve: required and optional params', async () => {
+    const response = await client.v1.customers.invoices.retrieve({
+      customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      invoice_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+      skip_zero_qty_line_items: true,
     });
   });
 

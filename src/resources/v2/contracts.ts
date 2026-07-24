@@ -76,7 +76,10 @@ export class Contracts extends APIResource {
    *
    * ### Key response fields:
    *
-   * - The `id` of the contract that was edited
+   * - The `id` of the edit
+   * - Complete edit details. For example, if you edited the contract to add new
+   *   overrides and credits, you will receive the IDs of those overrides and credits
+   *   in the response.
    *
    * ### Usage guidelines:
    *
@@ -119,6 +122,38 @@ export class Contracts extends APIResource {
    */
   edit(body: ContractEditParams, options?: RequestOptions): APIPromise<ContractEditResponse> {
     return this._client.post('/v2/contracts/edit', { body, ...options });
+  }
+
+  /**
+   * List all the edits made to a contract over time. In Metronome, you can edit a
+   * contract at any point after it's created to fix mistakes or reflect changes in
+   * terms. Metronome stores a full history of all edits that were ever made to a
+   * contract, whether through the UI, `editContract` endpoint, or other endpoints
+   * like `updateContractEndDate`.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Understand what changes were made to a contract, when, and by who
+   *
+   * ### Key response fields:
+   *
+   * - An array of every edit ever made to the contract
+   * - Details on each individual edit - for example showing that in one edit, a user
+   *   added two discounts and incremented a subscription quantity.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v2.contracts.getEditHistory({
+   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   * });
+   * ```
+   */
+  getEditHistory(
+    body: ContractGetEditHistoryParams,
+    options?: RequestOptions,
+  ): APIPromise<ContractGetEditHistoryResponse> {
+    return this._client.post('/v2/contracts/getEditHistory', { body, ...options });
   }
 
   /**
@@ -201,38 +236,6 @@ export class Contracts extends APIResource {
     options?: RequestOptions,
   ): APIPromise<ContractEditCreditResponse> {
     return this._client.post('/v2/contracts/credits/edit', { body, ...options });
-  }
-
-  /**
-   * List all the edits made to a contract over time. In Metronome, you can edit a
-   * contract at any point after it's created to fix mistakes or reflect changes in
-   * terms. Metronome stores a full history of all edits that were ever made to a
-   * contract, whether through the UI, `editContract` endpoint, or other endpoints
-   * like `updateContractEndDate`.
-   *
-   * ### Use this endpoint to:
-   *
-   * - Understand what changes were made to a contract, when, and by who
-   *
-   * ### Key response fields:
-   *
-   * - An array of every edit ever made to the contract
-   * - Details on each individual edit - for example showing that in one edit, a user
-   *   added two discounts and incremented a subscription quantity.
-   *
-   * @example
-   * ```ts
-   * const response = await client.v2.contracts.getEditHistory({
-   *   contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-   *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-   * });
-   * ```
-   */
-  getEditHistory(
-    body: ContractGetEditHistoryParams,
-    options?: RequestOptions,
-  ): APIPromise<ContractGetEditHistoryResponse> {
-    return this._client.post('/v2/contracts/getEditHistory', { body, ...options });
   }
 }
 
@@ -6188,6 +6191,12 @@ export namespace ContractEditParams {
   }
 }
 
+export interface ContractGetEditHistoryParams {
+  contract_id: string;
+
+  customer_id: string;
+}
+
 export interface ContractEditCommitParams {
   /**
    * ID of the commit to edit
@@ -6447,12 +6456,6 @@ export namespace ContractEditCreditParams {
   }
 }
 
-export interface ContractGetEditHistoryParams {
-  contract_id: string;
-
-  customer_id: string;
-}
-
 export declare namespace Contracts {
   export {
     type ContractRetrieveResponse as ContractRetrieveResponse,
@@ -6464,8 +6467,8 @@ export declare namespace Contracts {
     type ContractRetrieveParams as ContractRetrieveParams,
     type ContractListParams as ContractListParams,
     type ContractEditParams as ContractEditParams,
+    type ContractGetEditHistoryParams as ContractGetEditHistoryParams,
     type ContractEditCommitParams as ContractEditCommitParams,
     type ContractEditCreditParams as ContractEditCreditParams,
-    type ContractGetEditHistoryParams as ContractGetEditHistoryParams,
   };
 }
