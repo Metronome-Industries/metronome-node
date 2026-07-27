@@ -80,14 +80,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\ncontract = client.v2.contracts.retrieve(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n)\nprint(contract.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v2/contracts/get \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
-      },
       java: {
         method: 'v2().contracts().retrieve',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v2.contracts.ContractRetrieveParams;\nimport com.metronome.api.models.v2.contracts.ContractRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractRetrieveParams params = ContractRetrieveParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        ContractRetrieveResponse contract = client.v2().contracts().retrieve(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v2/contracts/get \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
       },
       go: {
         method: 'client.V2.Contracts.Get',
@@ -132,14 +132,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\ncontracts = client.v2.contracts.list(\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n)\nprint(contracts.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v2/contracts/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
-      },
       java: {
         method: 'v2().contracts().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v2.contracts.ContractListParams;\nimport com.metronome.api.models.v2.contracts.ContractListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractListParams params = ContractListParams.builder()\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        ContractListResponse contracts = client.v2().contracts().list(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v2/contracts/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
       },
       go: {
         method: 'client.V2.Contracts.List',
@@ -214,14 +214,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v2.contracts.edit(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    add_overrides=[{\n        "type": "MULTIPLIER",\n        "starting_at": datetime.fromisoformat("2024-11-02T00:00:00"),\n        "product_id": "d4fc086c-d8e5-4091-a235-fbba5da4ec14",\n        "multiplier": 2,\n        "priority": 100,\n    }],\n    add_scheduled_charges=[{\n        "product_id": "2e30f074-d04c-412e-a134-851ebfa5ceb2",\n        "schedule": {\n            "schedule_items": [{\n                "timestamp": datetime.fromisoformat("2020-02-15T00:00:00.000"),\n                "unit_price": 1000000,\n                "quantity": 1,\n            }]\n        },\n    }],\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v2/contracts/edit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "add_overrides": [\n            {\n              "starting_at": "2024-11-02T00:00:00Z",\n              "multiplier": 2,\n              "priority": 100,\n              "product_id": "d4fc086c-d8e5-4091-a235-fbba5da4ec14",\n              "type": "MULTIPLIER"\n            }\n          ],\n          "add_scheduled_charges": [\n            {\n              "product_id": "2e30f074-d04c-412e-a134-851ebfa5ceb2",\n              "schedule": {\n                "schedule_items": [\n                  {\n                    "timestamp": "2020-02-15T00:00:00.000Z",\n                    "quantity": 1,\n                    "unit_price": 1000000\n                  }\n                ]\n              }\n            }\n          ]\n        }\'',
-      },
       java: {
         method: 'v2().contracts().edit',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v2.contracts.ContractEditParams;\nimport com.metronome.api.models.v2.contracts.ContractEditResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractEditParams params = ContractEditParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        ContractEditResponse response = client.v2().contracts().edit(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v2/contracts/edit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "add_overrides": [\n            {\n              "starting_at": "2024-11-02T00:00:00Z",\n              "multiplier": 2,\n              "priority": 100,\n              "product_id": "d4fc086c-d8e5-4091-a235-fbba5da4ec14",\n              "type": "MULTIPLIER"\n            }\n          ],\n          "add_scheduled_charges": [\n            {\n              "product_id": "2e30f074-d04c-412e-a134-851ebfa5ceb2",\n              "schedule": {\n                "schedule_items": [\n                  {\n                    "timestamp": "2020-02-15T00:00:00.000Z",\n                    "quantity": 1,\n                    "unit_price": 1000000\n                  }\n                ]\n              }\n            }\n          ]\n        }\'',
       },
       go: {
         method: 'client.V2.Contracts.Edit',
@@ -260,14 +260,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v2.contracts.get_edit_history(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v2/contracts/getEditHistory \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
-      },
       java: {
         method: 'v2().contracts().getEditHistory',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v2.contracts.ContractGetEditHistoryParams;\nimport com.metronome.api.models.v2.contracts.ContractGetEditHistoryResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractGetEditHistoryParams params = ContractGetEditHistoryParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        ContractGetEditHistoryResponse response = client.v2().contracts().getEditHistory(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v2/contracts/getEditHistory \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
       },
       go: {
         method: 'client.V2.Contracts.GetEditHistory',
@@ -321,14 +321,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v2.contracts.edit_commit(\n    commit_id="5e7e82cf-ccb7-428c-a96f-a8e4f67af822",\n    customer_id="4c91c473-fc12-445a-9c38-40421d47023f",\n    access_schedule={\n        "update_schedule_items": [{\n            "id": "d5edbd32-c744-48cb-9475-a9bca0e6fa39",\n            "ending_before": datetime.fromisoformat("2025-03-12T00:00:00"),\n        }]\n    },\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v2/contracts/commits/edit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "commit_id": "5e7e82cf-ccb7-428c-a96f-a8e4f67af822",\n          "customer_id": "4c91c473-fc12-445a-9c38-40421d47023f",\n          "access_schedule": {\n            "update_schedule_items": [\n              {\n                "id": "d5edbd32-c744-48cb-9475-a9bca0e6fa39",\n                "ending_before": "2025-03-12T00:00:00Z"\n              }\n            ]\n          }\n        }\'',
-      },
       java: {
         method: 'v2().contracts().editCommit',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v2.contracts.ContractEditCommitParams;\nimport com.metronome.api.models.v2.contracts.ContractEditCommitResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractEditCommitParams params = ContractEditCommitParams.builder()\n            .commitId("5e7e82cf-ccb7-428c-a96f-a8e4f67af822")\n            .customerId("4c91c473-fc12-445a-9c38-40421d47023f")\n            .build();\n        ContractEditCommitResponse response = client.v2().contracts().editCommit(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v2/contracts/commits/edit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "commit_id": "5e7e82cf-ccb7-428c-a96f-a8e4f67af822",\n          "customer_id": "4c91c473-fc12-445a-9c38-40421d47023f",\n          "access_schedule": {\n            "update_schedule_items": [\n              {\n                "id": "d5edbd32-c744-48cb-9475-a9bca0e6fa39",\n                "ending_before": "2025-03-12T00:00:00Z"\n              }\n            ]\n          }\n        }\'',
       },
       go: {
         method: 'client.V2.Contracts.EditCommit',
@@ -380,14 +380,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v2.contracts.edit_credit(\n    credit_id="5e7e82cf-ccb7-428c-a96f-a8e4f67af822",\n    customer_id="4c91c473-fc12-445a-9c38-40421d47023f",\n    access_schedule={\n        "update_schedule_items": [{\n            "id": "d5edbd32-c744-48cb-9475-a9bca0e6fa39",\n            "ending_before": datetime.fromisoformat("2025-03-12T00:00:00"),\n        }]\n    },\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v2/contracts/credits/edit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "credit_id": "5e7e82cf-ccb7-428c-a96f-a8e4f67af822",\n          "customer_id": "4c91c473-fc12-445a-9c38-40421d47023f",\n          "access_schedule": {\n            "update_schedule_items": [\n              {\n                "id": "d5edbd32-c744-48cb-9475-a9bca0e6fa39",\n                "ending_before": "2025-03-12T00:00:00Z"\n              }\n            ]\n          }\n        }\'',
-      },
       java: {
         method: 'v2().contracts().editCredit',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v2.contracts.ContractEditCreditParams;\nimport com.metronome.api.models.v2.contracts.ContractEditCreditResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractEditCreditParams params = ContractEditCreditParams.builder()\n            .creditId("5e7e82cf-ccb7-428c-a96f-a8e4f67af822")\n            .customerId("4c91c473-fc12-445a-9c38-40421d47023f")\n            .build();\n        ContractEditCreditResponse response = client.v2().contracts().editCredit(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v2/contracts/credits/edit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "credit_id": "5e7e82cf-ccb7-428c-a96f-a8e4f67af822",\n          "customer_id": "4c91c473-fc12-445a-9c38-40421d47023f",\n          "access_schedule": {\n            "update_schedule_items": [\n              {\n                "id": "d5edbd32-c744-48cb-9475-a9bca0e6fa39",\n                "ending_before": "2025-03-12T00:00:00Z"\n              }\n            ]\n          }\n        }\'',
       },
       go: {
         method: 'client.V2.Contracts.EditCredit',
@@ -425,14 +425,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.alerts.archive(\n    id="8deed800-1b7a-495d-a207-6c52bac54dc9",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/alerts/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "8deed800-1b7a-495d-a207-6c52bac54dc9"\n        }\'',
-      },
       java: {
         method: 'v1().alerts().archive',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.alerts.AlertArchiveParams;\nimport com.metronome.api.models.v1.alerts.AlertArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        AlertArchiveParams params = AlertArchiveParams.builder()\n            .id("8deed800-1b7a-495d-a207-6c52bac54dc9")\n            .build();\n        AlertArchiveResponse response = client.v1().alerts().archive(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/alerts/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "8deed800-1b7a-495d-a207-6c52bac54dc9"\n        }\'',
       },
       go: {
         method: 'client.V1.Alerts.Archive',
@@ -486,14 +486,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nalert = client.v1.alerts.create(\n    alert_type="spend_threshold_reached",\n    name="$100 spend threshold reached",\n    threshold=10000,\n    credit_grant_type_filters=["enterprise"],\n    credit_type_id="2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n    customer_id="4db51251-61de-4bfe-b9ce-495e244f3491",\n)\nprint(alert.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/alerts/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "alert_type": "spend_threshold_reached",\n          "name": "$100 spend threshold reached",\n          "threshold": 10000,\n          "credit_grant_type_filters": [\n            "enterprise"\n          ],\n          "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n          "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491"\n        }\'',
-      },
       java: {
         method: 'v1().alerts().create',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.alerts.AlertCreateParams;\nimport com.metronome.api.models.v1.alerts.AlertCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        AlertCreateParams params = AlertCreateParams.builder()\n            .alertType(AlertCreateParams.AlertType.SPEND_THRESHOLD_REACHED)\n            .name("$100 spend threshold reached")\n            .threshold(10000.0)\n            .build();\n        AlertCreateResponse alert = client.v1().alerts().create(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/alerts/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "alert_type": "spend_threshold_reached",\n          "name": "$100 spend threshold reached",\n          "threshold": 10000,\n          "credit_grant_type_filters": [\n            "enterprise"\n          ],\n          "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n          "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491"\n        }\'',
       },
       go: {
         method: 'client.V1.Alerts.New',
@@ -531,14 +531,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.plans.list()\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/plans \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().plans().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.plans.PlanListPage;\nimport com.metronome.api.models.v1.plans.PlanListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        PlanListPage page = client.v1().plans().list();\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/plans \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Plans.List',
@@ -577,14 +577,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.plans.get_details(\n    plan_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/planDetails/$PLAN_ID \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().plans().getDetails',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.plans.PlanGetDetailsParams;\nimport com.metronome.api.models.v1.plans.PlanGetDetailsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        PlanGetDetailsParams params = PlanGetDetailsParams.builder()\n            .planId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        PlanGetDetailsResponse response = client.v1().plans().getDetails(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/planDetails/$PLAN_ID \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Plans.GetDetails',
@@ -628,14 +628,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.plans.list_customers(\n    plan_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\npage = page.data[0]\nprint(page.customer_details)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/planDetails/$PLAN_ID/customers \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().plans().listCustomers',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.plans.PlanListCustomersPage;\nimport com.metronome.api.models.v1.plans.PlanListCustomersParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        PlanListCustomersParams params = PlanListCustomersParams.builder()\n            .planId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        PlanListCustomersPage page = client.v1().plans().listCustomers(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/planDetails/$PLAN_ID/customers \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Plans.ListCustomers',
@@ -674,14 +674,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.plans.list_charges(\n    plan_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/planDetails/$PLAN_ID/charges \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().plans().listCharges',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.plans.PlanListChargesPage;\nimport com.metronome.api.models.v1.plans.PlanListChargesParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        PlanListChargesParams params = PlanListChargesParams.builder()\n            .planId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        PlanListChargesPage page = client.v1().plans().listCharges(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/planDetails/$PLAN_ID/charges \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Plans.ListCharges',
@@ -734,14 +734,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\ncredit_grant = client.v1.credit_grants.create(\n    customer_id="9b85c1c1-5238-4f2a-a409-61412905e1e1",\n    expires_at=datetime.fromisoformat("2022-04-01T00:00:00"),\n    grant_amount={\n        "amount": 1000,\n        "credit_type_id": "5ae401dc-a648-4b49-9ac3-391bb5bc4d7b",\n    },\n    name="Acme Corp Promotional Credit Grant",\n    paid_amount={\n        "amount": 5000,\n        "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n    },\n    priority=0.5,\n    credit_grant_type="trial",\n    effective_at=datetime.fromisoformat("2022-02-01T00:00:00"),\n    reason="Incentivize new customer",\n)\nprint(credit_grant.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/credits/createGrant \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "expires_at": "2022-04-01T00:00:00Z",\n          "grant_amount": {\n            "amount": 1000,\n            "credit_type_id": "5ae401dc-a648-4b49-9ac3-391bb5bc4d7b"\n          },\n          "name": "Acme Corp Promotional Credit Grant",\n          "paid_amount": {\n            "amount": 5000,\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n          },\n          "priority": 0.5,\n          "credit_grant_type": "trial",\n          "effective_at": "2022-02-01T00:00:00Z",\n          "reason": "Incentivize new customer"\n        }\'',
-      },
       java: {
         method: 'v1().creditGrants().create',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.creditgrants.CreditGrantCreateParams;\nimport com.metronome.api.models.v1.creditgrants.CreditGrantCreateResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CreditGrantCreateParams params = CreditGrantCreateParams.builder()\n            .customerId("9b85c1c1-5238-4f2a-a409-61412905e1e1")\n            .expiresAt(OffsetDateTime.parse("2022-04-01T00:00:00Z"))\n            .grantAmount(CreditGrantCreateParams.GrantAmount.builder()\n                .amount(1000.0)\n                .creditTypeId("5ae401dc-a648-4b49-9ac3-391bb5bc4d7b")\n                .build())\n            .name("Acme Corp Promotional Credit Grant")\n            .paidAmount(CreditGrantCreateParams.PaidAmount.builder()\n                .amount(5000.0)\n                .creditTypeId("2714e483-4ff1-48e4-9e25-ac732e8f24f2")\n                .build())\n            .priority(0.5)\n            .build();\n        CreditGrantCreateResponse creditGrant = client.v1().creditGrants().create(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/credits/createGrant \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "expires_at": "2022-04-01T00:00:00Z",\n          "grant_amount": {\n            "amount": 1000,\n            "credit_type_id": "5ae401dc-a648-4b49-9ac3-391bb5bc4d7b"\n          },\n          "name": "Acme Corp Promotional Credit Grant",\n          "paid_amount": {\n            "amount": 5000,\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n          },\n          "priority": 0.5,\n          "credit_grant_type": "trial",\n          "effective_at": "2022-02-01T00:00:00Z",\n          "reason": "Incentivize new customer"\n        }\'',
       },
       go: {
         method: 'client.V1.CreditGrants.New',
@@ -779,14 +779,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.credit_grants.edit(\n    id="9b85c1c1-5238-4f2a-a409-61412905e1e1",\n    expires_at=datetime.fromisoformat("2022-04-01T00:00:00"),\n    name="Acme Corp Promotional Credit Grant",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/credits/editGrant \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "expires_at": "2022-04-01T00:00:00Z",\n          "name": "Acme Corp Promotional Credit Grant"\n        }\'',
-      },
       java: {
         method: 'v1().creditGrants().edit',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.creditgrants.CreditGrantEditParams;\nimport com.metronome.api.models.v1.creditgrants.CreditGrantEditResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CreditGrantEditParams params = CreditGrantEditParams.builder()\n            .id("9b85c1c1-5238-4f2a-a409-61412905e1e1")\n            .build();\n        CreditGrantEditResponse response = client.v1().creditGrants().edit(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/credits/editGrant \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "expires_at": "2022-04-01T00:00:00Z",\n          "name": "Acme Corp Promotional Credit Grant"\n        }\'',
       },
       go: {
         method: 'client.V1.CreditGrants.Edit',
@@ -824,14 +824,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.credit_grants.void(\n    id="9b85c1c1-5238-4f2a-a409-61412905e1e1",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/credits/voidGrant \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "9b85c1c1-5238-4f2a-a409-61412905e1e1"\n        }\'',
-      },
       java: {
         method: 'v1().creditGrants().void_',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.creditgrants.CreditGrantVoidParams;\nimport com.metronome.api.models.v1.creditgrants.CreditGrantVoidResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CreditGrantVoidParams params = CreditGrantVoidParams.builder()\n            .id("9b85c1c1-5238-4f2a-a409-61412905e1e1")\n            .build();\n        CreditGrantVoidResponse response = client.v1().creditGrants().void_(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/credits/voidGrant \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "9b85c1c1-5238-4f2a-a409-61412905e1e1"\n        }\'',
       },
       go: {
         method: 'client.V1.CreditGrants.Void',
@@ -878,14 +878,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.credit_grants.list(\n    credit_type_ids=["2714e483-4ff1-48e4-9e25-ac732e8f24f2"],\n    customer_ids=["d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc", "0e5b8609-d901-4992-b394-c3c2e3f37b1c"],\n    effective_before=datetime.fromisoformat("2022-02-01T00:00:00"),\n    not_expiring_before=datetime.fromisoformat("2022-02-01T00:00:00"),\n)\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/credits/listGrants \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().creditGrants().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.creditgrants.CreditGrantListPage;\nimport com.metronome.api.models.v1.creditgrants.CreditGrantListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CreditGrantListPage page = client.v1().creditGrants().list();\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/credits/listGrants \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.CreditGrants.List',
@@ -931,14 +931,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.credit_grants.list_entries(\n    credit_type_ids=["2714e483-4ff1-48e4-9e25-ac732e8f24f2"],\n    customer_ids=["6a37bb88-8538-48c5-b37b-a41c836328bd"],\n    ending_before=datetime.fromisoformat("2021-02-01T00:00:00"),\n    starting_on=datetime.fromisoformat("2021-01-01T00:00:00"),\n)\npage = page.data[0]\nprint(page.customer_id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/credits/listEntries \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().creditGrants().listEntries',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.creditgrants.CreditGrantListEntriesPage;\nimport com.metronome.api.models.v1.creditgrants.CreditGrantListEntriesParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CreditGrantListEntriesPage page = client.v1().creditGrants().listEntries();\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/credits/listEntries \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.CreditGrants.ListEntries',
@@ -976,14 +976,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.pricing_units.list()\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/credit-types/list \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().pricingUnits().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.pricingunits.PricingUnitListPage;\nimport com.metronome.api.models.v1.pricingunits.PricingUnitListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        PricingUnitListPage page = client.v1().pricingUnits().list();\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/credit-types/list \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.PricingUnits.List',
@@ -1022,14 +1022,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\ncustomer = client.v1.customers.retrieve(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\nprint(customer.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customers().retrieve',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.CustomerRetrieveParams;\nimport com.metronome.api.models.v1.customers.CustomerRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomerRetrieveParams params = CustomerRetrieveParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        CustomerRetrieveResponse customer = client.v1().customers().retrieve(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Customers.Get',
@@ -1075,14 +1075,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.customers.list()\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customers().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.CustomerListPage;\nimport com.metronome.api.models.v1.customers.CustomerListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomerListPage page = client.v1().customers().list();\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Customers.List',
@@ -1129,14 +1129,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\ncustomer = client.v1.customers.create(\n    name="Example, Inc.",\n    customer_billing_provider_configurations=[{\n        "billing_provider": "stripe",\n        "delivery_method": "direct_to_billing_provider",\n        "configuration": {\n            "stripe_customer_id": "cus_123",\n            "stripe_collection_method": "charge_automatically",\n        },\n    }],\n    ingest_aliases=["team@example.com"],\n)\nprint(customer.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "Example, Inc.",\n          "customer_billing_provider_configurations": [\n            {\n              "billing_provider": "stripe",\n              "configuration": {\n                "stripe_customer_id": "bar",\n                "stripe_collection_method": "bar"\n              },\n              "delivery_method": "direct_to_billing_provider"\n            }\n          ],\n          "ingest_aliases": [\n            "team@example.com"\n          ]\n        }\'',
-      },
       java: {
         method: 'v1().customers().create',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.CustomerCreateParams;\nimport com.metronome.api.models.v1.customers.CustomerCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomerCreateParams params = CustomerCreateParams.builder()\n            .name("Example, Inc.")\n            .build();\n        CustomerCreateResponse customer = client.v1().customers().create(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "Example, Inc.",\n          "customer_billing_provider_configurations": [\n            {\n              "billing_provider": "stripe",\n              "configuration": {\n                "stripe_customer_id": "bar",\n                "stripe_collection_method": "bar"\n              },\n              "delivery_method": "direct_to_billing_provider"\n            }\n          ],\n          "ingest_aliases": [\n            "team@example.com"\n          ]\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.New',
@@ -1173,14 +1173,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.customers.set_ingest_aliases(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    ingest_aliases=["team@example.com"],\n)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/setIngestAliases \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "ingest_aliases": [\n            "team@example.com"\n          ]\n        }\'',
-      },
       java: {
         method: 'v1().customers().setIngestAliases',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.CustomerSetIngestAliasesParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomerSetIngestAliasesParams params = CustomerSetIngestAliasesParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .addIngestAlias("team@example.com")\n            .build();\n        client.v1().customers().setIngestAliases(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/setIngestAliases \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "ingest_aliases": [\n            "team@example.com"\n          ]\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.SetIngestAliases',
@@ -1219,14 +1219,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.customers.set_name(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    name="Example, Inc.",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/setName \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "Example, Inc."\n        }\'',
-      },
       java: {
         method: 'v1().customers().setName',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.CustomerSetNameParams;\nimport com.metronome.api.models.v1.customers.CustomerSetNameResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomerSetNameParams params = CustomerSetNameParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .name("Example, Inc.")\n            .build();\n        CustomerSetNameResponse response = client.v1().customers().setName(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/setName \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "Example, Inc."\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.SetName',
@@ -1267,14 +1267,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.customers.update_config(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    salesforce_account_id="0015500001WO1ZiABL",\n)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/updateConfig \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customers().updateConfig',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.CustomerUpdateConfigParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomerUpdateConfigParams params = CustomerUpdateConfigParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        client.v1().customers().updateConfig(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/updateConfig \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Customers.UpdateConfig',
@@ -1318,14 +1318,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.customers.list_costs(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    ending_before=datetime.fromisoformat("2019-12-27T18:11:19.117"),\n    starting_on=datetime.fromisoformat("2019-12-27T18:11:19.117"),\n)\npage = page.data[0]\nprint(page.credit_types)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/costs \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customers().listCosts',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.CustomerListCostsPage;\nimport com.metronome.api.models.v1.customers.CustomerListCostsParams;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomerListCostsParams params = CustomerListCostsParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .endingBefore(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))\n            .startingOn(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))\n            .build();\n        CustomerListCostsPage page = client.v1().customers().listCosts(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/costs \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Customers.ListCosts',
@@ -1363,14 +1363,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.customers.archive(\n    id="8deed800-1b7a-495d-a207-6c52bac54dc9",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "8deed800-1b7a-495d-a207-6c52bac54dc9"\n        }\'',
-      },
       java: {
         method: 'v1().customers().archive',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.customers.CustomerArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("8deed800-1b7a-495d-a207-6c52bac54dc9")\n            .build();\n        CustomerArchiveResponse response = client.v1().customers().archive(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "8deed800-1b7a-495d-a207-6c52bac54dc9"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.Archive',
@@ -1415,14 +1415,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.customers.list_billable_metrics(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/billable-metrics \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customers().listBillableMetrics',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.CustomerListBillableMetricsPage;\nimport com.metronome.api.models.v1.customers.CustomerListBillableMetricsParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomerListBillableMetricsParams params = CustomerListBillableMetricsParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        CustomerListBillableMetricsPage page = client.v1().customers().listBillableMetrics(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/billable-metrics \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Customers.ListBillableMetrics',
@@ -1466,14 +1466,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.customers.preview_events(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    events=[{\n        "event_type": "heartbeat",\n        "timestamp": "2021-01-01T00:00:00Z",\n        "properties": {\n            "cpu_hours": 100,\n            "memory_gb_hours": 200,\n        },\n    }],\n    mode="replace",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/previewEvents \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "events": [\n            {\n              "event_type": "heartbeat",\n              "properties": {\n                "cpu_hours": "bar",\n                "memory_gb_hours": "bar"\n              },\n              "timestamp": "2021-01-01T00:00:00Z"\n            }\n          ],\n          "mode": "replace"\n        }\'',
-      },
       java: {
         method: 'v1().customers().previewEvents',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.CustomerPreviewEventsParams;\nimport com.metronome.api.models.v1.customers.CustomerPreviewEventsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomerPreviewEventsParams params = CustomerPreviewEventsParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .addEvent(CustomerPreviewEventsParams.Event.builder()\n                .eventType("heartbeat")\n                .build())\n            .build();\n        CustomerPreviewEventsResponse response = client.v1().customers().previewEvents(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/previewEvents \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "events": [\n            {\n              "event_type": "heartbeat",\n              "properties": {\n                "cpu_hours": "bar",\n                "memory_gb_hours": "bar"\n              },\n              "timestamp": "2021-01-01T00:00:00Z"\n            }\n          ],\n          "mode": "replace"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.PreviewEvents',
@@ -1514,14 +1514,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.customers.set_billing_configurations(\n    data=[{\n        "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n        "billing_provider": "stripe",\n        "configuration": {\n            "stripe_customer_id": "cus_1234",\n            "stripe_collection_method": "charge_automatically",\n            "leave_stripe_invoices_in_draft": True,\n        },\n        "delivery_method": "direct_to_billing_provider",\n    }, {\n        "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n        "billing_provider": "aws_marketplace",\n        "configuration": {\n            "aws_customer_id": "ABC123ABC12",\n            "aws_product_code": "my_product",\n            "aws_region": "us-west-1",\n        },\n        "delivery_method": "direct_to_billing_provider",\n    }, {\n        "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n        "billing_provider": "azure_marketplace",\n        "configuration": {\n            "azure_subscription_id": "my_subscription"\n        },\n        "delivery_method_id": "5b9e3072-415b-4842-94f0-0b6700c8b6be",\n    }, {\n        "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n        "billing_provider": "aws_marketplace",\n        "configuration": {\n            "aws_customer_id": "ABC123ABC12",\n            "aws_product_code": "my_product",\n            "aws_region": "us-west-1",\n            "aws_is_subscription_product": True,\n        },\n        "delivery_method": "direct_to_billing_provider",\n    }, {\n        "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n        "billing_provider": "gcp_marketplace",\n        "configuration": {\n            "gcp_entitlement_id": "my_entitlement",\n            "gcp_service_name": "my.service.endpoint.goog",\n        },\n        "delivery_method": "direct_to_billing_provider",\n    }, {\n        "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n        "billing_provider": "netsuite",\n        "configuration": {\n            "netsuite_customer_id": "12345"\n        },\n        "delivery_method": "direct_to_billing_provider",\n    }],\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/setCustomerBillingProviderConfigurations \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "data": [\n            {\n              "billing_provider": "stripe",\n              "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n              "configuration": {\n                "stripe_customer_id": "bar",\n                "stripe_collection_method": "bar",\n                "leave_stripe_invoices_in_draft": "bar"\n              },\n              "delivery_method": "direct_to_billing_provider"\n            },\n            {\n              "billing_provider": "aws_marketplace",\n              "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n              "configuration": {\n                "aws_customer_id": "bar",\n                "aws_product_code": "bar",\n                "aws_region": "bar"\n              },\n              "delivery_method": "direct_to_billing_provider"\n            },\n            {\n              "billing_provider": "azure_marketplace",\n              "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n              "configuration": {\n                "azure_subscription_id": "bar"\n              },\n              "delivery_method_id": "5b9e3072-415b-4842-94f0-0b6700c8b6be"\n            },\n            {\n              "billing_provider": "aws_marketplace",\n              "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n              "configuration": {\n                "aws_customer_id": "bar",\n                "aws_product_code": "bar",\n                "aws_region": "bar",\n                "aws_is_subscription_product": "bar"\n              },\n              "delivery_method": "direct_to_billing_provider"\n            },\n            {\n              "billing_provider": "gcp_marketplace",\n              "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n              "configuration": {\n                "gcp_entitlement_id": "bar",\n                "gcp_service_name": "bar"\n              },\n              "delivery_method": "direct_to_billing_provider"\n            },\n            {\n              "billing_provider": "netsuite",\n              "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n              "configuration": {\n                "netsuite_customer_id": "bar"\n              },\n              "delivery_method": "direct_to_billing_provider"\n            }\n          ]\n        }\'',
-      },
       java: {
         method: 'v1().customers().setBillingConfigurations',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.CustomerSetBillingConfigurationsParams;\nimport com.metronome.api.models.v1.customers.CustomerSetBillingConfigurationsResponse;\nimport java.util.List;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomerSetBillingConfigurationsParams params = CustomerSetBillingConfigurationsParams.builder()\n            .data(List.of(\n              CustomerSetBillingConfigurationsParams.Data.builder()\n                  .billingProvider(CustomerSetBillingConfigurationsParams.Data.BillingProvider.STRIPE)\n                  .customerId("4db51251-61de-4bfe-b9ce-495e244f3491")\n                  .build(),\n              CustomerSetBillingConfigurationsParams.Data.builder()\n                  .billingProvider(CustomerSetBillingConfigurationsParams.Data.BillingProvider.AWS_MARKETPLACE)\n                  .customerId("4db51251-61de-4bfe-b9ce-495e244f3491")\n                  .build(),\n              CustomerSetBillingConfigurationsParams.Data.builder()\n                  .billingProvider(CustomerSetBillingConfigurationsParams.Data.BillingProvider.AZURE_MARKETPLACE)\n                  .customerId("4db51251-61de-4bfe-b9ce-495e244f3491")\n                  .build(),\n              CustomerSetBillingConfigurationsParams.Data.builder()\n                  .billingProvider(CustomerSetBillingConfigurationsParams.Data.BillingProvider.AWS_MARKETPLACE)\n                  .customerId("4db51251-61de-4bfe-b9ce-495e244f3491")\n                  .build(),\n              CustomerSetBillingConfigurationsParams.Data.builder()\n                  .billingProvider(CustomerSetBillingConfigurationsParams.Data.BillingProvider.GCP_MARKETPLACE)\n                  .customerId("4db51251-61de-4bfe-b9ce-495e244f3491")\n                  .build(),\n              CustomerSetBillingConfigurationsParams.Data.builder()\n                  .billingProvider(CustomerSetBillingConfigurationsParams.Data.BillingProvider.NETSUITE)\n                  .customerId("4db51251-61de-4bfe-b9ce-495e244f3491")\n                  .build()\n            ))\n            .build();\n        CustomerSetBillingConfigurationsResponse response = client.v1().customers().setBillingConfigurations(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/setCustomerBillingProviderConfigurations \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "data": [\n            {\n              "billing_provider": "stripe",\n              "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n              "configuration": {\n                "stripe_customer_id": "bar",\n                "stripe_collection_method": "bar",\n                "leave_stripe_invoices_in_draft": "bar"\n              },\n              "delivery_method": "direct_to_billing_provider"\n            },\n            {\n              "billing_provider": "aws_marketplace",\n              "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n              "configuration": {\n                "aws_customer_id": "bar",\n                "aws_product_code": "bar",\n                "aws_region": "bar"\n              },\n              "delivery_method": "direct_to_billing_provider"\n            },\n            {\n              "billing_provider": "azure_marketplace",\n              "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n              "configuration": {\n                "azure_subscription_id": "bar"\n              },\n              "delivery_method_id": "5b9e3072-415b-4842-94f0-0b6700c8b6be"\n            },\n            {\n              "billing_provider": "aws_marketplace",\n              "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n              "configuration": {\n                "aws_customer_id": "bar",\n                "aws_product_code": "bar",\n                "aws_region": "bar",\n                "aws_is_subscription_product": "bar"\n              },\n              "delivery_method": "direct_to_billing_provider"\n            },\n            {\n              "billing_provider": "gcp_marketplace",\n              "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n              "configuration": {\n                "gcp_entitlement_id": "bar",\n                "gcp_service_name": "bar"\n              },\n              "delivery_method": "direct_to_billing_provider"\n            },\n            {\n              "billing_provider": "netsuite",\n              "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n              "configuration": {\n                "netsuite_customer_id": "bar"\n              },\n              "delivery_method": "direct_to_billing_provider"\n            }\n          ]\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.SetBillingConfigurations',
@@ -1560,14 +1560,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.customers.retrieve_billing_configurations(\n    customer_id="6a37bb88-8538-48c5-b37b-a41c836328bd",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/getCustomerBillingProviderConfigurations \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "6a37bb88-8538-48c5-b37b-a41c836328bd"\n        }\'',
-      },
       java: {
         method: 'v1().customers().retrieveBillingConfigurations',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.CustomerRetrieveBillingConfigurationsParams;\nimport com.metronome.api.models.v1.customers.CustomerRetrieveBillingConfigurationsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomerRetrieveBillingConfigurationsParams params = CustomerRetrieveBillingConfigurationsParams.builder()\n            .customerId("6a37bb88-8538-48c5-b37b-a41c836328bd")\n            .build();\n        CustomerRetrieveBillingConfigurationsResponse response = client.v1().customers().retrieveBillingConfigurations(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/getCustomerBillingProviderConfigurations \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "6a37bb88-8538-48c5-b37b-a41c836328bd"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.GetBillingConfigurations',
@@ -1605,14 +1605,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.customers.archive_billing_configurations(\n    customer_billing_provider_configuration_ids=["4db51251-61de-4bfe-b9ce-495e244f3491", "4db51251-61de-4bfe-b9ce-495e244f3491"],\n    customer_id="20a060d1-aa80-41d4-8bb2-4f3091b93903",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/archiveCustomerBillingProviderConfigurations \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_billing_provider_configuration_ids": [\n            "4db51251-61de-4bfe-b9ce-495e244f3491",\n            "4db51251-61de-4bfe-b9ce-495e244f3491"\n          ],\n          "customer_id": "20a060d1-aa80-41d4-8bb2-4f3091b93903"\n        }\'',
-      },
       java: {
         method: 'v1().customers().archiveBillingConfigurations',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.CustomerArchiveBillingConfigurationsParams;\nimport com.metronome.api.models.v1.customers.CustomerArchiveBillingConfigurationsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomerArchiveBillingConfigurationsParams params = CustomerArchiveBillingConfigurationsParams.builder()\n            .addCustomerBillingProviderConfigurationId("4db51251-61de-4bfe-b9ce-495e244f3491")\n            .addCustomerBillingProviderConfigurationId("4db51251-61de-4bfe-b9ce-495e244f3491")\n            .customerId("20a060d1-aa80-41d4-8bb2-4f3091b93903")\n            .build();\n        CustomerArchiveBillingConfigurationsResponse response = client.v1().customers().archiveBillingConfigurations(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/archiveCustomerBillingProviderConfigurations \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_billing_provider_configuration_ids": [\n            "4db51251-61de-4bfe-b9ce-495e244f3491",\n            "4db51251-61de-4bfe-b9ce-495e244f3491"\n          ],\n          "customer_id": "20a060d1-aa80-41d4-8bb2-4f3091b93903"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.ArchiveBillingConfigurations',
@@ -1658,14 +1658,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nalert = client.v1.customers.alerts.retrieve(\n    alert_id="8deed800-1b7a-495d-a207-6c52bac54dc9",\n    customer_id="9b85c1c1-5238-4f2a-a409-61412905e1e1",\n)\nprint(alert.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customer-alerts/get \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "alert_id": "8deed800-1b7a-495d-a207-6c52bac54dc9",\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1"\n        }\'',
-      },
       java: {
         method: 'v1().customers().alerts().retrieve',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.alerts.AlertRetrieveParams;\nimport com.metronome.api.models.v1.customers.alerts.AlertRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        AlertRetrieveParams params = AlertRetrieveParams.builder()\n            .alertId("8deed800-1b7a-495d-a207-6c52bac54dc9")\n            .customerId("9b85c1c1-5238-4f2a-a409-61412905e1e1")\n            .build();\n        AlertRetrieveResponse alert = client.v1().customers().alerts().retrieve(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customer-alerts/get \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "alert_id": "8deed800-1b7a-495d-a207-6c52bac54dc9",\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.Alerts.Get',
@@ -1708,14 +1708,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.customers.alerts.list(\n    customer_id="9b85c1c1-5238-4f2a-a409-61412905e1e1",\n)\npage = page.data[0]\nprint(page.alert)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customer-alerts/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1"\n        }\'',
-      },
       java: {
         method: 'v1().customers().alerts().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.alerts.AlertListPage;\nimport com.metronome.api.models.v1.customers.alerts.AlertListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        AlertListParams params = AlertListParams.builder()\n            .customerId("9b85c1c1-5238-4f2a-a409-61412905e1e1")\n            .build();\n        AlertListPage page = client.v1().customers().alerts().list(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customer-alerts/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.Alerts.List',
@@ -1752,14 +1752,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.customers.alerts.reset(\n    alert_id="5e8691bf-b22a-4672-922d-f80eee940f01",\n    customer_id="4c83caf3-8af4-44e2-9aeb-e290531726d9",\n)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customer-alerts/reset \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "alert_id": "5e8691bf-b22a-4672-922d-f80eee940f01",\n          "customer_id": "4c83caf3-8af4-44e2-9aeb-e290531726d9"\n        }\'',
-      },
       java: {
         method: 'v1().customers().alerts().reset',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.alerts.AlertResetParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        AlertResetParams params = AlertResetParams.builder()\n            .alertId("5e8691bf-b22a-4672-922d-f80eee940f01")\n            .customerId("4c83caf3-8af4-44e2-9aeb-e290531726d9")\n            .build();\n        client.v1().customers().alerts().reset(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customer-alerts/reset \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "alert_id": "5e8691bf-b22a-4672-922d-f80eee940f01",\n          "customer_id": "4c83caf3-8af4-44e2-9aeb-e290531726d9"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.Alerts.Reset',
@@ -1798,14 +1798,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.customers.plans.list(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/plans \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customers().plans().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.plans.PlanListPage;\nimport com.metronome.api.models.v1.customers.plans.PlanListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        PlanListParams params = PlanListParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        PlanListPage page = client.v1().customers().plans().list(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/plans \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Customers.Plans.List',
@@ -1852,14 +1852,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.customers.plans.add(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    plan_id="d2c06dae-9549-4d7d-bc04-b78dd3d241b8",\n    starting_on=datetime.fromisoformat("2021-02-01T00:00:00"),\n    ending_before=datetime.fromisoformat("2022-02-01T00:00:00"),\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/plans/add \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "plan_id": "d2c06dae-9549-4d7d-bc04-b78dd3d241b8",\n          "starting_on": "2021-02-01T00:00:00Z",\n          "ending_before": "2022-02-01T00:00:00Z"\n        }\'',
-      },
       java: {
         method: 'v1().customers().plans().add',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.plans.PlanAddParams;\nimport com.metronome.api.models.v1.customers.plans.PlanAddResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        PlanAddParams params = PlanAddParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .planId("d2c06dae-9549-4d7d-bc04-b78dd3d241b8")\n            .startingOn(OffsetDateTime.parse("2021-02-01T00:00:00Z"))\n            .build();\n        PlanAddResponse response = client.v1().customers().plans().add(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/plans/add \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "plan_id": "d2c06dae-9549-4d7d-bc04-b78dd3d241b8",\n          "starting_on": "2021-02-01T00:00:00Z",\n          "ending_before": "2022-02-01T00:00:00Z"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.Plans.Add',
@@ -1903,14 +1903,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.customers.plans.end(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_plan_id="7aa11640-0703-4600-8eb9-293f535a6b74",\n    ending_before=datetime.fromisoformat("2021-02-01T00:00:00"),\n)\nprint(response)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/plans/$CUSTOMER_PLAN_ID/end \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customers().plans().end',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.plans.PlanEndParams;\nimport com.metronome.api.models.v1.customers.plans.PlanEndResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        PlanEndParams params = PlanEndParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerPlanId("7aa11640-0703-4600-8eb9-293f535a6b74")\n            .build();\n        PlanEndResponse response = client.v1().customers().plans().end(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/plans/$CUSTOMER_PLAN_ID/end \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Customers.Plans.End',
@@ -1949,14 +1949,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.customers.plans.list_price_adjustments(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_plan_id="7aa11640-0703-4600-8eb9-293f535a6b74",\n)\npage = page.data[0]\nprint(page.charge_id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/plans/$CUSTOMER_PLAN_ID/priceAdjustments \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customers().plans().listPriceAdjustments',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.plans.PlanListPriceAdjustmentsPage;\nimport com.metronome.api.models.v1.customers.plans.PlanListPriceAdjustmentsParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        PlanListPriceAdjustmentsParams params = PlanListPriceAdjustmentsParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerPlanId("7aa11640-0703-4600-8eb9-293f535a6b74")\n            .build();\n        PlanListPriceAdjustmentsPage page = client.v1().customers().plans().listPriceAdjustments(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/plans/$CUSTOMER_PLAN_ID/priceAdjustments \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Customers.Plans.ListPriceAdjustments',
@@ -2008,14 +2008,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.customers.invoices.list(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/invoices \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customers().invoices().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.invoices.InvoiceListPage;\nimport com.metronome.api.models.v1.customers.invoices.InvoiceListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        InvoiceListParams params = InvoiceListParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        InvoiceListPage page = client.v1().customers().invoices().list(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/invoices \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Customers.Invoices.List',
@@ -2054,14 +2054,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\ninvoice = client.v1.customers.invoices.retrieve(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    invoice_id="6a37bb88-8538-48c5-b37b-a41c836328bd",\n)\nprint(invoice.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/invoices/$INVOICE_ID \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customers().invoices().retrieve',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.invoices.InvoiceRetrieveParams;\nimport com.metronome.api.models.v1.customers.invoices.InvoiceRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        InvoiceRetrieveParams params = InvoiceRetrieveParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .invoiceId("6a37bb88-8538-48c5-b37b-a41c836328bd")\n            .build();\n        InvoiceRetrieveResponse invoice = client.v1().customers().invoices().retrieve(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/invoices/$INVOICE_ID \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Customers.Invoices.Get',
@@ -2107,14 +2107,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.customers.invoices.add_charge(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    charge_id="5ae4b726-1ebe-439c-9190-9831760ba195",\n    customer_plan_id="a23b3cf4-47fb-4c3f-bb3d-9e64f7704015",\n    description="One time charge",\n    invoice_start_timestamp=datetime.fromisoformat("2024-01-01T00:00:00"),\n    price=250,\n    quantity=1,\n)\nprint(response)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/addCharge \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "charge_id": "5ae4b726-1ebe-439c-9190-9831760ba195",\n          "customer_plan_id": "a23b3cf4-47fb-4c3f-bb3d-9e64f7704015",\n          "description": "One time charge",\n          "invoice_start_timestamp": "2024-01-01T00:00:00Z",\n          "price": 250,\n          "quantity": 1\n        }\'',
-      },
       java: {
         method: 'v1().customers().invoices().addCharge',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.invoices.InvoiceAddChargeParams;\nimport com.metronome.api.models.v1.customers.invoices.InvoiceAddChargeResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        InvoiceAddChargeParams params = InvoiceAddChargeParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .chargeId("5ae4b726-1ebe-439c-9190-9831760ba195")\n            .customerPlanId("a23b3cf4-47fb-4c3f-bb3d-9e64f7704015")\n            .description("One time charge")\n            .invoiceStartTimestamp(OffsetDateTime.parse("2024-01-01T00:00:00Z"))\n            .price(250.0)\n            .quantity(1.0)\n            .build();\n        InvoiceAddChargeResponse response = client.v1().customers().invoices().addCharge(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/addCharge \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "charge_id": "5ae4b726-1ebe-439c-9190-9831760ba195",\n          "customer_plan_id": "a23b3cf4-47fb-4c3f-bb3d-9e64f7704015",\n          "description": "One time charge",\n          "invoice_start_timestamp": "2024-01-01T00:00:00Z",\n          "price": 250,\n          "quantity": 1\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.Invoices.AddCharge',
@@ -2164,14 +2164,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.customers.invoices.list_breakdowns(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    ending_before=datetime.fromisoformat("2019-12-27T18:11:19.117"),\n    starting_on=datetime.fromisoformat("2019-12-27T18:11:19.117"),\n)\npage = page.data[0]\nprint(page)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/invoices/breakdowns \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customers().invoices().listBreakdowns',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.invoices.InvoiceListBreakdownsPage;\nimport com.metronome.api.models.v1.customers.invoices.InvoiceListBreakdownsParams;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        InvoiceListBreakdownsParams params = InvoiceListBreakdownsParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .endingBefore(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))\n            .startingOn(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))\n            .build();\n        InvoiceListBreakdownsPage page = client.v1().customers().invoices().listBreakdowns(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/invoices/breakdowns \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Customers.Invoices.ListBreakdowns',
@@ -2209,14 +2209,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.customers.invoices.retrieve_pdf(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    invoice_id="6a37bb88-8538-48c5-b37b-a41c836328bd",\n)\nprint(response)\ncontent = response.read()\nprint(content)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/invoices/$INVOICE_ID/pdf \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customers().invoices().retrievePdf',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.core.http.HttpResponse;\nimport com.metronome.api.models.v1.customers.invoices.InvoiceRetrievePdfParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        InvoiceRetrievePdfParams params = InvoiceRetrievePdfParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .invoiceId("6a37bb88-8538-48c5-b37b-a41c836328bd")\n            .build();\n        HttpResponse response = client.v1().customers().invoices().retrievePdf(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/invoices/$INVOICE_ID/pdf \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Customers.Invoices.GetPdf',
@@ -2255,14 +2255,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nbilling_config = client.v1.customers.billing_config.retrieve(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    billing_provider_type="stripe",\n)\nprint(billing_config.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/billing-config/$BILLING_PROVIDER_TYPE \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customers().billingConfig().retrieve',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.billingconfig.BillingConfigRetrieveParams;\nimport com.metronome.api.models.v1.customers.billingconfig.BillingConfigRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        BillingConfigRetrieveParams params = BillingConfigRetrieveParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .billingProviderType(BillingConfigRetrieveParams.BillingProviderType.STRIPE)\n            .build();\n        BillingConfigRetrieveResponse billingConfig = client.v1().customers().billingConfig().retrieve(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/billing-config/$BILLING_PROVIDER_TYPE \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Customers.BillingConfig.Get',
@@ -2308,14 +2308,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.customers.billing_config.create(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    billing_provider_type="stripe",\n    billing_provider_customer_id="cus_AJ6y20bjkOOayM",\n    stripe_collection_method="charge_automatically",\n)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/billing-config/$BILLING_PROVIDER_TYPE \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "billing_provider_customer_id": "cus_AJ6y20bjkOOayM",\n          "stripe_collection_method": "charge_automatically"\n        }\'',
-      },
       java: {
         method: 'v1().customers().billingConfig().create',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.billingconfig.BillingConfigCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        BillingConfigCreateParams params = BillingConfigCreateParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .billingProviderType(BillingConfigCreateParams.BillingProviderType.STRIPE)\n            .billingProviderCustomerId("cus_AJ6y20bjkOOayM")\n            .build();\n        client.v1().customers().billingConfig().create(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/billing-config/$BILLING_PROVIDER_TYPE \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "billing_provider_customer_id": "cus_AJ6y20bjkOOayM",\n          "stripe_collection_method": "charge_automatically"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.BillingConfig.New',
@@ -2352,14 +2352,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.customers.billing_config.delete(\n    customer_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    billing_provider_type="stripe",\n)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/billing-config/$BILLING_PROVIDER_TYPE \\\n    -X DELETE \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customers().billingConfig().delete',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.billingconfig.BillingConfigDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        BillingConfigDeleteParams params = BillingConfigDeleteParams.builder()\n            .customerId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .billingProviderType(BillingConfigDeleteParams.BillingProviderType.STRIPE)\n            .build();\n        client.v1().customers().billingConfig().delete(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/$CUSTOMER_ID/billing-config/$BILLING_PROVIDER_TYPE \\\n    -X DELETE \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Customers.BillingConfig.Delete',
@@ -2410,14 +2410,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.customers.commits.list(\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    commit_id="6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n    include_ledgers=True,\n)\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/customerCommits/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "commit_id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "include_ledgers": true\n        }\'',
-      },
       java: {
         method: 'v1().customers().commits().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.commits.CommitListPage;\nimport com.metronome.api.models.v1.customers.commits.CommitListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CommitListParams params = CommitListParams.builder()\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        CommitListPage page = client.v1().customers().commits().list(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/customerCommits/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "commit_id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "include_ledgers": true\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.Commits.List',
@@ -2474,14 +2474,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\ncommit = client.v1.customers.commits.create(\n    access_schedule={\n        "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n        "schedule_items": [{\n            "amount": 1000,\n            "starting_at": datetime.fromisoformat("2020-01-01T00:00:00.000"),\n            "ending_before": datetime.fromisoformat("2020-02-01T00:00:00.000"),\n        }],\n    },\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    priority=100,\n    product_id="f14d6729-6a44-4b13-9908-9387f1918790",\n    type="prepaid",\n    invoice_contract_id="e57d6929-c2f1-4796-a9a8-63cedefe848d",\n    invoice_schedule={\n        "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n        "schedule_items": [{\n            "unit_price": 10000000,\n            "quantity": 1,\n            "timestamp": datetime.fromisoformat("2020-03-01T00:00:00.000"),\n        }],\n        "do_not_invoice": False,\n    },\n    name="My Commit",\n)\nprint(commit.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/customerCommits/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "access_schedule": {\n            "schedule_items": [\n              {\n                "amount": 1000,\n                "ending_before": "2020-02-01T00:00:00.000Z",\n                "starting_at": "2020-01-01T00:00:00.000Z"\n              }\n            ],\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n          },\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "priority": 100,\n          "product_id": "f14d6729-6a44-4b13-9908-9387f1918790",\n          "type": "PREPAID",\n          "invoice_contract_id": "e57d6929-c2f1-4796-a9a8-63cedefe848d",\n          "invoice_schedule": {\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n            "do_not_invoice": false,\n            "schedule_items": [\n              {\n                "timestamp": "2020-03-01T00:00:00.000Z",\n                "quantity": 1,\n                "unit_price": 10000000\n              }\n            ]\n          },\n          "name": "My Commit"\n        }\'',
-      },
       java: {
         method: 'v1().customers().commits().create',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.commits.CommitCreateParams;\nimport com.metronome.api.models.v1.customers.commits.CommitCreateResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CommitCreateParams params = CommitCreateParams.builder()\n            .accessSchedule(CommitCreateParams.AccessSchedule.builder()\n                .addScheduleItem(CommitCreateParams.AccessSchedule.ScheduleItem.builder()\n                    .amount(1000.0)\n                    .endingBefore(OffsetDateTime.parse("2020-02-01T00:00:00.000Z"))\n                    .startingAt(OffsetDateTime.parse("2020-01-01T00:00:00.000Z"))\n                    .build())\n                .build())\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .priority(100.0)\n            .productId("f14d6729-6a44-4b13-9908-9387f1918790")\n            .type(CommitCreateParams.Type.PREPAID)\n            .build();\n        CommitCreateResponse commit = client.v1().customers().commits().create(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/customerCommits/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "access_schedule": {\n            "schedule_items": [\n              {\n                "amount": 1000,\n                "ending_before": "2020-02-01T00:00:00.000Z",\n                "starting_at": "2020-01-01T00:00:00.000Z"\n              }\n            ],\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n          },\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "priority": 100,\n          "product_id": "f14d6729-6a44-4b13-9908-9387f1918790",\n          "type": "PREPAID",\n          "invoice_contract_id": "e57d6929-c2f1-4796-a9a8-63cedefe848d",\n          "invoice_schedule": {\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n            "do_not_invoice": false,\n            "schedule_items": [\n              {\n                "timestamp": "2020-03-01T00:00:00.000Z",\n                "quantity": 1,\n                "unit_price": 10000000\n              }\n            ]\n          },\n          "name": "My Commit"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.Commits.New',
@@ -2524,14 +2524,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.customers.commits.update_end_date(\n    commit_id="6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    access_ending_before=datetime.fromisoformat("2020-01-01T00:00:00.000"),\n    invoices_ending_before=datetime.fromisoformat("2020-01-01T00:00:00.000"),\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/customerCommits/updateEndDate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "commit_id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "access_ending_before": "2020-01-01T00:00:00.000Z",\n          "invoices_ending_before": "2020-01-01T00:00:00.000Z"\n        }\'',
-      },
       java: {
         method: 'v1().customers().commits().updateEndDate',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.commits.CommitUpdateEndDateParams;\nimport com.metronome.api.models.v1.customers.commits.CommitUpdateEndDateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CommitUpdateEndDateParams params = CommitUpdateEndDateParams.builder()\n            .commitId("6162d87b-e5db-4a33-b7f2-76ce6ead4e85")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        CommitUpdateEndDateResponse response = client.v1().customers().commits().updateEndDate(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/customerCommits/updateEndDate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "commit_id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "access_ending_before": "2020-01-01T00:00:00.000Z",\n          "invoices_ending_before": "2020-01-01T00:00:00.000Z"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.Commits.UpdateEndDate',
@@ -2582,14 +2582,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.customers.credits.list(\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    credit_id="6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n    include_ledgers=True,\n)\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/customerCredits/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "credit_id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "include_ledgers": true\n        }\'',
-      },
       java: {
         method: 'v1().customers().credits().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.credits.CreditListPage;\nimport com.metronome.api.models.v1.customers.credits.CreditListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CreditListParams params = CreditListParams.builder()\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        CreditListPage page = client.v1().customers().credits().list(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/customerCredits/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "credit_id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "include_ledgers": true\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.Credits.List',
@@ -2643,14 +2643,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\ncredit = client.v1.customers.credits.create(\n    access_schedule={\n        "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n        "schedule_items": [{\n            "amount": 1000,\n            "starting_at": datetime.fromisoformat("2020-01-01T00:00:00.000"),\n            "ending_before": datetime.fromisoformat("2020-02-01T00:00:00.000"),\n        }],\n    },\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    priority=100,\n    product_id="f14d6729-6a44-4b13-9908-9387f1918790",\n    name="My Credit",\n)\nprint(credit.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/customerCredits/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "access_schedule": {\n            "schedule_items": [\n              {\n                "amount": 1000,\n                "ending_before": "2020-02-01T00:00:00.000Z",\n                "starting_at": "2020-01-01T00:00:00.000Z"\n              }\n            ],\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n          },\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "priority": 100,\n          "product_id": "f14d6729-6a44-4b13-9908-9387f1918790",\n          "name": "My Credit"\n        }\'',
-      },
       java: {
         method: 'v1().customers().credits().create',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.credits.CreditCreateParams;\nimport com.metronome.api.models.v1.customers.credits.CreditCreateResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CreditCreateParams params = CreditCreateParams.builder()\n            .accessSchedule(CreditCreateParams.AccessSchedule.builder()\n                .addScheduleItem(CreditCreateParams.AccessSchedule.ScheduleItem.builder()\n                    .amount(1000.0)\n                    .endingBefore(OffsetDateTime.parse("2020-02-01T00:00:00.000Z"))\n                    .startingAt(OffsetDateTime.parse("2020-01-01T00:00:00.000Z"))\n                    .build())\n                .build())\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .priority(100.0)\n            .productId("f14d6729-6a44-4b13-9908-9387f1918790")\n            .build();\n        CreditCreateResponse credit = client.v1().customers().credits().create(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/customerCredits/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "access_schedule": {\n            "schedule_items": [\n              {\n                "amount": 1000,\n                "ending_before": "2020-02-01T00:00:00.000Z",\n                "starting_at": "2020-01-01T00:00:00.000Z"\n              }\n            ],\n            "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n          },\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "priority": 100,\n          "product_id": "f14d6729-6a44-4b13-9908-9387f1918790",\n          "name": "My Credit"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.Credits.New',
@@ -2688,14 +2688,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.customers.credits.update_end_date(\n    access_ending_before=datetime.fromisoformat("2020-01-01T00:00:00.000"),\n    credit_id="6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/customerCredits/updateEndDate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "access_ending_before": "2020-01-01T00:00:00.000Z",\n          "credit_id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
-      },
       java: {
         method: 'v1().customers().credits().updateEndDate',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.credits.CreditUpdateEndDateParams;\nimport com.metronome.api.models.v1.customers.credits.CreditUpdateEndDateResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CreditUpdateEndDateParams params = CreditUpdateEndDateParams.builder()\n            .accessEndingBefore(OffsetDateTime.parse("2020-01-01T00:00:00.000Z"))\n            .creditId("6162d87b-e5db-4a33-b7f2-76ce6ead4e85")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        CreditUpdateEndDateResponse response = client.v1().customers().credits().updateEndDate(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/customerCredits/updateEndDate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "access_ending_before": "2020-01-01T00:00:00.000Z",\n          "credit_id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.Credits.UpdateEndDate',
@@ -2733,14 +2733,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nnamed_schedule = client.v1.customers.named_schedules.retrieve(\n    customer_id="9b85c1c1-5238-4f2a-a409-61412905e1e1",\n    schedule_name="my-schedule",\n    covering_date=datetime.fromisoformat("2022-02-15T00:00:00"),\n)\nprint(named_schedule.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/getNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule",\n          "covering_date": "2022-02-15T00:00:00Z"\n        }\'',
-      },
       java: {
         method: 'v1().customers().namedSchedules().retrieve',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customers.namedschedules.NamedScheduleRetrieveParams;\nimport com.metronome.api.models.v1.customers.namedschedules.NamedScheduleRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        NamedScheduleRetrieveParams params = NamedScheduleRetrieveParams.builder()\n            .customerId("9b85c1c1-5238-4f2a-a409-61412905e1e1")\n            .scheduleName("my-schedule")\n            .build();\n        NamedScheduleRetrieveResponse namedSchedule = client.v1().customers().namedSchedules().retrieve(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/getNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule",\n          "covering_date": "2022-02-15T00:00:00Z"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.NamedSchedules.Get',
@@ -2783,14 +2783,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.customers.named_schedules.update(\n    customer_id="9b85c1c1-5238-4f2a-a409-61412905e1e1",\n    schedule_name="my-schedule",\n    starting_at=datetime.fromisoformat("2022-02-01T00:00:00"),\n    value={\n        "my_key": "my_value"\n    },\n    ending_before=datetime.fromisoformat("2022-02-15T00:00:00"),\n)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customers/updateNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule",\n          "starting_at": "2022-02-01T00:00:00Z",\n          "value": {\n            "my_key": "my_value"\n          },\n          "ending_before": "2022-02-15T00:00:00Z"\n        }\'',
-      },
       java: {
         method: 'v1().customers().namedSchedules().update',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.core.JsonValue;\nimport com.metronome.api.models.v1.customers.namedschedules.NamedScheduleUpdateParams;\nimport java.time.OffsetDateTime;\nimport java.util.Map;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        NamedScheduleUpdateParams params = NamedScheduleUpdateParams.builder()\n            .customerId("9b85c1c1-5238-4f2a-a409-61412905e1e1")\n            .scheduleName("my-schedule")\n            .startingAt(OffsetDateTime.parse("2022-02-01T00:00:00Z"))\n            .value(JsonValue.from(Map.of(\n              "my_key", "my_value"\n            )))\n            .build();\n        client.v1().customers().namedSchedules().update(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customers/updateNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule",\n          "starting_at": "2022-02-01T00:00:00Z",\n          "value": {\n            "my_key": "my_value"\n          },\n          "ending_before": "2022-02-15T00:00:00Z"\n        }\'',
       },
       go: {
         method: 'client.V1.Customers.NamedSchedules.Update',
@@ -2834,14 +2834,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.dashboards.get_embeddable_url(\n    customer_id="4db51251-61de-4bfe-b9ce-495e244f3491",\n    dashboard="invoices",\n    color_overrides=[{\n        "name": "Gray_dark",\n        "value": "#ff0000",\n    }],\n    dashboard_options=[{\n        "key": "show_zero_usage_line_items",\n        "value": "false",\n    }, {\n        "key": "invoice_status_filter",\n        "value": "FINALIZED",\n    }],\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/dashboards/getEmbeddableUrl \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n          "dashboard": "invoices",\n          "color_overrides": [\n            {\n              "name": "Gray_dark",\n              "value": "#ff0000"\n            }\n          ],\n          "dashboard_options": [\n            {\n              "key": "show_zero_usage_line_items",\n              "value": "false"\n            },\n            {\n              "key": "invoice_status_filter",\n              "value": "FINALIZED"\n            }\n          ]\n        }\'',
-      },
       java: {
         method: 'v1().dashboards().getEmbeddableUrl',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.dashboards.DashboardGetEmbeddableUrlParams;\nimport com.metronome.api.models.v1.dashboards.DashboardGetEmbeddableUrlResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        DashboardGetEmbeddableUrlParams params = DashboardGetEmbeddableUrlParams.builder()\n            .customerId("4db51251-61de-4bfe-b9ce-495e244f3491")\n            .dashboard(DashboardGetEmbeddableUrlParams.Dashboard.INVOICES)\n            .build();\n        DashboardGetEmbeddableUrlResponse response = client.v1().dashboards().getEmbeddableUrl(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/dashboards/getEmbeddableUrl \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "4db51251-61de-4bfe-b9ce-495e244f3491",\n          "dashboard": "invoices",\n          "color_overrides": [\n            {\n              "name": "Gray_dark",\n              "value": "#ff0000"\n            }\n          ],\n          "dashboard_options": [\n            {\n              "key": "show_zero_usage_line_items",\n              "value": "false"\n            },\n            {\n              "key": "invoice_status_filter",\n              "value": "FINALIZED"\n            }\n          ]\n        }\'',
       },
       go: {
         method: 'client.V1.Dashboards.GetEmbeddableURL',
@@ -2880,14 +2880,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.usage.ingest()',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/ingest \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().usage().ingest',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.usage.UsageIngestParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        client.v1().usage().ingest();\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/ingest \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Usage.Ingest',
@@ -2933,14 +2933,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.usage.list(\n    ending_before=datetime.fromisoformat("2021-01-03T00:00:00"),\n    starting_on=datetime.fromisoformat("2021-01-01T00:00:00"),\n    window_size="day",\n)\npage = page.data[0]\nprint(page.billable_metric_id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/usage \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "ending_before": "2021-01-03T00:00:00Z",\n          "starting_on": "2021-01-01T00:00:00Z",\n          "window_size": "HOUR"\n        }\'',
-      },
       java: {
         method: 'v1().usage().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.usage.UsageListPage;\nimport com.metronome.api.models.v1.usage.UsageListParams;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        UsageListParams params = UsageListParams.builder()\n            .endingBefore(OffsetDateTime.parse("2021-01-03T00:00:00Z"))\n            .startingOn(OffsetDateTime.parse("2021-01-01T00:00:00Z"))\n            .windowSize(UsageListParams.WindowSize.HOUR)\n            .build();\n        UsageListPage page = client.v1().usage().list(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/usage \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "ending_before": "2021-01-03T00:00:00Z",\n          "starting_on": "2021-01-01T00:00:00Z",\n          "window_size": "HOUR"\n        }\'',
       },
       go: {
         method: 'client.V1.Usage.List',
@@ -2991,14 +2991,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.usage.list_with_groups(\n    billable_metric_id="222796fd-d29c-429e-89b2-549fabda4ed6",\n    customer_id="04ca7e72-4229-4a6e-ab11-9f7376fccbcb",\n    window_size="day",\n    ending_before=datetime.fromisoformat("2021-01-03T00:00:00"),\n    group_filters={\n        "region": ["us-east1", "us-west1"]\n    },\n    group_key=["region"],\n    starting_on=datetime.fromisoformat("2021-01-01T00:00:00"),\n)\npage = page.data[0]\nprint(page.ending_before)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/usage/groups \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "billable_metric_id": "222796fd-d29c-429e-89b2-549fabda4ed6",\n          "customer_id": "04ca7e72-4229-4a6e-ab11-9f7376fccbcb",\n          "window_size": "HOUR",\n          "ending_before": "2021-01-03T00:00:00Z",\n          "group_filters": {\n            "region": [\n              "us-east1",\n              "us-west1"\n            ]\n          },\n          "group_key": [\n            "region"\n          ],\n          "starting_on": "2021-01-01T00:00:00Z"\n        }\'',
-      },
       java: {
         method: 'v1().usage().listWithGroups',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.usage.UsageListWithGroupsPage;\nimport com.metronome.api.models.v1.usage.UsageListWithGroupsParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        UsageListWithGroupsParams params = UsageListWithGroupsParams.builder()\n            .billableMetricId("222796fd-d29c-429e-89b2-549fabda4ed6")\n            .customerId("04ca7e72-4229-4a6e-ab11-9f7376fccbcb")\n            .windowSize(UsageListWithGroupsParams.WindowSize.HOUR)\n            .build();\n        UsageListWithGroupsPage page = client.v1().usage().listWithGroups(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/usage/groups \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "billable_metric_id": "222796fd-d29c-429e-89b2-549fabda4ed6",\n          "customer_id": "04ca7e72-4229-4a6e-ab11-9f7376fccbcb",\n          "window_size": "HOUR",\n          "ending_before": "2021-01-03T00:00:00Z",\n          "group_filters": {\n            "region": [\n              "us-east1",\n              "us-west1"\n            ]\n          },\n          "group_key": [\n            "region"\n          ],\n          "starting_on": "2021-01-01T00:00:00Z"\n        }\'',
       },
       go: {
         method: 'client.V1.Usage.ListWithGroups',
@@ -3037,14 +3037,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.usage.search(\n    transaction_ids=["2021-01-01T00:00:00Z_cluster42"],\n)\nprint(response)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/events/search \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "transactionIds": [\n            "2021-01-01T00:00:00Z_cluster42"\n          ]\n        }\'',
-      },
       java: {
         method: 'v1().usage().search',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.usage.UsageSearchParams;\nimport com.metronome.api.models.v1.usage.UsageSearchResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        UsageSearchParams params = UsageSearchParams.builder()\n            .addTransactionId("2021-01-01T00:00:00Z_cluster42")\n            .build();\n        List<UsageSearchResponse> response = client.v1().usage().search(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/events/search \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "transactionIds": [\n            "2021-01-01T00:00:00Z_cluster42"\n          ]\n        }\'',
       },
       go: {
         method: 'client.V1.Usage.Search',
@@ -3091,14 +3091,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.audit_logs.list()\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/auditLogs \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().auditLogs().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.auditlogs.AuditLogListPage;\nimport com.metronome.api.models.v1.auditlogs.AuditLogListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        AuditLogListPage page = client.v1().auditLogs().list();\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/auditLogs \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.AuditLogs.List',
@@ -3135,14 +3135,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.custom_fields.add_key(\n    enforce_uniqueness=True,\n    entity="customer",\n    key="x_account_id",\n)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customFields/addKey \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "enforce_uniqueness": true,\n          "entity": "customer",\n          "key": "x_account_id"\n        }\'',
-      },
       java: {
         method: 'v1().customFields().addKey',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customfields.CustomFieldAddKeyParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomFieldAddKeyParams params = CustomFieldAddKeyParams.builder()\n            .enforceUniqueness(true)\n            .entity(CustomFieldAddKeyParams.Entity.CUSTOMER)\n            .key("x_account_id")\n            .build();\n        client.v1().customFields().addKey(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customFields/addKey \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "enforce_uniqueness": true,\n          "entity": "customer",\n          "key": "x_account_id"\n        }\'',
       },
       go: {
         method: 'client.V1.CustomFields.AddKey',
@@ -3179,14 +3179,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.custom_fields.remove_key(\n    entity="customer",\n    key="x_account_id",\n)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customFields/removeKey \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "entity": "customer",\n          "key": "x_account_id"\n        }\'',
-      },
       java: {
         method: 'v1().customFields().removeKey',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customfields.CustomFieldRemoveKeyParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomFieldRemoveKeyParams params = CustomFieldRemoveKeyParams.builder()\n            .entity(CustomFieldRemoveKeyParams.Entity.CUSTOMER)\n            .key("x_account_id")\n            .build();\n        client.v1().customFields().removeKey(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customFields/removeKey \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "entity": "customer",\n          "key": "x_account_id"\n        }\'',
       },
       go: {
         method: 'client.V1.CustomFields.RemoveKey',
@@ -3223,14 +3223,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.custom_fields.set_values(\n    custom_fields={\n        "x_account_id": "KyVnHhSBWl7eY2bl"\n    },\n    entity="customer",\n    entity_id="99594816-e8a5-4bca-be21-8d1de0f45120",\n)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customFields/setValues \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "custom_fields": {\n            "x_account_id": "KyVnHhSBWl7eY2bl"\n          },\n          "entity": "customer",\n          "entity_id": "99594816-e8a5-4bca-be21-8d1de0f45120"\n        }\'',
-      },
       java: {
         method: 'v1().customFields().setValues',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.core.JsonValue;\nimport com.metronome.api.models.v1.customfields.CustomFieldSetValuesParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomFieldSetValuesParams params = CustomFieldSetValuesParams.builder()\n            .customFields(CustomFieldSetValuesParams.CustomFields.builder()\n                .putAdditionalProperty("x_account_id", JsonValue.from("KyVnHhSBWl7eY2bl"))\n                .build())\n            .entity(CustomFieldSetValuesParams.Entity.CUSTOMER)\n            .entityId("99594816-e8a5-4bca-be21-8d1de0f45120")\n            .build();\n        client.v1().customFields().setValues(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customFields/setValues \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "custom_fields": {\n            "x_account_id": "KyVnHhSBWl7eY2bl"\n          },\n          "entity": "customer",\n          "entity_id": "99594816-e8a5-4bca-be21-8d1de0f45120"\n        }\'',
       },
       go: {
         method: 'client.V1.CustomFields.SetValues',
@@ -3267,14 +3267,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.custom_fields.delete_values(\n    entity="customer",\n    entity_id="99594816-e8a5-4bca-be21-8d1de0f45120",\n    keys=["x_account_id"],\n)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customFields/deleteValues \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "entity": "customer",\n          "entity_id": "99594816-e8a5-4bca-be21-8d1de0f45120",\n          "keys": [\n            "x_account_id"\n          ]\n        }\'',
-      },
       java: {
         method: 'v1().customFields().deleteValues',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customfields.CustomFieldDeleteValuesParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomFieldDeleteValuesParams params = CustomFieldDeleteValuesParams.builder()\n            .entity(CustomFieldDeleteValuesParams.Entity.CUSTOMER)\n            .entityId("99594816-e8a5-4bca-be21-8d1de0f45120")\n            .addKey("x_account_id")\n            .build();\n        client.v1().customFields().deleteValues(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customFields/deleteValues \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "entity": "customer",\n          "entity_id": "99594816-e8a5-4bca-be21-8d1de0f45120",\n          "keys": [\n            "x_account_id"\n          ]\n        }\'',
       },
       go: {
         method: 'client.V1.CustomFields.DeleteValues',
@@ -3312,14 +3312,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.custom_fields.list_keys(\n    entities=["customer"],\n)\npage = page.data[0]\nprint(page.enforce_uniqueness)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/customFields/listKeys \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().customFields().listKeys',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.customfields.CustomFieldListKeysPage;\nimport com.metronome.api.models.v1.customfields.CustomFieldListKeysParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        CustomFieldListKeysPage page = client.v1().customFields().listKeys();\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/customFields/listKeys \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.CustomFields.ListKeys',
@@ -3366,14 +3366,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nbillable_metric = client.v1.billable_metrics.create(\n    name="CPU Hours",\n    aggregation_key="cpu_hours",\n    aggregation_type="SUM",\n    event_type_filter={\n        "in_values": ["cpu_usage"]\n    },\n    group_keys=[["region"], ["machine_type"]],\n    property_filters=[{\n        "name": "cpu_hours",\n        "exists": True,\n    }, {\n        "name": "region",\n        "exists": True,\n        "in_values": ["EU", "NA"],\n    }, {\n        "name": "machine_type",\n        "exists": True,\n        "in_values": ["slow", "fast"],\n    }],\n)\nprint(billable_metric.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/billable-metrics/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "CPU Hours",\n          "aggregation_key": "cpu_hours",\n          "aggregation_type": "SUM",\n          "event_type_filter": {\n            "in_values": [\n              "cpu_usage"\n            ]\n          },\n          "group_keys": [\n            [\n              "region"\n            ],\n            [\n              "machine_type"\n            ]\n          ],\n          "property_filters": [\n            {\n              "name": "cpu_hours",\n              "exists": true\n            },\n            {\n              "name": "region",\n              "exists": true,\n              "in_values": [\n                "EU",\n                "NA"\n              ]\n            },\n            {\n              "name": "machine_type",\n              "exists": true,\n              "in_values": [\n                "slow",\n                "fast"\n              ]\n            }\n          ]\n        }\'',
-      },
       java: {
         method: 'v1().billableMetrics().create',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.billablemetrics.BillableMetricCreateParams;\nimport com.metronome.api.models.v1.billablemetrics.BillableMetricCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        BillableMetricCreateParams params = BillableMetricCreateParams.builder()\n            .name("CPU Hours")\n            .build();\n        BillableMetricCreateResponse billableMetric = client.v1().billableMetrics().create(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/billable-metrics/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "CPU Hours",\n          "aggregation_key": "cpu_hours",\n          "aggregation_type": "SUM",\n          "event_type_filter": {\n            "in_values": [\n              "cpu_usage"\n            ]\n          },\n          "group_keys": [\n            [\n              "region"\n            ],\n            [\n              "machine_type"\n            ]\n          ],\n          "property_filters": [\n            {\n              "name": "cpu_hours",\n              "exists": true\n            },\n            {\n              "name": "region",\n              "exists": true,\n              "in_values": [\n                "EU",\n                "NA"\n              ]\n            },\n            {\n              "name": "machine_type",\n              "exists": true,\n              "in_values": [\n                "slow",\n                "fast"\n              ]\n            }\n          ]\n        }\'',
       },
       go: {
         method: 'client.V1.BillableMetrics.New',
@@ -3411,14 +3411,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.billable_metrics.archive(\n    id="8deed800-1b7a-495d-a207-6c52bac54dc9",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/billable-metrics/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "8deed800-1b7a-495d-a207-6c52bac54dc9"\n        }\'',
-      },
       java: {
         method: 'v1().billableMetrics().archive',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.billablemetrics.BillableMetricArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("8deed800-1b7a-495d-a207-6c52bac54dc9")\n            .build();\n        BillableMetricArchiveResponse response = client.v1().billableMetrics().archive(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/billable-metrics/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "8deed800-1b7a-495d-a207-6c52bac54dc9"\n        }\'',
       },
       go: {
         method: 'client.V1.BillableMetrics.Archive',
@@ -3457,14 +3457,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nbillable_metric = client.v1.billable_metrics.retrieve(\n    billable_metric_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n)\nprint(billable_metric.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/billable-metrics/$BILLABLE_METRIC_ID \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().billableMetrics().retrieve',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.billablemetrics.BillableMetricRetrieveParams;\nimport com.metronome.api.models.v1.billablemetrics.BillableMetricRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        BillableMetricRetrieveParams params = BillableMetricRetrieveParams.builder()\n            .billableMetricId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        BillableMetricRetrieveResponse billableMetric = client.v1().billableMetrics().retrieve(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/billable-metrics/$BILLABLE_METRIC_ID \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.BillableMetrics.Get',
@@ -3503,14 +3503,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.billable_metrics.list()\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/billable-metrics \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().billableMetrics().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.billablemetrics.BillableMetricListPage;\nimport com.metronome.api.models.v1.billablemetrics.BillableMetricListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        BillableMetricListPage page = client.v1().billableMetrics().list();\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/billable-metrics \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.BillableMetrics.List',
@@ -3548,14 +3548,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nservices = client.v1.services.list()\nprint(services.services)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/services \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().services().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.services.ServiceListParams;\nimport com.metronome.api.models.v1.services.ServiceListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ServiceListResponse services = client.v1().services().list();\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/services \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Services.List',
@@ -3593,14 +3593,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.invoices.void(\n    id="6a37bb88-8538-48c5-b37b-a41c836328bd",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/invoices/void \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "6a37bb88-8538-48c5-b37b-a41c836328bd"\n        }\'',
-      },
       java: {
         method: 'v1().invoices().void_',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.invoices.InvoiceVoidParams;\nimport com.metronome.api.models.v1.invoices.InvoiceVoidResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        InvoiceVoidParams params = InvoiceVoidParams.builder()\n            .id("6a37bb88-8538-48c5-b37b-a41c836328bd")\n            .build();\n        InvoiceVoidResponse response = client.v1().invoices().void_(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/invoices/void \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "6a37bb88-8538-48c5-b37b-a41c836328bd"\n        }\'',
       },
       go: {
         method: 'client.V1.Invoices.Void',
@@ -3638,14 +3638,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.invoices.regenerate(\n    id="6a37bb88-8538-48c5-b37b-a41c836328bd",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/invoices/regenerate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "6a37bb88-8538-48c5-b37b-a41c836328bd"\n        }\'',
-      },
       java: {
         method: 'v1().invoices().regenerate',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.invoices.InvoiceRegenerateParams;\nimport com.metronome.api.models.v1.invoices.InvoiceRegenerateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        InvoiceRegenerateParams params = InvoiceRegenerateParams.builder()\n            .id("6a37bb88-8538-48c5-b37b-a41c836328bd")\n            .build();\n        InvoiceRegenerateResponse response = client.v1().invoices().regenerate(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/invoices/regenerate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "6a37bb88-8538-48c5-b37b-a41c836328bd"\n        }\'',
       },
       go: {
         method: 'client.V1.Invoices.Regenerate',
@@ -3689,14 +3689,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\ncontract = client.v1.contracts.retrieve(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n)\nprint(contract.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/get \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().retrieve',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractRetrieveParams;\nimport com.metronome.api.models.v1.contracts.ContractRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractRetrieveParams params = ContractRetrieveParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        ContractRetrieveResponse contract = client.v1().contracts().retrieve(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/get \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.Get',
@@ -3742,14 +3742,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\ncontracts = client.v1.contracts.list(\n    customer_id="9b85c1c1-5238-4f2a-a409-61412905e1e1",\n)\nprint(contracts.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractListParams;\nimport com.metronome.api.models.v1.contracts.ContractListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractListParams params = ContractListParams.builder()\n            .customerId("9b85c1c1-5238-4f2a-a409-61412905e1e1")\n            .build();\n        ContractListResponse contracts = client.v1().contracts().list(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.List',
@@ -3824,14 +3824,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\ncontract = client.v1.contracts.create(\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    starting_at=datetime.fromisoformat("2020-01-01T00:00:00.000"),\n    billing_provider_configuration={\n        "billing_provider": "stripe",\n        "delivery_method": "direct_to_billing_provider",\n    },\n    rate_card_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\nprint(contract.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "starting_at": "2020-01-01T00:00:00.000Z",\n          "billing_provider_configuration": {\n            "billing_provider": "stripe",\n            "delivery_method": "direct_to_billing_provider"\n          },\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().create',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractCreateParams;\nimport com.metronome.api.models.v1.contracts.ContractCreateResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractCreateParams params = ContractCreateParams.builder()\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .startingAt(OffsetDateTime.parse("2020-01-01T00:00:00.000Z"))\n            .build();\n        ContractCreateResponse contract = client.v1().contracts().create(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "starting_at": "2020-01-01T00:00:00.000Z",\n          "billing_provider_configuration": {\n            "billing_provider": "stripe",\n            "delivery_method": "direct_to_billing_provider"\n          },\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.New',
@@ -3884,14 +3884,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.amend(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    starting_at=datetime.fromisoformat("2020-01-01T00:00:00.000"),\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/amend \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "starting_at": "2020-01-01T00:00:00.000Z"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().amend',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractAmendParams;\nimport com.metronome.api.models.v1.contracts.ContractAmendResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractAmendParams params = ContractAmendParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .startingAt(OffsetDateTime.parse("2020-01-01T00:00:00.000Z"))\n            .build();\n        ContractAmendResponse response = client.v1().contracts().amend(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/amend \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "starting_at": "2020-01-01T00:00:00.000Z"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.Amend',
@@ -3929,14 +3929,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.archive(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    void_invoices=True,\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "void_invoices": true\n        }\'',
-      },
       java: {
         method: 'v1().contracts().archive',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractArchiveParams;\nimport com.metronome.api.models.v1.contracts.ContractArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractArchiveParams params = ContractArchiveParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .voidInvoices(true)\n            .build();\n        ContractArchiveResponse response = client.v1().contracts().archive(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "void_invoices": true\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.Archive',
@@ -3979,14 +3979,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.contracts.set_usage_filter(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    group_key="business_subscription_id",\n    group_values=["ID-1", "ID-2"],\n    starting_at=datetime.fromisoformat("2020-01-01T00:00:00.000"),\n)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/setUsageFilter \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "group_key": "business_subscription_id",\n          "group_values": [\n            "ID-1",\n            "ID-2"\n          ],\n          "starting_at": "2020-01-01T00:00:00.000Z"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().setUsageFilter',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractSetUsageFilterParams;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractSetUsageFilterParams params = ContractSetUsageFilterParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .groupKey("business_subscription_id")\n            .addGroupValue("ID-1")\n            .addGroupValue("ID-2")\n            .startingAt(OffsetDateTime.parse("2020-01-01T00:00:00.000Z"))\n            .build();\n        client.v1().contracts().setUsageFilter(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/setUsageFilter \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "group_key": "business_subscription_id",\n          "group_values": [\n            "ID-1",\n            "ID-2"\n          ],\n          "starting_at": "2020-01-01T00:00:00.000Z"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.SetUsageFilter',
@@ -4032,14 +4032,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.contracts.add_manual_balance_entry(\n    id="6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n    amount=-1000,\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    reason="Reason for entry",\n    segment_id="66368e29-3f97-4d15-a6e9-120897f0070a",\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/addManualBalanceLedgerEntry \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "amount": -1000,\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "reason": "Reason for entry",\n          "segment_id": "66368e29-3f97-4d15-a6e9-120897f0070a",\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().addManualBalanceEntry',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractAddManualBalanceEntryParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractAddManualBalanceEntryParams params = ContractAddManualBalanceEntryParams.builder()\n            .id("6162d87b-e5db-4a33-b7f2-76ce6ead4e85")\n            .amount(-1000.0)\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .reason("Reason for entry")\n            .segmentId("66368e29-3f97-4d15-a6e9-120897f0070a")\n            .build();\n        client.v1().contracts().addManualBalanceEntry(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/addManualBalanceLedgerEntry \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "amount": -1000,\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "reason": "Reason for entry",\n          "segment_id": "66368e29-3f97-4d15-a6e9-120897f0070a",\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.AddManualBalanceEntry',
@@ -4082,14 +4082,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.update_end_date(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    ending_before=datetime.fromisoformat("2020-01-01T00:00:00.000"),\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/updateEndDate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "ending_before": "2020-01-01T00:00:00.000Z"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().updateEndDate',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractUpdateEndDateParams;\nimport com.metronome.api.models.v1.contracts.ContractUpdateEndDateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractUpdateEndDateParams params = ContractUpdateEndDateParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        ContractUpdateEndDateResponse response = client.v1().contracts().updateEndDate(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/updateEndDate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "ending_before": "2020-01-01T00:00:00.000Z"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.UpdateEndDate',
@@ -4135,14 +4135,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.retrieve_rate_schedule(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    at=datetime.fromisoformat("2020-01-01T00:00:00.000"),\n    selectors=[{\n        "product_id": "d6300dbb-882e-4d2d-8dec-5125d16b65d0",\n        "partial_pricing_group_values": {\n            "region": "us-west-2",\n            "cloud": "aws",\n        },\n    }],\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/getContractRateSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "at": "2020-01-01T00:00:00.000Z",\n          "selectors": [\n            {\n              "partial_pricing_group_values": {\n                "region": "us-west-2",\n                "cloud": "aws"\n              },\n              "product_id": "d6300dbb-882e-4d2d-8dec-5125d16b65d0"\n            }\n          ]\n        }\'',
-      },
       java: {
         method: 'v1().contracts().retrieveRateSchedule',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractRetrieveRateScheduleParams;\nimport com.metronome.api.models.v1.contracts.ContractRetrieveRateScheduleResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractRetrieveRateScheduleParams params = ContractRetrieveRateScheduleParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        ContractRetrieveRateScheduleResponse response = client.v1().contracts().retrieveRateSchedule(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/getContractRateSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "at": "2020-01-01T00:00:00.000Z",\n          "selectors": [\n            {\n              "partial_pricing_group_values": {\n                "region": "us-west-2",\n                "cloud": "aws"\n              },\n              "product_id": "d6300dbb-882e-4d2d-8dec-5125d16b65d0"\n            }\n          ]\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.GetRateSchedule',
@@ -4193,14 +4193,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.contracts.list_balances(\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    id="6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n    include_ledgers=True,\n)\npage = page.data[0]\nprint(page)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/customerBalances/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "include_ledgers": true\n        }\'',
-      },
       java: {
         method: 'v1().contracts().listBalances',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractListBalancesPage;\nimport com.metronome.api.models.v1.contracts.ContractListBalancesParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractListBalancesParams params = ContractListBalancesParams.builder()\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        ContractListBalancesPage page = client.v1().contracts().listBalances(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/customerBalances/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "id": "6162d87b-e5db-4a33-b7f2-76ce6ead4e85",\n          "include_ledgers": true\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.ListBalances',
@@ -4252,14 +4252,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.list_seat_balances(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    covering_date=datetime.fromisoformat("2024-03-01T00:00:00.000"),\n    include_credits_and_commits=True,\n    include_ledgers=True,\n    limit=25,\n    subscription_ids=["8deed800-1b7a-495d-a207-6c52bac54dc9"],\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/seatBalances/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "covering_date": "2024-03-01T00:00:00.000Z",\n          "include_credits_and_commits": true,\n          "include_ledgers": true,\n          "limit": 25,\n          "subscription_ids": [\n            "8deed800-1b7a-495d-a207-6c52bac54dc9"\n          ]\n        }\'',
-      },
       java: {
         method: 'v1().contracts().listSeatBalances',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractListSeatBalancesParams;\nimport com.metronome.api.models.v1.contracts.ContractListSeatBalancesResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractListSeatBalancesParams params = ContractListSeatBalancesParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        ContractListSeatBalancesResponse response = client.v1().contracts().listSeatBalances(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/seatBalances/list \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "covering_date": "2024-03-01T00:00:00.000Z",\n          "include_credits_and_commits": true,\n          "include_ledgers": true,\n          "limit": 25,\n          "subscription_ids": [\n            "8deed800-1b7a-495d-a207-6c52bac54dc9"\n          ]\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.ListSeatBalances',
@@ -4302,14 +4302,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.get_net_balance(\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    credit_type_id="2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n    filters=[{\n        "balance_types": ["CREDIT"],\n        "custom_fields": {\n            "campaign": "free-trial"\n        },\n    }, {\n        "balance_types": ["PREPAID_COMMIT", "POSTPAID_COMMIT"],\n        "custom_fields": {\n            "campaign": "signup-promotion"\n        },\n    }],\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/customerBalances/getNetBalance \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n          "filters": [\n            {\n              "balance_types": [\n                "CREDIT"\n              ],\n              "custom_fields": {\n                "campaign": "free-trial"\n              }\n            },\n            {\n              "balance_types": [\n                "PREPAID_COMMIT",\n                "POSTPAID_COMMIT"\n              ],\n              "custom_fields": {\n                "campaign": "signup-promotion"\n              }\n            }\n          ]\n        }\'',
-      },
       java: {
         method: 'v1().contracts().getNetBalance',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractGetNetBalanceParams;\nimport com.metronome.api.models.v1.contracts.ContractGetNetBalanceResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractGetNetBalanceParams params = ContractGetNetBalanceParams.builder()\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        ContractGetNetBalanceResponse response = client.v1().contracts().getNetBalance(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/customerBalances/getNetBalance \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n          "filters": [\n            {\n              "balance_types": [\n                "CREDIT"\n              ],\n              "custom_fields": {\n                "campaign": "free-trial"\n              }\n            },\n            {\n              "balance_types": [\n                "PREPAID_COMMIT",\n                "POSTPAID_COMMIT"\n              ],\n              "custom_fields": {\n                "campaign": "signup-promotion"\n              }\n            }\n          ]\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.GetNetBalance',
@@ -4355,14 +4355,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.schedule_pro_services_invoice(\n    contract_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    customer_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    issued_at=datetime.fromisoformat("2019-12-27T18:11:19.117"),\n    line_items=[{\n        "professional_service_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"\n    }],\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/scheduleProServicesInvoice \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n          "customer_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n          "issued_at": "2019-12-27T18:11:19.117Z",\n          "line_items": [\n            {\n              "professional_service_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"\n            }\n          ]\n        }\'',
-      },
       java: {
         method: 'v1().contracts().scheduleProServicesInvoice',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractScheduleProServicesInvoiceParams;\nimport com.metronome.api.models.v1.contracts.ContractScheduleProServicesInvoiceResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractScheduleProServicesInvoiceParams params = ContractScheduleProServicesInvoiceParams.builder()\n            .contractId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")\n            .customerId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")\n            .issuedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))\n            .addLineItem(ContractScheduleProServicesInvoiceParams.LineItem.builder()\n                .professionalServiceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")\n                .build())\n            .build();\n        ContractScheduleProServicesInvoiceResponse response = client.v1().contracts().scheduleProServicesInvoice(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/scheduleProServicesInvoice \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n          "customer_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n          "issued_at": "2019-12-27T18:11:19.117Z",\n          "line_items": [\n            {\n              "professional_service_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"\n            }\n          ]\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.ScheduleProServicesInvoice',
@@ -4404,14 +4404,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.create_historical_invoices(\n    invoices=[{\n        "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n        "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n        "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n        "inclusive_start_date": datetime.fromisoformat("2020-01-01T00:00:00.000"),\n        "exclusive_end_date": datetime.fromisoformat("2020-02-01T00:00:00.000"),\n        "issue_date": datetime.fromisoformat("2020-02-01T00:00:00.000"),\n        "usage_line_items": [{\n            "product_id": "f14d6729-6a44-4b13-9908-9387f1918790",\n            "inclusive_start_date": datetime.fromisoformat("2020-01-01T00:00:00.000"),\n            "exclusive_end_date": datetime.fromisoformat("2020-02-01T00:00:00.000"),\n            "quantity": 100,\n        }],\n    }],\n    preview=False,\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/createHistoricalInvoices \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "invoices": [\n            {\n              "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n              "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n              "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n              "exclusive_end_date": "2020-02-01T00:00:00.000Z",\n              "inclusive_start_date": "2020-01-01T00:00:00.000Z",\n              "issue_date": "2020-02-01T00:00:00.000Z",\n              "usage_line_items": [\n                {\n                  "exclusive_end_date": "2020-02-01T00:00:00.000Z",\n                  "inclusive_start_date": "2020-01-01T00:00:00.000Z",\n                  "product_id": "f14d6729-6a44-4b13-9908-9387f1918790",\n                  "quantity": 100\n                }\n              ]\n            }\n          ],\n          "preview": false\n        }\'',
-      },
       java: {
         method: 'v1().contracts().createHistoricalInvoices',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractCreateHistoricalInvoicesParams;\nimport com.metronome.api.models.v1.contracts.ContractCreateHistoricalInvoicesResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractCreateHistoricalInvoicesParams params = ContractCreateHistoricalInvoicesParams.builder()\n            .addInvoice(ContractCreateHistoricalInvoicesParams.Invoice.builder()\n                .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n                .creditTypeId("2714e483-4ff1-48e4-9e25-ac732e8f24f2")\n                .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n                .exclusiveEndDate(OffsetDateTime.parse("2020-02-01T00:00:00.000Z"))\n                .inclusiveStartDate(OffsetDateTime.parse("2020-01-01T00:00:00.000Z"))\n                .issueDate(OffsetDateTime.parse("2020-02-01T00:00:00.000Z"))\n                .addUsageLineItem(ContractCreateHistoricalInvoicesParams.Invoice.UsageLineItem.builder()\n                    .exclusiveEndDate(OffsetDateTime.parse("2020-02-01T00:00:00.000Z"))\n                    .inclusiveStartDate(OffsetDateTime.parse("2020-01-01T00:00:00.000Z"))\n                    .productId("f14d6729-6a44-4b13-9908-9387f1918790")\n                    .build())\n                .build())\n            .preview(false)\n            .build();\n        ContractCreateHistoricalInvoicesResponse response = client.v1().contracts().createHistoricalInvoices(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/createHistoricalInvoices \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "invoices": [\n            {\n              "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n              "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n              "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n              "exclusive_end_date": "2020-02-01T00:00:00.000Z",\n              "inclusive_start_date": "2020-01-01T00:00:00.000Z",\n              "issue_date": "2020-02-01T00:00:00.000Z",\n              "usage_line_items": [\n                {\n                  "exclusive_end_date": "2020-02-01T00:00:00.000Z",\n                  "inclusive_start_date": "2020-01-01T00:00:00.000Z",\n                  "product_id": "f14d6729-6a44-4b13-9908-9387f1918790",\n                  "quantity": 100\n                }\n              ]\n            }\n          ],\n          "preview": false\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.NewHistoricalInvoices',
@@ -4450,14 +4450,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.retrieve_subscription_quantity_history(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    subscription_id="1a824d53-bde6-4d82-96d7-6347ff227d5c",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/getSubscriptionQuantityHistory \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "subscription_id": "1a824d53-bde6-4d82-96d7-6347ff227d5c"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().retrieveSubscriptionQuantityHistory',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractRetrieveSubscriptionQuantityHistoryParams;\nimport com.metronome.api.models.v1.contracts.ContractRetrieveSubscriptionQuantityHistoryResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractRetrieveSubscriptionQuantityHistoryParams params = ContractRetrieveSubscriptionQuantityHistoryParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .subscriptionId("1a824d53-bde6-4d82-96d7-6347ff227d5c")\n            .build();\n        ContractRetrieveSubscriptionQuantityHistoryResponse response = client.v1().contracts().retrieveSubscriptionQuantityHistory(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/getSubscriptionQuantityHistory \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "subscription_id": "1a824d53-bde6-4d82-96d7-6347ff227d5c"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.GetSubscriptionQuantityHistory',
@@ -4505,14 +4505,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.get_subscription_seats_history(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    subscription_id="1a824d53-bde6-4d82-96d7-6347ff227d5c",\n    covering_date=datetime.fromisoformat("2024-01-15T00:00:00.000"),\n    limit=10,\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/getSubscriptionSeatsHistory \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "subscription_id": "1a824d53-bde6-4d82-96d7-6347ff227d5c",\n          "covering_date": "2024-01-15T00:00:00.000Z",\n          "limit": 10\n        }\'',
-      },
       java: {
         method: 'v1().contracts().getSubscriptionSeatsHistory',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ContractGetSubscriptionSeatsHistoryParams;\nimport com.metronome.api.models.v1.contracts.ContractGetSubscriptionSeatsHistoryResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ContractGetSubscriptionSeatsHistoryParams params = ContractGetSubscriptionSeatsHistoryParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .subscriptionId("1a824d53-bde6-4d82-96d7-6347ff227d5c")\n            .build();\n        ContractGetSubscriptionSeatsHistoryResponse response = client.v1().contracts().getSubscriptionSeatsHistory(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/getSubscriptionSeatsHistory \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "subscription_id": "1a824d53-bde6-4d82-96d7-6347ff227d5c",\n          "covering_date": "2024-01-15T00:00:00.000Z",\n          "limit": 10\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.GetSubscriptionSeatsHistory',
@@ -4550,14 +4550,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nproduct = client.v1.contracts.products.retrieve(\n    id="d84e7f4e-7a70-4fe4-be02-7a5027beffcc",\n)\nprint(product.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/products/get \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "d84e7f4e-7a70-4fe4-be02-7a5027beffcc"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().products().retrieve',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.contracts.products.ProductRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("d84e7f4e-7a70-4fe4-be02-7a5027beffcc")\n            .build();\n        ProductRetrieveResponse product = client.v1().contracts().products().retrieve(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/products/get \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "d84e7f4e-7a70-4fe4-be02-7a5027beffcc"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.Products.Get',
@@ -4600,14 +4600,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.contracts.products.list(\n    archive_filter="NOT_ARCHIVED",\n)\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/products/list \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().contracts().products().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.products.ProductListPage;\nimport com.metronome.api.models.v1.contracts.products.ProductListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ProductListPage page = client.v1().contracts().products().list();\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/products/list \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Contracts.Products.List',
@@ -4662,14 +4662,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nproduct = client.v1.contracts.products.create(\n    name="My Product",\n    type="USAGE",\n    billable_metric_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n)\nprint(product.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/products/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "My Product",\n          "type": "USAGE",\n          "billable_metric_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().products().create',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.products.ProductCreateParams;\nimport com.metronome.api.models.v1.contracts.products.ProductCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ProductCreateParams params = ProductCreateParams.builder()\n            .name("My Product")\n            .type(ProductCreateParams.Type.USAGE)\n            .build();\n        ProductCreateResponse product = client.v1().contracts().products().create(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/products/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "My Product",\n          "type": "USAGE",\n          "billable_metric_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.Products.New',
@@ -4724,14 +4724,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nproduct = client.v1.contracts.products.update(\n    product_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    starting_at=datetime.fromisoformat("2020-01-01T00:00:00.000"),\n    name="My Updated Product",\n)\nprint(product.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/products/update \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "product_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "starting_at": "2020-01-01T00:00:00.000Z",\n          "name": "My Updated Product"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().products().update',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.products.ProductUpdateParams;\nimport com.metronome.api.models.v1.contracts.products.ProductUpdateResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ProductUpdateParams params = ProductUpdateParams.builder()\n            .productId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .startingAt(OffsetDateTime.parse("2020-01-01T00:00:00.000Z"))\n            .build();\n        ProductUpdateResponse product = client.v1().contracts().products().update(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/products/update \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "product_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "starting_at": "2020-01-01T00:00:00.000Z",\n          "name": "My Updated Product"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.Products.Update',
@@ -4769,14 +4769,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.products.archive(\n    product_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/products/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "product_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().products().archive',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.products.ProductArchiveParams;\nimport com.metronome.api.models.v1.contracts.products.ProductArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ProductArchiveParams params = ProductArchiveParams.builder()\n            .productId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        ProductArchiveResponse response = client.v1().contracts().products().archive(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/products/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "product_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.Products.Archive',
@@ -4822,14 +4822,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.rate_cards.retrieve_rate_schedule(\n    rate_card_id="f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe",\n    starting_at=datetime.fromisoformat("2024-01-01T00:00:00.000"),\n    selectors=[{\n        "product_id": "d6300dbb-882e-4d2d-8dec-5125d16b65d0",\n        "partial_pricing_group_values": {\n            "region": "us-west-2",\n            "cloud": "aws",\n        },\n    }],\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/getRateSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe",\n          "starting_at": "2024-01-01T00:00:00.000Z",\n          "selectors": [\n            {\n              "partial_pricing_group_values": {\n                "region": "us-west-2",\n                "cloud": "aws"\n              },\n              "product_id": "d6300dbb-882e-4d2d-8dec-5125d16b65d0"\n            }\n          ]\n        }\'',
-      },
       java: {
         method: 'v1().contracts().rateCards().retrieveRateSchedule',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardRetrieveRateScheduleParams;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardRetrieveRateScheduleResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        RateCardRetrieveRateScheduleParams params = RateCardRetrieveRateScheduleParams.builder()\n            .rateCardId("f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe")\n            .startingAt(OffsetDateTime.parse("2024-01-01T00:00:00.000Z"))\n            .build();\n        RateCardRetrieveRateScheduleResponse response = client.v1().contracts().rateCards().retrieveRateSchedule(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/getRateSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe",\n          "starting_at": "2024-01-01T00:00:00.000Z",\n          "selectors": [\n            {\n              "partial_pricing_group_values": {\n                "region": "us-west-2",\n                "cloud": "aws"\n              },\n              "product_id": "d6300dbb-882e-4d2d-8dec-5125d16b65d0"\n            }\n          ]\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.GetRateSchedule',
@@ -4868,14 +4868,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nrate_card = client.v1.contracts.rate_cards.retrieve(\n    id="f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe",\n)\nprint(rate_card.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/get \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().rateCards().retrieve',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe")\n            .build();\n        RateCardRetrieveResponse rateCard = client.v1().contracts().rateCards().retrieve(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/get \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.Get',
@@ -4914,14 +4914,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.contracts.rate_cards.list()\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/list \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().contracts().rateCards().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardListPage;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        RateCardListPage page = client.v1().contracts().rateCards().list();\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/list \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.List',
@@ -4966,14 +4966,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nrate_card = client.v1.contracts.rate_cards.create(\n    name="My Rate Card",\n    aliases=[{\n        "name": "my-rate-card"\n    }],\n    credit_type_conversions=[{\n        "custom_credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n        "fiat_per_custom_credit": 2,\n    }],\n    description="My Rate Card Description",\n    fiat_credit_type_id="2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n)\nprint(rate_card.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "My Rate Card",\n          "aliases": [\n            {\n              "name": "my-rate-card"\n            }\n          ],\n          "credit_type_conversions": [\n            {\n              "custom_credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n              "fiat_per_custom_credit": 2\n            }\n          ],\n          "description": "My Rate Card Description",\n          "fiat_credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().rateCards().create',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardCreateParams;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        RateCardCreateParams params = RateCardCreateParams.builder()\n            .name("My Rate Card")\n            .build();\n        RateCardCreateResponse rateCard = client.v1().contracts().rateCards().create(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "My Rate Card",\n          "aliases": [\n            {\n              "name": "my-rate-card"\n            }\n          ],\n          "credit_type_conversions": [\n            {\n              "custom_credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n              "fiat_per_custom_credit": 2\n            }\n          ],\n          "description": "My Rate Card Description",\n          "fiat_credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.New',
@@ -5017,14 +5017,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nrate_card = client.v1.contracts.rate_cards.update(\n    rate_card_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    description="My Updated Rate Card Description",\n    name="My Updated Rate Card",\n)\nprint(rate_card.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/update \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "description": "My Updated Rate Card Description",\n          "name": "My Updated Rate Card"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().rateCards().update',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardUpdateParams;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        RateCardUpdateParams params = RateCardUpdateParams.builder()\n            .rateCardId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        RateCardUpdateResponse rateCard = client.v1().contracts().rateCards().update(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/update \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "description": "My Updated Rate Card Description",\n          "name": "My Updated Rate Card"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.Update',
@@ -5062,14 +5062,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.rate_cards.archive(\n    id="12b21470-4570-40df-8998-449d0b0bc52f",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "12b21470-4570-40df-8998-449d0b0bc52f"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().rateCards().archive',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.Id;\nimport com.metronome.api.models.v1.contracts.ratecards.RateCardArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        Id params = Id.builder()\n            .id("12b21470-4570-40df-8998-449d0b0bc52f")\n            .build();\n        RateCardArchiveResponse response = client.v1().contracts().rateCards().archive(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "12b21470-4570-40df-8998-449d0b0bc52f"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.Archive',
@@ -5107,14 +5107,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.rate_cards.product_orders.set(\n    product_order=["13117714-3f05-48e5-a6e9-a66093f13b4d", "b086f2f4-9851-4466-9ca0-30d53e6a42ac"],\n    rate_card_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/setRateCardProductsOrder \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "product_order": [\n            "13117714-3f05-48e5-a6e9-a66093f13b4d",\n            "b086f2f4-9851-4466-9ca0-30d53e6a42ac"\n          ],\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().rateCards().productOrders().set',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ratecards.productorders.ProductOrderSetParams;\nimport com.metronome.api.models.v1.contracts.ratecards.productorders.ProductOrderSetResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ProductOrderSetParams params = ProductOrderSetParams.builder()\n            .addProductOrder("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .addProductOrder("b086f2f4-9851-4466-9ca0-30d53e6a42ac")\n            .rateCardId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        ProductOrderSetResponse response = client.v1().contracts().rateCards().productOrders().set(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/setRateCardProductsOrder \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "product_order": [\n            "13117714-3f05-48e5-a6e9-a66093f13b4d",\n            "b086f2f4-9851-4466-9ca0-30d53e6a42ac"\n          ],\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.ProductOrders.Set',
@@ -5152,14 +5152,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nproduct_order = client.v1.contracts.rate_cards.product_orders.update(\n    product_moves=[{\n        "product_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n        "position": 0,\n    }, {\n        "product_id": "b086f2f4-9851-4466-9ca0-30d53e6a42ac",\n        "position": 1,\n    }],\n    rate_card_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\nprint(product_order.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/moveRateCardProducts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "product_moves": [\n            {\n              "position": 0,\n              "product_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n            },\n            {\n              "position": 1,\n              "product_id": "b086f2f4-9851-4466-9ca0-30d53e6a42ac"\n            }\n          ],\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().rateCards().productOrders().update',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ratecards.productorders.ProductOrderUpdateParams;\nimport com.metronome.api.models.v1.contracts.ratecards.productorders.ProductOrderUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        ProductOrderUpdateParams params = ProductOrderUpdateParams.builder()\n            .addProductMove(ProductOrderUpdateParams.ProductMove.builder()\n                .position(0.0)\n                .productId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n                .build())\n            .addProductMove(ProductOrderUpdateParams.ProductMove.builder()\n                .position(1.0)\n                .productId("b086f2f4-9851-4466-9ca0-30d53e6a42ac")\n                .build())\n            .rateCardId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        ProductOrderUpdateResponse productOrder = client.v1().contracts().rateCards().productOrders().update(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/moveRateCardProducts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "product_moves": [\n            {\n              "position": 0,\n              "product_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n            },\n            {\n              "position": 1,\n              "product_id": "b086f2f4-9851-4466-9ca0-30d53e6a42ac"\n            }\n          ],\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.ProductOrders.Update',
@@ -5204,14 +5204,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.contracts.rate_cards.rates.list(\n    at=datetime.fromisoformat("2024-01-01T00:00:00.000"),\n    rate_card_id="f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe",\n    selectors=[{\n        "product_id": "d6300dbb-882e-4d2d-8dec-5125d16b65d0",\n        "partial_pricing_group_values": {\n            "region": "us-west-2",\n            "cloud": "aws",\n        },\n    }],\n)\npage = page.data[0]\nprint(page.product_id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/getRates \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "at": "2024-01-01T00:00:00.000Z",\n          "rate_card_id": "f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe",\n          "selectors": [\n            {\n              "partial_pricing_group_values": {\n                "region": "us-west-2",\n                "cloud": "aws"\n              },\n              "product_id": "d6300dbb-882e-4d2d-8dec-5125d16b65d0"\n            }\n          ]\n        }\'',
-      },
       java: {
         method: 'v1().contracts().rateCards().rates().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ratecards.rates.RateListPage;\nimport com.metronome.api.models.v1.contracts.ratecards.rates.RateListParams;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        RateListParams params = RateListParams.builder()\n            .at(OffsetDateTime.parse("2024-01-01T00:00:00.000Z"))\n            .rateCardId("f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe")\n            .build();\n        RateListPage page = client.v1().contracts().rateCards().rates().list(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/getRates \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "at": "2024-01-01T00:00:00.000Z",\n          "rate_card_id": "f3d51ae8-f283-44e1-9933-a3cf9ad7a6fe",\n          "selectors": [\n            {\n              "partial_pricing_group_values": {\n                "region": "us-west-2",\n                "cloud": "aws"\n              },\n              "product_id": "d6300dbb-882e-4d2d-8dec-5125d16b65d0"\n            }\n          ]\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.Rates.List',
@@ -5266,14 +5266,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.rate_cards.rates.add(\n    entitled=True,\n    product_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n    rate_card_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    rate_type="FLAT",\n    starting_at=datetime.fromisoformat("2020-01-01T00:00:00.000"),\n    credit_type_id="2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n    price=100,\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/addRate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "entitled": true,\n          "product_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "rate_type": "FLAT",\n          "starting_at": "2020-01-01T00:00:00.000Z",\n          "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n          "price": 100\n        }\'',
-      },
       java: {
         method: 'v1().contracts().rateCards().rates().add',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ratecards.rates.RateAddParams;\nimport com.metronome.api.models.v1.contracts.ratecards.rates.RateAddResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        RateAddParams params = RateAddParams.builder()\n            .entitled(true)\n            .productId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .rateCardId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .rateType(RateAddParams.RateType.FLAT)\n            .startingAt(OffsetDateTime.parse("2020-01-01T00:00:00.000Z"))\n            .build();\n        RateAddResponse response = client.v1().contracts().rateCards().rates().add(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/addRate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "entitled": true,\n          "product_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "rate_type": "FLAT",\n          "starting_at": "2020-01-01T00:00:00.000Z",\n          "credit_type_id": "2714e483-4ff1-48e4-9e25-ac732e8f24f2",\n          "price": 100\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.Rates.Add',
@@ -5313,14 +5313,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.contracts.rate_cards.rates.add_many(\n    rate_card_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    rates=[{\n        "product_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n        "starting_at": datetime.fromisoformat("2020-01-01T00:00:00.000"),\n        "entitled": True,\n        "rate_type": "FLAT",\n        "price": 100,\n        "pricing_group_values": {\n            "region": "us-west-2",\n            "cloud": "aws",\n        },\n    }, {\n        "product_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n        "starting_at": datetime.fromisoformat("2020-01-01T00:00:00.000"),\n        "entitled": True,\n        "rate_type": "FLAT",\n        "price": 120,\n        "pricing_group_values": {\n            "region": "us-east-2",\n            "cloud": "aws",\n        },\n    }],\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/addRates \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "rates": [\n            {\n              "entitled": true,\n              "product_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n              "rate_type": "FLAT",\n              "starting_at": "2020-01-01T00:00:00.000Z",\n              "price": 100,\n              "pricing_group_values": {\n                "region": "us-west-2",\n                "cloud": "aws"\n              }\n            },\n            {\n              "entitled": true,\n              "product_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n              "rate_type": "FLAT",\n              "starting_at": "2020-01-01T00:00:00.000Z",\n              "price": 120,\n              "pricing_group_values": {\n                "region": "us-east-2",\n                "cloud": "aws"\n              }\n            }\n          ]\n        }\'',
-      },
       java: {
         method: 'v1().contracts().rateCards().rates().addMany',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ratecards.rates.RateAddManyParams;\nimport com.metronome.api.models.v1.contracts.ratecards.rates.RateAddManyResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        RateAddManyParams params = RateAddManyParams.builder()\n            .rateCardId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .addRate(RateAddManyParams.Rate.builder()\n                .entitled(true)\n                .productId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n                .rateType(RateAddManyParams.Rate.RateType.FLAT)\n                .startingAt(OffsetDateTime.parse("2020-01-01T00:00:00.000Z"))\n                .build())\n            .addRate(RateAddManyParams.Rate.builder()\n                .entitled(true)\n                .productId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n                .rateType(RateAddManyParams.Rate.RateType.FLAT)\n                .startingAt(OffsetDateTime.parse("2020-01-01T00:00:00.000Z"))\n                .build())\n            .build();\n        RateAddManyResponse response = client.v1().contracts().rateCards().rates().addMany(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/addRates \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "rates": [\n            {\n              "entitled": true,\n              "product_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n              "rate_type": "FLAT",\n              "starting_at": "2020-01-01T00:00:00.000Z",\n              "price": 100,\n              "pricing_group_values": {\n                "region": "us-west-2",\n                "cloud": "aws"\n              }\n            },\n            {\n              "entitled": true,\n              "product_id": "13117714-3f05-48e5-a6e9-a66093f13b4d",\n              "rate_type": "FLAT",\n              "starting_at": "2020-01-01T00:00:00.000Z",\n              "price": 120,\n              "pricing_group_values": {\n                "region": "us-east-2",\n                "cloud": "aws"\n              }\n            }\n          ]\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.Rates.AddMany',
@@ -5363,14 +5363,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nnamed_schedule = client.v1.contracts.rate_cards.named_schedules.retrieve(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="9b85c1c1-5238-4f2a-a409-61412905e1e1",\n    schedule_name="my-schedule",\n    covering_date=datetime.fromisoformat("2022-02-15T00:00:00"),\n)\nprint(named_schedule.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/getNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule",\n          "covering_date": "2022-02-15T00:00:00Z"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().rateCards().namedSchedules().retrieve',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.ratecards.namedschedules.NamedScheduleRetrieveParams;\nimport com.metronome.api.models.v1.contracts.ratecards.namedschedules.NamedScheduleRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        NamedScheduleRetrieveParams params = NamedScheduleRetrieveParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("9b85c1c1-5238-4f2a-a409-61412905e1e1")\n            .scheduleName("my-schedule")\n            .build();\n        NamedScheduleRetrieveResponse namedSchedule = client.v1().contracts().rateCards().namedSchedules().retrieve(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/getNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule",\n          "covering_date": "2022-02-15T00:00:00Z"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.NamedSchedules.Get',
@@ -5414,14 +5414,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.contracts.rate_cards.named_schedules.update(\n    contract_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    customer_id="9b85c1c1-5238-4f2a-a409-61412905e1e1",\n    schedule_name="my-schedule",\n    starting_at=datetime.fromisoformat("2022-02-01T00:00:00"),\n    value={\n        "my_key": "my_value"\n    },\n    ending_before=datetime.fromisoformat("2022-02-15T00:00:00"),\n)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contracts/updateNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule",\n          "starting_at": "2022-02-01T00:00:00Z",\n          "value": {\n            "my_key": "my_value"\n          },\n          "ending_before": "2022-02-15T00:00:00Z"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().rateCards().namedSchedules().update',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.core.JsonValue;\nimport com.metronome.api.models.v1.contracts.ratecards.namedschedules.NamedScheduleUpdateParams;\nimport java.time.OffsetDateTime;\nimport java.util.Map;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        NamedScheduleUpdateParams params = NamedScheduleUpdateParams.builder()\n            .contractId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .customerId("9b85c1c1-5238-4f2a-a409-61412905e1e1")\n            .scheduleName("my-schedule")\n            .startingAt(OffsetDateTime.parse("2022-02-01T00:00:00Z"))\n            .value(JsonValue.from(Map.of(\n              "my_key", "my_value"\n            )))\n            .build();\n        client.v1().contracts().rateCards().namedSchedules().update(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contracts/updateNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "contract_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "customer_id": "9b85c1c1-5238-4f2a-a409-61412905e1e1",\n          "schedule_name": "my-schedule",\n          "starting_at": "2022-02-01T00:00:00Z",\n          "value": {\n            "my_key": "my_value"\n          },\n          "ending_before": "2022-02-15T00:00:00Z"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.RateCards.NamedSchedules.Update',
@@ -5459,14 +5459,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nnamed_schedule = client.v1.contracts.named_schedules.retrieve(\n    rate_card_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    schedule_name="my-schedule",\n    covering_date=datetime.fromisoformat("2022-02-15T00:00:00"),\n)\nprint(named_schedule.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/getNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "schedule_name": "my-schedule",\n          "covering_date": "2022-02-15T00:00:00Z"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().namedSchedules().retrieve',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.contracts.namedschedules.NamedScheduleRetrieveParams;\nimport com.metronome.api.models.v1.contracts.namedschedules.NamedScheduleRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        NamedScheduleRetrieveParams params = NamedScheduleRetrieveParams.builder()\n            .rateCardId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .scheduleName("my-schedule")\n            .build();\n        NamedScheduleRetrieveResponse namedSchedule = client.v1().contracts().namedSchedules().retrieve(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/getNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "schedule_name": "my-schedule",\n          "covering_date": "2022-02-15T00:00:00Z"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.NamedSchedules.Get',
@@ -5509,14 +5509,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nclient.v1.contracts.named_schedules.update(\n    rate_card_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    schedule_name="my-schedule",\n    starting_at=datetime.fromisoformat("2022-02-01T00:00:00"),\n    value={\n        "my_key": "my_value"\n    },\n    ending_before=datetime.fromisoformat("2022-02-15T00:00:00"),\n)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/updateNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "schedule_name": "my-schedule",\n          "starting_at": "2022-02-01T00:00:00Z",\n          "value": {\n            "my_key": "my_value"\n          },\n          "ending_before": "2022-02-15T00:00:00Z"\n        }\'',
-      },
       java: {
         method: 'v1().contracts().namedSchedules().update',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.core.JsonValue;\nimport com.metronome.api.models.v1.contracts.namedschedules.NamedScheduleUpdateParams;\nimport java.time.OffsetDateTime;\nimport java.util.Map;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        NamedScheduleUpdateParams params = NamedScheduleUpdateParams.builder()\n            .rateCardId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .scheduleName("my-schedule")\n            .startingAt(OffsetDateTime.parse("2022-02-01T00:00:00Z"))\n            .value(JsonValue.from(Map.of(\n              "my_key", "my_value"\n            )))\n            .build();\n        client.v1().contracts().namedSchedules().update(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/contract-pricing/rate-cards/updateNamedSchedule \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n          "schedule_name": "my-schedule",\n          "starting_at": "2022-02-01T00:00:00Z",\n          "value": {\n            "my_key": "my_value"\n          },\n          "ending_before": "2022-02-15T00:00:00Z"\n        }\'',
       },
       go: {
         method: 'client.V1.Contracts.NamedSchedules.Update',
@@ -5578,14 +5578,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npackage = client.v1.packages.create(\n    name="My package",\n    billing_provider="stripe",\n    delivery_method="direct_to_billing_provider",\n    rate_card_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\nprint(package.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/packages/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "My package",\n          "billing_provider": "stripe",\n          "delivery_method": "direct_to_billing_provider",\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
-      },
       java: {
         method: 'v1().packages().create',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.packages.PackageCreateParams;\nimport com.metronome.api.models.v1.packages.PackageCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        PackageCreateParams params = PackageCreateParams.builder()\n            .name("My package")\n            .build();\n        PackageCreateResponse package_ = client.v1().packages().create(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/packages/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "My package",\n          "billing_provider": "stripe",\n          "delivery_method": "direct_to_billing_provider",\n          "rate_card_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
       },
       go: {
         method: 'client.V1.Packages.New',
@@ -5624,14 +5624,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npackage = client.v1.packages.retrieve(\n    package_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\nprint(package.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/packages/get \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "package_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
-      },
       java: {
         method: 'v1().packages().retrieve',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.packages.PackageRetrieveParams;\nimport com.metronome.api.models.v1.packages.PackageRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        PackageRetrieveParams params = PackageRetrieveParams.builder()\n            .packageId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        PackageRetrieveResponse package_ = client.v1().packages().retrieve(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/packages/get \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "package_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
       },
       go: {
         method: 'client.V1.Packages.Get',
@@ -5674,14 +5674,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.packages.list()\npage = page.data[0]\nprint(page.id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/packages/list \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().packages().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.packages.PackageListPage;\nimport com.metronome.api.models.v1.packages.PackageListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        PackageListPage page = client.v1().packages().list();\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/packages/list \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Packages.List',
@@ -5727,14 +5727,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v1.packages.list_contracts_on_package(\n    package_id="13117714-3f05-48e5-a6e9-a66093f13b4d",\n)\npage = page.data[0]\nprint(page.contract_id)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/packages/listContractsOnPackage \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "package_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
-      },
       java: {
         method: 'v1().packages().listContractsOnPackage',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.packages.PackageListContractsOnPackagePage;\nimport com.metronome.api.models.v1.packages.PackageListContractsOnPackageParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        PackageListContractsOnPackageParams params = PackageListContractsOnPackageParams.builder()\n            .packageId("13117714-3f05-48e5-a6e9-a66093f13b4d")\n            .build();\n        PackageListContractsOnPackagePage page = client.v1().packages().listContractsOnPackage(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/packages/listContractsOnPackage \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "package_id": "13117714-3f05-48e5-a6e9-a66093f13b4d"\n        }\'',
       },
       go: {
         method: 'client.V1.Packages.ListContractsOnPackage',
@@ -5772,14 +5772,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.packages.archive(\n    package_id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\nprint(response.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/packages/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "package_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
-      },
       java: {
         method: 'v1().packages().archive',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.packages.PackageArchiveParams;\nimport com.metronome.api.models.v1.packages.PackageArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        PackageArchiveParams params = PackageArchiveParams.builder()\n            .packageId("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        PackageArchiveResponse response = client.v1().packages().archive(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/packages/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "package_id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
       },
       go: {
         method: 'client.V1.Packages.Archive',
@@ -5823,14 +5823,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v1.settings.upsert_avalara_credentials(\n    avalara_environment="PRODUCTION",\n    avalara_password="my_password_123",\n    avalara_username="test@metronome.com",\n    delivery_method_ids=["9a906ebb-fbc7-42e8-8e29-53bfd2db3aca"],\n    commit_transactions=True,\n)\nprint(response)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/upsertAvalaraCredentials \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "avalara_environment": "PRODUCTION",\n          "avalara_password": "my_password_123",\n          "avalara_username": "test@metronome.com",\n          "delivery_method_ids": [\n            "9a906ebb-fbc7-42e8-8e29-53bfd2db3aca"\n          ],\n          "commit_transactions": true\n        }\'',
-      },
       java: {
         method: 'v1().settings().upsertAvalaraCredentials',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.settings.SettingUpsertAvalaraCredentialsParams;\nimport com.metronome.api.models.v1.settings.SettingUpsertAvalaraCredentialsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        SettingUpsertAvalaraCredentialsParams params = SettingUpsertAvalaraCredentialsParams.builder()\n            .avalaraEnvironment(SettingUpsertAvalaraCredentialsParams.AvalaraEnvironment.PRODUCTION)\n            .avalaraPassword("my_password_123")\n            .avalaraUsername("test@metronome.com")\n            .addDeliveryMethodId("9a906ebb-fbc7-42e8-8e29-53bfd2db3aca")\n            .build();\n        SettingUpsertAvalaraCredentialsResponse response = client.v1().settings().upsertAvalaraCredentials(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/upsertAvalaraCredentials \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "avalara_environment": "PRODUCTION",\n          "avalara_password": "my_password_123",\n          "avalara_username": "test@metronome.com",\n          "delivery_method_ids": [\n            "9a906ebb-fbc7-42e8-8e29-53bfd2db3aca"\n          ],\n          "commit_transactions": true\n        }\'',
       },
       go: {
         method: 'client.V1.Settings.UpsertAvalaraCredentials',
@@ -5872,14 +5872,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nbilling_provider = client.v1.settings.billing_providers.create(\n    billing_provider="aws_marketplace",\n    configuration={\n        "aws_external_id": "47b4f6b7-e297-42e8-b175-331d933b402c",\n        "aws_iam_role_arn": "arn:aws:iam::test",\n    },\n    delivery_method="direct_to_billing_provider",\n)\nprint(billing_provider.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/setUpBillingProvider \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "billing_provider": "aws_marketplace",\n          "configuration": {\n            "aws_external_id": "bar",\n            "aws_iam_role_arn": "bar"\n          },\n          "delivery_method": "direct_to_billing_provider"\n        }\'',
-      },
       java: {
         method: 'v1().settings().billingProviders().create',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.core.JsonValue;\nimport com.metronome.api.models.v1.settings.billingproviders.BillingProviderCreateParams;\nimport com.metronome.api.models.v1.settings.billingproviders.BillingProviderCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        BillingProviderCreateParams params = BillingProviderCreateParams.builder()\n            .billingProvider(BillingProviderCreateParams.BillingProvider.AWS_MARKETPLACE)\n            .configuration(BillingProviderCreateParams.Configuration.builder()\n                .putAdditionalProperty("aws_external_id", JsonValue.from("bar"))\n                .putAdditionalProperty("aws_iam_role_arn", JsonValue.from("bar"))\n                .build())\n            .deliveryMethod(BillingProviderCreateParams.DeliveryMethod.DIRECT_TO_BILLING_PROVIDER)\n            .build();\n        BillingProviderCreateResponse billingProvider = client.v1().settings().billingProviders().create(params);\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/setUpBillingProvider \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "billing_provider": "aws_marketplace",\n          "configuration": {\n            "aws_external_id": "bar",\n            "aws_iam_role_arn": "bar"\n          },\n          "delivery_method": "direct_to_billing_provider"\n        }\'',
       },
       go: {
         method: 'client.V1.Settings.BillingProviders.New',
@@ -5918,14 +5918,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nbilling_providers = client.v1.settings.billing_providers.list(\n    next_page="af26878a-de62-4a0d-9b77-3936f7c2b6d6",\n)\nprint(billing_providers.data)',
       },
-      http: {
-        example:
-          'curl https://api.metronome.com/v1/listConfiguredBillingProviders \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
-      },
       java: {
         method: 'v1().settings().billingProviders().list',
         example:
           'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v1.settings.billingproviders.BillingProviderListParams;\nimport com.metronome.api.models.v1.settings.billingproviders.BillingProviderListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        BillingProviderListResponse billingProviders = client.v1().settings().billingProviders().list();\n    }\n}',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v1/listConfiguredBillingProviders \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
       },
       go: {
         method: 'client.V1.Settings.BillingProviders.List',
