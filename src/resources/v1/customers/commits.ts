@@ -12,6 +12,9 @@ import { RequestOptions } from '../../../internal/request-options';
  */
 export class Commits extends APIResource {
   /**
+   * ⚠️ For most contract amendments, use `contracts/edit` directly. Use this
+   * endpoint only for cross-contract or enterprise-wide commits.
+   *
    * Creates customer-level commits that establish spending commitments for customers
    * across their Metronome usage. Commits represent contracted spending obligations
    * that can be either prepaid (paid upfront) or postpaid (billed later).
