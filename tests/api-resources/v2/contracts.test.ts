@@ -760,27 +760,6 @@ describe('resource contracts', () => {
     });
   });
 
-  test('getEditHistory: only required params', async () => {
-    const responsePromise = client.v2.contracts.getEditHistory({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('getEditHistory: required and optional params', async () => {
-    const response = await client.v2.contracts.getEditHistory({
-      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-    });
-  });
-
   test('editCommit: only required params', async () => {
     const responsePromise = client.v2.contracts.editCommit({
       commit_id: '5e7e82cf-ccb7-428c-a96f-a8e4f67af822',
@@ -911,6 +890,27 @@ describe('resource contracts', () => {
           product_tags: ['string'],
         },
       ],
+    });
+  });
+
+  test('getEditHistory: only required params', async () => {
+    const responsePromise = client.v2.contracts.getEditHistory({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('getEditHistory: required and optional params', async () => {
+    const response = await client.v2.contracts.getEditHistory({
+      contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+      customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
     });
   });
 });

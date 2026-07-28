@@ -63,51 +63,6 @@ export class CustomFields extends APIResource {
   }
 
   /**
-   * Removes a custom field key from the allowlist for a specific entity type,
-   * preventing future use of that key across all instances of the entity. Existing
-   * values for this key on entity instances will no longer be accessible once the
-   * key is removed.
-   *
-   * @example
-   * ```ts
-   * await client.v1.customFields.removeKey({
-   *   entity: 'customer',
-   *   key: 'x_account_id',
-   * });
-   * ```
-   */
-  removeKey(body: CustomFieldRemoveKeyParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/customFields/removeKey', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  /**
-   * Sets custom field values on a specific Metronome entity instance. Overwrites
-   * existing values for matching keys while preserving other fields. All updates are
-   * transactional—either all values are set or none are. Custom field values are
-   * limited to 200 characters each.
-   *
-   * @example
-   * ```ts
-   * await client.v1.customFields.setValues({
-   *   custom_fields: { x_account_id: 'KyVnHhSBWl7eY2bl' },
-   *   entity: 'customer',
-   *   entity_id: '99594816-e8a5-4bca-be21-8d1de0f45120',
-   * });
-   * ```
-   */
-  setValues(body: CustomFieldSetValuesParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/customFields/setValues', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  /**
    * Remove specific custom field values from a Metronome entity instance by
    * specifying the field keys to delete. Use this endpoint to clean up unwanted
    * custom field data while preserving other fields on the same entity. Requires the
@@ -156,6 +111,51 @@ export class CustomFields extends APIResource {
       CursorPageWithoutLimit<CustomFieldListKeysResponse>,
       { query: { next_page }, body, method: 'post', ...options },
     );
+  }
+
+  /**
+   * Removes a custom field key from the allowlist for a specific entity type,
+   * preventing future use of that key across all instances of the entity. Existing
+   * values for this key on entity instances will no longer be accessible once the
+   * key is removed.
+   *
+   * @example
+   * ```ts
+   * await client.v1.customFields.removeKey({
+   *   entity: 'customer',
+   *   key: 'x_account_id',
+   * });
+   * ```
+   */
+  removeKey(body: CustomFieldRemoveKeyParams, options?: RequestOptions): APIPromise<void> {
+    return this._client.post('/v1/customFields/removeKey', {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
+  }
+
+  /**
+   * Sets custom field values on a specific Metronome entity instance. Overwrites
+   * existing values for matching keys while preserving other fields. All updates are
+   * transactional—either all values are set or none are. Custom field values are
+   * limited to 200 characters each.
+   *
+   * @example
+   * ```ts
+   * await client.v1.customFields.setValues({
+   *   custom_fields: { x_account_id: 'KyVnHhSBWl7eY2bl' },
+   *   entity: 'customer',
+   *   entity_id: '99594816-e8a5-4bca-be21-8d1de0f45120',
+   * });
+   * ```
+   */
+  setValues(body: CustomFieldSetValuesParams, options?: RequestOptions): APIPromise<void> {
+    return this._client.post('/v1/customFields/setValues', {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 
@@ -222,6 +222,66 @@ export interface CustomFieldAddKeyParams {
   key: string;
 }
 
+export interface CustomFieldDeleteValuesParams {
+  entity:
+    | 'alert'
+    | 'billable_metric'
+    | 'charge'
+    | 'commit'
+    | 'contract_credit'
+    | 'contract_product'
+    | 'contract'
+    | 'credit_grant'
+    | 'customer_plan'
+    | 'customer'
+    | 'discount'
+    | 'invoice'
+    | 'plan'
+    | 'professional_service'
+    | 'product'
+    | 'rate_card'
+    | 'scheduled_charge'
+    | 'subscription'
+    | 'package_commit'
+    | 'package_credit'
+    | 'package_subscription'
+    | 'package_scheduled_charge';
+
+  entity_id: string;
+
+  keys: Array<string>;
+}
+
+export interface CustomFieldListKeysParams extends CursorPageWithoutLimitParams {
+  /**
+   * Body param: Optional list of entity types to return keys for
+   */
+  entities?: Array<
+    | 'alert'
+    | 'billable_metric'
+    | 'charge'
+    | 'commit'
+    | 'contract_credit'
+    | 'contract_product'
+    | 'contract'
+    | 'credit_grant'
+    | 'customer_plan'
+    | 'customer'
+    | 'discount'
+    | 'invoice'
+    | 'plan'
+    | 'professional_service'
+    | 'product'
+    | 'rate_card'
+    | 'scheduled_charge'
+    | 'subscription'
+    | 'package_commit'
+    | 'package_credit'
+    | 'package_subscription'
+    | 'package_scheduled_charge'
+  >;
+}
+
 export interface CustomFieldRemoveKeyParams {
   entity:
     | 'alert'
@@ -283,74 +343,14 @@ export interface CustomFieldSetValuesParams {
   entity_id: string;
 }
 
-export interface CustomFieldDeleteValuesParams {
-  entity:
-    | 'alert'
-    | 'billable_metric'
-    | 'charge'
-    | 'commit'
-    | 'contract_credit'
-    | 'contract_product'
-    | 'contract'
-    | 'credit_grant'
-    | 'customer_plan'
-    | 'customer'
-    | 'discount'
-    | 'invoice'
-    | 'plan'
-    | 'professional_service'
-    | 'product'
-    | 'rate_card'
-    | 'scheduled_charge'
-    | 'subscription'
-    | 'package_commit'
-    | 'package_credit'
-    | 'package_subscription'
-    | 'package_scheduled_charge';
-
-  entity_id: string;
-
-  keys: Array<string>;
-}
-
-export interface CustomFieldListKeysParams extends CursorPageWithoutLimitParams {
-  /**
-   * Body param: Optional list of entity types to return keys for
-   */
-  entities?: Array<
-    | 'alert'
-    | 'billable_metric'
-    | 'charge'
-    | 'commit'
-    | 'contract_credit'
-    | 'contract_product'
-    | 'contract'
-    | 'credit_grant'
-    | 'customer_plan'
-    | 'customer'
-    | 'discount'
-    | 'invoice'
-    | 'plan'
-    | 'professional_service'
-    | 'product'
-    | 'rate_card'
-    | 'scheduled_charge'
-    | 'subscription'
-    | 'package_commit'
-    | 'package_credit'
-    | 'package_subscription'
-    | 'package_scheduled_charge'
-  >;
-}
-
 export declare namespace CustomFields {
   export {
     type CustomFieldListKeysResponse as CustomFieldListKeysResponse,
     type CustomFieldListKeysResponsesCursorPageWithoutLimit as CustomFieldListKeysResponsesCursorPageWithoutLimit,
     type CustomFieldAddKeyParams as CustomFieldAddKeyParams,
-    type CustomFieldRemoveKeyParams as CustomFieldRemoveKeyParams,
-    type CustomFieldSetValuesParams as CustomFieldSetValuesParams,
     type CustomFieldDeleteValuesParams as CustomFieldDeleteValuesParams,
     type CustomFieldListKeysParams as CustomFieldListKeysParams,
+    type CustomFieldRemoveKeyParams as CustomFieldRemoveKeyParams,
+    type CustomFieldSetValuesParams as CustomFieldSetValuesParams,
   };
 }

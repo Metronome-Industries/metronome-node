@@ -29,12 +29,6 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v2/contracts/edit',
   },
   {
-    clientCallName: 'client.v2.contracts.getEditHistory',
-    fullyQualifiedName: 'v2.contracts.getEditHistory',
-    httpMethod: 'post',
-    httpPath: '/v2/contracts/getEditHistory',
-  },
-  {
     clientCallName: 'client.v2.contracts.editCommit',
     fullyQualifiedName: 'v2.contracts.editCommit',
     httpMethod: 'post',
@@ -47,16 +41,22 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v2/contracts/credits/edit',
   },
   {
-    clientCallName: 'client.v1.alerts.archive',
-    fullyQualifiedName: 'v1.alerts.archive',
+    clientCallName: 'client.v2.contracts.getEditHistory',
+    fullyQualifiedName: 'v2.contracts.getEditHistory',
     httpMethod: 'post',
-    httpPath: '/v1/alerts/archive',
+    httpPath: '/v2/contracts/getEditHistory',
   },
   {
     clientCallName: 'client.v1.alerts.create',
     fullyQualifiedName: 'v1.alerts.create',
     httpMethod: 'post',
     httpPath: '/v1/alerts/create',
+  },
+  {
+    clientCallName: 'client.v1.alerts.archive',
+    fullyQualifiedName: 'v1.alerts.archive',
+    httpMethod: 'post',
+    httpPath: '/v1/alerts/archive',
   },
   {
     clientCallName: 'client.v1.plans.list',
@@ -71,16 +71,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/planDetails/{plan_id}',
   },
   {
-    clientCallName: 'client.v1.plans.listCustomers',
-    fullyQualifiedName: 'v1.plans.listCustomers',
-    httpMethod: 'get',
-    httpPath: '/v1/planDetails/{plan_id}/customers',
-  },
-  {
     clientCallName: 'client.v1.plans.listCharges',
     fullyQualifiedName: 'v1.plans.listCharges',
     httpMethod: 'get',
     httpPath: '/v1/planDetails/{plan_id}/charges',
+  },
+  {
+    clientCallName: 'client.v1.plans.listCustomers',
+    fullyQualifiedName: 'v1.plans.listCustomers',
+    httpMethod: 'get',
+    httpPath: '/v1/planDetails/{plan_id}/customers',
   },
   {
     clientCallName: 'client.v1.creditGrants.create',
@@ -89,22 +89,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/credits/createGrant',
   },
   {
-    clientCallName: 'client.v1.creditGrants.edit',
-    fullyQualifiedName: 'v1.creditGrants.edit',
-    httpMethod: 'post',
-    httpPath: '/v1/credits/editGrant',
-  },
-  {
-    clientCallName: 'client.v1.creditGrants.void',
-    fullyQualifiedName: 'v1.creditGrants.void',
-    httpMethod: 'post',
-    httpPath: '/v1/credits/voidGrant',
-  },
-  {
     clientCallName: 'client.v1.creditGrants.list',
     fullyQualifiedName: 'v1.creditGrants.list',
     httpMethod: 'post',
     httpPath: '/v1/credits/listGrants',
+  },
+  {
+    clientCallName: 'client.v1.creditGrants.edit',
+    fullyQualifiedName: 'v1.creditGrants.edit',
+    httpMethod: 'post',
+    httpPath: '/v1/credits/editGrant',
   },
   {
     clientCallName: 'client.v1.creditGrants.listEntries',
@@ -113,10 +107,22 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/credits/listEntries',
   },
   {
+    clientCallName: 'client.v1.creditGrants.void',
+    fullyQualifiedName: 'v1.creditGrants.void',
+    httpMethod: 'post',
+    httpPath: '/v1/credits/voidGrant',
+  },
+  {
     clientCallName: 'client.v1.pricingUnits.list',
     fullyQualifiedName: 'v1.pricingUnits.list',
     httpMethod: 'get',
     httpPath: '/v1/credit-types/list',
+  },
+  {
+    clientCallName: 'client.v1.customers.create',
+    fullyQualifiedName: 'v1.customers.create',
+    httpMethod: 'post',
+    httpPath: '/v1/customers',
   },
   {
     clientCallName: 'client.v1.customers.retrieve',
@@ -131,10 +137,46 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/customers',
   },
   {
-    clientCallName: 'client.v1.customers.create',
-    fullyQualifiedName: 'v1.customers.create',
+    clientCallName: 'client.v1.customers.archive',
+    fullyQualifiedName: 'v1.customers.archive',
     httpMethod: 'post',
-    httpPath: '/v1/customers',
+    httpPath: '/v1/customers/archive',
+  },
+  {
+    clientCallName: 'client.v1.customers.archiveBillingConfigurations',
+    fullyQualifiedName: 'v1.customers.archiveBillingConfigurations',
+    httpMethod: 'post',
+    httpPath: '/v1/archiveCustomerBillingProviderConfigurations',
+  },
+  {
+    clientCallName: 'client.v1.customers.listBillableMetrics',
+    fullyQualifiedName: 'v1.customers.listBillableMetrics',
+    httpMethod: 'get',
+    httpPath: '/v1/customers/{customer_id}/billable-metrics',
+  },
+  {
+    clientCallName: 'client.v1.customers.listCosts',
+    fullyQualifiedName: 'v1.customers.listCosts',
+    httpMethod: 'get',
+    httpPath: '/v1/customers/{customer_id}/costs',
+  },
+  {
+    clientCallName: 'client.v1.customers.previewEvents',
+    fullyQualifiedName: 'v1.customers.previewEvents',
+    httpMethod: 'post',
+    httpPath: '/v1/customers/{customer_id}/previewEvents',
+  },
+  {
+    clientCallName: 'client.v1.customers.retrieveBillingConfigurations',
+    fullyQualifiedName: 'v1.customers.retrieveBillingConfigurations',
+    httpMethod: 'post',
+    httpPath: '/v1/getCustomerBillingProviderConfigurations',
+  },
+  {
+    clientCallName: 'client.v1.customers.setBillingConfigurations',
+    fullyQualifiedName: 'v1.customers.setBillingConfigurations',
+    httpMethod: 'post',
+    httpPath: '/v1/setCustomerBillingProviderConfigurations',
   },
   {
     clientCallName: 'client.v1.customers.setIngestAliases',
@@ -153,48 +195,6 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'v1.customers.updateConfig',
     httpMethod: 'post',
     httpPath: '/v1/customers/{customer_id}/updateConfig',
-  },
-  {
-    clientCallName: 'client.v1.customers.listCosts',
-    fullyQualifiedName: 'v1.customers.listCosts',
-    httpMethod: 'get',
-    httpPath: '/v1/customers/{customer_id}/costs',
-  },
-  {
-    clientCallName: 'client.v1.customers.archive',
-    fullyQualifiedName: 'v1.customers.archive',
-    httpMethod: 'post',
-    httpPath: '/v1/customers/archive',
-  },
-  {
-    clientCallName: 'client.v1.customers.listBillableMetrics',
-    fullyQualifiedName: 'v1.customers.listBillableMetrics',
-    httpMethod: 'get',
-    httpPath: '/v1/customers/{customer_id}/billable-metrics',
-  },
-  {
-    clientCallName: 'client.v1.customers.previewEvents',
-    fullyQualifiedName: 'v1.customers.previewEvents',
-    httpMethod: 'post',
-    httpPath: '/v1/customers/{customer_id}/previewEvents',
-  },
-  {
-    clientCallName: 'client.v1.customers.setBillingConfigurations',
-    fullyQualifiedName: 'v1.customers.setBillingConfigurations',
-    httpMethod: 'post',
-    httpPath: '/v1/setCustomerBillingProviderConfigurations',
-  },
-  {
-    clientCallName: 'client.v1.customers.retrieveBillingConfigurations',
-    fullyQualifiedName: 'v1.customers.retrieveBillingConfigurations',
-    httpMethod: 'post',
-    httpPath: '/v1/getCustomerBillingProviderConfigurations',
-  },
-  {
-    clientCallName: 'client.v1.customers.archiveBillingConfigurations',
-    fullyQualifiedName: 'v1.customers.archiveBillingConfigurations',
-    httpMethod: 'post',
-    httpPath: '/v1/archiveCustomerBillingProviderConfigurations',
   },
   {
     clientCallName: 'client.v1.customers.alerts.retrieve',
@@ -239,16 +239,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/customers/{customer_id}/plans/{customer_plan_id}/priceAdjustments',
   },
   {
-    clientCallName: 'client.v1.customers.invoices.list',
-    fullyQualifiedName: 'v1.customers.invoices.list',
-    httpMethod: 'get',
-    httpPath: '/v1/customers/{customer_id}/invoices',
-  },
-  {
     clientCallName: 'client.v1.customers.invoices.retrieve',
     fullyQualifiedName: 'v1.customers.invoices.retrieve',
     httpMethod: 'get',
     httpPath: '/v1/customers/{customer_id}/invoices/{invoice_id}',
+  },
+  {
+    clientCallName: 'client.v1.customers.invoices.list',
+    fullyQualifiedName: 'v1.customers.invoices.list',
+    httpMethod: 'get',
+    httpPath: '/v1/customers/{customer_id}/invoices',
   },
   {
     clientCallName: 'client.v1.customers.invoices.addCharge',
@@ -269,15 +269,15 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/customers/{customer_id}/invoices/{invoice_id}/pdf',
   },
   {
-    clientCallName: 'client.v1.customers.billingConfig.retrieve',
-    fullyQualifiedName: 'v1.customers.billingConfig.retrieve',
-    httpMethod: 'get',
-    httpPath: '/v1/customers/{customer_id}/billing-config/{billing_provider_type}',
-  },
-  {
     clientCallName: 'client.v1.customers.billingConfig.create',
     fullyQualifiedName: 'v1.customers.billingConfig.create',
     httpMethod: 'post',
+    httpPath: '/v1/customers/{customer_id}/billing-config/{billing_provider_type}',
+  },
+  {
+    clientCallName: 'client.v1.customers.billingConfig.retrieve',
+    fullyQualifiedName: 'v1.customers.billingConfig.retrieve',
+    httpMethod: 'get',
     httpPath: '/v1/customers/{customer_id}/billing-config/{billing_provider_type}',
   },
   {
@@ -287,16 +287,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/customers/{customer_id}/billing-config/{billing_provider_type}',
   },
   {
-    clientCallName: 'client.v1.customers.commits.list',
-    fullyQualifiedName: 'v1.customers.commits.list',
-    httpMethod: 'post',
-    httpPath: '/v1/contracts/customerCommits/list',
-  },
-  {
     clientCallName: 'client.v1.customers.commits.create',
     fullyQualifiedName: 'v1.customers.commits.create',
     httpMethod: 'post',
     httpPath: '/v1/contracts/customerCommits/create',
+  },
+  {
+    clientCallName: 'client.v1.customers.commits.list',
+    fullyQualifiedName: 'v1.customers.commits.list',
+    httpMethod: 'post',
+    httpPath: '/v1/contracts/customerCommits/list',
   },
   {
     clientCallName: 'client.v1.customers.commits.updateEndDate',
@@ -305,16 +305,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/contracts/customerCommits/updateEndDate',
   },
   {
-    clientCallName: 'client.v1.customers.credits.list',
-    fullyQualifiedName: 'v1.customers.credits.list',
-    httpMethod: 'post',
-    httpPath: '/v1/contracts/customerCredits/list',
-  },
-  {
     clientCallName: 'client.v1.customers.credits.create',
     fullyQualifiedName: 'v1.customers.credits.create',
     httpMethod: 'post',
     httpPath: '/v1/contracts/customerCredits/create',
+  },
+  {
+    clientCallName: 'client.v1.customers.credits.list',
+    fullyQualifiedName: 'v1.customers.credits.list',
+    httpMethod: 'post',
+    httpPath: '/v1/contracts/customerCredits/list',
   },
   {
     clientCallName: 'client.v1.customers.credits.updateEndDate',
@@ -341,16 +341,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/dashboards/getEmbeddableUrl',
   },
   {
-    clientCallName: 'client.v1.usage.ingest',
-    fullyQualifiedName: 'v1.usage.ingest',
-    httpMethod: 'post',
-    httpPath: '/v1/ingest',
-  },
-  {
     clientCallName: 'client.v1.usage.list',
     fullyQualifiedName: 'v1.usage.list',
     httpMethod: 'post',
     httpPath: '/v1/usage',
+  },
+  {
+    clientCallName: 'client.v1.usage.ingest',
+    fullyQualifiedName: 'v1.usage.ingest',
+    httpMethod: 'post',
+    httpPath: '/v1/ingest',
   },
   {
     clientCallName: 'client.v1.usage.listWithGroups',
@@ -377,18 +377,6 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/customFields/addKey',
   },
   {
-    clientCallName: 'client.v1.customFields.removeKey',
-    fullyQualifiedName: 'v1.customFields.removeKey',
-    httpMethod: 'post',
-    httpPath: '/v1/customFields/removeKey',
-  },
-  {
-    clientCallName: 'client.v1.customFields.setValues',
-    fullyQualifiedName: 'v1.customFields.setValues',
-    httpMethod: 'post',
-    httpPath: '/v1/customFields/setValues',
-  },
-  {
     clientCallName: 'client.v1.customFields.deleteValues',
     fullyQualifiedName: 'v1.customFields.deleteValues',
     httpMethod: 'post',
@@ -401,16 +389,22 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/customFields/listKeys',
   },
   {
+    clientCallName: 'client.v1.customFields.removeKey',
+    fullyQualifiedName: 'v1.customFields.removeKey',
+    httpMethod: 'post',
+    httpPath: '/v1/customFields/removeKey',
+  },
+  {
+    clientCallName: 'client.v1.customFields.setValues',
+    fullyQualifiedName: 'v1.customFields.setValues',
+    httpMethod: 'post',
+    httpPath: '/v1/customFields/setValues',
+  },
+  {
     clientCallName: 'client.v1.billableMetrics.create',
     fullyQualifiedName: 'v1.billableMetrics.create',
     httpMethod: 'post',
     httpPath: '/v1/billable-metrics/create',
-  },
-  {
-    clientCallName: 'client.v1.billableMetrics.archive',
-    fullyQualifiedName: 'v1.billableMetrics.archive',
-    httpMethod: 'post',
-    httpPath: '/v1/billable-metrics/archive',
   },
   {
     clientCallName: 'client.v1.billableMetrics.retrieve',
@@ -425,10 +419,22 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/billable-metrics',
   },
   {
+    clientCallName: 'client.v1.billableMetrics.archive',
+    fullyQualifiedName: 'v1.billableMetrics.archive',
+    httpMethod: 'post',
+    httpPath: '/v1/billable-metrics/archive',
+  },
+  {
     clientCallName: 'client.v1.services.list',
     fullyQualifiedName: 'v1.services.list',
     httpMethod: 'get',
     httpPath: '/v1/services',
+  },
+  {
+    clientCallName: 'client.v1.invoices.regenerate',
+    fullyQualifiedName: 'v1.invoices.regenerate',
+    httpMethod: 'post',
+    httpPath: '/v1/invoices/regenerate',
   },
   {
     clientCallName: 'client.v1.invoices.void',
@@ -437,10 +443,10 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/invoices/void',
   },
   {
-    clientCallName: 'client.v1.invoices.regenerate',
-    fullyQualifiedName: 'v1.invoices.regenerate',
+    clientCallName: 'client.v1.contracts.create',
+    fullyQualifiedName: 'v1.contracts.create',
     httpMethod: 'post',
-    httpPath: '/v1/invoices/regenerate',
+    httpPath: '/v1/contracts/create',
   },
   {
     clientCallName: 'client.v1.contracts.retrieve',
@@ -455,10 +461,10 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/contracts/list',
   },
   {
-    clientCallName: 'client.v1.contracts.create',
-    fullyQualifiedName: 'v1.contracts.create',
+    clientCallName: 'client.v1.contracts.addManualBalanceEntry',
+    fullyQualifiedName: 'v1.contracts.addManualBalanceEntry',
     httpMethod: 'post',
-    httpPath: '/v1/contracts/create',
+    httpPath: '/v1/contracts/addManualBalanceLedgerEntry',
   },
   {
     clientCallName: 'client.v1.contracts.amend',
@@ -473,28 +479,22 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/contracts/archive',
   },
   {
-    clientCallName: 'client.v1.contracts.setUsageFilter',
-    fullyQualifiedName: 'v1.contracts.setUsageFilter',
+    clientCallName: 'client.v1.contracts.createHistoricalInvoices',
+    fullyQualifiedName: 'v1.contracts.createHistoricalInvoices',
     httpMethod: 'post',
-    httpPath: '/v1/contracts/setUsageFilter',
+    httpPath: '/v1/contracts/createHistoricalInvoices',
   },
   {
-    clientCallName: 'client.v1.contracts.addManualBalanceEntry',
-    fullyQualifiedName: 'v1.contracts.addManualBalanceEntry',
+    clientCallName: 'client.v1.contracts.getNetBalance',
+    fullyQualifiedName: 'v1.contracts.getNetBalance',
     httpMethod: 'post',
-    httpPath: '/v1/contracts/addManualBalanceLedgerEntry',
+    httpPath: '/v1/contracts/customerBalances/getNetBalance',
   },
   {
-    clientCallName: 'client.v1.contracts.updateEndDate',
-    fullyQualifiedName: 'v1.contracts.updateEndDate',
+    clientCallName: 'client.v1.contracts.getSubscriptionSeatsHistory',
+    fullyQualifiedName: 'v1.contracts.getSubscriptionSeatsHistory',
     httpMethod: 'post',
-    httpPath: '/v1/contracts/updateEndDate',
-  },
-  {
-    clientCallName: 'client.v1.contracts.retrieveRateSchedule',
-    fullyQualifiedName: 'v1.contracts.retrieveRateSchedule',
-    httpMethod: 'post',
-    httpPath: '/v1/contracts/getContractRateSchedule',
+    httpPath: '/v1/contracts/getSubscriptionSeatsHistory',
   },
   {
     clientCallName: 'client.v1.contracts.listBalances',
@@ -509,22 +509,10 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/contracts/seatBalances/list',
   },
   {
-    clientCallName: 'client.v1.contracts.getNetBalance',
-    fullyQualifiedName: 'v1.contracts.getNetBalance',
+    clientCallName: 'client.v1.contracts.retrieveRateSchedule',
+    fullyQualifiedName: 'v1.contracts.retrieveRateSchedule',
     httpMethod: 'post',
-    httpPath: '/v1/contracts/customerBalances/getNetBalance',
-  },
-  {
-    clientCallName: 'client.v1.contracts.scheduleProServicesInvoice',
-    fullyQualifiedName: 'v1.contracts.scheduleProServicesInvoice',
-    httpMethod: 'post',
-    httpPath: '/v1/contracts/scheduleProServicesInvoice',
-  },
-  {
-    clientCallName: 'client.v1.contracts.createHistoricalInvoices',
-    fullyQualifiedName: 'v1.contracts.createHistoricalInvoices',
-    httpMethod: 'post',
-    httpPath: '/v1/contracts/createHistoricalInvoices',
+    httpPath: '/v1/contracts/getContractRateSchedule',
   },
   {
     clientCallName: 'client.v1.contracts.retrieveSubscriptionQuantityHistory',
@@ -533,22 +521,22 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/contracts/getSubscriptionQuantityHistory',
   },
   {
-    clientCallName: 'client.v1.contracts.getSubscriptionSeatsHistory',
-    fullyQualifiedName: 'v1.contracts.getSubscriptionSeatsHistory',
+    clientCallName: 'client.v1.contracts.scheduleProServicesInvoice',
+    fullyQualifiedName: 'v1.contracts.scheduleProServicesInvoice',
     httpMethod: 'post',
-    httpPath: '/v1/contracts/getSubscriptionSeatsHistory',
+    httpPath: '/v1/contracts/scheduleProServicesInvoice',
   },
   {
-    clientCallName: 'client.v1.contracts.products.retrieve',
-    fullyQualifiedName: 'v1.contracts.products.retrieve',
+    clientCallName: 'client.v1.contracts.setUsageFilter',
+    fullyQualifiedName: 'v1.contracts.setUsageFilter',
     httpMethod: 'post',
-    httpPath: '/v1/contract-pricing/products/get',
+    httpPath: '/v1/contracts/setUsageFilter',
   },
   {
-    clientCallName: 'client.v1.contracts.products.list',
-    fullyQualifiedName: 'v1.contracts.products.list',
+    clientCallName: 'client.v1.contracts.updateEndDate',
+    fullyQualifiedName: 'v1.contracts.updateEndDate',
     httpMethod: 'post',
-    httpPath: '/v1/contract-pricing/products/list',
+    httpPath: '/v1/contracts/updateEndDate',
   },
   {
     clientCallName: 'client.v1.contracts.products.create',
@@ -557,10 +545,22 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/contract-pricing/products/create',
   },
   {
+    clientCallName: 'client.v1.contracts.products.retrieve',
+    fullyQualifiedName: 'v1.contracts.products.retrieve',
+    httpMethod: 'post',
+    httpPath: '/v1/contract-pricing/products/get',
+  },
+  {
     clientCallName: 'client.v1.contracts.products.update',
     fullyQualifiedName: 'v1.contracts.products.update',
     httpMethod: 'post',
     httpPath: '/v1/contract-pricing/products/update',
+  },
+  {
+    clientCallName: 'client.v1.contracts.products.list',
+    fullyQualifiedName: 'v1.contracts.products.list',
+    httpMethod: 'post',
+    httpPath: '/v1/contract-pricing/products/list',
   },
   {
     clientCallName: 'client.v1.contracts.products.archive',
@@ -569,10 +569,10 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/contract-pricing/products/archive',
   },
   {
-    clientCallName: 'client.v1.contracts.rateCards.retrieveRateSchedule',
-    fullyQualifiedName: 'v1.contracts.rateCards.retrieveRateSchedule',
+    clientCallName: 'client.v1.contracts.rateCards.create',
+    fullyQualifiedName: 'v1.contracts.rateCards.create',
     httpMethod: 'post',
-    httpPath: '/v1/contract-pricing/rate-cards/getRateSchedule',
+    httpPath: '/v1/contract-pricing/rate-cards/create',
   },
   {
     clientCallName: 'client.v1.contracts.rateCards.retrieve',
@@ -581,22 +581,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/contract-pricing/rate-cards/get',
   },
   {
-    clientCallName: 'client.v1.contracts.rateCards.list',
-    fullyQualifiedName: 'v1.contracts.rateCards.list',
-    httpMethod: 'post',
-    httpPath: '/v1/contract-pricing/rate-cards/list',
-  },
-  {
-    clientCallName: 'client.v1.contracts.rateCards.create',
-    fullyQualifiedName: 'v1.contracts.rateCards.create',
-    httpMethod: 'post',
-    httpPath: '/v1/contract-pricing/rate-cards/create',
-  },
-  {
     clientCallName: 'client.v1.contracts.rateCards.update',
     fullyQualifiedName: 'v1.contracts.rateCards.update',
     httpMethod: 'post',
     httpPath: '/v1/contract-pricing/rate-cards/update',
+  },
+  {
+    clientCallName: 'client.v1.contracts.rateCards.list',
+    fullyQualifiedName: 'v1.contracts.rateCards.list',
+    httpMethod: 'post',
+    httpPath: '/v1/contract-pricing/rate-cards/list',
   },
   {
     clientCallName: 'client.v1.contracts.rateCards.archive',
@@ -605,16 +599,22 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/contract-pricing/rate-cards/archive',
   },
   {
-    clientCallName: 'client.v1.contracts.rateCards.productOrders.set',
-    fullyQualifiedName: 'v1.contracts.rateCards.productOrders.set',
+    clientCallName: 'client.v1.contracts.rateCards.retrieveRateSchedule',
+    fullyQualifiedName: 'v1.contracts.rateCards.retrieveRateSchedule',
     httpMethod: 'post',
-    httpPath: '/v1/contract-pricing/rate-cards/setRateCardProductsOrder',
+    httpPath: '/v1/contract-pricing/rate-cards/getRateSchedule',
   },
   {
     clientCallName: 'client.v1.contracts.rateCards.productOrders.update',
     fullyQualifiedName: 'v1.contracts.rateCards.productOrders.update',
     httpMethod: 'post',
     httpPath: '/v1/contract-pricing/rate-cards/moveRateCardProducts',
+  },
+  {
+    clientCallName: 'client.v1.contracts.rateCards.productOrders.set',
+    fullyQualifiedName: 'v1.contracts.rateCards.productOrders.set',
+    httpMethod: 'post',
+    httpPath: '/v1/contract-pricing/rate-cards/setRateCardProductsOrder',
   },
   {
     clientCallName: 'client.v1.contracts.rateCards.rates.list',
@@ -677,16 +677,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/packages/list',
   },
   {
-    clientCallName: 'client.v1.packages.listContractsOnPackage',
-    fullyQualifiedName: 'v1.packages.listContractsOnPackage',
-    httpMethod: 'post',
-    httpPath: '/v1/packages/listContractsOnPackage',
-  },
-  {
     clientCallName: 'client.v1.packages.archive',
     fullyQualifiedName: 'v1.packages.archive',
     httpMethod: 'post',
     httpPath: '/v1/packages/archive',
+  },
+  {
+    clientCallName: 'client.v1.packages.listContractsOnPackage',
+    fullyQualifiedName: 'v1.packages.listContractsOnPackage',
+    httpMethod: 'post',
+    httpPath: '/v1/packages/listContractsOnPackage',
   },
   {
     clientCallName: 'client.v1.settings.upsertAvalaraCredentials',

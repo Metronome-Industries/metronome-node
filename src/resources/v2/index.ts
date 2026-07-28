@@ -11,8 +11,8 @@ export {
   type ContractRetrieveParams,
   type ContractListParams,
   type ContractEditParams,
-  type ContractGetEditHistoryParams,
   type ContractEditCommitParams,
   type ContractEditCreditParams,
+  type ContractGetEditHistoryParams,
 } from './contracts';
 export { V2 } from './v2';

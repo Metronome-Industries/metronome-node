@@ -31,44 +31,6 @@ describe('resource customFields', () => {
     });
   });
 
-  test('removeKey: only required params', async () => {
-    const responsePromise = client.v1.customFields.removeKey({ entity: 'customer', key: 'x_account_id' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('removeKey: required and optional params', async () => {
-    const response = await client.v1.customFields.removeKey({ entity: 'customer', key: 'x_account_id' });
-  });
-
-  test('setValues: only required params', async () => {
-    const responsePromise = client.v1.customFields.setValues({
-      custom_fields: { x_account_id: 'KyVnHhSBWl7eY2bl' },
-      entity: 'customer',
-      entity_id: '99594816-e8a5-4bca-be21-8d1de0f45120',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('setValues: required and optional params', async () => {
-    const response = await client.v1.customFields.setValues({
-      custom_fields: { x_account_id: 'KyVnHhSBWl7eY2bl' },
-      entity: 'customer',
-      entity_id: '99594816-e8a5-4bca-be21-8d1de0f45120',
-    });
-  });
-
   test('deleteValues: only required params', async () => {
     const responsePromise = client.v1.customFields.deleteValues({
       entity: 'customer',
@@ -111,5 +73,43 @@ describe('resource customFields', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
+  });
+
+  test('removeKey: only required params', async () => {
+    const responsePromise = client.v1.customFields.removeKey({ entity: 'customer', key: 'x_account_id' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('removeKey: required and optional params', async () => {
+    const response = await client.v1.customFields.removeKey({ entity: 'customer', key: 'x_account_id' });
+  });
+
+  test('setValues: only required params', async () => {
+    const responsePromise = client.v1.customFields.setValues({
+      custom_fields: { x_account_id: 'KyVnHhSBWl7eY2bl' },
+      entity: 'customer',
+      entity_id: '99594816-e8a5-4bca-be21-8d1de0f45120',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('setValues: required and optional params', async () => {
+    const response = await client.v1.customFields.setValues({
+      custom_fields: { x_account_id: 'KyVnHhSBWl7eY2bl' },
+      entity: 'customer',
+      entity_id: '99594816-e8a5-4bca-be21-8d1de0f45120',
+    });
   });
 });

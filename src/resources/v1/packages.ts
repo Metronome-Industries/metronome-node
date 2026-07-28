@@ -115,6 +115,23 @@ export class Packages extends APIResource {
   }
 
   /**
+   * Archive a package. Archived packages cannot be used to create new contracts.
+   * However, existing contracts associated with the package will continue to
+   * function as normal. Once you archive a package, you can still retrieve it in the
+   * UI and API, but you cannot unarchive it.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.packages.archive({
+   *   package_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   * });
+   * ```
+   */
+  archive(body: PackageArchiveParams, options?: RequestOptions): APIPromise<PackageArchiveResponse> {
+    return this._client.post('/v1/packages/archive', { body, ...options });
+  }
+
+  /**
    * For a given package, returns all contract IDs and customer IDs associated with
    * the package over a specific time period.
    *
@@ -152,23 +169,6 @@ export class Packages extends APIResource {
       CursorPage<PackageListContractsOnPackageResponse>,
       { query: { limit, next_page }, body, method: 'post', ...options },
     );
-  }
-
-  /**
-   * Archive a package. Archived packages cannot be used to create new contracts.
-   * However, existing contracts associated with the package will continue to
-   * function as normal. Once you archive a package, you can still retrieve it in the
-   * UI and API, but you cannot unarchive it.
-   *
-   * @example
-   * ```ts
-   * const response = await client.v1.packages.archive({
-   *   package_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-   * });
-   * ```
-   */
-  archive(body: PackageArchiveParams, options?: RequestOptions): APIPromise<PackageArchiveResponse> {
-    return this._client.post('/v1/packages/archive', { body, ...options });
   }
 }
 
@@ -3372,6 +3372,13 @@ export interface PackageListParams extends CursorPageParams {
   archive_filter?: 'ARCHIVED' | 'NOT_ARCHIVED' | 'ALL';
 }
 
+export interface PackageArchiveParams {
+  /**
+   * ID of the package to archive
+   */
+  package_id: string;
+}
+
 export interface PackageListContractsOnPackageParams extends CursorPageParams {
   /**
    * Body param
@@ -3397,13 +3404,6 @@ export interface PackageListContractsOnPackageParams extends CursorPageParams {
   starting_at?: string;
 }
 
-export interface PackageArchiveParams {
-  /**
-   * ID of the package to archive
-   */
-  package_id: string;
-}
-
 export declare namespace Packages {
   export {
     type PackageCreateResponse as PackageCreateResponse,
@@ -3416,7 +3416,7 @@ export declare namespace Packages {
     type PackageCreateParams as PackageCreateParams,
     type PackageRetrieveParams as PackageRetrieveParams,
     type PackageListParams as PackageListParams,
-    type PackageListContractsOnPackageParams as PackageListContractsOnPackageParams,
     type PackageArchiveParams as PackageArchiveParams,
+    type PackageListContractsOnPackageParams as PackageListContractsOnPackageParams,
   };
 }

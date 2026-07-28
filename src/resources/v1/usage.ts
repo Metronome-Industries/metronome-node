@@ -18,6 +18,66 @@ import { RequestOptions } from '../../internal/request-options';
  */
 export class Usage extends APIResource {
   /**
+   * Retrieve aggregated usage data across multiple customers and billable metrics in
+   * a single query. This batch endpoint enables you to fetch usage patterns at
+   * scale, broken down by time windows, making it ideal for building analytics
+   * dashboards, generating reports, and monitoring platform-wide usage trends.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Generate platform-wide usage reports for internal teams
+   * - Monitor aggregate usage trends across your entire customer base
+   * - Create comparative usage analyses between customers or time periods
+   * - Support capacity planning with historical usage patterns
+   *
+   * ### Key response fields:
+   *
+   * An array of `UsageBatchAggregate` objects containing:
+   *
+   * - `customer_id`: The customer this usage belongs to
+   * - `billable_metric_id` and `billable_metric_name`: What was measured
+   * - `start_timestamp` and `end_timestamp`: Time window for this data point
+   * - `value`: Aggregated usage amount for the period
+   * - `groups` (optional): Usage broken down by group keys with values
+   * - `next_page`: Pagination cursor for large result sets
+   *
+   * ### Usage guidelines:
+   *
+   * - Time windows: Set `window_size` to `hour`, `day`, or `none` (entire period)
+   * - Required parameters: Must specify `starting_on`, `ending_before`, and
+   *   `window_size`
+   * - Filtering options:
+   *   - `customer_ids`: Limit to specific customers (omit for all customers)
+   *   - `billable_metrics`: Limit to specific metrics (omit for all metrics)
+   * - Pagination: Use `next_page` cursor to retrieve large datasets
+   * - Null values: Group values may be null when no usage matches that group
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const usageListResponse of client.v1.usage.list({
+   *   ending_before: '2021-01-03T00:00:00Z',
+   *   starting_on: '2021-01-01T00:00:00Z',
+   *   window_size: 'day',
+   * })) {
+   *   // ...
+   * }
+   * ```
+   */
+  list(
+    params: UsageListParams,
+    options?: RequestOptions,
+  ): PagePromise<UsageListResponsesCursorPageWithoutLimit, UsageListResponse> {
+    const { next_page, ...body } = params;
+    return this._client.getAPIList('/v1/usage', CursorPageWithoutLimit<UsageListResponse>, {
+      query: { next_page },
+      body,
+      method: 'post',
+      ...options,
+    });
+  }
+
+  /**
    * The ingest endpoint is the primary method for sending usage events to Metronome,
    * serving as the foundation for all billing calculations in your usage-based
    * pricing model. This high-throughput endpoint is designed for real-time streaming
@@ -119,66 +179,6 @@ export class Usage extends APIResource {
       body: usage,
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  /**
-   * Retrieve aggregated usage data across multiple customers and billable metrics in
-   * a single query. This batch endpoint enables you to fetch usage patterns at
-   * scale, broken down by time windows, making it ideal for building analytics
-   * dashboards, generating reports, and monitoring platform-wide usage trends.
-   *
-   * ### Use this endpoint to:
-   *
-   * - Generate platform-wide usage reports for internal teams
-   * - Monitor aggregate usage trends across your entire customer base
-   * - Create comparative usage analyses between customers or time periods
-   * - Support capacity planning with historical usage patterns
-   *
-   * ### Key response fields:
-   *
-   * An array of `UsageBatchAggregate` objects containing:
-   *
-   * - `customer_id`: The customer this usage belongs to
-   * - `billable_metric_id` and `billable_metric_name`: What was measured
-   * - `start_timestamp` and `end_timestamp`: Time window for this data point
-   * - `value`: Aggregated usage amount for the period
-   * - `groups` (optional): Usage broken down by group keys with values
-   * - `next_page`: Pagination cursor for large result sets
-   *
-   * ### Usage guidelines:
-   *
-   * - Time windows: Set `window_size` to `hour`, `day`, or `none` (entire period)
-   * - Required parameters: Must specify `starting_on`, `ending_before`, and
-   *   `window_size`
-   * - Filtering options:
-   *   - `customer_ids`: Limit to specific customers (omit for all customers)
-   *   - `billable_metrics`: Limit to specific metrics (omit for all metrics)
-   * - Pagination: Use `next_page` cursor to retrieve large datasets
-   * - Null values: Group values may be null when no usage matches that group
-   *
-   * @example
-   * ```ts
-   * // Automatically fetches more pages as needed.
-   * for await (const usageListResponse of client.v1.usage.list({
-   *   ending_before: '2021-01-03T00:00:00Z',
-   *   starting_on: '2021-01-01T00:00:00Z',
-   *   window_size: 'day',
-   * })) {
-   *   // ...
-   * }
-   * ```
-   */
-  list(
-    params: UsageListParams,
-    options?: RequestOptions,
-  ): PagePromise<UsageListResponsesCursorPageWithoutLimit, UsageListResponse> {
-    const { next_page, ...body } = params;
-    return this._client.getAPIList('/v1/usage', CursorPageWithoutLimit<UsageListResponse>, {
-      query: { next_page },
-      body,
-      method: 'post',
-      ...options,
     });
   }
 
@@ -489,27 +489,6 @@ export namespace UsageSearchResponse {
   }
 }
 
-export interface UsageIngestParams {
-  usage?: Array<UsageIngestParams.Usage>;
-}
-
-export namespace UsageIngestParams {
-  export interface Usage {
-    customer_id: string;
-
-    event_type: string;
-
-    /**
-     * RFC 3339 formatted
-     */
-    timestamp: string;
-
-    transaction_id: string;
-
-    properties?: { [key: string]: unknown };
-  }
-}
-
 export interface UsageListParams extends CursorPageWithoutLimitParams {
   /**
    * Body param
@@ -562,6 +541,27 @@ export namespace UsageListParams {
        */
       values?: Array<string>;
     }
+  }
+}
+
+export interface UsageIngestParams {
+  usage?: Array<UsageIngestParams.Usage>;
+}
+
+export namespace UsageIngestParams {
+  export interface Usage {
+    customer_id: string;
+
+    event_type: string;
+
+    /**
+     * RFC 3339 formatted
+     */
+    timestamp: string;
+
+    transaction_id: string;
+
+    properties?: { [key: string]: unknown };
   }
 }
 
@@ -664,8 +664,8 @@ export declare namespace Usage {
     type UsageSearchResponse as UsageSearchResponse,
     type UsageListResponsesCursorPageWithoutLimit as UsageListResponsesCursorPageWithoutLimit,
     type UsageListWithGroupsResponsesCursorPage as UsageListWithGroupsResponsesCursorPage,
-    type UsageIngestParams as UsageIngestParams,
     type UsageListParams as UsageListParams,
+    type UsageIngestParams as UsageIngestParams,
     type UsageListWithGroupsParams as UsageListWithGroupsParams,
     type UsageSearchParams as UsageSearchParams,
   };

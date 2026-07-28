@@ -13,6 +13,63 @@ import { path } from '../../../internal/utils/path';
  */
 export class Invoices extends APIResource {
   /**
+   * Retrieve detailed information for a specific invoice by its unique identifier.
+   * This endpoint returns comprehensive invoice data including line items, applied
+   * credits, totals, and billing period details for both finalized and draft
+   * invoices.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Display historical invoice details in customer-facing dashboards or billing
+   *   portals.
+   * - Retrieve current month draft invoices to show customers their month-to-date
+   *   spend.
+   * - Access finalized invoices for historical billing records and payment
+   *   reconciliation.
+   * - Validate customer pricing and credit applications for customer support
+   *   queries.
+   *
+   * ### Key response fields:
+   *
+   * Invoice status (DRAFT, FINALIZED, VOID) Billing period start and end dates Total
+   * amount and amount due after credits Detailed line items broken down by:
+   *
+   * - Customer and contract information
+   * - Invoice line item type
+   * - Product/service name and ID
+   * - Quantity consumed
+   * - Unit and total price
+   * - Time period for usage-based charges
+   * - Applied credits or prepaid commitments
+   *
+   * ### Usage guidelines:
+   *
+   * - Draft invoices update in real-time as usage is reported and may change before
+   *   finalization
+   * - The response includes both usage-based line items (e.g., API calls, data
+   *   processed) and scheduled charges (e.g., monthly subscriptions, commitment
+   *   fees)
+   * - Credit and commitment applications are shown as separate line items with
+   *   negative amounts
+   * - For voided invoices, the response will indicate VOID status but retain all
+   *   original line item details
+   *
+   * @example
+   * ```ts
+   * const invoice = await client.v1.customers.invoices.retrieve(
+   *   {
+   *     customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *     invoice_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+   *   },
+   * );
+   * ```
+   */
+  retrieve(params: InvoiceRetrieveParams, options?: RequestOptions): APIPromise<InvoiceRetrieveResponse> {
+    const { customer_id, invoice_id, ...query } = params;
+    return this._client.get(path`/v1/customers/${customer_id}/invoices/${invoice_id}`, { query, ...options });
+  }
+
+  /**
    * Retrieves a paginated list of invoices for a specific customer, with flexible
    * filtering options to narrow results by status, date range, credit type, and
    * more. This endpoint provides a comprehensive view of a customer's billing
@@ -76,63 +133,6 @@ export class Invoices extends APIResource {
       query,
       ...options,
     });
-  }
-
-  /**
-   * Retrieve detailed information for a specific invoice by its unique identifier.
-   * This endpoint returns comprehensive invoice data including line items, applied
-   * credits, totals, and billing period details for both finalized and draft
-   * invoices.
-   *
-   * ### Use this endpoint to:
-   *
-   * - Display historical invoice details in customer-facing dashboards or billing
-   *   portals.
-   * - Retrieve current month draft invoices to show customers their month-to-date
-   *   spend.
-   * - Access finalized invoices for historical billing records and payment
-   *   reconciliation.
-   * - Validate customer pricing and credit applications for customer support
-   *   queries.
-   *
-   * ### Key response fields:
-   *
-   * Invoice status (DRAFT, FINALIZED, VOID) Billing period start and end dates Total
-   * amount and amount due after credits Detailed line items broken down by:
-   *
-   * - Customer and contract information
-   * - Invoice line item type
-   * - Product/service name and ID
-   * - Quantity consumed
-   * - Unit and total price
-   * - Time period for usage-based charges
-   * - Applied credits or prepaid commitments
-   *
-   * ### Usage guidelines:
-   *
-   * - Draft invoices update in real-time as usage is reported and may change before
-   *   finalization
-   * - The response includes both usage-based line items (e.g., API calls, data
-   *   processed) and scheduled charges (e.g., monthly subscriptions, commitment
-   *   fees)
-   * - Credit and commitment applications are shown as separate line items with
-   *   negative amounts
-   * - For voided invoices, the response will indicate VOID status but retain all
-   *   original line item details
-   *
-   * @example
-   * ```ts
-   * const invoice = await client.v1.customers.invoices.retrieve(
-   *   {
-   *     customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-   *     invoice_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
-   *   },
-   * );
-   * ```
-   */
-  retrieve(params: InvoiceRetrieveParams, options?: RequestOptions): APIPromise<InvoiceRetrieveResponse> {
-    const { customer_id, invoice_id, ...query } = params;
-    return this._client.get(path`/v1/customers/${customer_id}/invoices/${invoice_id}`, { query, ...options });
   }
 
   /**
@@ -985,6 +985,24 @@ export interface InvoiceListBreakdownsResponse extends Invoice {
   breakdown_start_timestamp: string;
 }
 
+export interface InvoiceRetrieveParams {
+  /**
+   * Path param
+   */
+  customer_id: string;
+
+  /**
+   * Path param
+   */
+  invoice_id: string;
+
+  /**
+   * Query param: If set, all zero quantity line items will be filtered out of the
+   * response
+   */
+  skip_zero_qty_line_items?: boolean;
+}
+
 export interface InvoiceListParams extends CursorPageParams {
   /**
    * Path param
@@ -1040,24 +1058,6 @@ export interface InvoiceListParams extends CursorPageParams {
    * notification with the provided ID.
    */
   webhook_notification_id?: string;
-}
-
-export interface InvoiceRetrieveParams {
-  /**
-   * Path param
-   */
-  customer_id: string;
-
-  /**
-   * Path param
-   */
-  invoice_id: string;
-
-  /**
-   * Query param: If set, all zero quantity line items will be filtered out of the
-   * response
-   */
-  skip_zero_qty_line_items?: boolean;
 }
 
 export interface InvoiceAddChargeParams {
@@ -1160,8 +1160,8 @@ export declare namespace Invoices {
     type InvoiceListBreakdownsResponse as InvoiceListBreakdownsResponse,
     type InvoicesCursorPage as InvoicesCursorPage,
     type InvoiceListBreakdownsResponsesCursorPage as InvoiceListBreakdownsResponsesCursorPage,
-    type InvoiceListParams as InvoiceListParams,
     type InvoiceRetrieveParams as InvoiceRetrieveParams,
+    type InvoiceListParams as InvoiceListParams,
     type InvoiceAddChargeParams as InvoiceAddChargeParams,
     type InvoiceListBreakdownsParams as InvoiceListBreakdownsParams,
     type InvoiceRetrievePdfParams as InvoiceRetrievePdfParams,

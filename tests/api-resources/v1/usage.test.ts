@@ -8,6 +8,37 @@ const client = new Metronome({
 });
 
 describe('resource usage', () => {
+  test('list: only required params', async () => {
+    const responsePromise = client.v1.usage.list({
+      ending_before: '2021-01-03T00:00:00Z',
+      starting_on: '2021-01-01T00:00:00Z',
+      window_size: 'HOUR',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('list: required and optional params', async () => {
+    const response = await client.v1.usage.list({
+      ending_before: '2021-01-03T00:00:00Z',
+      starting_on: '2021-01-01T00:00:00Z',
+      window_size: 'HOUR',
+      next_page: 'next_page',
+      billable_metrics: [
+        {
+          id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          group_by: { key: 'key', values: ['x'] },
+        },
+      ],
+      customer_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+    });
+  });
+
   test('ingest', async () => {
     const responsePromise = client.v1.usage.ingest();
     const rawResponse = await responsePromise.asResponse();
@@ -41,37 +72,6 @@ describe('resource usage', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Metronome.NotFoundError);
-  });
-
-  test('list: only required params', async () => {
-    const responsePromise = client.v1.usage.list({
-      ending_before: '2021-01-03T00:00:00Z',
-      starting_on: '2021-01-01T00:00:00Z',
-      window_size: 'HOUR',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: required and optional params', async () => {
-    const response = await client.v1.usage.list({
-      ending_before: '2021-01-03T00:00:00Z',
-      starting_on: '2021-01-01T00:00:00Z',
-      window_size: 'HOUR',
-      next_page: 'next_page',
-      billable_metrics: [
-        {
-          id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-          group_by: { key: 'key', values: ['x'] },
-        },
-      ],
-      customer_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
-    });
   });
 
   test('listWithGroups: only required params', async () => {

@@ -12,73 +12,6 @@ import { RequestOptions } from '../../../internal/request-options';
  */
 export class Commits extends APIResource {
   /**
-   * Retrieve all commit agreements for a customer, including both prepaid and
-   * postpaid commitments. This endpoint provides comprehensive visibility into
-   * contractual spending obligations, enabling you to track commitment utilization
-   * and manage customer contracts effectively.
-   *
-   * ### Use this endpoint to:
-   *
-   * - Display commitment balances and utilization in customer dashboards
-   * - Track prepaid commitment drawdown and remaining balances
-   * - Monitor postpaid commitment progress toward minimum thresholds
-   * - Build commitment tracking and forecasting tools
-   * - Show commitment history with optional ledger details
-   * - Manage rollover balances between contract periods
-   *
-   * ### Key response fields:
-   *
-   * An array of Commit objects containing:
-   *
-   * - Commit type: PREPAID (pay upfront) or POSTPAID (pay at true-up)
-   * - Rate type: COMMIT_RATE (discounted) or LIST_RATE (standard pricing)
-   * - Access schedule: When commitment funds become available
-   * - Invoice schedule: When the customer is billed
-   * - Product targeting: Which product(s) usage is eligible to draw from this commit
-   * - Optional ledger entries: Transaction history (if `include_ledgers=true`)
-   * - Balance information: Current available amount (if `include_balance=true`)
-   * - Rollover settings: Fraction of unused amount that carries forward
-   *
-   * ### Usage guidelines:
-   *
-   * - Pagination: Results limited to 25 commits per page; use 'next_page' for more
-   * - Date filtering options:
-   *   - `covering_date`: Commits active on a specific date
-   *   - `starting_at`: Commits with access on/after a date
-   *   - `effective_before`: Commits with access before a date (exclusive)
-   * - Scope options:
-   *   - `include_contract_commits`: Include contract-level commits (not just
-   *     customer-level)
-   *   - `include_archived`: Include archived commits and commits from archived
-   *     contracts
-   * - Performance considerations:
-   *   - include_ledgers: Adds detailed transaction history (slower)
-   *   - include_balance: Adds current balance calculation (slower)
-   * - Optional filtering: Use commit_id to retrieve a specific commit
-   *
-   * @example
-   * ```ts
-   * // Automatically fetches more pages as needed.
-   * for await (const commit of client.v1.customers.commits.list(
-   *   {
-   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-   *     commit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
-   *     include_ledgers: true,
-   *   },
-   * )) {
-   *   // ...
-   * }
-   * ```
-   */
-  list(body: CommitListParams, options?: RequestOptions): PagePromise<CommitsBodyCursorPage, Shared.Commit> {
-    return this._client.getAPIList('/v1/contracts/customerCommits/list', BodyCursorPage<Shared.Commit>, {
-      body,
-      method: 'post',
-      ...options,
-    });
-  }
-
-  /**
    * ⚠️ For most contract amendments, use `contracts/edit` directly. Use this
    * endpoint only for cross-contract or enterprise-wide commits.
    *
@@ -185,6 +118,73 @@ export class Commits extends APIResource {
   }
 
   /**
+   * Retrieve all commit agreements for a customer, including both prepaid and
+   * postpaid commitments. This endpoint provides comprehensive visibility into
+   * contractual spending obligations, enabling you to track commitment utilization
+   * and manage customer contracts effectively.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Display commitment balances and utilization in customer dashboards
+   * - Track prepaid commitment drawdown and remaining balances
+   * - Monitor postpaid commitment progress toward minimum thresholds
+   * - Build commitment tracking and forecasting tools
+   * - Show commitment history with optional ledger details
+   * - Manage rollover balances between contract periods
+   *
+   * ### Key response fields:
+   *
+   * An array of Commit objects containing:
+   *
+   * - Commit type: PREPAID (pay upfront) or POSTPAID (pay at true-up)
+   * - Rate type: COMMIT_RATE (discounted) or LIST_RATE (standard pricing)
+   * - Access schedule: When commitment funds become available
+   * - Invoice schedule: When the customer is billed
+   * - Product targeting: Which product(s) usage is eligible to draw from this commit
+   * - Optional ledger entries: Transaction history (if `include_ledgers=true`)
+   * - Balance information: Current available amount (if `include_balance=true`)
+   * - Rollover settings: Fraction of unused amount that carries forward
+   *
+   * ### Usage guidelines:
+   *
+   * - Pagination: Results limited to 25 commits per page; use 'next_page' for more
+   * - Date filtering options:
+   *   - `covering_date`: Commits active on a specific date
+   *   - `starting_at`: Commits with access on/after a date
+   *   - `effective_before`: Commits with access before a date (exclusive)
+   * - Scope options:
+   *   - `include_contract_commits`: Include contract-level commits (not just
+   *     customer-level)
+   *   - `include_archived`: Include archived commits and commits from archived
+   *     contracts
+   * - Performance considerations:
+   *   - include_ledgers: Adds detailed transaction history (slower)
+   *   - include_balance: Adds current balance calculation (slower)
+   * - Optional filtering: Use commit_id to retrieve a specific commit
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const commit of client.v1.customers.commits.list(
+   *   {
+   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *     commit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+   *     include_ledgers: true,
+   *   },
+   * )) {
+   *   // ...
+   * }
+   * ```
+   */
+  list(body: CommitListParams, options?: RequestOptions): PagePromise<CommitsBodyCursorPage, Shared.Commit> {
+    return this._client.getAPIList('/v1/contracts/customerCommits/list', BodyCursorPage<Shared.Commit>, {
+      body,
+      method: 'post',
+      ...options,
+    });
+  }
+
+  /**
    * Shortens the end date of a prepaid commit to terminate it earlier than
    * originally scheduled. Use this endpoint when you need to cancel or reduce the
    * duration of an existing prepaid commit. Only works with prepaid commit types and
@@ -220,49 +220,6 @@ export interface CommitCreateResponse {
 
 export interface CommitUpdateEndDateResponse {
   data: Shared.ID;
-}
-
-export interface CommitListParams extends BodyCursorPageParams {
-  customer_id: string;
-
-  commit_id?: string;
-
-  /**
-   * Include only commits that have access schedules that "cover" the provided date
-   */
-  covering_date?: string;
-
-  /**
-   * Include only commits that have any access before the provided date (exclusive)
-   */
-  effective_before?: string;
-
-  /**
-   * Include archived commits and commits from archived contracts.
-   */
-  include_archived?: boolean;
-
-  /**
-   * Include the balance in the response. Setting this flag may cause the query to be
-   * slower.
-   */
-  include_balance?: boolean;
-
-  /**
-   * Include commits on the contract level.
-   */
-  include_contract_commits?: boolean;
-
-  /**
-   * Include commit ledgers in the response. Setting this flag may cause the query to
-   * be slower.
-   */
-  include_ledgers?: boolean;
-
-  /**
-   * Include only commits that have any access on or after the provided date
-   */
-  starting_at?: string;
 }
 
 export interface CommitCreateParams {
@@ -501,6 +458,49 @@ export namespace CommitCreateParams {
   }
 }
 
+export interface CommitListParams extends BodyCursorPageParams {
+  customer_id: string;
+
+  commit_id?: string;
+
+  /**
+   * Include only commits that have access schedules that "cover" the provided date
+   */
+  covering_date?: string;
+
+  /**
+   * Include only commits that have any access before the provided date (exclusive)
+   */
+  effective_before?: string;
+
+  /**
+   * Include archived commits and commits from archived contracts.
+   */
+  include_archived?: boolean;
+
+  /**
+   * Include the balance in the response. Setting this flag may cause the query to be
+   * slower.
+   */
+  include_balance?: boolean;
+
+  /**
+   * Include commits on the contract level.
+   */
+  include_contract_commits?: boolean;
+
+  /**
+   * Include commit ledgers in the response. Setting this flag may cause the query to
+   * be slower.
+   */
+  include_ledgers?: boolean;
+
+  /**
+   * Include only commits that have any access on or after the provided date
+   */
+  starting_at?: string;
+}
+
 export interface CommitUpdateEndDateParams {
   /**
    * ID of the commit to update. Only supports "PREPAID" commits.
@@ -530,8 +530,8 @@ export declare namespace Commits {
   export {
     type CommitCreateResponse as CommitCreateResponse,
     type CommitUpdateEndDateResponse as CommitUpdateEndDateResponse,
-    type CommitListParams as CommitListParams,
     type CommitCreateParams as CommitCreateParams,
+    type CommitListParams as CommitListParams,
     type CommitUpdateEndDateParams as CommitUpdateEndDateParams,
   };
 }

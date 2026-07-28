@@ -12,74 +12,6 @@ import { RequestOptions } from '../../../internal/request-options';
  */
 export class Credits extends APIResource {
   /**
-   * Retrieve a detailed list of all credits available to a customer, including
-   * promotional credits and contract-specific credits. This endpoint provides
-   * comprehensive visibility into credit balances, access schedules, and usage
-   * rules, enabling you to build credit management interfaces and track available
-   * funding.
-   *
-   * ### Use this endpoint to:
-   *
-   * - Display all available credits in customer billing dashboards
-   * - Show credit balances and expiration dates
-   * - Track credit usage history with optional ledger details
-   * - Build credit management and reporting tools
-   * - Monitor promotional credit utilization • Support customer inquiries about
-   *   available credits
-   *
-   * ### Key response fields:
-   *
-   * An array of Credit objects containing:
-   *
-   * - Credit details: Name, priority, and which applicable products/tags it applies
-   *   to
-   * - Product ID: The `product_id` of the credit. This is for external mapping into
-   *   your quote-to-cash stack, not the product it applies to.
-   * - Access schedule: When credits become available and expire
-   * - Optional ledger entries: Transaction history (if `include_ledgers=true`)
-   * - Balance information: Current available amount (if `include_balance=true`)
-   * - Metadata: Custom fields and usage specifiers
-   *
-   * ### Usage guidelines:
-   *
-   * - Pagination: Results limited to 25 commits per page; use next_page for more
-   * - Date filtering options:
-   *   - `covering_date`: Credits active on a specific date
-   *   - `starting_at`: Credits with access on/after a date
-   *   - `effective_before`: Credits with access before a date (exclusive)
-   * - Scope options:
-   *   - `include_contract_credits`: Include contract-level credits (not just
-   *     customer-level)
-   *   - `include_archived`: Include archived credits and credits from archived
-   *     contracts
-   * - Performance considerations:
-   *   - `include_ledgers`: Adds detailed transaction history (slower)
-   *   - `include_balance`: Adds current balance calculation (slower)
-   * - Optional filtering: Use credit_id to retrieve a specific commit
-   *
-   * @example
-   * ```ts
-   * // Automatically fetches more pages as needed.
-   * for await (const credit of client.v1.customers.credits.list(
-   *   {
-   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-   *     credit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
-   *     include_ledgers: true,
-   *   },
-   * )) {
-   *   // ...
-   * }
-   * ```
-   */
-  list(body: CreditListParams, options?: RequestOptions): PagePromise<CreditsBodyCursorPage, Shared.Credit> {
-    return this._client.getAPIList('/v1/contracts/customerCredits/list', BodyCursorPage<Shared.Credit>, {
-      body,
-      method: 'post',
-      ...options,
-    });
-  }
-
-  /**
    * ⚠️ For most contract amendments, use `contracts/edit` directly. Use this
    * endpoint only for cross-contract or enterprise-wide commits.
    *
@@ -158,6 +90,74 @@ export class Credits extends APIResource {
   }
 
   /**
+   * Retrieve a detailed list of all credits available to a customer, including
+   * promotional credits and contract-specific credits. This endpoint provides
+   * comprehensive visibility into credit balances, access schedules, and usage
+   * rules, enabling you to build credit management interfaces and track available
+   * funding.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Display all available credits in customer billing dashboards
+   * - Show credit balances and expiration dates
+   * - Track credit usage history with optional ledger details
+   * - Build credit management and reporting tools
+   * - Monitor promotional credit utilization • Support customer inquiries about
+   *   available credits
+   *
+   * ### Key response fields:
+   *
+   * An array of Credit objects containing:
+   *
+   * - Credit details: Name, priority, and which applicable products/tags it applies
+   *   to
+   * - Product ID: The `product_id` of the credit. This is for external mapping into
+   *   your quote-to-cash stack, not the product it applies to.
+   * - Access schedule: When credits become available and expire
+   * - Optional ledger entries: Transaction history (if `include_ledgers=true`)
+   * - Balance information: Current available amount (if `include_balance=true`)
+   * - Metadata: Custom fields and usage specifiers
+   *
+   * ### Usage guidelines:
+   *
+   * - Pagination: Results limited to 25 commits per page; use next_page for more
+   * - Date filtering options:
+   *   - `covering_date`: Credits active on a specific date
+   *   - `starting_at`: Credits with access on/after a date
+   *   - `effective_before`: Credits with access before a date (exclusive)
+   * - Scope options:
+   *   - `include_contract_credits`: Include contract-level credits (not just
+   *     customer-level)
+   *   - `include_archived`: Include archived credits and credits from archived
+   *     contracts
+   * - Performance considerations:
+   *   - `include_ledgers`: Adds detailed transaction history (slower)
+   *   - `include_balance`: Adds current balance calculation (slower)
+   * - Optional filtering: Use credit_id to retrieve a specific commit
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const credit of client.v1.customers.credits.list(
+   *   {
+   *     customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *     credit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+   *     include_ledgers: true,
+   *   },
+   * )) {
+   *   // ...
+   * }
+   * ```
+   */
+  list(body: CreditListParams, options?: RequestOptions): PagePromise<CreditsBodyCursorPage, Shared.Credit> {
+    return this._client.getAPIList('/v1/contracts/customerCredits/list', BodyCursorPage<Shared.Credit>, {
+      body,
+      method: 'post',
+      ...options,
+    });
+  }
+
+  /**
    * Shortens the end date of an existing customer credit to terminate it earlier
    * than originally scheduled. Only allows moving end dates forward (earlier), not
    * extending them.
@@ -189,49 +189,6 @@ export interface CreditCreateResponse {
 
 export interface CreditUpdateEndDateResponse {
   data: Shared.ID;
-}
-
-export interface CreditListParams extends BodyCursorPageParams {
-  customer_id: string;
-
-  /**
-   * Return only credits that have access schedules that "cover" the provided date
-   */
-  covering_date?: string;
-
-  credit_id?: string;
-
-  /**
-   * Include only credits that have any access before the provided date (exclusive)
-   */
-  effective_before?: string;
-
-  /**
-   * Include archived credits and credits from archived contracts.
-   */
-  include_archived?: boolean;
-
-  /**
-   * Include the balance in the response. Setting this flag may cause the query to be
-   * slower.
-   */
-  include_balance?: boolean;
-
-  /**
-   * Include credits on the contract level.
-   */
-  include_contract_credits?: boolean;
-
-  /**
-   * Include credit ledgers in the response. Setting this flag may cause the query to
-   * be slower.
-   */
-  include_ledgers?: boolean;
-
-  /**
-   * Include only credits that have any access on or after the provided date
-   */
-  starting_at?: string;
 }
 
 export interface CreditCreateParams {
@@ -342,6 +299,49 @@ export namespace CreditCreateParams {
   }
 }
 
+export interface CreditListParams extends BodyCursorPageParams {
+  customer_id: string;
+
+  /**
+   * Return only credits that have access schedules that "cover" the provided date
+   */
+  covering_date?: string;
+
+  credit_id?: string;
+
+  /**
+   * Include only credits that have any access before the provided date (exclusive)
+   */
+  effective_before?: string;
+
+  /**
+   * Include archived credits and credits from archived contracts.
+   */
+  include_archived?: boolean;
+
+  /**
+   * Include the balance in the response. Setting this flag may cause the query to be
+   * slower.
+   */
+  include_balance?: boolean;
+
+  /**
+   * Include credits on the contract level.
+   */
+  include_contract_credits?: boolean;
+
+  /**
+   * Include credit ledgers in the response. Setting this flag may cause the query to
+   * be slower.
+   */
+  include_ledgers?: boolean;
+
+  /**
+   * Include only credits that have any access on or after the provided date
+   */
+  starting_at?: string;
+}
+
 export interface CreditUpdateEndDateParams {
   /**
    * RFC 3339 timestamp indicating when access to the credit will end and it will no
@@ -364,8 +364,8 @@ export declare namespace Credits {
   export {
     type CreditCreateResponse as CreditCreateResponse,
     type CreditUpdateEndDateResponse as CreditUpdateEndDateResponse,
-    type CreditListParams as CreditListParams,
     type CreditCreateParams as CreditCreateParams,
+    type CreditListParams as CreditListParams,
     type CreditUpdateEndDateParams as CreditUpdateEndDateParams,
   };
 }

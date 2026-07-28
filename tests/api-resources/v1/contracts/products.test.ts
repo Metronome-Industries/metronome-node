@@ -8,50 +8,6 @@ const client = new Metronome({
 });
 
 describe('resource products', () => {
-  test('retrieve: only required params', async () => {
-    const responsePromise = client.v1.contracts.products.retrieve({
-      id: 'd84e7f4e-7a70-4fe4-be02-7a5027beffcc',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieve: required and optional params', async () => {
-    const response = await client.v1.contracts.products.retrieve({
-      id: 'd84e7f4e-7a70-4fe4-be02-7a5027beffcc',
-    });
-  });
-
-  test('list', async () => {
-    const responsePromise = client.v1.contracts.products.list();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.v1.contracts.products.list(
-        {
-          limit: 1,
-          next_page: 'next_page',
-          archive_filter: 'NOT_ARCHIVED',
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Metronome.NotFoundError);
-  });
-
   test('create: only required params', async () => {
     const responsePromise = client.v1.contracts.products.create({ name: 'My Product', type: 'USAGE' });
     const rawResponse = await responsePromise.asResponse();
@@ -85,6 +41,25 @@ describe('resource products', () => {
       quantity_rounding: { decimal_places: 0, rounding_method: 'ROUND_UP' },
       sql_breakdown_granularity: 'HOUR',
       tags: ['string'],
+    });
+  });
+
+  test('retrieve: only required params', async () => {
+    const responsePromise = client.v1.contracts.products.retrieve({
+      id: 'd84e7f4e-7a70-4fe4-be02-7a5027beffcc',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieve: required and optional params', async () => {
+    const response = await client.v1.contracts.products.retrieve({
+      id: 'd84e7f4e-7a70-4fe4-be02-7a5027beffcc',
     });
   });
 
@@ -125,6 +100,31 @@ describe('resource products', () => {
       sql_breakdown_granularity: 'HOUR',
       tags: ['string'],
     });
+  });
+
+  test('list', async () => {
+    const responsePromise = client.v1.contracts.products.list();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.v1.contracts.products.list(
+        {
+          limit: 1,
+          next_page: 'next_page',
+          archive_filter: 'NOT_ARCHIVED',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Metronome.NotFoundError);
   });
 
   test('archive: only required params', async () => {

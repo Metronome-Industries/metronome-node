@@ -8,21 +8,6 @@ const client = new Metronome({
 });
 
 describe('resource invoices', () => {
-  test('void: only required params', async () => {
-    const responsePromise = client.v1.invoices.void({ id: '6a37bb88-8538-48c5-b37b-a41c836328bd' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('void: required and optional params', async () => {
-    const response = await client.v1.invoices.void({ id: '6a37bb88-8538-48c5-b37b-a41c836328bd' });
-  });
-
   test('regenerate: only required params', async () => {
     const responsePromise = client.v1.invoices.regenerate({ id: '6a37bb88-8538-48c5-b37b-a41c836328bd' });
     const rawResponse = await responsePromise.asResponse();
@@ -36,5 +21,20 @@ describe('resource invoices', () => {
 
   test('regenerate: required and optional params', async () => {
     const response = await client.v1.invoices.regenerate({ id: '6a37bb88-8538-48c5-b37b-a41c836328bd' });
+  });
+
+  test('void: only required params', async () => {
+    const responsePromise = client.v1.invoices.void({ id: '6a37bb88-8538-48c5-b37b-a41c836328bd' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('void: required and optional params', async () => {
+    const response = await client.v1.invoices.void({ id: '6a37bb88-8538-48c5-b37b-a41c836328bd' });
   });
 });

@@ -48,6 +48,32 @@ export class Plans extends APIResource {
   }
 
   /**
+   * Fetches a list of charges of a specific plan. This is a Plans (deprecated)
+   * endpoint. New clients should implement using Contracts.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const planListChargesResponse of client.v1.plans.listCharges(
+   *   { plan_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' },
+   * )) {
+   *   // ...
+   * }
+   * ```
+   */
+  listCharges(
+    params: PlanListChargesParams,
+    options?: RequestOptions,
+  ): PagePromise<PlanListChargesResponsesCursorPage, PlanListChargesResponse> {
+    const { plan_id, ...query } = params;
+    return this._client.getAPIList(
+      path`/v1/planDetails/${plan_id}/charges`,
+      CursorPage<PlanListChargesResponse>,
+      { query, ...options },
+    );
+  }
+
+  /**
    * Fetches a list of customers on a specific plan (by default, only currently
    * active plans are included). This is a Plans (deprecated) endpoint. New clients
    * should implement using Contracts.
@@ -73,39 +99,13 @@ export class Plans extends APIResource {
       { query, ...options },
     );
   }
-
-  /**
-   * Fetches a list of charges of a specific plan. This is a Plans (deprecated)
-   * endpoint. New clients should implement using Contracts.
-   *
-   * @example
-   * ```ts
-   * // Automatically fetches more pages as needed.
-   * for await (const planListChargesResponse of client.v1.plans.listCharges(
-   *   { plan_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' },
-   * )) {
-   *   // ...
-   * }
-   * ```
-   */
-  listCharges(
-    params: PlanListChargesParams,
-    options?: RequestOptions,
-  ): PagePromise<PlanListChargesResponsesCursorPage, PlanListChargesResponse> {
-    const { plan_id, ...query } = params;
-    return this._client.getAPIList(
-      path`/v1/planDetails/${plan_id}/charges`,
-      CursorPage<PlanListChargesResponse>,
-      { query, ...options },
-    );
-  }
 }
 
 export type PlanListResponsesCursorPage = CursorPage<PlanListResponse>;
 
-export type PlanListCustomersResponsesCursorPage = CursorPage<PlanListCustomersResponse>;
-
 export type PlanListChargesResponsesCursorPage = CursorPage<PlanListChargesResponse>;
+
+export type PlanListCustomersResponsesCursorPage = CursorPage<PlanListCustomersResponse>;
 
 export interface PlanDetail {
   id: string;
@@ -307,6 +307,13 @@ export interface PlanGetDetailsParams {
   plan_id: string;
 }
 
+export interface PlanListChargesParams extends CursorPageParams {
+  /**
+   * Path param
+   */
+  plan_id: string;
+}
+
 export interface PlanListCustomersParams extends CursorPageParams {
   /**
    * Path param
@@ -327,13 +334,6 @@ export interface PlanListCustomersParams extends CursorPageParams {
   status?: 'all' | 'active' | 'ended' | 'upcoming';
 }
 
-export interface PlanListChargesParams extends CursorPageParams {
-  /**
-   * Path param
-   */
-  plan_id: string;
-}
-
 export declare namespace Plans {
   export {
     type PlanDetail as PlanDetail,
@@ -342,11 +342,11 @@ export declare namespace Plans {
     type PlanListChargesResponse as PlanListChargesResponse,
     type PlanListCustomersResponse as PlanListCustomersResponse,
     type PlanListResponsesCursorPage as PlanListResponsesCursorPage,
-    type PlanListCustomersResponsesCursorPage as PlanListCustomersResponsesCursorPage,
     type PlanListChargesResponsesCursorPage as PlanListChargesResponsesCursorPage,
+    type PlanListCustomersResponsesCursorPage as PlanListCustomersResponsesCursorPage,
     type PlanListParams as PlanListParams,
     type PlanGetDetailsParams as PlanGetDetailsParams,
-    type PlanListCustomersParams as PlanListCustomersParams,
     type PlanListChargesParams as PlanListChargesParams,
+    type PlanListCustomersParams as PlanListCustomersParams,
   };
 }

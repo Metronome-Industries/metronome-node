@@ -47,38 +47,6 @@ export class CreditGrants extends APIResource {
   }
 
   /**
-   * Edit an existing credit grant. This is a Plans (deprecated) endpoint. New
-   * clients should implement using Contracts.
-   *
-   * @example
-   * ```ts
-   * const response = await client.v1.creditGrants.edit({
-   *   id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
-   *   expires_at: '2022-04-01T00:00:00Z',
-   *   name: 'Acme Corp Promotional Credit Grant',
-   * });
-   * ```
-   */
-  edit(body: CreditGrantEditParams, options?: RequestOptions): APIPromise<CreditGrantEditResponse> {
-    return this._client.post('/v1/credits/editGrant', { body, ...options });
-  }
-
-  /**
-   * Void a credit grant. This is a Plans (deprecated) endpoint. New clients should
-   * implement using Contracts.
-   *
-   * @example
-   * ```ts
-   * const response = await client.v1.creditGrants.void({
-   *   id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
-   * });
-   * ```
-   */
-  void(body: CreditGrantVoidParams, options?: RequestOptions): APIPromise<CreditGrantVoidResponse> {
-    return this._client.post('/v1/credits/voidGrant', { body, ...options });
-  }
-
-  /**
    * List credit grants. This list does not included voided grants. This is a Plans
    * (deprecated) endpoint. New clients should implement using Contracts.
    *
@@ -116,6 +84,23 @@ export class CreditGrants extends APIResource {
   }
 
   /**
+   * Edit an existing credit grant. This is a Plans (deprecated) endpoint. New
+   * clients should implement using Contracts.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.creditGrants.edit({
+   *   id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+   *   expires_at: '2022-04-01T00:00:00Z',
+   *   name: 'Acme Corp Promotional Credit Grant',
+   * });
+   * ```
+   */
+  edit(body: CreditGrantEditParams, options?: RequestOptions): APIPromise<CreditGrantEditResponse> {
+    return this._client.post('/v1/credits/editGrant', { body, ...options });
+  }
+
+  /**
    * Fetches a list of credit ledger entries. Returns lists of ledgers per customer.
    * Ledger entries are returned in chronological order. Ledger entries associated
    * with voided credit grants are not included. This is a Plans (deprecated)
@@ -148,6 +133,21 @@ export class CreditGrants extends APIResource {
       CursorPageWithoutLimit<CreditGrantListEntriesResponse>,
       { query: { next_page, sort }, body, method: 'post', ...options },
     );
+  }
+
+  /**
+   * Void a credit grant. This is a Plans (deprecated) endpoint. New clients should
+   * implement using Contracts.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.creditGrants.void({
+   *   id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+   * });
+   * ```
+   */
+  void(body: CreditGrantVoidParams, options?: RequestOptions): APIPromise<CreditGrantVoidResponse> {
+    return this._client.post('/v1/credits/voidGrant', { body, ...options });
   }
 }
 
@@ -538,42 +538,6 @@ export namespace CreditGrantCreateParams {
   }
 }
 
-export interface CreditGrantEditParams {
-  /**
-   * the ID of the credit grant
-   */
-  id: string;
-
-  /**
-   * the updated credit grant type
-   */
-  credit_grant_type?: string;
-
-  /**
-   * the updated expiration date for the credit grant
-   */
-  expires_at?: string;
-
-  /**
-   * the updated name for the credit grant
-   */
-  name?: string;
-}
-
-export interface CreditGrantVoidParams {
-  id: string;
-
-  /**
-   * If true, resets the uniqueness key on this grant so it can be re-used
-   */
-  release_uniqueness_key?: boolean;
-
-  /**
-   * If true, void the purchase invoice associated with the grant
-   */
-  void_credit_purchase_invoice?: boolean;
-}
-
 export interface CreditGrantListParams extends CursorPageParams {
   /**
    * Body param: An array of credit grant IDs. If this is specified, neither
@@ -603,6 +567,28 @@ export interface CreditGrantListParams extends CursorPageParams {
    * Body param: Only return credit grants that expire at or after this timestamp.
    */
   not_expiring_before?: string;
+}
+
+export interface CreditGrantEditParams {
+  /**
+   * the ID of the credit grant
+   */
+  id: string;
+
+  /**
+   * the updated credit grant type
+   */
+  credit_grant_type?: string;
+
+  /**
+   * the updated expiration date for the credit grant
+   */
+  expires_at?: string;
+
+  /**
+   * the updated name for the credit grant
+   */
+  name?: string;
 }
 
 export interface CreditGrantListEntriesParams extends CursorPageWithoutLimitParams {
@@ -638,6 +624,20 @@ export interface CreditGrantListEntriesParams extends CursorPageWithoutLimitPara
   starting_on?: string;
 }
 
+export interface CreditGrantVoidParams {
+  id: string;
+
+  /**
+   * If true, resets the uniqueness key on this grant so it can be re-used
+   */
+  release_uniqueness_key?: boolean;
+
+  /**
+   * If true, void the purchase invoice associated with the grant
+   */
+  void_credit_purchase_invoice?: boolean;
+}
+
 export declare namespace CreditGrants {
   export {
     type CreditLedgerEntry as CreditLedgerEntry,
@@ -651,9 +651,9 @@ export declare namespace CreditGrants {
     type CreditGrantListResponsesCursorPage as CreditGrantListResponsesCursorPage,
     type CreditGrantListEntriesResponsesCursorPageWithoutLimit as CreditGrantListEntriesResponsesCursorPageWithoutLimit,
     type CreditGrantCreateParams as CreditGrantCreateParams,
-    type CreditGrantEditParams as CreditGrantEditParams,
-    type CreditGrantVoidParams as CreditGrantVoidParams,
     type CreditGrantListParams as CreditGrantListParams,
+    type CreditGrantEditParams as CreditGrantEditParams,
     type CreditGrantListEntriesParams as CreditGrantListEntriesParams,
+    type CreditGrantVoidParams as CreditGrantVoidParams,
   };
 }

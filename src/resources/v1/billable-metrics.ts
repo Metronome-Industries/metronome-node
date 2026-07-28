@@ -75,31 +75,6 @@ export class BillableMetrics extends APIResource {
   }
 
   /**
-   * Use this endpoint to retire billable metrics that are no longer used. After a
-   * billable metric is archived, that billable metric can no longer be used in any
-   * new Products to define how that product should be metered. If you archive a
-   * billable metric that is already associated with a Product, the Product will
-   * continue to function as usual, metering based on the definition of the archived
-   * billable metric.
-   *
-   * Archived billable metrics will be returned on the `getBillableMetric` and
-   * `listBillableMetrics` endpoints with a populated `archived_at` field.
-   *
-   * @example
-   * ```ts
-   * const response = await client.v1.billableMetrics.archive({
-   *   id: '8deed800-1b7a-495d-a207-6c52bac54dc9',
-   * });
-   * ```
-   */
-  archive(
-    body: BillableMetricArchiveParams,
-    options?: RequestOptions,
-  ): APIPromise<BillableMetricArchiveResponse> {
-    return this._client.post('/v1/billable-metrics/archive', { body, ...options });
-  }
-
-  /**
    * Retrieves the complete configuration for a specific billable metric by its ID.
    * Use this to review billable metric setup before associating it with products.
    * Returns the metric's `name`, `event_type_filter`, `property_filters`,
@@ -152,6 +127,31 @@ export class BillableMetrics extends APIResource {
       query,
       ...options,
     });
+  }
+
+  /**
+   * Use this endpoint to retire billable metrics that are no longer used. After a
+   * billable metric is archived, that billable metric can no longer be used in any
+   * new Products to define how that product should be metered. If you archive a
+   * billable metric that is already associated with a Product, the Product will
+   * continue to function as usual, metering based on the definition of the archived
+   * billable metric.
+   *
+   * Archived billable metrics will be returned on the `getBillableMetric` and
+   * `listBillableMetrics` endpoints with a populated `archived_at` field.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.billableMetrics.archive({
+   *   id: '8deed800-1b7a-495d-a207-6c52bac54dc9',
+   * });
+   * ```
+   */
+  archive(
+    body: BillableMetricArchiveParams,
+    options?: RequestOptions,
+  ): APIPromise<BillableMetricArchiveResponse> {
+    return this._client.post('/v1/billable-metrics/archive', { body, ...options });
   }
 }
 
@@ -336,10 +336,6 @@ export interface BillableMetricCreateParams {
   sql?: string;
 }
 
-export interface BillableMetricArchiveParams {
-  id: string;
-}
-
 export interface BillableMetricRetrieveParams {
   billable_metric_id: string;
 }
@@ -351,6 +347,10 @@ export interface BillableMetricListParams extends CursorPageParams {
   include_archived?: boolean;
 }
 
+export interface BillableMetricArchiveParams {
+  id: string;
+}
+
 export declare namespace BillableMetrics {
   export {
     type BillableMetricCreateResponse as BillableMetricCreateResponse,
@@ -359,8 +359,8 @@ export declare namespace BillableMetrics {
     type BillableMetricArchiveResponse as BillableMetricArchiveResponse,
     type BillableMetricListResponsesCursorPage as BillableMetricListResponsesCursorPage,
     type BillableMetricCreateParams as BillableMetricCreateParams,
-    type BillableMetricArchiveParams as BillableMetricArchiveParams,
     type BillableMetricRetrieveParams as BillableMetricRetrieveParams,
     type BillableMetricListParams as BillableMetricListParams,
+    type BillableMetricArchiveParams as BillableMetricArchiveParams,
   };
 }

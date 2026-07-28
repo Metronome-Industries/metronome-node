@@ -90,49 +90,6 @@ export class Customers extends APIResource {
   namedSchedules: NamedSchedulesAPI.NamedSchedules = new NamedSchedulesAPI.NamedSchedules(this._client);
 
   /**
-   * Get detailed information for a specific customer by their Metronome ID. Returns
-   * customer profile data including name, creation date, ingest aliases,
-   * configuration settings, and custom fields. Use this endpoint to fetch complete
-   * customer details for billing operations or account management.
-   *
-   * Note: If searching for a customer billing configuration, use the
-   * `/getCustomerBillingConfigurations` endpoint.
-   *
-   * @example
-   * ```ts
-   * const customer = await client.v1.customers.retrieve({
-   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-   * });
-   * ```
-   */
-  retrieve(params: CustomerRetrieveParams, options?: RequestOptions): APIPromise<CustomerRetrieveResponse> {
-    const { customer_id } = params;
-    return this._client.get(path`/v1/customers/${customer_id}`, options);
-  }
-
-  /**
-   * Gets a paginated list of all customers in your Metronome account. Use this
-   * endpoint to browse your customer base, implement customer search functionality,
-   * or sync customer data with external systems. Returns customer details including
-   * IDs, names, and configuration settings. Supports filtering and pagination
-   * parameters for efficient data retrieval.
-   *
-   * @example
-   * ```ts
-   * // Automatically fetches more pages as needed.
-   * for await (const customerDetail of client.v1.customers.list()) {
-   *   // ...
-   * }
-   * ```
-   */
-  list(
-    query: CustomerListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<CustomerDetailsCursorPage, CustomerDetail> {
-    return this._client.getAPIList('/v1/customers', CursorPage<CustomerDetail>, { query, ...options });
-  }
-
-  /**
    * Create a new customer in Metronome and optionally the billing configuration
    * (recommended) which dictates where invoices for the customer will be sent or
    * where payment will be collected.
@@ -191,78 +148,152 @@ export class Customers extends APIResource {
   }
 
   /**
-   * Sets the ingest aliases for a customer. Use this endpoint to associate a
-   * Metronome customer with an internal ID for easier tracking between systems.
-   * Ingest aliases can be used in the `customer_id` field when sending usage events
-   * to Metronome.
+   * Get detailed information for a specific customer by their Metronome ID. Returns
+   * customer profile data including name, creation date, ingest aliases,
+   * configuration settings, and custom fields. Use this endpoint to fetch complete
+   * customer details for billing operations or account management.
+   *
+   * Note: If searching for a customer billing configuration, use the
+   * `/getCustomerBillingConfigurations` endpoint.
+   *
+   * @example
+   * ```ts
+   * const customer = await client.v1.customers.retrieve({
+   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   * });
+   * ```
+   */
+  retrieve(params: CustomerRetrieveParams, options?: RequestOptions): APIPromise<CustomerRetrieveResponse> {
+    const { customer_id } = params;
+    return this._client.get(path`/v1/customers/${customer_id}`, options);
+  }
+
+  /**
+   * Gets a paginated list of all customers in your Metronome account. Use this
+   * endpoint to browse your customer base, implement customer search functionality,
+   * or sync customer data with external systems. Returns customer details including
+   * IDs, names, and configuration settings. Supports filtering and pagination
+   * parameters for efficient data retrieval.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const customerDetail of client.v1.customers.list()) {
+   *   // ...
+   * }
+   * ```
+   */
+  list(
+    query: CustomerListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CustomerDetailsCursorPage, CustomerDetail> {
+    return this._client.getAPIList('/v1/customers', CursorPage<CustomerDetail>, { query, ...options });
+  }
+
+  /**
+   * Use this endpoint to archive a customer while preserving auditability. Archiving
+   * a customer will automatically archive all contracts as of the current date and
+   * void all corresponding invoices. Use this endpoint if a customer is onboarded by
+   * mistake.
    *
    * ### Usage guidelines:
    *
-   * - This call is idempotent and fully replaces the set of ingest aliases for the
-   *   given customer.
-   * - Switching an ingest alias from one customer to another will associate all
-   *   corresponding usage to the new customer.
-   * - Use multiple ingest aliases to model child organizations within a single
-   *   Metronome customer.
+   * - Once a customer is archived, it cannot be unarchived.
+   * - Archived customers can still be viewed through the API or the UI for audit
+   *   purposes.
+   * - Ingest aliases remain idempotent for archived customers. In order to reuse an
+   *   ingest alias, first remove the ingest alias from the customer prior to
+   *   archiving.
+   * - Any notifications associated with the customer will no longer be triggered.
    *
    * @example
    * ```ts
-   * await client.v1.customers.setIngestAliases({
-   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-   *   ingest_aliases: ['team@example.com'],
+   * const response = await client.v1.customers.archive({
+   *   id: '8deed800-1b7a-495d-a207-6c52bac54dc9',
    * });
    * ```
    */
-  setIngestAliases(params: CustomerSetIngestAliasesParams, options?: RequestOptions): APIPromise<void> {
-    const { customer_id, ...body } = params;
-    return this._client.post(path`/v1/customers/${customer_id}/setIngestAliases`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  archive(body: CustomerArchiveParams, options?: RequestOptions): APIPromise<CustomerArchiveResponse> {
+    return this._client.post('/v1/customers/archive', { body, ...options });
   }
 
   /**
-   * Updates the display name for a customer record. Use this to correct customer
-   * names, update business names after rebranding, or maintain accurate customer
-   * information for invoicing and reporting. Returns the updated customer object
-   * with the new name applied immediately across all billing documents and
-   * interfaces.
+   * Deprecate an existing billing configuration for a customer to handle churn or
+   * billing and collection preference changes. Archiving a billing configuration
+   * takes effect immediately. If there are active contracts using the configuration,
+   * Metronome will archive the configuration on the contract and immediately stop
+   * metering to downstream systems.
+   *
+   * ### Use this endpoint to:
+   *
+   * - Remove billing provider customer data and configurations when no longer needed
+   * - Clean up test or deprecated billing provider configurations
+   * - Free up uniqueness keys for reuse with new billing provider configurations
+   * - Disable threshold recharge configurations associated with archived billing
+   *   providers
+   *
+   * ### Key response fields:
+   *
+   * A successful response returns:
+   *
+   * - `success`: Boolean indicating the operation completed successfully
+   * - `error`: Null on success, error message on failure
+   *
+   * ### Usage guidelines:
+   *
+   * - Archiving a contract configuration during a grace period will result in the
+   *   invoice not being sent to the customer
+   * - Automatically disables both spend-based and credit-based threshold recharge
+   *   configurations for contracts using the archived billing provider
+   * - You can archive multiple configurations for a single customer in a single
+   *   request, but any validation failures for an individual configuration will
+   *   prevent the entire operation from succeeding
    *
    * @example
    * ```ts
-   * const response = await client.v1.customers.setName({
-   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-   *   name: 'Example, Inc.',
-   * });
+   * const response =
+   *   await client.v1.customers.archiveBillingConfigurations({
+   *     customer_billing_provider_configuration_ids: [
+   *       '4db51251-61de-4bfe-b9ce-495e244f3491',
+   *       '4db51251-61de-4bfe-b9ce-495e244f3491',
+   *     ],
+   *     customer_id: '20a060d1-aa80-41d4-8bb2-4f3091b93903',
+   *   });
    * ```
    */
-  setName(params: CustomerSetNameParams, options?: RequestOptions): APIPromise<CustomerSetNameResponse> {
-    const { customer_id, ...body } = params;
-    return this._client.post(path`/v1/customers/${customer_id}/setName`, { body, ...options });
+  archiveBillingConfigurations(
+    body: CustomerArchiveBillingConfigurationsParams,
+    options?: RequestOptions,
+  ): APIPromise<CustomerArchiveBillingConfigurationsResponse> {
+    return this._client.post('/v1/archiveCustomerBillingProviderConfigurations', { body, ...options });
   }
 
   /**
-   * Update configuration settings for a specific customer, such as external system
-   * integrations (e.g., Salesforce account ID) and other customer-specific billing
-   * parameters. Use this endpoint to modify customer configurations without
-   * affecting core customer data like name or ingest aliases.
+   * Get all billable metrics available for a specific customer. Supports pagination
+   * and filtering by current plan status or archived metrics. Use this endpoint to
+   * see which metrics are being tracked for billing calculations for a given
+   * customer.
    *
    * @example
    * ```ts
-   * await client.v1.customers.updateConfig({
-   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
-   *   salesforce_account_id: '0015500001WO1ZiABL',
-   * });
+   * // Automatically fetches more pages as needed.
+   * for await (const customerListBillableMetricsResponse of client.v1.customers.listBillableMetrics(
+   *   { customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' },
+   * )) {
+   *   // ...
+   * }
    * ```
    */
-  updateConfig(params: CustomerUpdateConfigParams, options?: RequestOptions): APIPromise<void> {
-    const { customer_id, ...body } = params;
-    return this._client.post(path`/v1/customers/${customer_id}/updateConfig`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  listBillableMetrics(
+    params: CustomerListBillableMetricsParams,
+    options?: RequestOptions,
+  ): PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse> {
+    const { customer_id, ...query } = params;
+    return this._client.getAPIList(
+      path`/v1/customers/${customer_id}/billable-metrics`,
+      CursorPage<CustomerListBillableMetricsResponse>,
+      { query, ...options },
+    );
   }
 
   /**
@@ -298,61 +329,6 @@ export class Customers extends APIResource {
   }
 
   /**
-   * Use this endpoint to archive a customer while preserving auditability. Archiving
-   * a customer will automatically archive all contracts as of the current date and
-   * void all corresponding invoices. Use this endpoint if a customer is onboarded by
-   * mistake.
-   *
-   * ### Usage guidelines:
-   *
-   * - Once a customer is archived, it cannot be unarchived.
-   * - Archived customers can still be viewed through the API or the UI for audit
-   *   purposes.
-   * - Ingest aliases remain idempotent for archived customers. In order to reuse an
-   *   ingest alias, first remove the ingest alias from the customer prior to
-   *   archiving.
-   * - Any notifications associated with the customer will no longer be triggered.
-   *
-   * @example
-   * ```ts
-   * const response = await client.v1.customers.archive({
-   *   id: '8deed800-1b7a-495d-a207-6c52bac54dc9',
-   * });
-   * ```
-   */
-  archive(body: CustomerArchiveParams, options?: RequestOptions): APIPromise<CustomerArchiveResponse> {
-    return this._client.post('/v1/customers/archive', { body, ...options });
-  }
-
-  /**
-   * Get all billable metrics available for a specific customer. Supports pagination
-   * and filtering by current plan status or archived metrics. Use this endpoint to
-   * see which metrics are being tracked for billing calculations for a given
-   * customer.
-   *
-   * @example
-   * ```ts
-   * // Automatically fetches more pages as needed.
-   * for await (const customerListBillableMetricsResponse of client.v1.customers.listBillableMetrics(
-   *   { customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' },
-   * )) {
-   *   // ...
-   * }
-   * ```
-   */
-  listBillableMetrics(
-    params: CustomerListBillableMetricsParams,
-    options?: RequestOptions,
-  ): PagePromise<CustomerListBillableMetricsResponsesCursorPage, CustomerListBillableMetricsResponse> {
-    const { customer_id, ...query } = params;
-    return this._client.getAPIList(
-      path`/v1/customers/${customer_id}/billable-metrics`,
-      CursorPage<CustomerListBillableMetricsResponse>,
-      { query, ...options },
-    );
-  }
-
-  /**
    * Preview how a set of events will affect a customer's invoices. Generates draft
    * invoices for a customer using their current contract configuration and the
    * provided events. This is useful for testing how new events will affect the
@@ -380,6 +356,27 @@ export class Customers extends APIResource {
   ): APIPromise<CustomerPreviewEventsResponse> {
     const { customer_id, ...body } = params;
     return this._client.post(path`/v1/customers/${customer_id}/previewEvents`, { body, ...options });
+  }
+
+  /**
+   * Returns all billing configurations previously set for the customer. Use during
+   * the contract provisioning process to fetch the
+   * `billing_provider_configuration_id` needed to set the contract billing
+   * configuration.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.v1.customers.retrieveBillingConfigurations({
+   *     customer_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
+   *   });
+   * ```
+   */
+  retrieveBillingConfigurations(
+    body: CustomerRetrieveBillingConfigurationsParams,
+    options?: RequestOptions,
+  ): APIPromise<CustomerRetrieveBillingConfigurationsResponse> {
+    return this._client.post('/v1/getCustomerBillingProviderConfigurations', { body, ...options });
   }
 
   /**
@@ -476,83 +473,86 @@ export class Customers extends APIResource {
   }
 
   /**
-   * Returns all billing configurations previously set for the customer. Use during
-   * the contract provisioning process to fetch the
-   * `billing_provider_configuration_id` needed to set the contract billing
-   * configuration.
-   *
-   * @example
-   * ```ts
-   * const response =
-   *   await client.v1.customers.retrieveBillingConfigurations({
-   *     customer_id: '6a37bb88-8538-48c5-b37b-a41c836328bd',
-   *   });
-   * ```
-   */
-  retrieveBillingConfigurations(
-    body: CustomerRetrieveBillingConfigurationsParams,
-    options?: RequestOptions,
-  ): APIPromise<CustomerRetrieveBillingConfigurationsResponse> {
-    return this._client.post('/v1/getCustomerBillingProviderConfigurations', { body, ...options });
-  }
-
-  /**
-   * Deprecate an existing billing configuration for a customer to handle churn or
-   * billing and collection preference changes. Archiving a billing configuration
-   * takes effect immediately. If there are active contracts using the configuration,
-   * Metronome will archive the configuration on the contract and immediately stop
-   * metering to downstream systems.
-   *
-   * ### Use this endpoint to:
-   *
-   * - Remove billing provider customer data and configurations when no longer needed
-   * - Clean up test or deprecated billing provider configurations
-   * - Free up uniqueness keys for reuse with new billing provider configurations
-   * - Disable threshold recharge configurations associated with archived billing
-   *   providers
-   *
-   * ### Key response fields:
-   *
-   * A successful response returns:
-   *
-   * - `success`: Boolean indicating the operation completed successfully
-   * - `error`: Null on success, error message on failure
+   * Sets the ingest aliases for a customer. Use this endpoint to associate a
+   * Metronome customer with an internal ID for easier tracking between systems.
+   * Ingest aliases can be used in the `customer_id` field when sending usage events
+   * to Metronome.
    *
    * ### Usage guidelines:
    *
-   * - Archiving a contract configuration during a grace period will result in the
-   *   invoice not being sent to the customer
-   * - Automatically disables both spend-based and credit-based threshold recharge
-   *   configurations for contracts using the archived billing provider
-   * - You can archive multiple configurations for a single customer in a single
-   *   request, but any validation failures for an individual configuration will
-   *   prevent the entire operation from succeeding
+   * - This call is idempotent and fully replaces the set of ingest aliases for the
+   *   given customer.
+   * - Switching an ingest alias from one customer to another will associate all
+   *   corresponding usage to the new customer.
+   * - Use multiple ingest aliases to model child organizations within a single
+   *   Metronome customer.
    *
    * @example
    * ```ts
-   * const response =
-   *   await client.v1.customers.archiveBillingConfigurations({
-   *     customer_billing_provider_configuration_ids: [
-   *       '4db51251-61de-4bfe-b9ce-495e244f3491',
-   *       '4db51251-61de-4bfe-b9ce-495e244f3491',
-   *     ],
-   *     customer_id: '20a060d1-aa80-41d4-8bb2-4f3091b93903',
-   *   });
+   * await client.v1.customers.setIngestAliases({
+   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   ingest_aliases: ['team@example.com'],
+   * });
    * ```
    */
-  archiveBillingConfigurations(
-    body: CustomerArchiveBillingConfigurationsParams,
-    options?: RequestOptions,
-  ): APIPromise<CustomerArchiveBillingConfigurationsResponse> {
-    return this._client.post('/v1/archiveCustomerBillingProviderConfigurations', { body, ...options });
+  setIngestAliases(params: CustomerSetIngestAliasesParams, options?: RequestOptions): APIPromise<void> {
+    const { customer_id, ...body } = params;
+    return this._client.post(path`/v1/customers/${customer_id}/setIngestAliases`, {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
+  }
+
+  /**
+   * Updates the display name for a customer record. Use this to correct customer
+   * names, update business names after rebranding, or maintain accurate customer
+   * information for invoicing and reporting. Returns the updated customer object
+   * with the new name applied immediately across all billing documents and
+   * interfaces.
+   *
+   * @example
+   * ```ts
+   * const response = await client.v1.customers.setName({
+   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   name: 'Example, Inc.',
+   * });
+   * ```
+   */
+  setName(params: CustomerSetNameParams, options?: RequestOptions): APIPromise<CustomerSetNameResponse> {
+    const { customer_id, ...body } = params;
+    return this._client.post(path`/v1/customers/${customer_id}/setName`, { body, ...options });
+  }
+
+  /**
+   * Update configuration settings for a specific customer, such as external system
+   * integrations (e.g., Salesforce account ID) and other customer-specific billing
+   * parameters. Use this endpoint to modify customer configurations without
+   * affecting core customer data like name or ingest aliases.
+   *
+   * @example
+   * ```ts
+   * await client.v1.customers.updateConfig({
+   *   customer_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
+   *   salesforce_account_id: '0015500001WO1ZiABL',
+   * });
+   * ```
+   */
+  updateConfig(params: CustomerUpdateConfigParams, options?: RequestOptions): APIPromise<void> {
+    const { customer_id, ...body } = params;
+    return this._client.post(path`/v1/customers/${customer_id}/updateConfig`, {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 
 export type CustomerDetailsCursorPage = CursorPage<CustomerDetail>;
 
-export type CustomerListCostsResponsesCursorPage = CursorPage<CustomerListCostsResponse>;
-
 export type CustomerListBillableMetricsResponsesCursorPage = CursorPage<CustomerListBillableMetricsResponse>;
+
+export type CustomerListCostsResponsesCursorPage = CursorPage<CustomerListCostsResponse>;
 
 export interface Customer {
   /**
@@ -889,34 +889,6 @@ export interface CustomerSetNameResponse {
   data: Customer;
 }
 
-export interface CustomerRetrieveParams {
-  customer_id: string;
-}
-
-export interface CustomerListParams extends CursorPageParams {
-  /**
-   * Filter the customer list by customer_id. Up to 100 ids can be provided.
-   */
-  customer_ids?: Array<string>;
-
-  /**
-   * Filter the customer list by ingest_alias
-   */
-  ingest_alias?: string;
-
-  /**
-   * Filter the customer list to only return archived customers. By default, only
-   * active customers are returned.
-   */
-  only_archived?: boolean;
-
-  /**
-   * Filter the customer list by salesforce_account_id. Up to 100 ids can be
-   * provided.
-   */
-  salesforce_account_ids?: Array<string>;
-}
-
 export interface CustomerCreateParams {
   /**
    * This will be truncated to 160 characters if the provided name is longer.
@@ -1072,68 +1044,48 @@ export namespace CustomerCreateParams {
   }
 }
 
-export interface CustomerSetIngestAliasesParams {
-  /**
-   * Path param
-   */
+export interface CustomerRetrieveParams {
   customer_id: string;
-
-  /**
-   * Body param
-   */
-  ingest_aliases: Array<string>;
 }
 
-export interface CustomerSetNameParams {
+export interface CustomerListParams extends CursorPageParams {
   /**
-   * Path param
+   * Filter the customer list by customer_id. Up to 100 ids can be provided.
    */
-  customer_id: string;
+  customer_ids?: Array<string>;
 
   /**
-   * Body param: The new name for the customer. This will be truncated to 160
-   * characters if the provided name is longer.
+   * Filter the customer list by ingest_alias
    */
-  name: string;
-}
-
-export interface CustomerUpdateConfigParams {
-  /**
-   * Path param
-   */
-  customer_id: string;
+  ingest_alias?: string;
 
   /**
-   * Body param: Leave in draft or set to auto-advance on invoices sent to Stripe.
-   * Falls back to the client-level config if unset, which defaults to true if unset.
+   * Filter the customer list to only return archived customers. By default, only
+   * active customers are returned.
    */
-  leave_stripe_invoices_in_draft?: boolean | null;
+  only_archived?: boolean;
 
   /**
-   * Body param: The Salesforce account ID for the customer
+   * Filter the customer list by salesforce_account_id. Up to 100 ids can be
+   * provided.
    */
-  salesforce_account_id?: string | null;
-}
-
-export interface CustomerListCostsParams extends CursorPageParams {
-  /**
-   * Path param
-   */
-  customer_id: string;
-
-  /**
-   * Query param: RFC 3339 timestamp (exclusive)
-   */
-  ending_before: string;
-
-  /**
-   * Query param: RFC 3339 timestamp (inclusive)
-   */
-  starting_on: string;
+  salesforce_account_ids?: Array<string>;
 }
 
 export interface CustomerArchiveParams {
   id: string;
+}
+
+export interface CustomerArchiveBillingConfigurationsParams {
+  /**
+   * Array of billing provider configuration IDs to archive
+   */
+  customer_billing_provider_configuration_ids: Array<string>;
+
+  /**
+   * The customer ID the billing provider configurations belong to
+   */
+  customer_id: string;
 }
 
 export interface CustomerListBillableMetricsParams extends CursorPageParams {
@@ -1152,6 +1104,23 @@ export interface CustomerListBillableMetricsParams extends CursorPageParams {
    * on the customer's current plan
    */
   on_current_plan?: boolean;
+}
+
+export interface CustomerListCostsParams extends CursorPageParams {
+  /**
+   * Path param
+   */
+  customer_id: string;
+
+  /**
+   * Query param: RFC 3339 timestamp (exclusive)
+   */
+  ending_before: string;
+
+  /**
+   * Query param: RFC 3339 timestamp (inclusive)
+   */
+  starting_on: string;
 }
 
 export interface CustomerPreviewEventsParams {
@@ -1199,6 +1168,12 @@ export namespace CustomerPreviewEventsParams {
      */
     transaction_id?: string;
   }
+}
+
+export interface CustomerRetrieveBillingConfigurationsParams {
+  customer_id: string;
+
+  include_archived?: boolean;
 }
 
 export interface CustomerSetBillingConfigurationsParams {
@@ -1256,22 +1231,47 @@ export namespace CustomerSetBillingConfigurationsParams {
   }
 }
 
-export interface CustomerRetrieveBillingConfigurationsParams {
+export interface CustomerSetIngestAliasesParams {
+  /**
+   * Path param
+   */
   customer_id: string;
 
-  include_archived?: boolean;
+  /**
+   * Body param
+   */
+  ingest_aliases: Array<string>;
 }
 
-export interface CustomerArchiveBillingConfigurationsParams {
+export interface CustomerSetNameParams {
   /**
-   * Array of billing provider configuration IDs to archive
-   */
-  customer_billing_provider_configuration_ids: Array<string>;
-
-  /**
-   * The customer ID the billing provider configurations belong to
+   * Path param
    */
   customer_id: string;
+
+  /**
+   * Body param: The new name for the customer. This will be truncated to 160
+   * characters if the provided name is longer.
+   */
+  name: string;
+}
+
+export interface CustomerUpdateConfigParams {
+  /**
+   * Path param
+   */
+  customer_id: string;
+
+  /**
+   * Body param: Leave in draft or set to auto-advance on invoices sent to Stripe.
+   * Falls back to the client-level config if unset, which defaults to true if unset.
+   */
+  leave_stripe_invoices_in_draft?: boolean | null;
+
+  /**
+   * Body param: The Salesforce account ID for the customer
+   */
+  salesforce_account_id?: string | null;
 }
 
 Customers.Alerts = Alerts;
@@ -1297,21 +1297,21 @@ export declare namespace Customers {
     type CustomerSetBillingConfigurationsResponse as CustomerSetBillingConfigurationsResponse,
     type CustomerSetNameResponse as CustomerSetNameResponse,
     type CustomerDetailsCursorPage as CustomerDetailsCursorPage,
-    type CustomerListCostsResponsesCursorPage as CustomerListCostsResponsesCursorPage,
     type CustomerListBillableMetricsResponsesCursorPage as CustomerListBillableMetricsResponsesCursorPage,
+    type CustomerListCostsResponsesCursorPage as CustomerListCostsResponsesCursorPage,
+    type CustomerCreateParams as CustomerCreateParams,
     type CustomerRetrieveParams as CustomerRetrieveParams,
     type CustomerListParams as CustomerListParams,
-    type CustomerCreateParams as CustomerCreateParams,
+    type CustomerArchiveParams as CustomerArchiveParams,
+    type CustomerArchiveBillingConfigurationsParams as CustomerArchiveBillingConfigurationsParams,
+    type CustomerListBillableMetricsParams as CustomerListBillableMetricsParams,
+    type CustomerListCostsParams as CustomerListCostsParams,
+    type CustomerPreviewEventsParams as CustomerPreviewEventsParams,
+    type CustomerRetrieveBillingConfigurationsParams as CustomerRetrieveBillingConfigurationsParams,
+    type CustomerSetBillingConfigurationsParams as CustomerSetBillingConfigurationsParams,
     type CustomerSetIngestAliasesParams as CustomerSetIngestAliasesParams,
     type CustomerSetNameParams as CustomerSetNameParams,
     type CustomerUpdateConfigParams as CustomerUpdateConfigParams,
-    type CustomerListCostsParams as CustomerListCostsParams,
-    type CustomerArchiveParams as CustomerArchiveParams,
-    type CustomerListBillableMetricsParams as CustomerListBillableMetricsParams,
-    type CustomerPreviewEventsParams as CustomerPreviewEventsParams,
-    type CustomerSetBillingConfigurationsParams as CustomerSetBillingConfigurationsParams,
-    type CustomerRetrieveBillingConfigurationsParams as CustomerRetrieveBillingConfigurationsParams,
-    type CustomerArchiveBillingConfigurationsParams as CustomerArchiveBillingConfigurationsParams,
   };
 
   export {
@@ -1346,8 +1346,8 @@ export declare namespace Customers {
     type InvoiceListBreakdownsResponse as InvoiceListBreakdownsResponse,
     type InvoicesCursorPage as InvoicesCursorPage,
     type InvoiceListBreakdownsResponsesCursorPage as InvoiceListBreakdownsResponsesCursorPage,
-    type InvoiceListParams as InvoiceListParams,
     type InvoiceRetrieveParams as InvoiceRetrieveParams,
+    type InvoiceListParams as InvoiceListParams,
     type InvoiceAddChargeParams as InvoiceAddChargeParams,
     type InvoiceListBreakdownsParams as InvoiceListBreakdownsParams,
     type InvoiceRetrievePdfParams as InvoiceRetrievePdfParams,
@@ -1356,8 +1356,8 @@ export declare namespace Customers {
   export {
     BillingConfigAPIBillingConfig as BillingConfig,
     type BillingConfigRetrieveResponse as BillingConfigRetrieveResponse,
-    type BillingConfigRetrieveParams as BillingConfigRetrieveParams,
     type BillingConfigCreateParams as BillingConfigCreateParams,
+    type BillingConfigRetrieveParams as BillingConfigRetrieveParams,
     type BillingConfigDeleteParams as BillingConfigDeleteParams,
   };
 
@@ -1365,8 +1365,8 @@ export declare namespace Customers {
     Commits as Commits,
     type CommitCreateResponse as CommitCreateResponse,
     type CommitUpdateEndDateResponse as CommitUpdateEndDateResponse,
-    type CommitListParams as CommitListParams,
     type CommitCreateParams as CommitCreateParams,
+    type CommitListParams as CommitListParams,
     type CommitUpdateEndDateParams as CommitUpdateEndDateParams,
   };
 
@@ -1374,8 +1374,8 @@ export declare namespace Customers {
     Credits as Credits,
     type CreditCreateResponse as CreditCreateResponse,
     type CreditUpdateEndDateResponse as CreditUpdateEndDateResponse,
-    type CreditListParams as CreditListParams,
     type CreditCreateParams as CreditCreateParams,
+    type CreditListParams as CreditListParams,
     type CreditUpdateEndDateParams as CreditUpdateEndDateParams,
   };
 
