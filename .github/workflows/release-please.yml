@@ -5,10 +5,11 @@
 # Version override: edit the release PR title (e.g. "release: 5.0.0") and release-please
 # will re-run and update the PR with the new version.
 #
-# Required secret:
-#   RELEASE_PLEASE_TOKEN — fine-grained PAT with Contents:Read/Write and
-#   Pull requests:Read/Write on this repo. A PAT is needed (not GITHUB_TOKEN)
-#   because releases created by GITHUB_TOKEN don't trigger other workflows.
+# Required secrets:
+#   STLC_BOT_APP_ID and STLC_BOT_APP_PRIVATE_KEY — the GitHub App must be
+#   installed on this production repository with Contents and Pull requests
+#   write access. An App token is used instead of GITHUB_TOKEN so the GitHub
+#   Release triggers the publish workflow.
 
 name: Release Please
 
@@ -31,6 +32,15 @@ jobs:
       (github.event_name == 'pull_request' && github.event.changes.title && startsWith(github.event.pull_request.title, 'release:'))
     runs-on: ubuntu-latest
     steps:
+      - name: Mint release App token
+        id: release-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.STLC_BOT_APP_ID }}
+          private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
+          owner: Metronome-Industries
+          repositories: metronome-node
+
       - name: Parse version from PR title
         id: parse
         if: github.event_name == 'pull_request'
@@ -44,5 +54,5 @@ jobs:
       - uses: googleapis/release-please-action@v4
         id: release
         with:
-          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          token: ${{ steps.release-token.outputs.token }}
           release-as: ${{ steps.parse.outputs.version || '' }}
