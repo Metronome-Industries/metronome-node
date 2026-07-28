@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+
 jobs:
   promote:
     if: github.repository == 'Metronome-Industries/metronome-node-staging'
@@ -16,9 +19,18 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Mint production App token
+        id: production-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.STLC_BOT_APP_ID }}
+          private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
+          owner: Metronome-Industries
+          repositories: metronome-node
+
       - name: Promote staging to production
         env:
-          GH_TOKEN: ${{ secrets.PRODUCTION_REPO_TOKEN }}
+          GH_TOKEN: ${{ steps.production-token.outputs.token }}
           PROD_REPO: Metronome-Industries/metronome-node
         run: |
           set -euo pipefail
