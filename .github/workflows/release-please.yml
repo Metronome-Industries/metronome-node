@@ -214,3 +214,42 @@ jobs:
             exit 1
           fi
           echo "Dispatched prod-released to ${STAGING_REPO}."
+
+      - name: Update version in release PR description
+        env:
+          GH_TOKEN: ${{ steps.override-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+
+          old=$(git show origin/main:.release-please-manifest.json | jq -r '."."')
+          gh api "repos/${REPO}/pulls/${PR_NUMBER}" --jq '.body' > /tmp/release-pr-body
+
+          OLD_VERSION="$old" NEW_VERSION="$VERSION" python3 - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+
+          path = Path("/tmp/release-pr-body")
+          body = path.read_text()
+          old = os.environ["OLD_VERSION"]
+          new = os.environ["NEW_VERSION"]
+
+          pattern = re.compile(
+              r"(?<![0-9.])" + re.escape(old) + r"(?![0-9.])"
+          )
+          updated, count = pattern.subn(new, body)
+
+          if count == 0:
+              raise SystemExit(
+                  f"old release version {old} was not found in the PR description"
+              )
+
+          path.write_text(updated)
+          PY
+
+          gh api --method PATCH \
+            "repos/${REPO}/pulls/${PR_NUMBER}" \
+            -f body="$(< /tmp/release-pr-body)"
