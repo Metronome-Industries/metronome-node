@@ -42,20 +42,22 @@ jobs:
           git remote add production "https://github.com/${PRODUCTION_REPO}.git"
           git -c "http.https://github.com/.extraheader=" fetch production main
 
-      - name: Check whether production has content staging lacks
-        id: diff
+      - name: Check production/staging ancestry
+        id: sync
         run: |
-          MERGED=$(git merge-tree --write-tree origin/main production/main) || MERGED=conflict
-          STAGING_TREE=$(git rev-parse 'origin/main^{tree}')
-          if [ "$MERGED" = "$STAGING_TREE" ]; then
-            echo "Staging already has production's content. Nothing to pull back."
+          if git merge-base --is-ancestor production/main origin/main; then
+            echo "Staging already contains production history."
             echo "behind=false" >> "$GITHUB_OUTPUT"
-          else
+          elif git merge-base --is-ancestor origin/main production/main; then
+            echo "Production is ahead of staging; fast-forward required."
             echo "behind=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error title=Back-sync blocked::staging and production histories have diverged."
+            exit 1
           fi
 
       - name: Sync production to staging (fast-forward)
-        if: steps.diff.outputs.behind == 'true'
+        if: steps.sync.outputs.behind == 'true'
         run: |
           if ! git merge-base --is-ancestor origin/main production/main; then
             echo "::error title=Back-sync blocked::staging main is not an ancestor of production/main. Trunks have diverged."
