@@ -249,6 +249,80 @@ export class BodyCursorPage<Item> extends AbstractPage<Item> implements BodyCurs
   }
 }
 
+export interface BodyCursorPageCursorFieldResponse<Item> {
+  /**
+   * Cursor to fetch the next page
+   */
+  cursor: string;
+
+  /**
+   * Items of the page
+   */
+  data: Array<Item>;
+}
+
+export interface BodyCursorPageCursorFieldParams {
+  /**
+   * Cursor to begin fetching from
+   */
+  cursor?: string;
+
+  /**
+   * Number of elements to fetch
+   */
+  limit?: number;
+}
+
+export class BodyCursorPageCursorField<Item>
+  extends AbstractPage<Item>
+  implements BodyCursorPageCursorFieldResponse<Item>
+{
+  /**
+   * Cursor to fetch the next page
+   */
+  cursor: string;
+
+  /**
+   * Items of the page
+   */
+  data: Array<Item>;
+
+  constructor(
+    client: Metronome,
+    response: Response,
+    body: BodyCursorPageCursorFieldResponse<Item>,
+    options: FinalRequestOptions,
+  ) {
+    super(client, response, body, options);
+
+    this.cursor = body.cursor || '';
+    this.data = body.data || [];
+  }
+
+  getPaginatedItems(): Item[] {
+    return this.data ?? [];
+  }
+
+  override hasNextPage(): boolean {
+    return this.nextPageRequestOptions() != null;
+  }
+
+  nextPageRequestOptions(): PageRequestOptions | null {
+    const cursor = this.cursor;
+    if (!cursor) {
+      return null;
+    }
+
+    return {
+      ...this.options,
+      body: {
+        ...maybeObj(this.options.body),
+        cursor,
+      },
+    };
+  }
+}
+
 export interface CursorPageWithoutLimitResponse<Item> {
   /**
    * Cursor to fetch the next page

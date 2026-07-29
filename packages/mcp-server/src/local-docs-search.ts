@@ -402,6 +402,282 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
+    name: 'create',
+    endpoint: '/v2/notifications/create',
+    httpMethod: 'post',
+    summary: 'Create an offset lifecycle event notification configuration',
+    description:
+      'Create an offset lifecycle event notification configuration. The lifecycle event type is inferred from the policy.type field.\n',
+    stainlessPath: '(resource) v2.notifications.offset > (method) create',
+    qualified: 'client.v2.notifications.offset.create',
+    params: ['name: string;', 'policy: { offset: string; type: string; };', 'uniqueness_key?: string;'],
+    response:
+      '{ data: { id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: object; type: string; }; }',
+    markdown:
+      "## create\n\n`client.v2.notifications.offset.create(name: string, policy: { offset: string; type: string; }, uniqueness_key?: string): { data: lifecycle_event_offset_notification_config; }`\n\n**post** `/v2/notifications/create`\n\nCreate an offset lifecycle event notification configuration. The lifecycle event type is inferred from the policy.type field.\n\n\n### Parameters\n\n- `name: string`\n  The name for this offset notification configuration.\n\n\n- `policy: { offset: string; type: string; }`\n  The offset lifecycle event policy that defines when and how this notification should be triggered. The lifecycle event type is inferred from the policy.type field.\n\n  - `offset: string`\n    ISO-8601 duration string indicating how much time before or after the base event this notification should be sent. Positive values indicate notifications after the event, negative values indicate notifications before the event. Examples: \"P1D\" (1 day after), \"-PT2H\" (2 hours before)\n\n  - `type: string`\n    The type of lifecycle event that this offset is based on.\n\n\n- `uniqueness_key?: string`\n  Optional uniqueness key to prevent duplicate notification configurations.\n\n\n### Returns\n\n- `{ data: { id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: object; type: string; }; }`\n\n  - `data: { id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: { offset: string; type: string; }; type: string; }`\n\n### Example\n\n```typescript\nimport Metronome from '@metronome/sdk';\n\nconst client = new Metronome();\n\nconst offset = await client.v2.notifications.offset.create({\n  name: '+1 day after contract starts',\n  policy: { offset: 'P1D', type: 'contract.start' },\n});\n\nconsole.log(offset);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.v2.notifications.offset.create',
+        example:
+          "import Metronome from '@metronome/sdk';\n\nconst client = new Metronome({\n  bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted\n});\n\nconst offset = await client.v2.notifications.offset.create({\n  name: '+1 day after contract starts',\n  policy: { type: 'contract.start', offset: 'P1D' },\n  uniqueness_key: 'contract-start-notification-823j7fqzo1',\n});\n\nconsole.log(offset.data);",
+      },
+      python: {
+        method: 'v2.notifications.offset.create',
+        example:
+          'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\noffset = client.v2.notifications.offset.create(\n    name="+1 day after contract starts",\n    policy={\n        "type": "contract.start",\n        "offset": "P1D",\n    },\n    uniqueness_key="contract-start-notification-823j7fqzo1",\n)\nprint(offset.data)',
+      },
+      java: {
+        method: 'v2().notifications().offset().create',
+        example:
+          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v2.notifications.offset.OffsetCreateParams;\nimport com.metronome.api.models.v2.notifications.offset.OffsetCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        OffsetCreateParams params = OffsetCreateParams.builder()\n            .name("+1 day after contract starts")\n            .policy(OffsetCreateParams.Policy.builder()\n                .offset("P1D")\n                .type("contract.start")\n                .build())\n            .build();\n        OffsetCreateResponse offset = client.v2().notifications().offset().create(params);\n    }\n}',
+      },
+      go: {
+        method: 'client.V2.Notifications.Offset.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/Metronome-Industries/metronome-go"\n\t"github.com/Metronome-Industries/metronome-go/option"\n)\n\nfunc main() {\n\tclient := metronome.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\toffset, err := client.V2.Notifications.Offset.New(context.TODO(), metronome.V2NotificationOffsetNewParams{\n\t\tName: "+1 day after contract starts",\n\t\tPolicy: metronome.V2NotificationOffsetNewParamsPolicy{\n\t\t\tType:   "contract.start",\n\t\t\tOffset: "P1D",\n\t\t},\n\t\tUniquenessKey: metronome.String("contract-start-notification-823j7fqzo1"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", offset.Data)\n}\n',
+      },
+      ruby: {
+        method: 'v2.notifications.offset.create',
+        example:
+          'require "metronome_sdk"\n\nmetronome = MetronomeSDK::Client.new(bearer_token: "My Bearer Token")\n\noffset = metronome.v2.notifications.offset.create(\n  name: "+1 day after contract starts",\n  policy: {offset: "P1D", type: "contract.start"}\n)\n\nputs(offset)',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v2/notifications/create \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "name": "+1 day after contract starts",\n          "policy": {\n            "offset": "P1D",\n            "type": "contract.start"\n          },\n          "uniqueness_key": "contract-start-notification-823j7fqzo1"\n        }\'',
+      },
+    },
+  },
+  {
+    name: 'retrieve',
+    endpoint: '/v2/notifications/get',
+    httpMethod: 'post',
+    summary: 'Get an offset lifecycle event notification configuration',
+    description: 'Retrieve a specific offset lifecycle event notification configuration by ID.',
+    stainlessPath: '(resource) v2.notifications.offset > (method) retrieve',
+    qualified: 'client.v2.notifications.offset.retrieve',
+    params: ['id: string;'],
+    response:
+      '{ data: { id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: object; type: string; }; }',
+    markdown:
+      "## retrieve\n\n`client.v2.notifications.offset.retrieve(id: string): { data: lifecycle_event_offset_notification_config; }`\n\n**post** `/v2/notifications/get`\n\nRetrieve a specific offset lifecycle event notification configuration by ID.\n\n### Parameters\n\n- `id: string`\n  The ID of the notification configuration to retrieve\n\n### Returns\n\n- `{ data: { id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: object; type: string; }; }`\n\n  - `data: { id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: { offset: string; type: string; }; type: string; }`\n\n### Example\n\n```typescript\nimport Metronome from '@metronome/sdk';\n\nconst client = new Metronome();\n\nconst offset = await client.v2.notifications.offset.retrieve({ id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' });\n\nconsole.log(offset);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.v2.notifications.offset.retrieve',
+        example:
+          "import Metronome from '@metronome/sdk';\n\nconst client = new Metronome({\n  bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted\n});\n\nconst offset = await client.v2.notifications.offset.retrieve({\n  id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',\n});\n\nconsole.log(offset.data);",
+      },
+      python: {
+        method: 'v2.notifications.offset.retrieve',
+        example:
+          'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\noffset = client.v2.notifications.offset.retrieve(\n    id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\nprint(offset.data)',
+      },
+      java: {
+        method: 'v2().notifications().offset().retrieve',
+        example:
+          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v2.notifications.offset.OffsetRetrieveParams;\nimport com.metronome.api.models.v2.notifications.offset.OffsetRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        OffsetRetrieveParams params = OffsetRetrieveParams.builder()\n            .id("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        OffsetRetrieveResponse offset = client.v2().notifications().offset().retrieve(params);\n    }\n}',
+      },
+      go: {
+        method: 'client.V2.Notifications.Offset.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/Metronome-Industries/metronome-go"\n\t"github.com/Metronome-Industries/metronome-go/option"\n)\n\nfunc main() {\n\tclient := metronome.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\toffset, err := client.V2.Notifications.Offset.Get(context.TODO(), metronome.V2NotificationOffsetGetParams{\n\t\tID: "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", offset.Data)\n}\n',
+      },
+      ruby: {
+        method: 'v2.notifications.offset.retrieve',
+        example:
+          'require "metronome_sdk"\n\nmetronome = MetronomeSDK::Client.new(bearer_token: "My Bearer Token")\n\noffset = metronome.v2.notifications.offset.retrieve(id: "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n\nputs(offset)',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v2/notifications/get \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
+      },
+    },
+  },
+  {
+    name: 'list',
+    endpoint: '/v2/notifications/offset/list',
+    httpMethod: 'post',
+    summary: 'List offset lifecycle event notification configurations',
+    description:
+      'List offset lifecycle event notification configurations. These are user-created notifications that trigger at a specified time offset relative to lifecycle events. Returns a maximum of 400 results per request.\n',
+    stainlessPath: '(resource) v2.notifications.offset > (method) list',
+    qualified: 'client.v2.notifications.offset.list',
+    params: ["archive_filter?: 'ARCHIVED' | 'NOT_ARCHIVED' | 'ALL';", 'cursor?: string;', 'limit?: number;'],
+    response:
+      '{ id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: { offset: string; type: string; }; type: string; }',
+    markdown:
+      "## list\n\n`client.v2.notifications.offset.list(archive_filter?: 'ARCHIVED' | 'NOT_ARCHIVED' | 'ALL', cursor?: string, limit?: number): { id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: object; type: string; }`\n\n**post** `/v2/notifications/offset/list`\n\nList offset lifecycle event notification configurations. These are user-created notifications that trigger at a specified time offset relative to lifecycle events. Returns a maximum of 400 results per request.\n\n\n### Parameters\n\n- `archive_filter?: 'ARCHIVED' | 'NOT_ARCHIVED' | 'ALL'`\n  Filter options for the notification configurations. If not provided, defaults to NOT_ARCHIVED.\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: { offset: string; type: string; }; type: string; }`\n\n  - `id: string`\n  - `archived_at: string`\n  - `created_at: string`\n  - `created_by: string`\n  - `environment_type: string`\n  - `name: string`\n  - `policy: { offset: string; type: string; }`\n  - `type: string`\n\n### Example\n\n```typescript\nimport Metronome from '@metronome/sdk';\n\nconst client = new Metronome();\n\n// Automatically fetches more pages as needed.\nfor await (const lifecycleEventOffsetNotificationConfig of client.v2.notifications.offset.list()) {\n  console.log(lifecycleEventOffsetNotificationConfig);\n}\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.v2.notifications.offset.list',
+        example:
+          "import Metronome from '@metronome/sdk';\n\nconst client = new Metronome({\n  bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const lifecycleEventOffsetNotificationConfig of client.v2.notifications.offset.list({\n  archive_filter: 'NOT_ARCHIVED',\n  cursor: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',\n  limit: 20,\n})) {\n  console.log(lifecycleEventOffsetNotificationConfig.id);\n}",
+      },
+      python: {
+        method: 'v2.notifications.offset.list',
+        example:
+          'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\npage = client.v2.notifications.offset.list(\n    archive_filter="NOT_ARCHIVED",\n    cursor="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n    limit=20,\n)\npage = page.data[0]\nprint(page.id)',
+      },
+      java: {
+        method: 'v2().notifications().offset().list',
+        example:
+          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v2.notifications.offset.OffsetListPage;\nimport com.metronome.api.models.v2.notifications.offset.OffsetListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        OffsetListPage page = client.v2().notifications().offset().list();\n    }\n}',
+      },
+      go: {
+        method: 'client.V2.Notifications.Offset.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/Metronome-Industries/metronome-go"\n\t"github.com/Metronome-Industries/metronome-go/option"\n)\n\nfunc main() {\n\tclient := metronome.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.V2.Notifications.Offset.List(context.TODO(), metronome.V2NotificationOffsetListParams{\n\t\tArchiveFilter: metronome.V2NotificationOffsetListParamsArchiveFilterNotArchived,\n\t\tCursor:        metronome.String("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"),\n\t\tLimit:         metronome.Float(20),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
+      ruby: {
+        method: 'v2.notifications.offset.list',
+        example:
+          'require "metronome_sdk"\n\nmetronome = MetronomeSDK::Client.new(bearer_token: "My Bearer Token")\n\npage = metronome.v2.notifications.offset.list\n\nputs(page)',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v2/notifications/offset/list \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
+      },
+    },
+  },
+  {
+    name: 'edit',
+    endpoint: '/v2/notifications/edit',
+    httpMethod: 'post',
+    summary: 'Edit an offset lifecycle event notification configuration',
+    description: 'Edit an existing offset lifecycle event notification configuration.',
+    stainlessPath: '(resource) v2.notifications.offset > (method) edit',
+    qualified: 'client.v2.notifications.offset.edit',
+    params: [
+      'policy: { offset: string; type: string; } | { type: string; };',
+      'id?: string;',
+      'is_enabled?: boolean;',
+    ],
+    response:
+      '{ data: { policy: object; type: string; is_enabled?: boolean; } | { id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: object; type: string; }; }',
+    markdown:
+      "## edit\n\n`client.v2.notifications.offset.edit(policy: { offset: string; type: string; } | { type: string; }, id?: string, is_enabled?: boolean): { data: lifecycle_event_system_notification_config | lifecycle_event_offset_notification_config; }`\n\n**post** `/v2/notifications/edit`\n\nEdit an existing offset lifecycle event notification configuration.\n\n### Parameters\n\n- `policy: { offset: string; type: string; } | { type: string; }`\n  Updated policy configuration. The policy.type must match the existing lifecycle event type.\n\n- `id?: string`\n  The ID of the notification configuration to edit. Not provided when updating the configuration for system events\n\n\n- `is_enabled?: boolean`\n  Set to true to enable webhook messages for the notification indicated in the policy, false to disable.\nOnly supported by system lifecycle events.\n\n\n### Returns\n\n- `{ data: { policy: object; type: string; is_enabled?: boolean; } | { id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: object; type: string; }; }`\n\n  - `data: { policy: { type: string; }; type: string; is_enabled?: boolean; } | { id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: { offset: string; type: string; }; type: string; }`\n\n### Example\n\n```typescript\nimport Metronome from '@metronome/sdk';\n\nconst client = new Metronome();\n\nconst response = await client.v2.notifications.offset.edit({ policy: { offset: 'P2D', type: 'contract.start' } });\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.v2.notifications.offset.edit',
+        example:
+          "import Metronome from '@metronome/sdk';\n\nconst client = new Metronome({\n  bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted\n});\n\nconst response = await client.v2.notifications.offset.edit({\n  policy: { type: 'contract.start', offset: 'P2D' },\n  id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',\n});\n\nconsole.log(response.data);",
+      },
+      python: {
+        method: 'v2.notifications.offset.edit',
+        example:
+          'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v2.notifications.offset.edit(\n    policy={\n        "type": "contract.start",\n        "offset": "P2D",\n    },\n    id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\nprint(response.data)',
+      },
+      java: {
+        method: 'v2().notifications().offset().edit',
+        example:
+          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v2.notifications.offset.OffsetEditParams;\nimport com.metronome.api.models.v2.notifications.offset.OffsetEditResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        OffsetEditParams params = OffsetEditParams.builder()\n            .policy(OffsetEditParams.Policy.LifecycleEventOffsetPolicy.builder()\n                .offset("P2D")\n                .type("contract.start")\n                .build())\n            .build();\n        OffsetEditResponse response = client.v2().notifications().offset().edit(params);\n    }\n}',
+      },
+      go: {
+        method: 'client.V2.Notifications.Offset.Edit',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/Metronome-Industries/metronome-go"\n\t"github.com/Metronome-Industries/metronome-go/option"\n)\n\nfunc main() {\n\tclient := metronome.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.V2.Notifications.Offset.Edit(context.TODO(), metronome.V2NotificationOffsetEditParams{\n\t\tPolicy: metronome.V2NotificationOffsetEditParamsPolicyUnion{\n\t\t\tOfV2NotificationOffsetEditsPolicyLifecycleEventOffsetPolicy: &metronome.V2NotificationOffsetEditParamsPolicyLifecycleEventOffsetPolicy{\n\t\t\t\tType:   "contract.start",\n\t\t\t\tOffset: "P2D",\n\t\t\t},\n\t\t},\n\t\tID: metronome.String("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Data)\n}\n',
+      },
+      ruby: {
+        method: 'v2.notifications.offset.edit',
+        example:
+          'require "metronome_sdk"\n\nmetronome = MetronomeSDK::Client.new(bearer_token: "My Bearer Token")\n\nresponse = metronome.v2.notifications.offset.edit(policy: {offset: "P2D", type: "contract.start"})\n\nputs(response)',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v2/notifications/edit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "policy": {\n            "offset": "P2D",\n            "type": "contract.start"\n          },\n          "id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
+      },
+    },
+  },
+  {
+    name: 'archive',
+    endpoint: '/v2/notifications/archive',
+    httpMethod: 'post',
+    summary: 'Archive an offset lifecycle event notification configuration',
+    description:
+      'Archive an offset lifecycle event notification configuration. Archived notifications are not processed.\n',
+    stainlessPath: '(resource) v2.notifications.offset > (method) archive',
+    qualified: 'client.v2.notifications.offset.archive',
+    params: ['id: string;'],
+    response:
+      '{ data: { id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: object; type: string; }; }',
+    markdown:
+      "## archive\n\n`client.v2.notifications.offset.archive(id: string): { data: lifecycle_event_offset_notification_config; }`\n\n**post** `/v2/notifications/archive`\n\nArchive an offset lifecycle event notification configuration. Archived notifications are not processed.\n\n\n### Parameters\n\n- `id: string`\n  The ID of the offset lifecycle event notification configuration to archive.\n\n\n### Returns\n\n- `{ data: { id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: object; type: string; }; }`\n\n  - `data: { id: string; archived_at: string; created_at: string; created_by: string; environment_type: string; name: string; policy: { offset: string; type: string; }; type: string; }`\n\n### Example\n\n```typescript\nimport Metronome from '@metronome/sdk';\n\nconst client = new Metronome();\n\nconst response = await client.v2.notifications.offset.archive({ id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc' });\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.v2.notifications.offset.archive',
+        example:
+          "import Metronome from '@metronome/sdk';\n\nconst client = new Metronome({\n  bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted\n});\n\nconst response = await client.v2.notifications.offset.archive({\n  id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',\n});\n\nconsole.log(response.data);",
+      },
+      python: {
+        method: 'v2.notifications.offset.archive',
+        example:
+          'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nresponse = client.v2.notifications.offset.archive(\n    id="d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n)\nprint(response.data)',
+      },
+      java: {
+        method: 'v2().notifications().offset().archive',
+        example:
+          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v2.notifications.offset.OffsetArchiveParams;\nimport com.metronome.api.models.v2.notifications.offset.OffsetArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        OffsetArchiveParams params = OffsetArchiveParams.builder()\n            .id("d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n            .build();\n        OffsetArchiveResponse response = client.v2().notifications().offset().archive(params);\n    }\n}',
+      },
+      go: {
+        method: 'client.V2.Notifications.Offset.Archive',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/Metronome-Industries/metronome-go"\n\t"github.com/Metronome-Industries/metronome-go/option"\n)\n\nfunc main() {\n\tclient := metronome.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.V2.Notifications.Offset.Archive(context.TODO(), metronome.V2NotificationOffsetArchiveParams{\n\t\tID: "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Data)\n}\n',
+      },
+      ruby: {
+        method: 'v2.notifications.offset.archive',
+        example:
+          'require "metronome_sdk"\n\nmetronome = MetronomeSDK::Client.new(bearer_token: "My Bearer Token")\n\nresponse = metronome.v2.notifications.offset.archive(id: "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc")\n\nputs(response)',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v2/notifications/archive \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN" \\\n    -d \'{\n          "id": "d7abd0cd-4ae9-4db7-8676-e986a4ebd8dc"\n        }\'',
+      },
+    },
+  },
+  {
+    name: 'list',
+    endpoint: '/v2/notifications/system/list',
+    httpMethod: 'post',
+    summary: 'List system notification event types',
+    description:
+      'List available system lifecycle event types for notifications. These are read-only event types that can be used when creating offset notifications.',
+    stainlessPath: '(resource) v2.notifications.system > (method) list',
+    qualified: 'client.v2.notifications.system.list',
+    response: '{ data: { policy: object; type: string; is_enabled?: boolean; }[]; cursor?: string; }',
+    markdown:
+      "## list\n\n`client.v2.notifications.system.list(): { data: lifecycle_event_system_notification_config[]; cursor?: string; }`\n\n**post** `/v2/notifications/system/list`\n\nList available system lifecycle event types for notifications. These are read-only event types that can be used when creating offset notifications.\n\n### Returns\n\n- `{ data: { policy: object; type: string; is_enabled?: boolean; }[]; cursor?: string; }`\n\n  - `data: { policy: { type: string; }; type: string; is_enabled?: boolean; }[]`\n  - `cursor?: string`\n\n### Example\n\n```typescript\nimport Metronome from '@metronome/sdk';\n\nconst client = new Metronome();\n\nconst systems = await client.v2.notifications.system.list();\n\nconsole.log(systems);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.v2.notifications.system.list',
+        example:
+          "import Metronome from '@metronome/sdk';\n\nconst client = new Metronome({\n  bearerToken: process.env['METRONOME_BEARER_TOKEN'], // This is the default and can be omitted\n});\n\nconst systems = await client.v2.notifications.system.list();\n\nconsole.log(systems.data);",
+      },
+      python: {
+        method: 'v2.notifications.system.list',
+        example:
+          'import os\nfrom metronome import Metronome\n\nclient = Metronome(\n    bearer_token=os.environ.get("METRONOME_BEARER_TOKEN"),  # This is the default and can be omitted\n)\nsystems = client.v2.notifications.system.list()\nprint(systems.data)',
+      },
+      java: {
+        method: 'v2().notifications().system().list',
+        example:
+          'package com.metronome.api.example;\n\nimport com.metronome.api.client.MetronomeClient;\nimport com.metronome.api.client.okhttp.MetronomeOkHttpClient;\nimport com.metronome.api.models.v2.notifications.system.SystemListParams;\nimport com.metronome.api.models.v2.notifications.system.SystemListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        MetronomeClient client = MetronomeOkHttpClient.fromEnv();\n\n        SystemListResponse systems = client.v2().notifications().system().list();\n    }\n}',
+      },
+      go: {
+        method: 'client.V2.Notifications.System.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/Metronome-Industries/metronome-go"\n\t"github.com/Metronome-Industries/metronome-go/option"\n)\n\nfunc main() {\n\tclient := metronome.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tsystems, err := client.V2.Notifications.System.List(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", systems.Data)\n}\n',
+      },
+      ruby: {
+        method: 'v2.notifications.system_.list',
+        example:
+          'require "metronome_sdk"\n\nmetronome = MetronomeSDK::Client.new(bearer_token: "My Bearer Token")\n\nsystems = metronome.v2.notifications.system_.list\n\nputs(systems)',
+      },
+      http: {
+        example:
+          'curl https://api.metronome.com/v2/notifications/system/list \\\n    -X POST \\\n    -H "Authorization: Bearer $METRONOME_BEARER_TOKEN"',
+      },
+    },
+  },
+  {
     name: 'archive',
     endpoint: '/v1/alerts/archive',
     httpMethod: 'post',

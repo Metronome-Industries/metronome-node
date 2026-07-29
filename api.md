@@ -61,6 +61,40 @@ Methods:
 - <code title="post /v2/contracts/credits/edit">client.v2.contracts.<a href="./src/resources/v2/contracts.ts">editCredit</a>({ ...params }) -> ContractEditCreditResponse</code>
 - <code title="post /v2/contracts/getEditHistory">client.v2.contracts.<a href="./src/resources/v2/contracts.ts">getEditHistory</a>({ ...params }) -> ContractGetEditHistoryResponse</code>
 
+## Notifications
+
+Types:
+
+- <code><a href="./src/resources/v2/notifications/notifications.ts">LifecycleEventOffsetNotificationConfig</a></code>
+- <code><a href="./src/resources/v2/notifications/notifications.ts">LifecycleEventSystemNotificationConfig</a></code>
+
+### Offset
+
+Types:
+
+- <code><a href="./src/resources/v2/notifications/offset.ts">OffsetCreateResponse</a></code>
+- <code><a href="./src/resources/v2/notifications/offset.ts">OffsetRetrieveResponse</a></code>
+- <code><a href="./src/resources/v2/notifications/offset.ts">OffsetArchiveResponse</a></code>
+- <code><a href="./src/resources/v2/notifications/offset.ts">OffsetEditResponse</a></code>
+
+Methods:
+
+- <code title="post /v2/notifications/create">client.v2.notifications.offset.<a href="./src/resources/v2/notifications/offset.ts">create</a>({ ...params }) -> OffsetCreateResponse</code>
+- <code title="post /v2/notifications/get">client.v2.notifications.offset.<a href="./src/resources/v2/notifications/offset.ts">retrieve</a>({ ...params }) -> OffsetRetrieveResponse</code>
+- <code title="post /v2/notifications/offset/list">client.v2.notifications.offset.<a href="./src/resources/v2/notifications/offset.ts">list</a>({ ...params }) -> LifecycleEventOffsetNotificationConfigsBodyCursorPageCursorField</code>
+- <code title="post /v2/notifications/archive">client.v2.notifications.offset.<a href="./src/resources/v2/notifications/offset.ts">archive</a>({ ...params }) -> OffsetArchiveResponse</code>
+- <code title="post /v2/notifications/edit">client.v2.notifications.offset.<a href="./src/resources/v2/notifications/offset.ts">edit</a>({ ...params }) -> OffsetEditResponse</code>
+
+### System
+
+Types:
+
+- <code><a href="./src/resources/v2/notifications/system.ts">SystemListResponse</a></code>
+
+Methods:
+
+- <code title="post /v2/notifications/system/list">client.v2.notifications.system.<a href="./src/resources/v2/notifications/system.ts">list</a>() -> SystemListResponse</code>
+
 # V1
 
 ## Alerts
