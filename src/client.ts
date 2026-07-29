@@ -17,6 +17,8 @@ import * as Errors from './core/error';
 import * as Pagination from './core/pagination';
 import {
   AbstractPage,
+  type BodyCursorPageCursorFieldParams,
+  BodyCursorPageCursorFieldResponse,
   type BodyCursorPageParams,
   BodyCursorPageResponse,
   type CursorPageParams,
@@ -781,8 +783,6 @@ export class Metronome {
 
   static toFile = Uploads.toFile;
 
-  webhooks: API.Webhooks = new API.Webhooks(this);
-
   v2: API.V2 = new API.V2(this);
   v1: API.V1 = new API.V1(this);
 }
@@ -800,6 +800,12 @@ export declare namespace Metronome {
   export {
     type BodyCursorPageParams as BodyCursorPageParams,
     type BodyCursorPageResponse as BodyCursorPageResponse,
+  };
+
+  export import BodyCursorPageCursorField = Pagination.BodyCursorPageCursorField;
+  export {
+    type BodyCursorPageCursorFieldParams as BodyCursorPageCursorFieldParams,
+    type BodyCursorPageCursorFieldResponse as BodyCursorPageCursorFieldResponse,
   };
 
   export import CursorPageWithoutLimit = Pagination.CursorPageWithoutLimit;

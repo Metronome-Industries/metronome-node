@@ -47,6 +47,42 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v2/contracts/getEditHistory',
   },
   {
+    clientCallName: 'client.v2.notifications.offset.create',
+    fullyQualifiedName: 'v2.notifications.offset.create',
+    httpMethod: 'post',
+    httpPath: '/v2/notifications/create',
+  },
+  {
+    clientCallName: 'client.v2.notifications.offset.retrieve',
+    fullyQualifiedName: 'v2.notifications.offset.retrieve',
+    httpMethod: 'post',
+    httpPath: '/v2/notifications/get',
+  },
+  {
+    clientCallName: 'client.v2.notifications.offset.list',
+    fullyQualifiedName: 'v2.notifications.offset.list',
+    httpMethod: 'post',
+    httpPath: '/v2/notifications/offset/list',
+  },
+  {
+    clientCallName: 'client.v2.notifications.offset.archive',
+    fullyQualifiedName: 'v2.notifications.offset.archive',
+    httpMethod: 'post',
+    httpPath: '/v2/notifications/archive',
+  },
+  {
+    clientCallName: 'client.v2.notifications.offset.edit',
+    fullyQualifiedName: 'v2.notifications.offset.edit',
+    httpMethod: 'post',
+    httpPath: '/v2/notifications/edit',
+  },
+  {
+    clientCallName: 'client.v2.notifications.system.list',
+    fullyQualifiedName: 'v2.notifications.system.list',
+    httpMethod: 'post',
+    httpPath: '/v2/notifications/system/list',
+  },
+  {
     clientCallName: 'client.v1.alerts.create',
     fullyQualifiedName: 'v1.alerts.create',
     httpMethod: 'post',
