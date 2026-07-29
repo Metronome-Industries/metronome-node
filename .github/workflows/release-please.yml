@@ -1,15 +1,13 @@
 # Runs release-please on push to main to create/update release PRs and GitHub Releases.
-# Also re-runs when the release PR title is edited to pick up version overrides.
+# Editing an existing release PR title applies an exact version override in place.
 # Built according to https://app.stainless.com/metronome/transition/docs/release
 #
-# Version override: edit the release PR title (e.g. "release: 5.0.0") and release-please
-# will re-run and update the PR with the new version.
+# Version override: edit the release PR title (e.g. "release: 3.11.0-alpha.1").
+# The override job rewrites only version-bearing files already changed by the PR.
 #
 # Required secrets:
-#   STLC_BOT_APP_ID and STLC_BOT_APP_PRIVATE_KEY — the GitHub App must be
-#   installed on this production repository with Contents and Pull requests
-#   write access. An App token is used instead of GITHUB_TOKEN so the GitHub
-#   Release triggers the publish workflow.
+#   STLC_BOT_APP_ID and STLC_BOT_APP_PRIVATE_KEY — the STLC App must be
+#   installed on this repository with Contents and Pull requests write access.
 
 name: Release Please
 
@@ -24,12 +22,13 @@ permissions:
   contents: write
   pull-requests: write
 
+concurrency:
+  group: release-please-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   release-please:
-    # Run on push to main, or when a release PR title is edited
-    if: >-
-      github.event_name == 'push' ||
-      (github.event_name == 'pull_request' && github.event.changes.title && startsWith(github.event.pull_request.title, 'release:'))
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Mint release App token
@@ -41,18 +40,139 @@ jobs:
           owner: Metronome-Industries
           repositories: metronome-node
 
-      - name: Parse version from PR title
-        id: parse
-        if: github.event_name == 'pull_request'
-        run: |
-          title="${{ github.event.pull_request.title }}"
-          # Extract version from "release: X.Y.Z" format
-          version=$(echo "$title" | sed -n 's/^release: *\(.*\)$/\1/p')
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "Parsed version override: $version"
-
       - uses: googleapis/release-please-action@v4
         id: release
         with:
           token: ${{ steps.release-token.outputs.token }}
-          release-as: ${{ steps.parse.outputs.version || '' }}
+
+  in-place-version-override:
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.changes.title &&
+      startsWith(github.event.pull_request.title, 'release:')
+    runs-on: ubuntu-latest
+    env:
+      REPO: ${{ github.repository }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      BRANCH: ${{ github.event.pull_request.head.ref }}
+    steps:
+      - name: Mint override App token
+        id: override-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.STLC_BOT_APP_ID }}
+          private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
+          owner: Metronome-Industries
+          repositories: metronome-node
+
+      - name: Parse and validate requested version
+        id: version
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          version=$(sed -n 's/^release: *\(.*\)$/\1/p' <<< "$TITLE")
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Release title must use release: X.Y.Z or release: X.Y.Z-suffix"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Requested release version: $version"
+
+      - name: Checkout release PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.BRANCH }}
+          token: ${{ steps.override-token.outputs.token }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Rewrite changed release files
+        env:
+          GH_TOKEN: ${{ steps.override-token.outputs.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git"
+          git fetch origin main
+          current=$(jq -r '."."' .release-please-manifest.json)
+          if [ -z "$current" ] || [ "$current" = "null" ]; then
+            echo "::error::Could not determine the current release version"
+            exit 1
+          fi
+          changed=$(git diff --name-only --diff-filter=AM "origin/main...HEAD")
+          rewritten=()
+          while IFS= read -r file; do
+            [ -n "$file" ] || continue
+            [ -f "$file" ] || continue
+            grep -Iq . "$file" || continue
+            CURRENT_VERSION="$current" DESIRED_VERSION="$VERSION" python3 - "$file" <<'PY'
+          import os
+          import re
+          import sys
+
+          path = sys.argv[1]
+          old = os.environ["CURRENT_VERSION"]
+          new = os.environ["DESIRED_VERSION"]
+          version_pattern = re.compile(
+              r"(?<![0-9.])" + re.escape(old) + r"(?![0-9.])"
+          )
+          with open(path, encoding="utf-8") as handle:
+              contents = handle.read()
+          if version_pattern.search(contents) is None:
+              sys.exit(0)
+          updated = version_pattern.sub(new, contents)
+          if updated != contents:
+              with open(path, "w", encoding="utf-8") as handle:
+                  handle.write(updated)
+          print(f"{path}: {old} -> {new}")
+          PY
+            if ! git diff --quiet -- "$file"; then
+              rewritten+=("$file")
+            fi
+          done <<< "$changed"
+
+          if [ "${#rewritten[@]}" -eq 0 ]; then
+            echo "::error::No current release version was found in the files changed by this PR"
+            exit 1
+          fi
+          printf 'Rewritten files: %s\n' "${rewritten[*]}"
+
+      - name: Commit and push exact version override
+        env:
+          GH_TOKEN: ${{ steps.override-token.outputs.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          git config user.name "release-please[bot]"
+          git config user.email "release-please[bot]@users.noreply.github.com"
+          while IFS= read -r file; do
+            [ -n "$file" ] && git add -- "$file"
+          done < <(git diff --name-only --diff-filter=AM "origin/main...HEAD")
+          if git diff --cached --quiet; then
+            echo "No version changes needed."
+            exit 0
+          fi
+          git commit -m "chore(release): set version $VERSION"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git" "HEAD:${BRANCH}"
+
+      - name: Comment selected version on release PR
+        env:
+          GH_TOKEN: ${{ steps.override-token.outputs.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          marker='<!-- release-version-override -->'
+          body=$(cat <<EOF
+          $marker
+          Release version selected: **$VERSION**.
+
+          This release will be performed as **$VERSION**. To change it, edit this PR title to release: X.Y.Z (including any prerelease suffix); the workflow will update the release files in place.
+          EOF
+          )
+          existing=$(gh api "repos/${REPO}/issues/${PR_NUMBER}/comments" --paginate \
+            --jq ".[] | select(.body | contains(\"$marker\")) | .id" | head -n 1)
+          if [ -n "$existing" ]; then
+            gh api --method PATCH "repos/${REPO}/issues/comments/${existing}" -f body="$body" >/dev/null
+          else
+            gh api --method POST "repos/${REPO}/issues/${PR_NUMBER}/comments" -f body="$body" >/dev/null
+          fi
