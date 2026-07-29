@@ -18,6 +18,9 @@ on:
     types: [edited]
     branches: [main]
 
+  release:
+    types: [published]
+
 permissions:
   contents: write
   pull-requests: write
@@ -176,3 +179,38 @@ jobs:
           else
             gh api --method POST "repos/${REPO}/issues/${PR_NUMBER}/comments" -f body="$body" >/dev/null
           fi
+
+  notify-back-sync:
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Mint staging dispatch App token
+        id: dispatch-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.STLC_BOT_APP_ID }}
+          private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
+          owner: Metronome-Industries
+          repositories: metronome-node-staging
+
+      - name: Dispatch production release to staging
+        env:
+          DISPATCH_TOKEN: ${{ steps.dispatch-token.outputs.token }}
+          STAGING_REPO: Metronome-Industries/metronome-node-staging
+        run: |
+          set -euo pipefail
+          payload=$(jq -n --arg ref "${{ github.ref_name }}" '{event_type:"prod-released",client_payload:{ref:$ref}}')
+          code=$(curl -sS -o /tmp/dispatch.txt -w '%{http_code}' -X POST \
+            -H "Authorization: Bearer ${DISPATCH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${STAGING_REPO}/dispatches" \
+            -d "$payload")
+          if [ "$code" != "204" ]; then
+            echo "Dispatch failed (HTTP $code):" >&2
+            cat /tmp/dispatch.txt >&2
+            exit 1
+          fi
+          echo "Dispatched prod-released to ${STAGING_REPO}."
