@@ -1,50 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
+import * as ContractsAPI from './contracts';
 import * as Shared from '../../shared';
 import * as NamedSchedulesAPI from './named-schedules';
-import {
-  NamedScheduleRetrieveParams,
-  NamedScheduleRetrieveResponse,
-  NamedScheduleUpdateParams,
-  NamedSchedules,
-} from './named-schedules';
+import { NamedScheduleRetrieveParams, NamedScheduleRetrieveResponse, NamedScheduleUpdateParams, NamedSchedules } from './named-schedules';
 import * as ProductsAPI from './products';
-import {
-  ProductArchiveParams,
-  ProductArchiveResponse,
-  ProductCreateParams,
-  ProductCreateResponse,
-  ProductListItemState,
-  ProductListParams,
-  ProductListResponse,
-  ProductListResponsesCursorPage,
-  ProductRetrieveParams,
-  ProductRetrieveResponse,
-  ProductUpdateParams,
-  ProductUpdateResponse,
-  Products,
-  QuantityConversion,
-  QuantityRounding,
-} from './products';
+import { ProductArchiveParams, ProductArchiveResponse, ProductCreateParams, ProductCreateResponse, ProductListItemState, ProductListParams, ProductListResponse, ProductListResponsesCursorPage, ProductRetrieveParams, ProductRetrieveResponse, ProductUpdateParams, ProductUpdateResponse, Products, QuantityConversion, QuantityRounding } from './products';
 import * as InvoicesAPI from '../customers/invoices';
 import * as RateCardsAPI from './rate-cards/rate-cards';
-import {
-  RateCardArchiveParams,
-  RateCardArchiveResponse,
-  RateCardCreateParams,
-  RateCardCreateResponse,
-  RateCardListParams,
-  RateCardListResponse,
-  RateCardListResponsesCursorPage,
-  RateCardRetrieveParams,
-  RateCardRetrieveRateScheduleParams,
-  RateCardRetrieveRateScheduleResponse,
-  RateCardRetrieveResponse,
-  RateCardUpdateParams,
-  RateCardUpdateResponse,
-  RateCards,
-} from './rate-cards/rate-cards';
+import { RateCardArchiveParams, RateCardArchiveResponse, RateCardCreateParams, RateCardCreateResponse, RateCardListParams, RateCardListResponse, RateCardListResponsesCursorPage, RateCardRetrieveParams, RateCardRetrieveRateScheduleParams, RateCardRetrieveRateScheduleResponse, RateCardRetrieveResponse, RateCardUpdateParams, RateCardUpdateResponse, RateCards } from './rate-cards/rate-cards';
 import { APIPromise } from '../../../core/api-promise';
 import { BodyCursorPage, type BodyCursorPageParams, PagePromise } from '../../../core/pagination';
 import { buildHeaders } from '../../../internal/headers';
@@ -265,15 +230,8 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  addManualBalanceEntry(
-    body: ContractAddManualBalanceEntryParams,
-    options?: RequestOptions,
-  ): APIPromise<void> {
-    return this._client.post('/v1/contracts/addManualBalanceLedgerEntry', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  addManualBalanceEntry(body: ContractAddManualBalanceEntryParams, options?: RequestOptions): APIPromise<void> {
+    return this._client.post('/v1/contracts/addManualBalanceLedgerEntry', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -367,10 +325,7 @@ export class Contracts extends APIResource {
    *   });
    * ```
    */
-  createHistoricalInvoices(
-    body: ContractCreateHistoricalInvoicesParams,
-    options?: RequestOptions,
-  ): APIPromise<ContractCreateHistoricalInvoicesResponse> {
+  createHistoricalInvoices(body: ContractCreateHistoricalInvoicesParams, options?: RequestOptions): APIPromise<ContractCreateHistoricalInvoicesResponse> {
     return this._client.post('/v1/contracts/createHistoricalInvoices', { body, ...options });
   }
 
@@ -444,10 +399,7 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  getNetBalance(
-    body: ContractGetNetBalanceParams,
-    options?: RequestOptions,
-  ): APIPromise<ContractGetNetBalanceResponse> {
+  getNetBalance(body: ContractGetNetBalanceParams, options?: RequestOptions): APIPromise<ContractGetNetBalanceResponse> {
     return this._client.post('/v1/contracts/customerBalances/getNetBalance', { body, ...options });
   }
 
@@ -491,10 +443,7 @@ export class Contracts extends APIResource {
    *   });
    * ```
    */
-  getSubscriptionSeatsHistory(
-    body: ContractGetSubscriptionSeatsHistoryParams,
-    options?: RequestOptions,
-  ): APIPromise<ContractGetSubscriptionSeatsHistoryResponse> {
+  getSubscriptionSeatsHistory(body: ContractGetSubscriptionSeatsHistoryParams, options?: RequestOptions): APIPromise<ContractGetSubscriptionSeatsHistoryResponse> {
     return this._client.post('/v1/contracts/getSubscriptionSeatsHistory', { body, ...options });
   }
 
@@ -551,15 +500,8 @@ export class Contracts extends APIResource {
    * }
    * ```
    */
-  listBalances(
-    body: ContractListBalancesParams,
-    options?: RequestOptions,
-  ): PagePromise<ContractListBalancesResponsesBodyCursorPage, ContractListBalancesResponse> {
-    return this._client.getAPIList(
-      '/v1/contracts/customerBalances/list',
-      BodyCursorPage<ContractListBalancesResponse>,
-      { body, method: 'post', ...options },
-    );
+  listBalances(body: ContractListBalancesParams, options?: RequestOptions): PagePromise<ContractListBalancesResponsesBodyCursorPage, ContractListBalancesResponse> {
+    return this._client.getAPIList('/v1/contracts/customerBalances/list', BodyCursorPage<ContractListBalancesResponse>, { body, method: 'post', ...options });
   }
 
   /**
@@ -604,10 +546,7 @@ export class Contracts extends APIResource {
    * );
    * ```
    */
-  listSeatBalances(
-    body: ContractListSeatBalancesParams,
-    options?: RequestOptions,
-  ): APIPromise<ContractListSeatBalancesResponse> {
+  listSeatBalances(body: ContractListSeatBalancesParams, options?: RequestOptions): APIPromise<ContractListSeatBalancesResponse> {
     return this._client.post('/v1/contracts/seatBalances/list', { body, ...options });
   }
 
@@ -639,16 +578,9 @@ export class Contracts extends APIResource {
    *   });
    * ```
    */
-  retrieveRateSchedule(
-    params: ContractRetrieveRateScheduleParams,
-    options?: RequestOptions,
-  ): APIPromise<ContractRetrieveRateScheduleResponse> {
-    const { limit, next_page, ...body } = params;
-    return this._client.post('/v1/contracts/getContractRateSchedule', {
-      query: { limit, next_page },
-      body,
-      ...options,
-    });
+  retrieveRateSchedule(params: ContractRetrieveRateScheduleParams, options?: RequestOptions): APIPromise<ContractRetrieveRateScheduleResponse> {
+    const { limit, next_page, ...body } = params
+    return this._client.post('/v1/contracts/getContractRateSchedule', { query: { limit, next_page }, body, ...options });
   }
 
   /**
@@ -676,10 +608,7 @@ export class Contracts extends APIResource {
    *   );
    * ```
    */
-  retrieveSubscriptionQuantityHistory(
-    body: ContractRetrieveSubscriptionQuantityHistoryParams,
-    options?: RequestOptions,
-  ): APIPromise<ContractRetrieveSubscriptionQuantityHistoryResponse> {
+  retrieveSubscriptionQuantityHistory(body: ContractRetrieveSubscriptionQuantityHistoryParams, options?: RequestOptions): APIPromise<ContractRetrieveSubscriptionQuantityHistoryResponse> {
     return this._client.post('/v1/contracts/getSubscriptionQuantityHistory', { body, ...options });
   }
 
@@ -703,10 +632,7 @@ export class Contracts extends APIResource {
    *   });
    * ```
    */
-  scheduleProServicesInvoice(
-    body: ContractScheduleProServicesInvoiceParams,
-    options?: RequestOptions,
-  ): APIPromise<ContractScheduleProServicesInvoiceResponse> {
+  scheduleProServicesInvoice(body: ContractScheduleProServicesInvoiceParams, options?: RequestOptions): APIPromise<ContractScheduleProServicesInvoiceResponse> {
     return this._client.post('/v1/contracts/scheduleProServicesInvoice', { body, ...options });
   }
 
@@ -742,11 +668,7 @@ export class Contracts extends APIResource {
    * ```
    */
   setUsageFilter(body: ContractSetUsageFilterParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/contracts/setUsageFilter', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post('/v1/contracts/setUsageFilter', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -766,15 +688,12 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  updateEndDate(
-    body: ContractUpdateEndDateParams,
-    options?: RequestOptions,
-  ): APIPromise<ContractUpdateEndDateResponse> {
+  updateEndDate(body: ContractUpdateEndDateParams, options?: RequestOptions): APIPromise<ContractUpdateEndDateResponse> {
     return this._client.post('/v1/contracts/updateEndDate', { body, ...options });
   }
 }
 
-export type ContractListBalancesResponsesBodyCursorPage = BodyCursorPage<ContractListBalancesResponse>;
+export type ContractListBalancesResponsesBodyCursorPage = BodyCursorPage<ContractListBalancesResponse>
 
 export interface ContractCreateResponse {
   data: ContractCreateResponse.Data;
@@ -927,16 +846,7 @@ export namespace ContractCreateResponse {
         /**
          * The billing provider set for this configuration.
          */
-        billing_provider:
-          | 'aws_marketplace'
-          | 'stripe'
-          | 'netsuite'
-          | 'custom'
-          | 'azure_marketplace'
-          | 'quickbooks_online'
-          | 'workday'
-          | 'gcp_marketplace'
-          | 'metronome';
+        billing_provider: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
 
         /**
          * Configuration for the billing provider. The structure of this object is specific
@@ -1411,7 +1321,7 @@ export namespace ContractGetSubscriptionSeatsHistoryResponse {
   }
 }
 
-export type ContractListBalancesResponse = Shared.Commit | Shared.Credit;
+export type ContractListBalancesResponse = Shared.Commit | Shared.Credit
 
 export interface ContractListSeatBalancesResponse {
   data: Array<ContractListSeatBalancesResponse.Data>;
@@ -1499,15 +1409,7 @@ export namespace ContractListSeatBalancesResponse {
         /**
          * Commit ledger type
          */
-        type:
-          | 'PREPAID_COMMIT_SEGMENT_START'
-          | 'PREPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION'
-          | 'PREPAID_COMMIT_ROLLOVER'
-          | 'PREPAID_COMMIT_EXPIRATION'
-          | 'PREPAID_COMMIT_CANCELED'
-          | 'PREPAID_COMMIT_CREDITED'
-          | 'PREPAID_COMMIT_MANUAL'
-          | 'PREPAID_COMMIT_SEAT_BASED_ADJUSTMENT';
+        type: 'PREPAID_COMMIT_SEGMENT_START' | 'PREPAID_COMMIT_AUTOMATED_INVOICE_DEDUCTION' | 'PREPAID_COMMIT_ROLLOVER' | 'PREPAID_COMMIT_EXPIRATION' | 'PREPAID_COMMIT_CANCELED' | 'PREPAID_COMMIT_CREDITED' | 'PREPAID_COMMIT_MANUAL' | 'PREPAID_COMMIT_SEAT_BASED_ADJUSTMENT';
       }
     }
 
@@ -1554,15 +1456,7 @@ export namespace ContractListSeatBalancesResponse {
         /**
          * Credit ledger type
          */
-        type:
-          | 'CREDIT_SEGMENT_START'
-          | 'CREDIT_AUTOMATED_INVOICE_DEDUCTION'
-          | 'CREDIT_EXPIRATION'
-          | 'CREDIT_CANCELED'
-          | 'CREDIT_CREDITED'
-          | 'CREDIT_MANUAL'
-          | 'CREDIT_SEAT_BASED_ADJUSTMENT'
-          | 'CREDIT_ROLLOVER';
+        type: 'CREDIT_SEGMENT_START' | 'CREDIT_AUTOMATED_INVOICE_DEDUCTION' | 'CREDIT_EXPIRATION' | 'CREDIT_CANCELED' | 'CREDIT_CREDITED' | 'CREDIT_MANUAL' | 'CREDIT_SEAT_BASED_ADJUSTMENT' | 'CREDIT_ROLLOVER';
       }
     }
   }
@@ -4874,7 +4768,7 @@ export declare namespace Contracts {
     type ContractRetrieveSubscriptionQuantityHistoryParams as ContractRetrieveSubscriptionQuantityHistoryParams,
     type ContractScheduleProServicesInvoiceParams as ContractScheduleProServicesInvoiceParams,
     type ContractSetUsageFilterParams as ContractSetUsageFilterParams,
-    type ContractUpdateEndDateParams as ContractUpdateEndDateParams,
+    type ContractUpdateEndDateParams as ContractUpdateEndDateParams
   };
 
   export {
@@ -4892,7 +4786,7 @@ export declare namespace Contracts {
     type ProductRetrieveParams as ProductRetrieveParams,
     type ProductUpdateParams as ProductUpdateParams,
     type ProductListParams as ProductListParams,
-    type ProductArchiveParams as ProductArchiveParams,
+    type ProductArchiveParams as ProductArchiveParams
   };
 
   export {
@@ -4909,13 +4803,13 @@ export declare namespace Contracts {
     type RateCardUpdateParams as RateCardUpdateParams,
     type RateCardListParams as RateCardListParams,
     type RateCardArchiveParams as RateCardArchiveParams,
-    type RateCardRetrieveRateScheduleParams as RateCardRetrieveRateScheduleParams,
+    type RateCardRetrieveRateScheduleParams as RateCardRetrieveRateScheduleParams
   };
 
   export {
     NamedSchedules as NamedSchedules,
     type NamedScheduleRetrieveResponse as NamedScheduleRetrieveResponse,
     type NamedScheduleRetrieveParams as NamedScheduleRetrieveParams,
-    type NamedScheduleUpdateParams as NamedScheduleUpdateParams,
+    type NamedScheduleUpdateParams as NamedScheduleUpdateParams
   };
 }

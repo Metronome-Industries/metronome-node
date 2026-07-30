@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
+import * as InvoicesAPI from './invoices';
 import * as Shared from '../../shared';
 import { APIPromise } from '../../../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../../../core/pagination';
@@ -65,7 +66,7 @@ export class Invoices extends APIResource {
    * ```
    */
   retrieve(params: InvoiceRetrieveParams, options?: RequestOptions): APIPromise<InvoiceRetrieveResponse> {
-    const { customer_id, invoice_id, ...query } = params;
+    const { customer_id, invoice_id, ...query } = params
     return this._client.get(path`/v1/customers/${customer_id}/invoices/${invoice_id}`, { query, ...options });
   }
 
@@ -128,11 +129,8 @@ export class Invoices extends APIResource {
    * ```
    */
   list(params: InvoiceListParams, options?: RequestOptions): PagePromise<InvoicesCursorPage, Invoice> {
-    const { customer_id, ...query } = params;
-    return this._client.getAPIList(path`/v1/customers/${customer_id}/invoices`, CursorPage<Invoice>, {
-      query,
-      ...options,
-    });
+    const { customer_id, ...query } = params
+    return this._client.getAPIList(path`/v1/customers/${customer_id}/invoices`, CursorPage<Invoice>, { query, ...options });
   }
 
   /**
@@ -155,7 +153,7 @@ export class Invoices extends APIResource {
    * ```
    */
   addCharge(params: InvoiceAddChargeParams, options?: RequestOptions): APIPromise<InvoiceAddChargeResponse> {
-    const { customer_id, ...body } = params;
+    const { customer_id, ...body } = params
     return this._client.post(path`/v1/customers/${customer_id}/addCharge`, { body, ...options });
   }
 
@@ -213,16 +211,9 @@ export class Invoices extends APIResource {
    * }
    * ```
    */
-  listBreakdowns(
-    params: InvoiceListBreakdownsParams,
-    options?: RequestOptions,
-  ): PagePromise<InvoiceListBreakdownsResponsesCursorPage, InvoiceListBreakdownsResponse> {
-    const { customer_id, ...query } = params;
-    return this._client.getAPIList(
-      path`/v1/customers/${customer_id}/invoices/breakdowns`,
-      CursorPage<InvoiceListBreakdownsResponse>,
-      { query, ...options },
-    );
+  listBreakdowns(params: InvoiceListBreakdownsParams, options?: RequestOptions): PagePromise<InvoiceListBreakdownsResponsesCursorPage, InvoiceListBreakdownsResponse> {
+    const { customer_id, ...query } = params
+    return this._client.getAPIList(path`/v1/customers/${customer_id}/invoices/breakdowns`, CursorPage<InvoiceListBreakdownsResponse>, { query, ...options });
   }
 
   /**
@@ -266,18 +257,14 @@ export class Invoices extends APIResource {
    * ```
    */
   retrievePdf(params: InvoiceRetrievePdfParams, options?: RequestOptions): APIPromise<Response> {
-    const { customer_id, invoice_id } = params;
-    return this._client.get(path`/v1/customers/${customer_id}/invoices/${invoice_id}/pdf`, {
-      ...options,
-      headers: buildHeaders([{ Accept: 'application/pdf' }, options?.headers]),
-      __binaryResponse: true,
-    });
+    const { customer_id, invoice_id } = params
+    return this._client.get(path`/v1/customers/${customer_id}/invoices/${invoice_id}/pdf`, { ...options, headers: buildHeaders([{Accept: 'application/pdf'}, options?.headers]), __binaryResponse: true });
   }
 }
 
-export type InvoicesCursorPage = CursorPage<Invoice>;
+export type InvoicesCursorPage = CursorPage<Invoice>
 
-export type InvoiceListBreakdownsResponsesCursorPage = CursorPage<InvoiceListBreakdownsResponse>;
+export type InvoiceListBreakdownsResponsesCursorPage = CursorPage<InvoiceListBreakdownsResponse>
 
 export interface Invoice {
   id: string;
@@ -735,16 +722,7 @@ export namespace Invoice {
 
   export namespace CorrectionRecord {
     export interface CorrectedExternalInvoice {
-      billing_provider_type:
-        | 'aws_marketplace'
-        | 'stripe'
-        | 'netsuite'
-        | 'custom'
-        | 'azure_marketplace'
-        | 'quickbooks_online'
-        | 'workday'
-        | 'gcp_marketplace'
-        | 'metronome';
+      billing_provider_type: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
 
       /**
        * Error message from the billing provider, if available.
@@ -756,19 +734,7 @@ export namespace Invoice {
        */
       external_payment_id?: string;
 
-      external_status?:
-        | 'DRAFT'
-        | 'FINALIZED'
-        | 'PAID'
-        | 'PARTIALLY_PAID'
-        | 'UNCOLLECTIBLE'
-        | 'VOID'
-        | 'DELETED'
-        | 'PAYMENT_FAILED'
-        | 'INVALID_REQUEST_ERROR'
-        | 'SKIPPED'
-        | 'SENT'
-        | 'QUEUED';
+      external_status?: 'DRAFT' | 'FINALIZED' | 'PAID' | 'PARTIALLY_PAID' | 'UNCOLLECTIBLE' | 'VOID' | 'DELETED' | 'PAYMENT_FAILED' | 'INVALID_REQUEST_ERROR' | 'SKIPPED' | 'SENT' | 'QUEUED';
 
       invoice_id?: string;
 
@@ -819,16 +785,7 @@ export namespace Invoice {
   }
 
   export interface ExternalInvoice {
-    billing_provider_type:
-      | 'aws_marketplace'
-      | 'stripe'
-      | 'netsuite'
-      | 'custom'
-      | 'azure_marketplace'
-      | 'quickbooks_online'
-      | 'workday'
-      | 'gcp_marketplace'
-      | 'metronome';
+    billing_provider_type: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
 
     /**
      * Error message from the billing provider, if available.
@@ -840,19 +797,7 @@ export namespace Invoice {
      */
     external_payment_id?: string;
 
-    external_status?:
-      | 'DRAFT'
-      | 'FINALIZED'
-      | 'PAID'
-      | 'PARTIALLY_PAID'
-      | 'UNCOLLECTIBLE'
-      | 'VOID'
-      | 'DELETED'
-      | 'PAYMENT_FAILED'
-      | 'INVALID_REQUEST_ERROR'
-      | 'SKIPPED'
-      | 'SENT'
-      | 'QUEUED';
+    external_status?: 'DRAFT' | 'FINALIZED' | 'PAID' | 'PARTIALLY_PAID' | 'UNCOLLECTIBLE' | 'VOID' | 'DELETED' | 'PAYMENT_FAILED' | 'INVALID_REQUEST_ERROR' | 'SKIPPED' | 'SENT' | 'QUEUED';
 
     invoice_id?: string;
 
@@ -977,7 +922,8 @@ export interface InvoiceRetrieveResponse {
   data: Invoice;
 }
 
-export interface InvoiceAddChargeResponse {}
+export interface InvoiceAddChargeResponse {
+}
 
 export interface InvoiceListBreakdownsResponse extends Invoice {
   breakdown_end_timestamp: string;
@@ -1164,6 +1110,6 @@ export declare namespace Invoices {
     type InvoiceListParams as InvoiceListParams,
     type InvoiceAddChargeParams as InvoiceAddChargeParams,
     type InvoiceListBreakdownsParams as InvoiceListBreakdownsParams,
-    type InvoiceRetrievePdfParams as InvoiceRetrievePdfParams,
+    type InvoiceRetrievePdfParams as InvoiceRetrievePdfParams
   };
 }

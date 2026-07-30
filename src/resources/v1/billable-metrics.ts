@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as BillableMetricsAPI from './billable-metrics';
 import * as Shared from '../shared';
 import { APIPromise } from '../../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../../core/pagination';
@@ -67,10 +68,7 @@ export class BillableMetrics extends APIResource {
    *   });
    * ```
    */
-  create(
-    body: BillableMetricCreateParams,
-    options?: RequestOptions,
-  ): APIPromise<BillableMetricCreateResponse> {
+  create(body: BillableMetricCreateParams, options?: RequestOptions): APIPromise<BillableMetricCreateResponse> {
     return this._client.post('/v1/billable-metrics/create', { body, ...options });
   }
 
@@ -96,11 +94,8 @@ export class BillableMetrics extends APIResource {
    *   });
    * ```
    */
-  retrieve(
-    params: BillableMetricRetrieveParams,
-    options?: RequestOptions,
-  ): APIPromise<BillableMetricRetrieveResponse> {
-    const { billable_metric_id } = params;
+  retrieve(params: BillableMetricRetrieveParams, options?: RequestOptions): APIPromise<BillableMetricRetrieveResponse> {
+    const { billable_metric_id } = params
     return this._client.get(path`/v1/billable-metrics/${billable_metric_id}`, options);
   }
 
@@ -119,14 +114,8 @@ export class BillableMetrics extends APIResource {
    * }
    * ```
    */
-  list(
-    query: BillableMetricListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse> {
-    return this._client.getAPIList('/v1/billable-metrics', CursorPage<BillableMetricListResponse>, {
-      query,
-      ...options,
-    });
+  list(query: BillableMetricListParams | null | undefined = {}, options?: RequestOptions): PagePromise<BillableMetricListResponsesCursorPage, BillableMetricListResponse> {
+    return this._client.getAPIList('/v1/billable-metrics', CursorPage<BillableMetricListResponse>, { query, ...options });
   }
 
   /**
@@ -147,15 +136,12 @@ export class BillableMetrics extends APIResource {
    * });
    * ```
    */
-  archive(
-    body: BillableMetricArchiveParams,
-    options?: RequestOptions,
-  ): APIPromise<BillableMetricArchiveResponse> {
+  archive(body: BillableMetricArchiveParams, options?: RequestOptions): APIPromise<BillableMetricArchiveResponse> {
     return this._client.post('/v1/billable-metrics/archive', { body, ...options });
   }
 }
 
-export type BillableMetricListResponsesCursorPage = CursorPage<BillableMetricListResponse>;
+export type BillableMetricListResponsesCursorPage = CursorPage<BillableMetricListResponse>
 
 export interface BillableMetricCreateResponse {
   data: Shared.ID;
@@ -361,6 +347,6 @@ export declare namespace BillableMetrics {
     type BillableMetricCreateParams as BillableMetricCreateParams,
     type BillableMetricRetrieveParams as BillableMetricRetrieveParams,
     type BillableMetricListParams as BillableMetricListParams,
-    type BillableMetricArchiveParams as BillableMetricArchiveParams,
+    type BillableMetricArchiveParams as BillableMetricArchiveParams
   };
 }

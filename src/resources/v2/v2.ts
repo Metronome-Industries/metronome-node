@@ -2,27 +2,9 @@
 
 import { APIResource } from '../../core/resource';
 import * as ContractsAPI from './contracts';
-import {
-  ContractEditCommitParams,
-  ContractEditCommitResponse,
-  ContractEditCreditParams,
-  ContractEditCreditResponse,
-  ContractEditParams,
-  ContractEditResponse,
-  ContractGetEditHistoryParams,
-  ContractGetEditHistoryResponse,
-  ContractListParams,
-  ContractListResponse,
-  ContractRetrieveParams,
-  ContractRetrieveResponse,
-  Contracts,
-} from './contracts';
+import { ContractEditCommitParams, ContractEditCommitResponse, ContractEditCreditParams, ContractEditCreditResponse, ContractEditParams, ContractEditResponse, ContractGetEditHistoryParams, ContractGetEditHistoryResponse, ContractListParams, ContractListResponse, ContractRetrieveParams, ContractRetrieveResponse, Contracts } from './contracts';
 import * as NotificationsAPI from './notifications/notifications';
-import {
-  LifecycleEventOffsetNotificationConfig,
-  LifecycleEventSystemNotificationConfig,
-  Notifications,
-} from './notifications/notifications';
+import { LifecycleEventOffsetNotificationConfig, LifecycleEventSystemNotificationConfig, Notifications } from './notifications/notifications';
 
 export class V2 extends APIResource {
   contracts: ContractsAPI.Contracts = new ContractsAPI.Contracts(this._client);
@@ -46,12 +28,12 @@ export declare namespace V2 {
     type ContractEditParams as ContractEditParams,
     type ContractEditCommitParams as ContractEditCommitParams,
     type ContractEditCreditParams as ContractEditCreditParams,
-    type ContractGetEditHistoryParams as ContractGetEditHistoryParams,
+    type ContractGetEditHistoryParams as ContractGetEditHistoryParams
   };
 
   export {
     Notifications as Notifications,
     type LifecycleEventOffsetNotificationConfig as LifecycleEventOffsetNotificationConfig,
-    type LifecycleEventSystemNotificationConfig as LifecycleEventSystemNotificationConfig,
+    type LifecycleEventSystemNotificationConfig as LifecycleEventSystemNotificationConfig
   };
 }

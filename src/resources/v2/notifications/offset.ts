@@ -1,14 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
+import * as OffsetAPI from './offset';
 import * as NotificationsAPI from './notifications';
 import { LifecycleEventOffsetNotificationConfigsBodyCursorPageCursorField } from './notifications';
 import { APIPromise } from '../../../core/api-promise';
-import {
-  BodyCursorPageCursorField,
-  type BodyCursorPageCursorFieldParams,
-  PagePromise,
-} from '../../../core/pagination';
+import { BodyCursorPageCursorField, type BodyCursorPageCursorFieldParams, PagePromise } from '../../../core/pagination';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class Offset extends APIResource {
@@ -63,18 +60,8 @@ export class Offset extends APIResource {
    * }
    * ```
    */
-  list(
-    body: OffsetListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<
-    LifecycleEventOffsetNotificationConfigsBodyCursorPageCursorField,
-    NotificationsAPI.LifecycleEventOffsetNotificationConfig
-  > {
-    return this._client.getAPIList(
-      '/v2/notifications/offset/list',
-      BodyCursorPageCursorField<NotificationsAPI.LifecycleEventOffsetNotificationConfig>,
-      { body, method: 'post', ...options },
-    );
+  list(body: OffsetListParams | null | undefined = {}, options?: RequestOptions): PagePromise<LifecycleEventOffsetNotificationConfigsBodyCursorPageCursorField, NotificationsAPI.LifecycleEventOffsetNotificationConfig> {
+    return this._client.getAPIList('/v2/notifications/offset/list', BodyCursorPageCursorField<NotificationsAPI.LifecycleEventOffsetNotificationConfig>, { body, method: 'post', ...options });
   }
 
   /**
@@ -122,9 +109,7 @@ export interface OffsetArchiveResponse {
 }
 
 export interface OffsetEditResponse {
-  data:
-    | NotificationsAPI.LifecycleEventSystemNotificationConfig
-    | NotificationsAPI.LifecycleEventOffsetNotificationConfig;
+  data: NotificationsAPI.LifecycleEventSystemNotificationConfig | NotificationsAPI.LifecycleEventOffsetNotificationConfig;
 }
 
 export interface OffsetCreateParams {
@@ -244,8 +229,8 @@ export declare namespace Offset {
     type OffsetRetrieveParams as OffsetRetrieveParams,
     type OffsetListParams as OffsetListParams,
     type OffsetArchiveParams as OffsetArchiveParams,
-    type OffsetEditParams as OffsetEditParams,
+    type OffsetEditParams as OffsetEditParams
   };
 }
 
-export { type LifecycleEventOffsetNotificationConfigsBodyCursorPageCursorField };
+export { type LifecycleEventOffsetNotificationConfigsBodyCursorPageCursorField }

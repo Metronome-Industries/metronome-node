@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as ServicesAPI from './services';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
@@ -41,5 +42,7 @@ export namespace ServiceListResponse {
 }
 
 export declare namespace Services {
-  export { type ServiceListResponse as ServiceListResponse };
+  export {
+    type ServiceListResponse as ServiceListResponse
+  };
 }

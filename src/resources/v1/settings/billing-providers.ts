@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
+import * as BillingProvidersAPI from './billing-providers';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
@@ -27,10 +28,7 @@ export class BillingProviders extends APIResource {
    *   });
    * ```
    */
-  create(
-    body: BillingProviderCreateParams,
-    options?: RequestOptions,
-  ): APIPromise<BillingProviderCreateResponse> {
+  create(body: BillingProviderCreateParams, options?: RequestOptions): APIPromise<BillingProviderCreateResponse> {
     return this._client.post('/v1/setUpBillingProvider', { body, ...options });
   }
 
@@ -48,10 +46,7 @@ export class BillingProviders extends APIResource {
    *   });
    * ```
    */
-  list(
-    body: BillingProviderListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<BillingProviderListResponse> {
+  list(body: BillingProviderListParams | null | undefined = {}, options?: RequestOptions): APIPromise<BillingProviderListResponse> {
     return this._client.post('/v1/listConfiguredBillingProviders', { body, ...options });
   }
 }
@@ -77,16 +72,7 @@ export namespace BillingProviderListResponse {
     /**
      * The billing provider set for this configuration.
      */
-    billing_provider:
-      | 'aws_marketplace'
-      | 'stripe'
-      | 'netsuite'
-      | 'custom'
-      | 'azure_marketplace'
-      | 'quickbooks_online'
-      | 'workday'
-      | 'gcp_marketplace'
-      | 'metronome';
+    billing_provider: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
 
     /**
      * The method to use for delivering invoices to this customer.
@@ -137,6 +123,6 @@ export declare namespace BillingProviders {
     type BillingProviderCreateResponse as BillingProviderCreateResponse,
     type BillingProviderListResponse as BillingProviderListResponse,
     type BillingProviderCreateParams as BillingProviderCreateParams,
-    type BillingProviderListParams as BillingProviderListParams,
+    type BillingProviderListParams as BillingProviderListParams
   };
 }

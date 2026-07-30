@@ -1,12 +1,13 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { ContentBlock, McpRequestContext, McpTool, Metadata, ToolCallResult, asErrorResult } from './types';
+import { ContentBlock, McpRequestContext, McpTool, Metadata, ToolCallResult, asErrorResult, asTextContentResult } from './types';
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import { WorkerOutput } from './code-tool-types';
+import { coerceBoolean, coerceFloat, coerceInteger, maybeCoerceBoolean, maybeCoerceFloat, maybeCoerceInteger, readEnv, readEnvOrError, requireValue } from "./util";
+import { WorkerInput, WorkerOutput } from './code-tool-types';
 import { getLogger } from './logger';
 import { SdkMethod } from './methods';
-import { McpCodeExecutionMode } from './options';
-import { ClientOptions } from '@metronome/sdk';
+import { McpCodeExecutionMode, McpOptions } from './options';
+import { Metronome, ClientOptions } from '@metronome/sdk';
 
 const prompt = `Runs JavaScript code to interact with the Metronome API.
 
@@ -51,13 +52,10 @@ Always type dynamic key-value stores explicitly as Record<string, YourValueType>
  * @param codeExecutionMode - Whether to execute code in a local Deno environment or in a remote
  * sandbox environment hosted by Stainless.
  */
-export function codeTool({
-  blockedMethods,
-  codeExecutionMode,
-}: {
-  blockedMethods: SdkMethod[] | undefined;
-  codeExecutionMode: McpCodeExecutionMode;
-}): McpTool {
+export function codeTool(
+  {blockedMethods, codeExecutionMode}:
+  {blockedMethods: SdkMethod[] | undefined, codeExecutionMode: McpCodeExecutionMode},
+): McpTool {
   const metadata: Metadata = { resource: 'all', operation: 'write', tags: [] };
   const tool: Tool = {
     name: 'execute',
@@ -80,13 +78,10 @@ export function codeTool({
 
   const logger = getLogger();
 
-  const handler = async ({
-    reqContext,
-    args,
-  }: {
-    reqContext: McpRequestContext;
-    args: any;
-  }): Promise<ToolCallResult> => {
+  const handler = async (
+    {reqContext, args}:
+    {reqContext: McpRequestContext, args: any},
+  ): Promise<ToolCallResult> => {
     const code = args.code as string;
     // Do very basic blocking of code that includes forbidden method names.
     //
@@ -96,11 +91,7 @@ export function codeTool({
     if (blockedMethods) {
       const blockedMatches = blockedMethods.filter((method) => code.includes(method.fullyQualifiedName));
       if (blockedMatches.length > 0) {
-        return asErrorResult(
-          `The following methods have been blocked by the MCP server and cannot be used in code execution: ${blockedMatches
-            .map((m) => m.fullyQualifiedName)
-            .join(', ')}`,
-        );
+        return asErrorResult(`The following methods have been blocked by the MCP server and cannot be used in code execution: ${blockedMatches.map((m) => m.fullyQualifiedName).join(', ')}`);
       }
     }
 
@@ -120,18 +111,15 @@ export function codeTool({
       'Got code tool execution result',
     );
     return result;
-  };
+  }
 
   return { metadata, tool, handler };
 }
 
-const localDenoHandler = async ({
-  reqContext,
-  args,
-}: {
-  reqContext: McpRequestContext;
-  args: unknown;
-}): Promise<ToolCallResult> => {
+const localDenoHandler = async (
+  {reqContext, args} :
+  {reqContext: McpRequestContext, args: unknown},
+): Promise<ToolCallResult> => {
   const fs = await import('node:fs');
   const path = await import('node:path');
   const url = await import('node:url');
@@ -156,20 +144,24 @@ const localDenoHandler = async ({
   } catch {
     try {
       // Use deno binary in node_modules if it's found
-      const denoNodeModulesPath = path.resolve(packageNodeModulesPath, 'deno', 'bin.cjs');
+      const denoNodeModulesPath = path.resolve(
+        packageNodeModulesPath,
+        'deno',
+        'bin.cjs',
+      );
       await fs.promises.access(denoNodeModulesPath, fs.constants.X_OK);
       denoPath = denoNodeModulesPath;
     } catch {
       return asErrorResult(
         'Deno is required for code execution but was not found. ' +
-          'Install it from https://deno.land or run: npm install deno',
+        'Install it from https://deno.land or run: npm install deno',
       );
     }
   }
 
   const allowReadPaths = [
     'code-tool-worker.mjs',
-    `${workerPath.replace(/([\/\\]node_modules)[\/\\].+$/, '$1')}/`,
+    `${workerPath.replace(/([\/\\]node_modules)[\/\\].+$/, "$1")}/`,
     packageRoot,
   ];
 
@@ -203,7 +195,7 @@ const localDenoHandler = async ({
       // Merge any upstream client envs into the Deno subprocess environment,
       // with the upstream env vars taking precedence.
       env: { ...process.env, ...reqContext.upstreamClientEnvs },
-    },
+    }
   });
 
   try {
@@ -215,12 +207,12 @@ const localDenoHandler = async ({
       // Strip null/undefined values so that the worker SDK client can fall back to
       // reading from environment variables (including any upstreamClientEnvs).
       const opts = {
-        ...(client.baseURL != null ? { baseURL: client.baseURL } : undefined),
-        ...(client.bearerToken != null ? { bearerToken: client.bearerToken } : undefined),
-        ...(client.webhookSecret != null ? { webhookSecret: client.webhookSecret } : undefined),
-        defaultHeaders: {
-          'X-Stainless-MCP': 'true',
-        },
+          ...(client.baseURL != null ? { baseURL: client.baseURL } : undefined),
+          ...(client.bearerToken != null ? { bearerToken: client.bearerToken } : undefined),
+          ...(client.webhookSecret != null ? { webhookSecret: client.webhookSecret } : undefined),
+          defaultHeaders: {
+            'X-Stainless-MCP': 'true',
+          },
       } satisfies Partial<ClientOptions> as ClientOptions;
 
       const req = worker.request(
@@ -267,12 +259,11 @@ const localDenoHandler = async ({
     if (resp.status === 200) {
       const { result, log_lines, err_lines } = (await resp.json()) as WorkerOutput;
       const returnOutput: ContentBlock | null =
-        result == null ? null : (
-          {
+        result == null ? null
+        : {
             type: 'text',
             text: typeof result === 'string' ? result : JSON.stringify(result),
-          }
-        );
+          };
       const logOutput: ContentBlock | null =
         log_lines.length === 0 ?
           null
@@ -293,12 +284,11 @@ const localDenoHandler = async ({
     } else {
       const { result, log_lines, err_lines } = (await resp.json()) as WorkerOutput;
       const messageOutput: ContentBlock | null =
-        result == null ? null : (
-          {
+        result == null ? null
+        : {
             type: 'text',
             text: typeof result === 'string' ? result : JSON.stringify(result),
-          }
-        );
+          };
       const logOutput: ContentBlock | null =
         log_lines.length === 0 ?
           null
