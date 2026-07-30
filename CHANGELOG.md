@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.11.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.10.0...v3.11.0) (2026-07-30)
+
+
+### Features
+
+* add release-please workflow ([#267](https://github.com/Metronome-Industries/metronome-node/issues/267)) ([3220c11](https://github.com/Metronome-Industries/metronome-node/commit/3220c112ca7fac33c0c51f8a46c0b1dd65fe184e))
+
 ## 3.10.0 (2026-07-22)
 
 Full Changelog: [v3.9.0...v3.10.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.9.0...v3.10.0)
