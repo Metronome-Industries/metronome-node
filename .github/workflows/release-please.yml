@@ -1,0 +1,255 @@
+# Runs release-please on push to main to create/update release PRs and GitHub Releases.
+# Editing an existing release PR title applies an exact version override in place.
+# Built according to https://app.stainless.com/metronome/transition/docs/release
+#
+# Version override: edit the release PR title (e.g. "release: 3.11.0-alpha.1").
+# The override job rewrites only version-bearing files already changed by the PR.
+#
+# Required secrets:
+#   STLC_BOT_APP_ID and STLC_BOT_APP_PRIVATE_KEY — the STLC App must be
+#   installed on this repository with Contents and Pull requests write access.
+
+name: Release Please
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [edited]
+    branches: [main]
+
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: release-please-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-please:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mint release App token
+        id: release-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.STLC_BOT_APP_ID }}
+          private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
+          owner: Metronome-Industries
+          repositories: metronome-node
+
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ steps.release-token.outputs.token }}
+
+  in-place-version-override:
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.changes.title &&
+      startsWith(github.event.pull_request.title, 'release:')
+    runs-on: ubuntu-latest
+    env:
+      REPO: ${{ github.repository }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      BRANCH: ${{ github.event.pull_request.head.ref }}
+    steps:
+      - name: Mint override App token
+        id: override-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.STLC_BOT_APP_ID }}
+          private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
+          owner: Metronome-Industries
+          repositories: metronome-node
+
+      - name: Parse and validate requested version
+        id: version
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          version=$(sed -n 's/^release: *\(.*\)$/\1/p' <<< "$TITLE")
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Release title must use release: X.Y.Z or release: X.Y.Z-suffix"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Requested release version: $version"
+
+      - name: Checkout release PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.BRANCH }}
+          token: ${{ steps.override-token.outputs.token }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Rewrite changed release files
+        env:
+          GH_TOKEN: ${{ steps.override-token.outputs.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git"
+          git fetch origin main
+          current=$(jq -r '."."' .release-please-manifest.json)
+          if [ -z "$current" ] || [ "$current" = "null" ]; then
+            echo "::error::Could not determine the current release version"
+            exit 1
+          fi
+          changed=$(git diff --name-only --diff-filter=AM "origin/main...HEAD")
+          rewritten=()
+          while IFS= read -r file; do
+            [ -n "$file" ] || continue
+            [ -f "$file" ] || continue
+            grep -Iq . "$file" || continue
+            CURRENT_VERSION="$current" DESIRED_VERSION="$VERSION" python3 - "$file" <<'PY'
+          import os
+          import re
+          import sys
+
+          path = sys.argv[1]
+          old = os.environ["CURRENT_VERSION"]
+          new = os.environ["DESIRED_VERSION"]
+          version_pattern = re.compile(
+              r"(?<![0-9.])" + re.escape(old) + r"(?![0-9.])"
+          )
+          with open(path, encoding="utf-8") as handle:
+              contents = handle.read()
+          if version_pattern.search(contents) is None:
+              sys.exit(0)
+          updated = version_pattern.sub(new, contents)
+          if updated != contents:
+              with open(path, "w", encoding="utf-8") as handle:
+                  handle.write(updated)
+          print(f"{path}: {old} -> {new}")
+          PY
+            if ! git diff --quiet -- "$file"; then
+              rewritten+=("$file")
+            fi
+          done <<< "$changed"
+
+          if [ "${#rewritten[@]}" -eq 0 ]; then
+            echo "::error::No current release version was found in the files changed by this PR"
+            exit 1
+          fi
+          printf 'Rewritten files: %s\n' "${rewritten[*]}"
+
+      - name: Commit and push exact version override
+        env:
+          GH_TOKEN: ${{ steps.override-token.outputs.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          git config user.name "release-please[bot]"
+          git config user.email "release-please[bot]@users.noreply.github.com"
+          while IFS= read -r file; do
+            [ -n "$file" ] && git add -- "$file"
+          done < <(git diff --name-only --diff-filter=AM "origin/main...HEAD")
+          if git diff --cached --quiet; then
+            echo "No version changes needed."
+            exit 0
+          fi
+          git commit -m "chore(release): set version $VERSION"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git" "HEAD:${BRANCH}"
+
+      - name: Comment selected version on release PR
+        env:
+          GH_TOKEN: ${{ steps.override-token.outputs.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          marker='<!-- release-version-override -->'
+          body=$(cat <<EOF
+          $marker
+          Release version selected: **$VERSION**.
+
+          This release will be performed as **$VERSION**. To change it, edit this PR title to release: X.Y.Z (including any prerelease suffix); the workflow will update the release files in place.
+          EOF
+          )
+          existing=$(gh api "repos/${REPO}/issues/${PR_NUMBER}/comments" --paginate \
+            --jq ".[] | select(.body | contains(\"$marker\")) | .id" | head -n 1)
+          if [ -n "$existing" ]; then
+            gh api --method PATCH "repos/${REPO}/issues/comments/${existing}" -f body="$body" >/dev/null
+          else
+            gh api --method POST "repos/${REPO}/issues/${PR_NUMBER}/comments" -f body="$body" >/dev/null
+          fi
+
+  notify-back-sync:
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Mint staging dispatch App token
+        id: dispatch-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.STLC_BOT_APP_ID }}
+          private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
+          owner: Metronome-Industries
+          repositories: metronome-node-staging
+
+      - name: Dispatch production release to staging
+        env:
+          DISPATCH_TOKEN: ${{ steps.dispatch-token.outputs.token }}
+          STAGING_REPO: Metronome-Industries/metronome-node-staging
+        run: |
+          set -euo pipefail
+          payload=$(jq -n --arg ref "${{ github.ref_name }}" '{event_type:"prod-released",client_payload:{ref:$ref}}')
+          code=$(curl -sS -o /tmp/dispatch.txt -w '%{http_code}' -X POST \
+            -H "Authorization: Bearer ${DISPATCH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${STAGING_REPO}/dispatches" \
+            -d "$payload")
+          if [ "$code" != "204" ]; then
+            echo "Dispatch failed (HTTP $code):" >&2
+            cat /tmp/dispatch.txt >&2
+            exit 1
+          fi
+          echo "Dispatched prod-released to ${STAGING_REPO}."
+
+      - name: Update version in release PR description
+        env:
+          GH_TOKEN: ${{ steps.override-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+
+          old=$(git show origin/main:.release-please-manifest.json | jq -r '."."')
+          gh api "repos/${REPO}/pulls/${PR_NUMBER}" --jq '.body' > /tmp/release-pr-body
+
+          OLD_VERSION="$old" NEW_VERSION="$VERSION" python3 - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+
+          path = Path("/tmp/release-pr-body")
+          body = path.read_text()
+          old = os.environ["OLD_VERSION"]
+          new = os.environ["NEW_VERSION"]
+
+          pattern = re.compile(
+              r"(?<![0-9.])" + re.escape(old) + r"(?![0-9.])"
+          )
+          updated, count = pattern.subn(new, body)
+
+          if count == 0:
+              raise SystemExit(
+                  f"old release version {old} was not found in the PR description"
+              )
+
+          path.write_text(updated)
+          PY
+
+          gh api --method PATCH \
+            "repos/${REPO}/pulls/${PR_NUMBER}" \
+            -f body="$(< /tmp/release-pr-body)"
