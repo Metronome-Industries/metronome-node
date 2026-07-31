@@ -1,9 +1,19 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
-import * as NotificationsAPI from './notifications';
 import * as OffsetAPI from './offset';
-import { Offset, OffsetArchiveParams, OffsetArchiveResponse, OffsetCreateParams, OffsetCreateResponse, OffsetEditParams, OffsetEditResponse, OffsetListParams, OffsetRetrieveParams, OffsetRetrieveResponse } from './offset';
+import {
+  Offset,
+  OffsetArchiveParams,
+  OffsetArchiveResponse,
+  OffsetCreateParams,
+  OffsetCreateResponse,
+  OffsetEditParams,
+  OffsetEditResponse,
+  OffsetListParams,
+  OffsetRetrieveParams,
+  OffsetRetrieveResponse,
+} from './offset';
 import * as SystemAPI from './system';
 import { System, SystemListResponse } from './system';
 import { BodyCursorPageCursorField } from '../../../core/pagination';
@@ -13,7 +23,8 @@ export class Notifications extends APIResource {
   system: SystemAPI.System = new SystemAPI.System(this._client);
 }
 
-export type LifecycleEventOffsetNotificationConfigsBodyCursorPageCursorField = BodyCursorPageCursorField<LifecycleEventOffsetNotificationConfig>
+export type LifecycleEventOffsetNotificationConfigsBodyCursorPageCursorField =
+  BodyCursorPageCursorField<LifecycleEventOffsetNotificationConfig>;
 
 export interface LifecycleEventOffsetNotificationConfig {
   /**
@@ -100,7 +111,7 @@ Notifications.System = System;
 export declare namespace Notifications {
   export {
     type LifecycleEventOffsetNotificationConfig as LifecycleEventOffsetNotificationConfig,
-    type LifecycleEventSystemNotificationConfig as LifecycleEventSystemNotificationConfig
+    type LifecycleEventSystemNotificationConfig as LifecycleEventSystemNotificationConfig,
   };
 
   export {
@@ -113,11 +124,8 @@ export declare namespace Notifications {
     type OffsetRetrieveParams as OffsetRetrieveParams,
     type OffsetListParams as OffsetListParams,
     type OffsetArchiveParams as OffsetArchiveParams,
-    type OffsetEditParams as OffsetEditParams
+    type OffsetEditParams as OffsetEditParams,
   };
 
-  export {
-    System as System,
-    type SystemListResponse as SystemListResponse
-  };
+  export { System as System, type SystemListResponse as SystemListResponse };
 }

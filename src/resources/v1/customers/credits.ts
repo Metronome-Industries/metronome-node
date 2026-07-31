@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
-import * as CreditsAPI from './credits';
 import * as Shared from '../../shared';
 import { CreditsBodyCursorPage } from '../../shared';
 import { APIPromise } from '../../../core/api-promise';
@@ -151,7 +150,11 @@ export class Credits extends APIResource {
    * ```
    */
   list(body: CreditListParams, options?: RequestOptions): PagePromise<CreditsBodyCursorPage, Shared.Credit> {
-    return this._client.getAPIList('/v1/contracts/customerCredits/list', BodyCursorPage<Shared.Credit>, { body, method: 'post', ...options });
+    return this._client.getAPIList('/v1/contracts/customerCredits/list', BodyCursorPage<Shared.Credit>, {
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -172,7 +175,10 @@ export class Credits extends APIResource {
    *   });
    * ```
    */
-  updateEndDate(body: CreditUpdateEndDateParams, options?: RequestOptions): APIPromise<CreditUpdateEndDateResponse> {
+  updateEndDate(
+    body: CreditUpdateEndDateParams,
+    options?: RequestOptions,
+  ): APIPromise<CreditUpdateEndDateResponse> {
     return this._client.post('/v1/contracts/customerCredits/updateEndDate', { body, ...options });
   }
 }
@@ -360,8 +366,8 @@ export declare namespace Credits {
     type CreditUpdateEndDateResponse as CreditUpdateEndDateResponse,
     type CreditCreateParams as CreditCreateParams,
     type CreditListParams as CreditListParams,
-    type CreditUpdateEndDateParams as CreditUpdateEndDateParams
+    type CreditUpdateEndDateParams as CreditUpdateEndDateParams,
   };
 }
 
-export { type CreditsBodyCursorPage }
+export { type CreditsBodyCursorPage };

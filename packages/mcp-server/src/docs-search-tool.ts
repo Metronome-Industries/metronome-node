@@ -14,7 +14,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'search_docs',
-  description: 'Search SDK documentation to find methods, parameters, and usage examples for interacting with the API. Use this before writing code when you need to discover the right approach.',
+  description:
+    'Search SDK documentation to find methods, parameters, and usage examples for interacting with the API. Use this before writing code when you need to discover the right approach.',
   inputSchema: {
     type: 'object',
     properties: {
@@ -31,7 +32,7 @@ export const tool: Tool = {
         type: 'string',
         description: 'The amount of detail to return.',
         enum: ['default', 'verbose'],
-      }
+      },
     },
     required: ['query', 'language'],
   },
@@ -63,10 +64,13 @@ async function searchLocal(args: Record<string, unknown>): Promise<unknown> {
   }).results;
 }
 
-export const handler = async (
-  { reqContext, args }:
-  { reqContext: McpRequestContext; args: Record<string, unknown> | undefined },
-) => {
+export const handler = async ({
+  reqContext,
+  args,
+}: {
+  reqContext: McpRequestContext;
+  args: Record<string, unknown> | undefined;
+}) => {
   const body = args ?? {};
 
   return asTextContentResult(await searchLocal(body));

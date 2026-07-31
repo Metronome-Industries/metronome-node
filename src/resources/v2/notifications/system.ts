@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
-import * as SystemAPI from './system';
 import * as NotificationsAPI from './notifications';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
@@ -28,7 +27,5 @@ export interface SystemListResponse {
 }
 
 export declare namespace System {
-  export {
-    type SystemListResponse as SystemListResponse
-  };
+  export { type SystemListResponse as SystemListResponse };
 }

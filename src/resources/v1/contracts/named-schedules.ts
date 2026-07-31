@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
-import * as NamedSchedulesAPI from './named-schedules';
 import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
@@ -24,7 +23,10 @@ export class NamedSchedules extends APIResource {
    *   });
    * ```
    */
-  retrieve(body: NamedScheduleRetrieveParams, options?: RequestOptions): APIPromise<NamedScheduleRetrieveResponse> {
+  retrieve(
+    body: NamedScheduleRetrieveParams,
+    options?: RequestOptions,
+  ): APIPromise<NamedScheduleRetrieveResponse> {
     return this._client.post('/v1/contract-pricing/rate-cards/getNamedSchedule', { body, ...options });
   }
 
@@ -44,7 +46,11 @@ export class NamedSchedules extends APIResource {
    * ```
    */
   update(body: NamedScheduleUpdateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/v1/contract-pricing/rate-cards/updateNamedSchedule', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/v1/contract-pricing/rate-cards/updateNamedSchedule', {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 
@@ -106,6 +112,6 @@ export declare namespace NamedSchedules {
   export {
     type NamedScheduleRetrieveResponse as NamedScheduleRetrieveResponse,
     type NamedScheduleRetrieveParams as NamedScheduleRetrieveParams,
-    type NamedScheduleUpdateParams as NamedScheduleUpdateParams
+    type NamedScheduleUpdateParams as NamedScheduleUpdateParams,
   };
 }

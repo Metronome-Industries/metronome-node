@@ -1,4 +1,4 @@
-import { parseCLIOptions, parseQueryOptions } from '../src/options';
+import { parseCLIOptions } from '../src/options';
 
 // Mock process.argv
 const mockArgv = (args: string[]) => {

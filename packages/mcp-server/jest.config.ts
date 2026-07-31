@@ -10,9 +10,7 @@ const config: JestConfigWithTsJest = {
     '^@metronome/mcp$': '<rootDir>/src/index.ts',
     '^@metronome/mcp/(.*)$': '<rootDir>/src/$1',
   },
-  modulePathIgnorePatterns: [
-    '<rootDir>/dist/',
-  ],
+  modulePathIgnorePatterns: ['<rootDir>/dist/'],
   testPathIgnorePatterns: ['scripts'],
 };
 

@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
-import * as AlertsAPI from './alerts';
 import * as Shared from '../shared';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
@@ -127,7 +126,22 @@ export interface AlertCreateParams {
   /**
    * Type of the threshold notification
    */
-  alert_type: 'low_credit_balance_reached' | 'spend_threshold_reached' | 'monthly_invoice_total_spend_threshold_reached' | 'low_remaining_days_in_plan_reached' | 'low_remaining_credit_percentage_reached' | 'usage_threshold_reached' | 'low_remaining_days_for_commit_segment_reached' | 'low_remaining_commit_balance_reached' | 'low_remaining_commit_percentage_reached' | 'low_remaining_days_for_contract_credit_segment_reached' | 'low_remaining_contract_credit_balance_reached' | 'low_remaining_contract_credit_percentage_reached' | 'low_remaining_contract_credit_and_commit_balance_reached' | 'invoice_total_reached' | 'low_remaining_seat_balance_reached';
+  alert_type:
+    | 'low_credit_balance_reached'
+    | 'spend_threshold_reached'
+    | 'monthly_invoice_total_spend_threshold_reached'
+    | 'low_remaining_days_in_plan_reached'
+    | 'low_remaining_credit_percentage_reached'
+    | 'usage_threshold_reached'
+    | 'low_remaining_days_for_commit_segment_reached'
+    | 'low_remaining_commit_balance_reached'
+    | 'low_remaining_commit_percentage_reached'
+    | 'low_remaining_days_for_contract_credit_segment_reached'
+    | 'low_remaining_contract_credit_balance_reached'
+    | 'low_remaining_contract_credit_percentage_reached'
+    | 'low_remaining_contract_credit_and_commit_balance_reached'
+    | 'invoice_total_reached'
+    | 'low_remaining_seat_balance_reached';
 
   /**
    * Name of the threshold notification
@@ -312,6 +326,6 @@ export declare namespace Alerts {
     type AlertCreateResponse as AlertCreateResponse,
     type AlertArchiveResponse as AlertArchiveResponse,
     type AlertCreateParams as AlertCreateParams,
-    type AlertArchiveParams as AlertArchiveParams
+    type AlertArchiveParams as AlertArchiveParams,
   };
 }

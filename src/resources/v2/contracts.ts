@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
-import * as ContractsAPI from './contracts';
 import * as Shared from '../shared';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
@@ -159,7 +158,10 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  editCommit(body: ContractEditCommitParams, options?: RequestOptions): APIPromise<ContractEditCommitResponse> {
+  editCommit(
+    body: ContractEditCommitParams,
+    options?: RequestOptions,
+  ): APIPromise<ContractEditCommitResponse> {
     return this._client.post('/v2/contracts/commits/edit', { body, ...options });
   }
 
@@ -197,7 +199,10 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  editCredit(body: ContractEditCreditParams, options?: RequestOptions): APIPromise<ContractEditCreditResponse> {
+  editCredit(
+    body: ContractEditCreditParams,
+    options?: RequestOptions,
+  ): APIPromise<ContractEditCreditResponse> {
     return this._client.post('/v2/contracts/credits/edit', { body, ...options });
   }
 
@@ -226,7 +231,10 @@ export class Contracts extends APIResource {
    * });
    * ```
    */
-  getEditHistory(body: ContractGetEditHistoryParams, options?: RequestOptions): APIPromise<ContractGetEditHistoryResponse> {
+  getEditHistory(
+    body: ContractGetEditHistoryParams,
+    options?: RequestOptions,
+  ): APIPromise<ContractGetEditHistoryResponse> {
     return this._client.post('/v2/contracts/getEditHistory', { body, ...options });
   }
 }
@@ -3938,7 +3946,16 @@ export namespace ContractEditParams {
 
   export namespace AddBillingProviderConfigurationUpdate {
     export interface BillingProviderConfiguration {
-      billing_provider?: 'aws_marketplace' | 'stripe' | 'netsuite' | 'custom' | 'azure_marketplace' | 'quickbooks_online' | 'workday' | 'gcp_marketplace' | 'metronome';
+      billing_provider?:
+        | 'aws_marketplace'
+        | 'stripe'
+        | 'netsuite'
+        | 'custom'
+        | 'azure_marketplace'
+        | 'quickbooks_online'
+        | 'workday'
+        | 'gcp_marketplace'
+        | 'metronome';
 
       billing_provider_configuration_id?: string | null;
 
@@ -6452,6 +6469,6 @@ export declare namespace Contracts {
     type ContractEditParams as ContractEditParams,
     type ContractEditCommitParams as ContractEditCommitParams,
     type ContractEditCreditParams as ContractEditCreditParams,
-    type ContractGetEditHistoryParams as ContractGetEditHistoryParams
+    type ContractGetEditHistoryParams as ContractGetEditHistoryParams,
   };
 }

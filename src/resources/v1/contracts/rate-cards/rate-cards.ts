@@ -1,14 +1,33 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../../core/resource';
-import * as RateCardsAPI from './rate-cards';
 import * as Shared from '../../../shared';
 import * as NamedSchedulesAPI from './named-schedules';
-import { NamedScheduleRetrieveParams, NamedScheduleRetrieveResponse, NamedScheduleUpdateParams, NamedSchedules } from './named-schedules';
+import {
+  NamedScheduleRetrieveParams,
+  NamedScheduleRetrieveResponse,
+  NamedScheduleUpdateParams,
+  NamedSchedules,
+} from './named-schedules';
 import * as ProductOrdersAPI from './product-orders';
-import { ProductOrderSetParams, ProductOrderSetResponse, ProductOrderUpdateParams, ProductOrderUpdateResponse, ProductOrders } from './product-orders';
+import {
+  ProductOrderSetParams,
+  ProductOrderSetResponse,
+  ProductOrderUpdateParams,
+  ProductOrderUpdateResponse,
+  ProductOrders,
+} from './product-orders';
 import * as RatesAPI from './rates';
-import { RateAddManyParams, RateAddManyResponse, RateAddParams, RateAddResponse, RateListParams, RateListResponse, RateListResponsesCursorPage, Rates } from './rates';
+import {
+  RateAddManyParams,
+  RateAddManyResponse,
+  RateAddParams,
+  RateAddResponse,
+  RateListParams,
+  RateListResponse,
+  RateListResponsesCursorPage,
+  Rates,
+} from './rates';
 import { APIPromise } from '../../../../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../../../../core/pagination';
 import { RequestOptions } from '../../../../internal/request-options';
@@ -174,9 +193,17 @@ export class RateCards extends APIResource {
    * }
    * ```
    */
-  list(params: RateCardListParams | null | undefined = undefined, options?: RequestOptions): PagePromise<RateCardListResponsesCursorPage, RateCardListResponse> {
-    const { limit, next_page, body } = params ?? {}
-    return this._client.getAPIList('/v1/contract-pricing/rate-cards/list', CursorPage<RateCardListResponse>, { query: { limit, next_page }, body: body, method: 'post', ...options });
+  list(
+    params: RateCardListParams | null | undefined = undefined,
+    options?: RequestOptions,
+  ): PagePromise<RateCardListResponsesCursorPage, RateCardListResponse> {
+    const { limit, next_page, body } = params ?? {};
+    return this._client.getAPIList('/v1/contract-pricing/rate-cards/list', CursorPage<RateCardListResponse>, {
+      query: { limit, next_page },
+      body: body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -230,13 +257,20 @@ export class RateCards extends APIResource {
    *   });
    * ```
    */
-  retrieveRateSchedule(params: RateCardRetrieveRateScheduleParams, options?: RequestOptions): APIPromise<RateCardRetrieveRateScheduleResponse> {
-    const { limit, next_page, ...body } = params
-    return this._client.post('/v1/contract-pricing/rate-cards/getRateSchedule', { query: { limit, next_page }, body, ...options });
+  retrieveRateSchedule(
+    params: RateCardRetrieveRateScheduleParams,
+    options?: RequestOptions,
+  ): APIPromise<RateCardRetrieveRateScheduleResponse> {
+    const { limit, next_page, ...body } = params;
+    return this._client.post('/v1/contract-pricing/rate-cards/getRateSchedule', {
+      query: { limit, next_page },
+      body,
+      ...options,
+    });
   }
 }
 
-export type RateCardListResponsesCursorPage = CursorPage<RateCardListResponse>
+export type RateCardListResponsesCursorPage = CursorPage<RateCardListResponse>;
 
 export interface RateCardCreateResponse {
   data: Shared.ID;
@@ -559,7 +593,7 @@ export declare namespace RateCards {
     type RateCardUpdateParams as RateCardUpdateParams,
     type RateCardListParams as RateCardListParams,
     type RateCardArchiveParams as RateCardArchiveParams,
-    type RateCardRetrieveRateScheduleParams as RateCardRetrieveRateScheduleParams
+    type RateCardRetrieveRateScheduleParams as RateCardRetrieveRateScheduleParams,
   };
 
   export {
@@ -567,7 +601,7 @@ export declare namespace RateCards {
     type ProductOrderUpdateResponse as ProductOrderUpdateResponse,
     type ProductOrderSetResponse as ProductOrderSetResponse,
     type ProductOrderUpdateParams as ProductOrderUpdateParams,
-    type ProductOrderSetParams as ProductOrderSetParams
+    type ProductOrderSetParams as ProductOrderSetParams,
   };
 
   export {
@@ -578,13 +612,13 @@ export declare namespace RateCards {
     type RateListResponsesCursorPage as RateListResponsesCursorPage,
     type RateListParams as RateListParams,
     type RateAddParams as RateAddParams,
-    type RateAddManyParams as RateAddManyParams
+    type RateAddManyParams as RateAddManyParams,
   };
 
   export {
     NamedSchedules as NamedSchedules,
     type NamedScheduleRetrieveResponse as NamedScheduleRetrieveResponse,
     type NamedScheduleRetrieveParams as NamedScheduleRetrieveParams,
-    type NamedScheduleUpdateParams as NamedScheduleUpdateParams
+    type NamedScheduleUpdateParams as NamedScheduleUpdateParams,
   };
 }
