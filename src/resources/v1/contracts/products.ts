@@ -136,6 +136,12 @@ export interface ProductListItemState {
   exclude_free_usage?: boolean;
 
   /**
+   * Only for composite products. If true, allows a composite to incorporate spend
+   * from other composite products. Defaults to false
+   */
+  include_composite_spend?: boolean;
+
+  /**
    * This field's availability is dependent on your client's configuration.
    */
   is_refundable?: boolean;
@@ -269,6 +275,12 @@ export namespace ProductRetrieveResponse {
 
       exclude_free_usage?: boolean;
 
+      /**
+       * Only for composite products. If true, allows a composite to incorporate spend
+       * from other composite products. Defaults to false
+       */
+      include_composite_spend?: boolean;
+
       is_refundable?: boolean;
 
       name?: string;
@@ -361,6 +373,12 @@ export namespace ProductListResponse {
 
     exclude_free_usage?: boolean;
 
+    /**
+     * Only for composite products. If true, allows a composite to incorporate spend
+     * from other composite products. Defaults to false
+     */
+    include_composite_spend?: boolean;
+
     is_refundable?: boolean;
 
     name?: string;
@@ -452,6 +470,12 @@ export interface ProductCreateParams {
    * will not be included when computing composite usage. Defaults to false
    */
   exclude_free_usage?: boolean;
+
+  /**
+   * Only for composite products. If true, allows a composite to incorporate spend
+   * from other composite products. Defaults to false
+   */
+  include_composite_spend?: boolean;
 
   /**
    * This field's availability is dependent on your client's configuration. Defaults
@@ -555,6 +579,12 @@ export interface ProductUpdateParams {
    * will not be included when computing composite usage. Defaults to false
    */
   exclude_free_usage?: boolean;
+
+  /**
+   * Only for composite products. If true, allows a composite to incorporate spend
+   * from other composite products. Defaults to false
+   */
+  include_composite_spend?: boolean;
 
   /**
    * Defaults to product's current refundability status. This field's availability is
