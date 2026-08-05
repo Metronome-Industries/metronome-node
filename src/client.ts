@@ -17,6 +17,8 @@ import * as Errors from './core/error';
 import * as Pagination from './core/pagination';
 import {
   AbstractPage,
+  type BodyCursorPageCursorFieldParams,
+  BodyCursorPageCursorFieldResponse,
   type BodyCursorPageParams,
   BodyCursorPageResponse,
   type CursorPageParams,
@@ -800,6 +802,12 @@ export declare namespace Metronome {
   export {
     type BodyCursorPageParams as BodyCursorPageParams,
     type BodyCursorPageResponse as BodyCursorPageResponse,
+  };
+
+  export import BodyCursorPageCursorField = Pagination.BodyCursorPageCursorField;
+  export {
+    type BodyCursorPageCursorFieldParams as BodyCursorPageCursorFieldParams,
+    type BodyCursorPageCursorFieldResponse as BodyCursorPageCursorFieldResponse,
   };
 
   export import CursorPageWithoutLimit = Pagination.CursorPageWithoutLimit;

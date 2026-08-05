@@ -1,0 +1,116 @@
+name: Sync SDK repos
+
+# Back-sync production release metadata/custom contributions into staging and
+# eagerly notify the API config repo when custom code lands on staging main.
+on:
+  schedule:
+    - cron: '7,37 * * * *'
+  workflow_dispatch: {}
+  repository_dispatch:
+    types: [prod-released]
+  push:
+    branches: [main]
+
+jobs:
+  back-sync:
+    runs-on: ubuntu-latest
+    if: github.repository == 'Metronome-Industries/metronome-node-staging' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch')
+    permissions:
+      contents: write
+    concurrency:
+      group: stlc-back-sync
+      cancel-in-progress: true
+    env:
+      PRODUCTION_REPO: Metronome-Industries/metronome-node
+    steps:
+      - name: Generate stlc bot token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.STLC_BOT_APP_ID }}
+          private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
+          owner: Metronome-Industries
+
+      - name: Check out staging
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Fetch production main
+        run: |
+          git remote add production "https://github.com/${PRODUCTION_REPO}.git"
+          git -c "http.https://github.com/.extraheader=" fetch production main
+
+      - name: Check production/staging ancestry
+        id: sync
+        run: |
+          if git merge-base --is-ancestor production/main origin/main; then
+            echo "Staging already contains production history."
+            echo "behind=false" >> "$GITHUB_OUTPUT"
+          elif git merge-base --is-ancestor origin/main production/main; then
+            echo "Production is ahead of staging; fast-forward required."
+            echo "behind=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error title=Back-sync blocked::staging and production histories have diverged."
+            exit 1
+          fi
+
+      - name: Sync production to staging (fast-forward)
+        if: steps.sync.outputs.behind == 'true'
+        run: |
+          if ! git merge-base --is-ancestor origin/main production/main; then
+            echo "::error title=Back-sync blocked::staging main is not an ancestor of production/main. Trunks have diverged."
+            exit 1
+          fi
+          git push origin production/main:refs/heads/main
+          echo "Fast-forwarded staging/main to production/main."
+
+  seal-dispatch:
+    runs-on: ubuntu-latest
+    if: github.repository == 'Metronome-Industries/metronome-node-staging' && github.event_name == 'push'
+    permissions:
+      contents: read
+    env:
+      CONFIG_REPO: Metronome-Industries/api
+    steps:
+      - name: Mint API dispatch token
+        id: api-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.STLC_BOT_APP_ID }}
+          private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
+          owner: Metronome-Industries
+          repositories: api
+
+      - name: Loop-guard and send re-seal dispatch
+        env:
+          DISPATCH_TOKEN: ${{ steps.api-token.outputs.token }}
+          HEAD_MSG: ${{ github.event.head_commit.message }}
+          HEAD_AUTHOR_NAME: ${{ github.event.head_commit.author.name }}
+          SHA: ${{ github.sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if printf '%s\n' "$HEAD_MSG" | grep -q 'Stainless-Generated-From:'; then
+            echo "Generated SDK commit — skipping re-seal dispatch."
+            exit 0
+          fi
+          if [ "$HEAD_AUTHOR_NAME" = "stlc-bot" ]; then
+            echo "stlc-bot commit — skipping re-seal dispatch."
+            exit 0
+          fi
+          payload=$(jq -n --arg sha "$SHA" --arg repo "$REPO" \
+            '{event_type:"seal-custom-code",client_payload:{target:"all",sha:$sha,repo:$repo}}')
+          code=$(curl -sS -o /tmp/dispatch.txt -w '%{http_code}' -X POST \
+            -H "Authorization: Bearer ${DISPATCH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${CONFIG_REPO}/dispatches" \
+            -d "$payload")
+          if [ "$code" = "204" ]; then
+            echo "Re-seal dispatched to ${CONFIG_REPO}."
+          else
+            echo "::error::Re-seal dispatch failed (HTTP $code): $(cat /tmp/dispatch.txt)"
+            exit 1
+          fi

@@ -1,0 +1,64 @@
+name: Promote to production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  promote:
+    if: github.repository == 'Metronome-Industries/metronome-node-staging'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout staging
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Mint production App token
+        id: production-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.STLC_BOT_APP_ID }}
+          private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
+          owner: Metronome-Industries
+          repositories: metronome-node
+
+      - name: Promote staging to production
+        env:
+          GH_TOKEN: ${{ steps.production-token.outputs.token }}
+          PROD_REPO: Metronome-Industries/metronome-node
+        run: |
+          set -euo pipefail
+          git remote add production "https://x-access-token:${GH_TOKEN}@github.com/${PROD_REPO}.git"
+          git fetch production main || {
+            echo "Production has no main — doing initial push."
+            git push production origin/main:main
+            exit 0
+          }
+          if git diff --quiet production/main..origin/main -- . ':!.github'; then
+            echo "Nothing to promote."
+            exit 0
+          fi
+          if ! git merge-base --is-ancestor production/main origin/main; then
+            echo "::error::Trunks diverged."
+            exit 1
+          fi
+          git push production origin/main:refs/heads/stainless/next --force
+          open_pr=$(gh pr list --repo "$PROD_REPO" --head "stainless/next" --state open --json number --jq '.[0].number // empty')
+          if [ -z "$open_pr" ]; then
+            changelog=$(git log --reverse --format="* %s (%h)" production/main..origin/main | head -50)
+            gh pr create \
+              --repo "$PROD_REPO" \
+              --base main \
+              --head "stainless/next" \
+              --title "chore: promote SDK changes from staging" \
+              --body "$(printf "Automated promote from staging.\n\n---\n\n### Changes\n\n%s\n\n---\n\n> Merge with a **merge commit** (not squash or rebase)." "$changelog")"
+            echo "✓ Opened promote PR"
+          else
+            echo "✓ Promote PR #${open_pr} already open — branch updated."
+          fi

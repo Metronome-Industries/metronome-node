@@ -61,6 +61,40 @@ Methods:
 - <code title="post /v2/contracts/credits/edit">client.v2.contracts.<a href="./src/resources/v2/contracts.ts">editCredit</a>({ ...params }) -> ContractEditCreditResponse</code>
 - <code title="post /v2/contracts/getEditHistory">client.v2.contracts.<a href="./src/resources/v2/contracts.ts">getEditHistory</a>({ ...params }) -> ContractGetEditHistoryResponse</code>
 
+## Notifications
+
+Types:
+
+- <code><a href="./src/resources/v2/notifications/notifications.ts">LifecycleEventOffsetNotificationConfig</a></code>
+- <code><a href="./src/resources/v2/notifications/notifications.ts">LifecycleEventSystemNotificationConfig</a></code>
+
+### Offset
+
+Types:
+
+- <code><a href="./src/resources/v2/notifications/offset.ts">OffsetCreateResponse</a></code>
+- <code><a href="./src/resources/v2/notifications/offset.ts">OffsetRetrieveResponse</a></code>
+- <code><a href="./src/resources/v2/notifications/offset.ts">OffsetArchiveResponse</a></code>
+- <code><a href="./src/resources/v2/notifications/offset.ts">OffsetEditResponse</a></code>
+
+Methods:
+
+- <code title="post /v2/notifications/create">client.v2.notifications.offset.<a href="./src/resources/v2/notifications/offset.ts">create</a>({ ...params }) -> OffsetCreateResponse</code>
+- <code title="post /v2/notifications/get">client.v2.notifications.offset.<a href="./src/resources/v2/notifications/offset.ts">retrieve</a>({ ...params }) -> OffsetRetrieveResponse</code>
+- <code title="post /v2/notifications/offset/list">client.v2.notifications.offset.<a href="./src/resources/v2/notifications/offset.ts">list</a>({ ...params }) -> LifecycleEventOffsetNotificationConfigsBodyCursorPageCursorField</code>
+- <code title="post /v2/notifications/archive">client.v2.notifications.offset.<a href="./src/resources/v2/notifications/offset.ts">archive</a>({ ...params }) -> OffsetArchiveResponse</code>
+- <code title="post /v2/notifications/edit">client.v2.notifications.offset.<a href="./src/resources/v2/notifications/offset.ts">edit</a>({ ...params }) -> OffsetEditResponse</code>
+
+### System
+
+Types:
+
+- <code><a href="./src/resources/v2/notifications/system.ts">SystemListResponse</a></code>
+
+Methods:
+
+- <code title="post /v2/notifications/system/list">client.v2.notifications.system.<a href="./src/resources/v2/notifications/system.ts">list</a>() -> SystemListResponse</code>
+
 # V1
 
 ## Alerts
@@ -504,17 +538,3 @@ Methods:
 
 - <code title="post /v1/setUpBillingProvider">client.v1.settings.billingProviders.<a href="./src/resources/v1/settings/billing-providers.ts">create</a>({ ...params }) -> BillingProviderCreateResponse</code>
 - <code title="post /v1/listConfiguredBillingProviders">client.v1.settings.billingProviders.<a href="./src/resources/v1/settings/billing-providers.ts">list</a>({ ...params }) -> BillingProviderListResponse</code>
-
-# Payments
-
-Types:
-
-- <code><a href="./src/resources/payments.ts">PaymentListResponse</a></code>
-- <code><a href="./src/resources/payments.ts">PaymentAttemptResponse</a></code>
-- <code><a href="./src/resources/payments.ts">PaymentCancelResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/payments/list">client.payments.<a href="./src/resources/payments.ts">list</a>({ ...params }) -> PaymentListResponsesBodyCursorPage</code>
-- <code title="post /v1/payments/attempt">client.payments.<a href="./src/resources/payments.ts">attempt</a>({ ...params }) -> PaymentAttemptResponse</code>
-- <code title="post /v1/payments/cancel">client.payments.<a href="./src/resources/payments.ts">cancel</a>({ ...params }) -> PaymentCancelResponse</code>

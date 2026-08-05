@@ -117,15 +117,12 @@ export const getHeader = (headers: HeadersLike | Headers, header: string): strin
 
   const lowerCasedHeader = header.toLowerCase();
   if (isHeadersProtocol(headers)) {
-    // to deal with the case where the header looks like Stainless-Event-Id
     const intercapsHeader =
       header[0]?.toUpperCase() +
       header.substring(1).replace(/([^\w])(\w)/g, (_m, g1, g2) => g1 + g2.toUpperCase());
     for (const key of [header, lowerCasedHeader, header.toUpperCase(), intercapsHeader]) {
       const value = headers.get(key);
-      if (value) {
-        return value;
-      }
+      if (value) return value;
     }
   }
 
