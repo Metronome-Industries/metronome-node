@@ -1,5 +1,44 @@
 # Changelog
 
+## [3.11.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.10.0...v3.11.0) (2026-08-05)
+
+
+### Features
+
+* Add access type filters to balance lists ([ad105dd](https://github.com/Metronome-Industries/metronome-node/commit/ad105dd2fbdc4070780c698c244c3d6be261d023))
+* Add access_type to commit creation requests ([efeaf21](https://github.com/Metronome-Industries/metronome-node/commit/efeaf21624bb630c054dcaf39701aa599f7c1ccc))
+* add release-please workflow ([#267](https://github.com/Metronome-Industries/metronome-node/issues/267)) ([3220c11](https://github.com/Metronome-Industries/metronome-node/commit/3220c112ca7fac33c0c51f8a46c0b1dd65fe184e))
+* hold codegen when production is ahead of staging ([29ffc4e](https://github.com/Metronome-Industries/metronome-node/commit/29ffc4ec4a25fa5a4ef19ec209e9e59cf8c49116))
+* **stlc:** add Node sync and seal dispatch ([91f7361](https://github.com/Metronome-Industries/metronome-node/commit/91f7361289c64f78739d24cc9581650735cd8b00))
+* **stlc:** add Node sync and seal dispatch ([d40fb5d](https://github.com/Metronome-Industries/metronome-node/commit/d40fb5d46501f30124f3cb8d8cb2fc78f5dd34f7))
+
+
+### Bug Fixes
+
+* **ci:** retain staging artifact upload conditions ([0f19392](https://github.com/Metronome-Industries/metronome-node/commit/0f19392812d3e08bb75e233d45dcdeab696ebb5c))
+* **ci:** update Node staging workflows ([8d6c1b9](https://github.com/Metronome-Industries/metronome-node/commit/8d6c1b9dd2d7f1c2672658ecdf77792d40e45fd8))
+* restore Node 3.10 release metadata and webhooks ([cd781ef](https://github.com/Metronome-Industries/metronome-node/commit/cd781ef12556847d32640a83ec05062c7c7f04a1))
+* restore Node 3.10 release metadata and webhooks ([3a53f31](https://github.com/Metronome-Industries/metronome-node/commit/3a53f31b2402a905ce4e1594a9d8fe29a9646753))
+* restore webhook client integration ([e6a0b6e](https://github.com/Metronome-Industries/metronome-node/commit/e6a0b6e53f1634ca3350f1defca297aed76af849))
+* restore webhook header helpers ([33b929a](https://github.com/Metronome-Industries/metronome-node/commit/33b929ad8137ac48b18b2ad679e6c8f7d13e3103))
+* **stlc:** authenticate promotion with app token ([3d3b92d](https://github.com/Metronome-Industries/metronome-node/commit/3d3b92d61e3be1355ba9de1c4fff49d3d9b8fb1f))
+* **stlc:** mint app token for seal dispatch ([c8ee151](https://github.com/Metronome-Industries/metronome-node/commit/c8ee151947f15eef47a6fb570c7a52ab3aa72097))
+* **stlc:** reconcile back-sync ancestry and enable seal dispatch ([a47662c](https://github.com/Metronome-Industries/metronome-node/commit/a47662cce9d4a1a8a887c1aa67f7f4aa214980b2))
+* **stlc:** reconcile staging ancestry before sync skip ([1a9d8f4](https://github.com/Metronome-Industries/metronome-node/commit/1a9d8f4a4e4c3cfa7218f364e954ab84604e0194))
+* **stlc:** restore Node webhook custom code ([#7](https://github.com/Metronome-Industries/metronome-node/issues/7)) ([c26a6dd](https://github.com/Metronome-Industries/metronome-node/commit/c26a6ddb5debc75b1d0d22c5483430ea5a6975ee))
+* **stlc:** restore Node webhook custom code ([#8](https://github.com/Metronome-Industries/metronome-node/issues/8)) ([0e93e49](https://github.com/Metronome-Industries/metronome-node/commit/0e93e49ee1f088813167824e32466f31309714f9))
+* **stlc:** restore Node webhook custom code after promotion race ([#9](https://github.com/Metronome-Industries/metronome-node/issues/9)) ([898db5c](https://github.com/Metronome-Industries/metronome-node/commit/898db5c47382d5dad168736a9b7f30c07162c9d4))
+
+
+### Chores
+
+* back-sync production into staging ([b63dbad](https://github.com/Metronome-Industries/metronome-node/commit/b63dbadf7cda2afc67faef8f7d378117e49b7fec))
+* back-sync production into staging ([527380e](https://github.com/Metronome-Industries/metronome-node/commit/527380e12291c087d1cb10c0a17ab0ea6df66668))
+* merge current staging into production repair branch ([1ca2cfe](https://github.com/Metronome-Industries/metronome-node/commit/1ca2cfec2d9f0b12ad3c42917a045cf0ab9a56c0))
+* merge production main into staging ([8d701d3](https://github.com/Metronome-Industries/metronome-node/commit/8d701d33c8d01b36bc976850dbc86093326abffe))
+* metronome SDK codegen flow improvements ([390dcca](https://github.com/Metronome-Industries/metronome-node/commit/390dccaede353f6d0247895b2494e6d0c9486f40))
+* promote SDK changes from staging ([2ab1cb5](https://github.com/Metronome-Industries/metronome-node/commit/2ab1cb53506ce69251e3fdafa88dad982450703b))
+
 ## 3.10.0 (2026-07-22)
 
 Full Changelog: [v3.9.0...v3.10.0](https://github.com/Metronome-Industries/metronome-node/compare/v3.9.0...v3.10.0)
