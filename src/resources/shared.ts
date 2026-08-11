@@ -3618,41 +3618,12 @@ export namespace PrepaidBalanceThresholdConfiguration {
     applicable_product_tags?: Array<string>;
 
     /**
-     * The length of time the created commit will be valid, starting from the end of
-     * the invoice's service period. If not provided, defaults to one year.
-     */
-    duration?: Commit.Duration;
-
-    /**
-     * Whether the created commits will be charged at commit rate or list rate.
-     */
-    rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
-
-    /**
-     * Fraction of the created commit's unused balance that will roll over. Must be
-     * between 0 and 1.
-     */
-    rollover_fraction?: number;
-
-    /**
      * List of filters that determine what kind of customer usage draws down a commit
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
      * be used together with `applicable_product_ids` or `applicable_product_tags`.
      */
     specifiers?: Array<Shared.CommitSpecifierInput>;
-  }
-
-  export namespace Commit {
-    /**
-     * The length of time the created commit will be valid, starting from the end of
-     * the invoice's service period. If not provided, defaults to one year.
-     */
-    export interface Duration {
-      unit: 'DAYS' | 'WEEKS' | 'MONTHS' | 'YEARS';
-
-      value: number;
-    }
   }
 
   export interface DiscountConfiguration {
@@ -3772,23 +3743,6 @@ export namespace PrepaidBalanceThresholdConfigurationV2 {
     applicable_product_tags?: Array<string>;
 
     /**
-     * The length of time the created commit will be valid, starting from the end of
-     * the invoice's service period. If not provided, defaults to one year.
-     */
-    duration?: Commit.Duration;
-
-    /**
-     * Whether the created commits will be charged at commit rate or list rate.
-     */
-    rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
-
-    /**
-     * Fraction of the created commit's unused balance that will roll over. Must be
-     * between 0 and 1.
-     */
-    rollover_fraction?: number;
-
-    /**
      * List of filters that determine what kind of customer usage draws down a commit
      * or credit. A customer's usage needs to meet the condition of at least one of the
      * specifiers to contribute to a commit's or credit's drawdown. This field cannot
@@ -3797,18 +3751,6 @@ export namespace PrepaidBalanceThresholdConfigurationV2 {
      * body of `specifiers`.
      */
     specifiers?: Array<Shared.CommitSpecifierInput>;
-  }
-
-  export namespace Commit {
-    /**
-     * The length of time the created commit will be valid, starting from the end of
-     * the invoice's service period. If not provided, defaults to one year.
-     */
-    export interface Duration {
-      unit: 'DAYS' | 'WEEKS' | 'MONTHS' | 'YEARS';
-
-      value: number;
-    }
   }
 
   export interface DiscountConfiguration {

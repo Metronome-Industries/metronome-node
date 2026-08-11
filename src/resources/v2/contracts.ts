@@ -1604,25 +1604,6 @@ export namespace ContractEditResponse {
           applicable_product_tags?: Array<string> | null;
 
           /**
-           * The length of time the created commit will be valid, starting from the end of
-           * the invoice's service period. Set to null to clear a previously configured
-           * duration.
-           */
-          duration?: Commit.Duration | null;
-
-          /**
-           * Whether the created commits will be charged at commit rate or list rate. Set to
-           * null to clear a previously configured rate type.
-           */
-          rate_type?: 'COMMIT_RATE' | 'LIST_RATE' | null;
-
-          /**
-           * Fraction of the created commit's unused balance that will roll over. Must be
-           * between 0 and 1. Set to null to clear a previously configured rollover fraction.
-           */
-          rollover_fraction?: number | null;
-
-          /**
            * List of filters that determine what kind of customer usage draws down a commit
            * or credit. A customer's usage needs to meet the condition of at least one of the
            * specifiers to contribute to a commit's or credit's drawdown. This field cannot
@@ -1631,19 +1612,6 @@ export namespace ContractEditResponse {
            * body of `specifiers`.
            */
           specifiers?: Array<Shared.CommitSpecifierInput> | null;
-        }
-
-        export namespace Commit {
-          /**
-           * The length of time the created commit will be valid, starting from the end of
-           * the invoice's service period. Set to null to clear a previously configured
-           * duration.
-           */
-          export interface Duration {
-            unit: 'DAYS' | 'WEEKS' | 'MONTHS' | 'YEARS';
-
-            value: number;
-          }
         }
 
         export interface DiscountConfiguration {
@@ -3375,25 +3343,6 @@ export namespace ContractGetEditHistoryResponse {
         applicable_product_tags?: Array<string> | null;
 
         /**
-         * The length of time the created commit will be valid, starting from the end of
-         * the invoice's service period. Set to null to clear a previously configured
-         * duration.
-         */
-        duration?: Commit.Duration | null;
-
-        /**
-         * Whether the created commits will be charged at commit rate or list rate. Set to
-         * null to clear a previously configured rate type.
-         */
-        rate_type?: 'COMMIT_RATE' | 'LIST_RATE' | null;
-
-        /**
-         * Fraction of the created commit's unused balance that will roll over. Must be
-         * between 0 and 1. Set to null to clear a previously configured rollover fraction.
-         */
-        rollover_fraction?: number | null;
-
-        /**
          * List of filters that determine what kind of customer usage draws down a commit
          * or credit. A customer's usage needs to meet the condition of at least one of the
          * specifiers to contribute to a commit's or credit's drawdown. This field cannot
@@ -3402,19 +3351,6 @@ export namespace ContractGetEditHistoryResponse {
          * body of `specifiers`.
          */
         specifiers?: Array<Shared.CommitSpecifierInput> | null;
-      }
-
-      export namespace Commit {
-        /**
-         * The length of time the created commit will be valid, starting from the end of
-         * the invoice's service period. Set to null to clear a previously configured
-         * duration.
-         */
-        export interface Duration {
-          unit: 'DAYS' | 'WEEKS' | 'MONTHS' | 'YEARS';
-
-          value: number;
-        }
       }
 
       export interface DiscountConfiguration {
@@ -5829,25 +5765,6 @@ export namespace ContractEditParams {
       applicable_product_tags?: Array<string> | null;
 
       /**
-       * The length of time the created commit will be valid, starting from the end of
-       * the invoice's service period. Set to null to clear a previously configured
-       * duration.
-       */
-      duration?: Commit.Duration | null;
-
-      /**
-       * Whether the created commits will be charged at commit rate or list rate. Set to
-       * null to clear a previously configured rate type.
-       */
-      rate_type?: 'COMMIT_RATE' | 'LIST_RATE' | null;
-
-      /**
-       * Fraction of the created commit's unused balance that will roll over. Must be
-       * between 0 and 1. Set to null to clear a previously configured rollover fraction.
-       */
-      rollover_fraction?: number | null;
-
-      /**
        * List of filters that determine what kind of customer usage draws down a commit
        * or credit. A customer's usage needs to meet the condition of at least one of the
        * specifiers to contribute to a commit's or credit's drawdown. This field cannot
@@ -5856,19 +5773,6 @@ export namespace ContractEditParams {
        * body of `specifiers`.
        */
       specifiers?: Array<Shared.CommitSpecifierInput> | null;
-    }
-
-    export namespace Commit {
-      /**
-       * The length of time the created commit will be valid, starting from the end of
-       * the invoice's service period. Set to null to clear a previously configured
-       * duration.
-       */
-      export interface Duration {
-        unit: 'DAYS' | 'WEEKS' | 'MONTHS' | 'YEARS';
-
-        value: number;
-      }
     }
 
     export interface DiscountConfiguration {
