@@ -564,6 +564,12 @@ export namespace Invoice {
      */
     quantity?: number;
 
+    /**
+     * Present on applied commit line items for quantity-based commits. Represents the
+     * unit quantity deducted the commit.
+     */
+    quantity_consumed?: number;
+
     reseller_type?: 'AWS' | 'AWS_PRO_SERVICE' | 'GCP' | 'GCP_PRO_SERVICE';
 
     /**
