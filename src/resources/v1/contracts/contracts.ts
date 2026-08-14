@@ -3512,6 +3512,13 @@ export interface ContractAddManualBalanceEntryParams {
    * provided, it will default to the start of the segment.
    */
   timestamp?: string;
+
+  /**
+   * Prevents the creation of duplicates. If a request to create a record is made
+   * with a previously used uniqueness key, a new record will not be created and the
+   * request will fail with a 409 error.
+   */
+  uniqueness_key?: string;
 }
 
 export interface ContractAmendParams {

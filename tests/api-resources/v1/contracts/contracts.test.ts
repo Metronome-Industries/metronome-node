@@ -571,6 +571,7 @@ describe('resource contracts', () => {
       contract_id: 'd7abd0cd-4ae9-4db7-8676-e986a4ebd8dc',
       per_group_amounts: { foo: 0 },
       timestamp: '2019-12-27T18:11:19.117Z',
+      uniqueness_key: 'x',
     });
   });
 
