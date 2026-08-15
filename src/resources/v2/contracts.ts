@@ -606,6 +606,11 @@ export namespace ContractEditResponse {
         access_amount: AddRecurringCommit.AccessAmount;
 
         /**
+         * The date this recurring commit's billing periods are anchored to.
+         */
+        anchor_date: string;
+
+        /**
          * The amount of time the created commits will be valid for
          */
         commit_duration: AddRecurringCommit.CommitDuration;
@@ -793,6 +798,11 @@ export namespace ContractEditResponse {
          * The amount of commit to grant.
          */
         access_amount: AddRecurringCredit.AccessAmount;
+
+        /**
+         * The date this recurring commit's billing periods are anchored to.
+         */
+        anchor_date: string;
 
         /**
          * The amount of time the created commits will be valid for
@@ -2377,6 +2387,11 @@ export namespace ContractGetEditHistoryResponse {
       access_amount: AddRecurringCommit.AccessAmount;
 
       /**
+       * The date this recurring commit's billing periods are anchored to.
+       */
+      anchor_date: string;
+
+      /**
        * The amount of time the created commits will be valid for
        */
       commit_duration: AddRecurringCommit.CommitDuration;
@@ -2564,6 +2579,11 @@ export namespace ContractGetEditHistoryResponse {
        * The amount of commit to grant.
        */
       access_amount: AddRecurringCredit.AccessAmount;
+
+      /**
+       * The date this recurring commit's billing periods are anchored to.
+       */
+      anchor_date: string;
 
       /**
        * The amount of time the created commits will be valid for

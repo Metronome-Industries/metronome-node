@@ -1885,6 +1885,11 @@ export namespace ContractV2 {
     access_amount: RecurringCommit.AccessAmount;
 
     /**
+     * The date this recurring commit's billing periods are anchored to.
+     */
+    anchor_date: string;
+
+    /**
      * The amount of time the created commits will be valid for
      */
     commit_duration: RecurringCommit.CommitDuration;
@@ -2072,6 +2077,11 @@ export namespace ContractV2 {
      * The amount of commit to grant.
      */
     access_amount: RecurringCredit.AccessAmount;
+
+    /**
+     * The date this recurring commit's billing periods are anchored to.
+     */
+    anchor_date: string;
 
     /**
      * The amount of time the created commits will be valid for
@@ -2619,6 +2629,11 @@ export namespace ContractWithoutAmendments {
     access_amount: RecurringCommit.AccessAmount;
 
     /**
+     * The date this recurring commit's billing periods are anchored to.
+     */
+    anchor_date: string;
+
+    /**
      * The amount of time the created commits will be valid for
      */
     commit_duration: RecurringCommit.CommitDuration;
@@ -2808,6 +2823,11 @@ export namespace ContractWithoutAmendments {
      * The amount of commit to grant.
      */
     access_amount: RecurringCredit.AccessAmount;
+
+    /**
+     * The date this recurring commit's billing periods are anchored to.
+     */
+    anchor_date: string;
 
     /**
      * The amount of time the created commits will be valid for
