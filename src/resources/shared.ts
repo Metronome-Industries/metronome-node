@@ -2409,6 +2409,13 @@ export namespace ContractV2 {
 
     name?: string;
 
+    /**
+     * Custom fields from the subscription product referenced by
+     * `subscription_rate.product`. These are distinct from the subscription instance's
+     * `custom_fields`.
+     */
+    product_custom_fields?: { [key: string]: string };
+
     seat_config?: Subscription.SeatConfig;
   }
 
@@ -4365,6 +4372,13 @@ export interface Subscription {
   fiat_credit_type_id?: string;
 
   name?: string;
+
+  /**
+   * Custom fields from the subscription product referenced by
+   * `subscription_rate.product`. These are distinct from the subscription instance's
+   * `custom_fields`.
+   */
+  product_custom_fields?: { [key: string]: string };
 
   seat_config?: Subscription.SeatConfig;
 }
