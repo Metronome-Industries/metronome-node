@@ -297,7 +297,8 @@ export interface Invoice {
   amendment_id?: string;
 
   /**
-   * This field's availability is dependent on your client's configuration.
+   * Indicates if the invoice has been or will be sent to the configured customer
+   * billing provider. Defaults to `billable`.
    */
   billable_status?: unknown;
 
