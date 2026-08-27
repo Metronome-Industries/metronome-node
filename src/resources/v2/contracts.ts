@@ -1935,6 +1935,8 @@ export namespace ContractEditResponse {
 
         ending_before?: string;
 
+        name?: string;
+
         quantity_updates?: Array<UpdateSubscription.QuantityUpdate>;
 
         /**
@@ -3722,6 +3724,8 @@ export namespace ContractGetEditHistoryResponse {
       id: string;
 
       ending_before?: string;
+
+      name?: string;
 
       quantity_updates?: Array<UpdateSubscription.QuantityUpdate>;
 
@@ -6180,6 +6184,8 @@ export namespace ContractEditParams {
     subscription_id: string;
 
     ending_before?: string | null;
+
+    name?: string;
 
     proration_rounding?: UpdateSubscription.ProrationRounding | null;
 
