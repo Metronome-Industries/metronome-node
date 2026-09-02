@@ -105,6 +105,10 @@ import {
 } from './plans';
 import * as PricingUnitsAPI from './pricing-units';
 import {
+  PricingUnitArchiveParams,
+  PricingUnitArchiveResponse,
+  PricingUnitCreateParams,
+  PricingUnitCreateResponse,
   PricingUnitListParams,
   PricingUnitListResponse,
   PricingUnitListResponsesCursorPage,
@@ -279,9 +283,13 @@ export declare namespace V1 {
 
   export {
     PricingUnits as PricingUnits,
+    type PricingUnitCreateResponse as PricingUnitCreateResponse,
     type PricingUnitListResponse as PricingUnitListResponse,
+    type PricingUnitArchiveResponse as PricingUnitArchiveResponse,
     type PricingUnitListResponsesCursorPage as PricingUnitListResponsesCursorPage,
+    type PricingUnitCreateParams as PricingUnitCreateParams,
     type PricingUnitListParams as PricingUnitListParams,
+    type PricingUnitArchiveParams as PricingUnitArchiveParams,
   };
 
   export {

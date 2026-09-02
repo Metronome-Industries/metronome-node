@@ -151,11 +151,15 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/v1/pricing-units.ts">PricingUnitCreateResponse</a></code>
 - <code><a href="./src/resources/v1/pricing-units.ts">PricingUnitListResponse</a></code>
+- <code><a href="./src/resources/v1/pricing-units.ts">PricingUnitArchiveResponse</a></code>
 
 Methods:
 
+- <code title="post /v1/credit-types/create">client.v1.pricingUnits.<a href="./src/resources/v1/pricing-units.ts">create</a>({ ...params }) -> PricingUnitCreateResponse</code>
 - <code title="get /v1/credit-types/list">client.v1.pricingUnits.<a href="./src/resources/v1/pricing-units.ts">list</a>({ ...params }) -> PricingUnitListResponsesCursorPage</code>
+- <code title="post /v1/credit-types/archive">client.v1.pricingUnits.<a href="./src/resources/v1/pricing-units.ts">archive</a>({ ...params }) -> PricingUnitArchiveResponse</code>
 
 ## Customers
 

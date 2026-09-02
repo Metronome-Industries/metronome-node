@@ -164,8 +164,12 @@ export {
 } from './plans';
 export {
   PricingUnits,
+  type PricingUnitCreateResponse,
   type PricingUnitListResponse,
+  type PricingUnitArchiveResponse,
+  type PricingUnitCreateParams,
   type PricingUnitListParams,
+  type PricingUnitArchiveParams,
   type PricingUnitListResponsesCursorPage,
 } from './pricing-units';
 export { Services, type ServiceListResponse } from './services';
