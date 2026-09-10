@@ -27,6 +27,8 @@ import {
   BillableMetricListResponsesCursorPage,
   BillableMetricRetrieveParams,
   BillableMetricRetrieveResponse,
+  BillableMetricUpdateParams,
+  BillableMetricUpdateResponse,
   BillableMetrics,
 } from './billable-metrics';
 import * as CreditGrantsAPI from './credit-grants';
@@ -103,6 +105,10 @@ import {
 } from './plans';
 import * as PricingUnitsAPI from './pricing-units';
 import {
+  PricingUnitArchiveParams,
+  PricingUnitArchiveResponse,
+  PricingUnitCreateParams,
+  PricingUnitCreateResponse,
   PricingUnitListParams,
   PricingUnitListResponse,
   PricingUnitListResponsesCursorPage,
@@ -277,9 +283,13 @@ export declare namespace V1 {
 
   export {
     PricingUnits as PricingUnits,
+    type PricingUnitCreateResponse as PricingUnitCreateResponse,
     type PricingUnitListResponse as PricingUnitListResponse,
+    type PricingUnitArchiveResponse as PricingUnitArchiveResponse,
     type PricingUnitListResponsesCursorPage as PricingUnitListResponsesCursorPage,
+    type PricingUnitCreateParams as PricingUnitCreateParams,
     type PricingUnitListParams as PricingUnitListParams,
+    type PricingUnitArchiveParams as PricingUnitArchiveParams,
   };
 
   export {
@@ -355,11 +365,13 @@ export declare namespace V1 {
     BillableMetrics as BillableMetrics,
     type BillableMetricCreateResponse as BillableMetricCreateResponse,
     type BillableMetricRetrieveResponse as BillableMetricRetrieveResponse,
+    type BillableMetricUpdateResponse as BillableMetricUpdateResponse,
     type BillableMetricListResponse as BillableMetricListResponse,
     type BillableMetricArchiveResponse as BillableMetricArchiveResponse,
     type BillableMetricListResponsesCursorPage as BillableMetricListResponsesCursorPage,
     type BillableMetricCreateParams as BillableMetricCreateParams,
     type BillableMetricRetrieveParams as BillableMetricRetrieveParams,
+    type BillableMetricUpdateParams as BillableMetricUpdateParams,
     type BillableMetricListParams as BillableMetricListParams,
     type BillableMetricArchiveParams as BillableMetricArchiveParams,
   };

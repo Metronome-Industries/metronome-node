@@ -606,6 +606,11 @@ export namespace ContractEditResponse {
         access_amount: AddRecurringCommit.AccessAmount;
 
         /**
+         * The date this recurring commit's billing periods are anchored to.
+         */
+        anchor_date: string;
+
+        /**
          * The amount of time the created commits will be valid for
          */
         commit_duration: AddRecurringCommit.CommitDuration;
@@ -793,6 +798,11 @@ export namespace ContractEditResponse {
          * The amount of commit to grant.
          */
         access_amount: AddRecurringCredit.AccessAmount;
+
+        /**
+         * The date this recurring commit's billing periods are anchored to.
+         */
+        anchor_date: string;
 
         /**
          * The amount of time the created commits will be valid for
@@ -1049,6 +1059,13 @@ export namespace ContractEditResponse {
         fiat_credit_type_id?: string;
 
         name?: string;
+
+        /**
+         * Custom fields from the subscription product referenced by
+         * `subscription_rate.product`. These are distinct from the subscription instance's
+         * `custom_fields`.
+         */
+        product_custom_fields?: { [key: string]: string };
 
         seat_config?: AddSubscription.SeatConfig;
       }
@@ -1918,6 +1935,8 @@ export namespace ContractEditResponse {
 
         ending_before?: string;
 
+        name?: string;
+
         quantity_updates?: Array<UpdateSubscription.QuantityUpdate>;
 
         /**
@@ -2377,6 +2396,11 @@ export namespace ContractGetEditHistoryResponse {
       access_amount: AddRecurringCommit.AccessAmount;
 
       /**
+       * The date this recurring commit's billing periods are anchored to.
+       */
+      anchor_date: string;
+
+      /**
        * The amount of time the created commits will be valid for
        */
       commit_duration: AddRecurringCommit.CommitDuration;
@@ -2564,6 +2588,11 @@ export namespace ContractGetEditHistoryResponse {
        * The amount of commit to grant.
        */
       access_amount: AddRecurringCredit.AccessAmount;
+
+      /**
+       * The date this recurring commit's billing periods are anchored to.
+       */
+      anchor_date: string;
 
       /**
        * The amount of time the created commits will be valid for
@@ -2820,6 +2849,13 @@ export namespace ContractGetEditHistoryResponse {
       fiat_credit_type_id?: string;
 
       name?: string;
+
+      /**
+       * Custom fields from the subscription product referenced by
+       * `subscription_rate.product`. These are distinct from the subscription instance's
+       * `custom_fields`.
+       */
+      product_custom_fields?: { [key: string]: string };
 
       seat_config?: AddSubscription.SeatConfig;
     }
@@ -3688,6 +3724,8 @@ export namespace ContractGetEditHistoryResponse {
       id: string;
 
       ending_before?: string;
+
+      name?: string;
 
       quantity_updates?: Array<UpdateSubscription.QuantityUpdate>;
 
@@ -4911,9 +4949,12 @@ export namespace ContractEditParams {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
-      credit_type_id: string;
-
       unit_price: number;
+
+      /**
+       * Defaults to USD (cents) if not passed
+       */
+      credit_type_id?: string;
 
       /**
        * This field is required unless a subscription is attached via
@@ -5125,9 +5166,12 @@ export namespace ContractEditParams {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
-      credit_type_id: string;
-
       unit_price: number;
+
+      /**
+       * Defaults to USD (cents) if not passed
+       */
+      credit_type_id?: string;
 
       /**
        * This field is required unless a subscription is attached via
@@ -6146,6 +6190,8 @@ export namespace ContractEditParams {
     subscription_id: string;
 
     ending_before?: string | null;
+
+    name?: string;
 
     proration_rounding?: UpdateSubscription.ProrationRounding | null;
 

@@ -297,7 +297,8 @@ export interface Invoice {
   amendment_id?: string;
 
   /**
-   * This field's availability is dependent on your client's configuration.
+   * Indicates if the invoice has been or will be sent to the configured customer
+   * billing provider. Defaults to `billable`.
    */
   billable_status?: unknown;
 
@@ -563,6 +564,12 @@ export namespace Invoice {
      * The quantity associated with the line item.
      */
     quantity?: number;
+
+    /**
+     * Present on applied commit line items for quantity-based commits. Represents the
+     * unit quantity deducted the commit.
+     */
+    quantity_consumed?: number;
 
     reseller_type?: 'AWS' | 'AWS_PRO_SERVICE' | 'GCP' | 'GCP_PRO_SERVICE';
 

@@ -313,8 +313,8 @@ describe('resource contracts', () => {
       add_recurring_commits: [
         {
           access_amount: {
-            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             unit_price: 0,
+            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             quantity: 0,
           },
           commit_duration: { value: 0, unit: 'PERIODS' },
@@ -360,8 +360,8 @@ describe('resource contracts', () => {
       add_recurring_credits: [
         {
           access_amount: {
-            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             unit_price: 0,
+            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             quantity: 0,
           },
           commit_duration: { value: 0, unit: 'PERIODS' },
@@ -743,6 +743,7 @@ describe('resource contracts', () => {
         {
           subscription_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           ending_before: '2019-12-27T18:11:19.117Z',
+          name: 'name',
           proration_rounding: { decimal_places: -5, rounding_method: 'HALF_UP' },
           quantity_management_mode_update: {
             quantity_management_mode: 'SEAT_BASED',

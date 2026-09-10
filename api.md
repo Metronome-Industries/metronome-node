@@ -151,11 +151,15 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/v1/pricing-units.ts">PricingUnitCreateResponse</a></code>
 - <code><a href="./src/resources/v1/pricing-units.ts">PricingUnitListResponse</a></code>
+- <code><a href="./src/resources/v1/pricing-units.ts">PricingUnitArchiveResponse</a></code>
 
 Methods:
 
+- <code title="post /v1/credit-types/create">client.v1.pricingUnits.<a href="./src/resources/v1/pricing-units.ts">create</a>({ ...params }) -> PricingUnitCreateResponse</code>
 - <code title="get /v1/credit-types/list">client.v1.pricingUnits.<a href="./src/resources/v1/pricing-units.ts">list</a>({ ...params }) -> PricingUnitListResponsesCursorPage</code>
+- <code title="post /v1/credit-types/archive">client.v1.pricingUnits.<a href="./src/resources/v1/pricing-units.ts">archive</a>({ ...params }) -> PricingUnitArchiveResponse</code>
 
 ## Customers
 
@@ -340,6 +344,7 @@ Types:
 
 - <code><a href="./src/resources/v1/billable-metrics.ts">BillableMetricCreateResponse</a></code>
 - <code><a href="./src/resources/v1/billable-metrics.ts">BillableMetricRetrieveResponse</a></code>
+- <code><a href="./src/resources/v1/billable-metrics.ts">BillableMetricUpdateResponse</a></code>
 - <code><a href="./src/resources/v1/billable-metrics.ts">BillableMetricListResponse</a></code>
 - <code><a href="./src/resources/v1/billable-metrics.ts">BillableMetricArchiveResponse</a></code>
 
@@ -347,6 +352,7 @@ Methods:
 
 - <code title="post /v1/billable-metrics/create">client.v1.billableMetrics.<a href="./src/resources/v1/billable-metrics.ts">create</a>({ ...params }) -> BillableMetricCreateResponse</code>
 - <code title="get /v1/billable-metrics/{billable_metric_id}">client.v1.billableMetrics.<a href="./src/resources/v1/billable-metrics.ts">retrieve</a>({ ...params }) -> BillableMetricRetrieveResponse</code>
+- <code title="put /v1/billable-metrics/{billable_metric_id}">client.v1.billableMetrics.<a href="./src/resources/v1/billable-metrics.ts">update</a>({ ...params }) -> BillableMetricUpdateResponse</code>
 - <code title="get /v1/billable-metrics">client.v1.billableMetrics.<a href="./src/resources/v1/billable-metrics.ts">list</a>({ ...params }) -> BillableMetricListResponsesCursorPage</code>
 - <code title="post /v1/billable-metrics/archive">client.v1.billableMetrics.<a href="./src/resources/v1/billable-metrics.ts">archive</a>({ ...params }) -> BillableMetricArchiveResponse</code>
 

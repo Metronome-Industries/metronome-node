@@ -17,10 +17,12 @@ export {
   BillableMetrics,
   type BillableMetricCreateResponse,
   type BillableMetricRetrieveResponse,
+  type BillableMetricUpdateResponse,
   type BillableMetricListResponse,
   type BillableMetricArchiveResponse,
   type BillableMetricCreateParams,
   type BillableMetricRetrieveParams,
+  type BillableMetricUpdateParams,
   type BillableMetricListParams,
   type BillableMetricArchiveParams,
   type BillableMetricListResponsesCursorPage,
@@ -162,8 +164,12 @@ export {
 } from './plans';
 export {
   PricingUnits,
+  type PricingUnitCreateResponse,
   type PricingUnitListResponse,
+  type PricingUnitArchiveResponse,
+  type PricingUnitCreateParams,
   type PricingUnitListParams,
+  type PricingUnitArchiveParams,
   type PricingUnitListResponsesCursorPage,
 } from './pricing-units';
 export { Services, type ServiceListResponse } from './services';

@@ -1768,6 +1768,11 @@ export namespace ContractV2 {
     access_amount: RecurringCommit.AccessAmount;
 
     /**
+     * The date this recurring commit's billing periods are anchored to.
+     */
+    anchor_date: string;
+
+    /**
      * The amount of time the created commits will be valid for
      */
     commit_duration: RecurringCommit.CommitDuration;
@@ -1955,6 +1960,11 @@ export namespace ContractV2 {
      * The amount of commit to grant.
      */
     access_amount: RecurringCredit.AccessAmount;
+
+    /**
+     * The date this recurring commit's billing periods are anchored to.
+     */
+    anchor_date: string;
 
     /**
      * The amount of time the created commits will be valid for
@@ -2282,6 +2292,13 @@ export namespace ContractV2 {
 
     name?: string;
 
+    /**
+     * Custom fields from the subscription product referenced by
+     * `subscription_rate.product`. These are distinct from the subscription instance's
+     * `custom_fields`.
+     */
+    product_custom_fields?: { [key: string]: string };
+
     seat_config?: Subscription.SeatConfig;
   }
 
@@ -2502,6 +2519,11 @@ export namespace ContractWithoutAmendments {
     access_amount: RecurringCommit.AccessAmount;
 
     /**
+     * The date this recurring commit's billing periods are anchored to.
+     */
+    anchor_date: string;
+
+    /**
      * The amount of time the created commits will be valid for
      */
     commit_duration: RecurringCommit.CommitDuration;
@@ -2691,6 +2713,11 @@ export namespace ContractWithoutAmendments {
      * The amount of commit to grant.
      */
     access_amount: RecurringCredit.AccessAmount;
+
+    /**
+     * The date this recurring commit's billing periods are anchored to.
+     */
+    anchor_date: string;
 
     /**
      * The amount of time the created commits will be valid for
@@ -4228,6 +4255,13 @@ export interface Subscription {
   fiat_credit_type_id?: string;
 
   name?: string;
+
+  /**
+   * Custom fields from the subscription product referenced by
+   * `subscription_rate.product`. These are distinct from the subscription instance's
+   * `custom_fields`.
+   */
+  product_custom_fields?: { [key: string]: string };
 
   seat_config?: Subscription.SeatConfig;
 }

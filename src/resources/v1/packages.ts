@@ -2766,9 +2766,12 @@ export namespace PackageCreateParams {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
-      credit_type_id: string;
-
       unit_price: number;
+
+      /**
+       * Defaults to USD (cents) if not passed
+       */
+      credit_type_id?: string;
 
       /**
        * This field is required unless a subscription is attached via
@@ -2992,9 +2995,12 @@ export namespace PackageCreateParams {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
-      credit_type_id: string;
-
       unit_price: number;
+
+      /**
+       * Defaults to USD (cents) if not passed
+       */
+      credit_type_id?: string;
 
       /**
        * This field is required unless a subscription is attached via

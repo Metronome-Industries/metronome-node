@@ -15,6 +15,7 @@ on:
 jobs:
   publish:
     name: publish
+    if: github.repository == 'Metronome-Industries/metronome-node'
     runs-on: ubuntu-latest
     permissions:
       contents: write
