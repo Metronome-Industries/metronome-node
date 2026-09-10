@@ -1484,6 +1484,12 @@ export namespace ContractListSeatBalancesResponse {
       start_date: string;
 
       /**
+       * The credit type for this commit. Quantity-based commits return the null credit
+       * type UUID.
+       */
+      credit_type_id?: string;
+
+      /**
        * The datetime when the commit expires
        */
       end_date?: string | null;
@@ -1537,6 +1543,12 @@ export namespace ContractListSeatBalancesResponse {
        * The datetime when the credit becomes active
        */
       start_date: string;
+
+      /**
+       * The credit type for this credit. Quantity-based credits return the null credit
+       * type UUID.
+       */
+      credit_type_id?: string;
 
       /**
        * The datetime when the credit expires
@@ -2693,9 +2705,12 @@ export namespace ContractCreateParams {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
-      credit_type_id: string;
-
       unit_price: number;
+
+      /**
+       * Defaults to USD (cents) if not passed
+       */
+      credit_type_id?: string;
 
       /**
        * This field is required unless a subscription is attached via
@@ -2907,9 +2922,12 @@ export namespace ContractCreateParams {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
-      credit_type_id: string;
-
       unit_price: number;
+
+      /**
+       * Defaults to USD (cents) if not passed
+       */
+      credit_type_id?: string;
 
       /**
        * This field is required unless a subscription is attached via

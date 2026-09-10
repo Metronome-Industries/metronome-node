@@ -313,8 +313,8 @@ describe('resource contracts', () => {
       add_recurring_commits: [
         {
           access_amount: {
-            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             unit_price: 0,
+            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             quantity: 0,
           },
           commit_duration: { value: 0, unit: 'PERIODS' },
@@ -360,8 +360,8 @@ describe('resource contracts', () => {
       add_recurring_credits: [
         {
           access_amount: {
-            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             unit_price: 0,
+            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             quantity: 0,
           },
           commit_duration: { value: 0, unit: 'PERIODS' },

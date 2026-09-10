@@ -151,14 +151,9 @@ export namespace BillingConfigRetrieveResponse {
     billing_provider_customer_id?: string;
 
     /**
-     * The collection method for the customer's invoices. NOTE:
-     * `auto_charge_payment_intent` and `manually_charge_payment_intent` are in beta.
+     * The collection method for the customer's invoices.
      */
-    stripe_collection_method?:
-      | 'charge_automatically'
-      | 'send_invoice'
-      | 'auto_charge_payment_intent'
-      | 'manually_charge_payment_intent';
+    stripe_collection_method?: 'charge_automatically' | 'send_invoice';
   }
 }
 
@@ -234,14 +229,9 @@ export interface BillingConfigCreateParams {
     | 'us-west-2';
 
   /**
-   * Body param: The collection method for the customer's invoices. NOTE:
-   * `auto_charge_payment_intent` and `manually_charge_payment_intent` are in beta.
+   * Body param: The collection method for the customer's invoices.
    */
-  stripe_collection_method?:
-    | 'charge_automatically'
-    | 'send_invoice'
-    | 'auto_charge_payment_intent'
-    | 'manually_charge_payment_intent';
+  stripe_collection_method?: 'charge_automatically' | 'send_invoice';
 }
 
 export interface BillingConfigRetrieveParams {
