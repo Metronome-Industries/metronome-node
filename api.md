@@ -46,7 +46,6 @@ Types:
 Types:
 
 - <code><a href="./src/resources/v2/contracts.ts">ContractRetrieveResponse</a></code>
-- <code><a href="./src/resources/v2/contracts.ts">ContractListResponse</a></code>
 - <code><a href="./src/resources/v2/contracts.ts">ContractEditResponse</a></code>
 - <code><a href="./src/resources/v2/contracts.ts">ContractEditCommitResponse</a></code>
 - <code><a href="./src/resources/v2/contracts.ts">ContractEditCreditResponse</a></code>
@@ -55,7 +54,7 @@ Types:
 Methods:
 
 - <code title="post /v2/contracts/get">client.v2.contracts.<a href="./src/resources/v2/contracts.ts">retrieve</a>({ ...params }) -> ContractRetrieveResponse</code>
-- <code title="post /v2/contracts/list">client.v2.contracts.<a href="./src/resources/v2/contracts.ts">list</a>({ ...params }) -> ContractListResponse</code>
+- <code title="post /v2/contracts/list">client.v2.contracts.<a href="./src/resources/v2/contracts.ts">list</a>({ ...params }) -> ContractV2sBodyCursorPageCursorField</code>
 - <code title="post /v2/contracts/edit">client.v2.contracts.<a href="./src/resources/v2/contracts.ts">edit</a>({ ...params }) -> ContractEditResponse</code>
 - <code title="post /v2/contracts/commits/edit">client.v2.contracts.<a href="./src/resources/v2/contracts.ts">editCommit</a>({ ...params }) -> ContractEditCommitResponse</code>
 - <code title="post /v2/contracts/credits/edit">client.v2.contracts.<a href="./src/resources/v2/contracts.ts">editCredit</a>({ ...params }) -> ContractEditCreditResponse</code>
@@ -384,7 +383,6 @@ Types:
 
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractCreateResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractRetrieveResponse</a></code>
-- <code><a href="./src/resources/v1/contracts/contracts.ts">ContractListResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractAmendResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractArchiveResponse</a></code>
 - <code><a href="./src/resources/v1/contracts/contracts.ts">ContractCreateHistoricalInvoicesResponse</a></code>
@@ -401,7 +399,7 @@ Methods:
 
 - <code title="post /v1/contracts/create">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">create</a>({ ...params }) -> ContractCreateResponse</code>
 - <code title="post /v1/contracts/get">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">retrieve</a>({ ...params }) -> ContractRetrieveResponse</code>
-- <code title="post /v1/contracts/list">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">list</a>({ ...params }) -> ContractListResponse</code>
+- <code title="post /v1/contracts/list">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">list</a>({ ...params }) -> ContractsBodyCursorPageCursorField</code>
 - <code title="post /v1/contracts/addManualBalanceLedgerEntry">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">addManualBalanceEntry</a>({ ...params }) -> void</code>
 - <code title="post /v1/contracts/amend">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">amend</a>({ ...params }) -> ContractAmendResponse</code>
 - <code title="post /v1/contracts/archive">client.v1.contracts.<a href="./src/resources/v1/contracts/contracts.ts">archive</a>({ ...params }) -> ContractArchiveResponse</code>

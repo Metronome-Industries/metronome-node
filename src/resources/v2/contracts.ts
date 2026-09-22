@@ -2,7 +2,13 @@
 
 import { APIResource } from '../../core/resource';
 import * as Shared from '../shared';
+import { ContractV2sBodyCursorPageCursorField } from '../shared';
 import { APIPromise } from '../../core/api-promise';
+import {
+  BodyCursorPageCursorField,
+  type BodyCursorPageCursorFieldParams,
+  PagePromise,
+} from '../../core/pagination';
 import { RequestOptions } from '../../internal/request-options';
 
 export class Contracts extends APIResource {
@@ -38,7 +44,7 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * For a given customer, lists all of their contracts in chronological order.
+   * For a given customer, lists a page of their contracts in chronological order.
    *
    * ### Use this endpoint to:
    *
@@ -54,15 +60,29 @@ export class Contracts extends APIResource {
    * filter the list of returned contracts. For example, to list only currently
    * active contracts, pass `covering_date` equal to the current time.
    *
+   * Results are limited to 20 contracts per page. When the response includes a
+   * non-null `cursor`, pass it back as the `cursor` parameter to fetch the next
+   * page.
+   *
    * @example
    * ```ts
-   * const contracts = await client.v2.contracts.list({
+   * // Automatically fetches more pages as needed.
+   * for await (const contractV2 of client.v2.contracts.list({
    *   customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
-   * });
+   * })) {
+   *   // ...
+   * }
    * ```
    */
-  list(body: ContractListParams, options?: RequestOptions): APIPromise<ContractListResponse> {
-    return this._client.post('/v2/contracts/list', { body, ...options });
+  list(
+    body: ContractListParams,
+    options?: RequestOptions,
+  ): PagePromise<ContractV2sBodyCursorPageCursorField, Shared.ContractV2> {
+    return this._client.getAPIList('/v2/contracts/list', BodyCursorPageCursorField<Shared.ContractV2>, {
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -241,10 +261,6 @@ export class Contracts extends APIResource {
 
 export interface ContractRetrieveResponse {
   data: Shared.ContractV2;
-}
-
-export interface ContractListResponse {
-  data: Array<Shared.ContractV2>;
 }
 
 export interface ContractEditResponse {
@@ -3849,7 +3865,7 @@ export interface ContractRetrieveParams {
   include_ledgers?: boolean;
 }
 
-export interface ContractListParams {
+export interface ContractListParams extends BodyCursorPageCursorFieldParams {
   customer_id: string;
 
   /**
@@ -6601,7 +6617,6 @@ export interface ContractGetEditHistoryParams {
 export declare namespace Contracts {
   export {
     type ContractRetrieveResponse as ContractRetrieveResponse,
-    type ContractListResponse as ContractListResponse,
     type ContractEditResponse as ContractEditResponse,
     type ContractEditCommitResponse as ContractEditCommitResponse,
     type ContractEditCreditResponse as ContractEditCreditResponse,
@@ -6614,3 +6629,5 @@ export declare namespace Contracts {
     type ContractGetEditHistoryParams as ContractGetEditHistoryParams,
   };
 }
+
+export { type ContractV2sBodyCursorPageCursorField };

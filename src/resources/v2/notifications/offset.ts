@@ -94,7 +94,7 @@ export class Offset extends APIResource {
   }
 
   /**
-   * Edit an existing offset lifecycle event notification configuration.
+   * Edit an existing offset notification, or enable/disable a system notification
    *
    * @example
    * ```ts

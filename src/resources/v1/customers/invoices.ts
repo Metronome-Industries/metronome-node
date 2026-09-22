@@ -425,8 +425,8 @@ export namespace Invoice {
 
     /**
      * Details about the credit or commit that was applied to this line item. Only
-     * present on line items with product of `USAGE`, `SUBSCRIPTION` or `COMPOSITE`
-     * types.
+     * present on line items with product of `USAGE`, `SUBSCRIPTION`, `COMPOSITE`, or
+     * `CPU_CONVERSION` types.
      */
     applied_commit_or_credit?: LineItem.AppliedCommitOrCredit;
 
@@ -436,10 +436,10 @@ export namespace Invoice {
     commit_custom_fields?: { [key: string]: string };
 
     /**
-     * For line items with product of `USAGE`, `SUBSCRIPTION`, or `COMPOSITE` types,
-     * the ID of the credit or commit that was applied to this line item. For line
-     * items with product type of `FIXED`, the ID of the prepaid or postpaid commit
-     * that is being paid for.
+     * For line items with product of `USAGE`, `SUBSCRIPTION`, `COMPOSITE`, or
+     * `CPU_CONVERSION` types, the ID of the credit or commit that was applied to this
+     * line item. For line items with product type of `FIXED`, the ID of the prepaid or
+     * postpaid commit that is being paid for.
      */
     commit_id?: string;
 
@@ -615,8 +615,8 @@ export namespace Invoice {
   export namespace LineItem {
     /**
      * Details about the credit or commit that was applied to this line item. Only
-     * present on line items with product of `USAGE`, `SUBSCRIPTION` or `COMPOSITE`
-     * types.
+     * present on line items with product of `USAGE`, `SUBSCRIPTION`, `COMPOSITE`, or
+     * `CPU_CONVERSION` types.
      */
     export interface AppliedCommitOrCredit {
       id: string;

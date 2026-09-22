@@ -4,7 +4,6 @@ export {
   Contracts,
   type ContractCreateResponse,
   type ContractRetrieveResponse,
-  type ContractListResponse,
   type ContractAmendResponse,
   type ContractArchiveResponse,
   type ContractCreateHistoricalInvoicesResponse,

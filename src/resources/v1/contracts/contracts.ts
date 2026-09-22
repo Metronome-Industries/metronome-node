@@ -2,6 +2,7 @@
 
 import { APIResource } from '../../../core/resource';
 import * as Shared from '../../shared';
+import { ContractsBodyCursorPageCursorField } from '../../shared';
 import * as NamedSchedulesAPI from './named-schedules';
 import {
   NamedScheduleRetrieveParams,
@@ -46,7 +47,13 @@ import {
   RateCards,
 } from './rate-cards/rate-cards';
 import { APIPromise } from '../../../core/api-promise';
-import { BodyCursorPage, type BodyCursorPageParams, PagePromise } from '../../../core/pagination';
+import {
+  BodyCursorPage,
+  BodyCursorPageCursorField,
+  type BodyCursorPageCursorFieldParams,
+  type BodyCursorPageParams,
+  PagePromise,
+} from '../../../core/pagination';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
@@ -214,23 +221,38 @@ export class Contracts extends APIResource {
   }
 
   /**
-   * Retrieves all contracts for a specific customer, including pricing, terms,
+   * Retrieves a page of contracts for a specific customer, including pricing, terms,
    * credits, and commitments. Use this to view a customer's contract history and
    * current agreements for billing management. Returns contract details with
    * optional ledgers and balance information.
+   *
+   * ### Usage guidelines:
+   *
+   * - Pagination: Results are limited to 20 contracts per page; use 'cursor' for
+   *   more
    *
    * ⚠️ Note: This is the legacy v1 endpoint - new integrations should use the v2
    * endpoint for enhanced features.
    *
    * @example
    * ```ts
-   * const contracts = await client.v1.contracts.list({
+   * // Automatically fetches more pages as needed.
+   * for await (const contract of client.v1.contracts.list({
    *   customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
-   * });
+   * })) {
+   *   // ...
+   * }
    * ```
    */
-  list(body: ContractListParams, options?: RequestOptions): APIPromise<ContractListResponse> {
-    return this._client.post('/v1/contracts/list', { body, ...options });
+  list(
+    body: ContractListParams,
+    options?: RequestOptions,
+  ): PagePromise<ContractsBodyCursorPageCursorField, Shared.Contract> {
+    return this._client.getAPIList('/v1/contracts/list', BodyCursorPageCursorField<Shared.Contract>, {
+      body,
+      method: 'post',
+      ...options,
+    });
   }
 
   /**
@@ -1351,10 +1373,6 @@ export namespace ContractCreateResponse {
 
 export interface ContractRetrieveResponse {
   data: Shared.Contract;
-}
-
-export interface ContractListResponse {
-  data: Array<Shared.Contract>;
 }
 
 export interface ContractAmendResponse {
@@ -3424,7 +3442,7 @@ export interface ContractRetrieveParams {
   include_ledgers?: boolean;
 }
 
-export interface ContractListParams {
+export interface ContractListParams extends BodyCursorPageCursorFieldParams {
   customer_id: string;
 
   /**
@@ -3453,7 +3471,7 @@ export interface ContractListParams {
 
   /**
    * Optional RFC 3339 timestamp. If provided, the response will include only
-   * contracts where effective_at is on or after the provided date. This cannot be
+   * contracts where starting_at is on or after the provided date. This cannot be
    * provided if the covering_date filter is provided.
    */
   starting_at?: string;
@@ -4882,7 +4900,6 @@ export declare namespace Contracts {
   export {
     type ContractCreateResponse as ContractCreateResponse,
     type ContractRetrieveResponse as ContractRetrieveResponse,
-    type ContractListResponse as ContractListResponse,
     type ContractAmendResponse as ContractAmendResponse,
     type ContractArchiveResponse as ContractArchiveResponse,
     type ContractCreateHistoricalInvoicesResponse as ContractCreateHistoricalInvoicesResponse,
@@ -4955,3 +4972,5 @@ export declare namespace Contracts {
     type NamedScheduleUpdateParams as NamedScheduleUpdateParams,
   };
 }
+
+export { type ContractsBodyCursorPageCursorField };

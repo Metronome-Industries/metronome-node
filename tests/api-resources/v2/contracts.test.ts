@@ -47,9 +47,11 @@ describe('resource contracts', () => {
     const response = await client.v2.contracts.list({
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
       covering_date: '2019-12-27T18:11:19.117Z',
+      cursor: 'cursor',
       include_archived: true,
       include_balance: true,
       include_ledgers: true,
+      limit: 1,
       starting_at: '2019-12-27T18:11:19.117Z',
     });
   });

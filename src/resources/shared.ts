@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import * as Shared from './shared';
-import { BodyCursorPage } from '../core/pagination';
+import { BodyCursorPage, BodyCursorPageCursorField } from '../core/pagination';
 
 export interface BalanceFilter {
   /**
@@ -4397,6 +4397,10 @@ export interface UpdateBaseThresholdCommit {
   product_id?: string;
 }
 
+export type ContractV2sBodyCursorPageCursorField = BodyCursorPageCursorField<ContractV2>;
+
 export type CommitsBodyCursorPage = BodyCursorPage<Commit>;
 
 export type CreditsBodyCursorPage = BodyCursorPage<Credit>;
+
+export type ContractsBodyCursorPageCursorField = BodyCursorPageCursorField<Contract>;
