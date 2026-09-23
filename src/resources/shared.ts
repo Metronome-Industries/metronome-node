@@ -2985,6 +2985,15 @@ export interface Credit {
   contract?: Credit.Contract;
 
   /**
+   * Timestamp of when the credit was created.
+   *
+   * - Recurring credit: latter of credit service period date and parent credit start
+   *   date
+   * - Rollover credit: when the new contract started
+   */
+  created_at?: string;
+
+  /**
    * The actor who created this credit. Omitted for system-generated credits such as
    * recurring credits.
    */
