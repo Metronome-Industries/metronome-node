@@ -1129,9 +1129,19 @@ export namespace ContractCreateResponse {
          * The amount of commit to grant.
          */
         export interface AccessAmount {
+          /**
+           * This ID identifies the credit type for the access amount. Quantity-based
+           * recurring commits and credits return the null credit type UUID.
+           */
           credit_type_id: string;
 
           unit_price: number;
+
+          /**
+           * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+           * dollar cost of usage. `QUANTITY` deducts the number of units used.
+           */
+          access_type?: 'SPEND' | 'QUANTITY';
 
           quantity?: number;
         }
@@ -1320,9 +1330,19 @@ export namespace ContractCreateResponse {
          * The amount of commit to grant.
          */
         export interface AccessAmount {
+          /**
+           * This ID identifies the credit type for the access amount. Quantity-based
+           * recurring commits and credits return the null credit type UUID.
+           */
           credit_type_id: string;
 
           unit_price: number;
+
+          /**
+           * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+           * dollar cost of usage. `QUANTITY` deducts the number of units used.
+           */
+          access_type?: 'SPEND' | 'QUANTITY';
 
           quantity?: number;
         }
@@ -1400,8 +1420,9 @@ export namespace ContractGetNetBalanceResponse {
     balance: number;
 
     /**
-     * The ID of the credit type (can be fiat or a custom pricing unit) that the
-     * balance is for.
+     * This ID identifies the credit type for the balance. The credit type can be fiat
+     * or a custom pricing unit. Quantity-based balances return the null credit type
+     * UUID.
      */
     credit_type_id: string;
   }
@@ -1476,6 +1497,10 @@ export namespace ContractListSeatBalancesResponse {
        */
       balance: number;
 
+      /**
+       * This ID identifies the credit type for the balance. Quantity-based balances
+       * return the null credit type UUID.
+       */
       credit_type_id: string;
 
       /**
@@ -1483,6 +1508,12 @@ export namespace ContractListSeatBalancesResponse {
        * credit type.
        */
       starting_balance: number;
+
+      /**
+       * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
     }
 
     export interface Commit {
@@ -1500,6 +1531,12 @@ export namespace ContractListSeatBalancesResponse {
        * The datetime when the commit becomes active
        */
       start_date: string;
+
+      /**
+       * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       /**
        * The credit type for this commit. Quantity-based commits return the null credit
@@ -1561,6 +1598,12 @@ export namespace ContractListSeatBalancesResponse {
        * The datetime when the credit becomes active
        */
       start_date: string;
+
+      /**
+       * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       /**
        * The credit type for this credit. Quantity-based credits return the null credit
@@ -1987,6 +2030,13 @@ export namespace ContractCreateParams {
       schedule_items: Array<AccessSchedule.ScheduleItem>;
 
       /**
+       * Determines how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used. Defaults to `SPEND` if
+       * omitted.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
+
+      /**
        * Defaults to USD (cents) if not passed
        */
       credit_type_id?: string;
@@ -2196,6 +2246,13 @@ export namespace ContractCreateParams {
      */
     export interface AccessSchedule {
       schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+      /**
+       * Determines how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used. Defaults to `SPEND` if
+       * omitted.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       /**
        * Defaults to USD (cents) if not passed
@@ -2726,6 +2783,12 @@ export namespace ContractCreateParams {
       unit_price: number;
 
       /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
+
+      /**
        * Defaults to USD (cents) if not passed
        */
       credit_type_id?: string;
@@ -2941,6 +3004,12 @@ export namespace ContractCreateParams {
      */
     export interface AccessAmount {
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       /**
        * Defaults to USD (cents) if not passed
@@ -3696,6 +3765,13 @@ export namespace ContractAmendParams {
       schedule_items: Array<AccessSchedule.ScheduleItem>;
 
       /**
+       * Determines how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used. Defaults to `SPEND` if
+       * omitted.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
+
+      /**
        * Defaults to USD (cents) if not passed
        */
       credit_type_id?: string;
@@ -3905,6 +3981,13 @@ export namespace ContractAmendParams {
      */
     export interface AccessSchedule {
       schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+      /**
+       * Determines how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used. Defaults to `SPEND` if
+       * omitted.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       /**
        * Defaults to USD (cents) if not passed
@@ -4524,6 +4607,12 @@ export interface ContractGetNetBalanceParams {
   customer_id: string;
 
   /**
+   * Filters balances by how they are drawn down. Defaults to `SPEND`. If set to
+   * `QUANTITY`, `credit_type_id` must not be provided.
+   */
+  access_type?: 'SPEND' | 'QUANTITY';
+
+  /**
    * The ID of the credit type (can be fiat or a custom pricing unit) to get the
    * balance for. Defaults to USD (cents) if not specified.
    */
@@ -4587,6 +4676,12 @@ export interface ContractListBalancesParams extends BodyCursorPageParams {
   customer_id: string;
 
   id?: string;
+
+  /**
+   * Filters balances by how they are drawn down. `SPEND` deducts the dollar cost of
+   * usage. `QUANTITY` deducts the number of units used.
+   */
+  access_type?: 'SPEND' | 'QUANTITY';
 
   /**
    * Return only balances that have access schedules that "cover" the provided date

@@ -622,6 +622,12 @@ export namespace Invoice {
       id: string;
 
       type: 'PREPAID' | 'POSTPAID' | 'CREDIT';
+
+      /**
+       * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
     }
 
     /**
@@ -1031,6 +1037,12 @@ export interface InvoiceListParams extends CursorPageParams {
    * billing periods that end before this time.
    */
   ending_before?: string;
+
+  /**
+   * Query param: When true, includes retired commit invoices alongside active
+   * invoices. Defaults to false.
+   */
+  include_retired_commit_invoices?: boolean;
 
   /**
    * Query param: If set, all zero quantity line items will be filtered out of the

@@ -43,6 +43,7 @@ describe('resource contracts', () => {
                 starting_at: '2019-12-27T18:11:19.117Z',
               },
             ],
+            access_type: 'SPEND',
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           },
           amount: 0,
@@ -99,6 +100,7 @@ describe('resource contracts', () => {
                 starting_at: '2019-12-27T18:11:19.117Z',
               },
             ],
+            access_type: 'SPEND',
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           },
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -274,6 +276,7 @@ describe('resource contracts', () => {
         {
           access_amount: {
             unit_price: 0,
+            access_type: 'SPEND',
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             quantity: 0,
           },
@@ -321,6 +324,7 @@ describe('resource contracts', () => {
         {
           access_amount: {
             unit_price: 0,
+            access_type: 'SPEND',
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             quantity: 0,
           },
@@ -609,6 +613,7 @@ describe('resource contracts', () => {
                 starting_at: '2019-12-27T18:11:19.117Z',
               },
             ],
+            access_type: 'SPEND',
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           },
           amount: 0,
@@ -665,6 +670,7 @@ describe('resource contracts', () => {
                 starting_at: '2019-12-27T18:11:19.117Z',
               },
             ],
+            access_type: 'SPEND',
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           },
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -923,6 +929,7 @@ describe('resource contracts', () => {
   test('getNetBalance: required and optional params', async () => {
     const response = await client.v1.contracts.getNetBalance({
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      access_type: 'SPEND',
       credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
       filters: [
         {
@@ -985,6 +992,7 @@ describe('resource contracts', () => {
     const response = await client.v1.contracts.listBalances({
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
       id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
+      access_type: 'SPEND',
       covering_date: '2019-12-27T18:11:19.117Z',
       effective_before: '2019-12-27T18:11:19.117Z',
       exclude_zero_balances: true,

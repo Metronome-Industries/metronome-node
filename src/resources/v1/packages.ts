@@ -335,6 +335,12 @@ export namespace PackageRetrieveResponse {
         credit_type: Shared.CreditTypeData;
 
         schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+        /**
+         * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+         * usage. `QUANTITY` deducts the number of units used.
+         */
+        access_type?: 'SPEND' | 'QUANTITY';
       }
 
       export namespace AccessSchedule {
@@ -574,6 +580,12 @@ export namespace PackageRetrieveResponse {
         credit_type: Shared.CreditTypeData;
 
         schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+        /**
+         * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+         * usage. `QUANTITY` deducts the number of units used.
+         */
+        access_type?: 'SPEND' | 'QUANTITY';
       }
 
       export namespace AccessSchedule {
@@ -708,9 +720,19 @@ export namespace PackageRetrieveResponse {
        * The amount of commit to grant.
        */
       export interface AccessAmount {
+        /**
+         * This ID identifies the credit type for the access amount. Quantity-based
+         * recurring commits and credits return the null credit type UUID.
+         */
         credit_type_id: string;
 
         unit_price: number;
+
+        /**
+         * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+         * dollar cost of usage. `QUANTITY` deducts the number of units used.
+         */
+        access_type?: 'SPEND' | 'QUANTITY';
 
         quantity?: number;
       }
@@ -911,9 +933,19 @@ export namespace PackageRetrieveResponse {
        * The amount of commit to grant.
        */
       export interface AccessAmount {
+        /**
+         * This ID identifies the credit type for the access amount. Quantity-based
+         * recurring commits and credits return the null credit type UUID.
+         */
         credit_type_id: string;
 
         unit_price: number;
+
+        /**
+         * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+         * dollar cost of usage. `QUANTITY` deducts the number of units used.
+         */
+        access_type?: 'SPEND' | 'QUANTITY';
 
         quantity?: number;
       }
@@ -1279,6 +1311,12 @@ export namespace PackageListResponse {
       credit_type: Shared.CreditTypeData;
 
       schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+      /**
+       * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
     }
 
     export namespace AccessSchedule {
@@ -1518,6 +1556,12 @@ export namespace PackageListResponse {
       credit_type: Shared.CreditTypeData;
 
       schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+      /**
+       * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
     }
 
     export namespace AccessSchedule {
@@ -1652,9 +1696,19 @@ export namespace PackageListResponse {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
+      /**
+       * This ID identifies the credit type for the access amount. Quantity-based
+       * recurring commits and credits return the null credit type UUID.
+       */
       credit_type_id: string;
 
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       quantity?: number;
     }
@@ -1855,9 +1909,19 @@ export namespace PackageListResponse {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
+      /**
+       * This ID identifies the credit type for the access amount. Quantity-based
+       * recurring commits and credits return the null credit type UUID.
+       */
       credit_type_id: string;
 
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       quantity?: number;
     }
@@ -2260,6 +2324,13 @@ export namespace PackageCreateParams {
       schedule_items: Array<AccessSchedule.ScheduleItem>;
 
       /**
+       * Determines how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used. Defaults to `SPEND` if
+       * omitted.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
+
+      /**
        * Defaults to USD (cents) if not passed
        */
       credit_type_id?: string;
@@ -2417,6 +2488,13 @@ export namespace PackageCreateParams {
      */
     export interface AccessSchedule {
       schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+      /**
+       * Determines how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used. Defaults to `SPEND` if
+       * omitted.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       /**
        * Defaults to USD (cents) if not passed
@@ -2769,6 +2847,12 @@ export namespace PackageCreateParams {
       unit_price: number;
 
       /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
+
+      /**
        * Defaults to USD (cents) if not passed
        */
       credit_type_id?: string;
@@ -2996,6 +3080,12 @@ export namespace PackageCreateParams {
      */
     export interface AccessAmount {
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       /**
        * Defaults to USD (cents) if not passed

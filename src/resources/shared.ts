@@ -1882,9 +1882,19 @@ export namespace ContractV2 {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
+      /**
+       * This ID identifies the credit type for the access amount. Quantity-based
+       * recurring commits and credits return the null credit type UUID.
+       */
       credit_type_id: string;
 
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       quantity?: number;
     }
@@ -2071,9 +2081,19 @@ export namespace ContractV2 {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
+      /**
+       * This ID identifies the credit type for the access amount. Quantity-based
+       * recurring commits and credits return the null credit type UUID.
+       */
       credit_type_id: string;
 
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       quantity?: number;
     }
@@ -2633,9 +2653,19 @@ export namespace ContractWithoutAmendments {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
+      /**
+       * This ID identifies the credit type for the access amount. Quantity-based
+       * recurring commits and credits return the null credit type UUID.
+       */
       credit_type_id: string;
 
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       quantity?: number;
     }
@@ -2824,9 +2854,19 @@ export namespace ContractWithoutAmendments {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
+      /**
+       * This ID identifies the credit type for the access amount. Quantity-based
+       * recurring commits and credits return the null credit type UUID.
+       */
       credit_type_id: string;
 
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       quantity?: number;
     }
@@ -4059,6 +4099,12 @@ export namespace ScheduledCharge {
 
 export interface ScheduleDuration {
   schedule_items: Array<ScheduleDuration.ScheduleItem>;
+
+  /**
+   * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+   * usage. `QUANTITY` deducts the number of units used.
+   */
+  access_type?: 'SPEND' | 'QUANTITY';
 
   credit_type?: CreditTypeData;
 }
