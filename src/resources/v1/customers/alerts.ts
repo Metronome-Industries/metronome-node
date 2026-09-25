@@ -244,6 +244,7 @@ export namespace CustomerAlert {
       | 'low_remaining_contract_credit_balance_reached'
       | 'low_remaining_contract_credit_percentage_reached'
       | 'low_remaining_contract_credit_and_commit_balance_reached'
+      | 'low_remaining_contract_credit_and_commit_percentage_reached'
       | 'low_remaining_seat_balance_reached'
       | 'invoice_total_reached';
 
@@ -253,9 +254,23 @@ export namespace CustomerAlert {
     updated_at: string;
 
     /**
-     * Present for `low_remaining_contract_credit_and_commit_balance_reached`
-     * notifications. The filters that define the balances that are considered when
-     * evaluating the alert.
+     * Indicates the commit access type this notification is scoped to. Defaults to
+     * `SPEND` if not otherwise specified. Only present for
+     * `low_remaining_commit_balance_reached`,
+     * `low_remaining_commit_percentage_reached`,
+     * `low_remaining_contract_credit_and_commit_balance_reached`,
+     * `low_remaining_contract_credit_and_commit_percentage_reached`,
+     * `low_remaining_contract_credit_balance_reached`,
+     * `low_remaining_contract_credit_percentage_reached`, and
+     * `low_remaining_seat_balance_reached` notifications.
+     */
+    access_type?: 'SPEND' | 'QUANTITY';
+
+    /**
+     * Present for `low_remaining_contract_credit_and_commit_balance_reached` and
+     * `low_remaining_contract_credit_and_commit_percentage_reached` notifications. The
+     * filters that define the commits and credits used to calculate the remaining
+     * balance or percentage.
      */
     alert_specifiers?: Array<Alert.AlertSpecifier>;
 
@@ -408,8 +423,9 @@ export interface AlertRetrieveParams {
   customer_id: string;
 
   /**
-   * Can be used with only `low_remaining_contract_credit_and_commit_balance_reached`
-   * notifications. Used to filter the alert by the custom field key-value pair.
+   * Can be used only with `low_remaining_contract_credit_and_commit_balance_reached`
+   * and `low_remaining_contract_credit_and_commit_percentage_reached` notifications.
+   * Used to filter the alert by the custom field key-value pair.
    */
   alert_specifiers?: Array<AlertRetrieveParams.AlertSpecifier>;
 

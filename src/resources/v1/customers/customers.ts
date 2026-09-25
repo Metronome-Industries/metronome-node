@@ -972,14 +972,9 @@ export namespace CustomerCreateParams {
       | 'us-west-2';
 
     /**
-     * The collection method for the customer's invoices. NOTE:
-     * `auto_charge_payment_intent` and `manually_charge_payment_intent` are in beta.
+     * The collection method for the customer's invoices.
      */
-    stripe_collection_method?:
-      | 'charge_automatically'
-      | 'send_invoice'
-      | 'auto_charge_payment_intent'
-      | 'manually_charge_payment_intent';
+    stripe_collection_method?: 'charge_automatically' | 'send_invoice';
   }
 
   export interface CustomerBillingProviderConfiguration {
@@ -1011,8 +1006,7 @@ export namespace CustomerCreateParams {
     /**
      * Specifies which tax provider Metronome should use for tax calculation when
      * billing through Stripe. This is only supported for Stripe billing provider
-     * configurations with auto_charge_payment_intent or manual_charge_payment_intent
-     * collection methods.
+     * configurations.
      */
     tax_provider?: 'anrok' | 'avalara' | 'stripe';
   }
@@ -1224,8 +1218,7 @@ export namespace CustomerSetBillingConfigurationsParams {
     /**
      * Specifies which tax provider Metronome should use for tax calculation when
      * billing through Stripe. This is only supported for Stripe billing provider
-     * configurations with auto_charge_payment_intent or manual_charge_payment_intent
-     * collection methods.
+     * configurations.
      */
     tax_provider?: 'anrok' | 'avalara' | 'stripe';
   }

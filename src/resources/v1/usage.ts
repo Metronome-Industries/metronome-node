@@ -236,9 +236,11 @@ export class Usage extends APIResource {
    * - Time windows: Set `window_size` to hour, day, or none for different
    *   granularities
    * - Group filtering: Use `group_key` and `group_filters` to specify groups and
-   *   group filters
-   * - Limits: When using compound group keys (2+ keys in `group_key`), the default
-   *   and max limit is 100
+   *   group filters. Across all arrays in `group_filters`, include at most 200
+   *   filter values total. Requests with more than 200 filter values are rejected
+   *   when this limit is enforced
+   * - Response limit: When using compound group keys (2+ keys in `group_key`), the
+   *   default and maximum page size is 100
    * - Pagination: Use limit and `next_page` for large result sets
    * - Null handling: Group values may be null for events missing the group key
    *   property
@@ -491,12 +493,13 @@ export namespace UsageSearchResponse {
 
 export interface UsageListParams extends CursorPageWithoutLimitParams {
   /**
-   * Body param
+   * Body param: Must be aligned to UTC midnight and at least one day after
+   * `starting_on`.
    */
   ending_before: string;
 
   /**
-   * Body param
+   * Body param: Must be aligned to UTC midnight, e.g. `2024-01-01T00:00:00Z`.
    */
   starting_on: string;
 
@@ -586,13 +589,14 @@ export interface UsageListWithGroupsParams extends CursorPageParams {
 
   /**
    * Body param: If true, will return the usage for the current billing period. Will
-   * return an error if the customer is currently uncontracted or starting_on and
-   * ending_before are specified when this is true.
+   * return an error if the customer does not have an active plan, or if starting_on
+   * and ending_before are specified when this is true.
    */
   current_period?: boolean;
 
   /**
-   * Body param
+   * Body param: Must be aligned to UTC midnight and at least one day after
+   * `starting_on`.
    */
   ending_before?: string;
 
@@ -606,7 +610,8 @@ export interface UsageListWithGroupsParams extends CursorPageParams {
    * Body param: Object mapping group keys to arrays of values to filter on. Only
    * usage matching these filter values will be returned. Keys must be present in
    * group_key. Omit a key or use an empty array to include all values for that
-   * dimension.
+   * dimension. The combined number of entries across all value arrays may not
+   * exceed 200.
    */
   group_filters?: { [key: string]: Array<string> };
 
@@ -626,7 +631,7 @@ export interface UsageListWithGroupsParams extends CursorPageParams {
   group_key?: Array<string>;
 
   /**
-   * Body param
+   * Body param: Must be aligned to UTC midnight, e.g. `2024-01-01T00:00:00Z`.
    */
   starting_on?: string;
 }
@@ -643,8 +648,8 @@ export namespace UsageListWithGroupsParams {
     key: string;
 
     /**
-     * Values of the group_by key to return in the query. Omit this if you'd like all
-     * values for the key returned.
+     * Values of the group_by key to return in the query. Accepts at most 200 values.
+     * Omit this if you'd like all values for the key returned.
      */
     values?: Array<string>;
   }

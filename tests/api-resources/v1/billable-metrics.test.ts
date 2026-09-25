@@ -70,6 +70,27 @@ describe('resource billableMetrics', () => {
     });
   });
 
+  test('update: only required params', async () => {
+    const responsePromise = client.v1.billableMetrics.update({
+      billable_metric_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      name: 'CPU hours',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('update: required and optional params', async () => {
+    const response = await client.v1.billableMetrics.update({
+      billable_metric_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      name: 'CPU hours',
+    });
+  });
+
   test('list', async () => {
     const responsePromise = client.v1.billableMetrics.list();
     const rawResponse = await responsePromise.asResponse();

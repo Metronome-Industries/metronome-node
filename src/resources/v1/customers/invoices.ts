@@ -297,7 +297,8 @@ export interface Invoice {
   amendment_id?: string;
 
   /**
-   * This field's availability is dependent on your client's configuration.
+   * Indicates if the invoice has been or will be sent to the configured customer
+   * billing provider. Defaults to `billable`.
    */
   billable_status?: unknown;
 
@@ -424,8 +425,8 @@ export namespace Invoice {
 
     /**
      * Details about the credit or commit that was applied to this line item. Only
-     * present on line items with product of `USAGE`, `SUBSCRIPTION` or `COMPOSITE`
-     * types.
+     * present on line items with product of `USAGE`, `SUBSCRIPTION`, `COMPOSITE`, or
+     * `CPU_CONVERSION` types.
      */
     applied_commit_or_credit?: LineItem.AppliedCommitOrCredit;
 
@@ -435,10 +436,10 @@ export namespace Invoice {
     commit_custom_fields?: { [key: string]: string };
 
     /**
-     * For line items with product of `USAGE`, `SUBSCRIPTION`, or `COMPOSITE` types,
-     * the ID of the credit or commit that was applied to this line item. For line
-     * items with product type of `FIXED`, the ID of the prepaid or postpaid commit
-     * that is being paid for.
+     * For line items with product of `USAGE`, `SUBSCRIPTION`, `COMPOSITE`, or
+     * `CPU_CONVERSION` types, the ID of the credit or commit that was applied to this
+     * line item. For line items with product type of `FIXED`, the ID of the prepaid or
+     * postpaid commit that is being paid for.
      */
     commit_id?: string;
 
@@ -564,6 +565,12 @@ export namespace Invoice {
      */
     quantity?: number;
 
+    /**
+     * Present on applied commit line items for quantity-based commits. Represents the
+     * unit quantity deducted the commit.
+     */
+    quantity_consumed?: number;
+
     reseller_type?: 'AWS' | 'AWS_PRO_SERVICE' | 'GCP' | 'GCP_PRO_SERVICE';
 
     /**
@@ -608,13 +615,19 @@ export namespace Invoice {
   export namespace LineItem {
     /**
      * Details about the credit or commit that was applied to this line item. Only
-     * present on line items with product of `USAGE`, `SUBSCRIPTION` or `COMPOSITE`
-     * types.
+     * present on line items with product of `USAGE`, `SUBSCRIPTION`, `COMPOSITE`, or
+     * `CPU_CONVERSION` types.
      */
     export interface AppliedCommitOrCredit {
       id: string;
 
       type: 'PREPAID' | 'POSTPAID' | 'CREDIT';
+
+      /**
+       * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
     }
 
     /**
@@ -1024,6 +1037,12 @@ export interface InvoiceListParams extends CursorPageParams {
    * billing periods that end before this time.
    */
   ending_before?: string;
+
+  /**
+   * Query param: When true, includes retired commit invoices alongside active
+   * invoices. Defaults to false.
+   */
+  include_retired_commit_invoices?: boolean;
 
   /**
    * Query param: If set, all zero quantity line items will be filtered out of the

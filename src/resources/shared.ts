@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import * as Shared from './shared';
-import { BodyCursorPage } from '../core/pagination';
+import { BodyCursorPage, BodyCursorPageCursorField } from '../core/pagination';
 
 export interface BalanceFilter {
   /**
@@ -1768,6 +1768,11 @@ export namespace ContractV2 {
     access_amount: RecurringCommit.AccessAmount;
 
     /**
+     * The date this recurring commit's billing periods are anchored to.
+     */
+    anchor_date: string;
+
+    /**
      * The amount of time the created commits will be valid for
      */
     commit_duration: RecurringCommit.CommitDuration;
@@ -1877,9 +1882,19 @@ export namespace ContractV2 {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
+      /**
+       * This ID identifies the credit type for the access amount. Quantity-based
+       * recurring commits and credits return the null credit type UUID.
+       */
       credit_type_id: string;
 
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       quantity?: number;
     }
@@ -1955,6 +1970,11 @@ export namespace ContractV2 {
      * The amount of commit to grant.
      */
     access_amount: RecurringCredit.AccessAmount;
+
+    /**
+     * The date this recurring commit's billing periods are anchored to.
+     */
+    anchor_date: string;
 
     /**
      * The amount of time the created commits will be valid for
@@ -2061,9 +2081,19 @@ export namespace ContractV2 {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
+      /**
+       * This ID identifies the credit type for the access amount. Quantity-based
+       * recurring commits and credits return the null credit type UUID.
+       */
       credit_type_id: string;
 
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       quantity?: number;
     }
@@ -2281,6 +2311,13 @@ export namespace ContractV2 {
     fiat_credit_type_id?: string;
 
     name?: string;
+
+    /**
+     * Custom fields from the subscription product referenced by
+     * `subscription_rate.product`. These are distinct from the subscription instance's
+     * `custom_fields`.
+     */
+    product_custom_fields?: { [key: string]: string };
 
     seat_config?: Subscription.SeatConfig;
   }
@@ -2502,6 +2539,11 @@ export namespace ContractWithoutAmendments {
     access_amount: RecurringCommit.AccessAmount;
 
     /**
+     * The date this recurring commit's billing periods are anchored to.
+     */
+    anchor_date: string;
+
+    /**
      * The amount of time the created commits will be valid for
      */
     commit_duration: RecurringCommit.CommitDuration;
@@ -2611,9 +2653,19 @@ export namespace ContractWithoutAmendments {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
+      /**
+       * This ID identifies the credit type for the access amount. Quantity-based
+       * recurring commits and credits return the null credit type UUID.
+       */
       credit_type_id: string;
 
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       quantity?: number;
     }
@@ -2691,6 +2743,11 @@ export namespace ContractWithoutAmendments {
      * The amount of commit to grant.
      */
     access_amount: RecurringCredit.AccessAmount;
+
+    /**
+     * The date this recurring commit's billing periods are anchored to.
+     */
+    anchor_date: string;
 
     /**
      * The amount of time the created commits will be valid for
@@ -2797,9 +2854,19 @@ export namespace ContractWithoutAmendments {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
+      /**
+       * This ID identifies the credit type for the access amount. Quantity-based
+       * recurring commits and credits return the null credit type UUID.
+       */
       credit_type_id: string;
 
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       quantity?: number;
     }
@@ -2956,6 +3023,15 @@ export interface Credit {
   balance?: number;
 
   contract?: Credit.Contract;
+
+  /**
+   * Timestamp of when the credit was created.
+   *
+   * - Recurring credit: latter of credit service period date and parent credit start
+   *   date
+   * - Rollover credit: when the new contract started
+   */
+  created_at?: string;
 
   /**
    * The actor who created this credit. Omitted for system-generated credits such as
@@ -4024,6 +4100,12 @@ export namespace ScheduledCharge {
 export interface ScheduleDuration {
   schedule_items: Array<ScheduleDuration.ScheduleItem>;
 
+  /**
+   * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+   * usage. `QUANTITY` deducts the number of units used.
+   */
+  access_type?: 'SPEND' | 'QUANTITY';
+
   credit_type?: CreditTypeData;
 }
 
@@ -4229,6 +4311,13 @@ export interface Subscription {
 
   name?: string;
 
+  /**
+   * Custom fields from the subscription product referenced by
+   * `subscription_rate.product`. These are distinct from the subscription instance's
+   * `custom_fields`.
+   */
+  product_custom_fields?: { [key: string]: string };
+
   seat_config?: Subscription.SeatConfig;
 }
 
@@ -4363,6 +4452,10 @@ export interface UpdateBaseThresholdCommit {
   product_id?: string;
 }
 
+export type ContractV2sBodyCursorPageCursorField = BodyCursorPageCursorField<ContractV2>;
+
 export type CommitsBodyCursorPage = BodyCursorPage<Commit>;
 
 export type CreditsBodyCursorPage = BodyCursorPage<Credit>;
+
+export type ContractsBodyCursorPageCursorField = BodyCursorPageCursorField<Contract>;
