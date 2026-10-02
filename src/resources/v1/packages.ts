@@ -526,7 +526,7 @@ export namespace PackageRetrieveResponse {
     export interface UsageStatementSchedule {
       frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
-      day?: 'FIRST_OF_MONTH' | 'CONTRACT_START';
+      day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE';
     }
 
     export interface Alias {
@@ -1502,7 +1502,7 @@ export namespace PackageListResponse {
   export interface UsageStatementSchedule {
     frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
-    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START';
+    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE';
   }
 
   export interface Alias {
@@ -3429,7 +3429,7 @@ export namespace PackageCreateParams {
     /**
      * If not provided, defaults to the first day of the month.
      */
-    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START';
+    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE';
 
     /**
      * The offset at which Metronome should start generating usage invoices, relative
