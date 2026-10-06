@@ -1718,6 +1718,12 @@ export interface ContractRetrieveSubscriptionQuantityHistoryResponse {
 
 export namespace ContractRetrieveSubscriptionQuantityHistoryResponse {
   export interface Data {
+    /**
+     * The pricing unit for history prices when present. Otherwise prices use
+     * fiat_credit_type_id.
+     */
+    custom_credit_type_id?: string;
+
     fiat_credit_type_id?: string;
 
     history?: Array<Data.History>;

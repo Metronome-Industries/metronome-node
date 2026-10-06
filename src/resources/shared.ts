@@ -2300,6 +2300,12 @@ export namespace ContractV2 {
     billing_cycle_config?: Subscription.BillingCycleConfig;
 
     /**
+     * If provided, the subscription's price will be in terms of this custom pricing
+     * unit instead of the fiat currency.
+     */
+    custom_credit_type_id?: string;
+
+    /**
      * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
      */
     custom_fields?: { [key: string]: string };
@@ -4297,6 +4303,12 @@ export interface Subscription {
   id?: string;
 
   billing_cycle_config?: Subscription.BillingCycleConfig;
+
+  /**
+   * If provided, the subscription's price will be in terms of this custom pricing
+   * unit instead of the fiat currency.
+   */
+  custom_credit_type_id?: string;
 
   /**
    * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
