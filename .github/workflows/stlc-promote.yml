@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: stlc-promote-${{ github.repository }}
+  cancel-in-progress: true
+
 jobs:
   promote:
     if: github.repository == 'Metronome-Industries/metronome-node-staging'
@@ -32,26 +36,41 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.production-token.outputs.token }}
           PROD_REPO: Metronome-Industries/metronome-node
+          STAGING_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          expected_sha=$(git rev-parse HEAD)
+
+          ensure_current_staging_head() {
+            latest_sha=$(GH_TOKEN="$STAGING_TOKEN" gh api \
+              "repos/${GITHUB_REPOSITORY}/commits/main" --jq '.sha')
+            if [ "$expected_sha" != "$latest_sha" ]; then
+              echo "::notice title=Stale promotion skipped::Run ${expected_sha} is behind staging main ${latest_sha}."
+              exit 0
+            fi
+          }
+
+          ensure_current_staging_head
           git remote add production "https://x-access-token:${GH_TOKEN}@github.com/${PROD_REPO}.git"
           git fetch production main || {
             echo "Production has no main — doing initial push."
-            git push production origin/main:main
+            ensure_current_staging_head
+            git push production "${expected_sha}:refs/heads/main"
             exit 0
           }
-          if git diff --quiet production/main..origin/main -- . ':!.github'; then
+          if git diff --quiet "production/main..${expected_sha}" -- . ':!.github'; then
             echo "Nothing to promote."
             exit 0
           fi
-          if ! git merge-base --is-ancestor production/main origin/main; then
+          if ! git merge-base --is-ancestor production/main "$expected_sha"; then
             echo "::error::Trunks diverged."
             exit 1
           fi
-          git push production origin/main:refs/heads/stainless/next --force
+          ensure_current_staging_head
+          git push production "${expected_sha}:refs/heads/stainless/next" --force
           open_pr=$(gh pr list --repo "$PROD_REPO" --head "stainless/next" --state open --json number --jq '.[0].number // empty')
           if [ -z "$open_pr" ]; then
-            changelog=$(git log --reverse --format="* %s (%h)" production/main..origin/main | head -50)
+            changelog=$(git log --reverse --format="* %s (%h)" "production/main..${expected_sha}" | head -50)
             gh pr create \
               --repo "$PROD_REPO" \
               --base main \

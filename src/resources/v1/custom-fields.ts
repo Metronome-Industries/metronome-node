@@ -141,6 +141,9 @@ export class CustomFields extends APIResource {
    * transactional—either all values are set or none are. Custom field values are
    * limited to 200 characters each.
    *
+   * Adding or updating custom fields on credits, commits, or contracts does not emit
+   * `credit.edit`, `commit.edit`, or `contract.edit` events.
+   *
    * @example
    * ```ts
    * await client.v1.customFields.setValues({

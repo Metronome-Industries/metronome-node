@@ -47,9 +47,11 @@ describe('resource contracts', () => {
     const response = await client.v2.contracts.list({
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
       covering_date: '2019-12-27T18:11:19.117Z',
+      cursor: 'cursor',
       include_archived: true,
       include_balance: true,
       include_ledgers: true,
+      limit: 1,
       starting_at: '2019-12-27T18:11:19.117Z',
     });
   });
@@ -92,6 +94,7 @@ describe('resource contracts', () => {
                 starting_at: '2019-12-27T18:11:19.117Z',
               },
             ],
+            access_type: 'SPEND',
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           },
           amount: 0,
@@ -158,6 +161,7 @@ describe('resource contracts', () => {
                 starting_at: '2019-12-27T18:11:19.117Z',
               },
             ],
+            access_type: 'SPEND',
             credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           },
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -313,8 +317,9 @@ describe('resource contracts', () => {
       add_recurring_commits: [
         {
           access_amount: {
-            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             unit_price: 0,
+            access_type: 'SPEND',
+            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             quantity: 0,
           },
           commit_duration: { value: 0, unit: 'PERIODS' },
@@ -360,8 +365,9 @@ describe('resource contracts', () => {
       add_recurring_credits: [
         {
           access_amount: {
-            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             unit_price: 0,
+            access_type: 'SPEND',
+            credit_type_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             quantity: 0,
           },
           commit_duration: { value: 0, unit: 'PERIODS' },
@@ -743,6 +749,7 @@ describe('resource contracts', () => {
         {
           subscription_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           ending_before: '2019-12-27T18:11:19.117Z',
+          name: 'name',
           proration_rounding: { decimal_places: -5, rounding_method: 'HALF_UP' },
           quantity_management_mode_update: {
             quantity_management_mode: 'SEAT_BASED',

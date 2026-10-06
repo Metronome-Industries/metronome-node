@@ -49,6 +49,7 @@ describe('resource invoices', () => {
       contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       credit_type_id: 'credit_type_id',
       ending_before: '2019-12-27T18:11:19.117Z',
+      include_retired_commit_invoices: true,
       limit: 1,
       next_page: 'next_page',
       skip_zero_qty_line_items: true,

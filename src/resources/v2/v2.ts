@@ -12,7 +12,6 @@ import {
   ContractGetEditHistoryParams,
   ContractGetEditHistoryResponse,
   ContractListParams,
-  ContractListResponse,
   ContractRetrieveParams,
   ContractRetrieveResponse,
   Contracts,
@@ -36,7 +35,6 @@ export declare namespace V2 {
   export {
     Contracts as Contracts,
     type ContractRetrieveResponse as ContractRetrieveResponse,
-    type ContractListResponse as ContractListResponse,
     type ContractEditResponse as ContractEditResponse,
     type ContractEditCommitResponse as ContractEditCommitResponse,
     type ContractEditCreditResponse as ContractEditCreditResponse,
