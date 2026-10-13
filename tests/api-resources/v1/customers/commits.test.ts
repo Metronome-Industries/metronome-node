@@ -43,6 +43,7 @@ describe('resource commits', () => {
             starting_at: '2020-01-01T00:00:00.000Z',
           },
         ],
+        access_type: 'SPEND',
         credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
       },
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
@@ -108,6 +109,7 @@ describe('resource commits', () => {
   test('list: required and optional params', async () => {
     const response = await client.v1.customers.commits.list({
       customer_id: '13117714-3f05-48e5-a6e9-a66093f13b4d',
+      access_type: 'SPEND',
       commit_id: '6162d87b-e5db-4a33-b7f2-76ce6ead4e85',
       covering_date: '2019-12-27T18:11:19.117Z',
       effective_before: '2019-12-27T18:11:19.117Z',

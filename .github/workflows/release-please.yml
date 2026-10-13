@@ -31,7 +31,9 @@ concurrency:
 
 jobs:
   release-please:
-    if: github.event_name == 'push'
+    if: >-
+      github.repository == 'Metronome-Industries/metronome-node' &&
+      github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Mint release App token
@@ -50,6 +52,7 @@ jobs:
 
   in-place-version-override:
     if: >-
+      github.repository == 'Metronome-Industries/metronome-node' &&
       github.event_name == 'pull_request' &&
       github.event.changes.title &&
       startsWith(github.event.pull_request.title, 'release:')
@@ -90,6 +93,7 @@ jobs:
           persist-credentials: false
 
       - name: Rewrite changed release files
+        id: rewrite
         env:
           GH_TOKEN: ${{ steps.override-token.outputs.token }}
           VERSION: ${{ steps.version.outputs.version }}
@@ -102,6 +106,7 @@ jobs:
             echo "::error::Could not determine the current release version"
             exit 1
           fi
+          echo "previous_version=$current" >> "$GITHUB_OUTPUT"
           changed=$(git diff --name-only --diff-filter=AM "origin/main...HEAD")
           rewritten=()
           while IFS= read -r file; do
@@ -158,6 +163,40 @@ jobs:
           git commit -m "chore(release): set version $VERSION"
           git push "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git" "HEAD:${BRANCH}"
 
+      - name: Update version in release PR description
+        env:
+          GH_TOKEN: ${{ steps.override-token.outputs.token }}
+          OLD_VERSION: ${{ steps.rewrite.outputs.previous_version }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          body_file=$(mktemp)
+          gh api "repos/${REPO}/pulls/${PR_NUMBER}" --jq '.body // ""' > "$body_file"
+
+          BODY_FILE="$body_file" python3 - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+
+          path = Path(os.environ["BODY_FILE"])
+          body = path.read_text()
+          old = os.environ["OLD_VERSION"]
+          new = os.environ["VERSION"]
+          pattern = re.compile(
+              r"(?<![0-9.])" + re.escape(old) + r"(?![0-9.])"
+          )
+          updated, count = pattern.subn(new, body)
+          if count == 0:
+              raise SystemExit(
+                  f"old release version {old} was not found in the PR description"
+              )
+          path.write_text(updated)
+          PY
+
+          gh api --method PATCH \
+            "repos/${REPO}/pulls/${PR_NUMBER}" \
+            -f body="$(< "$body_file")"
+
       - name: Comment selected version on release PR
         env:
           GH_TOKEN: ${{ steps.override-token.outputs.token }}
@@ -181,7 +220,9 @@ jobs:
           fi
 
   notify-back-sync:
-    if: github.event_name == 'release'
+    if: >-
+      github.repository == 'Metronome-Industries/metronome-node' &&
+      github.event_name == 'release'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -214,42 +255,3 @@ jobs:
             exit 1
           fi
           echo "Dispatched prod-released to ${STAGING_REPO}."
-
-      - name: Update version in release PR description
-        env:
-          GH_TOKEN: ${{ steps.override-token.outputs.token }}
-          REPO: ${{ github.repository }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          VERSION: ${{ steps.version.outputs.version }}
-        run: |
-          set -euo pipefail
-
-          old=$(git show origin/main:.release-please-manifest.json | jq -r '."."')
-          gh api "repos/${REPO}/pulls/${PR_NUMBER}" --jq '.body' > /tmp/release-pr-body
-
-          OLD_VERSION="$old" NEW_VERSION="$VERSION" python3 - <<'PY'
-          import os
-          import re
-          from pathlib import Path
-
-          path = Path("/tmp/release-pr-body")
-          body = path.read_text()
-          old = os.environ["OLD_VERSION"]
-          new = os.environ["NEW_VERSION"]
-
-          pattern = re.compile(
-              r"(?<![0-9.])" + re.escape(old) + r"(?![0-9.])"
-          )
-          updated, count = pattern.subn(new, body)
-
-          if count == 0:
-              raise SystemExit(
-                  f"old release version {old} was not found in the PR description"
-              )
-
-          path.write_text(updated)
-          PY
-
-          gh api --method PATCH \
-            "repos/${REPO}/pulls/${PR_NUMBER}" \
-            -f body="$(< /tmp/release-pr-body)"
