@@ -101,6 +101,8 @@ export class Alerts extends APIResource {
    *   customers
    * - Historical preservation: Archive operation maintains threshold notification
    *   history and configuration for compliance and auditing
+   * - Idempotent: Archiving an already-archived threshold notification returns the
+   *   same successful response
    *
    * @example
    * ```ts
