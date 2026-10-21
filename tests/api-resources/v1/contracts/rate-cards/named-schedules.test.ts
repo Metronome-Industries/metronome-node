@@ -29,6 +29,7 @@ describe('resource namedSchedules', () => {
       customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
       schedule_name: 'my-schedule',
       covering_date: '2022-02-15T00:00:00Z',
+      properties: { foo: 'string' },
     });
   });
 
@@ -57,6 +58,32 @@ describe('resource namedSchedules', () => {
       starting_at: '2022-02-01T00:00:00Z',
       value: { my_key: 'my_value' },
       ending_before: '2022-02-15T00:00:00Z',
+      properties: { foo: 'string' },
+    });
+  });
+
+  test('list: only required params', async () => {
+    const responsePromise = client.v1.contracts.rateCards.namedSchedules.list({
+      customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('list: required and optional params', async () => {
+    const response = await client.v1.contracts.rateCards.namedSchedules.list({
+      customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+      contract_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      covering_date: '2026-01-15T00:00:00Z',
+      limit: 10,
+      next_page: 'next_page',
+      properties: { sku: 'A100' },
+      schedule_name: 'reserved-instance',
     });
   });
 });

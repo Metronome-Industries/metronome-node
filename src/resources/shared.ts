@@ -2270,6 +2270,8 @@ export namespace ContractV2 {
 
     collection_schedule: 'ADVANCE' | 'ARREARS';
 
+    created_at: string;
+
     proration: Subscription.Proration;
 
     /**
@@ -4274,6 +4276,8 @@ export interface Subscription {
   billing_periods: Subscription.BillingPeriods;
 
   collection_schedule: 'ADVANCE' | 'ARREARS';
+
+  created_at: string;
 
   proration: Subscription.Proration;
 

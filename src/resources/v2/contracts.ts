@@ -1054,6 +1054,8 @@ export namespace ContractEditResponse {
 
         collection_schedule: 'ADVANCE' | 'ARREARS';
 
+        created_at: string;
+
         proration: AddSubscription.Proration;
 
         /**
@@ -2869,6 +2871,8 @@ export namespace ContractGetEditHistoryResponse {
       billing_periods: AddSubscription.BillingPeriods;
 
       collection_schedule: 'ADVANCE' | 'ARREARS';
+
+      created_at: string;
 
       proration: AddSubscription.Proration;
 

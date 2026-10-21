@@ -486,11 +486,13 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/v1/contracts/rate-cards/named-schedules.ts">NamedScheduleRetrieveResponse</a></code>
+- <code><a href="./src/resources/v1/contracts/rate-cards/named-schedules.ts">NamedScheduleListResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/contracts/getNamedSchedule">client.v1.contracts.rateCards.namedSchedules.<a href="./src/resources/v1/contracts/rate-cards/named-schedules.ts">retrieve</a>({ ...params }) -> NamedScheduleRetrieveResponse</code>
 - <code title="post /v1/contracts/updateNamedSchedule">client.v1.contracts.rateCards.namedSchedules.<a href="./src/resources/v1/contracts/rate-cards/named-schedules.ts">update</a>({ ...params }) -> void</code>
+- <code title="post /v1/contracts/listNamedSchedules">client.v1.contracts.rateCards.namedSchedules.<a href="./src/resources/v1/contracts/rate-cards/named-schedules.ts">list</a>({ ...params }) -> NamedScheduleListResponsesBodyCursorPage</code>
 
 ### NamedSchedules
 

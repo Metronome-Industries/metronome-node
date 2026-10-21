@@ -1039,10 +1039,10 @@ export interface InvoiceListParams extends CursorPageParams {
   ending_before?: string;
 
   /**
-   * Query param: When true, includes retired commit invoices alongside active
+   * Query param: When true, includes historical commit invoices alongside active
    * invoices. Defaults to false.
    */
-  include_retired_commit_invoices?: boolean;
+  include_historical_commit_invoices?: boolean;
 
   /**
    * Query param: If set, all zero quantity line items will be filtered out of the
