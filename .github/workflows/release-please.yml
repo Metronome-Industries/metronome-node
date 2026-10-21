@@ -6,8 +6,10 @@
 # The override job rewrites only version-bearing files already changed by the PR.
 #
 # Required secrets:
-#   STLC_BOT_APP_ID and STLC_BOT_APP_PRIVATE_KEY — the STLC App must be
-#   installed on this repository with Contents and Pull requests write access.
+#   package-release: STLC_BOT_APP_ID and STLC_BOT_APP_PRIVATE_KEY.
+#   Reuse the existing STLC App; request Contents and Pull requests write only.
+#   stlc-automation: STLC_BOT_APP_ID and STLC_BOT_APP_PRIVATE_KEY.
+#   PR version edits use GITHUB_TOKEN, which must not bypass release-tag rules.
 
 name: Release Please
 
@@ -17,9 +19,6 @@ on:
   pull_request:
     types: [edited]
     branches: [main]
-
-  release:
-    types: [published]
 
 permissions:
   contents: write
@@ -33,10 +32,11 @@ jobs:
   release-please:
     if: >-
       github.repository == 'Metronome-Industries/metronome-node' &&
-      github.event_name == 'push'
+      github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment: package-release
     runs-on: ubuntu-latest
     steps:
-      - name: Mint release App token
+      - name: Mint STLC App token for release
         id: release-token
         uses: actions/create-github-app-token@v2
         with:
@@ -44,6 +44,8 @@ jobs:
           private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
           owner: Metronome-Industries
           repositories: metronome-node
+          permission-contents: write
+          permission-pull-requests: write
 
       - uses: googleapis/release-please-action@v4
         id: release
@@ -54,6 +56,8 @@ jobs:
     if: >-
       github.repository == 'Metronome-Industries/metronome-node' &&
       github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'release-please--branches--main') &&
       github.event.changes.title &&
       startsWith(github.event.pull_request.title, 'release:')
     runs-on: ubuntu-latest
@@ -62,15 +66,6 @@ jobs:
       PR_NUMBER: ${{ github.event.pull_request.number }}
       BRANCH: ${{ github.event.pull_request.head.ref }}
     steps:
-      - name: Mint override App token
-        id: override-token
-        uses: actions/create-github-app-token@v2
-        with:
-          app-id: ${{ secrets.STLC_BOT_APP_ID }}
-          private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
-          owner: Metronome-Industries
-          repositories: metronome-node
-
       - name: Parse and validate requested version
         id: version
         env:
@@ -88,14 +83,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ env.BRANCH }}
-          token: ${{ steps.override-token.outputs.token }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
           persist-credentials: false
 
       - name: Rewrite changed release files
         id: rewrite
         env:
-          GH_TOKEN: ${{ steps.override-token.outputs.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           set -euo pipefail
@@ -147,7 +142,7 @@ jobs:
 
       - name: Commit and push exact version override
         env:
-          GH_TOKEN: ${{ steps.override-token.outputs.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           set -euo pipefail
@@ -165,7 +160,7 @@ jobs:
 
       - name: Update version in release PR description
         env:
-          GH_TOKEN: ${{ steps.override-token.outputs.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OLD_VERSION: ${{ steps.rewrite.outputs.previous_version }}
           VERSION: ${{ steps.version.outputs.version }}
         run: |
@@ -199,7 +194,7 @@ jobs:
 
       - name: Comment selected version on release PR
         env:
-          GH_TOKEN: ${{ steps.override-token.outputs.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           set -euo pipefail
@@ -207,6 +202,8 @@ jobs:
           body=$(cat <<EOF
           $marker
           Release version selected: **$VERSION**.
+
+          Version changes pushed by this workflow do not trigger another Actions run. Review the updated diff and run the required checks before merging.
 
           This release will be performed as **$VERSION**. To change it, edit this PR title to release: X.Y.Z (including any prerelease suffix); the workflow will update the release files in place.
           EOF
@@ -222,7 +219,8 @@ jobs:
   notify-back-sync:
     if: >-
       github.repository == 'Metronome-Industries/metronome-node' &&
-      github.event_name == 'release'
+      github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment: stlc-automation
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -235,8 +233,9 @@ jobs:
           private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
           owner: Metronome-Industries
           repositories: metronome-node-staging
+          permission-contents: write
 
-      - name: Dispatch production release to staging
+      - name: Dispatch production main update to staging
         env:
           DISPATCH_TOKEN: ${{ steps.dispatch-token.outputs.token }}
           STAGING_REPO: Metronome-Industries/metronome-node-staging

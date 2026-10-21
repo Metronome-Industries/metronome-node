@@ -12,10 +12,16 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: read
+
 jobs:
   publish:
+    if: >-
+      github.repository == 'Metronome-Industries/metronome-node' &&
+      startsWith(github.ref, 'refs/tags/v') && (github.event_name == 'release' || github.event_name == 'workflow_dispatch')
+    environment: package-release
     name: publish
-    if: github.repository == 'Metronome-Industries/metronome-node'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -23,6 +29,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Set up Node
         uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
@@ -43,7 +51,7 @@ jobs:
 
       - name: Upload MCP Server DXT GitHub release asset
         run: |
-          gh release upload ${{ github.event.release.tag_name }} \
+          gh release upload "$GITHUB_REF_NAME" \
             packages/mcp-server/metronome_sdk_api.mcpb
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

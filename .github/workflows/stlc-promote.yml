@@ -14,7 +14,8 @@ concurrency:
 
 jobs:
   promote:
-    if: github.repository == 'Metronome-Industries/metronome-node-staging'
+    if: github.repository == 'Metronome-Industries/metronome-node-staging' && github.ref == 'refs/heads/main'
+    environment: stlc-automation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout staging
@@ -31,6 +32,9 @@ jobs:
           private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
           owner: Metronome-Industries
           repositories: metronome-node
+          permission-contents: write
+          permission-pull-requests: write
+          permission-workflows: write
 
       - name: Promote staging to production
         env:
@@ -58,7 +62,7 @@ jobs:
             git push production "${expected_sha}:refs/heads/main"
             exit 0
           }
-          if git diff --quiet "production/main..${expected_sha}" -- . ':!.github'; then
+          if git diff --quiet "production/main..${expected_sha}"; then
             echo "Nothing to promote."
             exit 0
           fi

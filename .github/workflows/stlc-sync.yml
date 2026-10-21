@@ -13,8 +13,9 @@ on:
 
 jobs:
   back-sync:
+    environment: stlc-automation
     runs-on: ubuntu-latest
-    if: github.repository == 'Metronome-Industries/metronome-node-staging' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch')
+    if: github.repository == 'Metronome-Industries/metronome-node-staging' && github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch')
     permissions:
       contents: write
     concurrency:
@@ -25,11 +26,14 @@ jobs:
     steps:
       - name: Generate stlc bot token
         id: app-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ secrets.STLC_BOT_APP_ID }}
           private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
           owner: Metronome-Industries
+          repositories: metronome-node-staging
+          permission-contents: write
+          permission-workflows: write
 
       - name: Check out staging
         uses: actions/checkout@v4
@@ -67,8 +71,9 @@ jobs:
           echo "Fast-forwarded staging/main to production/main."
 
   seal-dispatch:
+    environment: stlc-automation
     runs-on: ubuntu-latest
-    if: github.repository == 'Metronome-Industries/metronome-node-staging' && github.event_name == 'push'
+    if: github.repository == 'Metronome-Industries/metronome-node-staging' && github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
       contents: read
     env:
@@ -82,6 +87,7 @@ jobs:
           private-key: ${{ secrets.STLC_BOT_APP_PRIVATE_KEY }}
           owner: Metronome-Industries
           repositories: api
+          permission-contents: write
 
       - name: Loop-guard and send re-seal dispatch
         env:
