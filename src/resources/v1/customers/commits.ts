@@ -333,6 +333,13 @@ export namespace CommitCreateParams {
     schedule_items: Array<AccessSchedule.ScheduleItem>;
 
     /**
+     * Determines how the balance is drawn down. `SPEND` deducts the dollar cost of
+     * usage. `QUANTITY` deducts the number of units used. Defaults to `SPEND` if
+     * omitted.
+     */
+    access_type?: 'SPEND' | 'QUANTITY';
+
+    /**
      * Defaults to USD (cents) if not passed
      */
     credit_type_id?: string;
@@ -460,6 +467,12 @@ export namespace CommitCreateParams {
 
 export interface CommitListParams extends BodyCursorPageParams {
   customer_id: string;
+
+  /**
+   * Filters commits by how their balances are drawn down. `SPEND` deducts the dollar
+   * cost of usage. `QUANTITY` deducts the number of units used.
+   */
+  access_type?: 'SPEND' | 'QUANTITY';
 
   commit_id?: string;
 

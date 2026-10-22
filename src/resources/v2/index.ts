@@ -3,7 +3,6 @@
 export {
   Contracts,
   type ContractRetrieveResponse,
-  type ContractListResponse,
   type ContractEditResponse,
   type ContractEditCommitResponse,
   type ContractEditCreditResponse,

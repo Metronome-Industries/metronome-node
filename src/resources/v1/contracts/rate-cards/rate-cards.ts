@@ -4,6 +4,9 @@ import { APIResource } from '../../../../core/resource';
 import * as Shared from '../../../shared';
 import * as NamedSchedulesAPI from './named-schedules';
 import {
+  NamedScheduleListParams,
+  NamedScheduleListResponse,
+  NamedScheduleListResponsesBodyCursorPage,
   NamedScheduleRetrieveParams,
   NamedScheduleRetrieveResponse,
   NamedScheduleUpdateParams,
@@ -618,7 +621,10 @@ export declare namespace RateCards {
   export {
     NamedSchedules as NamedSchedules,
     type NamedScheduleRetrieveResponse as NamedScheduleRetrieveResponse,
+    type NamedScheduleListResponse as NamedScheduleListResponse,
+    type NamedScheduleListResponsesBodyCursorPage as NamedScheduleListResponsesBodyCursorPage,
     type NamedScheduleRetrieveParams as NamedScheduleRetrieveParams,
     type NamedScheduleUpdateParams as NamedScheduleUpdateParams,
+    type NamedScheduleListParams as NamedScheduleListParams,
   };
 }

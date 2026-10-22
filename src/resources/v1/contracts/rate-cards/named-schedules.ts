@@ -2,6 +2,7 @@
 
 import { APIResource } from '../../../../core/resource';
 import { APIPromise } from '../../../../core/api-promise';
+import { BodyCursorPage, type BodyCursorPageParams, PagePromise } from '../../../../core/pagination';
 import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 
@@ -56,7 +57,40 @@ export class NamedSchedules extends APIResource {
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
+
+  /**
+   * List contract-level named schedules for a customer, optionally scoped to a
+   * single contract.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const namedScheduleListResponse of client.v1.contracts.rateCards.namedSchedules.list(
+   *   {
+   *     customer_id: '9b85c1c1-5238-4f2a-a409-61412905e1e1',
+   *     covering_date: '2026-01-15T00:00:00Z',
+   *     limit: 10,
+   *     properties: { sku: 'A100' },
+   *     schedule_name: 'reserved-instance',
+   *   },
+   * )) {
+   *   // ...
+   * }
+   * ```
+   */
+  list(
+    body: NamedScheduleListParams,
+    options?: RequestOptions,
+  ): PagePromise<NamedScheduleListResponsesBodyCursorPage, NamedScheduleListResponse> {
+    return this._client.getAPIList(
+      '/v1/contracts/listNamedSchedules',
+      BodyCursorPage<NamedScheduleListResponse>,
+      { body, method: 'post', ...options },
+    );
+  }
 }
+
+export type NamedScheduleListResponsesBodyCursorPage = BodyCursorPage<NamedScheduleListResponse>;
 
 export interface NamedScheduleRetrieveResponse {
   data: Array<NamedScheduleRetrieveResponse.Data>;
@@ -64,6 +98,35 @@ export interface NamedScheduleRetrieveResponse {
 
 export namespace NamedScheduleRetrieveResponse {
   export interface Data {
+    starting_at: string;
+
+    value: unknown;
+
+    ending_before?: string;
+  }
+}
+
+export interface NamedScheduleListResponse {
+  /**
+   * ID of the contract this named schedule belongs to.
+   */
+  contract_id: string;
+
+  /**
+   * Name of the schedule.
+   */
+  schedule_name: string;
+
+  segments: Array<NamedScheduleListResponse.Segment>;
+
+  /**
+   * Properties on this named schedule.
+   */
+  properties?: { [key: string]: string };
+}
+
+export namespace NamedScheduleListResponse {
+  export interface Segment {
     starting_at: string;
 
     value: unknown;
@@ -93,6 +156,12 @@ export interface NamedScheduleRetrieveParams {
    * this date). If not provided, all segments will be returned.
    */
   covering_date?: string;
+
+  /**
+   * A set of key-value pairs that qualifies which schedule should be applied when
+   * looking up a schedule by name.
+   */
+  properties?: { [key: string]: string };
 }
 
 export interface NamedScheduleUpdateParams {
@@ -120,12 +189,50 @@ export interface NamedScheduleUpdateParams {
   value: unknown;
 
   ending_before?: string;
+
+  /**
+   * A set of key-value pairs that qualifies which schedule should be applied when
+   * looking up a schedule by name.
+   */
+  properties?: { [key: string]: string };
+}
+
+export interface NamedScheduleListParams extends BodyCursorPageParams {
+  /**
+   * ID of the customer to list contract named schedules for
+   */
+  customer_id: string;
+
+  /**
+   * Optional ID of a contract to scope the results to a single contract
+   */
+  contract_id?: string;
+
+  /**
+   * If provided, result contains at most one segment covering this date for each
+   * schedule.
+   */
+  covering_date?: string;
+
+  /**
+   * Optional key-value filters. A schedule matches when it contains at least this
+   * subset of properties.
+   */
+  properties?: { [key: string]: string };
+
+  /**
+   * Optional filter to scope the results to a single schedule name
+   */
+  schedule_name?: string;
 }
 
 export declare namespace NamedSchedules {
   export {
     type NamedScheduleRetrieveResponse as NamedScheduleRetrieveResponse,
+    type NamedScheduleListResponse as NamedScheduleListResponse,
+    type NamedScheduleListResponsesBodyCursorPage as NamedScheduleListResponsesBodyCursorPage,
     type NamedScheduleRetrieveParams as NamedScheduleRetrieveParams,
     type NamedScheduleUpdateParams as NamedScheduleUpdateParams,
+    type NamedScheduleListParams as NamedScheduleListParams,
   };
 }

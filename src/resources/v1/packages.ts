@@ -335,6 +335,12 @@ export namespace PackageRetrieveResponse {
         credit_type: Shared.CreditTypeData;
 
         schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+        /**
+         * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+         * usage. `QUANTITY` deducts the number of units used.
+         */
+        access_type?: 'SPEND' | 'QUANTITY';
       }
 
       export namespace AccessSchedule {
@@ -520,7 +526,7 @@ export namespace PackageRetrieveResponse {
     export interface UsageStatementSchedule {
       frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
-      day?: 'FIRST_OF_MONTH' | 'CONTRACT_START';
+      day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE';
     }
 
     export interface Alias {
@@ -574,6 +580,12 @@ export namespace PackageRetrieveResponse {
         credit_type: Shared.CreditTypeData;
 
         schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+        /**
+         * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+         * usage. `QUANTITY` deducts the number of units used.
+         */
+        access_type?: 'SPEND' | 'QUANTITY';
       }
 
       export namespace AccessSchedule {
@@ -708,9 +720,19 @@ export namespace PackageRetrieveResponse {
        * The amount of commit to grant.
        */
       export interface AccessAmount {
+        /**
+         * This ID identifies the credit type for the access amount. Quantity-based
+         * recurring commits and credits return the null credit type UUID.
+         */
         credit_type_id: string;
 
         unit_price: number;
+
+        /**
+         * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+         * dollar cost of usage. `QUANTITY` deducts the number of units used.
+         */
+        access_type?: 'SPEND' | 'QUANTITY';
 
         quantity?: number;
       }
@@ -911,9 +933,19 @@ export namespace PackageRetrieveResponse {
        * The amount of commit to grant.
        */
       export interface AccessAmount {
+        /**
+         * This ID identifies the credit type for the access amount. Quantity-based
+         * recurring commits and credits return the null credit type UUID.
+         */
         credit_type_id: string;
 
         unit_price: number;
+
+        /**
+         * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+         * dollar cost of usage. `QUANTITY` deducts the number of units used.
+         */
+        access_type?: 'SPEND' | 'QUANTITY';
 
         quantity?: number;
       }
@@ -1028,6 +1060,12 @@ export namespace PackageRetrieveResponse {
       id?: string;
 
       billing_cycle_config?: Subscription.BillingCycleConfig;
+
+      /**
+       * If provided, the subscription's price will be in terms of this custom pricing
+       * unit instead of the fiat currency.
+       */
+      custom_credit_type_id?: string;
 
       /**
        * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
@@ -1279,6 +1317,12 @@ export namespace PackageListResponse {
       credit_type: Shared.CreditTypeData;
 
       schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+      /**
+       * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
     }
 
     export namespace AccessSchedule {
@@ -1464,7 +1508,7 @@ export namespace PackageListResponse {
   export interface UsageStatementSchedule {
     frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
 
-    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START';
+    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE';
   }
 
   export interface Alias {
@@ -1518,6 +1562,12 @@ export namespace PackageListResponse {
       credit_type: Shared.CreditTypeData;
 
       schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+      /**
+       * Indicates how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
     }
 
     export namespace AccessSchedule {
@@ -1652,9 +1702,19 @@ export namespace PackageListResponse {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
+      /**
+       * This ID identifies the credit type for the access amount. Quantity-based
+       * recurring commits and credits return the null credit type UUID.
+       */
       credit_type_id: string;
 
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       quantity?: number;
     }
@@ -1855,9 +1915,19 @@ export namespace PackageListResponse {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
+      /**
+       * This ID identifies the credit type for the access amount. Quantity-based
+       * recurring commits and credits return the null credit type UUID.
+       */
       credit_type_id: string;
 
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       quantity?: number;
     }
@@ -1972,6 +2042,12 @@ export namespace PackageListResponse {
     id?: string;
 
     billing_cycle_config?: Subscription.BillingCycleConfig;
+
+    /**
+     * If provided, the subscription's price will be in terms of this custom pricing
+     * unit instead of the fiat currency.
+     */
+    custom_credit_type_id?: string;
 
     /**
      * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
@@ -2260,6 +2336,13 @@ export namespace PackageCreateParams {
       schedule_items: Array<AccessSchedule.ScheduleItem>;
 
       /**
+       * Determines how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used. Defaults to `SPEND` if
+       * omitted.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
+
+      /**
        * Defaults to USD (cents) if not passed
        */
       credit_type_id?: string;
@@ -2417,6 +2500,13 @@ export namespace PackageCreateParams {
      */
     export interface AccessSchedule {
       schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+      /**
+       * Determines how the balance is drawn down. `SPEND` deducts the dollar cost of
+       * usage. `QUANTITY` deducts the number of units used. Defaults to `SPEND` if
+       * omitted.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
 
       /**
        * Defaults to USD (cents) if not passed
@@ -2766,9 +2856,18 @@ export namespace PackageCreateParams {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
-      credit_type_id: string;
-
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
+
+      /**
+       * Defaults to USD (cents) if not passed
+       */
+      credit_type_id?: string;
 
       /**
        * This field is required unless a subscription is attached via
@@ -2992,9 +3091,18 @@ export namespace PackageCreateParams {
      * The amount of commit to grant.
      */
     export interface AccessAmount {
-      credit_type_id: string;
-
       unit_price: number;
+
+      /**
+       * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+       * dollar cost of usage. `QUANTITY` deducts the number of units used.
+       */
+      access_type?: 'SPEND' | 'QUANTITY';
+
+      /**
+       * Defaults to USD (cents) if not passed
+       */
+      credit_type_id?: string;
 
       /**
        * This field is required unless a subscription is attached via
@@ -3333,7 +3441,7 @@ export namespace PackageCreateParams {
     /**
      * If not provided, defaults to the first day of the month.
      */
-    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START';
+    day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE';
 
     /**
      * The offset at which Metronome should start generating usage invoices, relative

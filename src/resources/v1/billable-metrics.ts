@@ -105,6 +105,44 @@ export class BillableMetrics extends APIResource {
   }
 
   /**
+   * Updates only the display name of an existing billable metric. Use this to
+   * correct mistakes or apply standardized naming conventions across all billable
+   * metrics. Returns the billable metric ID to confirm the update.
+   *
+   * Important: Only the name can be modified via this endpoint; configurations
+   * cannot be changed after creation.
+   *
+   * #### Example workflow:
+   *
+   * If you need to make changes to a streaming billable metric, for example,
+   * Metronome supports easily rolling out these changes using a simple workflow:
+   *
+   * 1. Duplicate the billable metric
+   * 2. Make required changes
+   * 3. Save the metric
+   * 4. Navigate to the product you have associated with the incorrect metric
+   * 5. Schedule the product to reference the newly created metric on the appropriate
+   *    date
+   *
+   * @example
+   * ```ts
+   * const billableMetric =
+   *   await client.v1.billableMetrics.update({
+   *     billable_metric_id:
+   *       '13117714-3f05-48e5-a6e9-a66093f13b4d',
+   *     name: 'CPU hours',
+   *   });
+   * ```
+   */
+  update(
+    params: BillableMetricUpdateParams,
+    options?: RequestOptions,
+  ): APIPromise<BillableMetricUpdateResponse> {
+    const { billable_metric_id, ...body } = params;
+    return this._client.put(path`/v1/billable-metrics/${billable_metric_id}`, { body, ...options });
+  }
+
+  /**
    * Retrieves all billable metrics with their complete configurations. Use this for
    * programmatic discovery and management of billable metrics, such as associating
    * metrics to products and auditing for orphaned or archived metrics. Important:
@@ -225,6 +263,10 @@ export namespace BillableMetricRetrieveResponse {
   }
 }
 
+export interface BillableMetricUpdateResponse {
+  data: Shared.ID;
+}
+
 export interface BillableMetricListResponse {
   /**
    * ID of the billable metric
@@ -340,6 +382,18 @@ export interface BillableMetricRetrieveParams {
   billable_metric_id: string;
 }
 
+export interface BillableMetricUpdateParams {
+  /**
+   * Path param
+   */
+  billable_metric_id: string;
+
+  /**
+   * Body param: The new name of the metric
+   */
+  name: string;
+}
+
 export interface BillableMetricListParams extends CursorPageParams {
   /**
    * If true, the list of returned metrics will include archived metrics
@@ -355,11 +409,13 @@ export declare namespace BillableMetrics {
   export {
     type BillableMetricCreateResponse as BillableMetricCreateResponse,
     type BillableMetricRetrieveResponse as BillableMetricRetrieveResponse,
+    type BillableMetricUpdateResponse as BillableMetricUpdateResponse,
     type BillableMetricListResponse as BillableMetricListResponse,
     type BillableMetricArchiveResponse as BillableMetricArchiveResponse,
     type BillableMetricListResponsesCursorPage as BillableMetricListResponsesCursorPage,
     type BillableMetricCreateParams as BillableMetricCreateParams,
     type BillableMetricRetrieveParams as BillableMetricRetrieveParams,
+    type BillableMetricUpdateParams as BillableMetricUpdateParams,
     type BillableMetricListParams as BillableMetricListParams,
     type BillableMetricArchiveParams as BillableMetricArchiveParams,
   };

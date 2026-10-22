@@ -277,6 +277,13 @@ export namespace CreditCreateParams {
     schedule_items: Array<AccessSchedule.ScheduleItem>;
 
     /**
+     * Determines how the balance is drawn down. `SPEND` deducts the dollar cost of
+     * usage. `QUANTITY` deducts the number of units used. Defaults to `SPEND` if
+     * omitted.
+     */
+    access_type?: 'SPEND' | 'QUANTITY';
+
+    /**
      * Defaults to USD (cents) if not passed
      */
     credit_type_id?: string;
