@@ -2,12 +2,14 @@
 # It can also be run manually to re-publish to NPM in case it failed for some reason.
 # You can run this workflow by navigating to https://www.github.com/Metronome-Industries/metronome-node/actions/workflows/publish-npm.yml
 name: Publish NPM
+run-name: Publish NPM (${{ github.event.release.tag_name || inputs.tag }})
 on:
   workflow_dispatch:
     inputs:
-      path:
-        description: The path to run the release in, e.g. '.' or 'packages/mcp-server'
+      tag:
+        description: Published release tag to publish (run this workflow from main), e.g. v3.11.0
         required: true
+        type: string
 
   release:
     types: [published]
@@ -15,22 +17,53 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: publish-npm-${{ github.event.release.tag_name || inputs.tag }}
+  cancel-in-progress: false
+
 jobs:
   publish:
     if: >-
       github.repository == 'Metronome-Industries/metronome-node' &&
-      startsWith(github.ref, 'refs/tags/v') && (github.event_name == 'release' || github.event_name == 'workflow_dispatch')
+      ((github.event_name == 'release' && startsWith(github.ref, 'refs/tags/v')) ||
+       (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'))
     environment: package-release
     name: publish
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
       id-token: write
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
 
     steps:
+      - name: Validate published release
+        env:
+          GH_HOST: github.com
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [[ ! "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Expected a version tag such as v3.11.0"
+            exit 1
+          fi
+          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" \
+            | jq -e --arg tag "$RELEASE_TAG" \
+              '.tag_name == $tag and .draft == false and .published_at != null' > /dev/null
+
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          ref: refs/tags/${{ env.RELEASE_TAG }}
           persist-credentials: false
+
+      - name: Verify package version
+        run: |
+          set -euo pipefail
+          version=$(jq -r -e '.version' package.json)
+          if [ "v$version" != "$RELEASE_TAG" ]; then
+            echo "::error::Package version $version does not match $RELEASE_TAG"
+            exit 1
+          fi
 
       - name: Set up Node
         uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
@@ -42,16 +75,5 @@ jobs:
           yarn install
 
       - name: Publish to NPM
-        # The `path` input is ignored here intentionally.
         run: |
-          PATHS_RELEASED='[\".\", \"packages/mcp-server\"]'
-          yarn tsn scripts/publish-packages.ts "{ \"paths_released\": \"$PATHS_RELEASED\" }"
-        env:
-          INPUT_PATH: ${{ github.event.inputs.path }}
-
-      - name: Upload MCP Server DXT GitHub release asset
-        run: |
-          gh release upload "$GITHUB_REF_NAME" \
-            packages/mcp-server/metronome_sdk_api.mcpb
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          bash ./bin/publish-npm
