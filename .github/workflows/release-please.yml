@@ -6,9 +6,8 @@
 # The override job rewrites only version-bearing files already changed by the PR.
 #
 # Required secrets:
-#   package-release: STLC_BOT_APP_ID and STLC_BOT_APP_PRIVATE_KEY.
-#   Reuse the existing STLC App; request Contents and Pull requests write only.
 #   stlc-automation: STLC_BOT_APP_ID and STLC_BOT_APP_PRIVATE_KEY.
+#   Reuse the existing STLC App; request Contents and Pull requests write only.
 #   PR version edits use GITHUB_TOKEN, which must not bypass release-tag rules.
 
 name: Release Please
@@ -33,7 +32,8 @@ jobs:
     if: >-
       github.repository == 'Metronome-Industries/metronome-node' &&
       github.event_name == 'push' && github.ref == 'refs/heads/main'
-    environment: package-release
+    # Release PRs and GitHub Releases run automatically; npm publishing requires approval.
+    environment: stlc-automation
     runs-on: ubuntu-latest
     steps:
       - name: Mint STLC App token for release
