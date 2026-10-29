@@ -834,6 +834,46 @@ export namespace CustomerRetrieveBillingConfigurationsResponse {
      * ID of the delivery method to use for this customer.
      */
     delivery_method_id: string;
+
+    /**
+     * Rules that stop matching invoices from being sent to the billing provider.
+     * Supported for Stripe and NetSuite billing provider configurations. When omitted,
+     * every invoice is sent to the billing provider. Stripe invoices can be force-sent
+     * after a rule suppresses them.
+     */
+    unbillable_invoices_configuration?: Array<Data.UnbillableInvoicesConfiguration>;
+  }
+
+  export namespace Data {
+    /**
+     * An individual rule that, when evaluated to true, indicates that any invoices for
+     * this billing provider will not be sent to its associated destination for the
+     * associated contract. Rules only apply to the specified `invoice_type` (or all
+     * invoices if omitted) and `fiat_credit_type_id` (or all invoices if omitted).
+     * Rule precedence is evaluated from more specific to less specific. This method
+     * will fail with a 400 if multiple rules with the same specificity are included.
+     */
+    export interface UnbillableInvoicesConfiguration {
+      /**
+       * The type of invoice this rule applies to.
+       */
+      invoice_type: 'USAGE' | 'SCHEDULED';
+
+      /**
+       * Restricts the rule to invoices in this fiat currency. Omit for a catch-all rule
+       * that applies to every currency of the `invoice_type`. Required when `max_amount`
+       * is set.
+       */
+      fiat_credit_type_id?: string;
+
+      /**
+       * A positive decimal, in the units of `fiat_credit_type_id`. Only invoices whose
+       * total is at or below this amount are suppressed; a higher total is still sent to
+       * the billing provider. When omitted, every matching invoice is suppressed
+       * regardless of amount.
+       */
+      max_amount?: number;
+    }
   }
 }
 
@@ -1221,6 +1261,46 @@ export namespace CustomerSetBillingConfigurationsParams {
      * configurations.
      */
     tax_provider?: 'anrok' | 'avalara' | 'stripe';
+
+    /**
+     * Rules that stop matching invoices from being sent to the billing provider.
+     * Supported for Stripe and NetSuite billing provider configurations. When omitted,
+     * every invoice is sent to the billing provider. Stripe invoices can be force-sent
+     * after a rule suppresses them.
+     */
+    unbillable_invoices_configuration?: Array<Data.UnbillableInvoicesConfiguration>;
+  }
+
+  export namespace Data {
+    /**
+     * An individual rule that, when evaluated to true, indicates that any invoices for
+     * this billing provider will not be sent to its associated destination for the
+     * associated contract. Rules only apply to the specified `invoice_type` (or all
+     * invoices if omitted) and `fiat_credit_type_id` (or all invoices if omitted).
+     * Rule precedence is evaluated from more specific to less specific. This method
+     * will fail with a 400 if multiple rules with the same specificity are included.
+     */
+    export interface UnbillableInvoicesConfiguration {
+      /**
+       * The type of invoice this rule applies to.
+       */
+      invoice_type: 'USAGE' | 'SCHEDULED';
+
+      /**
+       * Restricts the rule to invoices in this fiat currency. Omit for a catch-all rule
+       * that applies to every currency of the `invoice_type`. Required when `max_amount`
+       * is set.
+       */
+      fiat_credit_type_id?: string;
+
+      /**
+       * A positive decimal, in the units of `fiat_credit_type_id`. Only invoices whose
+       * total is at or below this amount are suppressed; a higher total is still sent to
+       * the billing provider. When omitted, every matching invoice is suppressed
+       * regardless of amount.
+       */
+      max_amount?: number;
+    }
   }
 }
 

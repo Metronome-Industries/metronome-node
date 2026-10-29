@@ -557,7 +557,7 @@ export namespace ContractEditResponse {
         export interface OverrideSpecifier {
           any_commit_or_credit_ids?: Array<string>;
 
-          billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+          billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
           commit_ids?: Array<string>;
 
@@ -709,7 +709,7 @@ export namespace ContractEditResponse {
          * invoice dates. - Daily recurring commits have a limit of one per contract, and
          * are unable to be created with seat-based subscriptions
          */
-        recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+        recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
         /**
          * Will be passed down to the individual commits. This controls how much of an
@@ -908,7 +908,7 @@ export namespace ContractEditResponse {
          * invoice dates. - Daily recurring commits have a limit of one per contract, and
          * are unable to be created with seat-based subscriptions
          */
-        recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+        recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
         /**
          * Will be passed down to the individual commits. This controls how much of an
@@ -1176,7 +1176,7 @@ export namespace ContractEditResponse {
         }
 
         export interface SubscriptionRate {
-          billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+          billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
           product: SubscriptionRate.Product;
         }
@@ -2375,7 +2375,7 @@ export namespace ContractGetEditHistoryResponse {
       export interface OverrideSpecifier {
         any_commit_or_credit_ids?: Array<string>;
 
-        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
         commit_ids?: Array<string>;
 
@@ -2527,7 +2527,7 @@ export namespace ContractGetEditHistoryResponse {
        * invoice dates. - Daily recurring commits have a limit of one per contract, and
        * are unable to be created with seat-based subscriptions
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -2726,7 +2726,7 @@ export namespace ContractGetEditHistoryResponse {
        * invoice dates. - Daily recurring commits have a limit of one per contract, and
        * are unable to be created with seat-based subscriptions
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -2994,7 +2994,7 @@ export namespace ContractGetEditHistoryResponse {
       }
 
       export interface SubscriptionRate {
-        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
         product: SubscriptionRate.Product;
       }
@@ -4791,7 +4791,7 @@ export namespace ContractEditParams {
        */
       any_commit_or_credit_ids?: Array<string>;
 
-      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * If provided, the override will only apply to the specified commits. Can only be
@@ -4999,7 +4999,7 @@ export namespace ContractEditParams {
      * invoice dates. - Daily recurring commits have a limit of one per contract, and
      * are unable to be created with seat-based subscriptions
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -5222,7 +5222,7 @@ export namespace ContractEditParams {
      * invoice dates. - Daily recurring commits have a limit of one per contract, and
      * are unable to be created with seat-based subscriptions
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -5662,7 +5662,7 @@ export namespace ContractEditParams {
        * Frequency to bill subscription with. Together with product_id, must match
        * existing rate on the rate card.
        */
-      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Must be subscription type product
