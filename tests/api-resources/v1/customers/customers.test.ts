@@ -40,6 +40,23 @@ describe('resource customers', () => {
           delivery_method: 'direct_to_billing_provider',
           delivery_method_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           tax_provider: 'anrok',
+          unbillable_invoices_configuration: [
+            {
+              invoice_type: 'USAGE',
+              fiat_credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+              max_amount: 1000,
+            },
+            {
+              invoice_type: 'USAGE',
+              fiat_credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+              max_amount: 1000,
+            },
+            {
+              invoice_type: 'SCHEDULED',
+              fiat_credit_type_id: '2714e483-4ff1-48e4-9e25-ac732e8f24f2',
+              max_amount: 1000,
+            },
+          ],
         },
       ],
       customer_revenue_system_configurations: [
