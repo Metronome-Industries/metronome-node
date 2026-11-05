@@ -113,6 +113,7 @@ describe('resource customers', () => {
           next_page: 'next_page',
           only_archived: true,
           salesforce_account_ids: ['string'],
+          stripe_customer_id: 'stripe_customer_id',
         },
         { path: '/_stainless_unknown_path' },
       ),

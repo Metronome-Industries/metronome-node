@@ -1144,6 +1144,15 @@ export interface CustomerListParams extends CursorPageParams {
    * provided.
    */
   salesforce_account_ids?: Array<string>;
+
+  /**
+   * Filter the customer list by the stripe_customer_id of active Stripe billing
+   * provider configurations. A Stripe customer ID can be linked to multiple
+   * customers, so it may match more than one customer. Archiving a customer also
+   * archives its billing provider configurations, so archived customers generally
+   * won't match.
+   */
+  stripe_customer_id?: string;
 }
 
 export interface CustomerArchiveParams {

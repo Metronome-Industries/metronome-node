@@ -4130,9 +4130,7 @@ export interface ContractEditParams {
   customer_id: string;
 
   /**
-   * Update the billing provider configuration on the contract. Currently only
-   * supports adding a billing provider configuration to a contract that does not
-   * already have one.
+   * Update the billing provider configuration on the contract.
    */
   add_billing_provider_configuration_update?: ContractEditParams.AddBillingProviderConfigurationUpdate;
 
@@ -4268,9 +4266,7 @@ export interface ContractEditParams {
 
 export namespace ContractEditParams {
   /**
-   * Update the billing provider configuration on the contract. Currently only
-   * supports adding a billing provider configuration to a contract that does not
-   * already have one.
+   * Update the billing provider configuration on the contract.
    */
   export interface AddBillingProviderConfigurationUpdate {
     billing_provider_configuration: AddBillingProviderConfigurationUpdate.BillingProviderConfiguration;
@@ -4308,7 +4304,7 @@ export namespace ContractEditParams {
       /**
        * When the billing provider update will take effect.
        */
-      effective_at: 'START_OF_CURRENT_PERIOD' | 'START_OF_NEXT_PERIOD';
+      effective_at: 'START_OF_CURRENT_PERIOD' | 'START_OF_NEXT_PERIOD' | 'TODAY';
     }
   }
 
