@@ -935,7 +935,7 @@ export namespace ContractCreateResponse {
          */
         billing_anchor_date: string;
 
-        frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+        frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
       }
 
       export interface CustomerBillingProviderConfiguration {
@@ -984,6 +984,46 @@ export namespace ContractCreateResponse {
          * ID of the delivery method to use for this customer.
          */
         delivery_method_id: string;
+
+        /**
+         * Rules that stop matching invoices from being sent to the billing provider.
+         * Supported for Stripe and NetSuite billing provider configurations. When omitted,
+         * every invoice is sent to the billing provider. Stripe invoices can be force-sent
+         * after a rule suppresses them.
+         */
+        unbillable_invoices_configuration?: Array<CustomerBillingProviderConfiguration.UnbillableInvoicesConfiguration>;
+      }
+
+      export namespace CustomerBillingProviderConfiguration {
+        /**
+         * An individual rule that, when evaluated to true, indicates that any invoices for
+         * this billing provider will not be sent to its associated destination for the
+         * associated contract. Rules only apply to the specified `invoice_type` (or all
+         * invoices if omitted) and `fiat_credit_type_id` (or all invoices if omitted).
+         * Rule precedence is evaluated from more specific to less specific. This method
+         * will fail with a 400 if multiple rules with the same specificity are included.
+         */
+        export interface UnbillableInvoicesConfiguration {
+          /**
+           * The type of invoice this rule applies to.
+           */
+          invoice_type: 'USAGE' | 'SCHEDULED';
+
+          /**
+           * Restricts the rule to invoices in this fiat currency. Omit for a catch-all rule
+           * that applies to every currency of the `invoice_type`. Required when `max_amount`
+           * is set.
+           */
+          fiat_credit_type_id?: string;
+
+          /**
+           * A positive decimal, in the units of `fiat_credit_type_id`. Only invoices whose
+           * total is at or below this amount are suppressed; a higher total is still sent to
+           * the billing provider. When omitted, every matching invoice is suppressed
+           * regardless of amount.
+           */
+          max_amount?: number;
+        }
       }
 
       /**
@@ -1102,7 +1142,7 @@ export namespace ContractCreateResponse {
          * invoice dates. - Daily recurring commits have a limit of one per contract, and
          * are unable to be created with seat-based subscriptions
          */
-        recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+        recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
         /**
          * Will be passed down to the individual commits. This controls how much of an
@@ -1303,7 +1343,7 @@ export namespace ContractCreateResponse {
          * invoice dates. - Daily recurring commits have a limit of one per contract, and
          * are unable to be created with seat-based subscriptions
          */
-        recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+        recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
         /**
          * Will be passed down to the individual commits. This controls how much of an
@@ -1696,7 +1736,7 @@ export namespace ContractRetrieveRateScheduleResponse {
 
     starting_at: string;
 
-    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * A distinct rate on the rate card. You can choose to use this rate rather than
@@ -1817,6 +1857,12 @@ export interface ContractCreateParams {
    * date. Mutually exclusive with package_id.
    */
   package_alias?: string;
+
+  /**
+   * Adjustments applied on top of the package's baseline configuration when
+   * provisioning the contract.
+   */
+  package_customizations?: ContractCreateParams.PackageCustomizations;
 
   /**
    * If provided, provisions a customer on a package instead of creating a
@@ -2544,7 +2590,7 @@ export namespace ContractCreateParams {
        */
       any_commit_or_credit_ids?: Array<string>;
 
-      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Can only be used for commit specific overrides. Must be used in conjunction with
@@ -2627,6 +2673,1453 @@ export namespace ContractCreateParams {
       multiplier: number;
 
       size?: number;
+    }
+  }
+
+  /**
+   * Adjustments applied on top of the package's baseline configuration when
+   * provisioning the contract.
+   */
+  export interface PackageCustomizations {
+    /**
+     * Commits added to the contract on top of the package's baseline configuration.
+     * Same shape as create_contract's commits.
+     */
+    add_commits?: Array<PackageCustomizations.AddCommit>;
+
+    /**
+     * Credits added to the contract on top of the package's baseline configuration.
+     * Same shape as create_contract's credits.
+     */
+    add_credits?: Array<PackageCustomizations.AddCredit>;
+
+    /**
+     * Rate overrides layered onto the contract on top of the package's baseline
+     * configuration. Same shape as create_contract's overrides, except override
+     * specifiers can also name commits defined on the package by template id.
+     */
+    add_overrides?: Array<PackageCustomizations.AddOverride>;
+
+    /**
+     * Recurring commits added to the contract on top of the package's baseline
+     * configuration. Same shape as create_contract's recurring_commits, except
+     * subscription_config can also name a subscription defined on the package by
+     * template_subscription_id or template_subscription_alias.
+     */
+    add_recurring_commits?: Array<PackageCustomizations.AddRecurringCommit>;
+
+    /**
+     * Recurring credits added to the contract on top of the package's baseline
+     * configuration. Same shape as create_contract's recurring_credits, except
+     * subscription_config can also name a subscription defined on the package by
+     * template_subscription_id or template_subscription_alias.
+     */
+    add_recurring_credits?: Array<PackageCustomizations.AddRecurringCredit>;
+
+    /**
+     * Scheduled charges added to the contract on top of the package's baseline
+     * configuration. Same shape as create_contract's scheduled_charges.
+     */
+    add_scheduled_charges?: Array<PackageCustomizations.AddScheduledCharge>;
+
+    /**
+     * Spend trackers added to the contract on top of the package's baseline
+     * configuration. Same shape as create_contract's spend_trackers; aliases must be
+     * unique within a contract.
+     */
+    add_spend_trackers?: Array<PackageCustomizations.AddSpendTracker>;
+
+    /**
+     * New subscriptions added to the contract on top of the package's baseline
+     * configuration. Distinct from modify_subscriptions, which adjusts subscriptions
+     * defined on the package template. Same shape as create_contract's subscriptions.
+     */
+    add_subscriptions?: Array<PackageCustomizations.AddSubscription>;
+
+    /**
+     * Per-subscription overrides for the subscriptions defined on the package
+     * template. Each entry targets one template subscription and sets its starting
+     * quantity or seats.
+     */
+    modify_subscriptions?: Array<PackageCustomizations.ModifySubscription>;
+
+    /**
+     * Per-contract adjustments to the usage statement schedule defined on the package.
+     */
+    modify_usage_statement_schedule?: PackageCustomizations.ModifyUsageStatementSchedule;
+
+    /**
+     * Prepaid balance (credit balance recharge) threshold configuration for the
+     * contract, using set (create-or-replace) semantics: supply the complete
+     * configuration and it replaces the package's baseline in full. Same shape as
+     * create_contract's prepaid_balance_threshold_configuration.
+     */
+    set_prepaid_balance_threshold_configuration?: Shared.PrepaidBalanceThresholdConfiguration;
+
+    /**
+     * Spend threshold configuration for the contract, using set (create-or-replace)
+     * semantics: supply the complete configuration and it replaces the package's
+     * baseline in full. Same shape as create_contract's spend_threshold_configuration.
+     */
+    set_spend_threshold_configuration?: Shared.SpendThresholdConfiguration;
+  }
+
+  export namespace PackageCustomizations {
+    export interface AddCommit {
+      product_id: string;
+
+      type: 'PREPAID' | 'POSTPAID';
+
+      /**
+       * Required: Schedule for distributing the commit to the customer. For "POSTPAID"
+       * commits only one schedule item is allowed and amount must match invoice_schedule
+       * total.
+       */
+      access_schedule?: AddCommit.AccessSchedule;
+
+      /**
+       * (DEPRECATED) Use access_schedule and invoice_schedule instead.
+       */
+      amount?: number;
+
+      /**
+       * Which products the commit applies to. If applicable_product_ids,
+       * applicable_product_tags or specifiers are not provided, the commit applies to
+       * all products.
+       */
+      applicable_product_ids?: Array<string>;
+
+      /**
+       * Which tags the commit applies to. If applicable_product_ids,
+       * applicable_product_tags or specifiers are not provided, the commit applies to
+       * all products.
+       */
+      applicable_product_tags?: Array<string>;
+
+      /**
+       * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+       */
+      custom_fields?: { [key: string]: string };
+
+      /**
+       * Used only in UI/API. It is not exposed to end customers.
+       */
+      description?: string;
+
+      /**
+       * Optional configuration for commit hierarchy access control
+       */
+      hierarchy_configuration?: Shared.CommitHierarchyConfiguration;
+
+      /**
+       * Required for "POSTPAID" commits: the true up invoice will be generated at this
+       * time and only one schedule item is allowed; the total must match access_schedule
+       * amount. Optional for "PREPAID" commits: if not provided, this will be a
+       * "complimentary" commit with no invoice.
+       */
+      invoice_schedule?: AddCommit.InvoiceSchedule;
+
+      /**
+       * displayed on invoices
+       */
+      name?: string;
+
+      /**
+       * This field's availability is dependent on your client's configuration.
+       */
+      netsuite_sales_order_id?: string;
+
+      /**
+       * If multiple commits are applicable, the one with the lower priority will apply
+       * first.
+       */
+      priority?: number;
+
+      rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
+      /**
+       * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
+       */
+      rollover_fraction?: number;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+       * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       */
+      specifiers?: Array<Shared.CommitSpecifierInput>;
+
+      /**
+       * Optional attributes for spend tracker integration. Immutable after creation.
+       */
+      spend_tracker_attributes?: AddCommit.SpendTrackerAttributes;
+
+      /**
+       * A temporary ID for the commit that can be used to reference the commit for
+       * commit specific overrides.
+       */
+      temporary_id?: string;
+    }
+
+    export namespace AddCommit {
+      /**
+       * Required: Schedule for distributing the commit to the customer. For "POSTPAID"
+       * commits only one schedule item is allowed and amount must match invoice_schedule
+       * total.
+       */
+      export interface AccessSchedule {
+        schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+        /**
+         * Determines how the balance is drawn down. `SPEND` deducts the dollar cost of
+         * usage. `QUANTITY` deducts the number of units used. Defaults to `SPEND` if
+         * omitted.
+         */
+        access_type?: 'SPEND' | 'QUANTITY';
+
+        /**
+         * Defaults to USD (cents) if not passed
+         */
+        credit_type_id?: string;
+      }
+
+      export namespace AccessSchedule {
+        export interface ScheduleItem {
+          amount: number;
+
+          /**
+           * RFC 3339 timestamp (exclusive)
+           */
+          ending_before: string;
+
+          /**
+           * RFC 3339 timestamp (inclusive)
+           */
+          starting_at: string;
+        }
+      }
+
+      /**
+       * Required for "POSTPAID" commits: the true up invoice will be generated at this
+       * time and only one schedule item is allowed; the total must match access_schedule
+       * amount. Optional for "PREPAID" commits: if not provided, this will be a
+       * "complimentary" commit with no invoice.
+       */
+      export interface InvoiceSchedule {
+        /**
+         * Defaults to USD (cents) if not passed.
+         */
+        credit_type_id?: string;
+
+        /**
+         * This field is only applicable to commit invoice schedules. If true, this
+         * schedule will not generate an invoice.
+         */
+        do_not_invoice?: boolean;
+
+        /**
+         * Enter the unit price and quantity for the charge or instead only send the
+         * amount. If amount is sent, the unit price is assumed to be the amount and
+         * quantity is inferred to be 1.
+         */
+        recurring_schedule?: InvoiceSchedule.RecurringSchedule;
+
+        /**
+         * Either provide amount or provide both unit_price and quantity.
+         */
+        schedule_items?: Array<InvoiceSchedule.ScheduleItem>;
+      }
+
+      export namespace InvoiceSchedule {
+        /**
+         * Enter the unit price and quantity for the charge or instead only send the
+         * amount. If amount is sent, the unit price is assumed to be the amount and
+         * quantity is inferred to be 1.
+         */
+        export interface RecurringSchedule {
+          amount_distribution: 'DIVIDED' | 'DIVIDED_ROUNDED' | 'EACH';
+
+          /**
+           * RFC 3339 timestamp (exclusive).
+           */
+          ending_before: string;
+
+          frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+
+          /**
+           * RFC 3339 timestamp (inclusive).
+           */
+          starting_at: string;
+
+          /**
+           * Amount for the charge. Can be provided instead of unit_price and quantity. If
+           * amount is sent, the unit_price is assumed to be the amount and quantity is
+           * inferred to be 1.
+           */
+          amount?: number;
+
+          /**
+           * Quantity for the charge. Will be multiplied by unit_price to determine the
+           * amount and must be specified with unit_price. If specified amount cannot be
+           * provided.
+           */
+          quantity?: number;
+
+          /**
+           * Unit price for the charge. Will be multiplied by quantity to determine the
+           * amount and must be specified with quantity. If specified amount cannot be
+           * provided.
+           */
+          unit_price?: number;
+        }
+
+        export interface ScheduleItem {
+          /**
+           * timestamp of the scheduled event
+           */
+          timestamp: string;
+
+          /**
+           * Amount for the charge. Can be provided instead of unit_price and quantity. If
+           * amount is sent, the unit_price is assumed to be the amount and quantity is
+           * inferred to be 1.
+           */
+          amount?: number;
+
+          /**
+           * Quantity for the charge. Will be multiplied by unit_price to determine the
+           * amount and must be specified with unit_price. If specified amount cannot be
+           * provided.
+           */
+          quantity?: number;
+
+          /**
+           * Unit price for the charge. Will be multiplied by quantity to determine the
+           * amount and must be specified with quantity. If specified amount cannot be
+           * provided.
+           */
+          unit_price?: number;
+        }
+      }
+
+      /**
+       * Optional attributes for spend tracker integration. Immutable after creation.
+       */
+      export interface SpendTrackerAttributes {
+        /**
+         * If true, this commit will be included in spend trackers with discounted set to
+         * DISCOUNTED_ONLY
+         */
+        counts_as_discounted: boolean;
+      }
+    }
+
+    export interface AddCredit {
+      /**
+       * Schedule for distributing the credit to the customer.
+       */
+      access_schedule: AddCredit.AccessSchedule;
+
+      product_id: string;
+
+      /**
+       * Which products the credit applies to. If both applicable_product_ids and
+       * applicable_product_tags are not provided, the credit applies to all products.
+       */
+      applicable_product_ids?: Array<string>;
+
+      /**
+       * Which tags the credit applies to. If both applicable_product_ids and
+       * applicable_product_tags are not provided, the credit applies to all products.
+       */
+      applicable_product_tags?: Array<string>;
+
+      /**
+       * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+       */
+      custom_fields?: { [key: string]: string };
+
+      /**
+       * Used only in UI/API. It is not exposed to end customers.
+       */
+      description?: string;
+
+      /**
+       * Optional configuration for credit hierarchy access control
+       */
+      hierarchy_configuration?: Shared.CommitHierarchyConfiguration;
+
+      /**
+       * displayed on invoices
+       */
+      name?: string;
+
+      /**
+       * This field's availability is dependent on your client's configuration.
+       */
+      netsuite_sales_order_id?: string;
+
+      /**
+       * If multiple credits are applicable, the one with the lower priority will apply
+       * first.
+       */
+      priority?: number;
+
+      rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
+      /**
+       * Fraction of unused segments that will be rolled over. Must be between 0 and 1.
+       */
+      rollover_fraction?: number;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+       * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       */
+      specifiers?: Array<Shared.CommitSpecifierInput>;
+    }
+
+    export namespace AddCredit {
+      /**
+       * Schedule for distributing the credit to the customer.
+       */
+      export interface AccessSchedule {
+        schedule_items: Array<AccessSchedule.ScheduleItem>;
+
+        /**
+         * Determines how the balance is drawn down. `SPEND` deducts the dollar cost of
+         * usage. `QUANTITY` deducts the number of units used. Defaults to `SPEND` if
+         * omitted.
+         */
+        access_type?: 'SPEND' | 'QUANTITY';
+
+        /**
+         * Defaults to USD (cents) if not passed
+         */
+        credit_type_id?: string;
+      }
+
+      export namespace AccessSchedule {
+        export interface ScheduleItem {
+          amount: number;
+
+          /**
+           * RFC 3339 timestamp (exclusive)
+           */
+          ending_before: string;
+
+          /**
+           * RFC 3339 timestamp (inclusive)
+           */
+          starting_at: string;
+        }
+      }
+    }
+
+    export interface AddOverride {
+      /**
+       * RFC 3339 timestamp indicating when the override will start applying (inclusive)
+       */
+      starting_at: string;
+
+      /**
+       * tags identifying products whose rates are being overridden. Cannot be used in
+       * conjunction with override_specifiers.
+       */
+      applicable_product_tags?: Array<string>;
+
+      /**
+       * RFC 3339 timestamp indicating when the override will stop applying (exclusive)
+       */
+      ending_before?: string;
+
+      entitled?: boolean;
+
+      /**
+       * Indicates whether the override should only apply to commits. Defaults to
+       * `false`. If `true` you can specify relevant commits in `override_specifiers` by
+       * passing `commit_ids`, `recurring_commit_ids`, or `any_commit_or_credit_ids`. If
+       * you do not specify any of these fields, the override will apply when consuming
+       * any prepaid commit, postpaid commit, or credit
+       */
+      is_commit_specific?: boolean;
+
+      /**
+       * Required for MULTIPLIER type. Must be >=0.
+       */
+      multiplier?: number;
+
+      /**
+       * Cannot be used in conjunction with product_id or applicable_product_tags. If
+       * provided, the override will apply to all products with the specified specifiers.
+       */
+      override_specifiers?: Array<AddOverride.OverrideSpecifier>;
+
+      /**
+       * Required for OVERWRITE type.
+       */
+      overwrite_rate?: AddOverride.OverwriteRate;
+
+      /**
+       * Required for EXPLICIT multiplier prioritization scheme and all TIERED overrides.
+       * Under EXPLICIT prioritization, overwrites are prioritized first, and then tiered
+       * and multiplier overrides are prioritized by their priority value (lowest first).
+       * Must be > 0.
+       */
+      priority?: number;
+
+      /**
+       * ID of the product whose rate is being overridden. Cannot be used in conjunction
+       * with override_specifiers.
+       */
+      product_id?: string;
+
+      /**
+       * Indicates whether the override applies to commit rates or list rates. Can only
+       * be used for overrides that have `is_commit_specific` set to `true`. Defaults to
+       * `"LIST_RATE"`.
+       */
+      target?: 'COMMIT_RATE' | 'LIST_RATE';
+
+      /**
+       * Required for TIERED type. Must have at least one tier.
+       */
+      tiers?: Array<AddOverride.Tier>;
+
+      /**
+       * Overwrites are prioritized over multipliers and tiered overrides.
+       */
+      type?: 'OVERWRITE' | 'MULTIPLIER' | 'TIERED';
+    }
+
+    export namespace AddOverride {
+      export interface OverrideSpecifier {
+        /**
+         * Can only be used for commit specific overrides. Must be used in conjunction with
+         * one of `product_id`, `product_tags`, `pricing_group_values`, or
+         * `presentation_group_values`. Must be used instead of both `commit_ids` and
+         * `recurring_commit_ids` If provided, the override will apply to any specified
+         * commit, credit, recurring commit or recurring credit IDs.
+         */
+        any_commit_or_credit_ids?: Array<string>;
+
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
+
+        /**
+         * Can only be used for commit specific overrides. Must be used in conjunction with
+         * one of `product_id`, `product_tags`, `pricing_group_values`, or
+         * `presentation_group_values`. If provided, the override will only apply to the
+         * specified commits. If not provided, the override will apply to all commits.
+         */
+        commit_ids?: Array<string>;
+
+        /**
+         * A map of group names to values. The override will only apply to line items with
+         * the specified presentation group values.
+         */
+        presentation_group_values?: { [key: string]: string };
+
+        /**
+         * A map of pricing group names to values. The override will only apply to products
+         * with the specified pricing group values.
+         */
+        pricing_group_values?: { [key: string]: string };
+
+        /**
+         * If provided, the override will only apply to the product with the specified ID.
+         */
+        product_id?: string;
+
+        /**
+         * If provided, the override will only apply to products with all the specified
+         * tags.
+         */
+        product_tags?: Array<string>;
+
+        /**
+         * Can only be used for commit specific overrides. Must be used in conjunction with
+         * one of `product_id`, `product_tags`, `pricing_group_values`, or
+         * `presentation_group_values`. If provided, the override will only apply to
+         * commits created by the specified recurring commit ids.
+         */
+        recurring_commit_ids?: Array<string>;
+
+        /**
+         * Can only be used for commit specific overrides. Commits, credits, recurring
+         * commits, or recurring credits defined on the package, by the `id` of each
+         * template returned by getPackage. Each is resolved to the term the package
+         * creates on this contract and applied like `any_commit_or_credit_ids`. Cannot be
+         * combined with `commit_ids`, `template_commit_ids`, `recurring_commit_ids`, or
+         * `template_recurring_commit_ids`.
+         */
+        template_any_commit_or_credit_ids?: Array<string>;
+
+        /**
+         * Can only be used for commit specific overrides. Commits defined on the package,
+         * by the `id` of each commit template returned by getPackage. Each is resolved to
+         * the commit the package creates on this contract and applied like `commit_ids`;
+         * credits must use `template_any_commit_or_credit_ids`.
+         */
+        template_commit_ids?: Array<string>;
+
+        /**
+         * Can only be used for commit specific overrides. Recurring commits defined on the
+         * package, by the `id` of each recurring commit template returned by getPackage.
+         * Each is resolved to the recurring commit the package creates on this contract
+         * and applied like `recurring_commit_ids`; recurring credits must use
+         * `template_any_commit_or_credit_ids`.
+         */
+        template_recurring_commit_ids?: Array<string>;
+      }
+
+      /**
+       * Required for OVERWRITE type.
+       */
+      export interface OverwriteRate {
+        rate_type: 'FLAT' | 'PERCENTAGE' | 'SUBSCRIPTION' | 'TIERED' | 'TIERED_PERCENTAGE' | 'CUSTOM';
+
+        credit_type_id?: string;
+
+        /**
+         * Only set for CUSTOM rate_type. This field is interpreted by custom rate
+         * processors.
+         */
+        custom_rate?: { [key: string]: unknown };
+
+        /**
+         * Default proration configuration. Only valid for SUBSCRIPTION rate_type. Must be
+         * set to true.
+         */
+        is_prorated?: boolean;
+
+        /**
+         * Default price. For FLAT rate_type, this must be >=0. For PERCENTAGE rate_type,
+         * this is a decimal fraction, e.g. use 0.1 for 10%; this must be >=0 and <=1.
+         */
+        price?: number;
+
+        /**
+         * Default quantity. For SUBSCRIPTION rate_type, this must be >=0.
+         */
+        quantity?: number;
+
+        /**
+         * Only set for TIERED rate_type.
+         */
+        tiers?: Array<Shared.Tier>;
+      }
+
+      export interface Tier {
+        multiplier: number;
+
+        size?: number;
+      }
+    }
+
+    export interface AddRecurringCommit {
+      /**
+       * The amount of commit to grant.
+       */
+      access_amount: AddRecurringCommit.AccessAmount;
+
+      /**
+       * Defines the length of the access schedule for each created commit/credit. The
+       * value represents the number of units. Unit defaults to "PERIODS", where the
+       * length of a period is determined by the recurrence_frequency.
+       */
+      commit_duration: AddRecurringCommit.CommitDuration;
+
+      /**
+       * Will be passed down to the individual commits
+       */
+      priority: number;
+
+      product_id: string;
+
+      /**
+       * determines the start time for the first commit
+       */
+      starting_at: string;
+
+      /**
+       * Will be passed down to the individual commits
+       */
+      applicable_product_ids?: Array<string>;
+
+      /**
+       * Will be passed down to the individual commits
+       */
+      applicable_product_tags?: Array<string>;
+
+      /**
+       * Will be passed down to the individual commits
+       */
+      description?: string;
+
+      /**
+       * Determines when the contract will stop creating recurring commits. optional
+       */
+      ending_before?: string;
+
+      /**
+       * Optional configuration for recurring commit/credit hierarchy access control
+       */
+      hierarchy_configuration?: Shared.CommitHierarchyConfiguration;
+
+      /**
+       * The amount the customer should be billed for the commit. Not required.
+       */
+      invoice_amount?: AddRecurringCommit.InvoiceAmount;
+
+      /**
+       * displayed on invoices. will be passed through to the individual commits
+       */
+      name?: string;
+
+      /**
+       * Will be passed down to the individual commits
+       */
+      netsuite_sales_order_id?: string;
+
+      /**
+       * Determines whether the first and last commit will be prorated. If not provided,
+       * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+       */
+      proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
+
+      /**
+       * Optional rounding configuration for prorated recurring commit amounts.
+       */
+      proration_rounding?: AddRecurringCommit.ProrationRounding;
+
+      /**
+       * Whether the created commits will use the commit rate or list rate
+       */
+      rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
+      /**
+       * The frequency at which the recurring commits will be created. If not provided: -
+       * The commits will be created on the usage invoice frequency. If provided: - The
+       * period defined in the duration will correspond to this frequency. - Commits will
+       * be created aligned with the recurring commit's starting_at rather than the usage
+       * invoice dates. - Daily recurring commits have a limit of one per contract, and
+       * are unable to be created with seat-based subscriptions
+       */
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+
+      /**
+       * Will be passed down to the individual commits. This controls how much of an
+       * individual unexpired commit will roll over upon contract transition. Must be
+       * between 0 and 1.
+       */
+      rollover_fraction?: number;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+       * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       */
+      specifiers?: Array<Shared.CommitSpecifierInput>;
+
+      /**
+       * Attach a subscription to the recurring commit/credit: a subscription added in
+       * the same customization (by its temporary_id) or a subscription defined on the
+       * package.
+       */
+      subscription_config?: AddRecurringCommit.SubscriptionConfig;
+
+      /**
+       * A temporary ID that can be used to reference the recurring commit for commit
+       * specific overrides.
+       */
+      temporary_id?: string;
+    }
+
+    export namespace AddRecurringCommit {
+      /**
+       * The amount of commit to grant.
+       */
+      export interface AccessAmount {
+        unit_price: number;
+
+        /**
+         * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+         * dollar cost of usage. `QUANTITY` deducts the number of units used.
+         */
+        access_type?: 'SPEND' | 'QUANTITY';
+
+        /**
+         * Defaults to USD (cents) if not passed
+         */
+        credit_type_id?: string;
+
+        /**
+         * This field is required unless a subscription is attached via
+         * `subscription_config`.
+         */
+        quantity?: number;
+      }
+
+      /**
+       * Defines the length of the access schedule for each created commit/credit. The
+       * value represents the number of units. Unit defaults to "PERIODS", where the
+       * length of a period is determined by the recurrence_frequency.
+       */
+      export interface CommitDuration {
+        value: number;
+
+        unit?: 'PERIODS';
+      }
+
+      /**
+       * The amount the customer should be billed for the commit. Not required.
+       */
+      export interface InvoiceAmount {
+        credit_type_id: string;
+
+        quantity: number;
+
+        unit_price: number;
+      }
+
+      /**
+       * Optional rounding configuration for prorated recurring commit amounts.
+       */
+      export interface ProrationRounding {
+        access?: ProrationRounding.Access;
+
+        invoice?: ProrationRounding.Invoice;
+      }
+
+      export namespace ProrationRounding {
+        export interface Access {
+          /**
+           * Number of decimal places to round to. Applied directly to the stored monetary
+           * representation. Negative values round to powers of 10 (e.g., -2 rounds to
+           * nearest 100 in the stored unit. For USD, this means rounding to the nearest
+           * dollar).
+           */
+          decimal_places: number;
+
+          rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
+        }
+
+        export interface Invoice {
+          /**
+           * Number of decimal places to round to. Applied directly to the stored monetary
+           * representation. Negative values round to powers of 10 (e.g., -2 rounds to
+           * nearest 100 in the stored unit. For USD, this means rounding to the nearest
+           * dollar).
+           */
+          decimal_places: number;
+
+          rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
+        }
+      }
+
+      /**
+       * Attach a subscription to the recurring commit/credit: a subscription added in
+       * the same customization (by its temporary_id) or a subscription defined on the
+       * package.
+       */
+      export interface SubscriptionConfig {
+        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+        /**
+         * If set to POOLED, allocation added per seat is pooled across the account. If set
+         * to INDIVIDUAL, each seat in the subscription will have its own allocation.
+         */
+        allocation?: 'INDIVIDUAL' | 'POOLED';
+
+        /**
+         * The temporary_id of a subscription added in the same customization
+         * (add_subscriptions).
+         */
+        subscription_id?: string;
+
+        /**
+         * Human-readable alias of a subscription template on the package, as an
+         * alternative to template_subscription_id.
+         */
+        template_subscription_alias?: string;
+
+        /**
+         * ID of a subscription template on the package. The recurring commit/credit is
+         * attached to the subscription the contract creates from it.
+         */
+        template_subscription_id?: string;
+      }
+
+      export namespace SubscriptionConfig {
+        export interface ApplySeatIncreaseConfig {
+          /**
+           * Indicates whether a mid-period seat increase should be prorated.
+           */
+          is_prorated: boolean;
+        }
+      }
+    }
+
+    export interface AddRecurringCredit {
+      /**
+       * The amount of commit to grant.
+       */
+      access_amount: AddRecurringCredit.AccessAmount;
+
+      /**
+       * Defines the length of the access schedule for each created commit/credit. The
+       * value represents the number of units. Unit defaults to "PERIODS", where the
+       * length of a period is determined by the recurrence_frequency.
+       */
+      commit_duration: AddRecurringCredit.CommitDuration;
+
+      /**
+       * Will be passed down to the individual commits
+       */
+      priority: number;
+
+      product_id: string;
+
+      /**
+       * determines the start time for the first commit
+       */
+      starting_at: string;
+
+      /**
+       * Will be passed down to the individual commits
+       */
+      applicable_product_ids?: Array<string>;
+
+      /**
+       * Will be passed down to the individual commits
+       */
+      applicable_product_tags?: Array<string>;
+
+      /**
+       * Will be passed down to the individual commits
+       */
+      description?: string;
+
+      /**
+       * Determines when the contract will stop creating recurring commits. optional
+       */
+      ending_before?: string;
+
+      /**
+       * Optional configuration for recurring commit/credit hierarchy access control
+       */
+      hierarchy_configuration?: Shared.CommitHierarchyConfiguration;
+
+      /**
+       * displayed on invoices. will be passed through to the individual commits
+       */
+      name?: string;
+
+      /**
+       * Will be passed down to the individual commits
+       */
+      netsuite_sales_order_id?: string;
+
+      /**
+       * Determines whether the first and last commit will be prorated. If not provided,
+       * the default is FIRST_AND_LAST (i.e. prorate both the first and last commits).
+       */
+      proration?: 'NONE' | 'FIRST' | 'LAST' | 'FIRST_AND_LAST';
+
+      /**
+       * Optional rounding configuration for prorated recurring credit amounts.
+       */
+      proration_rounding?: AddRecurringCredit.ProrationRounding;
+
+      /**
+       * Whether the created commits will use the commit rate or list rate
+       */
+      rate_type?: 'COMMIT_RATE' | 'LIST_RATE';
+
+      /**
+       * The frequency at which the recurring commits will be created. If not provided: -
+       * The commits will be created on the usage invoice frequency. If provided: - The
+       * period defined in the duration will correspond to this frequency. - Commits will
+       * be created aligned with the recurring commit's starting_at rather than the usage
+       * invoice dates. - Daily recurring commits have a limit of one per contract, and
+       * are unable to be created with seat-based subscriptions
+       */
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+
+      /**
+       * Will be passed down to the individual commits. This controls how much of an
+       * individual unexpired commit will roll over upon contract transition. Must be
+       * between 0 and 1.
+       */
+      rollover_fraction?: number;
+
+      /**
+       * List of filters that determine what kind of customer usage draws down a commit
+       * or credit. A customer's usage needs to meet the condition of at least one of the
+       * specifiers to contribute to a commit's or credit's drawdown. This field cannot
+       * be used together with `applicable_product_ids` or `applicable_product_tags`.
+       */
+      specifiers?: Array<Shared.CommitSpecifierInput>;
+
+      /**
+       * Attach a subscription to the recurring commit/credit: a subscription added in
+       * the same customization (by its temporary_id) or a subscription defined on the
+       * package.
+       */
+      subscription_config?: AddRecurringCredit.SubscriptionConfig;
+
+      /**
+       * A temporary ID that can be used to reference the recurring commit for commit
+       * specific overrides.
+       */
+      temporary_id?: string;
+    }
+
+    export namespace AddRecurringCredit {
+      /**
+       * The amount of commit to grant.
+       */
+      export interface AccessAmount {
+        unit_price: number;
+
+        /**
+         * Indicates how the balance of child commits is drawn down. `SPEND` deducts the
+         * dollar cost of usage. `QUANTITY` deducts the number of units used.
+         */
+        access_type?: 'SPEND' | 'QUANTITY';
+
+        /**
+         * Defaults to USD (cents) if not passed
+         */
+        credit_type_id?: string;
+
+        /**
+         * This field is required unless a subscription is attached via
+         * `subscription_config`.
+         */
+        quantity?: number;
+      }
+
+      /**
+       * Defines the length of the access schedule for each created commit/credit. The
+       * value represents the number of units. Unit defaults to "PERIODS", where the
+       * length of a period is determined by the recurrence_frequency.
+       */
+      export interface CommitDuration {
+        value: number;
+
+        unit?: 'PERIODS';
+      }
+
+      /**
+       * Optional rounding configuration for prorated recurring credit amounts.
+       */
+      export interface ProrationRounding {
+        access?: ProrationRounding.Access;
+      }
+
+      export namespace ProrationRounding {
+        export interface Access {
+          /**
+           * Number of decimal places to round to. Applied directly to the stored monetary
+           * representation. Negative values round to powers of 10 (e.g., -2 rounds to
+           * nearest 100 in the stored unit. For USD, this means rounding to the nearest
+           * dollar).
+           */
+          decimal_places: number;
+
+          rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
+        }
+      }
+
+      /**
+       * Attach a subscription to the recurring commit/credit: a subscription added in
+       * the same customization (by its temporary_id) or a subscription defined on the
+       * package.
+       */
+      export interface SubscriptionConfig {
+        apply_seat_increase_config: SubscriptionConfig.ApplySeatIncreaseConfig;
+
+        /**
+         * If set to POOLED, allocation added per seat is pooled across the account. If set
+         * to INDIVIDUAL, each seat in the subscription will have its own allocation.
+         */
+        allocation?: 'INDIVIDUAL' | 'POOLED';
+
+        /**
+         * The temporary_id of a subscription added in the same customization
+         * (add_subscriptions).
+         */
+        subscription_id?: string;
+
+        /**
+         * Human-readable alias of a subscription template on the package, as an
+         * alternative to template_subscription_id.
+         */
+        template_subscription_alias?: string;
+
+        /**
+         * ID of a subscription template on the package. The recurring commit/credit is
+         * attached to the subscription the contract creates from it.
+         */
+        template_subscription_id?: string;
+      }
+
+      export namespace SubscriptionConfig {
+        export interface ApplySeatIncreaseConfig {
+          /**
+           * Indicates whether a mid-period seat increase should be prorated.
+           */
+          is_prorated: boolean;
+        }
+      }
+    }
+
+    export interface AddScheduledCharge {
+      product_id: string;
+
+      /**
+       * Must provide either schedule_items or recurring_schedule.
+       */
+      schedule: AddScheduledCharge.Schedule;
+
+      /**
+       * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+       */
+      custom_fields?: { [key: string]: string };
+
+      /**
+       * displayed on invoices
+       */
+      name?: string;
+
+      /**
+       * This field's availability is dependent on your client's configuration.
+       */
+      netsuite_sales_order_id?: string;
+    }
+
+    export namespace AddScheduledCharge {
+      /**
+       * Must provide either schedule_items or recurring_schedule.
+       */
+      export interface Schedule {
+        /**
+         * Defaults to USD (cents) if not passed.
+         */
+        credit_type_id?: string;
+
+        /**
+         * This field is only applicable to commit invoice schedules. If true, this
+         * schedule will not generate an invoice.
+         */
+        do_not_invoice?: boolean;
+
+        /**
+         * Enter the unit price and quantity for the charge or instead only send the
+         * amount. If amount is sent, the unit price is assumed to be the amount and
+         * quantity is inferred to be 1.
+         */
+        recurring_schedule?: Schedule.RecurringSchedule;
+
+        /**
+         * Either provide amount or provide both unit_price and quantity.
+         */
+        schedule_items?: Array<Schedule.ScheduleItem>;
+      }
+
+      export namespace Schedule {
+        /**
+         * Enter the unit price and quantity for the charge or instead only send the
+         * amount. If amount is sent, the unit price is assumed to be the amount and
+         * quantity is inferred to be 1.
+         */
+        export interface RecurringSchedule {
+          amount_distribution: 'DIVIDED' | 'DIVIDED_ROUNDED' | 'EACH';
+
+          /**
+           * RFC 3339 timestamp (exclusive).
+           */
+          ending_before: string;
+
+          frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+
+          /**
+           * RFC 3339 timestamp (inclusive).
+           */
+          starting_at: string;
+
+          /**
+           * Amount for the charge. Can be provided instead of unit_price and quantity. If
+           * amount is sent, the unit_price is assumed to be the amount and quantity is
+           * inferred to be 1.
+           */
+          amount?: number;
+
+          /**
+           * Quantity for the charge. Will be multiplied by unit_price to determine the
+           * amount and must be specified with unit_price. If specified amount cannot be
+           * provided.
+           */
+          quantity?: number;
+
+          /**
+           * Unit price for the charge. Will be multiplied by quantity to determine the
+           * amount and must be specified with quantity. If specified amount cannot be
+           * provided.
+           */
+          unit_price?: number;
+        }
+
+        export interface ScheduleItem {
+          /**
+           * timestamp of the scheduled event
+           */
+          timestamp: string;
+
+          /**
+           * Amount for the charge. Can be provided instead of unit_price and quantity. If
+           * amount is sent, the unit_price is assumed to be the amount and quantity is
+           * inferred to be 1.
+           */
+          amount?: number;
+
+          /**
+           * Quantity for the charge. Will be multiplied by unit_price to determine the
+           * amount and must be specified with unit_price. If specified amount cannot be
+           * provided.
+           */
+          quantity?: number;
+
+          /**
+           * Unit price for the charge. Will be multiplied by quantity to determine the
+           * amount and must be specified with quantity. If specified amount cannot be
+           * provided.
+           */
+          unit_price?: number;
+        }
+      }
+    }
+
+    export interface AddSpendTracker {
+      /**
+       * Human-readable identifier, unique per contract.
+       */
+      alias: string;
+
+      applicable_spend_specifiers: Array<AddSpendTracker.ApplicableSpendSpecifier>;
+
+      credit_type_id: string;
+
+      reset_frequency: 'BILLING_PERIOD';
+    }
+
+    export namespace AddSpendTracker {
+      export interface ApplicableSpendSpecifier {
+        sources: Array<'THRESHOLD_RECHARGE' | 'MANUAL'>;
+
+        spend_type: 'COMMIT_PURCHASE';
+
+        /**
+         * Filter by whether the spend was discounted. Defaults to ANY if omitted.
+         */
+        discounted?: 'ANY' | 'DISCOUNTED_ONLY' | 'UNDISCOUNTED_ONLY';
+      }
+    }
+
+    export interface AddSubscription {
+      collection_schedule: 'ADVANCE' | 'ARREARS';
+
+      proration: AddSubscription.Proration;
+
+      subscription_rate: AddSubscription.SubscriptionRate;
+
+      billing_cycle_config?: AddSubscription.BillingCycleConfig;
+
+      /**
+       * Custom fields to be added eg. { "key1": "value1", "key2": "value2" }
+       */
+      custom_fields?: { [key: string]: string };
+
+      description?: string;
+
+      /**
+       * Exclusive end time for the subscription. If not provided, subscription inherits
+       * contract end date.
+       */
+      ending_before?: string;
+
+      /**
+       * The initial quantity for the subscription. It must be non-negative value.
+       * Required if quantity_management_mode is QUANTITY_ONLY.
+       */
+      initial_quantity?: number;
+
+      name?: string;
+
+      /**
+       * Determines how the subscription's quantity is controlled. Defaults to
+       * QUANTITY_ONLY. **QUANTITY_ONLY**: The subscription quantity is specified
+       * directly on the subscription. `initial_quantity` must be provided with this
+       * option. Compatible with recurring commits/credits that use POOLED allocation.
+       * **SEAT_BASED**: Use when you want to pass specific seat identifiers (e.g. add
+       * user_123) to increment and decrement a subscription quantity, rather than
+       * directly providing the quantity. You must use a **SEAT_BASED** subscription to
+       * use a linked recurring credit with an allocation per seat. `seat_config` must be
+       * provided with this option.
+       */
+      quantity_management_mode?: 'SEAT_BASED' | 'QUANTITY_ONLY';
+
+      seat_config?: AddSubscription.SeatConfig;
+
+      /**
+       * Inclusive start time for the subscription. If not provided, defaults to contract
+       * start date
+       */
+      starting_at?: string;
+
+      /**
+       * A temporary ID used to reference the subscription in recurring commit/credit
+       * subscription configs created within the same payload.
+       */
+      temporary_id?: string;
+    }
+
+    export namespace AddSubscription {
+      export interface Proration {
+        /**
+         * Indicates how mid-period quantity adjustments are invoiced.
+         * **BILL_IMMEDIATELY**: Only available when collection schedule is `ADVANCE`. The
+         * quantity increase will be billed immediately on the scheduled date.
+         * **BILL_ON_NEXT_COLLECTION_DATE**: The quantity increase will be billed for
+         * in-arrears at the end of the period.
+         */
+        invoice_behavior?: 'BILL_IMMEDIATELY' | 'BILL_ON_NEXT_COLLECTION_DATE';
+
+        /**
+         * Indicates if the partial period will be prorated or charged a full amount.
+         */
+        is_prorated?: boolean;
+
+        rounding?: Proration.Rounding;
+      }
+
+      export namespace Proration {
+        export interface Rounding {
+          /**
+           * Number of decimal places to round to. Applied directly to the stored monetary
+           * representation. Negative values round to powers of 10 (e.g., -2 rounds to
+           * nearest 100 in the stored unit. For USD, this means rounding to the nearest
+           * dollar).
+           */
+          decimal_places: number;
+
+          rounding_method: 'HALF_UP' | 'FLOOR' | 'CEILING';
+        }
+      }
+
+      export interface SubscriptionRate {
+        /**
+         * Frequency to bill subscription with. Together with product_id, must match
+         * existing rate on the rate card.
+         */
+        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
+
+        /**
+         * Must be subscription type product
+         */
+        product_id: string;
+      }
+
+      export interface BillingCycleConfig {
+        /**
+         * The date to anchor the billing cycle to. If omitted, defaults to the contract's
+         * usage invoice billing cycle anchor date.
+         */
+        anchor_date?: string;
+
+        /**
+         * Controls whether this subscription consolidates onto usage invoices or gets its
+         * own scheduled invoice. Defaults to ON_USAGE_INVOICE if omitted.
+         */
+        invoice_placement?: 'ON_SCHEDULED_INVOICE' | 'ON_USAGE_INVOICE';
+      }
+
+      export interface SeatConfig {
+        /**
+         * The initial assigned seats on this subscription.
+         */
+        initial_seat_ids: Array<string>;
+
+        /**
+         * The property name, sent on usage events, that identifies the seat ID associated
+         * with the usage event. For example, the property name might be seat_id or
+         * user_id. The property must be set as a group key on billable metrics and a
+         * presentation/pricing group key on contract products. This allows linked
+         * recurring credits with an allocation per seat to be consumed by only one seat's
+         * usage.
+         */
+        seat_group_key: string;
+
+        /**
+         * The initial amount of unassigned seats on this subscription.
+         */
+        initial_unassigned_seats?: number;
+      }
+    }
+
+    export interface ModifySubscription {
+      /**
+       * The initial quantity for the subscription. Must be a non-negative value. Provide
+       * for a QUANTITY_ONLY subscription.
+       */
+      initial_quantity?: number;
+
+      /**
+       * Seat identifiers to assign at the start of a SEAT_BASED subscription.
+       */
+      initial_seat_ids?: Array<string>;
+
+      /**
+       * Number of unassigned seats to provision at the start of a SEAT_BASED
+       * subscription.
+       */
+      initial_unassigned_seats?: number;
+
+      /**
+       * Billing cycle anchor date for this subscription, required when the template's
+       * billing_cycle_anchor is CUSTOM_DATE and disallowed otherwise. Must be on or
+       * before the subscription's starting_at.
+       */
+      subscription_anchor_date?: string;
+
+      /**
+       * Human-readable alias of the template subscription on the package to customize,
+       * as an alternative to template_subscription_id. Provide exactly one of the two.
+       */
+      template_subscription_alias?: string;
+
+      /**
+       * ID of the template subscription on the package to customize. Provide exactly one
+       * of template_subscription_id or template_subscription_alias.
+       */
+      template_subscription_id?: string;
+    }
+
+    /**
+     * Per-contract adjustments to the usage statement schedule defined on the package.
+     */
+    export interface ModifyUsageStatementSchedule {
+      /**
+       * Billing cycle anchor date, required when the package's usage statement schedule
+       * uses a CUSTOM_DATE anchor and disallowed otherwise. Must be on or before the
+       * contract's starting_at.
+       */
+      billing_anchor_date?: string;
     }
   }
 
@@ -2752,7 +4245,7 @@ export namespace ContractCreateParams {
      * invoice dates. - Daily recurring commits have a limit of one per contract, and
      * are unable to be created with seat-based subscriptions
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -2975,7 +4468,7 @@ export namespace ContractCreateParams {
      * invoice dates. - Daily recurring commits have a limit of one per contract, and
      * are unable to be created with seat-based subscriptions
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -3406,7 +4899,7 @@ export namespace ContractCreateParams {
        * Frequency to bill subscription with. Together with product_id, must match
        * existing rate on the rate card.
        */
-      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Must be subscription type product
@@ -3473,7 +4966,7 @@ export namespace ContractCreateParams {
   }
 
   export interface UsageStatementSchedule {
-    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * Required when using CUSTOM_DATE. This option lets you set a historical billing
@@ -4231,7 +5724,7 @@ export namespace ContractAmendParams {
        */
       any_commit_or_credit_ids?: Array<string>;
 
-      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Can only be used for commit specific overrides. Must be used in conjunction with
@@ -4848,7 +6341,7 @@ export namespace ContractRetrieveRateScheduleParams {
      * Subscription rates matching the billing frequency will be included in the
      * response.
      */
-    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * List of pricing group key value pairs, rates containing the matching key / value

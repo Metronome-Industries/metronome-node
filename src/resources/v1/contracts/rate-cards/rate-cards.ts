@@ -396,7 +396,7 @@ export namespace RateCardRetrieveRateScheduleResponse {
 
     starting_at: string;
 
-    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * A distinct rate on the rate card. You can choose to use this rate rather than
@@ -557,7 +557,7 @@ export namespace RateCardRetrieveRateScheduleParams {
      * Subscription rates matching the billing frequency will be included in the
      * response.
      */
-    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * List of pricing group key value pairs, rates containing the matching key / value

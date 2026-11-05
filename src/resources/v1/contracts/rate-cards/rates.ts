@@ -141,7 +141,7 @@ export interface RateListResponse {
 
   starting_at: string;
 
-  billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+  billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
   /**
    * A distinct rate on the rate card. You can choose to use this rate rather than
@@ -238,7 +238,7 @@ export namespace RateListParams {
      * Subscription rates matching the billing frequency will be included in the
      * response.
      */
-    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * List of pricing group key value pairs, rates containing the matching key / value
@@ -289,7 +289,7 @@ export interface RateAddParams {
    * Optional. Frequency to bill subscriptions with. Required for subscription type
    * products with Flat rate.
    */
-  billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+  billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
   /**
    * A distinct rate on the rate card. You can choose to use this rate rather than
@@ -371,7 +371,7 @@ export namespace RateAddManyParams {
      * Optional. Frequency to bill subscriptions with. Required for subscription type
      * products with Flat rate.
      */
-    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * A distinct rate on the rate card. You can choose to use this rate rather than
