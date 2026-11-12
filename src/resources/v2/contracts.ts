@@ -5096,6 +5096,14 @@ export namespace ContractEditParams {
     starting_at: string;
 
     /**
+     * The date this recurring commit's or credit's periods are anchored to. Must be on
+     * or before `starting_at`. If omitted, periods are anchored to `starting_at` when
+     * `recurrence_frequency` is set, and to the contract's usage statement billing
+     * anchor otherwise.
+     */
+    anchor_date?: string;
+
+    /**
      * Will be passed down to the individual commits
      */
     applicable_product_ids?: Array<string>;
@@ -5322,6 +5330,14 @@ export namespace ContractEditParams {
      * determines the start time for the first commit
      */
     starting_at: string;
+
+    /**
+     * The date this recurring commit's or credit's periods are anchored to. Must be on
+     * or before `starting_at`. If omitted, periods are anchored to `starting_at` when
+     * `recurrence_frequency` is set, and to the contract's usage statement billing
+     * anchor otherwise.
+     */
+    anchor_date?: string;
 
     /**
      * Will be passed down to the individual commits

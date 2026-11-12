@@ -350,6 +350,7 @@ describe('resource contracts', () => {
             priority: 0,
             product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             starting_at: '2019-12-27T18:11:19.117Z',
+            anchor_date: '2019-12-27T18:11:19.117Z',
             applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
             applicable_product_tags: ['string'],
             description: 'description',
@@ -400,6 +401,7 @@ describe('resource contracts', () => {
             priority: 0,
             product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
             starting_at: '2019-12-27T18:11:19.117Z',
+            anchor_date: '2019-12-27T18:11:19.117Z',
             applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
             applicable_product_tags: ['string'],
             description: 'description',
@@ -502,6 +504,18 @@ describe('resource contracts', () => {
             },
             starting_at: '2019-12-27T18:11:19.117Z',
             temporary_id: 'temporary_id',
+          },
+        ],
+        modify_recurring_commits: [
+          {
+            anchor_date: '2019-12-27T18:11:19.117Z',
+            template_recurring_commit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          },
+        ],
+        modify_recurring_credits: [
+          {
+            anchor_date: '2019-12-27T18:11:19.117Z',
+            template_recurring_credit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           },
         ],
         modify_subscriptions: [
@@ -671,6 +685,7 @@ describe('resource contracts', () => {
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           starting_at: '2019-12-27T18:11:19.117Z',
+          anchor_date: '2019-12-27T18:11:19.117Z',
           applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
           applicable_product_tags: ['string'],
           description: 'description',
@@ -719,6 +734,7 @@ describe('resource contracts', () => {
           priority: 0,
           product_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           starting_at: '2019-12-27T18:11:19.117Z',
+          anchor_date: '2019-12-27T18:11:19.117Z',
           applicable_product_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
           applicable_product_tags: ['string'],
           description: 'description',

@@ -650,6 +650,12 @@ export namespace PackageRetrieveResponse {
       starting_at_offset: RecurringCommit.StartingAtOffset;
 
       /**
+       * Recurring cycle anchor for recurring commits or credits created from this
+       * template. `USAGE_STATEMENT_ANCHOR` tracks the contract's usage statement anchor.
+       */
+      anchor_date?: 'SUBSCRIPTION_START' | 'FIRST_OF_MONTH' | 'USAGE_STATEMENT_ANCHOR' | 'CUSTOM_DATE';
+
+      /**
        * Will be passed down to the individual commits
        */
       applicable_product_ids?: Array<string>;
@@ -866,6 +872,12 @@ export namespace PackageRetrieveResponse {
        * the first commit
        */
       starting_at_offset: RecurringCredit.StartingAtOffset;
+
+      /**
+       * Recurring cycle anchor for recurring commits or credits created from this
+       * template. `USAGE_STATEMENT_ANCHOR` tracks the contract's usage statement anchor.
+       */
+      anchor_date?: 'SUBSCRIPTION_START' | 'FIRST_OF_MONTH' | 'USAGE_STATEMENT_ANCHOR' | 'CUSTOM_DATE';
 
       /**
        * Will be passed down to the individual commits
@@ -1650,6 +1662,12 @@ export namespace PackageListResponse {
     starting_at_offset: RecurringCommit.StartingAtOffset;
 
     /**
+     * Recurring cycle anchor for recurring commits or credits created from this
+     * template. `USAGE_STATEMENT_ANCHOR` tracks the contract's usage statement anchor.
+     */
+    anchor_date?: 'SUBSCRIPTION_START' | 'FIRST_OF_MONTH' | 'USAGE_STATEMENT_ANCHOR' | 'CUSTOM_DATE';
+
+    /**
      * Will be passed down to the individual commits
      */
     applicable_product_ids?: Array<string>;
@@ -1866,6 +1884,12 @@ export namespace PackageListResponse {
      * the first commit
      */
     starting_at_offset: RecurringCredit.StartingAtOffset;
+
+    /**
+     * Recurring cycle anchor for recurring commits or credits created from this
+     * template. `USAGE_STATEMENT_ANCHOR` tracks the contract's usage statement anchor.
+     */
+    anchor_date?: 'SUBSCRIPTION_START' | 'FIRST_OF_MONTH' | 'USAGE_STATEMENT_ANCHOR' | 'CUSTOM_DATE';
 
     /**
      * Will be passed down to the individual commits
@@ -2804,6 +2828,15 @@ export namespace PackageCreateParams {
     starting_at_offset: RecurringCommit.StartingAtOffset;
 
     /**
+     * Which date each recurring commit or credit created from this template anchors
+     * its periods to. `USAGE_STATEMENT_ANCHOR` tracks the contract's usage statement
+     * anchor. `SUBSCRIPTION_START` requires a `subscription_config`. `CUSTOM_DATE`
+     * requires an `anchor_date` supplied per contract through
+     * `package_customizations.modify_recurring_commits` or `modify_recurring_credits`.
+     */
+    anchor_date?: 'SUBSCRIPTION_START' | 'FIRST_OF_MONTH' | 'USAGE_STATEMENT_ANCHOR' | 'CUSTOM_DATE';
+
+    /**
      * Will be passed down to the individual commits
      */
     applicable_product_ids?: Array<string>;
@@ -3042,6 +3075,15 @@ export namespace PackageCreateParams {
      * the first commit
      */
     starting_at_offset: RecurringCredit.StartingAtOffset;
+
+    /**
+     * Which date each recurring commit or credit created from this template anchors
+     * its periods to. `USAGE_STATEMENT_ANCHOR` tracks the contract's usage statement
+     * anchor. `SUBSCRIPTION_START` requires a `subscription_config`. `CUSTOM_DATE`
+     * requires an `anchor_date` supplied per contract through
+     * `package_customizations.modify_recurring_commits` or `modify_recurring_credits`.
+     */
+    anchor_date?: 'SUBSCRIPTION_START' | 'FIRST_OF_MONTH' | 'USAGE_STATEMENT_ANCHOR' | 'CUSTOM_DATE';
 
     /**
      * Will be passed down to the individual commits

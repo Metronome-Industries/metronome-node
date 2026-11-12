@@ -987,9 +987,9 @@ export namespace ContractCreateResponse {
 
         /**
          * Rules that stop matching invoices from being sent to the billing provider.
-         * Supported for Stripe and NetSuite billing provider configurations. When omitted,
-         * every invoice is sent to the billing provider. Stripe invoices can be force-sent
-         * after a rule suppresses them.
+         * Supported for Stripe, NetSuite, AWS Marketplace, Azure, and GCP billing provider
+         * configurations. When omitted, every invoice is sent to the billing provider.
+         * Stripe invoices can be force-sent after a rule suppresses them.
          */
         unbillable_invoices_configuration?: Array<CustomerBillingProviderConfiguration.UnbillableInvoicesConfiguration>;
       }
@@ -2737,6 +2737,18 @@ export namespace ContractCreateParams {
     add_subscriptions?: Array<PackageCustomizations.AddSubscription>;
 
     /**
+     * Per-contract values for recurring commits defined on the package. Every template
+     * recurring commit whose `anchor_date` is `CUSTOM_DATE` needs exactly one entry.
+     */
+    modify_recurring_commits?: Array<PackageCustomizations.ModifyRecurringCommit>;
+
+    /**
+     * Per-contract values for recurring credits defined on the package. Every template
+     * recurring credit whose `anchor_date` is `CUSTOM_DATE` needs exactly one entry.
+     */
+    modify_recurring_credits?: Array<PackageCustomizations.ModifyRecurringCredit>;
+
+    /**
      * Per-subscription overrides for the subscriptions defined on the package
      * template. Each entry targets one template subscription and sets its starting
      * quantity or seats.
@@ -3345,6 +3357,14 @@ export namespace ContractCreateParams {
       starting_at: string;
 
       /**
+       * The date this recurring commit's or credit's periods are anchored to. Must be on
+       * or before `starting_at`. If omitted, periods are anchored to `starting_at` when
+       * `recurrence_frequency` is set, and to the contract's usage statement billing
+       * anchor otherwise.
+       */
+      anchor_date?: string;
+
+      /**
        * Will be passed down to the individual commits
        */
       applicable_product_ids?: Array<string>;
@@ -3588,6 +3608,14 @@ export namespace ContractCreateParams {
        * determines the start time for the first commit
        */
       starting_at: string;
+
+      /**
+       * The date this recurring commit's or credit's periods are anchored to. Must be on
+       * or before `starting_at`. If omitted, periods are anchored to `starting_at` when
+       * `recurrence_frequency` is set, and to the contract's usage statement billing
+       * anchor otherwise.
+       */
+      anchor_date?: string;
 
       /**
        * Will be passed down to the individual commits
@@ -4072,6 +4100,34 @@ export namespace ContractCreateParams {
       }
     }
 
+    export interface ModifyRecurringCommit {
+      /**
+       * Recurring cycle anchor date for this recurring commit or credit, required when
+       * the template's `anchor_date` is `CUSTOM_DATE` and disallowed otherwise. Must be
+       * on or before the recurring commit's or credit's `starting_at`.
+       */
+      anchor_date: string;
+
+      /**
+       * ID of the template recurring commit on the package to customize.
+       */
+      template_recurring_commit_id: string;
+    }
+
+    export interface ModifyRecurringCredit {
+      /**
+       * Recurring cycle anchor date for this recurring commit or credit, required when
+       * the template's `anchor_date` is `CUSTOM_DATE` and disallowed otherwise. Must be
+       * on or before the recurring commit's or credit's `starting_at`.
+       */
+      anchor_date: string;
+
+      /**
+       * ID of the template recurring credit on the package to customize.
+       */
+      template_recurring_credit_id: string;
+    }
+
     export interface ModifySubscription {
       /**
        * The initial quantity for the subscription. Must be a non-negative value. Provide
@@ -4180,6 +4236,14 @@ export namespace ContractCreateParams {
      * determines the start time for the first commit
      */
     starting_at: string;
+
+    /**
+     * The date this recurring commit's or credit's periods are anchored to. Must be on
+     * or before `starting_at`. If omitted, periods are anchored to `starting_at` when
+     * `recurrence_frequency` is set, and to the contract's usage statement billing
+     * anchor otherwise.
+     */
+    anchor_date?: string;
 
     /**
      * Will be passed down to the individual commits
@@ -4408,6 +4472,14 @@ export namespace ContractCreateParams {
      * determines the start time for the first commit
      */
     starting_at: string;
+
+    /**
+     * The date this recurring commit's or credit's periods are anchored to. Must be on
+     * or before `starting_at`. If omitted, periods are anchored to `starting_at` when
+     * `recurrence_frequency` is set, and to the contract's usage statement billing
+     * anchor otherwise.
+     */
+    anchor_date?: string;
 
     /**
      * Will be passed down to the individual commits
