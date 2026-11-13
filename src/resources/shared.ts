@@ -671,7 +671,7 @@ export namespace Contract {
      * Configuration for the billing provider. The structure of this object is specific
      * to the billing provider.
      */
-    configuration: { [key: string]: unknown };
+    configuration: CustomerBillingProviderConfiguration.Configuration;
 
     customer_id: string;
 
@@ -690,6 +690,66 @@ export namespace Contract {
      * ID of the delivery method to use for this customer.
      */
     delivery_method_id: string;
+
+    /**
+     * Rules that stop matching invoices from being sent to the billing provider.
+     * Supported for Stripe, NetSuite, AWS Marketplace, Azure, and GCP billing provider
+     * configurations. When omitted, every invoice is sent to the billing provider.
+     * Stripe invoices can be force-sent after a rule suppresses them.
+     */
+    unbillable_invoices_configuration?: Array<CustomerBillingProviderConfiguration.UnbillableInvoicesConfiguration>;
+  }
+
+  export namespace CustomerBillingProviderConfiguration {
+    /**
+     * Configuration for the billing provider. The structure of this object is specific
+     * to the billing provider.
+     */
+    export interface Configuration {
+      /**
+       * AWS Marketplace only. The buyer's 12 digit AWS account ID. Must be sent together
+       * with `aws_license_arn`.
+       */
+      aws_customer_account_id?: string;
+
+      /**
+       * AWS Marketplace only. The ARN of the buyer's AWS License Manager license for
+       * this purchase. Must be sent together with `aws_customer_account_id`.
+       */
+      aws_license_arn?: string;
+
+      [k: string]: unknown;
+    }
+
+    /**
+     * An individual rule that, when evaluated to true, indicates that any invoices for
+     * this billing provider will not be sent to its associated destination for the
+     * associated contract. Rules only apply to the specified `invoice_type` (or all
+     * invoices if omitted) and `fiat_credit_type_id` (or all invoices if omitted).
+     * Rule precedence is evaluated from more specific to less specific. This method
+     * will fail with a 400 if multiple rules with the same specificity are included.
+     */
+    export interface UnbillableInvoicesConfiguration {
+      /**
+       * The type of invoice this rule applies to.
+       */
+      invoice_type: 'USAGE' | 'SCHEDULED';
+
+      /**
+       * Restricts the rule to invoices in this fiat currency. Omit for a catch-all rule
+       * that applies to every currency of the `invoice_type`. Required when `max_amount`
+       * is set.
+       */
+      fiat_credit_type_id?: string;
+
+      /**
+       * A positive decimal, in the units of `fiat_credit_type_id`. Only invoices whose
+       * total is at or below this amount are suppressed; a higher total is still sent to
+       * the billing provider. When omitted, every matching invoice is suppressed
+       * regardless of amount.
+       */
+      max_amount?: number;
+    }
   }
 
   export interface SpendTracker {
@@ -1243,7 +1303,7 @@ export namespace ContractV2 {
     export interface OverrideSpecifier {
       any_commit_or_credit_ids?: Array<string>;
 
-      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
       commit_ids?: Array<string>;
 
@@ -1331,7 +1391,7 @@ export namespace ContractV2 {
      */
     billing_anchor_date: string;
 
-    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
   }
 
   export interface BillingProviderConfigurationSchedule {
@@ -1377,7 +1437,7 @@ export namespace ContractV2 {
        * Configuration for the billing provider. The structure of this object is specific
        * to the billing provider.
        */
-      configuration: { [key: string]: unknown };
+      configuration: BillingProviderConfiguration.Configuration;
 
       customer_id: string;
 
@@ -1396,6 +1456,66 @@ export namespace ContractV2 {
        * ID of the delivery method to use for this customer.
        */
       delivery_method_id: string;
+
+      /**
+       * Rules that stop matching invoices from being sent to the billing provider.
+       * Supported for Stripe, NetSuite, AWS Marketplace, Azure, and GCP billing provider
+       * configurations. When omitted, every invoice is sent to the billing provider.
+       * Stripe invoices can be force-sent after a rule suppresses them.
+       */
+      unbillable_invoices_configuration?: Array<BillingProviderConfiguration.UnbillableInvoicesConfiguration>;
+    }
+
+    export namespace BillingProviderConfiguration {
+      /**
+       * Configuration for the billing provider. The structure of this object is specific
+       * to the billing provider.
+       */
+      export interface Configuration {
+        /**
+         * AWS Marketplace only. The buyer's 12 digit AWS account ID. Must be sent together
+         * with `aws_license_arn`.
+         */
+        aws_customer_account_id?: string;
+
+        /**
+         * AWS Marketplace only. The ARN of the buyer's AWS License Manager license for
+         * this purchase. Must be sent together with `aws_customer_account_id`.
+         */
+        aws_license_arn?: string;
+
+        [k: string]: unknown;
+      }
+
+      /**
+       * An individual rule that, when evaluated to true, indicates that any invoices for
+       * this billing provider will not be sent to its associated destination for the
+       * associated contract. Rules only apply to the specified `invoice_type` (or all
+       * invoices if omitted) and `fiat_credit_type_id` (or all invoices if omitted).
+       * Rule precedence is evaluated from more specific to less specific. This method
+       * will fail with a 400 if multiple rules with the same specificity are included.
+       */
+      export interface UnbillableInvoicesConfiguration {
+        /**
+         * The type of invoice this rule applies to.
+         */
+        invoice_type: 'USAGE' | 'SCHEDULED';
+
+        /**
+         * Restricts the rule to invoices in this fiat currency. Omit for a catch-all rule
+         * that applies to every currency of the `invoice_type`. Required when `max_amount`
+         * is set.
+         */
+        fiat_credit_type_id?: string;
+
+        /**
+         * A positive decimal, in the units of `fiat_credit_type_id`. Only invoices whose
+         * total is at or below this amount are suppressed; a higher total is still sent to
+         * the billing provider. When omitted, every matching invoice is suppressed
+         * regardless of amount.
+         */
+        max_amount?: number;
+      }
     }
   }
 
@@ -1651,7 +1771,7 @@ export namespace ContractV2 {
      * Configuration for the billing provider. The structure of this object is specific
      * to the billing provider.
      */
-    configuration: { [key: string]: unknown };
+    configuration: CustomerBillingProviderConfiguration.Configuration;
 
     customer_id: string;
 
@@ -1670,6 +1790,66 @@ export namespace ContractV2 {
      * ID of the delivery method to use for this customer.
      */
     delivery_method_id: string;
+
+    /**
+     * Rules that stop matching invoices from being sent to the billing provider.
+     * Supported for Stripe, NetSuite, AWS Marketplace, Azure, and GCP billing provider
+     * configurations. When omitted, every invoice is sent to the billing provider.
+     * Stripe invoices can be force-sent after a rule suppresses them.
+     */
+    unbillable_invoices_configuration?: Array<CustomerBillingProviderConfiguration.UnbillableInvoicesConfiguration>;
+  }
+
+  export namespace CustomerBillingProviderConfiguration {
+    /**
+     * Configuration for the billing provider. The structure of this object is specific
+     * to the billing provider.
+     */
+    export interface Configuration {
+      /**
+       * AWS Marketplace only. The buyer's 12 digit AWS account ID. Must be sent together
+       * with `aws_license_arn`.
+       */
+      aws_customer_account_id?: string;
+
+      /**
+       * AWS Marketplace only. The ARN of the buyer's AWS License Manager license for
+       * this purchase. Must be sent together with `aws_customer_account_id`.
+       */
+      aws_license_arn?: string;
+
+      [k: string]: unknown;
+    }
+
+    /**
+     * An individual rule that, when evaluated to true, indicates that any invoices for
+     * this billing provider will not be sent to its associated destination for the
+     * associated contract. Rules only apply to the specified `invoice_type` (or all
+     * invoices if omitted) and `fiat_credit_type_id` (or all invoices if omitted).
+     * Rule precedence is evaluated from more specific to less specific. This method
+     * will fail with a 400 if multiple rules with the same specificity are included.
+     */
+    export interface UnbillableInvoicesConfiguration {
+      /**
+       * The type of invoice this rule applies to.
+       */
+      invoice_type: 'USAGE' | 'SCHEDULED';
+
+      /**
+       * Restricts the rule to invoices in this fiat currency. Omit for a catch-all rule
+       * that applies to every currency of the `invoice_type`. Required when `max_amount`
+       * is set.
+       */
+      fiat_credit_type_id?: string;
+
+      /**
+       * A positive decimal, in the units of `fiat_credit_type_id`. Only invoices whose
+       * total is at or below this amount are suppressed; a higher total is still sent to
+       * the billing provider. When omitted, every matching invoice is suppressed
+       * regardless of amount.
+       */
+      max_amount?: number;
+    }
   }
 
   /**
@@ -1855,7 +2035,7 @@ export namespace ContractV2 {
      * invoice dates. - Daily recurring commits have a limit of one per contract, and
      * are unable to be created with seat-based subscriptions
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -2054,7 +2234,7 @@ export namespace ContractV2 {
      * invoice dates. - Daily recurring commits have a limit of one per contract, and
      * are unable to be created with seat-based subscriptions
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -2392,7 +2572,7 @@ export namespace ContractV2 {
     }
 
     export interface SubscriptionRate {
-      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
       product: SubscriptionRate.Product;
     }
@@ -2535,7 +2715,7 @@ export namespace ContractWithoutAmendments {
      */
     billing_anchor_date: string;
 
-    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
   }
 
   export interface RecurringCommit {
@@ -2634,7 +2814,7 @@ export namespace ContractWithoutAmendments {
      * invoice dates. - Daily recurring commits have a limit of one per contract, and
      * are unable to be created with seat-based subscriptions
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -2835,7 +3015,7 @@ export namespace ContractWithoutAmendments {
      * invoice dates. - Daily recurring commits have a limit of one per contract, and
      * are unable to be created with seat-based subscriptions
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -3461,7 +3641,7 @@ export namespace Override {
   export interface OverrideSpecifier {
     any_commit_or_credit_ids?: Array<string>;
 
-    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
     commit_ids?: Array<string>;
 
@@ -4400,7 +4580,7 @@ export namespace Subscription {
   }
 
   export interface SubscriptionRate {
-    billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
     product: SubscriptionRate.Product;
   }

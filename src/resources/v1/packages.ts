@@ -438,7 +438,7 @@ export namespace PackageRetrieveResponse {
       export interface OverrideSpecifier {
         any_commit_or_credit_template_ids?: Array<string>;
 
-        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+        billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
         commit_template_ids?: Array<string>;
 
@@ -524,7 +524,7 @@ export namespace PackageRetrieveResponse {
     }
 
     export interface UsageStatementSchedule {
-      frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
       day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE';
     }
@@ -650,6 +650,12 @@ export namespace PackageRetrieveResponse {
       starting_at_offset: RecurringCommit.StartingAtOffset;
 
       /**
+       * Recurring cycle anchor for recurring commits or credits created from this
+       * template. `USAGE_STATEMENT_ANCHOR` tracks the contract's usage statement anchor.
+       */
+      anchor_date?: 'SUBSCRIPTION_START' | 'FIRST_OF_MONTH' | 'USAGE_STATEMENT_ANCHOR' | 'CUSTOM_DATE';
+
+      /**
        * Will be passed down to the individual commits
        */
       applicable_product_ids?: Array<string>;
@@ -693,7 +699,7 @@ export namespace PackageRetrieveResponse {
        * invoice dates. - Daily recurring commits have a limit of one per contract, and
        * are unable to be created with seat-based subscriptions
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -868,6 +874,12 @@ export namespace PackageRetrieveResponse {
       starting_at_offset: RecurringCredit.StartingAtOffset;
 
       /**
+       * Recurring cycle anchor for recurring commits or credits created from this
+       * template. `USAGE_STATEMENT_ANCHOR` tracks the contract's usage statement anchor.
+       */
+      anchor_date?: 'SUBSCRIPTION_START' | 'FIRST_OF_MONTH' | 'USAGE_STATEMENT_ANCHOR' | 'CUSTOM_DATE';
+
+      /**
        * Will be passed down to the individual commits
        */
       applicable_product_ids?: Array<string>;
@@ -906,7 +918,7 @@ export namespace PackageRetrieveResponse {
        * invoice dates. - Daily recurring commits have a limit of one per contract, and
        * are unable to be created with seat-based subscriptions
        */
-      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+      recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
       /**
        * Will be passed down to the individual commits. This controls how much of an
@@ -1098,6 +1110,13 @@ export namespace PackageRetrieveResponse {
       seat_config?: Subscription.SeatConfig;
 
       starting_at_offset?: Subscription.StartingAtOffset;
+
+      /**
+       * Human-readable, per-package-unique alias for this subscription template, if one
+       * was set at package creation. Can be used to reference the subscription in
+       * contract customizations.
+       */
+      subscription_alias?: string;
     }
 
     export namespace Subscription {
@@ -1124,7 +1143,7 @@ export namespace PackageRetrieveResponse {
       }
 
       export interface SubscriptionRate {
-        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+        billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
         product: SubscriptionRate.Product;
       }
@@ -1138,6 +1157,17 @@ export namespace PackageRetrieveResponse {
       }
 
       export interface BillingCycleConfig {
+        /**
+         * Which date each subscription materialized from this template anchors its billing
+         * cycle to. USAGE_STATEMENT_ANCHOR (the default) tracks the contract's usage
+         * statement anchor.
+         */
+        billing_cycle_anchor?:
+          | 'SUBSCRIPTION_START'
+          | 'FIRST_OF_MONTH'
+          | 'CUSTOM_DATE'
+          | 'USAGE_STATEMENT_ANCHOR';
+
         invoice_placement?: 'ON_SCHEDULED_INVOICE' | 'ON_USAGE_INVOICE';
       }
 
@@ -1420,7 +1450,7 @@ export namespace PackageListResponse {
     export interface OverrideSpecifier {
       any_commit_or_credit_template_ids?: Array<string>;
 
-      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
       commit_template_ids?: Array<string>;
 
@@ -1506,7 +1536,7 @@ export namespace PackageListResponse {
   }
 
   export interface UsageStatementSchedule {
-    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
     day?: 'FIRST_OF_MONTH' | 'CONTRACT_START' | 'CUSTOM_DATE';
   }
@@ -1632,6 +1662,12 @@ export namespace PackageListResponse {
     starting_at_offset: RecurringCommit.StartingAtOffset;
 
     /**
+     * Recurring cycle anchor for recurring commits or credits created from this
+     * template. `USAGE_STATEMENT_ANCHOR` tracks the contract's usage statement anchor.
+     */
+    anchor_date?: 'SUBSCRIPTION_START' | 'FIRST_OF_MONTH' | 'USAGE_STATEMENT_ANCHOR' | 'CUSTOM_DATE';
+
+    /**
      * Will be passed down to the individual commits
      */
     applicable_product_ids?: Array<string>;
@@ -1675,7 +1711,7 @@ export namespace PackageListResponse {
      * invoice dates. - Daily recurring commits have a limit of one per contract, and
      * are unable to be created with seat-based subscriptions
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -1850,6 +1886,12 @@ export namespace PackageListResponse {
     starting_at_offset: RecurringCredit.StartingAtOffset;
 
     /**
+     * Recurring cycle anchor for recurring commits or credits created from this
+     * template. `USAGE_STATEMENT_ANCHOR` tracks the contract's usage statement anchor.
+     */
+    anchor_date?: 'SUBSCRIPTION_START' | 'FIRST_OF_MONTH' | 'USAGE_STATEMENT_ANCHOR' | 'CUSTOM_DATE';
+
+    /**
      * Will be passed down to the individual commits
      */
     applicable_product_ids?: Array<string>;
@@ -1888,7 +1930,7 @@ export namespace PackageListResponse {
      * invoice dates. - Daily recurring commits have a limit of one per contract, and
      * are unable to be created with seat-based subscriptions
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -2080,6 +2122,13 @@ export namespace PackageListResponse {
     seat_config?: Subscription.SeatConfig;
 
     starting_at_offset?: Subscription.StartingAtOffset;
+
+    /**
+     * Human-readable, per-package-unique alias for this subscription template, if one
+     * was set at package creation. Can be used to reference the subscription in
+     * contract customizations.
+     */
+    subscription_alias?: string;
   }
 
   export namespace Subscription {
@@ -2106,7 +2155,7 @@ export namespace PackageListResponse {
     }
 
     export interface SubscriptionRate {
-      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
       product: SubscriptionRate.Product;
     }
@@ -2120,6 +2169,17 @@ export namespace PackageListResponse {
     }
 
     export interface BillingCycleConfig {
+      /**
+       * Which date each subscription materialized from this template anchors its billing
+       * cycle to. USAGE_STATEMENT_ANCHOR (the default) tracks the contract's usage
+       * statement anchor.
+       */
+      billing_cycle_anchor?:
+        | 'SUBSCRIPTION_START'
+        | 'FIRST_OF_MONTH'
+        | 'CUSTOM_DATE'
+        | 'USAGE_STATEMENT_ANCHOR';
+
       invoice_placement?: 'ON_SCHEDULED_INVOICE' | 'ON_USAGE_INVOICE';
     }
 
@@ -2635,7 +2695,7 @@ export namespace PackageCreateParams {
        */
       any_commit_or_credit_ids?: Array<string>;
 
-      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      billing_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Can only be used for commit specific overrides. Must be used in conjunction with
@@ -2768,6 +2828,15 @@ export namespace PackageCreateParams {
     starting_at_offset: RecurringCommit.StartingAtOffset;
 
     /**
+     * Which date each recurring commit or credit created from this template anchors
+     * its periods to. `USAGE_STATEMENT_ANCHOR` tracks the contract's usage statement
+     * anchor. `SUBSCRIPTION_START` requires a `subscription_config`. `CUSTOM_DATE`
+     * requires an `anchor_date` supplied per contract through
+     * `package_customizations.modify_recurring_commits` or `modify_recurring_credits`.
+     */
+    anchor_date?: 'SUBSCRIPTION_START' | 'FIRST_OF_MONTH' | 'USAGE_STATEMENT_ANCHOR' | 'CUSTOM_DATE';
+
+    /**
      * Will be passed down to the individual commits
      */
     applicable_product_ids?: Array<string>;
@@ -2822,7 +2891,7 @@ export namespace PackageCreateParams {
      * invoice dates. - Daily recurring commits have a limit of one per contract, and
      * are unable to be created with seat-based subscriptions
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -3008,6 +3077,15 @@ export namespace PackageCreateParams {
     starting_at_offset: RecurringCredit.StartingAtOffset;
 
     /**
+     * Which date each recurring commit or credit created from this template anchors
+     * its periods to. `USAGE_STATEMENT_ANCHOR` tracks the contract's usage statement
+     * anchor. `SUBSCRIPTION_START` requires a `subscription_config`. `CUSTOM_DATE`
+     * requires an `anchor_date` supplied per contract through
+     * `package_customizations.modify_recurring_commits` or `modify_recurring_credits`.
+     */
+    anchor_date?: 'SUBSCRIPTION_START' | 'FIRST_OF_MONTH' | 'USAGE_STATEMENT_ANCHOR' | 'CUSTOM_DATE';
+
+    /**
      * Will be passed down to the individual commits
      */
     applicable_product_ids?: Array<string>;
@@ -3057,7 +3135,7 @@ export namespace PackageCreateParams {
      * invoice dates. - Daily recurring commits have a limit of one per contract, and
      * are unable to be created with seat-based subscriptions
      */
-    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
+    recurrence_frequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY' | 'DAILY';
 
     /**
      * Will be passed down to the individual commits. This controls how much of an
@@ -3337,6 +3415,13 @@ export namespace PackageCreateParams {
     starting_at_offset?: Subscription.StartingAtOffset;
 
     /**
+     * Optional human-readable, per-package-unique alias for this subscription
+     * template. Lets a contract customization reference the subscription by alias
+     * instead of its template id.
+     */
+    subscription_alias?: string;
+
+    /**
      * A temporary ID used to reference the subscription in recurring commit/credit
      * subscription configs created within the same payload.
      */
@@ -3381,7 +3466,7 @@ export namespace PackageCreateParams {
        * Frequency to bill subscription with. Together with product_id, must match
        * existing rate on the rate card.
        */
-      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+      billing_frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
       /**
        * Must be subscription type product
@@ -3390,6 +3475,18 @@ export namespace PackageCreateParams {
     }
 
     export interface BillingCycleConfig {
+      /**
+       * Controls which date each subscription materialized from this template anchors
+       * its billing cycle to. CUSTOM_DATE requires a subscription_anchor_date supplied
+       * per contract via package customizations. Defaults to USAGE_STATEMENT_ANCHOR (the
+       * contract's usage statement anchor) if omitted.
+       */
+      billing_cycle_anchor?:
+        | 'SUBSCRIPTION_START'
+        | 'FIRST_OF_MONTH'
+        | 'CUSTOM_DATE'
+        | 'USAGE_STATEMENT_ANCHOR';
+
       /**
        * Controls whether subscriptions consolidate onto usage invoices. Defaults to
        * ON_USAGE_INVOICE if omitted.
@@ -3436,7 +3533,7 @@ export namespace PackageCreateParams {
   }
 
   export interface UsageStatementSchedule {
-    frequency: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'WEEKLY';
+    frequency: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL' | 'WEEKLY';
 
     /**
      * If not provided, defaults to the first day of the month.
