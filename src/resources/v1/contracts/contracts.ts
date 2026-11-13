@@ -965,7 +965,7 @@ export namespace ContractCreateResponse {
          * Configuration for the billing provider. The structure of this object is specific
          * to the billing provider.
          */
-        configuration: { [key: string]: unknown };
+        configuration: CustomerBillingProviderConfiguration.Configuration;
 
         customer_id: string;
 
@@ -995,6 +995,26 @@ export namespace ContractCreateResponse {
       }
 
       export namespace CustomerBillingProviderConfiguration {
+        /**
+         * Configuration for the billing provider. The structure of this object is specific
+         * to the billing provider.
+         */
+        export interface Configuration {
+          /**
+           * AWS Marketplace only. The buyer's 12 digit AWS account ID. Must be sent together
+           * with `aws_license_arn`.
+           */
+          aws_customer_account_id?: string;
+
+          /**
+           * AWS Marketplace only. The ARN of the buyer's AWS License Manager license for
+           * this purchase. Must be sent together with `aws_customer_account_id`.
+           */
+          aws_license_arn?: string;
+
+          [k: string]: unknown;
+        }
+
         /**
          * An individual rule that, when evaluated to true, indicates that any invoices for
          * this billing provider will not be sent to its associated destination for the

@@ -815,7 +815,7 @@ export namespace CustomerRetrieveBillingConfigurationsResponse {
      * Configuration for the billing provider. The structure of this object is specific
      * to the billing provider.
      */
-    configuration: { [key: string]: unknown };
+    configuration: Data.Configuration;
 
     customer_id: string;
 
@@ -845,6 +845,26 @@ export namespace CustomerRetrieveBillingConfigurationsResponse {
   }
 
   export namespace Data {
+    /**
+     * Configuration for the billing provider. The structure of this object is specific
+     * to the billing provider.
+     */
+    export interface Configuration {
+      /**
+       * AWS Marketplace only. The buyer's 12 digit AWS account ID. Must be sent together
+       * with `aws_license_arn`.
+       */
+      aws_customer_account_id?: string;
+
+      /**
+       * AWS Marketplace only. The ARN of the buyer's AWS License Manager license for
+       * this purchase. Must be sent together with `aws_customer_account_id`.
+       */
+      aws_license_arn?: string;
+
+      [k: string]: unknown;
+    }
+
     /**
      * An individual rule that, when evaluated to true, indicates that any invoices for
      * this billing provider will not be sent to its associated destination for the
@@ -906,7 +926,7 @@ export namespace CustomerSetBillingConfigurationsResponse {
      * Configuration for the billing provider. The structure of this object is specific
      * to the billing provider and delivery method combination.
      */
-    configuration?: { [key: string]: unknown };
+    configuration?: Data.Configuration;
 
     /**
      * ID of the customer this configuration is associated with.
@@ -922,6 +942,28 @@ export namespace CustomerSetBillingConfigurationsResponse {
      * The tax provider set for this configuration.
      */
     tax_provider?: 'anrok' | 'avalara' | 'stripe';
+  }
+
+  export namespace Data {
+    /**
+     * Configuration for the billing provider. The structure of this object is specific
+     * to the billing provider and delivery method combination.
+     */
+    export interface Configuration {
+      /**
+       * AWS Marketplace only. The buyer's 12 digit AWS account ID. Must be sent together
+       * with `aws_license_arn`.
+       */
+      aws_customer_account_id?: string;
+
+      /**
+       * AWS Marketplace only. The ARN of the buyer's AWS License Manager license for
+       * this purchase. Must be sent together with `aws_customer_account_id`.
+       */
+      aws_license_arn?: string;
+
+      [k: string]: unknown;
+    }
   }
 }
 
@@ -973,8 +1015,16 @@ export namespace CustomerCreateParams {
       | 'gcp_marketplace'
       | 'metronome';
 
+    /**
+     * @deprecated Deprecated and ignored by the server. The customer ID comes from
+     * `billing_provider_customer_id`.
+     */
     aws_customer_account_id?: string;
 
+    /**
+     * @deprecated Deprecated and ignored by the server. The customer ID comes from
+     * `billing_provider_customer_id`.
+     */
     aws_customer_id?: string;
 
     /**
@@ -1029,7 +1079,7 @@ export namespace CustomerCreateParams {
      * object, however, for most billing provider + delivery method combinations, it
      * will not be a valid configuration.
      */
-    configuration?: { [key: string]: unknown };
+    configuration?: CustomerBillingProviderConfiguration.Configuration;
 
     /**
      * The method to use for delivering invoices to this customer. If not provided, the
@@ -1060,6 +1110,28 @@ export namespace CustomerCreateParams {
   }
 
   export namespace CustomerBillingProviderConfiguration {
+    /**
+     * Configuration for the billing provider. The structure of this object is specific
+     * to the billing provider and delivery provider combination. Defaults to an empty
+     * object, however, for most billing provider + delivery method combinations, it
+     * will not be a valid configuration.
+     */
+    export interface Configuration {
+      /**
+       * AWS Marketplace only. The buyer's 12 digit AWS account ID. Must be sent together
+       * with `aws_license_arn`.
+       */
+      aws_customer_account_id?: string;
+
+      /**
+       * AWS Marketplace only. The ARN of the buyer's AWS License Manager license for
+       * this purchase. Must be sent together with `aws_customer_account_id`.
+       */
+      aws_license_arn?: string;
+
+      [k: string]: unknown;
+    }
+
     /**
      * An individual rule that, when evaluated to true, indicates that any invoices for
      * this billing provider will not be sent to its associated destination for the
@@ -1290,7 +1362,7 @@ export namespace CustomerSetBillingConfigurationsParams {
      * usage-based pricing. More information can be found
      * [here](https://docs.metronome.com/invoice-customers/solutions/marketplaces/invoice-aws/#provision-aws-marketplace-customers-in-metronome).
      */
-    configuration?: { [key: string]: unknown };
+    configuration?: Data.Configuration;
 
     /**
      * The method to use for delivering invoices to this customer. If not provided, the
@@ -1321,6 +1393,31 @@ export namespace CustomerSetBillingConfigurationsParams {
   }
 
   export namespace Data {
+    /**
+     * Configuration for the billing provider. The structure of this object is specific
+     * to the billing provider and delivery method combination. Defaults to an empty
+     * object, however, for most billing provider + delivery method combinations, it
+     * will not be a valid configuration. For AWS marketplace configurations, the
+     * aws_is_subscription_product flag can be used to indicate a product with
+     * usage-based pricing. More information can be found
+     * [here](https://docs.metronome.com/invoice-customers/solutions/marketplaces/invoice-aws/#provision-aws-marketplace-customers-in-metronome).
+     */
+    export interface Configuration {
+      /**
+       * AWS Marketplace only. The buyer's 12 digit AWS account ID. Must be sent together
+       * with `aws_license_arn`.
+       */
+      aws_customer_account_id?: string;
+
+      /**
+       * AWS Marketplace only. The ARN of the buyer's AWS License Manager license for
+       * this purchase. Must be sent together with `aws_customer_account_id`.
+       */
+      aws_license_arn?: string;
+
+      [k: string]: unknown;
+    }
+
     /**
      * An individual rule that, when evaluated to true, indicates that any invoices for
      * this billing provider will not be sent to its associated destination for the

@@ -184,12 +184,14 @@ export interface BillingConfigCreateParams {
   billing_provider_customer_id: string;
 
   /**
-   * Body param
+   * @deprecated Body param: Deprecated and ignored by the server. The customer ID
+   * comes from `billing_provider_customer_id`.
    */
   aws_customer_account_id?: string;
 
   /**
-   * Body param
+   * @deprecated Body param: Deprecated and ignored by the server. The customer ID
+   * comes from `billing_provider_customer_id`.
    */
   aws_customer_id?: string;
 
